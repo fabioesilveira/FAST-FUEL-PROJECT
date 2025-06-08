@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import axios from 'axios';
+import ResponsiveAppBar from '../components/Navbar';
 
 type User = {
     email: string,
@@ -37,34 +38,37 @@ export default function SignIn() {
     }
 
     return (
-        <Box
-            component="form"
-            sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
-            noValidate
-            autoComplete="off"
-        >
+        <div>
+            <ResponsiveAppBar />
+            <Box
+                component="form"
+                sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
+                noValidate
+                autoComplete="off"
+            >
 
-            <TextField
-                id="outlined-basic"
-                label="Email Address*"
-                variant="outlined"
-                name="email"
-                value={signUp.email}
-                onChange={handleChange}
-            />
+                <TextField
+                    id="outlined-basic"
+                    label="Email Address*"
+                    variant="outlined"
+                    name="email"
+                    value={signUp.email}
+                    onChange={handleChange}
+                />
 
-            <TextField
-                id="outlined-basic"
-                label="Password*"
-                variant="outlined"
-                name="password"
-                value={signUp.password}
-                onChange={handleChange}
-            />
+                <TextField
+                    id="outlined-basic"
+                    label="Password*"
+                    variant="outlined"
+                    name="password"
+                    value={signUp.password}
+                    onChange={handleChange}
+                />
 
-            <Stack spacing={2} direction="row">
-                <Button variant="contained" onClick={handleClick}>SignIn</Button>
-            </Stack>
-        </Box>
+                <Stack spacing={2} direction="row">
+                    <Button variant="contained" onClick={handleClick}>SignIn</Button>
+                </Stack>
+            </Box>
+        </div>
     )
 }
