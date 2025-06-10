@@ -7,6 +7,8 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import axios from 'axios';
+import ResponsiveAppBar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 type User = {
     name: string,
@@ -43,6 +45,9 @@ export default function SignUp() {
     }
 
     return (
+       <div> 
+
+       <ResponsiveAppBar />
         <Box
             component="form"
             sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
@@ -97,5 +102,8 @@ export default function SignUp() {
                 <Button variant="contained" onClick={handleClick}>SignUp</Button>
             </Stack>
         </Box>
+
+        <Footer />
+        </div>
     )
 }
