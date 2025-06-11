@@ -13,9 +13,9 @@ import Logo from '../assets/fast-fuel.png';
 import { Link } from 'react-router-dom';
 
 
-const pages = ['Signup'];
+const pages = ['Signup', 'Signin'];
 
-function ResponsiveAppBar() {
+function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -135,4 +135,4 @@ function ResponsiveAppBar() {
   );
 }
 
-export default ResponsiveAppBar;
+export default Navbar;
