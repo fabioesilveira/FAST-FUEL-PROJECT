@@ -35,15 +35,15 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Home() {
 
     const [lanche, setLanche] = useState<Meal[]>([]);
-    const [bebidas, setBebidas] = useState<Meal[]>([]);
+    // const [bebidas, setBebidas] = useState<Meal[]>([]);
 
 
     useEffect(() => {
         async function fetchApi() {
             const reqLanche = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=lanche")
-            const reqBebidas = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=bebida")
+            // const reqBebidas = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=bebida")
             setLanche(reqLanche.data)
-            setBebidas(reqBebidas.data)
+            // setBebidas(reqBebidas.data)
         }
         fetchApi();
     }, [])

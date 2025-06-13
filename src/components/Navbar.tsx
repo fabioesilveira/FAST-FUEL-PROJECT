@@ -9,11 +9,46 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
+import { styled, alpha } from '@mui/material/styles';
 import Logo from '../assets/fast-fuel.png';
 import { Link } from 'react-router-dom';
 
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha('#e65100', 0.15),
+  '&:hover': {
+    backgroundColor: alpha('#e65100', 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: theme.spacing(2),
+  width: '100%',
+  maxWidth: 300,
+  [theme.breakpoints.down('md')]: {
+    display: 'none',
+  },
+}));
 
-const pages = ['Signup', 'Signin'];
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: '#e65100',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: '#e65100',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    width: '100%',
+  },
+}));
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -27,10 +62,11 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: '#fff3e0' }}> {/* 👉 CHANGE: background color */}
-      <Box sx={{ width: '100%' }}> {/* 👉 CHANGE: replaced Container with Box */}
-        <Toolbar disableGutters sx={{ minHeight: 80 }}> {/* 👉 CHANGE: increased height */}
-          
+    <AppBar position="fixed" sx={{ backgroundColor: '#fff3e0' }}>
+      <Box sx={{ width: '100%' }}>
+        <Toolbar disableGutters sx={{ minHeight: 80 }}>
+
+          {/* LOGO */}
           <Box
             component="a"
             href="#"
@@ -44,49 +80,40 @@ function Navbar() {
               component="img"
               src={Logo}
               alt="Fast Fuel Logo"
-              sx={{ height: 70, width: 75 }} // adjust size if needed
+              sx={{ height: 70, width: 75 }}
             />
           </Box>
 
+          {/* Mobile Menu Icon */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon sx={{ color: '#e65100' }} /> {/* 👉 CHANGE: menu icon color */}
+              <MenuIcon sx={{ color: '#e65100' }} />
             </IconButton>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
               keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
+              transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center" sx={{ color: '#e65100' }}> {/* 👉 CHANGE */}
-                    {page}
-                  </Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link to="/signup" style={{ textDecoration: 'none', color: '#e65100' }}>Signup</Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link to="/signin" style={{ textDecoration: 'none', color: '#e65100' }}>Signin</Link>
+              </MenuItem>
             </Menu>
           </Box>
 
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: '#e65100' }} /> {/* 👉 CHANGE */}
-
+          {/* Mobile Text LOGO */}
+          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: '#e65100' }} />
           <Typography
             variant="h5"
             noWrap
@@ -99,7 +126,7 @@ function Navbar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: '#e65100', // 👉 CHANGE
+              color: '#e65100',
               outline: '2px solid #e65100',
               textDecoration: 'none',
             }}
@@ -107,27 +134,53 @@ function Navbar() {
             LOGO
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{
-                  my: 2,
-                  color: '#e65100',
-                  display: 'block',
-                  outline: '2px solid #e65100', // keeps border even when not focused
-                  '&:focus': {
-                    outline: '2px solid #e65100', // 👉 ADD: focus ring in orange
-                    outlineOffset: '2px',
-                  },
-                }}
-              >
-                <Link to="/" style={{ textDecoration: 'none', color: '#e65100' }}>
-                  Signup
-                </Link>
-              </Button>
-            ))}
+          {/* SEARCH BAR */}
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+
+          {/* Right Static Buttons */}
+          <Box
+            sx={{
+              display: { xs: 'none', md: 'flex' },
+              gap: 1,
+              marginLeft: 'auto',
+              paddingRight: 2, // or use marginRight: 2
+            }}
+          >
+            <Button
+              sx={{
+                color: '#e65100',
+                outline: '2px solid #e65100',
+                '&:focus': {
+                  outlineOffset: '2px',
+                },
+              }}
+            >
+              <Link to="/signin" style={{ textDecoration: 'none', color: '#e65100' }}>
+                Signin
+              </Link>
+            </Button>
+
+            <Button
+              sx={{
+                color: '#e65100',
+                outline: '2px solid #e65100',
+                '&:focus': {
+                  outlineOffset: '2px',
+                },
+              }}
+            >
+              <Link to="/signup" style={{ textDecoration: 'none', color: '#e65100' }}>
+                Signup
+              </Link>
+            </Button>
           </Box>
         </Toolbar>
       </Box>
