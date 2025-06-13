@@ -53,7 +53,7 @@ export default function Home() {
             <Navbar />
 
             <CssBaseline />
-            <Container fixed>
+            <Container className="margin-top" fixed>
 
                 {lanche.map((e) => (
                     <Box sx={{ flexGrow: 1 }} key={e.id}>

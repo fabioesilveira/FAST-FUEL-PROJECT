@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,6 +14,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import Logo from '../assets/fast-fuel.png';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -51,7 +52,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [shown, setShown] = useState(true);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -60,6 +62,13 @@ function Navbar() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("idUser")) {
+            setShown(false)
+        }
+  }, [])
+
 
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#fff3e0' }}>
@@ -145,6 +154,21 @@ function Navbar() {
             />
           </Search>
 
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            {['SANDWICHES', 'SIDES', 'BEVERAGES', 'DESSERTS'].map((category) => (
+              <Button
+                key={category}
+                sx={{
+                  color: '#e65100',
+                  fontWeight: 500,
+                  textTransform: 'none',
+                }}
+              >
+                {category}
+              </Button>
+            ))}
+          </Box>
+
           {/* Right Static Buttons */}
           <Box
             sx={{
@@ -154,7 +178,8 @@ function Navbar() {
               paddingRight: 2, // or use marginRight: 2
             }}
           >
-            <Button
+            {shown ? <>
+              <Button
               sx={{
                 color: '#e65100',
                 outline: '2px solid #e65100',
@@ -163,7 +188,7 @@ function Navbar() {
                 },
               }}
             >
-              <Link to="/signin" style={{ textDecoration: 'none', color: '#e65100' }}>
+              <Link to="/sign-in" style={{ textDecoration: 'none', color: '#e65100' }}>
                 Signin
               </Link>
             </Button>
@@ -177,10 +202,11 @@ function Navbar() {
                 },
               }}
             >
-              <Link to="/signup" style={{ textDecoration: 'none', color: '#e65100' }}>
+              <Link to="/sign-up" style={{ textDecoration: 'none', color: '#e65100' }}>
                 Signup
               </Link>
             </Button>
+            </> : null}
           </Box>
         </Toolbar>
       </Box>
