@@ -1,6 +1,5 @@
-.img-home {
+.img-home-products {
   width: 200px;
-  
 }
 
 .margin-top {
@@ -11,4 +10,9 @@
 .box-home {
  margin-bottom: 20px;
  
+}
+
+.img-home {
+  width: 100%;
+  height: 750px;
 }
