@@ -159,7 +159,7 @@ export default function Home() {
                                         padding: 1, // optional spacing inside
                                     }}
                                 >
-                                    <img src={e.imagem} className="img-home" />
+                                    <img src={e.imagem} className="img-home-products" />
                                 </Item>
                             </Grid>
                         </Grid>
