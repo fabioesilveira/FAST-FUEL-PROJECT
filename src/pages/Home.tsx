@@ -10,7 +10,7 @@ import Stack from '@mui/material/Stack';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Chat from '../assets/ChatGPT.png';
-
+import Chat2 from '../assets/ChatGPT-2.png';
 
 type Meal = {
     id: string,
@@ -57,6 +57,7 @@ export default function Home() {
             <CssBaseline />
             <Container className="margin-top" fixed>
                 <img src={Chat} alt="ChatGPT" className="img-home"/>
+                <img src={Chat2} alt="ChatGPT-2" className="img-home"/>
 
                 {lanche.map((e) => (
                     <Box className="box-home" sx={{ flexGrow: 1 }} key={e.id} >
