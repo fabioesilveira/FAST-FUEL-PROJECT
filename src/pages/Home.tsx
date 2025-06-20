@@ -9,8 +9,11 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
 import Chat from '../assets/ChatGPT.png';
 import Chat2 from '../assets/ChatGPT-2.png';
+import Carousel from 'react-bootstrap/Carousel';
+
 
 type Meal = {
     id: string,
@@ -52,12 +55,35 @@ export default function Home() {
         <div>
             <Navbar />
 
-
-
             <CssBaseline />
             <Container className="margin-top" fixed>
-                <img src={Chat} alt="ChatGPT" className="img-home"/>
-                <img src={Chat2} alt="ChatGPT-2" className="img-home"/>
+                <Carousel>
+                    <Carousel.Item>
+                        <img
+                            className="d-block w-100"
+                            src={Chat}
+                            alt="First slide"
+                            style={{ maxHeight: '850px', objectFit: 'cover' }}
+                        />
+                        <Carousel.Caption>
+                            <h3>First Slide</h3>
+                            <p>Customize this caption for Fast Fuel.</p>
+                        </Carousel.Caption>
+                    </Carousel.Item>
+
+                    <Carousel.Item>
+                        <img
+                            className="d-block w-100"
+                            src={Chat2}
+                            alt="Second slide"
+                            style={{ maxHeight: '850px', objectFit: 'cover' }}
+                        />
+                        <Carousel.Caption>
+                            <h3>Second Slide</h3>
+                            <p>Promote a new combo or drink here.</p>
+                        </Carousel.Caption>
+                    </Carousel.Item>
+                </Carousel>
 
                 {lanche.map((e) => (
                     <Box className="box-home" sx={{ flexGrow: 1 }} key={e.id} >
@@ -94,6 +120,18 @@ export default function Home() {
                                     }}>
                                         {e.descricao}
                                     </Item>
+                                    <Button
+                                        sx={{
+                                            backgroundColor: '#e65100',
+                                            color: '#ffe0c7',
+                                            fontWeight: 'bold',
+                                            '&:hover': {
+                                                backgroundColor: '#bf360c',
+                                            }
+                                        }}
+                                    >
+                                        ADD TO CART
+                                    </Button>
                                 </Stack>
                             </Grid>
                             <Grid size={4}>
@@ -148,6 +186,18 @@ export default function Home() {
                                     }}>
                                         {e.descricao}
                                     </Item>
+                                    <Button
+                                        sx={{
+                                            backgroundColor: '#e65100',
+                                            color: '#ffe0c7',
+                                            fontWeight: 'bold',
+                                            '&:hover': {
+                                                backgroundColor: '#bf360c',
+                                            }
+                                        }}
+                                    >
+                                        ADD TO CART
+                                    </Button>
                                 </Stack>
                             </Grid>
                             <Grid size={4}>
