@@ -85,71 +85,58 @@ export default function Home() {
                     </Carousel.Item>
                 </Carousel>
 
-                {lanche.map((e) => (
-                    <Box className="box-home" sx={{ flexGrow: 1 }} key={e.id} >
-                        <Grid container spacing={2}>
-                            <Grid size={2}>
-                                <Stack spacing={2}>
-                                    <Item sx={{
-                                        backgroundColor: '#ffe0c7',
-                                        color: '#e65100',
-                                        fontWeight: 500,
-                                        fontSize: '1rem',
-                                        borderRadius: 2,
-                                        padding: '12px'
-                                    }}>
-                                        {e.nome}
-                                    </Item>
-                                    <Item sx={{
-                                        backgroundColor: '#ffe0c7',
-                                        color: '#e65100',
-                                        fontWeight: 500,
-                                        fontSize: '1rem',
-                                        borderRadius: 2,
-                                        padding: '12px'
-                                    }}>
-                                        {e.preco}
-                                    </Item>
-                                    <Item sx={{
-                                        backgroundColor: '#ffe0c7',
-                                        color: '#e65100',
-                                        fontWeight: 500,
-                                        fontSize: '1rem',
-                                        borderRadius: 2,
-                                        padding: '12px'
-                                    }}>
-                                        {e.descricao}
-                                    </Item>
-                                    <Button
-                                        sx={{
-                                            backgroundColor: '#e65100',
-                                            color: '#ffe0c7',
-                                            fontWeight: 'bold',
-                                            '&:hover': {
-                                                backgroundColor: '#bf360c',
-                                            }
-                                        }}
-                                    >
-                                        ADD TO CART
-                                    </Button>
-                                </Stack>
-                            </Grid>
-                            <Grid size={4}>
-                                <Item
-                                    sx={{
-                                        height: '100%',
-                                        boxSizing: 'border-box',
-                                        border: '2px solid #e65100',
-                                        borderRadius: 2, // optional for rounded corners
-                                        padding: 1, // optional spacing inside
-                                    }}
-                                >
-                                    <img src={e.imagem} className="img-home-products" />
-                                </Item>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                ))}
+                <div className="products-wrapper">
+  {lanche.map((e, index) => (
+    <Box
+      className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
+      key={e.id}
+    >
+      <Box className="card-left">
+        <Stack spacing={2}>
+          <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+            {e.nome}
+          </Item>
+          <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+            {e.preco}
+          </Item>
+          <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+            {e.descricao}
+          </Item>
+          <Button
+            sx={{
+              backgroundColor: '#e65100',
+              color: '#ffe0c7',
+              fontWeight: 'bold',
+              '&:hover': {
+                backgroundColor: '#bf360c',
+              },
+            }}
+          >
+            ADD TO CART
+          </Button>
+        </Stack>
+      </Box>
+
+      <Box className="card-right">
+        <Item
+          sx={{
+            height: '300px',
+            width: '100%',
+            boxSizing: 'border-box',
+            border: '2px solid #e65100',
+            borderRadius: 2,
+            padding: 1,
+          }}
+        >
+          <img src={e.imagem} className="img-home-products" />
+        </Item>
+      </Box>
+    </Box>
+  ))}
+</div>
+
+
+
 
                 {bebidas.map((e) => (
                     <Box className="box-home" sx={{ flexGrow: 1 }} key={e.id} >
@@ -203,7 +190,7 @@ export default function Home() {
                             <Grid size={4}>
                                 <Item
                                     sx={{
-                                        height: '100%',
+                                        height: '300px',
                                         boxSizing: 'border-box',
                                         border: '2px solid #e65100',
                                         borderRadius: 2, // optional for rounded corners
