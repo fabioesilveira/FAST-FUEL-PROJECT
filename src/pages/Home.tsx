@@ -5,12 +5,11 @@ import axios from "axios";
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import Chat from '../assets/ChatGPT.png';
+import Chat from '../assets/ChatGPT2.png';
 import Chat2 from '../assets/ChatGPT-2.png';
 import Carousel from 'react-bootstrap/Carousel';
 
@@ -57,33 +56,22 @@ export default function Home() {
 
             <CssBaseline />
             <Container className="margin-top" fixed>
-                <Carousel>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src={Chat}
-                            alt="First slide"
-                            style={{ maxHeight: '850px', objectFit: 'cover' }}
-                        />
-                        <Carousel.Caption>
-                            <h3>First Slide</h3>
-                            <p>Customize this caption for Fast Fuel.</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
 
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src={Chat2}
-                            alt="Second slide"
-                            style={{ maxHeight: '850px', objectFit: 'cover' }}
-                        />
-                        <Carousel.Caption>
-                            <h3>Second Slide</h3>
-                            <p>Promote a new combo or drink here.</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                </Carousel>
+                <h1 className="h1-home">Fuel Up Fast. Taste That Lasts.</h1>
+                <div className="div-carousel">
+                    <Carousel >
+                        <Carousel.Item>
+                            <img src={Chat} alt="Fast Fuel Banner" style={{ height: '680px', width: '1200px' }} />
+                            
+                        </Carousel.Item>
+
+                        <Carousel.Item>
+                            <img src={Chat2} alt="Fast Fuel Banner" style={{ height: '680px', width: '1200px' }} />
+                           
+                        </Carousel.Item>
+                    </Carousel>
+                </div>
+                <h1 className="h1-sandwiches">Sandwiches:</h1>
 
                 <div className="products-wrapper">
                     {lanche.map((e, index) => (
@@ -137,7 +125,7 @@ export default function Home() {
 
 
 
-
+                <h1 className="h1-sandwiches">Beverages:</h1>
                 <div className="products-wrapper">
                     {bebidas.map((e, index) => (
                         <Box
