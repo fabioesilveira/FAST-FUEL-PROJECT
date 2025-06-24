@@ -71,6 +71,13 @@ export default function Home() {
                         </Carousel.Item>
                     </Carousel>
                 </div>
+
+                <h1 className="h1-sandwiches">CART:</h1>
+
+                <div className="box-home product-card ">
+
+                </div>
+
                 <h1 className="h1-sandwiches">Sandwiches:</h1>
 
                 <div className="products-wrapper">
