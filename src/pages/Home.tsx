@@ -72,7 +72,7 @@ export default function Home() {
                     </Carousel>
                 </div>
 
-                <h1 className="h1-sandwiches">CART:</h1>
+                <h1 className="h1-sandwiches">ORDER:</h1>
 
                 <div className="box-home product-card ">
 
