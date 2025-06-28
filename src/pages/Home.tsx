@@ -38,14 +38,17 @@ export default function Home() {
 
     const [lanche, setLanche] = useState<Meal[]>([]);
     const [bebidas, setBebidas] = useState<Meal[]>([]);
+    const [sides, setSides] = useState<Meal[]>([]);
 
 
     useEffect(() => {
         async function fetchApi() {
             const reqLanche = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=lanche")
             const reqBebidas = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=bebida")
+            const reqSides = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=sides")
             setLanche(reqLanche.data)
             setBebidas(reqBebidas.data)
+            setSides(reqSides.data)
         }
         fetchApi();
     }, [])
@@ -135,6 +138,57 @@ export default function Home() {
                 <h1 className="h1-sandwiches">Beverages:</h1>
                 <div className="products-wrapper">
                     {bebidas.map((e, index) => (
+                        <Box
+                            className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
+                            key={e.id}
+                        >
+                            <Box className="card-left">
+                                <Stack spacing={2}>
+                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                        {e.nome}
+                                    </Item>
+                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                        {e.preco}
+                                    </Item>
+                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                        {e.descricao}
+                                    </Item>
+                                    <Button
+                                        sx={{
+                                            backgroundColor: '#e65100',
+                                            color: '#ffe0c7',
+                                            fontWeight: 'bold',
+                                            '&:hover': {
+                                                backgroundColor: '#bf360c',
+                                            },
+                                        }}
+                                    >
+                                        ADD TO CART
+                                    </Button>
+                                </Stack>
+                            </Box>
+
+                            <Box className="card-right">
+                                <Item
+                                    sx={{
+                                        height: '300px',
+                                        width: '270px',
+                                        boxSizing: 'border-box',
+                                        border: '2px solid #e65100',
+                                        borderRadius: 2,
+                                        padding: 1,
+                                    }}
+                                >
+                                    <img src={e.imagem} className="img-home-products" />
+                                </Item>
+                            </Box>
+                        </Box>
+                    ))}
+                </div>
+
+                <h1 className="h1-sandwiches">Sides:</h1>
+                <div className="products-wrapper">
+                    {sides.map((e, index) => (
                         <Box
                             className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
                             key={e.id}
