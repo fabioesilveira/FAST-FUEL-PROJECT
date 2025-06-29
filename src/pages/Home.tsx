@@ -129,7 +129,16 @@ export default function Home() {
                                         padding: 1,
                                     }}
                                 >
-                                    <img src={e.imagem} className="img-home-products" />
+                                    <img
+                                        key={e.id}
+                                        src={e.imagem}
+                                        alt={e.nome}
+                                        style={{
+                                            width: index === 0 ? '220px' : index === 1 ? '230px' : index === 2 ? '220px' : index === 3 ? '225px' : '160px',
+                                            height: index === 0 ? '220px' : index === 1 ? '230px' : index === 2 ? '190px' : index === 3 ? '190px' : '120px',
+                                            marginTop: index === 0 ? '40px' : index === 1 ? '30px' : index === 2 ? '55px' : index === 3 ? '50px' : '60px',
+                                        }}
+                                    />
                                 </Item>
                             </Box>
                         </Box>
@@ -300,7 +309,7 @@ export default function Home() {
                                         style={{
                                             width: index === 0 ? '240px' : index === 1 ? '200px' : index === 2 ? '180px' : index === 3 ? '160px' : '160px',
                                             height: index === 0 ? '220px' : index === 1 ? '180px' : index === 2 ? '180px' : index === 3 ? '145px' : '120px',
-                                            marginTop: index === 0 ? '40px' : index === 1 ? '60px' : index === 2 ? '55px' :  '60px',
+                                            marginTop: index === 0 ? '40px' : index === 1 ? '60px' : index === 2 ? '55px' : '60px',
                                         }}
                                     />
                                 </Item>
