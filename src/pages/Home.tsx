@@ -39,6 +39,7 @@ export default function Home() {
     const [lanche, setLanche] = useState<Meal[]>([]);
     const [bebidas, setBebidas] = useState<Meal[]>([]);
     const [sides, setSides] = useState<Meal[]>([]);
+    const [desserts, setDesserts] = useState<Meal[]>([]);
 
 
     useEffect(() => {
@@ -46,9 +47,11 @@ export default function Home() {
             const reqLanche = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=lanche")
             const reqBebidas = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=bebida")
             const reqSides = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=sides")
+            const reqDesserts = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=desserts")
             setLanche(reqLanche.data)
             setBebidas(reqBebidas.data)
             setSides(reqSides.data)
+            setDesserts(reqDesserts.data)
         }
         fetchApi();
     }, [])
@@ -65,12 +68,12 @@ export default function Home() {
                     <Carousel >
                         <Carousel.Item>
                             <img src={Chat} alt="Fast Fuel Banner" style={{ height: '680px', width: '1200px' }} />
-                            
+
                         </Carousel.Item>
 
                         <Carousel.Item>
                             <img src={Chat2} alt="Fast Fuel Banner" style={{ height: '680px', width: '1200px' }} />
-                           
+
                         </Carousel.Item>
                     </Carousel>
                 </div>
@@ -95,7 +98,58 @@ export default function Home() {
                                         {e.nome}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.preco}
+                                        ${e.preco}
+                                    </Item>
+                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                        {e.descricao}
+                                    </Item>
+                                    <Button
+                                        sx={{
+                                            backgroundColor: '#e65100',
+                                            color: '#ffe0c7',
+                                            fontWeight: 'bold',
+                                            '&:hover': {
+                                                backgroundColor: '#bf360c',
+                                            },
+                                        }}
+                                    >
+                                        ADD TO CART
+                                    </Button>
+                                </Stack>
+                            </Box>
+
+                            <Box className="card-right">
+                                <Item
+                                    sx={{
+                                        height: '300px',
+                                        width: '270px',
+                                        boxSizing: 'border-box',
+                                        border: '2px solid #e65100',
+                                        borderRadius: 2,
+                                        padding: 1,
+                                    }}
+                                >
+                                    <img src={e.imagem} className="img-home-products" />
+                                </Item>
+                            </Box>
+                        </Box>
+                    ))}
+                </div>
+
+                <h1 className="h1-sandwiches">Sides:</h1>
+                <div className="products-wrapper">
+                    {sides.map((e, index) => (
+                        <Box
+                            className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
+                            key={e.id}
+                        >
+                            <Box className="card-left">
+                                <Stack spacing={2}>
+                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                        {e.nome}
+                                    </Item>
+                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                        ${e.preco}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
                                         {e.descricao}
@@ -148,7 +202,7 @@ export default function Home() {
                                         {e.nome}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.preco}
+                                        ${e.preco}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
                                         {e.descricao}
@@ -179,16 +233,28 @@ export default function Home() {
                                         padding: 1,
                                     }}
                                 >
-                                    <img src={e.imagem} className="img-home-products" />
+                                    <img
+                                        key={e.id}
+                                        src={e.imagem}
+                                        alt={e.nome}
+                                        style={{
+                                            width: index === 0 ? '190px' : index === 1 ? '255px' : index === 2 ? '180px' :  index === 3 ? '140px' : index === 4 ? '255px' : index === 5 ? '180px' :'160px',
+                                            height: index === 0 ? '150px' : index === 1 ? '255px' : index === 2 ? '180px' :  index === 3 ? '145px' : index === 4 ? '180px' : index === 5 ? '185px' : '120px',
+                                            marginTop: index === 0 ? '70px' : index === 1 ? '30px' : index === 2 ? '55px' :  index === 4 ? '50px' : index === 5 ? '40px' : '60px',
+                                            
+                                            
+
+                                        }}
+                                    />
                                 </Item>
                             </Box>
                         </Box>
                     ))}
                 </div>
 
-                <h1 className="h1-sandwiches">Sides:</h1>
+                <h1 className="h1-sandwiches">Desserts:</h1>
                 <div className="products-wrapper">
-                    {sides.map((e, index) => (
+                    {desserts.map((e, index) => (
                         <Box
                             className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
                             key={e.id}
@@ -199,7 +265,7 @@ export default function Home() {
                                         {e.nome}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.preco}
+                                        ${e.preco}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
                                         {e.descricao}
