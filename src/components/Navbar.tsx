@@ -51,7 +51,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function Navbar() {
+type NavbarProps = {
+  onSearch: (value: string) => void;
+};
+
+function Navbar({ onSearch }: NavbarProps) {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [shown, setShown] = useState(true);
 
@@ -150,6 +154,7 @@ function Navbar() {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
+              onChange={(event) => onSearch(event.target.value)}
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>

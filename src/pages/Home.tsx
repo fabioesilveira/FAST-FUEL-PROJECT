@@ -40,6 +40,7 @@ export default function Home() {
     const [bebidas, setBebidas] = useState<Meal[]>([]);
     const [sides, setSides] = useState<Meal[]>([]);
     const [desserts, setDesserts] = useState<Meal[]>([]);
+    const [search, setSearch] = useState("");
 
 
     useEffect(() => {
@@ -56,9 +57,19 @@ export default function Home() {
         fetchApi();
     }, [])
 
+    function handleSearchInput(value: string) {
+        setSearch(value);
+    }
+
+    // Filtered lists:
+    const filteredLanche = lanche.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
+    const filteredBebidas = bebidas.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
+    const filteredSides = sides.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
+    const filteredDesserts = desserts.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
+
     return (
         <div>
-            <Navbar />
+            <Navbar onSearch={handleSearchInput} />
 
             <CssBaseline />
             <Container className="margin-top" fixed>
@@ -87,7 +98,7 @@ export default function Home() {
                 <h1 className="h1-sandwiches">Sandwiches:</h1>
 
                 <div className="products-wrapper">
-                    {lanche.map((e, index) => (
+                    {filteredLanche.map((e, index) => (
                         <Box
                             className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
                             key={e.id}
@@ -147,7 +158,7 @@ export default function Home() {
 
                 <h1 className="h1-sandwiches">Sides:</h1>
                 <div className="products-wrapper">
-                    {sides.map((e, index) => (
+                    {filteredSides.map((e, index) => (
                         <Box
                             className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
                             key={e.id}
@@ -200,7 +211,7 @@ export default function Home() {
 
                 <h1 className="h1-sandwiches">Beverages:</h1>
                 <div className="products-wrapper">
-                    {bebidas.map((e, index) => (
+                    {filteredBebidas.map((e, index) => (
                         <Box
                             className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
                             key={e.id}
@@ -260,7 +271,7 @@ export default function Home() {
 
                 <h1 className="h1-sandwiches">Desserts:</h1>
                 <div className="products-wrapper">
-                    {desserts.map((e, index) => (
+                    {filteredDesserts.map((e, index) => (
                         <Box
                             className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
                             key={e.id}
