@@ -75,7 +75,8 @@ export default function Home() {
             <Container className="margin-top" fixed>
 
                 <h1 className="h1-home">Fuel Up Fast. Taste That Lasts.</h1>
-                <div className="div-carousel">
+
+                {search.length > 0 ? null : <div className="div-carousel">
                     <Carousel >
                         <Carousel.Item>
                             <img src={Chat} alt="Fast Fuel Banner" style={{ height: '680px', width: '1200px' }} />
@@ -87,15 +88,16 @@ export default function Home() {
 
                         </Carousel.Item>
                     </Carousel>
-                </div>
+                </div>}
+
 
                 <h1 className="h1-sandwiches">ORDER:</h1>
 
                 <div className="box-home product-card ">
-
+                    
                 </div>
 
-                <h1 className="h1-sandwiches">Sandwiches:</h1>
+                {filteredLanche.length === 0 ? null : <h1 className="h1-sandwiches">Sandwiches:</h1>}
 
                 <div className="products-wrapper">
                     {filteredLanche.map((e, index) => (
@@ -156,7 +158,8 @@ export default function Home() {
                     ))}
                 </div>
 
-                <h1 className="h1-sandwiches">Sides:</h1>
+                {filteredSides.length === 0 ? null : <h1 className="h1-sandwiches">Sides:</h1>}
+
                 <div className="products-wrapper">
                     {filteredSides.map((e, index) => (
                         <Box
@@ -216,9 +219,8 @@ export default function Home() {
                     ))}
                 </div>
 
+                {filteredBebidas.length === 0 ? null : <h1 className="h1-sandwiches">Beverages:</h1>}
 
-
-                <h1 className="h1-sandwiches">Beverages:</h1>
                 <div className="products-wrapper">
                     {filteredBebidas.map((e, index) => (
                         <Box
@@ -278,7 +280,8 @@ export default function Home() {
                     ))}
                 </div>
 
-                <h1 className="h1-sandwiches">Desserts:</h1>
+                {filteredDesserts.length === 0 ? null : <h1 className="h1-sandwiches">Desserts:</h1>}
+
                 <div className="products-wrapper">
                     {filteredDesserts.map((e, index) => (
                         <Box
