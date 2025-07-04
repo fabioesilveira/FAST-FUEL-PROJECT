@@ -267,8 +267,8 @@ export default function Home() {
                                         src={e.imagem}
                                         alt={e.nome}
                                         style={{
-                                            width: index === 0 ? '190px' : index === 1 ? '255px' : index === 2 ? '180px' : index === 3 ? '140px' : index === 4 ? '255px' : index === 5 ? '180px' : '160px',
-                                            height: index === 0 ? '150px' : index === 1 ? '255px' : index === 2 ? '180px' : index === 3 ? '145px' : index === 4 ? '180px' : index === 5 ? '185px' : '120px',
+                                            width: index === 0 ? '190px' : index === 1 ? '255px' : index === 2 ? '170px' : index === 3 ? '140px' : index === 4 ? '255px' : index === 5 ? '180px' : '160px',
+                                            height: index === 0 ? '150px' : index === 1 ? '255px' : index === 2 ? '170px' : index === 3 ? '145px' : index === 4 ? '180px' : index === 5 ? '185px' : '120px',
                                             marginTop: index === 0 ? '70px' : index === 1 ? '30px' : index === 2 ? '55px' : index === 4 ? '50px' : index === 5 ? '40px' : '60px',
                                         }}
                                     />
@@ -327,7 +327,7 @@ export default function Home() {
                                         src={e.imagem}
                                         alt={e.nome}
                                         style={{
-                                            width: index === 0 ? '240px' : index === 1 ? '200px' : index === 2 ? '190px' : index === 3 ? '160px' : '160px',
+                                            width: index === 0 ? '250px' : index === 1 ? '205px' : index === 2 ? '190px' : index === 3 ? '160px' : '160px',
                                             height: index === 0 ? '220px' : index === 1 ? '180px' : index === 2 ? '180px' : index === 3 ? '145px' : '120px',
                                             marginTop: index === 0 ? '40px' : index === 1 ? '60px' : index === 2 ? '55px' : '60px',
                                         }}
