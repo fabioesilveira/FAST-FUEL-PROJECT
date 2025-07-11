@@ -68,26 +68,25 @@ export default function Home() {
     const filteredDesserts = desserts.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
 
     const imageStyles: { [id: string]: React.CSSProperties } = {
-        0: { width: "220px", height: "220px", marginTop: "40px" }, // Pit Stop Classic
-    "": { width: "230px", height: "230px", marginTop: "30px" }, // Turbo Bacon
-    2: { width: "220px", height: "190px", marginTop: "55px" }, // Double Gear
-    3: { width: "225px", height: "190px", marginTop: "50px" }, // Fuel Monster
-  "11": { width: "200px", height: "200px", marginTop: "35px" }, // Fries
-  "12": { width: "220px", height: "160px", marginTop: "60px" }, // Onion Rings
-  "13": { width: "255px", height: "170px", marginTop: "55px" }, // Salad
-  "14": { width: "160px", height: "145px", marginTop: "60px" }, // Mozzarella
-  0: { width: "190px", height: "150px", marginTop: "70px" }, // Coke
-    1: { width: "255px", height: "255px", marginTop: "30px" }, // Sprite
-    2: { width: "170px", height: "170px", marginTop: "55px" }, // Dr, Pepper
-    3: { width: "140px", height: "145px", marginTop: "60px" }, // Fanta Orange
-    4: { width: "255px", height: "180px", marginTop: "50px" }, // Diet Coke
-    5: { width: "180px", height: "185px", marginTop: "40px" }, // Lemonade
-  "15": { width: "250px", height: "220px", marginTop: "40px" }, // Chocolate Milkshake
-  "16": { width: "205px", height: "180px", marginTop: "60px" }, // Strawberry Sundae
-  "17": { width: "190px", height: "180px", marginTop: "55px" }, // Cookie
-  "18": { width: "160px", height: "145px", marginTop: "60px" }, // Carrot Cake
-  // Add others...
-};
+        "1": { width: "220px", height: "220px", marginTop: "40px" }, // Pit Stop Classic
+        "2": { width: "230px", height: "230px", marginTop: "30px" }, // Turbo Bacon
+        "3": { width: "220px", height: "190px", marginTop: "55px" }, // Double Gear
+        "4": { width: "225px", height: "190px", marginTop: "50px" }, // Fuel Monster
+        "11": { width: "200px", height: "200px", marginTop: "35px" }, // Fries
+        "12": { width: "220px", height: "160px", marginTop: "60px" }, // Onion Rings
+        "13": { width: "255px", height: "170px", marginTop: "55px" }, // Salad
+        "14": { width: "160px", height: "145px", marginTop: "60px" }, // Mozzarella
+        "5": { width: "190px", height: "150px", marginTop: "70px" }, // Coke
+        "6": { width: "255px", height: "255px", marginTop: "30px" }, // Sprite
+        "7": { width: "170px", height: "170px", marginTop: "55px" }, // Dr, Pepper
+        "8": { width: "140px", height: "145px", marginTop: "60px" }, // Fanta Orange
+        "9": { width: "255px", height: "180px", marginTop: "50px" }, // Diet Coke
+        "10": { width: "180px", height: "185px", marginTop: "40px" }, // Lemonade
+        "15": { width: "250px", height: "220px", marginTop: "40px" }, // Chocolate Milkshake
+        "16": { width: "205px", height: "180px", marginTop: "60px" }, // Strawberry Sundae
+        "17": { width: "190px", height: "180px", marginTop: "55px" }, // Cookie
+        "18": { width: "160px", height: "145px", marginTop: "60px" }, // Carrot Cake
+    };
 
     return (
         <div>
@@ -168,11 +167,7 @@ export default function Home() {
                                         key={e.id}
                                         src={e.imagem}
                                         alt={e.nome}
-                                        style={{
-                                            width: index === 0 ? '220px' : index === 1 ? '230px' : index === 2 ? '220px' : index === 3 ? '225px' : '160px',
-                                            height: index === 0 ? '220px' : index === 1 ? '230px' : index === 2 ? '190px' : index === 3 ? '190px' : '120px',
-                                            marginTop: index === 0 ? '40px' : index === 1 ? '30px' : index === 2 ? '55px' : index === 3 ? '50px' : '60px',
-                                        }}
+                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
                                     />
                                 </Item>
                             </Box>
@@ -229,11 +224,7 @@ export default function Home() {
                                         key={e.id}
                                         src={e.imagem}
                                         alt={e.nome}
-                                        style={{
-                                            width: index === 0 ? '200px' : index === 1 ? '220px' : index === 2 ? '255px' : index === 3 ? '160px' : '160px',
-                                            height: index === 0 ? '200px' : index === 1 ? '160px' : index === 2 ? '170px' : index === 3 ? '145px' : '120px',
-                                            marginTop: index === 0 ? '35px' : index === 1 ? '60px' : index === 2 ? '55px' : '60px',
-                                        }}
+                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
                                     />
                                 </Item>
                             </Box>
@@ -290,11 +281,7 @@ export default function Home() {
                                         key={e.id}
                                         src={e.imagem}
                                         alt={e.nome}
-                                        style={{
-                                            width: index === 0 ? '190px' : index === 1 ? '255px' : index === 2 ? '170px' : index === 3 ? '140px' : index === 4 ? '255px' : index === 5 ? '180px' : '160px',
-                                            height: index === 0 ? '150px' : index === 1 ? '255px' : index === 2 ? '170px' : index === 3 ? '145px' : index === 4 ? '180px' : index === 5 ? '185px' : '120px',
-                                            marginTop: index === 0 ? '70px' : index === 1 ? '30px' : index === 2 ? '55px' : index === 4 ? '50px' : index === 5 ? '40px' : '60px',
-                                        }}
+                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
                                     />
                                 </Item>
                             </Box>
@@ -351,11 +338,7 @@ export default function Home() {
                                         key={e.id}
                                         src={e.imagem}
                                         alt={e.nome}
-                                        style={{
-                                            width: index === 0 ? '250px' : index === 1 ? '205px' : index === 2 ? '190px' : index === 3 ? '160px' : '160px',
-                                            height: index === 0 ? '220px' : index === 1 ? '180px' : index === 2 ? '180px' : index === 3 ? '145px' : '120px',
-                                            marginTop: index === 0 ? '40px' : index === 1 ? '60px' : index === 2 ? '55px' : '60px',
-                                        }}
+                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
                                     />
                                 </Item>
                             </Box>
