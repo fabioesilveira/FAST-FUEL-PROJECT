@@ -67,6 +67,28 @@ export default function Home() {
     const filteredSides = sides.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
     const filteredDesserts = desserts.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
 
+    const imageStyles: { [id: string]: React.CSSProperties } = {
+        0: { width: "220px", height: "220px", marginTop: "40px" }, // Pit Stop Classic
+    "": { width: "230px", height: "230px", marginTop: "30px" }, // Turbo Bacon
+    2: { width: "220px", height: "190px", marginTop: "55px" }, // Double Gear
+    3: { width: "225px", height: "190px", marginTop: "50px" }, // Fuel Monster
+  "11": { width: "200px", height: "200px", marginTop: "35px" }, // Fries
+  "12": { width: "220px", height: "160px", marginTop: "60px" }, // Onion Rings
+  "13": { width: "255px", height: "170px", marginTop: "55px" }, // Salad
+  "14": { width: "160px", height: "145px", marginTop: "60px" }, // Mozzarella
+  0: { width: "190px", height: "150px", marginTop: "70px" }, // Coke
+    1: { width: "255px", height: "255px", marginTop: "30px" }, // Sprite
+    2: { width: "170px", height: "170px", marginTop: "55px" }, // Dr, Pepper
+    3: { width: "140px", height: "145px", marginTop: "60px" }, // Fanta Orange
+    4: { width: "255px", height: "180px", marginTop: "50px" }, // Diet Coke
+    5: { width: "180px", height: "185px", marginTop: "40px" }, // Lemonade
+  "15": { width: "250px", height: "220px", marginTop: "40px" }, // Chocolate Milkshake
+  "16": { width: "205px", height: "180px", marginTop: "60px" }, // Strawberry Sundae
+  "17": { width: "190px", height: "180px", marginTop: "55px" }, // Cookie
+  "18": { width: "160px", height: "145px", marginTop: "60px" }, // Carrot Cake
+  // Add others...
+};
+
     return (
         <div>
             <Navbar onSearch={handleSearchInput} />
@@ -94,7 +116,7 @@ export default function Home() {
                 <h1 className="h1-sandwiches">ORDER:</h1>
 
                 <div className="box-home product-card ">
-                    
+
                 </div>
 
                 {filteredLanche.length === 0 ? null : <h1 className="h1-sandwiches">Sandwiches:</h1>}
