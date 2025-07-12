@@ -21,6 +21,7 @@ type Meal = {
     descricao: string,
     imagem: string,
     preco: string
+    quantidade: number
 }
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -40,6 +41,7 @@ export default function Home() {
     const [bebidas, setBebidas] = useState<Meal[]>([]);
     const [sides, setSides] = useState<Meal[]>([]);
     const [desserts, setDesserts] = useState<Meal[]>([]);
+    const [order, setOrder] = useState<Meal[]>([])
     const [search, setSearch] = useState("");
 
 
@@ -59,6 +61,20 @@ export default function Home() {
 
     function handleSearchInput(value: string) {
         setSearch(value);
+    }
+
+    function handleOrder(e: any) {
+        //product is the element inside the order
+        const findProduct = order.find(product => product === e)
+        if (findProduct === undefined) {
+            e.quantidade = 1
+            setOrder([...order, e])
+        } else {
+            const findIndex = order.findIndex(product => product === e)
+            order[findIndex].quantidade += 1
+            setOrder([...order]) 
+        }
+        console.log(findProduct)
     }
 
     // Filtered lists:
@@ -116,6 +132,19 @@ export default function Home() {
 
                 <div className="box-home product-card ">
 
+                    {order.map((e) => (
+                        <div>
+                            <h2>product: {e.nome}</h2>
+                            <button>-</button>
+                            <h4>quantity: {e.quantidade}</h4>
+                            <button>+</button>
+                            <h4>price: ${parseInt(e.preco) * e.quantidade}</h4>
+                        </div>
+                    ))}
+                    <button>checkout</button>
+                    <button>clear cart</button>
+                    
+
                 </div>
 
                 {filteredLanche.length === 0 ? null : <h1 className="h1-sandwiches">Sandwiches:</h1>}
@@ -146,6 +175,7 @@ export default function Home() {
                                                 backgroundColor: '#bf360c',
                                             },
                                         }}
+                                        onClick={() => handleOrder(e)}
                                     >
                                         ADD TO CART
                                     </Button>
@@ -203,6 +233,7 @@ export default function Home() {
                                                 backgroundColor: '#bf360c',
                                             },
                                         }}
+                                        onClick={() => handleOrder(e)}
                                     >
                                         ADD TO CART
                                     </Button>
@@ -260,6 +291,7 @@ export default function Home() {
                                                 backgroundColor: '#bf360c',
                                             },
                                         }}
+                                        onClick={() => handleOrder(e)}
                                     >
                                         ADD TO CART
                                     </Button>
@@ -317,6 +349,7 @@ export default function Home() {
                                                 backgroundColor: '#bf360c',
                                             },
                                         }}
+                                        onClick={() => handleOrder(e)}
                                     >
                                         ADD TO CART
                                     </Button>
