@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Sandwiches from "./pages/Sandwiches";
 import Desserts from "./pages/Desserts";
+import Beverages from "./pages/Beverages";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
       <Route path="/sign-up" element={<SignUp />}/>
       <Route path="/sandwiches" element={<Sandwiches />}/>
       <Route path="/desserts" element={<Desserts />}/>
+      <Route path="/beverages" element={<Beverages />}/>
     </Routes>
   ) 
 }

@@ -7,7 +7,6 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
 
@@ -58,7 +57,7 @@ export default function SignUp() {
     return (
         <div>
 
-            <Navbar />
+            
             <Box
                 component="form"
                 sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
