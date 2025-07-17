@@ -15,6 +15,7 @@ import { styled, alpha } from '@mui/material/styles';
 import Logo from '../assets/fast-fuel.png';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,6 +57,9 @@ type NavbarProps = {
 };
 
 function Navbar({ onSearch }: NavbarProps) {
+
+  const navigate = useNavigate();
+
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [shown, setShown] = useState(true);
 
@@ -69,9 +73,13 @@ function Navbar({ onSearch }: NavbarProps) {
 
   useEffect(() => {
     if (localStorage.getItem("idUser")) {
-            setShown(false)
-        }
+      setShown(false)
+    }
   }, [])
+
+  const handleNavigate = (category: string) => {
+    navigate(`/${category.toLowerCase()}`);
+  };
 
 
   return (
@@ -163,6 +171,7 @@ function Navbar({ onSearch }: NavbarProps) {
             {['SANDWICHES', 'SIDES', 'BEVERAGES', 'DESSERTS'].map((category) => (
               <Button
                 key={category}
+                onClick={() => handleNavigate(category)}
                 sx={{
                   color: '#e65100',
                   fontWeight: 500,
@@ -185,32 +194,32 @@ function Navbar({ onSearch }: NavbarProps) {
           >
             {shown ? <>
               <Button
-              sx={{
-                color: '#e65100',
-                outline: '2px solid #e65100',
-                '&:focus': {
-                  outlineOffset: '2px',
-                },
-              }}
-            >
-              <Link to="/sign-in" style={{ textDecoration: 'none', color: '#e65100' }}>
-                Signin
-              </Link>
-            </Button>
+                sx={{
+                  color: '#e65100',
+                  outline: '2px solid #e65100',
+                  '&:focus': {
+                    outlineOffset: '2px',
+                  },
+                }}
+              >
+                <Link to="/sign-in" style={{ textDecoration: 'none', color: '#e65100' }}>
+                  Signin
+                </Link>
+              </Button>
 
-            <Button
-              sx={{
-                color: '#e65100',
-                outline: '2px solid #e65100',
-                '&:focus': {
-                  outlineOffset: '2px',
-                },
-              }}
-            >
-              <Link to="/sign-up" style={{ textDecoration: 'none', color: '#e65100' }}>
-                Signup
-              </Link>
-            </Button>
+              <Button
+                sx={{
+                  color: '#e65100',
+                  outline: '2px solid #e65100',
+                  '&:focus': {
+                    outlineOffset: '2px',
+                  },
+                }}
+              >
+                <Link to="/sign-up" style={{ textDecoration: 'none', color: '#e65100' }}>
+                  Signup
+                </Link>
+              </Button>
             </> : null}
           </Box>
         </Toolbar>
