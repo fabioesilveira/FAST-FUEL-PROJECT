@@ -46,20 +46,6 @@ export default function Sandwiches() {
         "2": { width: "230px", height: "230px", marginTop: "30px" }, // Turbo Bacon
         "3": { width: "220px", height: "190px", marginTop: "55px" }, // Double Gear
         "4": { width: "225px", height: "190px", marginTop: "50px" }, // Fuel Monster
-        "11": { width: "200px", height: "200px", marginTop: "35px" }, // Fries
-        "12": { width: "220px", height: "160px", marginTop: "60px" }, // Onion Rings
-        "13": { width: "255px", height: "170px", marginTop: "55px" }, // Salad
-        "14": { width: "160px", height: "145px", marginTop: "60px" }, // Mozzarella
-        "5": { width: "190px", height: "150px", marginTop: "70px" }, // Coke
-        "6": { width: "255px", height: "255px", marginTop: "30px" }, // Sprite
-        "7": { width: "170px", height: "170px", marginTop: "55px" }, // Dr, Pepper
-        "8": { width: "140px", height: "145px", marginTop: "60px" }, // Fanta Orange
-        "9": { width: "255px", height: "180px", marginTop: "50px" }, // Diet Coke
-        "10": { width: "180px", height: "185px", marginTop: "40px" }, // Lemonade
-        "15": { width: "250px", height: "220px", marginTop: "40px" }, // Chocolate Milkshake
-        "16": { width: "205px", height: "180px", marginTop: "60px" }, // Strawberry Sundae
-        "17": { width: "190px", height: "180px", marginTop: "55px" }, // Cookie
-        "18": { width: "160px", height: "145px", marginTop: "60px" }, // Carrot Cake
     };
 
 
