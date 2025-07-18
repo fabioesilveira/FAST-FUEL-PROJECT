@@ -57,6 +57,12 @@ export default function Home() {
             setDesserts(reqDesserts.data)
         }
         fetchApi();
+
+        if (localStorage.getItem("lsOrder")) {
+            console.log('existe no local storage')
+        } else {
+            console.log('nao existe no local storage')
+        }
     }, [])
 
     function handleSearchInput(value: string) {
@@ -72,9 +78,12 @@ export default function Home() {
         } else {
             const findIndex = order.findIndex(product => product === e)
             order[findIndex].quantidade += 1
-            setOrder([...order]) 
+            setOrder([...order])
         }
         console.log(findProduct)
+        const test = [...order]
+        console.log(test)
+        localStorage.setItem('lsOrder', JSON.stringify(order))
     }
 
     // Filtered lists:
@@ -116,12 +125,12 @@ export default function Home() {
                 {search.length > 0 ? null : <div className="div-carousel">
                     <Carousel >
                         <Carousel.Item>
-                            <img src={Chat} alt="Fast Fuel Banner" style={{ height: '680px', width: '1200px' }} />
+                            <img src={Chat} alt="Fast Fuel Banner" style={{ height: '680px', width: '1200px', borderRadius: '16px' }} />
 
                         </Carousel.Item>
 
                         <Carousel.Item>
-                            <img src={Chat2} alt="Fast Fuel Banner" style={{ height: '680px', width: '1200px' }} />
+                            <img src={Chat2} alt="Fast Fuel Banner" style={{ height: '680px', width: '1200px', borderRadius: '16px' }} />
 
                         </Carousel.Item>
                     </Carousel>
@@ -134,7 +143,12 @@ export default function Home() {
 
                     {order.map((e) => (
                         <div>
-                            <h2>product: {e.nome}</h2>
+                            <img
+                                key={e.id}
+                                src={e.imagem}
+                                alt={e.nome}
+                                style={{ width: "90px", height: "90px", marginTop: "60px" }}
+                            />
                             <button>-</button>
                             <h4>quantity: {e.quantidade}</h4>
                             <button>+</button>
@@ -143,7 +157,7 @@ export default function Home() {
                     ))}
                     <button>checkout</button>
                     <button>clear cart</button>
-                    
+
 
                 </div>
 
