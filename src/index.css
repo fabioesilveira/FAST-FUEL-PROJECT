@@ -129,3 +129,33 @@ body {
   max-width: 900px;
   margin: 0 auto;
 }
+
+.animated-stripes {
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.3) 0px,
+    rgba(255, 243, 224, 0.3) 20px,
+    rgba(255, 224, 199, 0.3) 20px,
+    rgba(255, 255, 255, 0.3) 40px
+  );
+  background-size: 200% 100%;
+  animation: moveStripesReverse 8s linear infinite;
+  border-radius: 20px;
+  border: 3px solid #e65100;
+  padding: 20px;
+  color: #e65100;
+}
+
+@keyframes moveStripesReverse {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+.div-btns-order {
+ display: flex;
+ 
+}

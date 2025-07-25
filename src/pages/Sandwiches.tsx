@@ -41,6 +41,7 @@ export default function Sandwiches() {
         fetchApi()
     }, [])
 
+
     const imageStyles: { [id: string]: React.CSSProperties } = {
         "1": { width: "220px", height: "220px", marginTop: "40px" }, // Pit Stop Classic
         "2": { width: "230px", height: "230px", marginTop: "30px" }, // Turbo Bacon

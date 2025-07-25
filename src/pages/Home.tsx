@@ -13,7 +13,6 @@ import Chat from '../assets/ChatGPT2.png';
 import Chat2 from '../assets/ChatGPT-2.png';
 import Carousel from 'react-bootstrap/Carousel';
 
-
 type Meal = {
     id: string,
     nome: string,
@@ -60,10 +59,21 @@ export default function Home() {
 
         if (localStorage.getItem("lsOrder")) {
             console.log('existe no local storage')
+            const lsOrder = JSON.parse(localStorage.getItem("lsOrder") || "[]")
+            setOrder(lsOrder)
         } else {
             console.log('nao existe no local storage')
         }
     }, [])
+
+    // Toda vez que o estado ORDER for alterado.
+    // O CODIGO dentro do useEffect vai acontecer.
+    // EXIBIR o estado order
+    useEffect(() => {
+        console.log("USE EFFECT DO ORDER:", order)
+
+        localStorage.setItem("lsOrder", JSON.stringify(order))
+    }, [order])
 
     function handleSearchInput(value: string) {
         setSearch(value);
@@ -81,9 +91,6 @@ export default function Home() {
             setOrder([...order])
         }
         console.log(findProduct)
-        const test = [...order]
-        console.log(test)
-        localStorage.setItem('lsOrder', JSON.stringify(order))
     }
 
     // Filtered lists:
@@ -91,6 +98,28 @@ export default function Home() {
     const filteredBebidas = bebidas.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
     const filteredSides = sides.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
     const filteredDesserts = desserts.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
+
+    const imageStylesOrder: { [id: string]: React.CSSProperties } = {
+        "1": { width: "80px", height: "70px", marginTop: "40px" }, // Pit Stop Classic
+        "2": { width: "80px", height: "70px", marginTop: "30px" }, // Turbo Bacon
+        "3": { width: "80px", height: "70px", marginTop: "55px" }, // Double Gear
+        "4": { width: "80px", height: "70px", marginTop: "50px" }, // Fuel Monster
+        "11": { width: "80px", height: "70px", marginTop: "35px" }, // Fries
+        "12": { width: "80px", height: "70px", marginTop: "60px" }, // Onion Rings
+        "13": { width: "80px", height: "70px", marginTop: "55px" }, // Salad
+        "14": { width: "80px", height: "70px", marginTop: "60px" }, // Mozzarella
+        "5": { width: "190px", height: "150px", marginTop: "70px" }, // Coke
+        "6": { width: "255px", height: "255px", marginTop: "30px" }, // Sprite
+        "7": { width: "170px", height: "170px", marginTop: "55px" }, // Dr, Pepper
+        "8": { width: "140px", height: "145px", marginTop: "60px" }, // Fanta Orange
+        "9": { width: "255px", height: "180px", marginTop: "50px" }, // Diet Coke
+        "10": { width: "180px", height: "185px", marginTop: "40px" }, // Lemonade
+        "15": { width: "250px", height: "220px", marginTop: "40px" }, // Chocolate Milkshake
+        "16": { width: "205px", height: "180px", marginTop: "60px" }, // Strawberry Sundae
+        "17": { width: "190px", height: "180px", marginTop: "55px" }, // Cookie
+        "18": { width: "160px", height: "145px", marginTop: "60px" }, // Carrot Cake
+
+    }
 
     const imageStyles: { [id: string]: React.CSSProperties } = {
         "1": { width: "220px", height: "220px", marginTop: "40px" }, // Pit Stop Classic
@@ -139,7 +168,7 @@ export default function Home() {
 
                 <h1 className="h1-sandwiches">ORDER:</h1>
 
-                <div className="box-home product-card ">
+                <div className="animated-stripes">
 
                     {order.map((e) => (
                         <div>
@@ -147,11 +176,13 @@ export default function Home() {
                                 key={e.id}
                                 src={e.imagem}
                                 alt={e.nome}
-                                style={{ width: "90px", height: "90px", marginTop: "60px" }}
+                                style={imageStylesOrder[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
                             />
-                            <button>-</button>
-                            <h4>quantity: {e.quantidade}</h4>
-                            <button>+</button>
+                            <div className="div-btns-order">
+                                <button>-</button>
+                                <h4>x{e.quantidade}</h4>
+                                <button>+</button>
+                            </div>
                             <h4>price: ${parseInt(e.preco) * e.quantidade}</h4>
                         </div>
                     ))}
