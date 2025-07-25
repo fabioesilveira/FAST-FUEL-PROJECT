@@ -52,7 +52,7 @@ export default function SignIn() {
 
     return (
         <div>
-            <Navbar />
+            {/* <Navbar /> */}
             <Box
                 component="form"
                 sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}

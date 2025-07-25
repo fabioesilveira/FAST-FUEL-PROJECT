@@ -43,7 +43,6 @@ export default function Home() {
     const [order, setOrder] = useState<Meal[]>([])
     const [search, setSearch] = useState("");
 
-
     useEffect(() => {
         async function fetchApi() {
             const reqLanche = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=lanche")
@@ -92,6 +91,24 @@ export default function Home() {
         }
         console.log(findProduct)
     }
+
+    function handleIncrease(e: any) {
+        const findProduct = order.find(product => product === e)
+        if (findProduct !== undefined) {
+            findProduct.quantidade += 1
+            setOrder([...order])
+        }
+
+    }
+
+    function handleDecrease(e: any) {
+        const findProduct = order.find(product => product === e)
+        if (findProduct !== undefined) {
+            findProduct.quantidade -= 1
+            setOrder([...order])
+        }
+    }
+
 
     // Filtered lists:
     const filteredLanche = lanche.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
@@ -179,15 +196,19 @@ export default function Home() {
                                 style={imageStylesOrder[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
                             />
                             <div className="div-btns-order">
-                                <button className="btns-increase-decrease">-</button>
+                                <button
+                                    className="btns-increase-decrease"
+                                    onClick={() => handleDecrease(e)}
+                                    disabled={e.quantidade <= 1 ? true : false}
+                                >-</button>
                                 <h4 className="h4-quantity">x{e.quantidade}</h4>
-                                <button className="btns-increase-decrease">+</button>
+                                <button className="btns-increase-decrease" onClick={() => handleIncrease(e)}>+</button>
                             </div>
                             <h4>price: ${parseInt(e.preco) * e.quantidade}</h4>
                         </div>
                     ))}
                     <button>checkout</button>
-                    <button>clear cart</button>
+                    <button onClick={() => setOrder([])}>clear cart</button>
 
 
                 </div>

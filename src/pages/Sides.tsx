@@ -34,6 +34,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Sides() {
 
     const [data, setData] = useState<Meal[]>([])
+    const [order, setOrder] = useState<Meal[]>([])
 
     useEffect(() => {
         async function fetchApi() {
@@ -41,7 +42,35 @@ export default function Sides() {
             setData(req.data)
         }
         fetchApi()
-    })
+
+        if (localStorage.getItem("lsOrder")) {
+            console.log('existe no local storage')
+            const lsOrder = JSON.parse(localStorage.getItem("lsOrder") || "[]")
+            setOrder(lsOrder)
+        } else {
+            console.log('nao existe no local storage')
+        }
+    }, [])
+
+    useEffect(() => {
+        console.log("USE EFFECT DO ORDER:", order)
+
+        localStorage.setItem("lsOrder", JSON.stringify(order))
+    }, [order])
+
+    function handleOrder(e: any) {
+        //product is the element inside the order
+        const findProduct = order.find(product => product === e)
+        if (findProduct === undefined) {
+            e.quantidade = 1
+            setOrder([...order, e])
+        } else {
+            const findIndex = order.findIndex(product => product === e)
+            order[findIndex].quantidade += 1
+            setOrder([...order])
+        }
+        console.log(findProduct)
+    }
 
     const imageStyles: { [id: string]: React.CSSProperties } = {
         "11": { width: "200px", height: "200px", marginTop: "35px" }, // Fries
@@ -78,7 +107,7 @@ export default function Sides() {
                                             backgroundColor: '#bf360c',
                                         },
                                     }}
-                                // onClick={() => handleOrder(e)}
+                                    onClick={() => handleOrder(e)}
                                 >
                                     ADD TO CART
                                 </Button>

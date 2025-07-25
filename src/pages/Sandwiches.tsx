@@ -33,13 +33,43 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Sandwiches() {
 
     const [data, setData] = useState<Meal[]>([])
+    const [order, setOrder] = useState<Meal[]>([])
+
     useEffect(() => {
         async function fetchApi() {
             const req = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=lanche")
             setData(req.data)
         }
         fetchApi()
+
+        if (localStorage.getItem("lsOrder")) {
+            console.log('existe no local storage')
+            const lsOrder = JSON.parse(localStorage.getItem("lsOrder") || "[]")
+            setOrder(lsOrder)
+        } else {
+            console.log('nao existe no local storage')
+        }
     }, [])
+
+    useEffect(() => {
+        console.log("USE EFFECT DO ORDER:", order)
+
+        localStorage.setItem("lsOrder", JSON.stringify(order))
+    }, [order])
+
+    function handleOrder(e: any) {
+        //product is the element inside the order
+        const findProduct = order.find(product => product === e)
+        if (findProduct === undefined) {
+            e.quantidade = 1
+            setOrder([...order, e])
+        } else {
+            const findIndex = order.findIndex(product => product === e)
+            order[findIndex].quantidade += 1
+            setOrder([...order])
+        }
+        console.log(findProduct)
+    }
 
 
     const imageStyles: { [id: string]: React.CSSProperties } = {
@@ -52,66 +82,66 @@ export default function Sandwiches() {
 
     return (
         <Container className="margin-top" fixed>
-            
-        <div className="products-wrapper">
-            {data.map((e, index) => (
-                <Box
-                    className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
-                    key={e.id}
-                >
-                    <Box className="card-left">
-                        <Stack spacing={2}>
-                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                {e.nome}
-                            </Item>
-                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                ${e.preco}
-                            </Item>
-                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                {e.descricao}
-                            </Item>
-                            <Button
-                                sx={{
-                                    backgroundColor: '#e65100',
-                                    color: '#ffe0c7',
-                                    fontWeight: 'bold',
-                                    '&:hover': {
-                                        backgroundColor: '#bf360c',
-                                    },
-                                }}
-                                // onClick={() => handleOrder(e)}
-                            >
-                                ADD TO CART
-                            </Button>
-                        </Stack>
-                    </Box>
 
-                    <Box className="card-right">
-                        <Item
-                            sx={{
-                                height: '300px',
-                                width: '270px',
-                                boxSizing: 'border-box',
-                                border: '2px solid #e65100',
-                                borderRadius: 2,
-                                padding: 1,
-                            }}
-                        >
-                            <img
-                                key={e.id}
-                                src={e.imagem}
-                                alt={e.nome}
-                                style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
-                            />
-                        </Item>
+            <div className="products-wrapper">
+                {data.map((e, index) => (
+                    <Box
+                        className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
+                        key={e.id}
+                    >
+                        <Box className="card-left">
+                            <Stack spacing={2}>
+                                <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                    {e.nome}
+                                </Item>
+                                <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                    ${e.preco}
+                                </Item>
+                                <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                    {e.descricao}
+                                </Item>
+                                <Button
+                                    sx={{
+                                        backgroundColor: '#e65100',
+                                        color: '#ffe0c7',
+                                        fontWeight: 'bold',
+                                        '&:hover': {
+                                            backgroundColor: '#bf360c',
+                                        },
+                                    }}
+                                    onClick={() => handleOrder(e)}
+                                >
+                                    ADD TO CART
+                                </Button>
+                            </Stack>
+                        </Box>
+
+                        <Box className="card-right">
+                            <Item
+                                sx={{
+                                    height: '300px',
+                                    width: '270px',
+                                    boxSizing: 'border-box',
+                                    border: '2px solid #e65100',
+                                    borderRadius: 2,
+                                    padding: 1,
+                                }}
+                            >
+                                <img
+                                    key={e.id}
+                                    src={e.imagem}
+                                    alt={e.nome}
+                                    style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
+                                />
+                            </Item>
+                        </Box>
                     </Box>
-                </Box>
-            ))}
-        </div>
-        <Footer/>
+                ))}
+            </div>
+            <Footer />
         </Container>
 
-        
-       
+
+
     )
 }

@@ -32,6 +32,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Beverages() {
 
     const [data, setData] = useState<Meal[]>([])
+    const [order, setOrder] = useState<Meal[]>([])
 
     useEffect(() => {
         async function fetchApi() {
@@ -40,7 +41,35 @@ export default function Beverages() {
 
         }
         fetchApi()
+
+        if (localStorage.getItem("lsOrder")) {
+            console.log('existe no local storage')
+            const lsOrder = JSON.parse(localStorage.getItem("lsOrder") || "[]")
+            setOrder(lsOrder)
+        } else {
+            console.log('nao existe no local storage')
+        }
     }, [])
+
+    useEffect(() => {
+        console.log("USE EFFECT DO ORDER:", order)
+
+        localStorage.setItem("lsOrder", JSON.stringify(order))
+    }, [order])
+
+    function handleOrder(e: any) {
+        //product is the element inside the order
+        const findProduct = order.find(product => product === e)
+        if (findProduct === undefined) {
+            e.quantidade = 1
+            setOrder([...order, e])
+        } else {
+            const findIndex = order.findIndex(product => product === e)
+            order[findIndex].quantidade += 1
+            setOrder([...order])
+        }
+        console.log(findProduct)
+    }
 
     const imageStyles: { [id: string]: React.CSSProperties } = {
         "5": { width: "190px", height: "150px", marginTop: "70px" }, // Coke
@@ -80,7 +109,7 @@ export default function Beverages() {
                                             backgroundColor: '#bf360c',
                                         },
                                     }}
-                                // onClick={() => handleOrder(e)}
+                                onClick={() => handleOrder(e)}
                                 >
                                     ADD TO CART
                                 </Button>
