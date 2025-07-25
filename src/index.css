@@ -1,11 +1,9 @@
 body {
-  background-image: repeating-linear-gradient(
-    to right,
-    rgba(255, 244, 225, 0.4),
-    rgba(255, 244, 225, 0.4) 20px,
-    transparent 20px,
-    transparent 40px
-  );
+  background-image: repeating-linear-gradient(to right,
+      rgba(255, 244, 225, 0.4),
+      rgba(255, 244, 225, 0.4) 20px,
+      transparent 20px,
+      transparent 40px);
   background-size: 100% 40px;
   background-repeat: repeat-y;
   background-attachment: fixed;
@@ -91,11 +89,11 @@ body {
   }
 }
 
-.h1-home{
+.h1-home {
   font-family: "Faster One", system-ui;
   font-weight: 400;
   color: #e65100;
-  
+
   font-style: normal;
   margin-top: 30px;
   margin-bottom: 30px;
@@ -112,7 +110,7 @@ body {
   margin-bottom: 30px;
 }
 
-.div-carousel{
+.div-carousel {
   display: flex;
   width: 100%;
   height: auto;
@@ -125,19 +123,18 @@ body {
   border-radius: 12px;
   padding: 24px;
 }
+
 .carousel-wrapper {
   max-width: 900px;
   margin: 0 auto;
 }
 
 .animated-stripes {
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.3) 0px,
-    rgba(255, 243, 224, 0.3) 20px,
-    rgba(255, 224, 199, 0.3) 20px,
-    rgba(255, 255, 255, 0.3) 40px
-  );
+  background: repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, 0.3) 0px,
+      rgba(255, 243, 224, 0.3) 20px,
+      rgba(255, 224, 199, 0.3) 20px,
+      rgba(255, 255, 255, 0.3) 40px);
   background-size: 200% 100%;
   animation: moveStripesReverse 8s linear infinite;
   border-radius: 20px;
@@ -150,12 +147,42 @@ body {
   0% {
     background-position: 100% 0;
   }
+
   100% {
     background-position: 0% 0;
   }
 }
 
 .div-btns-order {
- display: flex;
- 
+  display: flex;
+
+}
+
+.btns-increase-decrease {
+  background-color: #e65100;
+  color: white;
+  font-weight: bold;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btns-increase-decrease:hover {
+  background-color: #cc4a00;
+}
+
+.h4-quantity {
+  margin-left: 5px;
+  margin-right: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: x-large;
 }

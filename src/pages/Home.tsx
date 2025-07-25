@@ -100,11 +100,11 @@ export default function Home() {
     const filteredDesserts = desserts.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
 
     const imageStylesOrder: { [id: string]: React.CSSProperties } = {
-        "1": { width: "80px", height: "70px", marginTop: "40px" }, // Pit Stop Classic
-        "2": { width: "80px", height: "70px", marginTop: "30px" }, // Turbo Bacon
-        "3": { width: "80px", height: "70px", marginTop: "55px" }, // Double Gear
+        "1": { width: "90px", height: "80px", marginTop: "40px" }, // Pit Stop Classic
+        "2": { width: "100px", height: "90px", marginTop: "30px" }, // Turbo Bacon
+        "3": { width: "95px", height: "75px", marginTop: "55px" }, // Double Gear
         "4": { width: "80px", height: "70px", marginTop: "50px" }, // Fuel Monster
-        "11": { width: "80px", height: "70px", marginTop: "35px" }, // Fries
+        "11": { width: "100px", height: "80px", marginTop: "35px" }, // Fries
         "12": { width: "80px", height: "70px", marginTop: "60px" }, // Onion Rings
         "13": { width: "80px", height: "70px", marginTop: "55px" }, // Salad
         "14": { width: "80px", height: "70px", marginTop: "60px" }, // Mozzarella
@@ -179,9 +179,9 @@ export default function Home() {
                                 style={imageStylesOrder[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
                             />
                             <div className="div-btns-order">
-                                <button>-</button>
-                                <h4>x{e.quantidade}</h4>
-                                <button>+</button>
+                                <button className="btns-increase-decrease">-</button>
+                                <h4 className="h4-quantity">x{e.quantidade}</h4>
+                                <button className="btns-increase-decrease">+</button>
                             </div>
                             <h4>price: ${parseInt(e.preco) * e.quantidade}</h4>
                         </div>
