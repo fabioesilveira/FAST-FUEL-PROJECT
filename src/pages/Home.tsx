@@ -122,8 +122,8 @@ export default function Home() {
         "3": { width: "95px", height: "75px", marginTop: "55px" }, // Double Gear
         "4": { width: "80px", height: "70px", marginTop: "50px" }, // Fuel Monster
         "11": { width: "100px", height: "80px", marginTop: "35px" }, // Fries
-        "12": { width: "80px", height: "70px", marginTop: "60px" }, // Onion Rings
-        "13": { width: "80px", height: "70px", marginTop: "55px" }, // Salad
+        "12": { width: "100px", height: "70px", marginTop: "60px" }, // Onion Rings
+        "13": { width: "105px", height: "70px", marginTop: "55px" }, // Salad
         "14": { width: "80px", height: "70px", marginTop: "60px" }, // Mozzarella
         "5": { width: "190px", height: "150px", marginTop: "70px" }, // Coke
         "6": { width: "255px", height: "255px", marginTop: "30px" }, // Sprite
