@@ -124,8 +124,8 @@ export default function Home() {
         "11": { width: "100px", height: "80px", marginTop: "35px" }, // Fries
         "12": { width: "100px", height: "70px", marginTop: "60px" }, // Onion Rings
         "13": { width: "105px", height: "70px", marginTop: "55px" }, // Salad
-        "14": { width: "80px", height: "70px", marginTop: "60px" }, // Mozzarella
-        "5": { width: "190px", height: "150px", marginTop: "70px" }, // Coke
+        "14": { width: "100px", height: "80px", marginTop: "60px" }, // Mozzarella
+        "5": { width: "100px", height: "75px", marginTop: "70px" }, // Coke
         "6": { width: "255px", height: "255px", marginTop: "30px" }, // Sprite
         "7": { width: "170px", height: "170px", marginTop: "55px" }, // Dr, Pepper
         "8": { width: "140px", height: "145px", marginTop: "60px" }, // Fanta Orange
