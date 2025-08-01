@@ -19,7 +19,7 @@ type Meal = {
     tipo: string,
     descricao: string,
     imagem: string,
-    preco: string
+    preco: number,
     quantidade: number
 }
 
@@ -42,6 +42,7 @@ export default function Home() {
     const [desserts, setDesserts] = useState<Meal[]>([]);
     const [order, setOrder] = useState<Meal[]>([])
     const [search, setSearch] = useState("");
+    const [checkout, setCheckout] = useState(0);
 
     useEffect(() => {
         async function fetchApi() {
@@ -109,6 +110,10 @@ export default function Home() {
         }
     }
 
+    useEffect(() => {
+        const resultado = order.reduce((acc, e) => acc + e.quantidade * e.preco, 0);
+        setCheckout(resultado);
+    }, [order]);
 
     // Filtered lists:
     const filteredLanche = lanche.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
@@ -187,26 +192,40 @@ export default function Home() {
 
                 <div className="animated-stripes">
 
-                    {order.map((e) => (
-                        <div>
-                            <img
-                                key={e.id}
-                                src={e.imagem}
-                                alt={e.nome}
-                                style={imageStylesOrder[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
-                            />
-                            <div className="div-btns-order">
-                                <button
-                                    className="btns-increase-decrease"
-                                    onClick={() => handleDecrease(e)}
-                                    disabled={e.quantidade <= 1 ? true : false}
-                                >-</button>
-                                <h4 className="h4-quantity">x{e.quantidade}</h4>
-                                <button className="btns-increase-decrease" onClick={() => handleIncrease(e)}>+</button>
+                    <div className="products-container">
+                        {order.map((e) => (
+                            <div className="product-item" key={e.id}>
+                                <img
+                                    src={e.imagem}
+                                    alt={e.nome}
+                                    style={imageStylesOrder[e.id] || {
+                                        width: "160px",
+                                        height: "160px",
+                                        objectFit: "cover",
+                                    }}
+                                />
+                                <div className="div-btns-order">
+                                    <button
+                                        className="btns-increase-decrease"
+                                        onClick={() => handleDecrease(e)}
+                                        disabled={e.quantidade <= 1}
+                                    >
+                                        −
+                                    </button>
+                                    <h4 className="h4-quantity">x{e.quantidade}</h4>
+                                    <button
+                                        className="btns-increase-decrease"
+                                        onClick={() => handleIncrease(e)}
+                                    >
+                                        +
+                                    </button>
+                                </div>
                             </div>
-                            <h4>price: ${parseInt(e.preco) * e.quantidade}</h4>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+                    <h3 style={{ color: '#e65100', fontWeight: 'bold', marginTop: '20px' }}>
+                        Total: ${checkout.toFixed(2)}
+                    </h3>
                     <button>checkout</button>
                     <button onClick={() => setOrder([])}>clear cart</button>
 
