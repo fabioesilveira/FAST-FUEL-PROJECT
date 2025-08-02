@@ -187,3 +187,22 @@ body {
   font-size: x-large;
 }
 
+.btns-checkout-clearCart {
+  background-color: #e65100;
+  color: white;
+  font-weight: bold;
+  border: none;
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btns-checkout-clearCart:hover {
+  background-color: #cc4a00;
+}

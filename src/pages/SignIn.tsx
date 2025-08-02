@@ -8,14 +8,14 @@ import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 
 type User = {
-    email: string,
+    username: string,
     password: string
 }
 
 export default function SignIn() {
 
     const [signUp, setSignUp] = useState<User>({
-        email: "",
+        username: "",
         password: ""
     });
 
@@ -28,14 +28,10 @@ export default function SignIn() {
     }, [])
 
     async function handleClick() {
+
         try {
-            const res = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/users")
+            const res = await axios.post('https://fakestoreapi.com/auth/login', signUp )
             console.log(res)
-            const checkUser = res.data.find((e: any) => e.email === signUp.email && e.password === signUp.password)
-            if (checkUser) {
-                localStorage.setItem("idUser", checkUser.id)
-                return navigate("/")
-            } return alert("The user you've entered does not exist, please check your email or password!")
         } catch (error) {
             console.error("error to send the data", error)
         }
@@ -63,10 +59,10 @@ export default function SignIn() {
 
                 <TextField
                     id="outlined-basic"
-                    label="Email Address*"
+                    label="Enter username"
                     variant="outlined"
-                    name="email"
-                    value={signUp.email}
+                    name="username"
+                    value={signUp.username}
                     onChange={handleChange}
                 />
 

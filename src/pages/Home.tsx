@@ -226,8 +226,8 @@ export default function Home() {
                     <h3 style={{ color: '#e65100', fontWeight: 'bold', marginTop: '20px' }}>
                         Total: ${checkout.toFixed(2)}
                     </h3>
-                    <button>checkout</button>
-                    <button onClick={() => setOrder([])}>clear cart</button>
+                    <button className="btns-checkout-clearCart">checkout</button>
+                    <button className="btns-checkout-clearCart" onClick={() => setOrder([])}>clear cart</button>
 
 
                 </div>
