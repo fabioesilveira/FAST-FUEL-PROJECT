@@ -143,24 +143,37 @@ body {
   border: 3px solid #e65100;
   padding: 20px;
   color: #e65100;
+
+  /* center the inner wrapper */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px; /* adjust height as needed */
 }
 
-/* lay out product items side by side */
-.products-container {
-  display: flex;          /* children become flex items arranged in a row */
-  flex-wrap: wrap;        /* wrap items to next line if container is narrow */
-  gap: 20px;              /* gap between items */
+.order-wrapper {
+  /* shrink wrapper to content and center it */
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
-/* stack each product’s image and buttons vertically */
+/* layout products in rows */
+.products-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
 .product-item {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* align quantity and buttons horizontally */
 .div-btns-order {
   display: flex;
   align-items: center;
@@ -168,7 +181,6 @@ body {
   margin-top: 10px;
 }
 
-/* buttons for increasing/decreasing quantity */
 .btns-increase-decrease {
   background-color: #e65100;
   color: white;
@@ -195,14 +207,12 @@ body {
   color: #e65100;
 }
 
-/* total and buttons wrapper */
 .checkout-wrapper {
   display: flex;
   gap: 12px;
   margin-top: 10px;
 }
 
-/* shared styling for Checkout and Clear Cart */
 .btns-checkout-clearCart {
   background-color: #e65100;
   color: white;

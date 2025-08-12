@@ -124,17 +124,17 @@ export default function Home() {
     const imageStylesOrder: { [id: string]: React.CSSProperties } = {
         "1": { width: "90px", height: "80px", marginTop: "40px" }, // Pit Stop Classic
         "2": { width: "100px", height: "90px", marginTop: "30px" }, // Turbo Bacon
-        "3": { width: "95px", height: "75px", marginTop: "55px" }, // Double Gear
-        "4": { width: "80px", height: "70px", marginTop: "50px" }, // Fuel Monster
-        "11": { width: "100px", height: "80px", marginTop: "35px" }, // Fries
-        "12": { width: "100px", height: "70px", marginTop: "60px" }, // Onion Rings
-        "13": { width: "105px", height: "70px", marginTop: "55px" }, // Salad
+        "3": { width: "95px", height: "75px", marginTop: "45px" }, // Double Gear
+        "4": { width: "89px", height: "70px", marginTop: "50px" }, // Fuel Monster
+        "11": { width: "100px", height: "80px", marginTop: "40px" }, // Fries
+        "12": { width: "100px", height: "70px", marginTop: "50px" }, // Onion Rings
+        "13": { width: "105px", height: "70px", marginTop: "50px" }, // Salad
         "14": { width: "100px", height: "80px", marginTop: "60px" }, // Mozzarella
-        "5": { width: "100px", height: "80px", marginTop: "70px" }, // Coke
-        "6": { width: "135px", height: "130px", marginTop: "30px" }, // Sprite **
-        "7": { width: "90px", height: "90px", marginTop: "55px" }, // Dr, Pepper
-        "8": { width: "77px", height: "80px", marginTop: "60px" }, // Fanta Orange
-        "9": { width: "140px", height: "95px", marginTop: "50px" }, // Diet Coke
+        "5": { width: "100px", height: "80px", marginTop: "40px" }, // Coke
+        "6": { width: "125px", height: "110px", marginTop: "10px" }, // Sprite **
+        "7": { width: "90px", height: "90px", marginTop: "30px" }, // Dr, Pepper
+        "8": { width: "77px", height: "80px", marginTop: "40px" }, // Fanta Orange
+        "9": { width: "140px", height: "95px", marginTop: "25px" }, // Diet Coke
         "10": { width: "100px", height: "105px", marginTop: "40px" }, // Lemonade
         "15": { width: "110px", height: "100px", marginTop: "40px" }, // Chocolate Milkshake
         "16": { width: "105px", height: "90px", marginTop: "60px" }, // Strawberry Sundae
@@ -191,55 +191,54 @@ export default function Home() {
                 <h1 className="h1-sandwiches">ORDER:</h1>
 
                 <div className="animated-stripes">
-                    {/* container for products */}
-                    <div className="products-container">
-                        {order.map(e => (
-                            <div className="product-item" key={e.id}>
-                                <img
-                                    src={e.imagem}
-                                    alt={e.nome}
-                                    style={imageStylesOrder[e.id] || {
-                                        width: '160px',
-                                        height: '160px',
-                                        objectFit: 'cover',
-                                    }}
-                                />
-                                <div className="div-btns-order">
-                                    <button
-                                        className="btns-increase-decrease"
-                                        onClick={() => handleDecrease(e)}
-                                        disabled={e.quantidade <= 1}
-                                    >
-                                        −
-                                    </button>
-                                    <h4 className="h4-quantity">x{e.quantidade}</h4>
-                                    <button
-                                        className="btns-increase-decrease"
-                                        onClick={() => handleIncrease(e)}
-                                    >
-                                        +
-                                    </button>
+                    <div className="order-wrapper">
+                        <div className="products-container">
+                            {order.map(e => (
+                                <div className="product-item" key={e.id}>
+                                    <img
+                                        src={e.imagem}
+                                        alt={e.nome}
+                                        style={imageStylesOrder[e.id] || {
+                                            width: '160px',
+                                            height: '160px',
+                                            objectFit: 'cover',
+                                        }}
+                                    />
+                                    <div className="div-btns-order">
+                                        <button
+                                            className="btns-increase-decrease"
+                                            onClick={() => handleDecrease(e)}
+                                            disabled={e.quantidade <= 1}
+                                        >
+                                            −
+                                        </button>
+                                        <h4 className="h4-quantity">x{e.quantidade}</h4>
+                                        <button
+                                            className="btns-increase-decrease"
+                                            onClick={() => handleIncrease(e)}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
 
-                    {/* total price and action buttons */}
-                    <h3 className="total-label">
-                        TOTAL R$: {checkout.toFixed(2)}
-                    </h3>
-                    <div className="checkout-wrapper">
-                        <button className="btns-checkout-clearCart">
-                            Checkout
-                        </button>
-                        <button
-                            className="btns-checkout-clearCart"
-                            onClick={() => setOrder([])}
-                        >
-                            Clear cart
-                        </button>
+                        <h3 className="total-label">TOTAL R$: {checkout.toFixed(2)}</h3>
+                        <div className="checkout-wrapper">
+                            <button className="btns-checkout-clearCart">
+                                Checkout
+                            </button>
+                            <button
+                                className="btns-checkout-clearCart"
+                                onClick={() => setOrder([])}
+                            >
+                                Clear cart
+                            </button>
+                        </div>
                     </div>
                 </div>
+
 
 
                 {filteredLanche.length === 0 ? null : <h1 className="h1-sandwiches">Sandwiches:</h1>}
