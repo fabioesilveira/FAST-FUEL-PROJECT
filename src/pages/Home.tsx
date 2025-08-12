@@ -135,11 +135,11 @@ export default function Home() {
         "7": { width: "90px", height: "90px", marginTop: "30px" }, // Dr, Pepper
         "8": { width: "77px", height: "80px", marginTop: "40px" }, // Fanta Orange
         "9": { width: "140px", height: "95px", marginTop: "25px" }, // Diet Coke
-        "10": { width: "100px", height: "105px", marginTop: "40px" }, // Lemonade
-        "15": { width: "110px", height: "100px", marginTop: "40px" }, // Chocolate Milkshake
-        "16": { width: "105px", height: "90px", marginTop: "60px" }, // Strawberry Sundae
-        "17": { width: "90px", height: "95px", marginTop: "55px" }, // Cookie
-        "18": { width: "80px", height: "65px", marginTop: "60px" }, // Carrot Cake
+        "10": { width: "95px", height: "95px", marginTop: "25px" }, // Lemonade
+        "15": { width: "110px", height: "100px", marginTop: "20px" }, // Chocolate Milkshake
+        "16": { width: "105px", height: "90px", marginTop: "30px" }, // Strawberry Sundae
+        "17": { width: "90px", height: "95px", marginTop: "25px" }, // Cookie
+        "18": { width: "80px", height: "65px", marginTop: "55px" }, // Carrot Cake
 
     }
 
