@@ -130,11 +130,13 @@ body {
 }
 
 .animated-stripes {
-  background: repeating-linear-gradient(90deg,
-      rgba(255, 255, 255, 0.3) 0px,
-      rgba(255, 243, 224, 0.3) 20px,
-      rgba(255, 224, 199, 0.3) 20px,
-      rgba(255, 255, 255, 0.3) 40px);
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.3) 0px,
+    rgba(255, 243, 224, 0.3) 20px,
+    rgba(255, 224, 199, 0.3) 20px,
+    rgba(255, 255, 255, 0.3) 40px
+  );
   background-size: 200% 100%;
   animation: moveStripesReverse 8s linear infinite;
   border-radius: 20px;
@@ -143,21 +145,30 @@ body {
   color: #e65100;
 }
 
-@keyframes moveStripesReverse {
-  0% {
-    background-position: 100% 0;
-  }
-
-  100% {
-    background-position: 0% 0;
-  }
+/* lay out product items side by side */
+.products-container {
+  display: flex;          /* children become flex items arranged in a row */
+  flex-wrap: wrap;        /* wrap items to next line if container is narrow */
+  gap: 20px;              /* gap between items */
+  justify-content: center;
 }
 
+/* stack each product’s image and buttons vertically */
+.product-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* align quantity and buttons horizontally */
 .div-btns-order {
   display: flex;
-
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
 }
 
+/* buttons for increasing/decreasing quantity */
 .btns-increase-decrease {
   background-color: #e65100;
   color: white;
@@ -179,14 +190,19 @@ body {
 }
 
 .h4-quantity {
-  margin-left: 5px;
-  margin-right: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0;
   font-size: x-large;
+  color: #e65100;
 }
 
+/* total and buttons wrapper */
+.checkout-wrapper {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* shared styling for Checkout and Clear Cart */
 .btns-checkout-clearCart {
   background-color: #e65100;
   color: white;
@@ -195,7 +211,7 @@ body {
   width: 120px;
   height: 40px;
   border-radius: 10px;
-  font-size: 24px;
+  font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;

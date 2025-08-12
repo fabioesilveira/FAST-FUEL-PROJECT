@@ -191,17 +191,17 @@ export default function Home() {
                 <h1 className="h1-sandwiches">ORDER:</h1>
 
                 <div className="animated-stripes">
-
+                    {/* container for products */}
                     <div className="products-container">
-                        {order.map((e) => (
+                        {order.map(e => (
                             <div className="product-item" key={e.id}>
                                 <img
                                     src={e.imagem}
                                     alt={e.nome}
                                     style={imageStylesOrder[e.id] || {
-                                        width: "160px",
-                                        height: "160px",
-                                        objectFit: "cover",
+                                        width: '160px',
+                                        height: '160px',
+                                        objectFit: 'cover',
                                     }}
                                 />
                                 <div className="div-btns-order">
@@ -223,14 +223,24 @@ export default function Home() {
                             </div>
                         ))}
                     </div>
-                    <h3 style={{ color: '#e65100', fontWeight: 'bold', marginTop: '20px' }}>
-                        Total: ${checkout.toFixed(2)}
+
+                    {/* total price and action buttons */}
+                    <h3 className="total-label">
+                        TOTAL R$: {checkout.toFixed(2)}
                     </h3>
-                    <button className="btns-checkout-clearCart">checkout</button>
-                    <button className="btns-checkout-clearCart" onClick={() => setOrder([])}>clear cart</button>
-
-
+                    <div className="checkout-wrapper">
+                        <button className="btns-checkout-clearCart">
+                            Checkout
+                        </button>
+                        <button
+                            className="btns-checkout-clearCart"
+                            onClick={() => setOrder([])}
+                        >
+                            Clear cart
+                        </button>
+                    </div>
                 </div>
+
 
                 {filteredLanche.length === 0 ? null : <h1 className="h1-sandwiches">Sandwiches:</h1>}
 
