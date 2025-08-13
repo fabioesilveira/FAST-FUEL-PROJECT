@@ -232,3 +232,23 @@ body {
 .btns-checkout-clearCart:hover {
   background-color: #cc4a00;
 }
+
+/* Ensure items and separators line up neatly */
+.products-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: center; /* vertically align images and separators */
+}
+
+/* Style for the plus sign between products */
+.plus-separator {
+  color: #e65100;       /* project’s orange */
+  font-weight: bold;
+  font-size: 40px;       /* adjust size as desired */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 20px;        /* space on either side */
+}

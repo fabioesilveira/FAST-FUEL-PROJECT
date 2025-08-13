@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from 'react';
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import axios from "axios";
@@ -188,39 +188,46 @@ export default function Home() {
                 </div>}
 
 
-                <h1 className="h1-sandwiches">ORDER:</h1>
+                <h1 className="h1-sandwiches">ORDER PREVIEW:</h1>
 
                 <div className="animated-stripes">
                     <div className="order-wrapper">
                         <div className="products-container">
-                            {order.map(e => (
-                                <div className="product-item" key={e.id}>
-                                    <img
-                                        src={e.imagem}
-                                        alt={e.nome}
-                                        style={imageStylesOrder[e.id] || {
-                                            width: '160px',
-                                            height: '160px',
-                                            objectFit: 'cover',
-                                        }}
-                                    />
-                                    <div className="div-btns-order">
-                                        <button
-                                            className="btns-increase-decrease"
-                                            onClick={() => handleDecrease(e)}
-                                            disabled={e.quantidade <= 1}
-                                        >
-                                            −
-                                        </button>
-                                        <h4 className="h4-quantity">x{e.quantidade}</h4>
-                                        <button
-                                            className="btns-increase-decrease"
-                                            onClick={() => handleIncrease(e)}
-                                        >
-                                            +
-                                        </button>
+                            {order.map((e, index) => (
+                                <Fragment key={e.id}>
+                                    <div className="product-item">
+                                        <img
+                                            src={e.imagem}
+                                            alt={e.nome}
+                                            style={imageStylesOrder[e.id] || {
+                                                width: '160px',
+                                                height: '160px',
+                                                objectFit: 'cover',
+                                            }}
+                                        />
+                                        <div className="div-btns-order">
+                                            <button
+                                                className="btns-increase-decrease"
+                                                onClick={() => handleDecrease(e)}
+                                                disabled={e.quantidade <= 1}
+                                            >
+                                                −
+                                            </button>
+                                            <h4 className="h4-quantity">x{e.quantidade}</h4>
+                                            <button
+                                                className="btns-increase-decrease"
+                                                onClick={() => handleIncrease(e)}
+                                            >
+                                                +
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+
+                                    {/* Show a plus sign between items (not after last item) */}
+                                    {index < order.length - 1 && (
+                                        <div className="plus-separator">+</div>
+                                    )}
+                                </Fragment>
                             ))}
                         </div>
 
