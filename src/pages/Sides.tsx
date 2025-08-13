@@ -6,7 +6,8 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Button from '@mui/material/Button';
 
 type Meal = {
@@ -81,6 +82,46 @@ export default function Sides() {
 
     return (
         <Container className="margin-top" fixed>
+
+            <div className="nav-products-page">
+
+                <Button
+                    variant="contained"
+                    sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
+                >
+                    <ArrowCircleLeftIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+                </Button>
+
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                    {['SANDWICHES', 'BEVERAGES', 'DESSERTS'].map((category) => (
+                        <Button
+                            key={category}
+                            // onClick={() => handleNavigate(category)}
+                            sx={{
+                                color: '#e65100',
+                                textTransform: 'none',
+                                fontWeight: 300,
+                                fontFamily: "Faster One, system-ui", 
+                                fontSize: '2rem', // 20px; adjust up or down to match icon size
+                                lineHeight: 1,        // keep text vertically centered
+                                padding: 2,           // remove default padding so height stays 40px
+                                minWidth: 'auto',     // width adjusts to text rather than forcing a minimum
+
+                            }}
+                        >
+                            {category}
+                        </Button>
+                    ))}
+                </Box>
+
+                <Button
+                    variant="contained"
+                    sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
+                >
+                    <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+                </Button>
+            </div>
+            
             <div className="products-wrapper">
                 {data.map((e, index) => (
                     <Box

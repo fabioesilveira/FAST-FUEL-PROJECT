@@ -125,7 +125,7 @@ export default function Home() {
         "1": { width: "90px", height: "80px", marginTop: "40px" }, // Pit Stop Classic
         "2": { width: "100px", height: "90px", marginTop: "30px" }, // Turbo Bacon
         "3": { width: "95px", height: "75px", marginTop: "45px" }, // Double Gear
-        "4": { width: "89px", height: "70px", marginTop: "50px" }, // Fuel Monster
+        "4": { width: "95px", height: "75px", marginTop: "50px" }, // Fuel Monster
         "11": { width: "100px", height: "80px", marginTop: "40px" }, // Fries
         "12": { width: "100px", height: "70px", marginTop: "50px" }, // Onion Rings
         "13": { width: "105px", height: "70px", marginTop: "50px" }, // Salad

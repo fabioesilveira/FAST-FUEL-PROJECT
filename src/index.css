@@ -256,3 +256,14 @@ body {
   justify-content: center;
   margin: 0 20px;        /* space on either side */
 }
+
+.nav-products-page{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 50px;
+  margin-bottom: 15px;
+  margin-top: -80px;
+}
+
