@@ -12,6 +12,8 @@ import Button from '@mui/material/Button';
 import Chat from '../assets/ChatGPT2.png';
 import Chat2 from '../assets/ChatGPT-2.png';
 import Carousel from 'react-bootstrap/Carousel';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 type Meal = {
     id: string,
@@ -233,15 +235,24 @@ export default function Home() {
 
                         <h3 className="total-label">TOTAL R$: {checkout.toFixed(2)}</h3>
                         <div className="checkout-wrapper">
-                            <button className="btns-checkout-clearCart">
-                                Checkout
-                            </button>
-                            <button
+
+                            <Button
                                 className="btns-checkout-clearCart"
-                                onClick={() => setOrder([])}
+                                variant="contained"
+                                sx={{ width: 140, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
                             >
-                                Clear cart
-                            </button>
+                                <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+                                CHECKOUT
+                            </Button>
+                            <Button
+                                className="btns-checkout-clearCart"
+                                variant="contained"
+                                sx={{ width: 150, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
+                            >
+                                <DeleteForeverIcon sx={{ fontSize: 32, color: '#ffe0c7' }} />
+                                CLEAR CART
+                            </Button>
+
                         </div>
                     </div>
                 </div>

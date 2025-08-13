@@ -101,7 +101,7 @@ export default function Sides() {
                                 color: '#e65100',
                                 textTransform: 'none',
                                 fontWeight: 300,
-                                fontFamily: "Faster One, system-ui", 
+                                fontFamily: "Faster One, system-ui",
                                 fontSize: '2rem', // 20px; adjust up or down to match icon size
                                 lineHeight: 1,        // keep text vertically centered
                                 padding: 2,           // remove default padding so height stays 40px
@@ -121,7 +121,7 @@ export default function Sides() {
                     <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
                 </Button>
             </div>
-            
+
             <div className="products-wrapper">
                 {data.map((e, index) => (
                     <Box
