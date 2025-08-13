@@ -183,7 +183,7 @@ body {
 
 .btns-increase-decrease {
   background-color: #e65100;
-  color: white;
+  color: #ffe0c7;
   font-weight: bold;
   border: none;
   width: 40px;
@@ -213,9 +213,13 @@ body {
   margin-top: 10px;
 }
 
+.total-label{
+  margin-top: 30px;
+}
+
 .btns-checkout-clearCart {
   background-color: #e65100;
-  color: white;
+  color: #ffe0c7;
   font-weight: bold;
   border: none;
   width: 120px;
