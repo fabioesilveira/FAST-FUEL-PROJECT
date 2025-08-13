@@ -15,6 +15,9 @@ import Carousel from 'react-bootstrap/Carousel';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
+
+
+
 type Meal = {
     id: string,
     nome: string,
@@ -168,6 +171,7 @@ export default function Home() {
 
     return (
         <div>
+            
             <Navbar onSearch={handleSearchInput} />
 
             <CssBaseline />

@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useEffect, useState } from "react"
 import axios from "axios";
 import { styled } from '@mui/material/styles';
@@ -9,6 +10,19 @@ import Container from '@mui/material/Container';
 import Footer from "../components/Footer";
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SettingsIcon from '@mui/icons-material/Settings';
+import HistoryIcon from '@mui/icons-material/History';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+import Drawer from '@mui/material/Drawer';
+import CssBaseline from '@mui/material/CssBaseline';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 
 
 type Meal = {
@@ -31,6 +45,21 @@ const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: '#1A2027',
     }),
 }));
+
+const drawerSections = [
+    // Upper section (bold, normal size)
+    [
+        { text: 'MY ACCOUNT', icon: AccountCircleIcon, small: false },
+    ],
+    // Lower section (smaller size)
+    [
+        { text: 'Settings', icon: SettingsIcon, small: true },
+        { text: 'Order History', icon: HistoryIcon, small: true },
+        { text: 'Contact us', icon: ContactSupportIcon, small: true },
+    ],
+];
+
+const drawerWidth = 240;
 
 export default function Sandwiches() {
 
@@ -83,7 +112,93 @@ export default function Sandwiches() {
 
 
     return (
+
+
         <Container className="margin-top" fixed>
+            <Box sx={{ display: 'flex' }}>
+                <CssBaseline />
+
+                <Drawer
+                    variant="permanent"
+                    sx={{
+                        width: drawerWidth,
+                        flexShrink: 0,
+                        // Override the paper slot inside the Drawer
+                        '& .MuiDrawer-paper': {
+                            width: drawerWidth,
+                            boxSizing: 'border-box',
+                            // Striped background and border like the order box
+                            background: 'repeating-linear-gradient(\
+          90deg,\
+          rgba(255, 255, 255, 0.3) 0px,\
+          rgba(255, 243, 224, 0.3) 20px,\
+          rgba(255, 224, 199, 0.3) 20px,\
+          rgba(255, 255, 255, 0.3) 40px\
+        )',
+                            backgroundSize: '200% 100%',
+                            animation: 'moveStripesReverse 8s linear infinite',
+                            marginTop: '-60px',
+                            height: "1200px",
+                            border: '3px solid #e65100',
+                            // theme spacing unit or use '20px'
+                            color: '#e65100',
+                        },
+                    }}
+                >
+                    <Toolbar />
+                    <Box sx={{ overflow: 'auto' }}>
+                        <List>
+                            {drawerSections.map((section, sectionIndex) => (
+                                <React.Fragment key={sectionIndex}>
+                                    <List disablePadding>
+                                        {section.map(({ text, icon: IconComp, small }) => (
+                                            <ListItem key={text} disablePadding>
+                                                <ListItemButton sx={{ py: small ? 0.5 : 1 }}>
+                                                    <ListItemIcon
+                                                        sx={{
+                                                            minWidth: small ? 24 : 28,
+                                                            mr: small ? 0.5 : 1,
+                                                            color: '#e65100',
+                                                            '& svg': { fontSize: small ? 20 : 24 }, // smaller icon size
+                                                        }}
+                                                    >
+                                                        <IconComp />
+                                                    </ListItemIcon>
+
+                                                    <ListItemText
+                                                        primary={text}
+                                                        primaryTypographyProps={{
+                                                            sx: {
+                                                                color: '#e65100',
+                                                                fontWeight: 'bold',
+                                                                fontSize: small ? '1.10rem' : '1.10rem', // reduce font size
+                                                            },
+                                                        }}
+                                                    />
+                                                </ListItemButton>
+                                            </ListItem>
+                                        ))}
+                                    </List>
+
+                                    {/* Show the divider after the first section */}
+                                    {sectionIndex < drawerSections.length - 1 && (
+                                        <Divider
+                                            sx={{
+                                                borderColor: '#e65100',
+                                                marginBottom: '15px',
+                                                opacity: 0.3,
+                                                borderWidth: 1, // light and thin divider
+                                            }}
+                                        />
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </List>
+
+                    </Box>
+                </Drawer>
+            </Box>
+
 
             <div className="nav-products-page">
 
@@ -103,7 +218,7 @@ export default function Sandwiches() {
                                 color: '#e65100',
                                 textTransform: 'none',
                                 fontWeight: 300,
-                                fontFamily: "Faster One, system-ui", 
+                                fontFamily: "Faster One, system-ui",
                                 fontSize: '2rem', // 20px; adjust up or down to match icon size
                                 lineHeight: 1,        // keep text vertically centered
                                 padding: 2,           // remove default padding so height stays 40px

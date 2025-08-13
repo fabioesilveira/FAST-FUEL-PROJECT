@@ -267,3 +267,22 @@ body {
   margin-top: -80px;
 }
 
+
+
+/* Optional: reuse this class for both drawer and order box */
+.drawer-striped {
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.3) 0px,
+    rgba(255, 243, 224, 0.3) 20px,
+    rgba(255, 224, 199, 0.3) 20px,
+    rgba(255, 255, 255, 0.3) 40px
+  );
+  background-size: 200% 100%;
+  animation: moveStripesReverse 8s linear infinite;
+  
+  border: 3px solid #e65100;
+  padding: 20px;
+  color: #e65100;
+}
+
