@@ -59,7 +59,7 @@ export default function SignIn() {
                 <Container>
                 <div className="signin-container animated-stripes">
                     <Box component="form" className="signin-form" noValidate autoComplete="off">
-                        <h2 className="signin-title">Sign In</h2>
+                        <h2 className="signin-title">SIGN IN</h2>
                         <TextField
                             label="Enter username"
                             variant="outlined"
@@ -83,6 +83,14 @@ export default function SignIn() {
                             className="signin-button"
                         >
                             Sign In
+                        </Button>
+                        <h3>or</h3>
+                        <Button
+                            variant="contained"
+                            onClick={handleClick}
+                            className="signin-button"
+                        >
+                            Create new account
                         </Button>
                     </Box>
                 </div>
