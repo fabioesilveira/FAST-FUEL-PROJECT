@@ -56,8 +56,8 @@ export default function SignIn() {
                 <img src={Logo} className='img-signIn'/>
             </div>
             <div className="half striped-half">
-                <Container>
-                <div className="signin-container animated-stripes">
+                
+                <div className="signin-container">
                     <Box component="form" className="signin-form" noValidate autoComplete="off">
                         <h2 className="signin-title">SIGN IN</h2>
                         <TextField
@@ -94,7 +94,7 @@ export default function SignIn() {
                         </Button>
                     </Box>
                 </div>
-                </Container>
+                
             </div>
             <Footer />
         </div>

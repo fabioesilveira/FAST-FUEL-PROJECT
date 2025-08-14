@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
+import Logo from '../assets/fast-fuel.png';
 
 type User = {
     name: string,
@@ -57,62 +58,77 @@ export default function SignUp() {
     return (
         <div>
 
-            
-            <Box
-                component="form"
-                sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
-                noValidate
-                autoComplete="off"
-                className="margin-top"
-            >
-                <TextField
-                    id="outlined-basic"
-                    label="Full Name*"
-                    variant="outlined"
-                    name="name"
-                    value={signUp.name}
-                    onChange={handleChange} />
-                <TextField
-                    id="outlined-basic"
-                    label="Email Address*"
-                    variant="outlined"
-                    name="email"
-                    value={signUp.email}
-                    onChange={handleChange}
-                />
-                <TextField
-                    id="outlined-basic"
-                    label="Phone Number*"
-                    variant="outlined"
-                    name="number"
-                    value={signUp.number}
-                    onChange={handleChange}
-                />
-                <TextField
-                    id="outlined-basic"
-                    label="Password*"
-                    variant="outlined"
-                    name="password"
-                    value={signUp.password}
-                    onChange={handleChange}
-                />
-                <TextField
-                    id="outlined-basic"
-                    label="Confirm Password*"
-                    variant="outlined"
-                    name="password"
-                    value={signUp.password}
-                    onChange={handleChange}
-                />
 
-                <FormGroup>
-                    <FormControlLabel control={<Checkbox defaultChecked />} label="I agree to the terms of service" />
-                </FormGroup>
 
-                <Stack spacing={2} direction="row">
-                    <Button variant="contained" onClick={handleClick}>SignUp</Button>
-                </Stack>
-            </Box>
+            <div className="split-background">
+                <div className="half solid-half">
+                    <img src={Logo} className='img-signIn' />
+                </div>
+                <div className="half striped-half">
+                    <div className="signin-container">
+                        <Box
+                            component="form" className="signin-form"
+
+                            noValidate
+                            autoComplete="off"
+                        >
+                            <h2 className="signin-title">SIGN UP</h2>
+                            <TextField
+                                id="outlined-basic"
+                                label="Full Name*"
+                                variant="outlined"
+                                name="name"
+                                className="text-field-orange"
+                                value={signUp.name}
+                                onChange={handleChange} />
+                            <TextField
+                                id="outlined-basic"
+                                label="Email Address*"
+                                variant="outlined"
+                                name="email"
+                                className="text-field-orange"
+                                value={signUp.email}
+                                onChange={handleChange}
+                            />
+                            <TextField
+                                id="outlined-basic"
+                                label="Phone Number*"
+                                variant="outlined"
+                                name="number"
+                                className="text-field-orange"
+                                value={signUp.number}
+                                onChange={handleChange}
+                            />
+                            <TextField
+                                id="outlined-basic"
+                                label="Password*"
+                                variant="outlined"
+                                name="password"
+                                className="text-field-orange"
+                                value={signUp.password}
+                                onChange={handleChange}
+                            />
+                            <TextField
+                                id="outlined-basic"
+                                label="Confirm Password*"
+                                variant="outlined"
+                                name="password"
+                                className="text-field-orange"
+                                value={signUp.password}
+                                onChange={handleChange}
+                            />
+
+                            <FormGroup>
+                                <FormControlLabel control={<Checkbox defaultChecked />} label="I agree to the terms of service" />
+                            </FormGroup>
+
+
+                            <Button variant="contained" className="signin-button" onClick={handleClick}>Sign Up</Button>
+
+                        </Box>
+                    </div>
+                </div>
+            </div>
 
             <Footer />
         </div>
