@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
+import Container from '@mui/material/Container';
+import Footer from '../components/Footer';
+import Logo from '../assets/fast-fuel.png';
 
 type User = {
     username: string,
@@ -30,7 +33,7 @@ export default function SignIn() {
     async function handleClick() {
 
         try {
-            const res = await axios.post('https://fakestoreapi.com/auth/login', signUp )
+            const res = await axios.post('https://fakestoreapi.com/auth/login', signUp)
             console.log(res)
         } catch (error) {
             console.error("error to send the data", error)
@@ -47,38 +50,45 @@ export default function SignIn() {
     }
 
     return (
-        <div>
-            {/* <Navbar /> */}
-            <Box
-                component="form"
-                sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
-                noValidate
-                autoComplete="off"
-                className="margin-top"
-            >
-
-                <TextField
-                    id="outlined-basic"
-                    label="Enter username"
-                    variant="outlined"
-                    name="username"
-                    value={signUp.username}
-                    onChange={handleChange}
-                />
-
-                <TextField
-                    id="outlined-basic"
-                    label="Password*"
-                    variant="outlined"
-                    name="password"
-                    value={signUp.password}
-                    onChange={handleChange}
-                />
-
-                <Stack spacing={2} direction="row">
-                    <Button variant="contained" onClick={handleClick}>SignIn</Button>
-                </Stack>
-            </Box>
+       
+        <div className="split-background">
+            <div className="half solid-half">
+                <img src={Logo} className='img-signIn'/>
+            </div>
+            <div className="half striped-half">
+                <Container>
+                <div className="signin-container animated-stripes">
+                    <Box component="form" className="signin-form" noValidate autoComplete="off">
+                        <h2 className="signin-title">Sign In</h2>
+                        <TextField
+                            label="Enter username"
+                            variant="outlined"
+                            name="username"
+                            value={signUp.username}
+                            onChange={handleChange}
+                            className="text-field-orange"
+                        />
+                        <TextField
+                            label="Password*"
+                            variant="outlined"
+                            type="password"
+                            name="password"
+                            value={signUp.password}
+                            onChange={handleChange}
+                            className="text-field-orange"
+                        />
+                        <Button
+                            variant="contained"
+                            onClick={handleClick}
+                            className="signin-button"
+                        >
+                            Sign In
+                        </Button>
+                    </Box>
+                </div>
+                </Container>
+            </div>
+            <Footer />
         </div>
     )
 }
