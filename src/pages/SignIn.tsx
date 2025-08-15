@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
-import Container from '@mui/material/Container';
 import Footer from '../components/Footer';
 import Logo from '../assets/fast-fuel.png';
 
@@ -35,7 +34,10 @@ export default function SignIn() {
         try {
             const res = await axios.post('https://fakestoreapi.com/auth/login', signUp)
             console.log(res)
+            localStorage.setItem('idUser', res.data.token)
+            navigate("/") 
         } catch (error) {
+            alert('user not found, please try again')
             console.error("error to send the data", error)
         }
     }
@@ -57,7 +59,7 @@ export default function SignIn() {
             </div>
             <div className="half striped-half">
                 
-                <div className="signin-container">
+                <div className="signin-container signin-wrapper">
                     <Box component="form" className="signin-form" noValidate autoComplete="off">
                         <h2 className="signin-title">SIGN IN</h2>
                         <TextField

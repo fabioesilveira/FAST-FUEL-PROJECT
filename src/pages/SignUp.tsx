@@ -3,7 +3,6 @@ import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -65,7 +64,7 @@ export default function SignUp() {
                     <img src={Logo} className='img-signIn' />
                 </div>
                 <div className="half striped-half">
-                    <div className="signin-container">
+                    <div className="signin-container signin-wrapper">
                         <Box
                             component="form" className="signin-form"
 

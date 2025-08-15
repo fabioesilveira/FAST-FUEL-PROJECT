@@ -77,6 +77,7 @@ export default function Sandwiches() {
             console.log('existe no local storage')
             const lsOrder = JSON.parse(localStorage.getItem("lsOrder") || "[]")
             setOrder(lsOrder)
+            console.log(lsOrder)
         } else {
             console.log('nao existe no local storage')
         }
@@ -89,13 +90,16 @@ export default function Sandwiches() {
     }, [order])
 
     function handleOrder(e: any) {
+        console.log(e)
+        console.log(order)
         //product is the element inside the order
-        const findProduct = order.find(product => product === e)
+        const findProduct = order.find(product => product.nome === e.nome)
+        console.log(findProduct)
         if (findProduct === undefined) {
             e.quantidade = 1
             setOrder([...order, e])
         } else {
-            const findIndex = order.findIndex(product => product === e)
+            const findIndex = order.findIndex(product => product.nome === e.nome)
             order[findIndex].quantidade += 1
             setOrder([...order])
         }

@@ -90,12 +90,12 @@ export default function Beverages() {
 
     function handleOrder(e: any) {
         //product is the element inside the order
-        const findProduct = order.find(product => product === e)
+        const findProduct = order.find(product => product.nome === e.nome)
         if (findProduct === undefined) {
             e.quantidade = 1
             setOrder([...order, e])
         } else {
-            const findIndex = order.findIndex(product => product === e)
+            const findIndex = order.findIndex(product => product.nome === e.nome)
             order[findIndex].quantidade += 1
             setOrder([...order])
         }

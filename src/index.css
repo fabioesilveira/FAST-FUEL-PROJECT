@@ -369,7 +369,6 @@ body {
   background-color: #bf360c !important;
 }
 
-/* Parent container spans full width and height */
 .split-background {
   display: flex;
   width: 100%;
@@ -378,33 +377,33 @@ body {
   padding: 0;
 }
 
-/* Each half takes 50% of the width */
+/* remove equal flex (optional, for clarity) */
 .half {
-  flex: 1;
+  flex: 0 0 auto;
 }
 
-/* Left half: plain colour (match your first image) */
+/* left side is 40% of the total width */
 .solid-half {
-  background-color: #fff4e1; /* adjust to the exact hex of your plain image */
-  height: auto;
-  width:auto;
+  flex: 4;
+  background-color: #fff4e1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Right half: striped pattern (match your second image) */
+/* right side is 60% of the total width */
 .striped-half {
-  background-image: repeating-linear-gradient(to right,
-      rgba(255, 244, 225, 0.4),
-      rgba(255, 244, 225, 0.4) 20px,
-      transparent 20px,
-      transparent 40px);
+  flex: 6;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(255, 244, 225, 0.4),
+    rgba(255, 244, 225, 0.4) 20px,
+    transparent 20px,
+    transparent 40px
+  );
   background-size: 100% 40px;
   background-repeat: repeat-y;
   background-attachment: fixed;
-  height: 80%;
-  width: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -412,6 +411,15 @@ body {
 
 .img-signIn{
   width: 400px;
-  height: 350px;
-  margin-bottom: 200px;
+  height: 320px;
+  margin-bottom: 300px;
+}
+
+.signin-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* keep horizontally centered */
+  justify-content: flex-start;  /* align content to the top */
+  min-height: 80vh;    /* fill the height of the viewport */
+  padding-top: 2rem;    /* space from the top (adjust as needed) */
 }
