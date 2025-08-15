@@ -115,6 +115,17 @@ export default function Home() {
         }
     }
 
+    function handleClearCart() {
+        // Empty the cart state
+        setOrder([]);
+
+        // Remove the saved cart from local storage entirely
+        localStorage.removeItem("lsOrder");
+
+        // Reset the checkout total
+        setCheckout(0);
+    }
+
     useEffect(() => {
         const resultado = order.reduce((acc, e) => acc + e.quantidade * e.preco, 0);
         setCheckout(resultado);
@@ -171,7 +182,7 @@ export default function Home() {
 
     return (
         <div>
-            
+
             <Navbar onSearch={handleSearchInput} />
 
             <CssBaseline />
@@ -251,6 +262,7 @@ export default function Home() {
                             <Button
                                 className="btns-checkout-clearCart"
                                 variant="contained"
+                                onClick={handleClearCart}
                                 sx={{ width: 150, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
                             >
                                 <DeleteForeverIcon sx={{ fontSize: 32, color: '#ffe0c7' }} />
