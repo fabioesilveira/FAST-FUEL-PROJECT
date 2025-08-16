@@ -127,8 +127,26 @@ export default function Home() {
     }
 
     useEffect(() => {
-        const resultado = order.reduce((acc, e) => acc + e.quantidade * e.preco, 0);
-        setCheckout(resultado);
+        const subtotal = order.reduce((acc, item) => acc + item.quantidade * item.preco, 0);
+
+        const burgerCount = order.reduce(
+            (acc, item) => acc + (item.tipo.toLowerCase() === 'lanche' ? item.quantidade : 0),
+            0
+        );
+        const sideCount = order.reduce(
+            (acc, item) => acc + (item.tipo.toLowerCase() === 'sides' ? item.quantidade : 0),
+            0
+        );
+        const beverageCount = order.reduce(
+            (acc, item) => acc + (item.tipo.toLowerCase() === 'bebida' ? item.quantidade : 0),
+            0
+        );
+
+        const sets = Math.min(burgerCount, sideCount, beverageCount);
+        const discount = sets * 2;
+        const total = subtotal - discount;
+
+        setCheckout(Math.max(total, 0));
     }, [order]);
 
     // Filtered lists:
