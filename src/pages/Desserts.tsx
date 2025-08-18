@@ -23,6 +23,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { useNavigate } from 'react-router-dom';
 
 type Meal = {
     id: string,
@@ -62,8 +63,10 @@ const drawerWidth = 240;
 
 export default function Desserts() {
 
-    const [data, setData] = useState<Meal[]>([])
-    const [order, setOrder] = useState<Meal[]>([])
+    const [data, setData] = useState<Meal[]>([]);
+    const [order, setOrder] = useState<Meal[]>([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchApi() {
@@ -100,6 +103,10 @@ export default function Desserts() {
         }
         console.log(findProduct)
     }
+
+    const handleNavigate = (category: string) => {
+        navigate(`/${category.toLowerCase()}`);
+    };
 
     const imageStyles: { [id: string]: React.CSSProperties } = {
         "15": { width: "250px", height: "220px", marginTop: "40px" }, // Chocolate Milkshake
@@ -199,6 +206,7 @@ export default function Desserts() {
 
                 <Button
                     variant="contained"
+                    onClick={() => navigate('/')}
                     sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
                 >
                     <ArrowCircleLeftIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
@@ -208,7 +216,7 @@ export default function Desserts() {
                     {['SANDWICHES', 'SIDES', 'BEVERAGES',].map((category) => (
                         <Button
                             key={category}
-                            // onClick={() => handleNavigate(category)}
+                            onClick={() => handleNavigate(category)}
                             sx={{
                                 color: '#e65100',
                                 textTransform: 'none',

@@ -23,6 +23,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { useNavigate } from 'react-router-dom';
 
 
 type Meal = {
@@ -67,6 +68,8 @@ export default function Sides() {
     const [data, setData] = useState<Meal[]>([])
     const [order, setOrder] = useState<Meal[]>([])
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         async function fetchApi() {
             const req = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=sides")
@@ -102,6 +105,11 @@ export default function Sides() {
         }
         console.log(findProduct)
     }
+
+    const handleNavigate = (category: string) => {
+        navigate(`/${category.toLowerCase()}`);
+    };
+
 
     const imageStyles: { [id: string]: React.CSSProperties } = {
         "11": { width: "200px", height: "200px", marginTop: "35px" }, // Fries
@@ -201,6 +209,7 @@ export default function Sides() {
 
                 <Button
                     variant="contained"
+                    onClick={() => navigate('/')}
                     sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
                 >
                     <ArrowCircleLeftIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
@@ -210,7 +219,7 @@ export default function Sides() {
                     {['SANDWICHES', 'BEVERAGES', 'DESSERTS'].map((category) => (
                         <Button
                             key={category}
-                            // onClick={() => handleNavigate(category)}
+                            onClick={() => handleNavigate(category)}
                             sx={{
                                 color: '#e65100',
                                 textTransform: 'none',
