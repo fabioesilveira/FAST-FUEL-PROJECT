@@ -236,6 +236,7 @@ export default function Desserts() {
 
                 <Button
                     variant="contained"
+                    onClick={() => navigate('/checkout')}
                     sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
                 >
                     <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />

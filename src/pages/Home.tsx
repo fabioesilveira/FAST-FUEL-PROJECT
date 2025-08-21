@@ -14,6 +14,7 @@ import Chat2 from '../assets/ChatGPT-2.png';
 import Carousel from 'react-bootstrap/Carousel';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -48,6 +49,8 @@ export default function Home() {
     const [order, setOrder] = useState<Meal[]>([])
     const [search, setSearch] = useState("");
     const [checkout, setCheckout] = useState(0);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchApi() {
@@ -271,6 +274,7 @@ export default function Home() {
 
                             <Button
                                 className="btns-checkout-clearCart"
+                                onClick={() => navigate('/checkout')}
                                 variant="contained"
                                 sx={{ width: 140, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
                             >
