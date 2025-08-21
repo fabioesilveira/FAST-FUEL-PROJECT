@@ -302,6 +302,9 @@ body {
   color: #e65100;
   margin: 0 0 12px 0;
   font-weight: bold;
+  font-size: 43px;
+  font-family: "Faster One", system-ui;
+  font-weight: 500;
 }
 
 /* Text fields with orange outlines and labels */
@@ -408,8 +411,8 @@ body {
 }
 
 .img-signIn{
-  width: 280px;
-  height: 220px;
+  width: 250px;
+  height: 200px;
   margin-top: 30px;
 }
 

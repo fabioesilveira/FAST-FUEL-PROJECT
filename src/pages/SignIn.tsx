@@ -86,10 +86,10 @@ export default function SignIn() {
                         >
                             Sign In
                         </Button>
-                        <h3>or</h3>
+                        <h3 className="signin-title">or</h3>
                         <Button
                             variant="contained"
-                            onClick={handleClick}
+                            onClick={() => navigate('/sign-up')} 
                             className="signin-button"
                         >
                             Create new account

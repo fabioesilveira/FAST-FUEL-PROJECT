@@ -16,6 +16,8 @@ import Logo from '../assets/fast-fuel.png';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -192,6 +194,21 @@ function Navbar({ onSearch }: NavbarProps) {
               paddingRight: 2, // or use marginRight: 2
             }}
           >
+
+            <Button
+              variant="contained"
+              sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
+            >
+              <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+            </Button>
+
+            <Button
+              variant="contained"
+              sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
+            >
+              <ManageAccountsIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+            </Button>
+
             {shown ? <>
               <Button
                 sx={{
