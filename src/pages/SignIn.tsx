@@ -1,10 +1,8 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Logo from '../assets/fast-fuel.png';
@@ -35,7 +33,10 @@ export default function SignIn() {
             const res = await axios.post('https://fakestoreapi.com/auth/login', signUp)
             console.log(res)
             localStorage.setItem('idUser', res.data.token)
-            navigate("/") 
+            localStorage.setItem('userName', signUp.username)
+            if (signUp.username !== "johnd") {
+                return navigate("/")
+            } navigate("/admin")
         } catch (error) {
             alert('user not found, please try again')
             console.error("error to send the data", error)
@@ -52,13 +53,13 @@ export default function SignIn() {
     }
 
     return (
-       
+
         <div className="split-background">
             <div className="half solid-half">
-                <img src={Logo} className='img-signIn'/>
+                <img src={Logo} className='img-signIn' />
             </div>
             <div className="half striped-half">
-                
+
                 <div className="signin-container signin-wrapper">
                     <Box component="form" className="signin-form" noValidate autoComplete="off">
                         <h2 className="signin-title">SIGN IN</h2>
@@ -89,14 +90,14 @@ export default function SignIn() {
                         <h3 className="signin-title">or</h3>
                         <Button
                             variant="contained"
-                            onClick={() => navigate('/sign-up')} 
+                            onClick={() => navigate('/sign-up')}
                             className="signin-button"
                         >
                             Create new account
                         </Button>
                     </Box>
                 </div>
-                
+
             </div>
             <Footer />
         </div>

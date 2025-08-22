@@ -16,10 +16,6 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useNavigate } from 'react-router-dom';
 
-
-
-
-
 type Meal = {
     id: string,
     nome: string,
@@ -50,6 +46,7 @@ export default function Home() {
     const [order, setOrder] = useState<Meal[]>([])
     const [search, setSearch] = useState("");
     const [checkout, setCheckout] = useState(0);
+    const [username, setUserName]= useState<String | null>("");
 
     const navigate = useNavigate();
 
@@ -64,6 +61,9 @@ export default function Home() {
             setSides(reqSides.data)
             setDesserts(reqDesserts.data)
         }
+
+        const lsUserName = localStorage.getItem("userName")
+        setUserName(lsUserName)
         fetchApi();
 
         if (localStorage.getItem("lsOrder")) {
@@ -152,6 +152,24 @@ export default function Home() {
 
         setCheckout(Math.max(total, 0));
     }, [order]);
+
+    async function handleCheckout() {
+        const url = "https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/checkout"
+        const idPedido = Math.floor(Math.random() * 11)
+
+        for (const element of order) {
+            const data = {
+                id_pedido: `${idPedido}${username}`,
+                quantidade: element.quantidade,
+                nome: element.nome,
+                preco: element.preco,
+                status: false,
+                checkout: checkout
+            }
+            const req = await axios.post(url, data)
+            console.log(req)
+        }
+    }
 
     // Filtered lists:
     const filteredLanche = lanche.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
@@ -275,7 +293,7 @@ export default function Home() {
 
                             <Button
                                 className="btns-checkout-clearCart"
-                                onClick={() => navigate('/checkout')}
+                                onClick={handleCheckout}
                                 variant="contained"
                                 sx={{ width: 140, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
                             >
