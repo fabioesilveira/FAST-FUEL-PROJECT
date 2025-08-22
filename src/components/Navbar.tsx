@@ -2,7 +2,6 @@
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,6 +17,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import Badge, { badgeClasses } from '@mui/material/Badge';
+import IconButton from '@mui/material/IconButton';
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -53,6 +55,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: '100%',
   },
 }));
+
+// Blue badge only
+const CartBadge = styled(Badge)`
+  & .${badgeClasses.badge} {
+    top: -12px;
+    right: -6px;
+    background-color: #1976d2; /* blue */
+    color: #fff;               /* number color for contrast */
+  }
+`;
 
 type NavbarProps = {
   onSearch: (value: string) => void;
@@ -195,17 +207,30 @@ function Navbar({ onSearch }: NavbarProps) {
             }}
           >
 
-            <Button
-              variant="contained"
+            <IconButton
               onClick={() => navigate('/checkout')}
-              sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
+              sx={{
+                width: 70,
+                height: 40,
+                borderRadius: 2,
+                backgroundColor: '#e65100',
+                '&:hover': { backgroundColor: '#b33f00' }, // <-- same hover
+                '& .MuiSvgIcon-root': { color: '#ffe0c7' },
+              }}
             >
-              <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
-            </Button>
+              <ShoppingCartIcon sx={{ fontSize: 28 }} />
+              <CartBadge badgeContent={2} overlap="circular" sx={{ pointerEvents: 'none' }} />
+            </IconButton>
 
             <Button
               variant="contained"
-              sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
+              sx={{
+                width: 40,
+                height: 40,
+                borderRadius: 2,
+                backgroundColor: '#e65100',
+                '&:hover': { backgroundColor: '#b33f00' }, // <-- same hover
+              }}
             >
               <ManageAccountsIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
             </Button>

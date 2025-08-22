@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
+
 type Meal = {
     id: string,
     nome: string,
