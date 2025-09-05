@@ -19,6 +19,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import Badge, { badgeClasses } from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
+import { useAppContext } from '../context/context';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -73,9 +74,11 @@ type NavbarProps = {
 function Navbar({ onSearch }: NavbarProps) {
 
   const navigate = useNavigate();
+  const {order, setOrder} = useAppContext()
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [shown, setShown] = useState(true);
+  const [badgeQuantity, setBadgeQuantity] = useState(0)
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -89,7 +92,12 @@ function Navbar({ onSearch }: NavbarProps) {
     if (localStorage.getItem("idUser")) {
       setShown(false)
     }
+    setBadgeQuantity(order.length)
   }, [])
+
+  useEffect(() => {
+   setBadgeQuantity(order.length)
+  }, [order])
 
   const handleNavigate = (category: string) => {
     navigate(`/${category.toLowerCase()}`);
@@ -219,7 +227,7 @@ function Navbar({ onSearch }: NavbarProps) {
               }}
             >
               <ShoppingCartIcon sx={{ fontSize: 28 }} />
-              <CartBadge badgeContent={2} overlap="circular" sx={{ pointerEvents: 'none' }} />
+              <CartBadge badgeContent={badgeQuantity} overlap="circular" sx={{ pointerEvents: 'none' }} />
             </IconButton>
 
             <Button

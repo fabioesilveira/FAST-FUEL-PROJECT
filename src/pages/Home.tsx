@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment, useContext } from 'react';
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import axios from "axios";
@@ -15,6 +15,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../context/context';
 
 type Meal = {
     id: string,
@@ -43,12 +44,12 @@ export default function Home() {
     const [bebidas, setBebidas] = useState<Meal[]>([]);
     const [sides, setSides] = useState<Meal[]>([]);
     const [desserts, setDesserts] = useState<Meal[]>([]);
-    const [order, setOrder] = useState<Meal[]>([])
     const [search, setSearch] = useState("");
     const [checkout, setCheckout] = useState(0);
     const [username, setUserName]= useState<String | null>("");
 
     const navigate = useNavigate();
+    const {order, setOrder} = useAppContext()
 
     useEffect(() => {
         async function fetchApi() {

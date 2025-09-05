@@ -8,9 +8,12 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { AppProvider } from './context/Provider.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <AppProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </AppProvider>,
 )
