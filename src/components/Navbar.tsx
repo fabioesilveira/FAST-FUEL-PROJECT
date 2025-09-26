@@ -96,7 +96,8 @@ function Navbar({ onSearch }: NavbarProps) {
   }, [])
 
   useEffect(() => {
-   setBadgeQuantity(order.length)
+   const qtdTotal = order.reduce((acc, element) => acc + element.quantidade,0)
+   setBadgeQuantity(qtdTotal)
   }, [order])
 
   const handleNavigate = (category: string) => {
