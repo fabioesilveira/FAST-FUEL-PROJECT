@@ -8,14 +8,14 @@ import Footer from '../components/Footer';
 import Logo from '../assets/fast-fuel.png';
 
 type User = {
-    username: string,
+    email: string,
     password: string
 }
 
 export default function SignIn() {
 
     const [signUp, setSignUp] = useState<User>({
-        username: "",
+        email: "",
         password: ""
     });
 
@@ -30,11 +30,11 @@ export default function SignIn() {
     async function handleClick() {
 
         try {
-            const res = await axios.post('https://fakestoreapi.com/auth/login', signUp)
+            const res = await axios.post('http://localhost:3000/users/login', signUp)
             console.log(res)
-            localStorage.setItem('idUser', res.data.token)
-            localStorage.setItem('userName', signUp.username)
-            if (signUp.username !== "johnd") {
+            localStorage.setItem('idUser', res.data.id)
+            localStorage.setItem('userName', signUp.email)
+            if (signUp.email !== "johnd") {
                 return navigate("/")
             } navigate("/admin")
         } catch (error) {
@@ -66,8 +66,8 @@ export default function SignIn() {
                         <TextField
                             label="Enter username"
                             variant="outlined"
-                            name="username"
-                            value={signUp.username}
+                            name="email"
+                            value={signUp.email}
                             onChange={handleChange}
                             className="text-field-orange"
                         />

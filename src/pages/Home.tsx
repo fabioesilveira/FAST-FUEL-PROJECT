@@ -19,11 +19,11 @@ import { useAppContext } from '../context/context';
 
 type Meal = {
     id: string,
-    nome: string,
+    name: string,
     tipo: string,
-    descricao: string,
-    imagem: string,
-    preco: number,
+    description: string,
+    image: string,
+    price: number,
     quantidade: number
 }
 
@@ -53,10 +53,10 @@ export default function Home() {
 
     useEffect(() => {
         async function fetchApi() {
-            const reqLanche = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=lanche")
-            const reqBebidas = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=bebida")
-            const reqSides = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=sides")
-            const reqDesserts = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=desserts")
+            const reqLanche = await axios.get("http://localhost:3000/products/category/sandwiches")
+            const reqBebidas = await axios.get("http://localhost:3000/products/category/beverages")
+            const reqSides = await axios.get("http://localhost:3000/products/category/sides")
+            const reqDesserts = await axios.get("http://localhost:3000/products/category/desserts")
             setLanche(reqLanche.data)
             setBebidas(reqBebidas.data)
             setSides(reqSides.data)
@@ -173,10 +173,10 @@ export default function Home() {
     }
 
     // Filtered lists:
-    const filteredLanche = lanche.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
-    const filteredBebidas = bebidas.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
-    const filteredSides = sides.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
-    const filteredDesserts = desserts.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()));
+    const filteredLanche = lanche.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
+    const filteredBebidas = bebidas.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
+    const filteredSides = sides.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
+    const filteredDesserts = desserts.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
 
     const imageStylesOrder: { [id: string]: React.CSSProperties } = {
         "1": { width: "90px", height: "80px", marginTop: "40px" }, // Pit Stop Classic
@@ -328,13 +328,13 @@ export default function Home() {
                             <Box className="card-left">
                                 <Stack spacing={2}>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.nome}
+                                        {e.name}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        ${e.preco}
+                                        ${e.price}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.descricao}
+                                        {e.description}
                                     </Item>
                                     <Button
                                         sx={{
@@ -365,8 +365,8 @@ export default function Home() {
                                 >
                                     <img
                                         key={e.id}
-                                        src={e.imagem}
-                                        alt={e.nome}
+                                        src={e.image}
+                                        alt={e.name}
                                         style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
                                     />
                                 </Item>
@@ -386,13 +386,13 @@ export default function Home() {
                             <Box className="card-left">
                                 <Stack spacing={2}>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.nome}
+                                        {e.name}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        ${e.preco}
+                                        ${e.price}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.descricao}
+                                        {e.description}
                                     </Item>
                                     <Button
                                         sx={{
@@ -423,8 +423,8 @@ export default function Home() {
                                 >
                                     <img
                                         key={e.id}
-                                        src={e.imagem}
-                                        alt={e.nome}
+                                        src={e.image}
+                                        alt={e.name}
                                         style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
                                     />
                                 </Item>
@@ -444,13 +444,13 @@ export default function Home() {
                             <Box className="card-left">
                                 <Stack spacing={2}>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.nome}
+                                        {e.name}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        ${e.preco}
+                                        ${e.price}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.descricao}
+                                        {e.description}
                                     </Item>
                                     <Button
                                         sx={{
@@ -481,8 +481,8 @@ export default function Home() {
                                 >
                                     <img
                                         key={e.id}
-                                        src={e.imagem}
-                                        alt={e.nome}
+                                        src={e.image}
+                                        alt={e.name}
                                         style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
                                     />
                                 </Item>
@@ -502,13 +502,13 @@ export default function Home() {
                             <Box className="card-left">
                                 <Stack spacing={2}>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.nome}
+                                        {e.name}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        ${e.preco}
+                                        ${e.price}
                                     </Item>
                                     <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.descricao}
+                                        {e.description}
                                     </Item>
                                     <Button
                                         sx={{
@@ -539,8 +539,8 @@ export default function Home() {
                                 >
                                     <img
                                         key={e.id}
-                                        src={e.imagem}
-                                        alt={e.nome}
+                                        src={e.image}
+                                        alt={e.name}
                                         style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
                                     />
                                 </Item>
