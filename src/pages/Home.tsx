@@ -200,16 +200,16 @@ export default function Home() {
     const filteredDesserts = desserts.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
 
     const imageStylesOrder: { [id: string]: React.CSSProperties } = {
-        "1": { width: "90px", height: "80px", marginTop: "40px" }, // Pit Stop Classic
+        "1": { width: "90px", height: "80px", marginTop: "45px" }, // Pit Stop Classic
         "2": { width: "100px", height: "90px", marginTop: "30px" }, // Turbo Bacon
         "3": { width: "95px", height: "75px", marginTop: "45px" }, // Double Gear
         "4": { width: "95px", height: "75px", marginTop: "50px" }, // Fuel Monster
         "11": { width: "100px", height: "80px", marginTop: "40px" }, // Fries
         "12": { width: "100px", height: "70px", marginTop: "50px" }, // Onion Rings
         "13": { width: "105px", height: "70px", marginTop: "50px" }, // Salad
-        "14": { width: "100px", height: "80px", marginTop: "60px" }, // Mozzarella
-        "5": { width: "100px", height: "80px", marginTop: "40px" }, // Coke
-        "6": { width: "125px", height: "110px", marginTop: "10px" }, // Sprite **
+        "14": { width: "90px", height: "80px", marginTop: "45px" }, // Mozzarella
+        "5": { width: "100px", height: "80px", marginTop: "43px" }, // Coke
+        "6": { width: "70px", height: "100px", marginTop: "23px" }, // Sprite **
         "7": { width: "90px", height: "90px", marginTop: "30px" }, // Dr, Pepper
         "8": { width: "77px", height: "80px", marginTop: "40px" }, // Fanta Orange
         "9": { width: "140px", height: "95px", marginTop: "25px" }, // Diet Coke
@@ -231,7 +231,7 @@ export default function Home() {
         "13": { width: "255px", height: "170px", marginTop: "55px" }, // Salad
         "14": { width: "160px", height: "145px", marginTop: "60px" }, // Mozzarella
         "5": { width: "190px", height: "150px", marginTop: "70px" }, // Coke
-        "6": { width: "255px", height: "255px", marginTop: "30px" }, // Sprite
+        "6": { width: "135px", height: "200px", marginTop: "45px" }, // Sprite
         "7": { width: "170px", height: "170px", marginTop: "55px" }, // Dr, Pepper
         "8": { width: "140px", height: "145px", marginTop: "60px" }, // Fanta Orange
         "9": { width: "255px", height: "180px", marginTop: "50px" }, // Diet Coke
