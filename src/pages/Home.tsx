@@ -20,7 +20,7 @@ import { useAppContext } from '../context/context';
 type Meal = {
     id: string,
     name: string,
-    tipo: string,
+    type: string,
     description: string,
     image: string,
     price: number,
@@ -91,12 +91,12 @@ export default function Home() {
 
     function handleOrder(e: any) {
         //product is the element inside the order
-        const findProduct = order.find(product => product.nome === e.nome)
+        const findProduct = order.find(product => product.name === e.nome)
         if (findProduct === undefined) {
             e.quantidade = 1
             setOrder([...order, e])
         } else {
-            const findIndex = order.findIndex(product => product.nome === e.nome)
+            const findIndex = order.findIndex(product => product.name === e.nome)
             order[findIndex].quantidade += 1
             setOrder([...order])
         }
@@ -132,27 +132,48 @@ export default function Home() {
     }
 
     useEffect(() => {
-        const subtotal = order.reduce((acc, item) => acc + item.quantidade * item.preco, 0);
+  // Safely handle old (preco) and new (price) fields
+  const subtotal = order.reduce((acc, item) => {
+    const price = item.price ?? item.price ?? 0;
+    return acc + item.quantidade * price;
+  }, 0);
 
-        const burgerCount = order.reduce(
-            (acc, item) => acc + (item.tipo.toLowerCase() === 'lanche' ? item.quantidade : 0),
-            0
-        );
-        const sideCount = order.reduce(
-            (acc, item) => acc + (item.tipo.toLowerCase() === 'sides' ? item.quantidade : 0),
-            0
-        );
-        const beverageCount = order.reduce(
-            (acc, item) => acc + (item.tipo.toLowerCase() === 'bebida' ? item.quantidade : 0),
-            0
-        );
+  const burgerCount = order.reduce((acc, item) => {
+    const tipo = (item.type ?? item.type ?? '').toLowerCase();
+    // support old "lanche" and possible new "sandwiches"/"burger"
+    const isBurger =
+      tipo === 'lanche' ||
+      tipo === 'sandwich' ||
+      tipo === 'sandwiches' ||
+      tipo === 'burger';
 
-        const sets = Math.min(burgerCount, sideCount, beverageCount);
-        const discount = sets * 2;
-        const total = subtotal - discount;
+    return acc + (isBurger ? item.quantidade : 0);
+  }, 0);
 
-        setCheckout(Math.max(total, 0));
-    }, [order]);
+  const sideCount = order.reduce((acc, item) => {
+    const tipo = (item.type ?? item.type ?? '').toLowerCase();
+    const isSide = tipo === 'sides' || tipo === 'side';
+    return acc + (isSide ? item.quantidade : 0);
+  }, 0);
+
+  const beverageCount = order.reduce((acc, item) => {
+    const tipo = (item.type ?? item.type ?? '').toLowerCase();
+    // support old "bebida" and possible new "beverages"/"drink"
+    const isBeverage =
+      tipo === 'bebida' ||
+      tipo === 'beverage' ||
+      tipo === 'beverages' ||
+      tipo === 'drink';
+
+    return acc + (isBeverage ? item.quantidade : 0);
+  }, 0);
+
+  const sets = Math.min(burgerCount, sideCount, beverageCount);
+  const discount = sets * 2;
+  const total = subtotal - discount;
+
+  setCheckout(Math.max(total, 0));
+}, [order]);
 
     async function handleCheckout() {
         const url = "https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/checkout"
@@ -162,8 +183,8 @@ export default function Home() {
             const data = {
                 id_pedido: `${idPedido}${username}`,
                 quantidade: element.quantidade,
-                nome: element.nome,
-                preco: element.preco,
+                nome: element.name,
+                preco: element.price,
                 status: false,
                 checkout: checkout
             }
@@ -255,8 +276,8 @@ export default function Home() {
                                 <Fragment key={e.id}>
                                     <div className="product-item">
                                         <img
-                                            src={e.imagem}
-                                            alt={e.nome}
+                                            src={e.image}
+                                            alt={e.name}
                                             style={imageStylesOrder[e.id] || {
                                                 width: '160px',
                                                 height: '160px',

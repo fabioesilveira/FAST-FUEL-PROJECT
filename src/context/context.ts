@@ -2,11 +2,11 @@ import { createContext, useContext } from "react";
 
 export type Meal = {
   id: string,
-  nome: string,
-  tipo: string,
-  descricao: string,
-  imagem: string,
-  preco: number,
+  name: string,
+  type: string,
+  description: string,
+  image: string,
+  price: number,
   quantidade: number
 }
 
