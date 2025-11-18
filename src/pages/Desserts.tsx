@@ -27,11 +27,11 @@ import { useNavigate } from 'react-router-dom';
 
 type Meal = {
     id: string,
-    nome: string,
-    tipo: string,
-    descricao: string,
-    imagem: string,
-    preco: string
+    name: string,
+    type: string,
+    description: string,
+    image: string,
+    price: string
     quantidade: number
 }
 
@@ -70,7 +70,7 @@ export default function Desserts() {
 
     useEffect(() => {
         async function fetchApi() {
-            const req = await axios.get("https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/foods?tipo=desserts")
+            const req = await axios.get("http://localhost:3000/products/category/desserts")
             setData(req.data)
         }
         fetchApi()
@@ -92,12 +92,12 @@ export default function Desserts() {
 
     function handleOrder(e: any) {
         //product is the element inside the order
-        const findProduct = order.find(product => product.nome === e.nome)
+        const findProduct = order.find(product => product.name === e.name)
         if (findProduct === undefined) {
             e.quantidade = 1
             setOrder([...order, e])
         } else {
-            const findIndex = order.findIndex(product => product.nome === e.nome)
+            const findIndex = order.findIndex(product => product.name === e.name)
             order[findIndex].quantidade += 1
             setOrder([...order])
         }
@@ -252,13 +252,13 @@ export default function Desserts() {
                         <Box className="card-left">
                             <Stack spacing={2}>
                                 <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                    {e.nome}
+                                    {e.name}
                                 </Item>
                                 <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                    ${e.preco}
+                                    ${e.price}
                                 </Item>
                                 <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                    {e.descricao}
+                                    {e.description}
                                 </Item>
                                 <Button
                                     sx={{
@@ -289,8 +289,8 @@ export default function Desserts() {
                             >
                                 <img
                                     key={e.id}
-                                    src={e.imagem}
-                                    alt={e.nome}
+                                    src={e.image}
+                                    alt={e.name}
                                     style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
                                 />
                             </Item>
