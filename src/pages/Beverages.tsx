@@ -6,8 +6,8 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -23,286 +23,294 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import Badge from '@mui/material/Badge';
 import { useNavigate } from 'react-router-dom';
-
-type Meal = {
-    id: string,
-    name: string,
-    type: string,
-    description: string,
-    image: string,
-    price: string
-    quantidade: number
-}
+import { useAppContext, type Meal } from '../context/context';   // 👈 use shared Meal
 
 const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: (theme.vars ?? theme).palette.text.secondary,
-    ...theme.applyStyles('dark', {
-        backgroundColor: '#1A2027',
-    }),
+  backgroundColor: '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: (theme.vars ?? theme).palette.text.secondary,
+  ...theme.applyStyles('dark', {
+    backgroundColor: '#1A2027',
+  }),
 }));
 
 const drawerSections = [
-    // Upper section (bold, normal size)
-    [
-        { text: 'MY ACCOUNT', icon: AccountCircleIcon, small: false },
-    ],
-    // Lower section (smaller size)
-    [
-        { text: 'Settings', icon: SettingsIcon, small: true },
-        { text: 'Order History', icon: HistoryIcon, small: true },
-        { text: 'Contact us', icon: ContactSupportIcon, small: true },
-    ],
+  [
+    { text: 'MY ACCOUNT', icon: AccountCircleIcon, small: false },
+  ],
+  [
+    { text: 'Settings', icon: SettingsIcon, small: true },
+    { text: 'Order History', icon: HistoryIcon, small: true },
+    { text: 'Contact us', icon: ContactSupportIcon, small: true },
+  ],
 ];
 
 const drawerWidth = 240;
 
 export default function Beverages() {
+  const [data, setData] = useState<Meal[]>([]);
 
-    const [data, setData] = useState<Meal[]>([])
-    const [order, setOrder] = useState<Meal[]>([])
+  // 🔗 use global cart from context (same cart as Home)
+  const { order, setOrder } = useAppContext();
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        async function fetchApi() {
-            const req = await axios.get("http://localhost:3000/products/category/beverages")
-            setData(req.data)
+  // total items for the badge
+  const totalItems = order.reduce(
+    (sum, item) => sum + (item.quantidade ?? 0),
+    0
+  );
 
-        }
-        fetchApi()
-
-        if (localStorage.getItem("lsOrder")) {
-            console.log('existe no local storage')
-            const lsOrder = JSON.parse(localStorage.getItem("lsOrder") || "[]")
-            setOrder(lsOrder)
-        } else {
-            console.log('nao existe no local storage')
-        }
-    }, [])
-
-    useEffect(() => {
-        console.log("USE EFFECT DO ORDER:", order)
-
-        localStorage.setItem("lsOrder", JSON.stringify(order))
-    }, [order])
-
-    function handleOrder(e: any) {
-        //product is the element inside the order
-        const findProduct = order.find(product => product.name === e.name)
-        if (findProduct === undefined) {
-            e.quantidade = 1
-            setOrder([...order, e])
-        } else {
-            const findIndex = order.findIndex(product => product.name === e.name)
-            order[findIndex].quantidade += 1
-            setOrder([...order])
-        }
-        console.log(findProduct)
+  useEffect(() => {
+    async function fetchApi() {
+      const req = await axios.get("http://localhost:3000/products/category/beverages");
+      setData(req.data);
     }
+    fetchApi();
 
-    const handleNavigate = (category: string) => {
-        navigate(`/${category.toLowerCase()}`);
-    };
+    // hydrate cart from localStorage (optional, to keep it in sync if user lands here first)
+    const raw = localStorage.getItem("lsOrder");
+    if (raw) {
+      console.log('existe no local storage');
+      try {
+        const lsOrder = JSON.parse(raw) as Meal[];
+        setOrder(lsOrder);
+      } catch (err) {
+        console.error('Erro ao ler lsOrder em Beverages:', err);
+      }
+    } else {
+      console.log('nao existe no local storage');
+    }
+  }, [setOrder]);
 
-    const imageStyles: { [id: string]: React.CSSProperties } = {
-        "5": { width: "190px", height: "150px", marginTop: "70px" }, // Coke
-        "6": { width: "135px", height: "200px", marginTop: "45px" }, // Sprite
-        "7": { width: "170px", height: "170px", marginTop: "55px" }, // Dr, Pepper
-        "8": { width: "140px", height: "145px", marginTop: "60px" }, // Fanta Orange
-        "9": { width: "255px", height: "180px", marginTop: "50px" }, // Diet Coke
-        "10": { width: "180px", height: "185px", marginTop: "40px" }, // Lemonade
-    };
+  // keep lsOrder updated whenever the cart changes
+  useEffect(() => {
+    console.log("USE EFFECT DO ORDER (Beverages):", order);
+    localStorage.setItem("lsOrder", JSON.stringify(order));
+  }, [order]);
 
-    return (
+  // ✅ use immutable updates + context cart
+  function handleOrder(product: Meal) {
+    const existing = order.find((p) => p.id === product.id);
 
-        <Container className="margin-top" fixed>
+    if (!existing) {
+      const newItem: Meal = {
+        ...product,
+        quantidade: 1,
+      };
+      setOrder([...order, newItem]);
+    } else {
+      const newOrder = order.map((p) =>
+        p.id === product.id
+          ? { ...p, quantidade: (p.quantidade ?? 0) + 1 }
+          : p
+      );
+      setOrder(newOrder);
+    }
+  }
 
-            <Box sx={{ display: 'flex' }}>
-                <CssBaseline />
+  const handleNavigate = (category: string) => {
+    navigate(`/${category.toLowerCase()}`);
+  };
 
-                <Drawer
-                    variant="permanent"
-                    sx={{
-                        width: drawerWidth,
-                        flexShrink: 0,
-                        // Override the paper slot inside the Drawer
-                        '& .MuiDrawer-paper': {
-                            width: drawerWidth,
-                            boxSizing: 'border-box',
-                            // Striped background and border like the order box
-                            background: 'repeating-linear-gradient(\
-                      90deg,\
-                      rgba(255, 255, 255, 0.3) 0px,\
-                      rgba(255, 243, 224, 0.3) 20px,\
-                      rgba(255, 224, 199, 0.3) 20px,\
-                      rgba(255, 255, 255, 0.3) 40px\
-                    )',
-                            backgroundSize: '200% 100%',
-                            animation: 'moveStripesReverse 8s linear infinite',
-                            marginTop: '-60px',
-                            height: "1200px",
-                            border: '3px solid #e65100',
-                            // theme spacing unit or use '20px'
-                            color: '#e65100',
-                        },
-                    }}
+  const imageStyles: { [id: string]: React.CSSProperties } = {
+    "5": { width: "190px", height: "150px", marginTop: "70px" },  // Coke
+    "6": { width: "135px", height: "200px", marginTop: "45px" },  // Sprite
+    "7": { width: "170px", height: "170px", marginTop: "55px" },  // Dr. Pepper
+    "8": { width: "140px", height: "145px", marginTop: "60px" },  // Fanta Orange
+    "9": { width: "255px", height: "180px", marginTop: "50px" },  // Diet Coke
+    "10": { width: "180px", height: "185px", marginTop: "40px" }, // Lemonade
+  };
+
+  return (
+    <Container className="margin-top" fixed>
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+
+        <Drawer
+          variant="permanent"
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+              background: 'repeating-linear-gradient(\
+                90deg,\
+                rgba(255, 255, 255, 0.3) 0px,\
+                rgba(255, 243, 224, 0.3) 20px,\
+                rgba(255, 224, 199, 0.3) 20px,\
+                rgba(255, 255, 255, 0.3) 40px\
+              )',
+              backgroundSize: '200% 100%',
+              animation: 'moveStripesReverse 8s linear infinite',
+              marginTop: '-60px',
+              height: "1200px",
+              border: '3px solid #e65100',
+              color: '#e65100',
+            },
+          }}
+        >
+          <Toolbar />
+          <Box sx={{ overflow: 'auto' }}>
+            <List>
+              {drawerSections.map((section, sectionIndex) => (
+                <React.Fragment key={sectionIndex}>
+                  <List disablePadding>
+                    {section.map(({ text, icon: IconComp, small }) => (
+                      <ListItem key={text} disablePadding>
+                        <ListItemButton sx={{ py: small ? 0.5 : 1 }}>
+                          <ListItemIcon
+                            sx={{
+                              minWidth: small ? 24 : 28,
+                              mr: small ? 0.5 : 1,
+                              color: '#e65100',
+                              '& svg': { fontSize: small ? 20 : 24 },
+                            }}
+                          >
+                            <IconComp />
+                          </ListItemIcon>
+
+                          <ListItemText
+                            primary={text}
+                            primaryTypographyProps={{
+                              sx: {
+                                color: '#e65100',
+                                fontWeight: 'bold',
+                                fontSize: small ? '1.10rem' : '1.10rem',
+                              },
+                            }}
+                          />
+                        </ListItemButton>
+                      </ListItem>
+                    ))}
+                  </List>
+
+                  {sectionIndex < drawerSections.length - 1 && (
+                    <Divider
+                      sx={{
+                        borderColor: '#e65100',
+                        marginBottom: '15px',
+                        opacity: 0.3,
+                        borderWidth: 1,
+                      }}
+                    />
+                  )}
+                </React.Fragment>
+              ))}
+            </List>
+          </Box>
+        </Drawer>
+      </Box>
+
+      <div className="nav-products-page">
+        <Button
+          variant="contained"
+          onClick={() => navigate('/')}
+          sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
+        >
+          <ArrowCircleLeftIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+        </Button>
+
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          {['SANDWICHES', 'SIDES', 'DESSERTS'].map((category) => (
+            <Button
+              key={category}
+              onClick={() => handleNavigate(category)}
+              sx={{
+                color: '#e65100',
+                textTransform: 'none',
+                fontWeight: 300,
+                fontFamily: "Faster One, system-ui",
+                fontSize: '2rem',
+                lineHeight: 1,
+                padding: 2,
+                minWidth: 'auto',
+              }}
+            >
+              {category}
+            </Button>
+          ))}
+        </Box>
+
+        {/* 🛒 Cart with default blue badge */}
+        <Button
+          variant="contained"
+          onClick={() => navigate('/checkout')}
+          sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
+        >
+          <Badge
+            badgeContent={totalItems}
+            color="primary"      // <- default blue
+            overlap="circular"
+            showZero={false}
+          >
+            <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+          </Badge>
+        </Button>
+      </div>
+
+      <div className="products-wrapper">
+        {data.map((e, index) => (
+          <Box
+            className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
+            key={e.id}
+          >
+            <Box className="card-left">
+              <Stack spacing={2}>
+                <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                  {e.name}
+                </Item>
+                <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                  ${e.price}
+                </Item>
+                <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                  {e.description}
+                </Item>
+                <Button
+                  sx={{
+                    backgroundColor: '#e65100',
+                    color: '#ffe0c7',
+                    fontWeight: 'bold',
+                    '&:hover': {
+                      backgroundColor: '#bf360c',
+                    },
+                  }}
+                  onClick={() => handleOrder(e)}
                 >
-                    <Toolbar />
-                    <Box sx={{ overflow: 'auto' }}>
-                        <List>
-                            {drawerSections.map((section, sectionIndex) => (
-                                <React.Fragment key={sectionIndex}>
-                                    <List disablePadding>
-                                        {section.map(({ text, icon: IconComp, small }) => (
-                                            <ListItem key={text} disablePadding>
-                                                <ListItemButton sx={{ py: small ? 0.5 : 1 }}>
-                                                    <ListItemIcon
-                                                        sx={{
-                                                            minWidth: small ? 24 : 28,
-                                                            mr: small ? 0.5 : 1,
-                                                            color: '#e65100',
-                                                            '& svg': { fontSize: small ? 20 : 24 }, // smaller icon size
-                                                        }}
-                                                    >
-                                                        <IconComp />
-                                                    </ListItemIcon>
-
-                                                    <ListItemText
-                                                        primary={text}
-                                                        primaryTypographyProps={{
-                                                            sx: {
-                                                                color: '#e65100',
-                                                                fontWeight: 'bold',
-                                                                fontSize: small ? '1.10rem' : '1.10rem', // reduce font size
-                                                            },
-                                                        }}
-                                                    />
-                                                </ListItemButton>
-                                            </ListItem>
-                                        ))}
-                                    </List>
-
-                                    {/* Show the divider after the first section */}
-                                    {sectionIndex < drawerSections.length - 1 && (
-                                        <Divider
-                                            sx={{
-                                                borderColor: '#e65100',
-                                                marginBottom: '15px',
-                                                opacity: 0.3,
-                                                borderWidth: 1, // light and thin divider
-                                            }}
-                                        />
-                                    )}
-                                </React.Fragment>
-                            ))}
-                        </List>
-
-                    </Box>
-                </Drawer>
+                  ADD TO CART
+                </Button>
+              </Stack>
             </Box>
 
-            <div className="nav-products-page">
+            <Box className="card-right">
+              <Item
+                sx={{
+                  height: '300px',
+                  width: '270px',
+                  boxSizing: 'border-box',
+                  border: '2px solid #e65100',
+                  borderRadius: 2,
+                  padding: 1,
+                }}
+              >
+                <img
+                  key={e.id}
+                  src={e.image}
+                  alt={e.name}
+                  style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
+                />
+              </Item>
+            </Box>
+          </Box>
+        ))}
+      </div>
 
-                <Button
-                    variant="contained"
-                    onClick={() => navigate('/')}
-                    sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
-                >
-                    <ArrowCircleLeftIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
-                </Button>
-
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                    {['SANDWICHES', 'SIDES', 'DESSERTS'].map((category) => (
-                        <Button
-                            key={category}
-                            onClick={() => handleNavigate(category)}
-                            sx={{
-                                color: '#e65100',
-                                textTransform: 'none',
-                                fontWeight: 300,
-                                fontFamily: "Faster One, system-ui",
-                                fontSize: '2rem', // 20px; adjust up or down to match icon size
-                                lineHeight: 1,        // keep text vertically centered
-                                padding: 2,           // remove default padding so height stays 40px
-                                minWidth: 'auto',     // width adjusts to text rather than forcing a minimum
-
-                            }}
-                        >
-                            {category}
-                        </Button>
-                    ))}
-                </Box>
-
-                <Button
-                    variant="contained"
-                    onClick={() => navigate('/checkout')}
-                    sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
-                >
-                    <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
-                </Button>
-            </div>
-
-            <div className="products-wrapper">
-                {data.map((e, index) => (
-                    <Box
-                        className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
-                        key={e.id}
-                    >
-                        <Box className="card-left">
-                            <Stack spacing={2}>
-                                <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                    {e.name}
-                                </Item>
-                                <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                    ${e.price}
-                                </Item>
-                                <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                    {e.description}
-                                </Item>
-                                <Button
-                                    sx={{
-                                        backgroundColor: '#e65100',
-                                        color: '#ffe0c7',
-                                        fontWeight: 'bold',
-                                        '&:hover': {
-                                            backgroundColor: '#bf360c',
-                                        },
-                                    }}
-                                    onClick={() => handleOrder(e)}
-                                >
-                                    ADD TO CART
-                                </Button>
-                            </Stack>
-                        </Box>
-
-                        <Box className="card-right">
-                            <Item
-                                sx={{
-                                    height: '300px',
-                                    width: '270px',
-                                    boxSizing: 'border-box',
-                                    border: '2px solid #e65100',
-                                    borderRadius: 2,
-                                    padding: 1,
-                                }}
-                            >
-                                <img
-                                    key={e.id}
-                                    src={e.image}
-                                    alt={e.name}
-                                    style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
-                                />
-                            </Item>
-                        </Box>
-                    </Box>
-                ))}
-            </div>
-            <Footer />
-        </Container>
-    )
+      <Footer />
+    </Container>
+  );
 }

@@ -23,17 +23,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import Badge from '@mui/material/Badge';
 import { useNavigate } from 'react-router-dom';
-
-type Meal = {
-    id: string,
-    name: string,
-    type: string,
-    description: string,
-    image: string,
-    price: string
-    quantidade: number
-}
+import { useAppContext, type Meal } from '../context/context';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -47,11 +39,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const drawerSections = [
-    // Upper section (bold, normal size)
     [
         { text: 'MY ACCOUNT', icon: AccountCircleIcon, small: false },
     ],
-    // Lower section (smaller size)
     [
         { text: 'Settings', icon: SettingsIcon, small: true },
         { text: 'Order History', icon: HistoryIcon, small: true },
@@ -62,62 +52,79 @@ const drawerSections = [
 const drawerWidth = 240;
 
 export default function Desserts() {
-
     const [data, setData] = useState<Meal[]>([]);
-    const [order, setOrder] = useState<Meal[]>([]);
+
+    // ✅ use global cart from context
+    const { order, setOrder } = useAppContext();
 
     const navigate = useNavigate();
 
+    // Fetch desserts + hydrate cart from localStorage if exists
     useEffect(() => {
         async function fetchApi() {
-            const req = await axios.get("http://localhost:3000/products/category/desserts")
-            setData(req.data)
+            const req = await axios.get("http://localhost:3000/products/category/desserts");
+            setData(req.data);
         }
-        fetchApi()
+        fetchApi();
 
-        if (localStorage.getItem("lsOrder")) {
-            console.log('existe no local storage')
-            const lsOrder = JSON.parse(localStorage.getItem("lsOrder") || "[]")
-            setOrder(lsOrder)
-        } else {
-            console.log('nao existe no local storage')
+        const raw = localStorage.getItem("lsOrder");
+        if (raw) {
+            try {
+                const parsed = JSON.parse(raw);
+                setOrder(parsed);
+            } catch (err) {
+                console.error("Error parsing lsOrder in Desserts:", err);
+                localStorage.removeItem("lsOrder");
+            }
         }
-    }, []);
+    }, [setOrder]);
 
+    // Save cart whenever order changes
     useEffect(() => {
-        console.log("USE EFFECT DO ORDER:", order)
+        console.log("USE EFFECT DO ORDER (Desserts):", order);
+        localStorage.setItem("lsOrder", JSON.stringify(order));
+    }, [order]);
 
-        localStorage.setItem("lsOrder", JSON.stringify(order))
-    }, [order])
+    // ✅ Same ADD TO CART logic as Home (no mutation)
+    function handleOrder(product: Meal) {
+        const existingIndex = order.findIndex((p) => p.id === product.id);
 
-    function handleOrder(e: any) {
-        //product is the element inside the order
-        const findProduct = order.find(product => product.name === e.name)
-        if (findProduct === undefined) {
-            e.quantidade = 1
-            setOrder([...order, e])
+        if (existingIndex === -1) {
+            const newItem: Meal = {
+                ...product,
+                quantidade: 1,
+            };
+            setOrder([...order, newItem]);
         } else {
-            const findIndex = order.findIndex(product => product.name === e.name)
-            order[findIndex].quantidade += 1
-            setOrder([...order])
+            const newOrder = [...order];
+            const currentQty = newOrder[existingIndex].quantidade ?? 0;
+            newOrder[existingIndex] = {
+                ...newOrder[existingIndex],
+                quantidade: currentQty + 1,
+            };
+            setOrder(newOrder);
         }
-        console.log(findProduct)
     }
 
     const handleNavigate = (category: string) => {
         navigate(`/${category.toLowerCase()}`);
     };
 
+    // 🔢 Cart badge: sum of all quantities
+    const totalItems = order.reduce(
+        (sum, item) => sum + (item.quantidade ?? 0),
+        0
+    );
+
     const imageStyles: { [id: string]: React.CSSProperties } = {
-        "15": { width: "250px", height: "220px", marginTop: "40px" }, // Chocolate Milkshake
-        "16": { width: "205px", height: "180px", marginTop: "60px" }, // Strawberry Sundae
-        "17": { width: "190px", height: "180px", marginTop: "55px" }, // Cookie
-        "18": { width: "160px", height: "145px", marginTop: "60px" }, // Carrot Cake
+        "15": { width: "250px", height: "220px", marginTop: "40px" },
+        "16": { width: "205px", height: "180px", marginTop: "60px" },
+        "17": { width: "190px", height: "180px", marginTop: "55px" },
+        "18": { width: "160px", height: "145px", marginTop: "60px" },
     };
 
     return (
         <Container className="margin-top" fixed>
-
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
 
@@ -126,24 +133,21 @@ export default function Desserts() {
                     sx={{
                         width: drawerWidth,
                         flexShrink: 0,
-                        // Override the paper slot inside the Drawer
                         '& .MuiDrawer-paper': {
                             width: drawerWidth,
                             boxSizing: 'border-box',
-                            // Striped background and border like the order box
                             background: 'repeating-linear-gradient(\
-          90deg,\
-          rgba(255, 255, 255, 0.3) 0px,\
-          rgba(255, 243, 224, 0.3) 20px,\
-          rgba(255, 224, 199, 0.3) 20px,\
-          rgba(255, 255, 255, 0.3) 40px\
-        )',
+                90deg,\
+                rgba(255, 255, 255, 0.3) 0px,\
+                rgba(255, 243, 224, 0.3) 20px,\
+                rgba(255, 224, 199, 0.3) 20px,\
+                rgba(255, 255, 255, 0.3) 40px\
+              )',
                             backgroundSize: '200% 100%',
                             animation: 'moveStripesReverse 8s linear infinite',
                             marginTop: '-60px',
                             height: "1200px",
                             border: '3px solid #e65100',
-                            // theme spacing unit or use '20px'
                             color: '#e65100',
                         },
                     }}
@@ -162,19 +166,18 @@ export default function Desserts() {
                                                             minWidth: small ? 24 : 28,
                                                             mr: small ? 0.5 : 1,
                                                             color: '#e65100',
-                                                            '& svg': { fontSize: small ? 20 : 24 }, // smaller icon size
+                                                            '& svg': { fontSize: small ? 20 : 24 },
                                                         }}
                                                     >
                                                         <IconComp />
                                                     </ListItemIcon>
-
                                                     <ListItemText
                                                         primary={text}
                                                         primaryTypographyProps={{
                                                             sx: {
                                                                 color: '#e65100',
                                                                 fontWeight: 'bold',
-                                                                fontSize: small ? '1.10rem' : '1.10rem', // reduce font size
+                                                                fontSize: small ? '1.10rem' : '1.10rem',
                                                             },
                                                         }}
                                                     />
@@ -183,27 +186,24 @@ export default function Desserts() {
                                         ))}
                                     </List>
 
-                                    {/* Show the divider after the first section */}
                                     {sectionIndex < drawerSections.length - 1 && (
                                         <Divider
                                             sx={{
                                                 borderColor: '#e65100',
                                                 marginBottom: '15px',
                                                 opacity: 0.3,
-                                                borderWidth: 1, // light and thin divider
+                                                borderWidth: 1,
                                             }}
                                         />
                                     )}
                                 </React.Fragment>
                             ))}
                         </List>
-
                     </Box>
                 </Drawer>
             </Box>
 
             <div className="nav-products-page">
-
                 <Button
                     variant="contained"
                     onClick={() => navigate('/')}
@@ -213,7 +213,7 @@ export default function Desserts() {
                 </Button>
 
                 <Box sx={{ display: 'flex', gap: 1 }}>
-                    {['SANDWICHES', 'SIDES', 'BEVERAGES',].map((category) => (
+                    {['SANDWICHES', 'SIDES', 'BEVERAGES'].map((category) => (
                         <Button
                             key={category}
                             onClick={() => handleNavigate(category)}
@@ -222,11 +222,10 @@ export default function Desserts() {
                                 textTransform: 'none',
                                 fontWeight: 300,
                                 fontFamily: "Faster One, system-ui",
-                                fontSize: '2rem', // 20px; adjust up or down to match icon size
-                                lineHeight: 1,        // keep text vertically centered
-                                padding: 2,           // remove default padding so height stays 40px
-                                minWidth: 'auto',     // width adjusts to text rather than forcing a minimum
-
+                                fontSize: '2rem',
+                                lineHeight: 1,
+                                padding: 2,
+                                minWidth: 'auto',
                             }}
                         >
                             {category}
@@ -239,7 +238,14 @@ export default function Desserts() {
                     onClick={() => navigate('/checkout')}
                     sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
                 >
-                    <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+                    <Badge
+                        badgeContent={totalItems}
+                        color="primary"    // 👈 default MUI blue
+                        overlap="circular"
+                        showZero={false}
+                    >
+                        <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+                    </Badge>
                 </Button>
             </div>
 
@@ -298,7 +304,8 @@ export default function Desserts() {
                     </Box>
                 ))}
             </div>
+
             <Footer />
         </Container>
-    )
+    );
 }
