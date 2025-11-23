@@ -18,7 +18,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/context';
 import Typography from '@mui/material/Typography';
-
 import type { Meal } from '../context/context';   // ✅ type-only import
 
 
@@ -53,6 +52,7 @@ export default function Home() {
 
     const shouldShowCarousel = search.length === 0 && totalItems === 0;
     const shouldUseCreamTitle = search.length > 0 || totalItems > 0;
+    const shouldShowOrderPreview = search.length > 0 || totalItems > 0;
 
 
     // ✅ Init: fetch products + hydrate order from localStorage
@@ -285,7 +285,9 @@ export default function Home() {
                         textAlign: "center",
                         fontFamily: "Faster One",
                         fontWeight: "400",
-                        marginBottom: "30px"
+                        marginBottom: "30px",
+
+
                     }}
                 >
                     Fuel Up Fast. Taste That Lasts.
@@ -294,7 +296,7 @@ export default function Home() {
                     <div
                         className="div-carousel"
                         style={{
-                            boxShadow: "0 10px 32px rgba(230, 81, 0, 0.35)", // sombra laranja suave
+                            boxShadow: "0 8px 24px rgba(230, 81, 0, 0.25)", // sombra laranja suave
                             borderRadius: "16px",
                         }}
                     >
@@ -327,211 +329,203 @@ export default function Home() {
                 )}
 
 
-                <Typography
-                    variant="h5"
-                    align="center"
-                    sx={{
-                        mt: 4,
-                        mb: 2,
-                        letterSpacing: "0.16em",
-                        textTransform: "uppercase",
-                        color: "#e65100",
-                        fontFamily: "Faster One",
-                        fontWeight: "400",
-                        fontSize: "30px"
-                    }}
-                >
-                    Order Preview
-                </Typography>
+                {shouldShowOrderPreview && (
+                    <>
+                        <Typography
+                            variant="h5"
+                            align="center"
+                            sx={{
+                                mt: 4,
+                                mb: 2,
+                                letterSpacing: "0.16em",
+                                textTransform: "uppercase",
+                                color: "#e65100",
+                                fontWeight: 700,
+                            }}
+                        >
+                            Order Preview
+                        </Typography>
 
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        mb: 6,
-                    }}
-                >
-                    <Paper
-                        elevation={0} // disable default grey shadow
-                        sx={{
-                            width: "100%",
-                            maxWidth: 900,
-                            p: 3.5,
-                            borderRadius: 3,
-                            border: "1.5px solid rgba(230, 81, 0, 0.35)", // subtle orange border
-                            bgcolor: "background.paper",
-
-                            boxShadow:
-                                "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
-
-                            transition: "all 0.3s ease",
-                            "&:hover": {
-                                boxShadow:
-                                    "0 6px 18px rgba(230, 81, 0, 0.45), 0 10px 28px rgba(230, 81, 0, 0.35)",
-                            },
-                        }}
-                    >
-                        {/* PRODUCTS ROW */}
                         <Box
                             sx={{
                                 display: "flex",
-                                flexWrap: "wrap",
-                                alignItems: "center",
                                 justifyContent: "center",
-                                gap: 2,
-                                mb: 3,
+                                mb: 6,
                             }}
                         >
-                            {order.map((e, index) => {
-                                const quantity = e.quantidade ?? 1;
-
-                                return (
-                                    <Fragment key={e.id}>
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                alignItems: "center",
-                                                minWidth: 120,
-                                            }}
-                                        >
-                                            <img
-                                                src={e.image}
-                                                alt={e.name}
-                                                style={
-                                                    imageStylesOrder[e.id] || {
-                                                        width: "160px",
-                                                        height: "160px",
-                                                        objectFit: "cover",
-                                                    }
-                                                }
-                                            />
-                                            <Box
-                                                sx={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    gap: 1,
-                                                    mt: 1,
-                                                }}
-                                            >
-                                                <Button
-                                                    size="small"
-                                                    variant="outlined"
-                                                    onClick={() => handleDecrease(e)}
-                                                    disabled={quantity <= 1}
-                                                    sx={{
-                                                        minWidth: 32,
-                                                        borderRadius: "999px",
-                                                        borderColor: "#e65100",
-                                                        color: "#e65100",
-                                                        px: 0,
-                                                    }}
-                                                >
-                                                    −
-                                                </Button>
-
-                                                <Typography
-                                                    variant="subtitle1"
-                                                    sx={{ fontWeight: 600, minWidth: 40, textAlign: "center" }}
-                                                >
-                                                    x{quantity}
-                                                </Typography>
-
-                                                <Button
-                                                    size="small"
-                                                    variant="outlined"
-                                                    onClick={() => handleIncrease(e)}
-                                                    sx={{
-                                                        minWidth: 32,
-                                                        borderRadius: "999px",
-                                                        borderColor: "#e65100",
-                                                        color: "#e65100",
-                                                        px: 0,
-                                                    }}
-                                                >
-                                                    +
-                                                </Button>
-                                            </Box>
-                                        </Box>
-
-                                        {index < order.length - 1 && (
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontWeight: 700, mx: 1 }}
-                                            >
-                                                +
-                                            </Typography>
-                                        )}
-                                    </Fragment>
-                                );
-                            })}
-                        </Box>
-
-                        {/* TOTAL + BUTTONS */}
-                        <Box
-                            sx={{
-                                display: "flex",
-                                flexDirection: { xs: "column", sm: "row" },
-                                alignItems: { xs: "flex-start", sm: "center" },
-                                justifyContent: "space-between",
-                                gap: 2,
-                            }}
-                        >
-                            <Typography
-                                variant="h6"
-                                sx={{ fontWeight: 700, color: "#333" }}
-                            >
-                                TOTAL R$: {checkout.toFixed(2)}
-                            </Typography>
-
-                            <Box
+                            <Paper
+                                elevation={0}
                                 sx={{
-                                    display: "flex",
-                                    gap: 2,
-                                    justifyContent: "flex-end",
-                                    width: { xs: "100%", sm: "auto" },
+                                    width: "100%",
+                                    maxWidth: 900,
+                                    p: 3.5,
+                                    borderRadius: 3,
+                                    border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                                    bgcolor: "background.paper",
+                                    boxShadow:
+                                        "0 4px 12px rgba(230, 81, 0, 0.25), 0 8px 20px rgba(230, 81, 0, 0.18)",
                                 }}
                             >
-                                <Button
-                                    className="btns-checkout-clearCart"
-                                    onClick={handleCheckout}
-                                    variant="contained"
+                                {/* PRODUCTS ROW */}
+                                <Box
                                     sx={{
-                                        width: 165,
-                                        height: 40,
-                                        borderRadius: 2,
-                                        backgroundColor: "#e65100",
+                                        display: "flex",
+                                        flexWrap: "wrap",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        gap: 2,
+                                        mb: 3,
                                     }}
                                 >
-                                    <Badge
-                                        badgeContent={totalItems}
-                                        color="primary"
-                                        overlap="circular"
-                                        showZero={false}
-                                    >
-                                        <ShoppingCartIcon sx={{ fontSize: 24, color: "#ffe0c7" }} />
-                                    </Badge>
-                                    &nbsp;CHECKOUT
-                                </Button>
+                                    {order.map((e, index) => {
+                                        const quantity = e.quantidade ?? 1;
 
-                                <Button
-                                    className="btns-checkout-clearCart"
-                                    variant="contained"
-                                    onClick={handleClearCart}
+                                        return (
+                                            <Fragment key={e.id}>
+                                                <Box
+                                                    sx={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        alignItems: "center",
+                                                        minWidth: 120,
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={e.image}
+                                                        alt={e.name}
+                                                        style={
+                                                            imageStylesOrder[e.id] || {
+                                                                width: "160px",
+                                                                height: "160px",
+                                                                objectFit: "cover",
+                                                            }
+                                                        }
+                                                    />
+                                                    <Box
+                                                        sx={{
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            gap: 1,
+                                                            mt: 1,
+                                                        }}
+                                                    >
+                                                        <Button
+                                                            size="small"
+                                                            variant="outlined"
+                                                            onClick={() => handleDecrease(e)}
+                                                            disabled={quantity <= 1}
+                                                            sx={{
+                                                                minWidth: 32,
+                                                                borderRadius: "999px",
+                                                                borderColor: "#e65100",
+                                                                color: "#e65100",
+                                                                px: 0,
+                                                            }}
+                                                        >
+                                                            −
+                                                        </Button>
+
+                                                        <Typography
+                                                            variant="subtitle1"
+                                                            sx={{ fontWeight: 600, minWidth: 40, textAlign: "center" }}
+                                                        >
+                                                            x{quantity}
+                                                        </Typography>
+
+                                                        <Button
+                                                            size="small"
+                                                            variant="outlined"
+                                                            onClick={() => handleIncrease(e)}
+                                                            sx={{
+                                                                minWidth: 32,
+                                                                borderRadius: "999px",
+                                                                borderColor: "#e65100",
+                                                                color: "#e65100",
+                                                                px: 0,
+                                                            }}
+                                                        >
+                                                            +
+                                                        </Button>
+                                                    </Box>
+                                                </Box>
+
+                                                {index < order.length - 1 && (
+                                                    <Typography variant="h5" sx={{ fontWeight: 700, mx: 1 }}>
+                                                        +
+                                                    </Typography>
+                                                )}
+                                            </Fragment>
+                                        );
+                                    })}
+                                </Box>
+
+                                {/* TOTAL + BUTTONS */}
+                                <Box
                                     sx={{
-                                        width: 150,
-                                        height: 40,
-                                        borderRadius: 2,
-                                        backgroundColor: "#e65100",
+                                        display: "flex",
+                                        flexDirection: { xs: "column", sm: "row" },
+                                        alignItems: { xs: "flex-start", sm: "center" },
+                                        justifyContent: "space-between",
+                                        gap: 2,
                                     }}
                                 >
-                                    <DeleteForeverIcon sx={{ fontSize: 26, color: "#ffe0c7" }} />
-                                    &nbsp;CLEAR CART
-                                </Button>
-                            </Box>
+                                    <Typography
+                                        variant="h6"
+                                        sx={{ fontWeight: 700, color: "#333" }}
+                                    >
+                                        TOTAL R$: {checkout.toFixed(2)}
+                                    </Typography>
+
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            gap: 2,
+                                            justifyContent: "flex-end",
+                                            width: { xs: "100%", sm: "auto" },
+                                        }}
+                                    >
+                                        <Button
+                                            className="btns-checkout-clearCart"
+                                            onClick={handleCheckout}
+                                            variant="contained"
+                                            sx={{
+                                                width: 80,
+                                                height: 40,
+                                                borderRadius: 2,
+                                                backgroundColor: "#e65100",
+                                            }}
+                                        >
+                                            <Badge
+                                                badgeContent={totalItems}
+                                                color="primary"
+                                                overlap="circular"
+                                                showZero={false}
+                                            >
+                                                <ShoppingCartIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
+                                            </Badge>
+                                            &nbsp;
+                                        </Button>
+
+                                        <Button
+                                            className="btns-checkout-clearCart"
+                                            variant="contained"
+                                            onClick={handleClearCart}
+                                            sx={{
+                                                width: 80,
+                                                height: 40,
+                                                borderRadius: 2,
+                                                backgroundColor: "#e65100",
+                                            }}
+                                        >
+                                            <DeleteForeverIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
+                                            &nbsp;
+                                        </Button>
+                                    </Box>
+                                </Box>
+                            </Paper>
                         </Box>
-                    </Paper>
-                </Box>
+                    </>
+                )}
 
                 {filteredLanche.length === 0 ? null : <h1 className="h1-sandwiches">Sandwiches:</h1>}
 
@@ -554,11 +548,27 @@ export default function Home() {
                                     </Item>
                                     <Button
                                         sx={{
-                                            backgroundColor: '#e65100',
-                                            color: '#ffe0c7',
-                                            fontWeight: 'bold',
-                                            '&:hover': {
-                                                backgroundColor: '#bf360c',
+                                            mt: 2.5,
+                                            borderRadius: 2,
+                                            textTransform: "uppercase",
+                                            bgcolor: "#e65100",
+                                            color: "#ffe0c7",
+                                            letterSpacing: "0.16em",
+                                            fontWeight: 700,
+                                            boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
+                                            transition: "0.25s ease",
+
+                                            "&:hover": {
+                                                bgcolor: "#ffe0c7",
+                                                color: "#e65100",
+                                                boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
+                                            },
+
+                                            "&:active": {
+                                                bgcolor: "#ffe0c7",
+                                                color: "#e65100",
+                                                transform: "scale(0.98)",
+                                                boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
                                             },
                                         }}
                                         onClick={() => handleOrder(e)}
@@ -612,11 +622,27 @@ export default function Home() {
                                     </Item>
                                     <Button
                                         sx={{
-                                            backgroundColor: '#e65100',
-                                            color: '#ffe0c7',
-                                            fontWeight: 'bold',
-                                            '&:hover': {
-                                                backgroundColor: '#bf360c',
+                                            mt: 2.5,
+                                            borderRadius: 2,
+                                            textTransform: "uppercase",
+                                            bgcolor: "#e65100",
+                                            color: "#ffe0c7",
+                                            letterSpacing: "0.16em",
+                                            fontWeight: 700,
+                                            boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
+                                            transition: "0.25s ease",
+
+                                            "&:hover": {
+                                                bgcolor: "#ffe0c7",
+                                                color: "#e65100",
+                                                boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
+                                            },
+
+                                            "&:active": {
+                                                bgcolor: "#ffe0c7",
+                                                color: "#e65100",
+                                                transform: "scale(0.98)",
+                                                boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
                                             },
                                         }}
                                         onClick={() => handleOrder(e)}
@@ -670,11 +696,27 @@ export default function Home() {
                                     </Item>
                                     <Button
                                         sx={{
-                                            backgroundColor: '#e65100',
-                                            color: '#ffe0c7',
-                                            fontWeight: 'bold',
-                                            '&:hover': {
-                                                backgroundColor: '#bf360c',
+                                            mt: 2.5,
+                                            borderRadius: 2,
+                                            textTransform: "uppercase",
+                                            bgcolor: "#e65100",
+                                            color: "#ffe0c7",
+                                            letterSpacing: "0.16em",
+                                            fontWeight: 700,
+                                            boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
+                                            transition: "0.25s ease",
+
+                                            "&:hover": {
+                                                bgcolor: "#ffe0c7",
+                                                color: "#e65100",
+                                                boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
+                                            },
+
+                                            "&:active": {
+                                                bgcolor: "#ffe0c7",
+                                                color: "#e65100",
+                                                transform: "scale(0.98)",
+                                                boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
                                             },
                                         }}
                                         onClick={() => handleOrder(e)}
@@ -728,11 +770,27 @@ export default function Home() {
                                     </Item>
                                     <Button
                                         sx={{
-                                            backgroundColor: '#e65100',
-                                            color: '#ffe0c7',
-                                            fontWeight: 'bold',
-                                            '&:hover': {
-                                                backgroundColor: '#bf360c',
+                                            mt: 2.5,
+                                            borderRadius: 2,
+                                            textTransform: "uppercase",
+                                            bgcolor: "#e65100",
+                                            color: "#ffe0c7",
+                                            letterSpacing: "0.16em",
+                                            fontWeight: 700,
+                                            boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
+                                            transition: "0.25s ease",
+
+                                            "&:hover": {
+                                                bgcolor: "#ffe0c7",
+                                                color: "#e65100",
+                                                boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
+                                            },
+
+                                            "&:active": {
+                                                bgcolor: "#ffe0c7",
+                                                color: "#e65100",
+                                                transform: "scale(0.98)",
+                                                boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
                                             },
                                         }}
                                         onClick={() => handleOrder(e)}

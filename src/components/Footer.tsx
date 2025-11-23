@@ -1,4 +1,3 @@
-
 import { Box, Typography, Link } from '@mui/material';
 
 export default function Footer() {
@@ -6,15 +5,16 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        width: '100%',                  // ✅ Full width
-        position: 'fixed',              // ✅ Fixed at bottom
+        width: '100%',
         bottom: 0,
         left: 0,
-        backgroundColor: '#e65100',     // 🔸 Orange background
-        color: '#fff3e0',               // 🔸 Light text
+        backgroundColor: '#e65100',
+        color: '#fff3e0',
         py: 2,
         textAlign: 'center',
-        zIndex: 1300,                   // Make sure it stays above other content if needed
+        zIndex: 1300,
+
+        boxShadow: "0 -3px 10px rgba(0,0,0,0.25)",  // ⭐ Soft neutral shadow above footer
       }}
     >
       <Typography variant="body2">
