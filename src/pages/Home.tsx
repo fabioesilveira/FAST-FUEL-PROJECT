@@ -17,6 +17,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/context';
+import Typography from '@mui/material/Typography';
+
 import type { Meal } from '../context/context';   // ✅ type-only import
 
 
@@ -50,6 +52,8 @@ export default function Home() {
     );
 
     const shouldShowCarousel = search.length === 0 && totalItems === 0;
+    const shouldUseCreamTitle = search.length > 0 || totalItems > 0;
+
 
     // ✅ Init: fetch products + hydrate order from localStorage
     useEffect(() => {
@@ -273,16 +277,37 @@ export default function Home() {
 
             <CssBaseline />
             <Container className="margin-top" fixed>
-                <h1 className="h1-home">Fuel Up Fast. Taste That Lasts.</h1>
-
+                <h1
+                    className="h1-home"
+                    style={{
+                        color: shouldUseCreamTitle ? "#ffe0c7" : "#e65100",
+                        transition: "color 0.3s ease",
+                        textAlign: "center",
+                        fontFamily: "Faster One",
+                        fontWeight: "400",
+                        marginBottom: "30px"
+                    }}
+                >
+                    Fuel Up Fast. Taste That Lasts.
+                </h1>
                 {shouldShowCarousel && (
-                    <div className="div-carousel">
+                    <div
+                        className="div-carousel"
+                        style={{
+                            boxShadow: "0 10px 32px rgba(230, 81, 0, 0.35)", // sombra laranja suave
+                            borderRadius: "16px",
+                        }}
+                    >
                         <Carousel>
                             <Carousel.Item>
                                 <img
                                     src={Chat}
                                     alt="Fast Fuel Banner"
-                                    style={{ height: '680px', width: '1200px', borderRadius: '16px' }}
+                                    style={{
+                                        height: "680px",
+                                        width: "1200px",
+                                        borderRadius: "16px",
+                                    }}
                                 />
                             </Carousel.Item>
 
@@ -290,91 +315,223 @@ export default function Home() {
                                 <img
                                     src={Chat2}
                                     alt="Fast Fuel Banner"
-                                    style={{ height: '680px', width: '1200px', borderRadius: '16px' }}
+                                    style={{
+                                        height: "680px",
+                                        width: "1200px",
+                                        borderRadius: "16px",
+                                    }}
                                 />
                             </Carousel.Item>
                         </Carousel>
                     </div>
                 )}
 
-                <h1 className="h1-sandwiches">ORDER PREVIEW:</h1>
 
-                <div className="animated-stripes">
-                    <div className="order-wrapper">
-                        <div className="products-container">
+                <Typography
+                    variant="h5"
+                    align="center"
+                    sx={{
+                        mt: 4,
+                        mb: 2,
+                        letterSpacing: "0.16em",
+                        textTransform: "uppercase",
+                        color: "#e65100",
+                        fontFamily: "Faster One",
+                        fontWeight: "400",
+                        fontSize: "30px"
+                    }}
+                >
+                    Order Preview
+                </Typography>
+
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        mb: 6,
+                    }}
+                >
+                    <Paper
+                        elevation={0} // disable default grey shadow
+                        sx={{
+                            width: "100%",
+                            maxWidth: 900,
+                            p: 3.5,
+                            borderRadius: 3,
+                            border: "1.5px solid rgba(230, 81, 0, 0.35)", // subtle orange border
+                            bgcolor: "background.paper",
+
+                            boxShadow:
+                                "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
+
+                            transition: "all 0.3s ease",
+                            "&:hover": {
+                                boxShadow:
+                                    "0 6px 18px rgba(230, 81, 0, 0.45), 0 10px 28px rgba(230, 81, 0, 0.35)",
+                            },
+                        }}
+                    >
+                        {/* PRODUCTS ROW */}
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: 2,
+                                mb: 3,
+                            }}
+                        >
                             {order.map((e, index) => {
                                 const quantity = e.quantidade ?? 1;
 
                                 return (
                                     <Fragment key={e.id}>
-                                        <div className="product-item">
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                alignItems: "center",
+                                                minWidth: 120,
+                                            }}
+                                        >
                                             <img
                                                 src={e.image}
                                                 alt={e.name}
-                                                style={imageStylesOrder[e.id] || {
-                                                    width: '160px',
-                                                    height: '160px',
-                                                    objectFit: 'cover',
-                                                }}
+                                                style={
+                                                    imageStylesOrder[e.id] || {
+                                                        width: "160px",
+                                                        height: "160px",
+                                                        objectFit: "cover",
+                                                    }
+                                                }
                                             />
-                                            <div className="div-btns-order">
-                                                <button
-                                                    className="btns-increase-decrease"
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: 1,
+                                                    mt: 1,
+                                                }}
+                                            >
+                                                <Button
+                                                    size="small"
+                                                    variant="outlined"
                                                     onClick={() => handleDecrease(e)}
                                                     disabled={quantity <= 1}
+                                                    sx={{
+                                                        minWidth: 32,
+                                                        borderRadius: "999px",
+                                                        borderColor: "#e65100",
+                                                        color: "#e65100",
+                                                        px: 0,
+                                                    }}
                                                 >
                                                     −
-                                                </button>
-                                                <h4 className="h4-quantity">x{quantity}</h4>
-                                                <button
-                                                    className="btns-increase-decrease"
+                                                </Button>
+
+                                                <Typography
+                                                    variant="subtitle1"
+                                                    sx={{ fontWeight: 600, minWidth: 40, textAlign: "center" }}
+                                                >
+                                                    x{quantity}
+                                                </Typography>
+
+                                                <Button
+                                                    size="small"
+                                                    variant="outlined"
                                                     onClick={() => handleIncrease(e)}
+                                                    sx={{
+                                                        minWidth: 32,
+                                                        borderRadius: "999px",
+                                                        borderColor: "#e65100",
+                                                        color: "#e65100",
+                                                        px: 0,
+                                                    }}
                                                 >
                                                     +
-                                                </button>
-                                            </div>
-                                        </div>
+                                                </Button>
+                                            </Box>
+                                        </Box>
 
                                         {index < order.length - 1 && (
-                                            <div className="plus-separator">+</div>
+                                            <Typography
+                                                variant="h5"
+                                                sx={{ fontWeight: 700, mx: 1 }}
+                                            >
+                                                +
+                                            </Typography>
                                         )}
                                     </Fragment>
                                 );
                             })}
-                        </div>
+                        </Box>
 
-                        <h3 className="total-label">TOTAL R$: {checkout.toFixed(2)}</h3>
-                        <div className="checkout-wrapper">
-
-                            <Button
-                                className="btns-checkout-clearCart"
-                                onClick={handleCheckout}
-                                variant="contained"
-                                sx={{ width: 145, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
+                        {/* TOTAL + BUTTONS */}
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: { xs: "column", sm: "row" },
+                                alignItems: { xs: "flex-start", sm: "center" },
+                                justifyContent: "space-between",
+                                gap: 2,
+                            }}
+                        >
+                            <Typography
+                                variant="h6"
+                                sx={{ fontWeight: 700, color: "#333" }}
                             >
-                                <Badge
-                                    badgeContent={totalItems}
-                                    color="primary"      // default blue
-                                    overlap="circular"
-                                    showZero={false}
+                                TOTAL R$: {checkout.toFixed(2)}
+                            </Typography>
+
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    gap: 2,
+                                    justifyContent: "flex-end",
+                                    width: { xs: "100%", sm: "auto" },
+                                }}
+                            >
+                                <Button
+                                    className="btns-checkout-clearCart"
+                                    onClick={handleCheckout}
+                                    variant="contained"
+                                    sx={{
+                                        width: 165,
+                                        height: 40,
+                                        borderRadius: 2,
+                                        backgroundColor: "#e65100",
+                                    }}
                                 >
-                                    <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
-                                </Badge>
-                                &nbsp;CHECKOUT
-                            </Button>
-                            <Button
-                                className="btns-checkout-clearCart"
-                                variant="contained"
-                                onClick={handleClearCart}
-                                sx={{ width: 150, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
-                            >
-                                <DeleteForeverIcon sx={{ fontSize: 32, color: '#ffe0c7' }} />
-                                CLEAR CART
-                            </Button>
+                                    <Badge
+                                        badgeContent={totalItems}
+                                        color="primary"
+                                        overlap="circular"
+                                        showZero={false}
+                                    >
+                                        <ShoppingCartIcon sx={{ fontSize: 24, color: "#ffe0c7" }} />
+                                    </Badge>
+                                    &nbsp;CHECKOUT
+                                </Button>
 
-                        </div>
-                    </div>
-                </div>
+                                <Button
+                                    className="btns-checkout-clearCart"
+                                    variant="contained"
+                                    onClick={handleClearCart}
+                                    sx={{
+                                        width: 150,
+                                        height: 40,
+                                        borderRadius: 2,
+                                        backgroundColor: "#e65100",
+                                    }}
+                                >
+                                    <DeleteForeverIcon sx={{ fontSize: 26, color: "#ffe0c7" }} />
+                                    &nbsp;CLEAR CART
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Paper>
+                </Box>
 
                 {filteredLanche.length === 0 ? null : <h1 className="h1-sandwiches">Sandwiches:</h1>}
 
