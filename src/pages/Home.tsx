@@ -18,6 +18,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/context';
 import Typography from '@mui/material/Typography';
+import CategoryDrawer from '../components/CategoryDrawer';
 import type { Meal } from '../context/context';   // ✅ type-only import
 
 
@@ -44,6 +45,10 @@ export default function Home() {
 
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext();
+
+    const handleDrawerNavigate = (category: string) => {
+        navigate(`/${category.toLowerCase()}`);
+    };
 
     const totalItems = order.reduce(
         (sum, item) => sum + (item.quantidade ?? 0),
@@ -272,559 +277,572 @@ export default function Home() {
     };
 
     return (
+
         <div>
             <Navbar onSearch={handleSearchInput} />
 
             <CssBaseline />
-            <Container className="margin-top" fixed>
-                <h1
-                    className="h1-home"
-                    style={{
-                        color: shouldUseCreamTitle ? "#ffe0c7" : "#e65100",
-                        transition: "color 0.3s ease",
-                        textAlign: "center",
-                        fontFamily: "Faster One",
-                        fontWeight: "400",
-                        marginBottom: "30px",
 
+            {/* 🔸 Layout with sidebar + main content */}
+            <Box sx={{ display: 'flex' }}>
+                {/* LEFT: Mini drawer with categories */}
+                <CategoryDrawer onNavigate={handleDrawerNavigate} />
 
-                    }}
-                >
-                    Fuel Up Fast. Taste That Lasts.
-                </h1>
-                {shouldShowCarousel && (
-                    <div
-                        className="div-carousel"
-                        style={{
-                            boxShadow: "0 8px 24px rgba(230, 81, 0, 0.25)", // sombra laranja suave
-                            borderRadius: "16px",
-                        }}
-                    >
-                        <Carousel>
-                            <Carousel.Item>
-                                <img
-                                    src={Chat}
-                                    alt="Fast Fuel Banner"
-                                    style={{
-                                        height: "680px",
-                                        width: "1200px",
-                                        borderRadius: "16px",
-                                    }}
-                                />
-                            </Carousel.Item>
-
-                            <Carousel.Item>
-                                <img
-                                    src={Chat2}
-                                    alt="Fast Fuel Banner"
-                                    style={{
-                                        height: "680px",
-                                        width: "1200px",
-                                        borderRadius: "16px",
-                                    }}
-                                />
-                            </Carousel.Item>
-                        </Carousel>
-                    </div>
-                )}
-
-
-                {shouldShowOrderPreview && (
-                    <>
-                        <Typography
-                            variant="h5"
-                            align="center"
-                            sx={{
-                                mt: 4,
-                                mb: 2,
-                                letterSpacing: "0.16em",
-                                textTransform: "uppercase",
-                                color: "#e65100",
-                                fontWeight: 700,
+                {/* RIGHT: your existing Home content */}
+                <Box component="main" sx={{ flexGrow: 1 }}>
+                    <Container className="margin-top" fixed>
+                        <h1
+                            className="h1-home"
+                            style={{
+                                color: shouldUseCreamTitle ? "#ffe0c7" : "#e65100",
+                                transition: "color 0.3s ease",
+                                textAlign: "center",
+                                fontFamily: "Faster One",
+                                fontWeight: "400",
+                                marginBottom: "30px",
                             }}
                         >
-                            Order Preview
-                        </Typography>
+                            Fuel Up Fast. Taste That Lasts.
+                        </h1>
 
-                        <Box
-                            sx={{
-                                display: "flex",
-                                justifyContent: "center",
-                                mb: 6,
-                            }}
-                        >
-                            <Paper
-                                elevation={0}
-                                sx={{
-                                    width: "100%",
-                                    maxWidth: 900,
-                                    p: 3.5,
-                                    borderRadius: 3,
-                                    border: "1.5px solid rgba(230, 81, 0, 0.35)",
-                                    bgcolor: "background.paper",
-                                    boxShadow:
-                                        "0 4px 12px rgba(230, 81, 0, 0.25), 0 8px 20px rgba(230, 81, 0, 0.18)",
+                        {/* ...rest of your JSX unchanged... */}
+                        {shouldShowCarousel && (
+                            <div
+                                className="div-carousel"
+                                style={{
+                                    boxShadow: "0 8px 24px rgba(230, 81, 0, 0.25)", // sombra laranja suave
+                                    borderRadius: "16px",
                                 }}
                             >
-                                {/* PRODUCTS ROW */}
+                                <Carousel>
+                                    <Carousel.Item>
+                                        <img
+                                            src={Chat}
+                                            alt="Fast Fuel Banner"
+                                            style={{
+                                                height: "700px",
+                                                width: "1200px",
+                                                borderRadius: "16px",
+                                            }}
+                                        />
+                                    </Carousel.Item>
+
+                                    <Carousel.Item>
+                                        <img
+                                            src={Chat2}
+                                            alt="Fast Fuel Banner"
+                                            style={{
+                                                height: "700px",
+                                                width: "1200px",
+                                                borderRadius: "16px",
+                                            }}
+                                        />
+                                    </Carousel.Item>
+                                </Carousel>
+                            </div>
+                        )}
+
+
+                        {shouldShowOrderPreview && (
+                            <>
+                                <Typography
+                                    variant="h5"
+                                    align="center"
+                                    sx={{
+                                        mt: 4,
+                                        mb: 2,
+                                        letterSpacing: "0.16em",
+                                        textTransform: "uppercase",
+                                        color: "#e65100",
+                                        fontWeight: 700,
+                                    }}
+                                >
+                                    Order Preview
+                                </Typography>
+
                                 <Box
                                     sx={{
                                         display: "flex",
-                                        flexWrap: "wrap",
-                                        alignItems: "center",
                                         justifyContent: "center",
-                                        gap: 2,
-                                        mb: 3,
+                                        mb: 6,
                                     }}
                                 >
-                                    {order.map((e, index) => {
-                                        const quantity = e.quantidade ?? 1;
+                                    <Paper
+                                        elevation={0}
+                                        sx={{
+                                            width: "100%",
+                                            maxWidth: 900,
+                                            p: 3.5,
+                                            borderRadius: 3,
+                                            border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                                            bgcolor: "background.paper",
+                                            boxShadow:
+                                                "0 4px 12px rgba(230, 81, 0, 0.25), 0 8px 20px rgba(230, 81, 0, 0.18)",
+                                        }}
+                                    >
+                                        {/* PRODUCTS ROW */}
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                flexWrap: "wrap",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                gap: 2,
+                                                mb: 3,
+                                            }}
+                                        >
+                                            {order.map((e, index) => {
+                                                const quantity = e.quantidade ?? 1;
 
-                                        return (
-                                            <Fragment key={e.id}>
-                                                <Box
+                                                return (
+                                                    <Fragment key={e.id}>
+                                                        <Box
+                                                            sx={{
+                                                                display: "flex",
+                                                                flexDirection: "column",
+                                                                alignItems: "center",
+                                                                minWidth: 120,
+                                                            }}
+                                                        >
+                                                            <img
+                                                                src={e.image}
+                                                                alt={e.name}
+                                                                style={
+                                                                    imageStylesOrder[e.id] || {
+                                                                        width: "160px",
+                                                                        height: "160px",
+                                                                        objectFit: "cover",
+                                                                    }
+                                                                }
+                                                            />
+                                                            <Box
+                                                                sx={{
+                                                                    display: "flex",
+                                                                    alignItems: "center",
+                                                                    gap: 1,
+                                                                    mt: 1,
+                                                                }}
+                                                            >
+                                                                <Button
+                                                                    size="small"
+                                                                    variant="outlined"
+                                                                    onClick={() => handleDecrease(e)}
+                                                                    disabled={quantity <= 1}
+                                                                    sx={{
+                                                                        minWidth: 32,
+                                                                        borderRadius: "999px",
+                                                                        borderColor: "#e65100",
+                                                                        color: "#e65100",
+                                                                        px: 0,
+                                                                    }}
+                                                                >
+                                                                    −
+                                                                </Button>
+
+                                                                <Typography
+                                                                    variant="subtitle1"
+                                                                    sx={{ fontWeight: 600, minWidth: 40, textAlign: "center" }}
+                                                                >
+                                                                    x{quantity}
+                                                                </Typography>
+
+                                                                <Button
+                                                                    size="small"
+                                                                    variant="outlined"
+                                                                    onClick={() => handleIncrease(e)}
+                                                                    sx={{
+                                                                        minWidth: 32,
+                                                                        borderRadius: "999px",
+                                                                        borderColor: "#e65100",
+                                                                        color: "#e65100",
+                                                                        px: 0,
+                                                                    }}
+                                                                >
+                                                                    +
+                                                                </Button>
+                                                            </Box>
+                                                        </Box>
+
+                                                        {index < order.length - 1 && (
+                                                            <Typography variant="h5" sx={{ fontWeight: 700, mx: 1 }}>
+                                                                +
+                                                            </Typography>
+                                                        )}
+                                                    </Fragment>
+                                                );
+                                            })}
+                                        </Box>
+
+                                        {/* TOTAL + BUTTONS */}
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: { xs: "column", sm: "row" },
+                                                alignItems: { xs: "flex-start", sm: "center" },
+                                                justifyContent: "space-between",
+                                                gap: 2,
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="h6"
+                                                sx={{ fontWeight: 700, color: "#333" }}
+                                            >
+                                                TOTAL R$: {checkout.toFixed(2)}
+                                            </Typography>
+
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    gap: 2,
+                                                    justifyContent: "flex-end",
+                                                    width: { xs: "100%", sm: "auto" },
+                                                }}
+                                            >
+                                                <Button
+                                                    className="btns-checkout-clearCart"
+                                                    onClick={handleCheckout}
+                                                    variant="contained"
                                                     sx={{
-                                                        display: "flex",
-                                                        flexDirection: "column",
-                                                        alignItems: "center",
-                                                        minWidth: 120,
+                                                        width: 80,
+                                                        height: 40,
+                                                        borderRadius: 2,
+                                                        backgroundColor: "#e65100",
                                                     }}
                                                 >
-                                                    <img
-                                                        src={e.image}
-                                                        alt={e.name}
-                                                        style={
-                                                            imageStylesOrder[e.id] || {
-                                                                width: "160px",
-                                                                height: "160px",
-                                                                objectFit: "cover",
-                                                            }
-                                                        }
-                                                    />
-                                                    <Box
-                                                        sx={{
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            gap: 1,
-                                                            mt: 1,
-                                                        }}
+                                                    <Badge
+                                                        badgeContent={totalItems}
+                                                        color="primary"
+                                                        overlap="circular"
+                                                        showZero={false}
                                                     >
-                                                        <Button
-                                                            size="small"
-                                                            variant="outlined"
-                                                            onClick={() => handleDecrease(e)}
-                                                            disabled={quantity <= 1}
-                                                            sx={{
-                                                                minWidth: 32,
-                                                                borderRadius: "999px",
-                                                                borderColor: "#e65100",
-                                                                color: "#e65100",
-                                                                px: 0,
-                                                            }}
-                                                        >
-                                                            −
-                                                        </Button>
+                                                        <ShoppingCartIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
+                                                    </Badge>
+                                                    &nbsp;
+                                                </Button>
 
-                                                        <Typography
-                                                            variant="subtitle1"
-                                                            sx={{ fontWeight: 600, minWidth: 40, textAlign: "center" }}
-                                                        >
-                                                            x{quantity}
-                                                        </Typography>
-
-                                                        <Button
-                                                            size="small"
-                                                            variant="outlined"
-                                                            onClick={() => handleIncrease(e)}
-                                                            sx={{
-                                                                minWidth: 32,
-                                                                borderRadius: "999px",
-                                                                borderColor: "#e65100",
-                                                                color: "#e65100",
-                                                                px: 0,
-                                                            }}
-                                                        >
-                                                            +
-                                                        </Button>
-                                                    </Box>
-                                                </Box>
-
-                                                {index < order.length - 1 && (
-                                                    <Typography variant="h5" sx={{ fontWeight: 700, mx: 1 }}>
-                                                        +
-                                                    </Typography>
-                                                )}
-                                            </Fragment>
-                                        );
-                                    })}
+                                                <Button
+                                                    className="btns-checkout-clearCart"
+                                                    variant="contained"
+                                                    onClick={handleClearCart}
+                                                    sx={{
+                                                        width: 80,
+                                                        height: 40,
+                                                        borderRadius: 2,
+                                                        backgroundColor: "#e65100",
+                                                    }}
+                                                >
+                                                    <DeleteForeverIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
+                                                    &nbsp;
+                                                </Button>
+                                            </Box>
+                                        </Box>
+                                    </Paper>
                                 </Box>
+                            </>
+                        )}
 
-                                {/* TOTAL + BUTTONS */}
+                        {filteredLanche.length === 0 ? null : <h1 className="h1-sandwiches">Sandwiches:</h1>}
+
+                        <div className="products-wrapper">
+                            {filteredLanche.map((e, index) => (
                                 <Box
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: { xs: "column", sm: "row" },
-                                        alignItems: { xs: "flex-start", sm: "center" },
-                                        justifyContent: "space-between",
-                                        gap: 2,
-                                    }}
+                                    className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
+                                    key={e.id}
                                 >
-                                    <Typography
-                                        variant="h6"
-                                        sx={{ fontWeight: 700, color: "#333" }}
-                                    >
-                                        TOTAL R$: {checkout.toFixed(2)}
-                                    </Typography>
+                                    <Box className="card-left">
+                                        <Stack spacing={2}>
+                                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                                {e.name}
+                                            </Item>
+                                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                                ${e.price}
+                                            </Item>
+                                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                                {e.description}
+                                            </Item>
+                                            <Button
+                                                sx={{
+                                                    mt: 2.5,
+                                                    borderRadius: 2,
+                                                    textTransform: "uppercase",
+                                                    bgcolor: "#e65100",
+                                                    color: "#ffe0c7",
+                                                    letterSpacing: "0.16em",
+                                                    fontWeight: 700,
+                                                    boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
+                                                    transition: "0.25s ease",
 
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            gap: 2,
-                                            justifyContent: "flex-end",
-                                            width: { xs: "100%", sm: "auto" },
-                                        }}
-                                    >
-                                        <Button
-                                            className="btns-checkout-clearCart"
-                                            onClick={handleCheckout}
-                                            variant="contained"
-                                            sx={{
-                                                width: 80,
-                                                height: 40,
-                                                borderRadius: 2,
-                                                backgroundColor: "#e65100",
-                                            }}
-                                        >
-                                            <Badge
-                                                badgeContent={totalItems}
-                                                color="primary"
-                                                overlap="circular"
-                                                showZero={false}
+                                                    "&:hover": {
+                                                        bgcolor: "#ffe0c7",
+                                                        color: "#e65100",
+                                                        boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
+                                                    },
+
+                                                    "&:active": {
+                                                        bgcolor: "#ffe0c7",
+                                                        color: "#e65100",
+                                                        transform: "scale(0.98)",
+                                                        boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
+                                                    },
+                                                }}
+                                                onClick={() => handleOrder(e)}
                                             >
-                                                <ShoppingCartIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
-                                            </Badge>
-                                            &nbsp;
-                                        </Button>
+                                                ADD TO CART
+                                            </Button>
+                                        </Stack>
+                                    </Box>
 
-                                        <Button
-                                            className="btns-checkout-clearCart"
-                                            variant="contained"
-                                            onClick={handleClearCart}
+                                    <Box className="card-right">
+                                        <Item
                                             sx={{
-                                                width: 80,
-                                                height: 40,
+                                                height: '300px',
+                                                width: '270px',
+                                                boxSizing: 'border-box',
+                                                border: '2px solid #e65100',
                                                 borderRadius: 2,
-                                                backgroundColor: "#e65100",
+                                                padding: 1,
                                             }}
                                         >
-                                            <DeleteForeverIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
-                                            &nbsp;
-                                        </Button>
+                                            <img
+                                                key={e.id}
+                                                src={e.image}
+                                                alt={e.name}
+                                                style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
+                                            />
+                                        </Item>
                                     </Box>
                                 </Box>
-                            </Paper>
-                        </Box>
-                    </>
-                )}
+                            ))}
+                        </div>
 
-                {filteredLanche.length === 0 ? null : <h1 className="h1-sandwiches">Sandwiches:</h1>}
+                        {filteredSides.length === 0 ? null : <h1 className="h1-sandwiches">Sides:</h1>}
 
-                <div className="products-wrapper">
-                    {filteredLanche.map((e, index) => (
-                        <Box
-                            className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
-                            key={e.id}
-                        >
-                            <Box className="card-left">
-                                <Stack spacing={2}>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.name}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        ${e.price}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.description}
-                                    </Item>
-                                    <Button
-                                        sx={{
-                                            mt: 2.5,
-                                            borderRadius: 2,
-                                            textTransform: "uppercase",
-                                            bgcolor: "#e65100",
-                                            color: "#ffe0c7",
-                                            letterSpacing: "0.16em",
-                                            fontWeight: 700,
-                                            boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
-                                            transition: "0.25s ease",
-
-                                            "&:hover": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
-                                            },
-
-                                            "&:active": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                transform: "scale(0.98)",
-                                                boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
-                                            },
-                                        }}
-                                        onClick={() => handleOrder(e)}
-                                    >
-                                        ADD TO CART
-                                    </Button>
-                                </Stack>
-                            </Box>
-
-                            <Box className="card-right">
-                                <Item
-                                    sx={{
-                                        height: '300px',
-                                        width: '270px',
-                                        boxSizing: 'border-box',
-                                        border: '2px solid #e65100',
-                                        borderRadius: 2,
-                                        padding: 1,
-                                    }}
+                        <div className="products-wrapper">
+                            {filteredSides.map((e, index) => (
+                                <Box
+                                    className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
+                                    key={e.id}
                                 >
-                                    <img
-                                        key={e.id}
-                                        src={e.image}
-                                        alt={e.name}
-                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
-                                    />
-                                </Item>
-                            </Box>
-                        </Box>
-                    ))}
-                </div>
+                                    <Box className="card-left">
+                                        <Stack spacing={2}>
+                                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                                {e.name}
+                                            </Item>
+                                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                                ${e.price}
+                                            </Item>
+                                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                                {e.description}
+                                            </Item>
+                                            <Button
+                                                sx={{
+                                                    mt: 2.5,
+                                                    borderRadius: 2,
+                                                    textTransform: "uppercase",
+                                                    bgcolor: "#e65100",
+                                                    color: "#ffe0c7",
+                                                    letterSpacing: "0.16em",
+                                                    fontWeight: 700,
+                                                    boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
+                                                    transition: "0.25s ease",
 
-                {filteredSides.length === 0 ? null : <h1 className="h1-sandwiches">Sides:</h1>}
+                                                    "&:hover": {
+                                                        bgcolor: "#ffe0c7",
+                                                        color: "#e65100",
+                                                        boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
+                                                    },
 
-                <div className="products-wrapper">
-                    {filteredSides.map((e, index) => (
-                        <Box
-                            className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
-                            key={e.id}
-                        >
-                            <Box className="card-left">
-                                <Stack spacing={2}>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.name}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        ${e.price}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.description}
-                                    </Item>
-                                    <Button
-                                        sx={{
-                                            mt: 2.5,
-                                            borderRadius: 2,
-                                            textTransform: "uppercase",
-                                            bgcolor: "#e65100",
-                                            color: "#ffe0c7",
-                                            letterSpacing: "0.16em",
-                                            fontWeight: 700,
-                                            boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
-                                            transition: "0.25s ease",
+                                                    "&:active": {
+                                                        bgcolor: "#ffe0c7",
+                                                        color: "#e65100",
+                                                        transform: "scale(0.98)",
+                                                        boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
+                                                    },
+                                                }}
+                                                onClick={() => handleOrder(e)}
+                                            >
+                                                ADD TO CART
+                                            </Button>
+                                        </Stack>
+                                    </Box>
 
-                                            "&:hover": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
-                                            },
+                                    <Box className="card-right">
+                                        <Item
+                                            sx={{
+                                                height: '300px',
+                                                width: '270px',
+                                                boxSizing: 'border-box',
+                                                border: '2px solid #e65100',
+                                                borderRadius: 2,
+                                                padding: 1,
+                                            }}
+                                        >
+                                            <img
+                                                key={e.id}
+                                                src={e.image}
+                                                alt={e.name}
+                                                style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
+                                            />
+                                        </Item>
+                                    </Box>
+                                </Box>
+                            ))}
+                        </div>
 
-                                            "&:active": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                transform: "scale(0.98)",
-                                                boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
-                                            },
-                                        }}
-                                        onClick={() => handleOrder(e)}
-                                    >
-                                        ADD TO CART
-                                    </Button>
-                                </Stack>
-                            </Box>
+                        {filteredBebidas.length === 0 ? null : <h1 className="h1-sandwiches">Beverages:</h1>}
 
-                            <Box className="card-right">
-                                <Item
-                                    sx={{
-                                        height: '300px',
-                                        width: '270px',
-                                        boxSizing: 'border-box',
-                                        border: '2px solid #e65100',
-                                        borderRadius: 2,
-                                        padding: 1,
-                                    }}
+                        <div className="products-wrapper">
+                            {filteredBebidas.map((e, index) => (
+                                <Box
+                                    className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
+                                    key={e.id}
                                 >
-                                    <img
-                                        key={e.id}
-                                        src={e.image}
-                                        alt={e.name}
-                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
-                                    />
-                                </Item>
-                            </Box>
-                        </Box>
-                    ))}
-                </div>
+                                    <Box className="card-left">
+                                        <Stack spacing={2}>
+                                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                                {e.name}
+                                            </Item>
+                                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                                ${e.price}
+                                            </Item>
+                                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                                {e.description}
+                                            </Item>
+                                            <Button
+                                                sx={{
+                                                    mt: 2.5,
+                                                    borderRadius: 2,
+                                                    textTransform: "uppercase",
+                                                    bgcolor: "#e65100",
+                                                    color: "#ffe0c7",
+                                                    letterSpacing: "0.16em",
+                                                    fontWeight: 700,
+                                                    boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
+                                                    transition: "0.25s ease",
 
-                {filteredBebidas.length === 0 ? null : <h1 className="h1-sandwiches">Beverages:</h1>}
+                                                    "&:hover": {
+                                                        bgcolor: "#ffe0c7",
+                                                        color: "#e65100",
+                                                        boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
+                                                    },
 
-                <div className="products-wrapper">
-                    {filteredBebidas.map((e, index) => (
-                        <Box
-                            className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
-                            key={e.id}
-                        >
-                            <Box className="card-left">
-                                <Stack spacing={2}>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.name}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        ${e.price}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.description}
-                                    </Item>
-                                    <Button
-                                        sx={{
-                                            mt: 2.5,
-                                            borderRadius: 2,
-                                            textTransform: "uppercase",
-                                            bgcolor: "#e65100",
-                                            color: "#ffe0c7",
-                                            letterSpacing: "0.16em",
-                                            fontWeight: 700,
-                                            boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
-                                            transition: "0.25s ease",
+                                                    "&:active": {
+                                                        bgcolor: "#ffe0c7",
+                                                        color: "#e65100",
+                                                        transform: "scale(0.98)",
+                                                        boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
+                                                    },
+                                                }}
+                                                onClick={() => handleOrder(e)}
+                                            >
+                                                ADD TO CART
+                                            </Button>
+                                        </Stack>
+                                    </Box>
 
-                                            "&:hover": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
-                                            },
+                                    <Box className="card-right">
+                                        <Item
+                                            sx={{
+                                                height: '300px',
+                                                width: '270px',
+                                                boxSizing: 'border-box',
+                                                border: '2px solid #e65100',
+                                                borderRadius: 2,
+                                                padding: 1,
+                                            }}
+                                        >
+                                            <img
+                                                key={e.id}
+                                                src={e.image}
+                                                alt={e.name}
+                                                style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
+                                            />
+                                        </Item>
+                                    </Box>
+                                </Box>
+                            ))}
+                        </div>
 
-                                            "&:active": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                transform: "scale(0.98)",
-                                                boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
-                                            },
-                                        }}
-                                        onClick={() => handleOrder(e)}
-                                    >
-                                        ADD TO CART
-                                    </Button>
-                                </Stack>
-                            </Box>
+                        {filteredDesserts.length === 0 ? null : <h1 className="h1-sandwiches">Desserts:</h1>}
 
-                            <Box className="card-right">
-                                <Item
-                                    sx={{
-                                        height: '300px',
-                                        width: '270px',
-                                        boxSizing: 'border-box',
-                                        border: '2px solid #e65100',
-                                        borderRadius: 2,
-                                        padding: 1,
-                                    }}
+                        <div className="products-wrapper">
+                            {filteredDesserts.map((e, index) => (
+                                <Box
+                                    className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
+                                    key={e.id}
                                 >
-                                    <img
-                                        key={e.id}
-                                        src={e.image}
-                                        alt={e.name}
-                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
-                                    />
-                                </Item>
-                            </Box>
-                        </Box>
-                    ))}
-                </div>
+                                    <Box className="card-left">
+                                        <Stack spacing={2}>
+                                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                                {e.name}
+                                            </Item>
+                                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                                ${e.price}
+                                            </Item>
+                                            <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                                {e.description}
+                                            </Item>
+                                            <Button
+                                                sx={{
+                                                    mt: 2.5,
+                                                    borderRadius: 2,
+                                                    textTransform: "uppercase",
+                                                    bgcolor: "#e65100",
+                                                    color: "#ffe0c7",
+                                                    letterSpacing: "0.16em",
+                                                    fontWeight: 700,
+                                                    boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
+                                                    transition: "0.25s ease",
 
-                {filteredDesserts.length === 0 ? null : <h1 className="h1-sandwiches">Desserts:</h1>}
+                                                    "&:hover": {
+                                                        bgcolor: "#ffe0c7",
+                                                        color: "#e65100",
+                                                        boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
+                                                    },
 
-                <div className="products-wrapper">
-                    {filteredDesserts.map((e, index) => (
-                        <Box
-                            className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
-                            key={e.id}
-                        >
-                            <Box className="card-left">
-                                <Stack spacing={2}>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.name}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        ${e.price}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.description}
-                                    </Item>
-                                    <Button
-                                        sx={{
-                                            mt: 2.5,
-                                            borderRadius: 2,
-                                            textTransform: "uppercase",
-                                            bgcolor: "#e65100",
-                                            color: "#ffe0c7",
-                                            letterSpacing: "0.16em",
-                                            fontWeight: 700,
-                                            boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
-                                            transition: "0.25s ease",
+                                                    "&:active": {
+                                                        bgcolor: "#ffe0c7",
+                                                        color: "#e65100",
+                                                        transform: "scale(0.98)",
+                                                        boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
+                                                    },
+                                                }}
+                                                onClick={() => handleOrder(e)}
+                                            >
+                                                ADD TO CART
+                                            </Button>
+                                        </Stack>
+                                    </Box>
 
-                                            "&:hover": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
-                                            },
+                                    <Box className="card-right">
+                                        <Item
+                                            sx={{
+                                                height: '300px',
+                                                width: '270px',
+                                                boxSizing: 'border-box',
+                                                border: '2px solid #e65100',
+                                                borderRadius: 2,
+                                                padding: 1,
+                                            }}
+                                        >
+                                            <img
+                                                key={e.id}
+                                                src={e.image}
+                                                alt={e.name}
+                                                style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
+                                            />
+                                        </Item>
+                                    </Box>
+                                </Box>
+                            ))}
+                        </div>
 
-                                            "&:active": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                transform: "scale(0.98)",
-                                                boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
-                                            },
-                                        }}
-                                        onClick={() => handleOrder(e)}
-                                    >
-                                        ADD TO CART
-                                    </Button>
-                                </Stack>
-                            </Box>
 
-                            <Box className="card-right">
-                                <Item
-                                    sx={{
-                                        height: '300px',
-                                        width: '270px',
-                                        boxSizing: 'border-box',
-                                        border: '2px solid #e65100',
-                                        borderRadius: 2,
-                                        padding: 1,
-                                    }}
-                                >
-                                    <img
-                                        key={e.id}
-                                        src={e.image}
-                                        alt={e.name}
-                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
-                                    />
-                                </Item>
-                            </Box>
-                        </Box>
-                    ))}
-                </div>
-            </Container>
+                    </Container>
 
-            <Footer />
+                    <Footer />
+                </Box>
+            </Box>
         </div>
     );
 }

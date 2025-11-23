@@ -127,190 +127,192 @@ export default function Beverages() {
   };
 
   return (
-    <Container className="margin-top" fixed>
-      <Box sx={{ display: 'flex' }}>
-        <CssBaseline />
+    <>
+      <Container className="margin-top" fixed>
+        <Box sx={{ display: 'flex' }}>
+          <CssBaseline />
 
-        <Drawer
-          variant="permanent"
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
+          <Drawer
+            variant="permanent"
+            sx={{
               width: drawerWidth,
-              boxSizing: 'border-box',
-              background: 'repeating-linear-gradient(\
+              flexShrink: 0,
+              '& .MuiDrawer-paper': {
+                width: drawerWidth,
+                boxSizing: 'border-box',
+                background: 'repeating-linear-gradient(\
                 90deg,\
                 rgba(255, 255, 255, 0.3) 0px,\
                 rgba(255, 243, 224, 0.3) 20px,\
                 rgba(255, 224, 199, 0.3) 20px,\
                 rgba(255, 255, 255, 0.3) 40px\
               )',
-              backgroundSize: '200% 100%',
-              animation: 'moveStripesReverse 8s linear infinite',
-              marginTop: '-60px',
-              height: "1200px",
-              border: '3px solid #e65100',
-              color: '#e65100',
-            },
-          }}
-        >
-          <Toolbar />
-          <Box sx={{ overflow: 'auto' }}>
-            <List>
-              {drawerSections.map((section, sectionIndex) => (
-                <React.Fragment key={sectionIndex}>
-                  <List disablePadding>
-                    {section.map(({ text, icon: IconComp, small }) => (
-                      <ListItem key={text} disablePadding>
-                        <ListItemButton sx={{ py: small ? 0.5 : 1 }}>
-                          <ListItemIcon
-                            sx={{
-                              minWidth: small ? 24 : 28,
-                              mr: small ? 0.5 : 1,
-                              color: '#e65100',
-                              '& svg': { fontSize: small ? 20 : 24 },
-                            }}
-                          >
-                            <IconComp />
-                          </ListItemIcon>
-
-                          <ListItemText
-                            primary={text}
-                            primaryTypographyProps={{
-                              sx: {
-                                color: '#e65100',
-                                fontWeight: 'bold',
-                                fontSize: small ? '1.10rem' : '1.10rem',
-                              },
-                            }}
-                          />
-                        </ListItemButton>
-                      </ListItem>
-                    ))}
-                  </List>
-
-                  {sectionIndex < drawerSections.length - 1 && (
-                    <Divider
-                      sx={{
-                        borderColor: '#e65100',
-                        marginBottom: '15px',
-                        opacity: 0.3,
-                        borderWidth: 1,
-                      }}
-                    />
-                  )}
-                </React.Fragment>
-              ))}
-            </List>
-          </Box>
-        </Drawer>
-      </Box>
-
-      <div className="nav-products-page">
-        <Button
-          variant="contained"
-          onClick={() => navigate('/')}
-          sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
-        >
-          <ArrowCircleLeftIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
-        </Button>
-
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          {['SANDWICHES', 'SIDES', 'DESSERTS'].map((category) => (
-            <Button
-              key={category}
-              onClick={() => handleNavigate(category)}
-              sx={{
+                backgroundSize: '200% 100%',
+                animation: 'moveStripesReverse 8s linear infinite',
+                marginTop: '-60px',
+                height: "1200px",
+                border: '3px solid #e65100',
                 color: '#e65100',
-                textTransform: 'none',
-                fontWeight: 300,
-                fontFamily: "Faster One, system-ui",
-                fontSize: '2rem',
-                lineHeight: 1,
-                padding: 2,
-                minWidth: 'auto',
-              }}
-            >
-              {category}
-            </Button>
-          ))}
+              },
+            }}
+          >
+            <Toolbar />
+            <Box sx={{ overflow: 'auto' }}>
+              <List>
+                {drawerSections.map((section, sectionIndex) => (
+                  <React.Fragment key={sectionIndex}>
+                    <List disablePadding>
+                      {section.map(({ text, icon: IconComp, small }) => (
+                        <ListItem key={text} disablePadding>
+                          <ListItemButton sx={{ py: small ? 0.5 : 1 }}>
+                            <ListItemIcon
+                              sx={{
+                                minWidth: small ? 24 : 28,
+                                mr: small ? 0.5 : 1,
+                                color: '#e65100',
+                                '& svg': { fontSize: small ? 20 : 24 },
+                              }}
+                            >
+                              <IconComp />
+                            </ListItemIcon>
+
+                            <ListItemText
+                              primary={text}
+                              primaryTypographyProps={{
+                                sx: {
+                                  color: '#e65100',
+                                  fontWeight: 'bold',
+                                  fontSize: small ? '1.10rem' : '1.10rem',
+                                },
+                              }}
+                            />
+                          </ListItemButton>
+                        </ListItem>
+                      ))}
+                    </List>
+
+                    {sectionIndex < drawerSections.length - 1 && (
+                      <Divider
+                        sx={{
+                          borderColor: '#e65100',
+                          marginBottom: '15px',
+                          opacity: 0.3,
+                          borderWidth: 1,
+                        }}
+                      />
+                    )}
+                  </React.Fragment>
+                ))}
+              </List>
+            </Box>
+          </Drawer>
         </Box>
 
-        {/* 🛒 Cart with default blue badge */}
-        <Button
-          variant="contained"
-          onClick={() => navigate('/checkout')}
-          sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
-        >
-          <Badge
-            badgeContent={totalItems}
-            color="primary"      // <- default blue
-            overlap="circular"
-            showZero={false}
+        <div className="nav-products-page">
+          <Button
+            variant="contained"
+            onClick={() => navigate('/')}
+            sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
           >
-            <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
-          </Badge>
-        </Button>
-      </div>
+            <ArrowCircleLeftIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+          </Button>
 
-      <div className="products-wrapper">
-        {data.map((e, index) => (
-          <Box
-            className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
-            key={e.id}
-          >
-            <Box className="card-left">
-              <Stack spacing={2}>
-                <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                  {e.name}
-                </Item>
-                <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                  ${e.price}
-                </Item>
-                <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                  {e.description}
-                </Item>
-                <Button
-                  sx={{
-                    backgroundColor: '#e65100',
-                    color: '#ffe0c7',
-                    fontWeight: 'bold',
-                    '&:hover': {
-                      backgroundColor: '#bf360c',
-                    },
-                  }}
-                  onClick={() => handleOrder(e)}
-                >
-                  ADD TO CART
-                </Button>
-              </Stack>
-            </Box>
-
-            <Box className="card-right">
-              <Item
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            {['SANDWICHES', 'SIDES', 'DESSERTS'].map((category) => (
+              <Button
+                key={category}
+                onClick={() => handleNavigate(category)}
                 sx={{
-                  height: '300px',
-                  width: '270px',
-                  boxSizing: 'border-box',
-                  border: '2px solid #e65100',
-                  borderRadius: 2,
-                  padding: 1,
+                  color: '#e65100',
+                  textTransform: 'none',
+                  fontWeight: 300,
+                  fontFamily: "Faster One, system-ui",
+                  fontSize: '2rem',
+                  lineHeight: 1,
+                  padding: 2,
+                  minWidth: 'auto',
                 }}
               >
-                <img
-                  key={e.id}
-                  src={e.image}
-                  alt={e.name}
-                  style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
-                />
-              </Item>
-            </Box>
+                {category}
+              </Button>
+            ))}
           </Box>
-        ))}
-      </div>
 
+          {/* 🛒 Cart with default blue badge */}
+          <Button
+            variant="contained"
+            onClick={() => navigate('/checkout')}
+            sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
+          >
+            <Badge
+              badgeContent={totalItems}
+              color="primary"      // <- default blue
+              overlap="circular"
+              showZero={false}
+            >
+              <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+            </Badge>
+          </Button>
+        </div>
+
+        <div className="products-wrapper">
+          {data.map((e, index) => (
+            <Box
+              className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
+              key={e.id}
+            >
+              <Box className="card-left">
+                <Stack spacing={2}>
+                  <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                    {e.name}
+                  </Item>
+                  <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                    ${e.price}
+                  </Item>
+                  <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                    {e.description}
+                  </Item>
+                  <Button
+                    sx={{
+                      backgroundColor: '#e65100',
+                      color: '#ffe0c7',
+                      fontWeight: 'bold',
+                      '&:hover': {
+                        backgroundColor: '#bf360c',
+                      },
+                    }}
+                    onClick={() => handleOrder(e)}
+                  >
+                    ADD TO CART
+                  </Button>
+                </Stack>
+              </Box>
+
+              <Box className="card-right">
+                <Item
+                  sx={{
+                    height: '300px',
+                    width: '270px',
+                    boxSizing: 'border-box',
+                    border: '2px solid #e65100',
+                    borderRadius: 2,
+                    padding: 1,
+                  }}
+                >
+                  <img
+                    key={e.id}
+                    src={e.image}
+                    alt={e.name}
+                    style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
+                  />
+                </Item>
+              </Box>
+            </Box>
+          ))}
+        </div>
+
+      </Container>
       <Footer />
-    </Container>
+    </>
   );
 }

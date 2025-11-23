@@ -1,4 +1,3 @@
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,14 +12,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import Logo from '../assets/fast-fuel.png';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import Badge, { badgeClasses } from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import { useAppContext } from '../context/context';
-
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -33,6 +31,11 @@ const Search = styled('div')(({ theme }) => ({
   marginLeft: theme.spacing(2),
   width: '100%',
   maxWidth: 300,
+
+  display: 'flex',         // ✅ make wrapper a flex container
+  alignItems: 'center',    // ✅ vertically center content
+  cursor: 'text',          // ✅ whole bar shows text cursor
+
   [theme.breakpoints.down('md')]: {
     display: 'none',
   },
@@ -46,10 +49,13 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   color: '#e65100',
+  pointerEvents: 'none',   // ✅ let clicks pass through to the input
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: '#e65100',
+  width: '100%',          // ✅ root InputBase full width
+
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
@@ -72,13 +78,15 @@ type NavbarProps = {
 };
 
 function Navbar({ onSearch }: NavbarProps) {
-
   const navigate = useNavigate();
-  const {order, setOrder} = useAppContext()
+  const { order } = useAppContext();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [shown, setShown] = useState(true);
-  const [badgeQuantity, setBadgeQuantity] = useState(0)
+  const [badgeQuantity, setBadgeQuantity] = useState(0);
+
+  // ✅ ref to control focus programmatically
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -89,27 +97,25 @@ function Navbar({ onSearch }: NavbarProps) {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("idUser")) {
-      setShown(false)
+    if (localStorage.getItem('idUser')) {
+      setShown(false);
     }
-    setBadgeQuantity(order.length)
-  }, [])
+    setBadgeQuantity(order.length);
+  }, []);
 
   useEffect(() => {
-   const qtdTotal = order.reduce((acc, element) => acc + element.quantidade,0)
-   setBadgeQuantity(qtdTotal)
-  }, [order])
+    const qtdTotal = order.reduce((acc, element) => acc + element.quantidade, 0);
+    setBadgeQuantity(qtdTotal);
+  }, [order]);
 
   const handleNavigate = (category: string) => {
     navigate(`/${category.toLowerCase()}`);
   };
 
-
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#fff3e0' }}>
       <Box sx={{ width: '100%' }}>
         <Toolbar disableGutters sx={{ minHeight: 80 }}>
-
           {/* LOGO */}
           <Box
             component="a"
@@ -130,11 +136,7 @@ function Navbar({ onSearch }: NavbarProps) {
 
           {/* Mobile Menu Icon */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
+            <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
               <MenuIcon sx={{ color: '#e65100' }} />
             </IconButton>
             <Menu
@@ -148,10 +150,14 @@ function Navbar({ onSearch }: NavbarProps) {
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/signup" style={{ textDecoration: 'none', color: '#e65100' }}>Signup</Link>
+                <Link to="/signup" style={{ textDecoration: 'none', color: '#e65100' }}>
+                  Signup
+                </Link>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/signin" style={{ textDecoration: 'none', color: '#e65100' }}>Signin</Link>
+                <Link to="/signin" style={{ textDecoration: 'none', color: '#e65100' }}>
+                  Signin
+                </Link>
               </MenuItem>
             </Menu>
           </Box>
@@ -179,7 +185,7 @@ function Navbar({ onSearch }: NavbarProps) {
           </Typography>
 
           {/* SEARCH BAR */}
-          <Search>
+          <Search onClick={() => searchInputRef.current?.focus()}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -187,24 +193,11 @@ function Navbar({ onSearch }: NavbarProps) {
               placeholder="Search…"
               onChange={(event) => onSearch(event.target.value)}
               inputProps={{ 'aria-label': 'search' }}
+              inputRef={searchInputRef}   // ✅ connect ref to the real input element
             />
           </Search>
 
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            {['SANDWICHES', 'SIDES', 'BEVERAGES', 'DESSERTS'].map((category) => (
-              <Button
-                key={category}
-                onClick={() => handleNavigate(category)}
-                sx={{
-                  color: '#e65100',
-                  fontWeight: 500,
-                  textTransform: 'none',
-                }}
-              >
-                {category}
-              </Button>
-            ))}
-          </Box>
+          
 
           {/* Right Static Buttons */}
           <Box
@@ -212,10 +205,9 @@ function Navbar({ onSearch }: NavbarProps) {
               display: { xs: 'none', md: 'flex' },
               gap: 1,
               marginLeft: 'auto',
-              paddingRight: 2, // or use marginRight: 2
+              paddingRight: 2,
             }}
           >
-
             <IconButton
               onClick={() => navigate('/checkout')}
               sx={{
@@ -223,12 +215,16 @@ function Navbar({ onSearch }: NavbarProps) {
                 height: 40,
                 borderRadius: 2,
                 backgroundColor: '#e65100',
-                '&:hover': { backgroundColor: '#b33f00' }, // <-- same hover
+                '&:hover': { backgroundColor: '#b33f00' },
                 '& .MuiSvgIcon-root': { color: '#ffe0c7' },
               }}
             >
               <ShoppingCartIcon sx={{ fontSize: 28 }} />
-              <CartBadge badgeContent={badgeQuantity} overlap="circular" sx={{ pointerEvents: 'none' }} />
+              <CartBadge
+                badgeContent={badgeQuantity}
+                overlap="circular"
+                sx={{ pointerEvents: 'none' }}
+              />
             </IconButton>
 
             <Button
@@ -238,41 +234,43 @@ function Navbar({ onSearch }: NavbarProps) {
                 height: 40,
                 borderRadius: 2,
                 backgroundColor: '#e65100',
-                '&:hover': { backgroundColor: '#b33f00' }, // <-- same hover
+                '&:hover': { backgroundColor: '#b33f00' },
               }}
             >
               <ManageAccountsIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
             </Button>
 
-            {shown ? <>
-              <Button
-                sx={{
-                  color: '#e65100',
-                  outline: '2px solid #e65100',
-                  '&:focus': {
-                    outlineOffset: '2px',
-                  },
-                }}
-              >
-                <Link to="/sign-in" style={{ textDecoration: 'none', color: '#e65100' }}>
-                  Signin
-                </Link>
-              </Button>
+            {shown ? (
+              <>
+                <Button
+                  sx={{
+                    color: '#e65100',
+                    outline: '2px solid #e65100',
+                    '&:focus': {
+                      outlineOffset: '2px',
+                    },
+                  }}
+                >
+                  <Link to="/sign-in" style={{ textDecoration: 'none', color: '#e65100' }}>
+                    Signin
+                  </Link>
+                </Button>
 
-              <Button
-                sx={{
-                  color: '#e65100',
-                  outline: '2px solid #e65100',
-                  '&:focus': {
-                    outlineOffset: '2px',
-                  },
-                }}
-              >
-                <Link to="/sign-up" style={{ textDecoration: 'none', color: '#e65100' }}>
-                  Signup
-                </Link>
-              </Button>
-            </> : null}
+                <Button
+                  sx={{
+                    color: '#e65100',
+                    outline: '2px solid #e65100',
+                    '&:focus': {
+                      outlineOffset: '2px',
+                    },
+                  }}
+                >
+                  <Link to="/sign-up" style={{ textDecoration: 'none', color: '#e65100' }}>
+                    Signup
+                  </Link>
+                </Button>
+              </>
+            ) : null}
           </Box>
         </Toolbar>
       </Box>
