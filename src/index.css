@@ -424,3 +424,57 @@ body {
   min-height: 80vh;    /* fill the height of the viewport */
   padding-top: 2rem;    /* space from the top (adjust as needed) */
 }
+
+.checkout-bg {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Topo 3/4 com stripes */
+.checkout-top {
+  flex: 3;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(255, 244, 225, 0.4),
+    rgba(255, 244, 225, 0.4) 20px,
+    transparent 20px,
+    transparent 40px
+  );
+  background-size: 100% 40px;
+  background-repeat: repeat-y;
+  background-attachment: fixed;
+}
+
+/* Parte inferior 1/4 com creme + logo */
+.checkout-bottom {
+  flex: 1;
+  background: #ffe0c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Logo */
+.checkout-logo {
+  width: 120px;
+  height: auto;
+  opacity: 0.95;
+}
+
+/* Coloca o card acima do fundo */
+.checkout-content {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+
+  /* Flex center */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
