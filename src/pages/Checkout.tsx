@@ -28,11 +28,12 @@ import Footer from "../components/Footer";
 
 const drawerSections = [
   [
-    { text: "MY ACCOUNT", icon: AccountCircleIcon, small: false },
+    { text: "CHECKOUT", icon: AccountCircleIcon, small: false },
   ],
   [
     { text: "Settings", icon: SettingsIcon, small: true },
     { text: "Order History", icon: HistoryIcon, small: true },
+    { text: "Order Status", icon: HistoryIcon, small: true },
     { text: "Contact us", icon: ContactSupportIcon, small: true },
   ],
 ];
@@ -187,6 +188,7 @@ export default function Checkout() {
             borderRadius: 3,
             border: "1.5px solid rgba(0,0,0,0.25)",
             bgcolor: "background.paper",
+            mt: -6,
           }}
         >
           {/* Title */}
@@ -197,7 +199,7 @@ export default function Checkout() {
               mb: 2,
               letterSpacing: "0.12em",
               textTransform: "uppercase",
-              color: "#bf360c",
+              color: "#e65100",
               fontWeight: 700,
             }}
           >
@@ -418,19 +420,19 @@ export default function Checkout() {
               mt: 2.5,
               borderRadius: 2,
               textTransform: "uppercase",
-              bgcolor: "#bf360c",
+              bgcolor: "#e65100",
               color: "#ffe0c7",
               letterSpacing: "0.16em",
               fontWeight: 700,
               boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
               "&:hover": {
                 bgcolor: "#ffe0c7",
-                color: "#bf360c",
+                color: "#e65100",
                 boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
               },
               "&:active": {
                 bgcolor: "#ffe0c7",
-                color: "#bf360c",
+                color: "#e65100",
                 transform: "scale(0.98)",
                 boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
               },

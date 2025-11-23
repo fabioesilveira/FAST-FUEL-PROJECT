@@ -49,6 +49,8 @@ export default function Home() {
         0
     );
 
+    const shouldShowCarousel = search.length === 0 && totalItems === 0;
+
     // ✅ Init: fetch products + hydrate order from localStorage
     useEffect(() => {
         async function init() {
@@ -273,15 +275,23 @@ export default function Home() {
             <Container className="margin-top" fixed>
                 <h1 className="h1-home">Fuel Up Fast. Taste That Lasts.</h1>
 
-                {search.length > 0 ? null : (
+                {shouldShowCarousel && (
                     <div className="div-carousel">
                         <Carousel>
                             <Carousel.Item>
-                                <img src={Chat} alt="Fast Fuel Banner" style={{ height: '680px', width: '1200px', borderRadius: '16px' }} />
+                                <img
+                                    src={Chat}
+                                    alt="Fast Fuel Banner"
+                                    style={{ height: '680px', width: '1200px', borderRadius: '16px' }}
+                                />
                             </Carousel.Item>
 
                             <Carousel.Item>
-                                <img src={Chat2} alt="Fast Fuel Banner" style={{ height: '680px', width: '1200px', borderRadius: '16px' }} />
+                                <img
+                                    src={Chat2}
+                                    alt="Fast Fuel Banner"
+                                    style={{ height: '680px', width: '1200px', borderRadius: '16px' }}
+                                />
                             </Carousel.Item>
                         </Carousel>
                     </div>
