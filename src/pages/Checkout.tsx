@@ -25,7 +25,6 @@ import HistoryIcon from "@mui/icons-material/History";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import Footer from "../components/Footer";
 
-const drawerWidth = 260; // adjust if you want wider/narrower
 
 const drawerSections = [
   [
@@ -37,6 +36,8 @@ const drawerSections = [
     { text: "Contact us", icon: ContactSupportIcon, small: true },
   ],
 ];
+
+const drawerWidth = 240;
 
 export default function Checkout() {
   return (
@@ -72,12 +73,14 @@ export default function Checkout() {
               backgroundSize: "200% 100%",
               animation: "moveStripesReverse 8s linear infinite",
               borderRight: "3px solid #e65100",
+              borderLeft: "3px solid #e65100",
               color: "#e65100",
             },
           }}
         >
-          <Toolbar />
-          <Box sx={{ overflow: "auto", px: 1 }}>
+           
+          
+          <Box sx={{ overflow: "auto", mt: 1.5 }}>
             {drawerSections.map((section, sectionIndex) => (
               <React.Fragment key={sectionIndex}>
                 <List disablePadding>
@@ -113,10 +116,12 @@ export default function Checkout() {
                 {sectionIndex < drawerSections.length - 1 && (
                   <Divider
                     sx={{
-                      borderColor: "#e65100",
-                      my: 1.5,
+                      borderColor: '#e65100',
+                      marginBottom: '15px',
                       opacity: 0.3,
                       borderWidth: 1,
+                      mt: 0,      // remove extra top space
+                      // mt: -1,  // use this if you want to pull it UP visibly
                     }}
                   />
                 )}
@@ -148,7 +153,7 @@ export default function Checkout() {
       <Box
         sx={{
           flex: 1,
-          background: "#ffe0c7",
+          background: "#fff4e1;",
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
@@ -158,7 +163,7 @@ export default function Checkout() {
         <img
           src="/src/assets/fast-fuel.png"
           alt="Fast Fuel Logo"
-          style={{ width: "220px", height: "auto" }}
+          style={{ width: "280px", height: "220px" }}
         />
       </Box>
 

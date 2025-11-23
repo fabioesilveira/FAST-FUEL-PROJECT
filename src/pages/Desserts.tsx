@@ -147,7 +147,8 @@ export default function Desserts() {
                             animation: 'moveStripesReverse 8s linear infinite',
                             marginTop: '-60px',
                             height: "1200px",
-                            border: '3px solid #e65100',
+                            borderRight: '3px solid #e65100',
+                            borderLeft: '3px solid #e65100',
                             color: '#e65100',
                         },
                     }}
