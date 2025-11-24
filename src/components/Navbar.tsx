@@ -197,7 +197,7 @@ function Navbar({ onSearch }: NavbarProps) {
             />
           </Search>
 
-          
+
 
           {/* Right Static Buttons */}
           <Box
@@ -216,10 +216,16 @@ function Navbar({ onSearch }: NavbarProps) {
                 borderRadius: 2,
                 backgroundColor: '#e65100',
                 '&:hover': { backgroundColor: '#b33f00' },
-                '& .MuiSvgIcon-root': { color: '#ffe0c7' },
+                filter: 'drop-shadow(0px 0px 4px rgba(0,0,0,0.25))', // shadow 
               }}
             >
-              <ShoppingCartIcon sx={{ fontSize: 28 }} />
+              <ShoppingCartIcon
+                sx={{
+                  fontSize: 28,
+                  color: '#ffe0c7',
+
+                }}
+              />
               <CartBadge
                 badgeContent={badgeQuantity}
                 overlap="circular"

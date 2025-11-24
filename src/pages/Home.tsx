@@ -492,69 +492,70 @@ export default function Home() {
                                     })}
                                 </Box>
 
-                                {/* TOTAL + BUTTONS */}
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: { xs: "column", sm: "row" },
-                                        alignItems: { xs: "flex-start", sm: "center" },
-                                        justifyContent: "space-between",
-                                        gap: 2,
-                                    }}
-                                >
-                                    <Typography
-                                        variant="h6"
-                                        sx={{ fontWeight: 700, color: "#333" }}
-                                    >
-                                        TOTAL R$: {checkout.toFixed(2)}
-                                    </Typography>
+                               {/* TOTAL + BUTTONS */}
+<Box
+  sx={{
+    display: "flex",
+    flexDirection: "column",        // 👉 tudo em coluna
+    alignItems: "center",           // 👉 centraliza horizontalmente
+    justifyContent: "center",
+    gap: 2,
+  }}
+>
+  <Typography
+    variant="h6"
+    sx={{ fontWeight: 700, color: "#e65100", textAlign: "center" }}
+  >
+    TOTAL R$: {checkout.toFixed(2)}
+  </Typography>
 
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            gap: 2,
-                                            justifyContent: "flex-end",
-                                            width: { xs: "100%", sm: "auto" },
-                                        }}
-                                    >
-                                        <Button
-                                            className="btns-checkout-clearCart"
-                                            onClick={handleCheckout}
-                                            variant="contained"
-                                            sx={{
-                                                width: 80,
-                                                height: 40,
-                                                borderRadius: 2,
-                                                backgroundColor: "#e65100",
-                                            }}
-                                        >
-                                            <Badge
-                                                badgeContent={totalItems}
-                                                color="primary"
-                                                overlap="circular"
-                                                showZero={false}
-                                            >
-                                                <ShoppingCartIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
-                                            </Badge>
-                                            &nbsp;
-                                        </Button>
+  <Box
+    sx={{
+      display: "flex",
+      gap: 2,
+      justifyContent: "center",     // centraliza os botões
+      width: "100%",
+    }}
+  >
+    <Button
+      className="btns-checkout-clearCart"
+      onClick={handleCheckout}
+      variant="contained"
+      sx={{
+        width: 80,
+        height: 40,
+        borderRadius: 2,
+        backgroundColor: "#e65100",
+      }}
+    >
+      <Badge
+        badgeContent={totalItems}
+        color="primary"
+        overlap="circular"
+        showZero={false}
+      >
+        <ShoppingCartIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
+      </Badge>
+      &nbsp;
+    </Button>
 
-                                        <Button
-                                            className="btns-checkout-clearCart"
-                                            variant="contained"
-                                            onClick={handleClearCart}
-                                            sx={{
-                                                width: 80,
-                                                height: 40,
-                                                borderRadius: 2,
-                                                backgroundColor: "#e65100",
-                                            }}
-                                        >
-                                            <DeleteForeverIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
-                                            &nbsp;
-                                        </Button>
-                                    </Box>
-                                </Box>
+    <Button
+      className="btns-checkout-clearCart"
+      variant="contained"
+      onClick={handleClearCart}
+      sx={{
+        width: 80,
+        height: 40,
+        borderRadius: 2,
+        backgroundColor: "#e65100",
+      }}
+    >
+      <DeleteForeverIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
+      &nbsp;
+    </Button>
+  </Box>
+</Box>
+
                             </Paper>
                         </Box>
                     </>
