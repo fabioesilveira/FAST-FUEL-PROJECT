@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
@@ -12,9 +10,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import MenuIcon from '@mui/icons-material/Menu';
 
-// Icons for your categories
+// Icons
 import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
@@ -46,19 +43,18 @@ const closedMixin = (theme: Theme): CSSObject => ({
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
+  justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
-  ...theme.mixins.toolbar, // same height as your AppBar
+  ...theme.mixins.toolbar,
 }));
 
 type CategoryDrawerProps = {
-  onNavigate: (category: string) => void;   // we'll call your navigate function
+  onNavigate: (category: string) => void;
 };
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<{ open: boolean }>(({ theme, open }) => ({
-  width: drawerWidth,
   flexShrink: 0,
   whiteSpace: 'nowrap',
   boxSizing: 'border-box',
@@ -75,7 +71,7 @@ const Drawer = styled(MuiDrawer, {
 
 export default function CategoryDrawer({ onNavigate }: CategoryDrawerProps) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);   // ✅ start visible
+  const [open, setOpen] = React.useState(false); // 🔹 começa fechado
 
   const handleToggle = () => {
     setOpen((prev) => !prev);
@@ -90,29 +86,32 @@ export default function CategoryDrawer({ onNavigate }: CategoryDrawerProps) {
 
   return (
     <Drawer
-      variant="permanent"          // ✅ keep it in the layout
+      variant="permanent"
       open={open}
       PaperProps={{
         sx: {
-          position: 'fixed',    // ✅ not fixed on the viewport
-          height: 'auto',          // ✅ only as tall as its content
-          mt: 18,                   // ✅ small space under the navbar
-          pb: 2,                   // ✅ a bit of padding at bottom
-          backgroundColor: '#fff4e1;', 
-          boxShadow: "0 -3px 10px rgba(0,0,0,0.25)",  // ⭐ Soft neutral shadow above footer
+          position: 'fixed',              // fica sempre na lateral
+          top: '50%',                     // centro vertical
+          left: 0,
+          transform: 'translateY(-50%)',
+          height: 'auto',
+          backgroundColor: '#fff3e0',
+          borderRadius: '0 13px 13px 0',
+          boxShadow: "0 4px 12px rgba(230, 81, 0, 0.25), 0 8px 20px rgba(230, 81, 0, 0.18)",
         },
       }}
     >
       <DrawerHeader>
         <IconButton onClick={handleToggle}>
-          {open
-            ? (theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />)
-            : <MenuIcon />
-          }
+          {open ? (
+            <ChevronLeftIcon sx={{ color: '#e65100' }} />
+          ) : (
+            <ChevronRightIcon sx={{ color: '#e65100' }} />
+          )}
         </IconButton>
       </DrawerHeader>
 
-      <Divider />
+      <Divider sx={{ backgroundColor: '#e65100' }} />
 
       <List>
         {categories.map(({ label, icon: IconComp }) => (
@@ -120,13 +119,8 @@ export default function CategoryDrawer({ onNavigate }: CategoryDrawerProps) {
             <ListItemButton
               onClick={() => onNavigate(label)}
               sx={[
-                {
-                  minHeight: 59,
-                  px: 2.5,
-                },
-                open
-                  ? { justifyContent: 'initial' }
-                  : { justifyContent: 'center' },
+                { minHeight: 59, px: 2.5 },
+                open ? { justifyContent: 'initial' } : { justifyContent: 'center' },
               ]}
             >
               <ListItemIcon
@@ -134,13 +128,14 @@ export default function CategoryDrawer({ onNavigate }: CategoryDrawerProps) {
                   {
                     minWidth: 0,
                     justifyContent: 'center',
-                    color: '#e65100', // your brand color
+                    color: '#e65100',
                   },
                   open ? { mr: 2 } : { mr: 'auto' },
                 ]}
               >
                 <IconComp />
               </ListItemIcon>
+
               <ListItemText
                 primary={label}
                 sx={[
