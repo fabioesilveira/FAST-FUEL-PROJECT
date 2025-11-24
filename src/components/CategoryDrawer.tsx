@@ -11,10 +11,13 @@ import ListItemText from '@mui/material/ListItemText';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-// Icons
+// 👉 Icones que nao sao do MUI 
+import FriesIcon from '../assets/frenchFries.png';
+import SodaIcon from '../assets/soda.png';
+
+// Icons MUI
 import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
-import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 import CookieIcon from '@mui/icons-material/Cookie';
 
 const drawerWidth = 240;
@@ -71,7 +74,7 @@ const Drawer = styled(MuiDrawer, {
 
 export default function CategoryDrawer({ onNavigate }: CategoryDrawerProps) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false); // 🔹 começa fechado
+  const [open, setOpen] = React.useState(false); // começa fechado
 
   const handleToggle = () => {
     setOpen((prev) => !prev);
@@ -79,8 +82,8 @@ export default function CategoryDrawer({ onNavigate }: CategoryDrawerProps) {
 
   const categories = [
     { label: 'SANDWICHES', icon: LunchDiningIcon },
-    { label: 'SIDES',      icon: FastfoodIcon },
-    { label: 'BEVERAGES',  icon: LocalDrinkIcon },
+    { label: 'SIDES',      icon: FastfoodIcon },  // ícone MUI continua aqui, só não usamos
+    { label: 'BEVERAGES',  icon: SodaIcon },
     { label: 'DESSERTS',   icon: CookieIcon },
   ];
 
@@ -90,14 +93,15 @@ export default function CategoryDrawer({ onNavigate }: CategoryDrawerProps) {
       open={open}
       PaperProps={{
         sx: {
-          position: 'fixed',              // fica sempre na lateral
-          top: '50%',                     // centro vertical
+          position: 'fixed',
+          top: '50%',
           left: 0,
           transform: 'translateY(-50%)',
           height: 'auto',
           backgroundColor: '#fff3e0',
           borderRadius: '0 13px 13px 0',
-          boxShadow: "0 4px 12px rgba(230, 81, 0, 0.25), 0 8px 20px rgba(230, 81, 0, 0.18)",
+          boxShadow:
+            '0 4px 12px rgba(230, 81, 0, 0.25), 0 8px 20px rgba(230, 81, 0, 0.18)',
         },
       }}
     >
@@ -123,18 +127,58 @@ export default function CategoryDrawer({ onNavigate }: CategoryDrawerProps) {
                 open ? { justifyContent: 'initial' } : { justifyContent: 'center' },
               ]}
             >
-              <ListItemIcon
-                sx={[
-                  {
-                    minWidth: 0,
-                    justifyContent: 'center',
-                    color: '#e65100',
-                  },
-                  open ? { mr: 2 } : { mr: 'auto' },
-                ]}
-              >
-                <IconComp />
-              </ListItemIcon>
+<ListItemIcon
+  sx={[
+    {
+      minWidth: 0,
+      width: 40,                 // 🔒 largura fixa
+      height: 40,                // 🔒 altura fixa
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#e65100',
+    },
+    open ? { mr: 2 } : { mr: 'auto' },
+  ]}
+>
+  {label === 'SIDES' ? (
+    <img
+      src={FriesIcon}
+      alt="Fries icon"
+      style={{
+        width: 35,
+        height: 33,
+        objectFit: 'contain',
+        transform: open ? 'scale(1.2)' : 'scale(1)',   // cresce sem empurrar
+        transition: 'transform 0.2s ease',
+        display: 'block',
+      }}
+    />
+  ) : label === 'BEVERAGES' ? (
+    <img
+      src={SodaIcon}            
+      alt="Drink icon"
+      style={{
+        width: 37,
+        height: 35,
+        objectFit: 'contain',
+        transform: open ? 'scale(1.2)' : 'scale(1)',
+        transition: 'transform 0.2s ease',
+        display: 'block',
+      }}
+    />
+  ) : (
+    <IconComp
+      sx={{
+        fontSize: 24,
+        transform: open ? 'scale(1.1)' : 'scale(1)',
+        transition: 'transform 0.2s ease',
+      }}
+    />
+  )}
+</ListItemIcon>
+
+
 
               <ListItemText
                 primary={label}
