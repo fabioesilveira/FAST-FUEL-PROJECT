@@ -24,7 +24,8 @@ export default function Checkout() {
                     minHeight: "100vh",
                     display: "flex",
                     flexDirection: "row",
-                    borderTop: "3px solid #e65100"
+                    borderTop: "3px solid #e65100",
+                    boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
                 }}
             >
                 {/* LEFT SIDE – solid stripe panel */}
@@ -44,6 +45,7 @@ export default function Checkout() {
                         backgroundRepeat: "repeat-y",
                         backgroundAttachment: "fixed",
                         borderLeft: "3px solid #e65100",
+                        boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
 
                     }}
 
@@ -135,6 +137,7 @@ export default function Checkout() {
                                 textTransform: "uppercase",
                                 color: "#e65100",
                                 fontWeight: 700,
+                                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)"
                             }}
                         >
                             Checkout
