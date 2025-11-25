@@ -10,22 +10,10 @@ import Container from '@mui/material/Container';
 import Footer from "../components/Footer";
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SettingsIcon from '@mui/icons-material/Settings';
-import HistoryIcon from '@mui/icons-material/History';
-import ContactSupportIcon from '@mui/icons-material/ContactSupport';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Badge from '@mui/material/Badge';
 import { useNavigate } from 'react-router-dom';
-import { useAppContext, type Meal } from '../context/context'; // 👈 use global Meal + cart
+import { useAppContext, type Meal } from '../context/context'; // use global Meal + cart
+import NavbarProducts from '../components/NavbarProducts';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -38,23 +26,17 @@ const Item = styled(Paper)(({ theme }) => ({
   }),
 }));
 
-const drawerSections = [
-  [
-    { text: 'MY ACCOUNT', icon: AccountCircleIcon, small: false },
-  ],
-  [
-    { text: 'Settings', icon: SettingsIcon, small: true },
-    { text: 'Order History', icon: HistoryIcon, small: true },
-    { text: 'Contact us', icon: ContactSupportIcon, small: true },
-  ],
-];
+// Icons
+import LunchDiningIcon from '@mui/icons-material/LunchDining';
+import CookieIcon from '@mui/icons-material/Cookie';
+import FriesIcon from '../assets/frenchFries.png';
+import SodaIcon from '../assets/soda.png';
 
-const drawerWidth = 240;
 
 export default function Sandwiches() {
   const [data, setData] = useState<Meal[]>([]);
 
-  // 🌎 global cart from context
+  // global cart from context
   const { order, setOrder } = useAppContext();
 
   const navigate = useNavigate();
@@ -111,10 +93,6 @@ export default function Sandwiches() {
     }
   }
 
-  const handleNavigate = (category: string) => {
-    navigate(`/${category.toLowerCase()}`);
-  };
-
   const imageStyles: { [id: string]: React.CSSProperties } = {
     "1": { width: "220px", height: "220px", marginTop: "40px" }, // Pit Stop Classic
     "2": { width: "230px", height: "230px", marginTop: "30px" }, // Turbo Bacon
@@ -124,133 +102,108 @@ export default function Sandwiches() {
 
   return (
     <>
-      <Container className="margin-top" fixed>
-        <Box sx={{ display: 'flex' }}>
-          <CssBaseline />
-
-          <Drawer
-            variant="permanent"
-            sx={{
-              width: drawerWidth,
-              flexShrink: 0,
-              '& .MuiDrawer-paper': {
-                width: drawerWidth,
-                boxSizing: 'border-box',
-                background: 'repeating-linear-gradient(\
-                90deg,\
-                rgba(255, 255, 255, 0.3) 0px,\
-                rgba(255, 243, 224, 0.3) 20px,\
-                rgba(255, 224, 199, 0.3) 20px,\
-                rgba(255, 255, 255, 0.3) 40px\
-              )',
-                backgroundSize: '200% 100%',
-                animation: 'moveStripesReverse 8s linear infinite',
-                marginTop: '-60px',
-                height: "1200px",
-                border: '3px solid #e65100',
-                color: '#e65100',
-              },
-            }}
-          >
-            <Toolbar />
-            <Box sx={{ overflow: 'auto' }}>
-              <List>
-                {drawerSections.map((section, sectionIndex) => (
-                  <React.Fragment key={sectionIndex}>
-                    <List disablePadding>
-                      {section.map(({ text, icon: IconComp, small }) => (
-                        <ListItem key={text} disablePadding>
-                          <ListItemButton sx={{ py: small ? 0.5 : 1 }}>
-                            <ListItemIcon
-                              sx={{
-                                minWidth: small ? 24 : 28,
-                                mr: small ? 0.5 : 1,
-                                color: '#e65100',
-                                '& svg': { fontSize: small ? 20 : 24 },
-                              }}
-                            >
-                              <IconComp />
-                            </ListItemIcon>
-
-                            <ListItemText
-                              primary={text}
-                              primaryTypographyProps={{
-                                sx: {
-                                  color: '#e65100',
-                                  fontWeight: 'bold',
-                                  fontSize: small ? '1.10rem' : '1.10rem',
-                                },
-                              }}
-                            />
-                          </ListItemButton>
-                        </ListItem>
-                      ))}
-                    </List>
-
-                    {sectionIndex < drawerSections.length - 1 && (
-                      <Divider
-                        sx={{
-                          borderColor: '#e65100',
-                          marginBottom: '15px',
-                          opacity: 0.3,
-                          borderWidth: 1,
-                        }}
-                      />
-                    )}
-                  </React.Fragment>
-                ))}
-              </List>
-            </Box>
-          </Drawer>
-        </Box>
+      <NavbarProducts />
+      <Container className="margin-top" style={{ marginTop: "200px" }} fixed>
 
         <div className="nav-products-page">
+
+
           <Button
             variant="contained"
             onClick={() => navigate('/')}
-            sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
+            sx={{ width: 80, height: 50, borderRadius: 2, backgroundColor: '#e65100' }}
           >
-            <ArrowCircleLeftIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+            <ArrowCircleLeftIcon sx={{ fontSize: 33, color: '#ffe0c7' }} />
           </Button>
-
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            {['SIDES', 'BEVERAGES', 'DESSERTS'].map((category) => (
-              <Button
-                key={category}
-                onClick={() => handleNavigate(category)}
-                sx={{
-                  color: '#e65100',
-                  textTransform: 'none',
-                  fontWeight: 300,
-                  fontFamily: "Faster One, system-ui",
-                  fontSize: '2rem',
-                  lineHeight: 1,
-                  padding: 2,
-                  minWidth: 'auto',
-                }}
-              >
-                {category}
-              </Button>
-            ))}
-          </Box>
 
           <Button
             variant="contained"
+            disabled
+            sx={{ width: 90, height: 55, borderRadius: 2, backgroundColor: '#ffe0c7',  '&.Mui-disabled': {
+                backgroundColor: '#ffe0c7',
+                boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
+                opacity: 1,
+              }, }}
+          >
+            <LunchDiningIcon sx={{ fontSize: 39, color: '#f1671cff' }} />
+          </Button>
+
+          <Button
+            variant="contained"
+            onClick={() => navigate('/sides')}
+            sx={{ width: 80, height: 50, borderRadius: 2, backgroundColor: '#ffe0c7' }}
+
+          >
+            <img
+              src={FriesIcon}
+              alt="Drink icon"
+              style={{
+                width: 47,
+                height: 39,
+                objectFit: 'contain',
+
+                transition: 'transform 0.2s ease',
+                display: 'block',
+              }}
+            />
+          </Button>
+
+          <Button
+            variant="contained"
+            onClick={() => navigate('/beverages')}
+            sx={{
+              width: 80,
+              height: 50,
+              borderRadius: 2,
+              backgroundColor: '#ffe0c7',
+
+              // keep same color when disabled
+              '&.Mui-disabled': {
+                backgroundColor: '#ffe0c7',
+                boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
+                opacity: 1,
+              },
+            }}
+          >
+            <img
+              src={SodaIcon}
+              alt="Drink icon"
+              style={{
+                width: 80,
+                height: 40,
+                objectFit: 'contain',
+                transition: 'transform 0.2s ease',
+                display: 'block',
+              }}
+            />
+          </Button>
+
+          <Button
+            variant="contained"
+            onClick={() => navigate('/desserts')}
+            sx={{ width: 80, height: 50, borderRadius: 2, backgroundColor: '#ffe0c7' }}
+          >
+            <CookieIcon sx={{ fontSize: 31, color: '#f1671cff' }} />
+          </Button>
+
+          {/* Cart with default blue badge */}
+          <Button
+            variant="contained"
             onClick={() => navigate('/checkout')}
-            sx={{ width: 40, height: 40, borderRadius: 2, backgroundColor: '#e65100' }}
+            sx={{ width: 80, height: 50, borderRadius: 2, backgroundColor: '#e65100' }}
           >
             <Badge
               badgeContent={totalItems}
-              color="primary"   // default blue
+              color="primary"      // default blue
               overlap="circular"
               showZero={false}
             >
-              <ShoppingCartIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+              <ShoppingCartIcon sx={{ fontSize: 33, color: '#ffe0c7' }} />
             </Badge>
           </Button>
         </div>
 
-        <div className="products-wrapper">
+        <div className="products-wrapper" style={{ marginTop: "40px" }}>
           {data.map((e, index) => (
             <Box
               className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
@@ -305,7 +258,6 @@ export default function Sandwiches() {
             </Box>
           ))}
         </div>
-
 
       </Container>
       <Footer />
