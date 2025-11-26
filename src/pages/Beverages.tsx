@@ -108,6 +108,7 @@ export default function Beverages() {
   return (
     <>
       <NavbarProducts />
+      <h2 className='h2-products-background'>BEVERAGES</h2>
       <Container className="margin-top" style={{ marginTop: "200px" }} fixed>
 
         <div className="nav-products-page">
@@ -123,7 +124,7 @@ export default function Beverages() {
 
           <Button
             variant="contained"
-            onClick={() => navigate('/sandwiches')}
+            onClick={() => navigate('/burguers')}
             sx={{ width: 80, height: 50, borderRadius: 2, backgroundColor: '#ffe0c7' }}
           >
             <LunchDiningIcon sx={{ fontSize: 33, color: '#f1671cff' }} />

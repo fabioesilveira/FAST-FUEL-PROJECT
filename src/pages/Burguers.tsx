@@ -33,13 +33,15 @@ import FriesIcon from '../assets/frenchFries.png';
 import SodaIcon from '../assets/soda.png';
 
 
-export default function Sandwiches() {
+export default function Burguers() {
   const [data, setData] = useState<Meal[]>([]);
 
   // global cart from context
   const { order, setOrder } = useAppContext();
 
   const navigate = useNavigate();
+
+  
 
   // total items for badge
   const totalItems = order.reduce(
@@ -105,6 +107,8 @@ export default function Sandwiches() {
       <NavbarProducts />
       <Container className="margin-top" style={{ marginTop: "200px" }} fixed>
 
+        <h2 className='h2-products-background'>BURGUERS</h2>
+
         <div className="nav-products-page">
 
 
@@ -119,11 +123,13 @@ export default function Sandwiches() {
           <Button
             variant="contained"
             disabled
-            sx={{ width: 90, height: 55, borderRadius: 2, backgroundColor: '#ffe0c7',  '&.Mui-disabled': {
+            sx={{
+              width: 90, height: 55, borderRadius: 2, backgroundColor: '#ffe0c7', '&.Mui-disabled': {
                 backgroundColor: '#ffe0c7',
                 boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
                 opacity: 1,
-              }, }}
+              },
+            }}
           >
             <LunchDiningIcon sx={{ fontSize: 39, color: '#f1671cff' }} />
           </Button>

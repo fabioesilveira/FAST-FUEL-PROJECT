@@ -104,6 +104,7 @@ export default function Desserts() {
     return (
         <>
             <NavbarProducts />
+            <h2 className='h2-products-background'>DESSERTS</h2>
             <Container className="margin-top" style={{ marginTop: "200px" }} fixed>
 
                 <div className="nav-products-page">
@@ -119,7 +120,7 @@ export default function Desserts() {
 
                     <Button
                         variant="contained"
-                        onClick={() => navigate('/sandwiches')}
+                        onClick={() => navigate('/burguers')}
                         sx={{
                             width: 80, height: 50, borderRadius: 2, backgroundColor: '#ffe0c7', 
                             '&.Mui-disabled': {

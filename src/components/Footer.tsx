@@ -11,6 +11,7 @@ export default function Footer() {
         py: 2,
         textAlign: 'center',
         boxShadow: '0 -3px 10px rgba(0,0,0,0.25)',
+        marginTop: -1
       }}
     >
       <Typography variant="body2">

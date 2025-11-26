@@ -72,7 +72,7 @@ const Drawer = styled(MuiDrawer, {
         }),
 }));
 
-export default function CategoryDrawer({ onNavigate }: CategoryDrawerProps) {
+export default function DrawerProducts({ onNavigate }: CategoryDrawerProps) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false); // começa fechado
 

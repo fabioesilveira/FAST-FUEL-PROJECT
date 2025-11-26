@@ -10,8 +10,6 @@ import Stack from '@mui/material/Stack';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Button from '@mui/material/Button';
-
-
 import Badge from '@mui/material/Badge';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext, type Meal } from '../context/context';  // use global Meal + cart
@@ -22,6 +20,7 @@ import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import CookieIcon from '@mui/icons-material/Cookie';
 import FriesIcon from '../assets/frenchFries.png';
 import SodaIcon from '../assets/soda.png';
+import DrawerProducts from '../components/DrawerProducts';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -44,6 +43,9 @@ export default function Sides() {
   const { order, setOrder } = useAppContext();
 
   const navigate = useNavigate();
+  const handleDrawerNavigate = (category: string) => {
+        navigate(`/${category.toLowerCase()}`);
+    };
 
   // total items for the cart badge
   const totalItems = order.reduce(
@@ -108,6 +110,9 @@ export default function Sides() {
   return (
     <>
       <NavbarProducts />
+
+      <DrawerProducts onNavigate={handleDrawerNavigate}/>
+      <h2 className='h2-products-background'>SIDES</h2>
       <Container className="margin-top" style={{ marginTop: "200px" }} fixed>
 
         <div className="nav-products-page">
@@ -122,7 +127,7 @@ export default function Sides() {
 
           <Button
             variant="contained"
-            onClick={() => navigate('/sandwiches')}
+            onClick={() => navigate('/burguers')}
             sx={{ width: 80, height: 50, borderRadius: 2, backgroundColor: '#ffe0c7' }}
           >
             <LunchDiningIcon sx={{ fontSize: 33, color: '#f1671cff' }} />
