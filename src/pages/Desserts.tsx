@@ -129,7 +129,7 @@ export default function Desserts() {
                             },
                         }}
                     >
-                        <LunchDiningIcon sx={{ fontSize: 39, color: '#f1671cff' }} />
+                        <LunchDiningIcon sx={{ fontSize: 33, color: '#f1671cff' }} />
                     </Button>
 
                     <Button
@@ -193,7 +193,7 @@ export default function Desserts() {
                             },
                          }}
                     >
-                        <CookieIcon sx={{ fontSize: 37, color: '#f1671cff' }} />
+                        <CookieIcon sx={{ fontSize: 39, color: '#f1671cff' }} />
                     </Button>
 
                     {/* Cart with default blue badge */}

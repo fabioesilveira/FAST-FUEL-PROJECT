@@ -136,7 +136,7 @@ export default function CategoryDrawer({ onNavigate }: CategoryDrawerProps) {
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        color: '#f16806ff',
+                                        color: '#f1671cff',
                                     },
                                     open ? { mr: 2 } : { mr: 'auto' },
                                 ]}
