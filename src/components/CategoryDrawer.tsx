@@ -11,7 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-// 👉 Icones que nao sao do MUI 
+// Icones que nao sao do MUI 
 import FriesIcon from '../assets/frenchFries.png';
 import SodaIcon from '../assets/soda.png';
 
