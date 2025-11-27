@@ -41,9 +41,9 @@ export default function Desserts() {
     const { order, setOrder } = useAppContext();
 
     const navigate = useNavigate();
-        const handleDrawerNavigate = (category: string) => {
-          navigate(`/${category.toLowerCase()}`);
-        };
+    const handleDrawerNavigate = (category: string) => {
+        navigate(`/${category.toLowerCase()}`);
+    };
 
     // Fetch desserts + hydrate cart from localStorage if exists
     useEffect(() => {
@@ -127,7 +127,7 @@ export default function Desserts() {
                         variant="contained"
                         onClick={() => navigate('/burguers')}
                         sx={{
-                            width: 80, height: 50, borderRadius: 2, backgroundColor: '#ffe0c7', 
+                            width: 80, height: 50, borderRadius: 2, backgroundColor: '#ffe0c7',
                             '&.Mui-disabled': {
                                 backgroundColor: '#ffe0c7',
                                 boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
@@ -191,13 +191,14 @@ export default function Desserts() {
                     <Button
                         variant="contained"
                         disabled
-                        sx={{ width: 90, height: 55, borderRadius: 2, backgroundColor: '#ffe0c7',
-                             '&.Mui-disabled': {
+                        sx={{
+                            width: 90, height: 55, borderRadius: 2, backgroundColor: '#ffe0c7',
+                            '&.Mui-disabled': {
                                 backgroundColor: '#ffe0c7',
                                 boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
                                 opacity: 1,
                             },
-                         }}
+                        }}
                     >
                         <CookieIcon sx={{ fontSize: 39, color: '#f1671cff' }} />
                     </Button>
@@ -219,7 +220,7 @@ export default function Desserts() {
                     </Button>
                 </div>
 
-                <div className="products-wrapper" style={{marginTop: "40px"}}>
+                <div className="products-wrapper" style={{ marginTop: "40px", marginBottom: "100px" }}>
                     {data.map((e, index) => (
                         <Box
                             className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
@@ -276,7 +277,17 @@ export default function Desserts() {
                 </div>
 
             </Container>
-            <Footer />
+            <Box
+                sx={{
+                    position: "fixed",
+                    bottom: 0,
+                    left: 0,
+                    width: "100%",
+                    zIndex: 2000,
+                }}
+            >
+                <Footer />
+            </Box>
         </>
     );
 }

@@ -42,9 +42,9 @@ export default function Beverages() {
   const { order, setOrder } = useAppContext();
 
   const navigate = useNavigate();
-      const handleDrawerNavigate = (category: string) => {
-        navigate(`/${category.toLowerCase()}`);
-      };
+  const handleDrawerNavigate = (category: string) => {
+    navigate(`/${category.toLowerCase()}`);
+  };
 
   // total items for the badge
   const totalItems = order.reduce(
@@ -112,7 +112,7 @@ export default function Beverages() {
   return (
     <>
       <NavbarProducts />
-      <DrawerProducts onNavigate={handleDrawerNavigate}/>
+      <DrawerProducts onNavigate={handleDrawerNavigate} />
       <h2 className='h2-products-background'>BEVERAGES</h2>
       <Container className="margin-top" style={{ marginTop: "200px" }} fixed>
 
@@ -210,7 +210,7 @@ export default function Beverages() {
           </Button>
         </div>
 
-        <div className="products-wrapper" style={{ marginTop: "40px" }}>
+        <div className="products-wrapper" style={{ marginTop: "40px", marginBottom: "100px"}}>
           {data.map((e, index) => (
             <Box
               className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
@@ -267,7 +267,17 @@ export default function Beverages() {
         </div>
 
       </Container>
-      <Footer />
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          zIndex: 2000,
+        }}
+      >
+        <Footer />
+      </Box>
     </>
   );
 }
