@@ -208,7 +208,7 @@ export default function Sides() {
           </Button>
         </div>
 
-        <div className="products-wrapper" style={{ marginTop: "40px" }}>
+        <div className="products-wrapper" style={{ marginTop: "40px", marginBottom: "100px" }}>
           {data.map((e, index) => (
             <Box
               className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
