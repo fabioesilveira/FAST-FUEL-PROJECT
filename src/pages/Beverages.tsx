@@ -20,6 +20,7 @@ import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import CookieIcon from '@mui/icons-material/Cookie';
 import FriesIcon from '../assets/frenchFries.png';
 import SodaIcon from '../assets/soda.png';
+import DrawerProducts from '../components/DrawerProducts';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -41,6 +42,9 @@ export default function Beverages() {
   const { order, setOrder } = useAppContext();
 
   const navigate = useNavigate();
+      const handleDrawerNavigate = (category: string) => {
+        navigate(`/${category.toLowerCase()}`);
+      };
 
   // total items for the badge
   const totalItems = order.reduce(
@@ -108,6 +112,7 @@ export default function Beverages() {
   return (
     <>
       <NavbarProducts />
+      <DrawerProducts onNavigate={handleDrawerNavigate}/>
       <h2 className='h2-products-background'>BEVERAGES</h2>
       <Container className="margin-top" style={{ marginTop: "200px" }} fixed>
 

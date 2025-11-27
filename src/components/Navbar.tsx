@@ -340,8 +340,6 @@ function Navbar({ onSearch }: NavbarProps) {
       </Box>
     </AppBar>
   );
-
-
 }
 
 export default Navbar;
