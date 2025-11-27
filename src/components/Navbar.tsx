@@ -29,7 +29,7 @@ const dropdownItems = [
   { label: 'Signin / Signup', icon: AccountCircleIcon, path: '/sign-in' },
   { label: 'My Orders', icon: HistoryIcon, path: '/history' },
   { label: 'Contact Us', icon: EmailIcon, path: '/contact' },
-  { label: 'Delete Account', icon: NoAccountsIcon, path: '/sign-up' },
+  { label: 'Delete Account', icon: NoAccountsIcon, path: '/deleteaccount' },
 ];
 
 

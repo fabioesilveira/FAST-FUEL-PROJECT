@@ -9,6 +9,7 @@ import Beverages from "./pages/Beverages";
 import Sides from "./pages/Sides";
 import Checkout from "./pages/Checkout";
 import Admin from "./pages/Admin";
+import DeleteAccount from "./pages/DeleteAccount";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
       <Route path="/desserts" element={<Desserts />}/>
       <Route path="/beverages" element={<Beverages />}/>
       <Route path="/checkout" element={<Checkout />}/>
+      <Route path="/deleteaccount" element={<DeleteAccount/>}/>
       <Route path="/admin" element={<Admin />}/>
     </Routes>
   ) 
