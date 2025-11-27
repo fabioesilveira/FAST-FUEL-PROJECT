@@ -78,10 +78,10 @@ export default function DrawerProducts({ onNavigate }: CategoryDrawerProps) {
 
   // 🔹 Só trocamos os ícones aqui:
   const categories = [
-    { label: 'SIGNIN/SIGNUP',  icon: AccountCircleIcon },
-    { label: 'DELETE ACCOUNT',     icon: NoAccountsIcon },
+    { label: 'SIGNIN / SIGNUP',  icon: AccountCircleIcon },
     { label: 'MY ORDERS', icon: HistoryIcon },
     { label: 'CONTACT US',  icon: EmailIcon },
+    { label: 'DELETE ACCOUNT',     icon: NoAccountsIcon },
   ];
 
   return (

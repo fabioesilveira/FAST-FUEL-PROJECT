@@ -31,6 +31,7 @@ import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import CookieIcon from '@mui/icons-material/Cookie';
 import FriesIcon from '../assets/frenchFries.png';
 import SodaIcon from '../assets/soda.png';
+import DrawerProducts from '../components/DrawerProducts';
 
 
 export default function Burguers() {
@@ -39,7 +40,12 @@ export default function Burguers() {
   // global cart from context
   const { order, setOrder } = useAppContext();
 
+  
+
   const navigate = useNavigate();
+    const handleDrawerNavigate = (category: string) => {
+      navigate(`/${category.toLowerCase()}`);
+    };
 
   
 
@@ -105,6 +111,7 @@ export default function Burguers() {
   return (
     <>
       <NavbarProducts />
+      <DrawerProducts onNavigate={handleDrawerNavigate}/>
       <Container className="margin-top" style={{ marginTop: "200px" }} fixed>
 
         <h2 className='h2-products-background'>BURGUERS</h2>

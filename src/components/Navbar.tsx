@@ -20,6 +20,19 @@ import Badge, { badgeClasses } from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import { useAppContext } from '../context/context';
 
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import NoAccountsIcon from '@mui/icons-material/NoAccounts';
+import HistoryIcon from '@mui/icons-material/History';
+import EmailIcon from '@mui/icons-material/Email';
+
+const dropdownItems = [
+  { label: 'Signin / Signup', icon: AccountCircleIcon, path: '/sign-in' },
+  { label: 'My Orders', icon: HistoryIcon, path: '/history' },
+  { label: 'Contact Us', icon: EmailIcon, path: '/contact' },
+  { label: 'Delete Account', icon: NoAccountsIcon, path: '/sign-up' },
+];
+
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -32,9 +45,9 @@ const Search = styled('div')(({ theme }) => ({
   width: '100%',
   maxWidth: 300,
 
-  display: 'flex',         // ✅ make wrapper a flex container
-  alignItems: 'center',    // ✅ vertically center content
-  cursor: 'text',          // ✅ whole bar shows text cursor
+  display: 'flex',
+  alignItems: 'center',
+  cursor: 'text',
 
   [theme.breakpoints.down('md')]: {
     display: 'none',
@@ -49,13 +62,12 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   color: '#e65100',
-  pointerEvents: 'none',   // ✅ let clicks pass through to the input
+  pointerEvents: 'none',
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: '#e65100',
-  width: '100%',          // ✅ root InputBase full width
-
+  width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
@@ -68,8 +80,8 @@ const CartBadge = styled(Badge)`
   & .${badgeClasses.badge} {
     top: -12px;
     right: -6px;
-    background-color: #1976d2; /* blue */
-    color: #fff;               /* number color for contrast */
+    background-color: #1976d2;
+    color: #fff;
   }
 `;
 
@@ -82,11 +94,12 @@ function Navbar({ onSearch }: NavbarProps) {
   const { order } = useAppContext();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const [shown, setShown] = useState(true);
+  const [shown, setShown] = useState(false);   // 🔹 start closed
   const [badgeQuantity, setBadgeQuantity] = useState(0);
 
-  // ✅ ref to control focus programmatically
+  // refs
   const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -96,6 +109,7 @@ function Navbar({ onSearch }: NavbarProps) {
     setAnchorElNav(null);
   };
 
+  // user logged in?
   useEffect(() => {
     if (localStorage.getItem('idUser')) {
       setShown(false);
@@ -104,9 +118,29 @@ function Navbar({ onSearch }: NavbarProps) {
   }, []);
 
   useEffect(() => {
-    const qtdTotal = order.reduce((acc, element) => acc + element.quantidade, 0);
+    const qtdTotal = order.reduce(
+      (acc, element) => acc + element.quantidade,
+      0
+    );
     setBadgeQuantity(qtdTotal);
   }, [order]);
+
+  // close dropdown if clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShown(false);
+      }
+    }
+
+    if (shown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [shown]);
 
   const handleNavigate = (category: string) => {
     navigate(`/${category.toLowerCase()}`);
@@ -193,21 +227,22 @@ function Navbar({ onSearch }: NavbarProps) {
               placeholder="Search…"
               onChange={(event) => onSearch(event.target.value)}
               inputProps={{ 'aria-label': 'search' }}
-              inputRef={searchInputRef}   // ✅ connect ref to the real input element
+              inputRef={searchInputRef}
             />
           </Search>
 
-
-
-          {/* Right Static Buttons */}
+          {/* RIGHT SIDE – Cart + Manage + Dropdown */}
           <Box
             sx={{
               display: { xs: 'none', md: 'flex' },
-              gap: 1,
+              alignItems: 'center',
+              gap: 1.5,
               marginLeft: 'auto',
               paddingRight: 2,
+              position: 'relative', // anchor for dropdown
             }}
           >
+            {/* Cart */}
             <IconButton
               onClick={() => navigate('/checkout')}
               sx={{
@@ -216,14 +251,13 @@ function Navbar({ onSearch }: NavbarProps) {
                 borderRadius: 2,
                 backgroundColor: '#e65100',
                 '&:hover': { backgroundColor: '#b33f00' },
-                filter: 'drop-shadow(0px 0px 4px rgba(0,0,0,0.25))', // shadow 
+                filter: 'drop-shadow(0px 0px 4px rgba(0,0,0,0.25))',
               }}
             >
               <ShoppingCartIcon
                 sx={{
                   fontSize: 28,
                   color: '#ffe0c7',
-
                 }}
               />
               <CartBadge
@@ -233,8 +267,10 @@ function Navbar({ onSearch }: NavbarProps) {
               />
             </IconButton>
 
+            {/* Manage Button */}
             <Button
               variant="contained"
+              onClick={() => setShown((prev) => !prev)}
               sx={{
                 width: 40,
                 height: 40,
@@ -246,42 +282,66 @@ function Navbar({ onSearch }: NavbarProps) {
               <ManageAccountsIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
             </Button>
 
-            {shown ? (
-              <>
-                <Button
-                  sx={{
-                    color: '#e65100',
-                    outline: '2px solid #e65100',
-                    '&:focus': {
-                      outlineOffset: '2px',
-                    },
-                  }}
-                >
-                  <Link to="/sign-in" style={{ textDecoration: 'none', color: '#e65100' }}>
-                    Signin
-                  </Link>
-                </Button>
+            {shown && (
+              <Box
+                ref={menuRef}
+                sx={{
+                  position: 'absolute',
+                  top: '115%',
+                  right: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 1,
+                  backgroundColor: '#fff3e0',
+                  padding: 1.2,
+                  borderRadius: 2,
+                  boxShadow: '0 6px 16px rgba(0,0,0,0.30)',
+                  zIndex: 10,
+                  width: 210,          // fixes text wrapping
+                }}
+              >
+                {dropdownItems.map(({ label, icon: Icon, path }) => (
+                  <Button
+                    key={label}
+                    component={Link}
+                    to={path}
+                    sx={{
+                      color: '#e65100',
+                      outline: '2px solid #e65100',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      gap: 1.2,
+                      width: '100%',
+                      px: 1.5,              // ✅ use px instead of paddingX
+                      textAlign: 'left',
+                      textDecoration: 'none',
+                      '&:focus': { outlineOffset: '2px' },
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: 24,
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                      }}
+                    >
+                      <Icon sx={{ color: '#e65100' }} />
+                    </Box>
 
-                <Button
-                  sx={{
-                    color: '#e65100',
-                    outline: '2px solid #e65100',
-                    '&:focus': {
-                      outlineOffset: '2px',
-                    },
-                  }}
-                >
-                  <Link to="/sign-up" style={{ textDecoration: 'none', color: '#e65100' }}>
-                    Signup
-                  </Link>
-                </Button>
-              </>
-            ) : null}
+                    {label}
+                  </Button>
+                ))}
+              </Box>
+            )}
+
           </Box>
         </Toolbar>
       </Box>
     </AppBar>
   );
+
+
 }
 
 export default Navbar;
