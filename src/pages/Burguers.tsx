@@ -138,7 +138,7 @@ export default function Burguers() {
               },
             }}
           >
-            <LunchDiningIcon sx={{ fontSize: 39, color: '#f1671cff' }} />
+            <LunchDiningIcon sx={{ fontSize: 39, color: '#eb631aff' }} />
           </Button>
 
           <Button

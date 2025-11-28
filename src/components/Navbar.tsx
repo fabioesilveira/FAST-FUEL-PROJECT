@@ -25,11 +25,12 @@ import NoAccountsIcon from '@mui/icons-material/NoAccounts';
 import HistoryIcon from '@mui/icons-material/History';
 import EmailIcon from '@mui/icons-material/Email';
 
+
 const dropdownItems = [
-  { label: 'Signin / Signup', icon: AccountCircleIcon, path: '/sign-in' },
-  { label: 'My Orders', icon: HistoryIcon, path: '/history' },
-  { label: 'Contact Us', icon: EmailIcon, path: '/contact' },
-  { label: 'Delete Account', icon: NoAccountsIcon, path: '/deleteaccount' },
+  { label: 'Signin / Signup', icon: AccountCircleIcon, path: '/sign-in', click: () => { }, disabled: false },
+  { label: 'My Orders', icon: HistoryIcon, path: '/history', click: () => { }, disabled: false },
+  { label: 'Contact Us', icon: EmailIcon, path: '/contact', click: () => { }, disabled: false },
+  { label: 'Delete Account', icon: NoAccountsIcon, path: '/deleteaccount', click: () => { }, disabled: true },
 ];
 
 
@@ -93,8 +94,10 @@ function Navbar({ onSearch }: NavbarProps) {
   const navigate = useNavigate();
   const { order } = useAppContext();
 
+
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [shown, setShown] = useState(false);   // 🔹 start closed
+  const [dropdownItemsChange, setDropDownChange] = useState(dropdownItems)
   const [badgeQuantity, setBadgeQuantity] = useState(0);
 
   // refs
@@ -113,6 +116,13 @@ function Navbar({ onSearch }: NavbarProps) {
   useEffect(() => {
     if (localStorage.getItem('idUser')) {
       setShown(false);
+      setDropDownChange(
+        [
+          { label: 'Signout', icon: AccountCircleIcon, path: '/sign-in', click: handleClickSignout, disabled: false },
+          { label: 'My Orders', icon: HistoryIcon, path: '/history', click: () => { }, disabled: false },
+          { label: 'Contact Us', icon: EmailIcon, path: '/contact', click: () => { }, disabled: false },
+          { label: 'Delete Account', icon: NoAccountsIcon, path: '/deleteaccount', click: () => { }, disabled: false },
+        ])
     }
     setBadgeQuantity(order.length);
   }, []);
@@ -142,9 +152,13 @@ function Navbar({ onSearch }: NavbarProps) {
     };
   }, [shown]);
 
-  const handleNavigate = (category: string) => {
-    navigate(`/${category.toLowerCase()}`);
-  };
+  // const handleNavigate = (category: string) => {
+  //   navigate(`/${category.toLowerCase()}`);
+  // };
+
+  const handleClickSignout = () => {
+    localStorage.clear()
+  }
 
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#fff3e0' }}>
@@ -300,11 +314,13 @@ function Navbar({ onSearch }: NavbarProps) {
                   width: 210,          // fixes text wrapping
                 }}
               >
-                {dropdownItems.map(({ label, icon: Icon, path }) => (
+                {dropdownItemsChange.map(({ label, icon: Icon, path, click, disabled }) => (
                   <Button
                     key={label}
                     component={Link}
                     to={path}
+                    onClick={click}
+                    disabled={disabled}
                     sx={{
                       color: '#e65100',
                       outline: '2px solid #e65100',
