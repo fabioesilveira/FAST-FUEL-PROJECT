@@ -1,19 +1,14 @@
 
-
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
-import Logo from '../assets/fast-fuel.png';
 import {
     Box,
     Paper,
     Typography,
     TextField,
     Button,
-    Stack,
-    Chip,
-
 } from "@mui/material";
 
 type User = {
@@ -153,7 +148,7 @@ export default function SignIn() {
                         alignItems: "center",
                         justifyContent: "center",
                         p: 2,
-                        mt: -50,
+                        mt: -53,
                     }}
                 >
                     <Paper
@@ -170,7 +165,7 @@ export default function SignIn() {
                             transition: "all 0.3s ease",
                             display: "flex",
                             flexDirection: "column",
-                            alignItems: "center",        // ✅ center content inside the card
+                            alignItems: "center",        // center content inside the card
                             "&:hover": {
                                 boxShadow:
                                     "0 6px 18px rgba(230, 81, 0, 0.45), 0 10px 28px rgba(230, 81, 0, 0.35)",
@@ -200,7 +195,7 @@ export default function SignIn() {
                             autoComplete="off"
                             sx={{
                                 width: "100%",
-                                maxWidth: 360,               // ✅ fixed form width
+                                maxWidth: 360,               // fixed form width
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 2,
@@ -256,7 +251,7 @@ export default function SignIn() {
                                 align="center"
                                 sx={{ mt: 1, mb: 1, fontSize: "0.85rem", color: "text.secondary" }}
                             >
-                                or
+                                OR
                             </Typography>
 
                             <Button
