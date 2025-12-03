@@ -47,7 +47,47 @@ export default function SignUp() {
         }));
     }
 
+    function isValidEmail(email: string) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    }
+
+    function isValidPassword(password: string) {
+        return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
+    }
+
+    function isValidUSPhone(phone: string) {
+        const digits = phone.replace(/\D/g, "");
+        return /^\d{10}$/.test(digits);
+    }
+
     async function handleClick() {
+        // validações de registro 
+        if (!signUp.name || !signUp.email || !signUp.number || !signUp.password || !signUp.confirmPassword) {
+            alert("Please fill in all fields.");
+            return;
+        }
+
+        if (!isValidEmail(signUp.email)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+
+        if (!isValidUSPhone(signUp.number)) {
+            alert("Please enter a valid US phone number (10 digits).");
+            return;
+        }
+
+        if (!isValidPassword(signUp.password)) {
+            alert("Password must be at least 8 characters long and contain at least one number and one letter.");
+            return;
+        }
+
+        if (signUp.password !== signUp.confirmPassword) {
+            alert("Passwords do not match.");
+            return;
+        }
+
+        // continua pro backend se passar por tudo
         try {
             const res = await axios.post(
                 "http://localhost:3000/users/register",
@@ -58,9 +98,15 @@ export default function SignUp() {
             localStorage.setItem("userName", res.data.fullName);
 
             navigate("/");
-        } catch (error) {
+        } catch (error: any) {
             console.error("error to send the data", error);
-            alert("Error creating account");
+
+            // backend manda 409 (if user already exists)
+            if (error.response && error.response.status === 409) {
+                alert("This email is already in use.");
+            } else {
+                alert("Error creating account. Please try again.");
+            }
         }
     }
 
