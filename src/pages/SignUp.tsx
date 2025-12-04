@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Logo from "../assets/fast-fuel.png";
+import { useMediaQuery } from "@mui/material";
 import {
     Box,
     Paper,
@@ -32,6 +33,8 @@ export default function SignUp() {
     });
 
     const navigate = useNavigate();
+
+    const isMobile = useMediaQuery("(max-width:900px)");
 
     useEffect(() => {
         if (localStorage.getItem("idUser")) {
@@ -118,7 +121,7 @@ export default function SignUp() {
                     width: "100%",
                     minHeight: "100vh",
                     display: "flex",
-                    flexDirection: "row",
+                    flexDirection: { xs: "column", md: "row" },
                     borderTop: "3px solid #e65100",
                     boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
                 }}
@@ -366,49 +369,48 @@ export default function SignUp() {
                     </Paper>
                 </Box>
 
-                {/* EXIT CHECKOUT BUTTON – Left aligned */}
-                <Box
-                    sx={{
-                        position: "absolute",
-                        top: 265,
-                        right: 84,        // fica à ESQUERDA
-                        display: "flex",
-                        justifyContent: "flex-start",
-                        width: "auto",
-                    }}
-                >
-                    <Button
-                        size="large"
-                        variant="contained"
-                        onClick={() => navigate("/")}
+                {!isMobile && (
+                    <Box
                         sx={{
-                            width: 250,
-                            borderRadius: 2,
-                            textTransform: "uppercase",
-                            bgcolor: "#e65100",
-                            color: "#ffe0c7",
-                            letterSpacing: "0.16em",
-                            fontWeight: 700,
-                            boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
-                            "&:hover": {
-                                bgcolor: "#ffe0c7",
-                                color: "#e65100",
-                                boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
-                            },
-                            "&:active": {
-                                bgcolor: "#ffe0c7",
-                                color: "#e65100",
-                                transform: "scale(0.98)",
-                                boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                            },
+                            position: "absolute",
+                            top: 265,
+                            right: 88,
+                            display: "flex",
+                            zIndex: 2,
                         }}
                     >
-                        Continue as guest
-                    </Button>
-                </Box>
+                        <Button
+                            size="large"
+                            variant="contained"
+                            onClick={() => navigate("/")}
+                            sx={{
+                                width: 250,
+                                borderRadius: 2,
+                                textTransform: "uppercase",
+                                bgcolor: "#e65100",
+                                color: "#ffe0c7",
+                                letterSpacing: "0.16em",
+                                fontWeight: 700,
+                                boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
+                                "&:hover": {
+                                    bgcolor: "#ffe0c7",
+                                    color: "#e65100",
+                                    boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
+                                },
+                                "&:active": {
+                                    bgcolor: "#ffe0c7",
+                                    color: "#e65100",
+                                    transform: "scale(0.98)",
+                                    boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
+                                },
+                            }}
+                        >
+                            Continue as guest
+                        </Button>
+                    </Box>
+                )}
             </Box>
 
-            {/* Sticky footer, igual ao SignIn */}
             <Box
                 sx={{
                     position: "fixed",
@@ -418,6 +420,37 @@ export default function SignUp() {
                     zIndex: 2000,
                 }}
             >
+                {isMobile && (
+                    <Box
+                        sx={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "center",
+                            mb: 2,
+                            zIndex: 5,
+                        }}
+                    >
+                        <Button
+                            size="large"
+                            variant="contained"
+                            fullWidth
+                            onClick={() => navigate("/")}
+                            sx={{
+                                maxWidth: 340,
+                                borderRadius: 2,
+                                textTransform: "uppercase",
+                                bgcolor: "#e65100",
+                                color: "#ffe0c7",
+                                letterSpacing: "0.16em",
+                                fontWeight: 700,
+                                boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
+                            }}
+                        >
+                            Continue as guest
+                        </Button>
+                    </Box>
+                )}
+
                 <Footer />
             </Box>
         </>
