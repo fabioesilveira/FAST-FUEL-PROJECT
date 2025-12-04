@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
-import Logo from "../assets/fast-fuel.png";
 import { useMediaQuery } from "@mui/material";
 import {
     Box,
@@ -34,7 +33,7 @@ export default function SignUp() {
 
     const navigate = useNavigate();
 
-    const isMobile = useMediaQuery("(max-width:900px)");
+    const isMobile = useMediaQuery("(max-width:1650px)"); // quando o botao vai pra parte debaixo.
 
     useEffect(() => {
         if (localStorage.getItem("idUser")) {
@@ -181,13 +180,28 @@ export default function SignUp() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "flex-start",
-                        pt: 4,
+                        pt: { xs: 40, sm: 40, md: 4 },     // padding-top responsivo
                     }}
                 >
-                    <img
-                        src={Logo}
+                    <Box
+                        component="img"
+                        src="/src/assets/fast-fuel.png"
                         alt="Fast Fuel Logo"
-                        style={{ width: "280px", height: "220px" }}
+                        sx={{
+                            width: {
+                                xs: 140,   // mobile
+                                sm: 200,   // tablet
+                                md: 220,   // desktop
+                            },
+
+                            height: "auto",
+                            maxWidth: "100%",
+                            objectFit: "contain",
+
+                            transform: {
+                                md: "scaleX(1.20)",   // ESTICA SÓ NO DESKTOP NA HORIZONTAL
+                            },
+                        }}
                     />
                 </Box>
 
@@ -373,7 +387,7 @@ export default function SignUp() {
                     <Box
                         sx={{
                             position: "absolute",
-                            top: 265,
+                            top: 255,
                             right: 88,
                             display: "flex",
                             zIndex: 2,
@@ -426,7 +440,7 @@ export default function SignUp() {
                             width: "100%",
                             display: "flex",
                             justifyContent: "center",
-                            mb: 2,
+                            mb: 3.5,
                             zIndex: 5,
                         }}
                     >

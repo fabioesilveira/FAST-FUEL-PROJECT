@@ -25,7 +25,7 @@ export default function SignIn() {
 
     const navigate = useNavigate();
 
-    const isMobile = useMediaQuery("(max-width:900px)");
+    const isMobile = useMediaQuery("(max-width:1650px)");
 
     useEffect(() => {
         if (localStorage.getItem("idUser")) {
@@ -143,6 +143,7 @@ export default function SignIn() {
                 />
 
                 {/* RIGHT SIDE – Cream with logo */}
+                {/* RIGHT SIDE – Cream with logo */}
                 <Box
                     sx={{
                         flex: 1,
@@ -150,13 +151,28 @@ export default function SignIn() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "flex-start",
-                        pt: 4,
+                        pt: { xs: 40, sm: 40, md: 4 },     // padding-top responsivo
                     }}
                 >
-                    <img
+                    <Box
+                        component="img"
                         src="/src/assets/fast-fuel.png"
                         alt="Fast Fuel Logo"
-                        style={{ width: "280px", height: "220px" }}
+                        sx={{
+                            width: {
+                                xs: 140,   // mobile
+                                sm: 200,   // tablet
+                                md: 220,   // desktop
+                            },
+
+                            height: "auto",
+                            maxWidth: "100%",
+                            objectFit: "contain",
+
+                            transform: {
+                                md: "scaleX(1.20)", // ESTICA SÓ NO DESKTOP NA HORIZONTAL
+                            },
+                        }}
                     />
                 </Box>
 
@@ -216,7 +232,7 @@ export default function SignIn() {
                             autoComplete="off"
                             sx={{
                                 width: "100%",
-                                maxWidth: 360,               // fixed form width
+                                maxWidth: 360,         // fixed form width
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 2,
@@ -303,7 +319,7 @@ export default function SignIn() {
                     <Box
                         sx={{
                             position: "absolute",
-                            top: 265,
+                            top: 255,
                             right: 88,
                             display: "flex",
                             zIndex: 2,
@@ -340,7 +356,7 @@ export default function SignIn() {
                     </Box>
                 )}
             </Box>
-           
+
             <Box
                 sx={{
                     position: "fixed",
@@ -356,7 +372,7 @@ export default function SignIn() {
                             width: "100%",
                             display: "flex",
                             justifyContent: "center",
-                            mb: 2,
+                            mb: 3.5,
                             zIndex: 5,
                         }}
                     >
@@ -380,7 +396,6 @@ export default function SignIn() {
                         </Button>
                     </Box>
                 )}
-
                 <Footer />
             </Box>
 
