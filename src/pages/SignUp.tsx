@@ -370,8 +370,8 @@ export default function SignUp() {
                 <Box
                     sx={{
                         position: "absolute",
-                        top: 35,
-                        left: 45,
+                        top: 265,
+                        right: 84,        // fica à ESQUERDA
                         display: "flex",
                         justifyContent: "flex-start",
                         width: "auto",
@@ -382,7 +382,7 @@ export default function SignUp() {
                         variant="contained"
                         onClick={() => navigate("/")}
                         sx={{
-                            width: 200,
+                            width: 250,
                             borderRadius: 2,
                             textTransform: "uppercase",
                             bgcolor: "#e65100",
@@ -403,7 +403,7 @@ export default function SignUp() {
                             },
                         }}
                     >
-                        Exit Checkout
+                        Continue as guest
                     </Button>
                 </Box>
             </Box>

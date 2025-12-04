@@ -1,8 +1,8 @@
-
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
+import { useMediaQuery } from "@mui/material";
 import {
     Box,
     Paper,
@@ -25,6 +25,8 @@ export default function SignIn() {
 
     const navigate = useNavigate();
 
+    const isMobile = useMediaQuery("(max-width:900px)");
+
     useEffect(() => {
         if (localStorage.getItem("idUser")) {
             navigate("/")
@@ -32,18 +34,38 @@ export default function SignIn() {
     }, [])
 
     async function handleClick() {
+        if (!signUp.email || !signUp.password) {
+            alert("Please fill in your e-mail and password.");
+            return;
+        }
 
         try {
-            const res = await axios.post('http://localhost:3000/users/login', signUp)
-            console.log(res)
-            localStorage.setItem('idUser', res.data.id)
-            localStorage.setItem('userName', signUp.email)
-            if (signUp.email !== "johnd") {
-                return navigate("/")
-            } navigate("/admin")
-        } catch (error) {
-            alert('user not found, please try again')
-            console.error("error to send the data", error)
+            const res = await axios.post('http://localhost:3000/users/login', signUp);
+
+            // garante que veio id do usuario
+            if (!res.data || !res.data.id) {
+                alert("Login failed. Please try again.");
+                return;
+            }
+
+            localStorage.setItem('idUser', String(res.data.id));
+            localStorage.setItem('userName', res.data.userName || signUp.email);
+
+            if (res.data.type === "admin" || signUp.email === "johnd") {
+                navigate("/admin");
+            } else {
+                navigate("/");
+            }
+
+        } catch (error: any) {
+            if (error.response?.status === 401) {
+                alert("Incorrect password.");
+            } else if (error.response?.status === 404) {
+                alert("User not found.");
+            } else {
+                alert("Login failed. Please try again.");
+            }
+            console.error("error to send the data", error);
         }
     }
 
@@ -57,7 +79,6 @@ export default function SignIn() {
     }
 
     return (
-
         <>
             <Box
                 sx={{
@@ -65,7 +86,7 @@ export default function SignIn() {
                     width: "100%",
                     minHeight: "100vh",
                     display: "flex",
-                    flexDirection: "row",
+                    flexDirection: { xs: "column", md: "row" },
                     borderTop: "3px solid #e65100",
                     boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
                 }}
@@ -202,7 +223,7 @@ export default function SignIn() {
                             }}
                         >
                             <TextField
-                                label="Enter username"
+                                label="E-mail Address"
                                 variant="outlined"
                                 name="email"
                                 value={signUp.email}
@@ -278,49 +299,48 @@ export default function SignIn() {
                     </Paper>
                 </Box>
 
-                {/* EXIT CHECKOUT BUTTON – Left aligned */}
-                <Box
-                    sx={{
-                        position: "absolute",
-                        top: 35,
-                        left: 45,        // fica à ESQUERDA
-                        display: "flex",
-                        justifyContent: "flex-start",
-                        width: "auto",
-                    }}
-                >
-                    <Button
-                        size="large"
-                        variant="contained"
+                {!isMobile && (
+                    <Box
                         sx={{
-                            width: 200,
-                            borderRadius: 2,
-                            textTransform: "uppercase",
-                            bgcolor: "#e65100",
-                            color: "#ffe0c7",
-                            letterSpacing: "0.16em",
-                            fontWeight: 700,
-                            boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
-                            "&:hover": {
-                                bgcolor: "#ffe0c7",
-                                color: "#e65100",
-                                boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
-                            },
-                            "&:active": {
-                                bgcolor: "#ffe0c7",
-                                color: "#e65100",
-                                transform: "scale(0.98)",
-                                boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                            },
+                            position: "absolute",
+                            top: 265,
+                            right: 88,
+                            display: "flex",
+                            zIndex: 2,
                         }}
                     >
-                        Exit Checkout
-                    </Button>
-                </Box>
+                        <Button
+                            size="large"
+                            variant="contained"
+                            onClick={() => navigate("/")}
+                            sx={{
+                                width: 250,
+                                borderRadius: 2,
+                                textTransform: "uppercase",
+                                bgcolor: "#e65100",
+                                color: "#ffe0c7",
+                                letterSpacing: "0.16em",
+                                fontWeight: 700,
+                                boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
+                                "&:hover": {
+                                    bgcolor: "#ffe0c7",
+                                    color: "#e65100",
+                                    boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
+                                },
+                                "&:active": {
+                                    bgcolor: "#ffe0c7",
+                                    color: "#e65100",
+                                    transform: "scale(0.98)",
+                                    boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
+                                },
+                            }}
+                        >
+                            Continue as guest
+                        </Button>
+                    </Box>
+                )}
 
             </Box>
-
-
             <Box
                 sx={{
                     position: "fixed",
@@ -330,11 +350,40 @@ export default function SignIn() {
                     zIndex: 2000,
                 }}
             >
+                {isMobile && (
+                    <Box
+                        sx={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "center",
+                            mb: 2,
+                            zIndex: 5,
+                        }}
+                    >
+                        <Button
+                            size="large"
+                            variant="contained"
+                            fullWidth
+                            onClick={() => navigate("/")}
+                            sx={{
+                                maxWidth: 340,
+                                borderRadius: 2,
+                                textTransform: "uppercase",
+                                bgcolor: "#e65100",
+                                color: "#ffe0c7",
+                                letterSpacing: "0.16em",
+                                fontWeight: 700,
+                                boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
+                            }}
+                        >
+                            Continue as guest
+                        </Button>
+                    </Box>
+                )}
+
                 <Footer />
             </Box>
 
         </>
-
-
     )
 }
