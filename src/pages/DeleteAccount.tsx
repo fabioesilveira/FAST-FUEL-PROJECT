@@ -1,5 +1,4 @@
-// FastFuelCheckout.tsx
-import React from "react";
+import React, { useState } from "react";
 import {
     Box,
     Paper,
@@ -11,9 +10,66 @@ import {
 
 } from "@mui/material";
 import Footer from "../components/Footer";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 export default function DeleteAccount() {
+
+    type User = {
+        email: string,
+        password: string
+    }
+
+    const [deleteACC, setDeleteACC] = useState<User>({
+        email: "",
+        password: ""
+    });
+
+    const navigate = useNavigate();
+
+    async function handleDelete() {
+
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete your account? This action cannot be undone"
+        );
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        try {
+            const res = await axios.delete(
+                "http://localhost:3000/users/removeUser",
+                { data: deleteACC }
+            );
+
+            if (!res.data || res.data.affectedRows === 0) {
+                alert("Email and password do not match any account.");
+                return;
+            }
+
+
+            // Só limpa o localStorage SE o backend confirmar o delete
+            localStorage.removeItem("idUser");
+            localStorage.removeItem("userName");
+
+            navigate("/sign-in");
+        } catch (error: any) {
+            console.error("error to send the data", error);
+            alert("Error deleting account. Please try again.");
+        }
+    }
+
+    function handleChange(
+        event: React.ChangeEvent<HTMLInputElement>
+    ) {
+        const { name, value } = event.target;
+        setDeleteACC(prev => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
     return (
         <>
             <Box
@@ -163,6 +219,9 @@ export default function DeleteAccount() {
                                 fullWidth
                                 type="email"
                                 variant="outlined"
+                                name="email"
+                                value={deleteACC.email}
+                                onChange={handleChange}
                                 InputLabelProps={{ shrink: false }}
                             />
 
@@ -173,6 +232,9 @@ export default function DeleteAccount() {
                                 fullWidth
                                 type="password"
                                 variant="outlined"
+                                name="password"
+                                value={deleteACC.password}
+                                onChange={handleChange}
                                 InputLabelProps={{ shrink: false }}
                             />
                         </Stack>
@@ -182,6 +244,7 @@ export default function DeleteAccount() {
                             fullWidth
                             size="large"
                             variant="contained"
+                            onClick={handleDelete}
                             sx={{
                                 mt: 1,
                                 borderRadius: 2,
