@@ -29,7 +29,7 @@ import EmailIcon from '@mui/icons-material/Email';
 const dropdownItems = [
   { label: 'Signin / Signup', icon: AccountCircleIcon, path: '/sign-in', click: () => { }, disabled: false },
   { label: 'My Orders', icon: HistoryIcon, path: '/history', click: () => { }, disabled: false },
-  { label: 'Contact Us', icon: EmailIcon, path: '/contact', click: () => { }, disabled: false },
+  { label: 'Contact Us', icon: EmailIcon, path: '/contact-us', click: () => { }, disabled: false },
   { label: 'Delete Account', icon: NoAccountsIcon, path: '/deleteaccount', click: () => { }, disabled: true },
 ];
 
