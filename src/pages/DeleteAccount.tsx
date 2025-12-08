@@ -6,8 +6,6 @@ import {
     TextField,
     Button,
     Stack,
-    Chip,
-
 } from "@mui/material";
 import Footer from "../components/Footer";
 import axios from "axios";
@@ -49,12 +47,12 @@ export default function DeleteAccount() {
                 return;
             }
 
-
             // Só limpa o localStorage SE o backend confirmar o delete
             localStorage.removeItem("idUser");
             localStorage.removeItem("userName");
 
             navigate("/sign-in");
+            
         } catch (error: any) {
             console.error("error to send the data", error);
             alert("Error deleting account. Please try again.");
@@ -105,7 +103,6 @@ export default function DeleteAccount() {
                     }}
 
                 />
-
 
                 {/* MIDDLE – Stripe Background (invertido) */}
                 <Box

@@ -1,4 +1,5 @@
 import React from "react";
+import { useMediaQuery } from "@mui/material";
 import {
     Box,
     Paper,
@@ -9,9 +10,15 @@ import {
 
 } from "@mui/material";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 
 export default function ContactUs() {
+
+    const navigate = useNavigate();
+
+    const isMobile = useMediaQuery("(max-width:1650px)");
+
     return (
         <>
             <Box
@@ -20,7 +27,7 @@ export default function ContactUs() {
                     width: "100%",
                     minHeight: "100vh",
                     display: "flex",
-                    flexDirection: "row",
+                    flexDirection: { xs: "column", md: "row" },
                     borderTop: "3px solid #e65100",
                     boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
                 }}
@@ -114,7 +121,7 @@ export default function ContactUs() {
                             borderRadius: 3,
                             border: "1.5px solid rgba(230, 81, 0, 0.35)",
                             bgcolor: "background.paper",
-                            mt: -6,
+                            mt: -31.7,
                             boxShadow:
                                 "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
                             transition: "all 0.3s ease",
@@ -254,45 +261,46 @@ export default function ContactUs() {
 
 
                     {/* EXIT CHECKOUT BUTTON – Left aligned */}
-                    <Box
-                        sx={{
-                            position: "absolute",
-                            top: 35,
-                            left: 45,        // fica à ESQUERDA
-                            display: "flex",
-                            justifyContent: "flex-start",
-                            width: "auto",
-                        }}
-                    >
-                        <Button
-                            size="large"
-                            variant="contained"
+                    {!isMobile && (
+                        <Box
                             sx={{
-                                width: 200,
-                                borderRadius: 2,
-                                textTransform: "uppercase",
-                                bgcolor: "#e65100",
-                                color: "#ffe0c7",
-                                letterSpacing: "0.16em",
-                                fontWeight: 700,
-                                boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
-                                "&:hover": {
-                                    bgcolor: "#ffe0c7",
-                                    color: "#e65100",
-                                    boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
-                                },
-                                "&:active": {
-                                    bgcolor: "#ffe0c7",
-                                    color: "#e65100",
-                                    transform: "scale(0.98)",
-                                    boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                                },
+                                position: "absolute",
+                                top: 255,
+                                right: 88,
+                                display: "flex",
+                                zIndex: 2,
                             }}
                         >
-                            Exit Checkout
-                        </Button>
-                    </Box>
-
+                            <Button
+                                size="large"
+                                variant="contained"
+                                onClick={() => navigate("/sign-in")}
+                                sx={{
+                                    width: 250,
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    bgcolor: "#e65100",
+                                    color: "#ffe0c7",
+                                    letterSpacing: "0.16em",
+                                    fontWeight: 700,
+                                    boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
+                                    "&:hover": {
+                                        bgcolor: "#ffe0c7",
+                                        color: "#e65100",
+                                        boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
+                                    },
+                                    "&:active": {
+                                        bgcolor: "#ffe0c7",
+                                        color: "#e65100",
+                                        transform: "scale(0.98)",
+                                        boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
+                                    },
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                        </Box>
+                    )}
                 </Box>
             </Box>
 
@@ -305,6 +313,36 @@ export default function ContactUs() {
                     zIndex: 2000,
                 }}
             >
+                {isMobile && (
+                    <Box
+                        sx={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "center",
+                            mb: 3.5,
+                            zIndex: 5,
+                        }}
+                    >
+                        <Button
+                            size="large"
+                            variant="contained"
+                            fullWidth
+                            onClick={() => navigate("/sign-in")}
+                            sx={{
+                                maxWidth: 340,
+                                borderRadius: 2,
+                                textTransform: "uppercase",
+                                bgcolor: "#e65100",
+                                color: "#ffe0c7",
+                                letterSpacing: "0.16em",
+                                fontWeight: 700,
+                                boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
+                            }}
+                        >
+                            Cancel
+                        </Button>
+                    </Box>
+                )}
                 <Footer />
             </Box>
         </>

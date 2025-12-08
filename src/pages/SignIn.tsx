@@ -328,7 +328,7 @@ export default function SignIn() {
                         <Button
                             size="large"
                             variant="contained"
-                            onClick={() => navigate("/")}
+                            onClick={() => navigate("/contact-us")}
                             sx={{
                                 width: 250,
                                 borderRadius: 2,
