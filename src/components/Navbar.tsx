@@ -1,30 +1,22 @@
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import Logo from '../assets/fast-fuel.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import Badge, { badgeClasses } from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import { useAppContext } from '../context/context';
-
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NoAccountsIcon from '@mui/icons-material/NoAccounts';
 import HistoryIcon from '@mui/icons-material/History';
 import EmailIcon from '@mui/icons-material/Email';
-
 
 const dropdownItems = [
   { label: 'Signin / Signup', icon: AccountCircleIcon, path: '/sign-in', click: () => { }, disabled: false },
@@ -32,7 +24,6 @@ const dropdownItems = [
   { label: 'Contact Us', icon: EmailIcon, path: '/contact-us', click: () => { }, disabled: false },
   { label: 'Delete Account', icon: NoAccountsIcon, path: '/deleteaccount', click: () => { }, disabled: true },
 ];
-
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -45,14 +36,9 @@ const Search = styled('div')(({ theme }) => ({
   marginLeft: theme.spacing(2),
   width: '100%',
   maxWidth: 300,
-
   display: 'flex',
   alignItems: 'center',
   cursor: 'text',
-
-  [theme.breakpoints.down('md')]: {
-    display: 'none',
-  },
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -73,6 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     width: '100%',
+    fontSize: '0.9rem',
   },
 }));
 
@@ -94,44 +81,33 @@ function Navbar({ onSearch }: NavbarProps) {
   const navigate = useNavigate();
   const { order } = useAppContext();
 
-
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const [shown, setShown] = useState(false);   // 🔹 start closed
-  const [dropdownItemsChange, setDropDownChange] = useState(dropdownItems)
+  const [shown, setShown] = useState(false);
+  const [dropdownItemsChange, setDropDownChange] = useState(dropdownItems);
   const [badgeQuantity, setBadgeQuantity] = useState(0);
 
-  // refs
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+  const handleClickSignout = () => {
+    localStorage.clear();
   };
 
   // user logged in?
   useEffect(() => {
     if (localStorage.getItem('idUser')) {
       setShown(false);
-      setDropDownChange(
-        [
-          { label: 'Signout', icon: AccountCircleIcon, path: '/sign-in', click: handleClickSignout, disabled: false },
-          { label: 'My Orders', icon: HistoryIcon, path: '/history', click: () => { }, disabled: false },
-          { label: 'Contact Us', icon: EmailIcon, path: '/contact', click: () => { }, disabled: false },
-          { label: 'Delete Account', icon: NoAccountsIcon, path: '/deleteaccount', click: () => { }, disabled: false },
-        ])
+      setDropDownChange([
+        { label: 'Signout', icon: AccountCircleIcon, path: '/sign-in', click: handleClickSignout, disabled: false },
+        { label: 'My Orders', icon: HistoryIcon, path: '/history', click: () => { }, disabled: false },
+        { label: 'Contact Us', icon: EmailIcon, path: '/contact', click: () => { }, disabled: false },
+        { label: 'Delete Account', icon: NoAccountsIcon, path: '/deleteaccount', click: () => { }, disabled: false },
+      ]);
     }
     setBadgeQuantity(order.length);
   }, []);
 
   useEffect(() => {
-    const qtdTotal = order.reduce(
-      (acc, element) => acc + element.quantidade,
-      0
-    );
+    const qtdTotal = order.reduce((acc, element) => acc + element.quantidade, 0);
     setBadgeQuantity(qtdTotal);
   }, [order]);
 
@@ -152,125 +128,90 @@ function Navbar({ onSearch }: NavbarProps) {
     };
   }, [shown]);
 
-  // const handleNavigate = (category: string) => {
-  //   navigate(`/${category.toLowerCase()}`);
-  // };
-
-  const handleClickSignout = () => {
-    localStorage.clear()
-  }
-
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#fff3e0' }}>
       <Box sx={{ width: '100%' }}>
-        <Toolbar disableGutters sx={{ minHeight: 80 }}>
-          {/* LOGO */}
+        <Toolbar
+          disableGutters
+          sx={{
+            minHeight: 80,
+            px: { xs: 1, md: 2 },
+            gap: { xs: 1, md: 2 },
+          }}
+        >
+          {/* LOGO – sempre visível, só menor no mobile */}
           <Box
             component="a"
             href="#"
             sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              alignItems: 'center',
+              display: "flex",
+              alignItems: "center",
+              ml: { xs: -1, md: -2 }, // puxa pra esquerda
             }}
           >
             <Box
               component="img"
               src={Logo}
               alt="Fast Fuel Logo"
-              sx={{ height: 70, width: 75 }}
+              sx={{
+                height: { xs: 62, md: 70 },
+                width: "auto",
+                objectFit: "contain",
+                transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" }, // estica no desktop
+                transformOrigin: "left center",  // estica puxando da esquerda
+              }}
             />
           </Box>
 
-          {/* Mobile Menu Icon */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
-              <MenuIcon sx={{ color: '#e65100' }} />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-              keepMounted
-              transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
-            >
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/signup" style={{ textDecoration: 'none', color: '#e65100' }}>
-                  Signup
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/signin" style={{ textDecoration: 'none', color: '#e65100' }}>
-                  Signin
-                </Link>
-              </MenuItem>
-            </Menu>
-          </Box>
-
-          {/* Mobile Text LOGO */}
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: '#e65100' }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: '#e65100',
-              outline: '2px solid #e65100',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
-
-          {/* SEARCH BAR */}
-          <Search onClick={() => searchInputRef.current?.focus()}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              onChange={(event) => onSearch(event.target.value)}
-              inputProps={{ 'aria-label': 'search' }}
-              inputRef={searchInputRef}
-            />
-          </Search>
-
-          {/* RIGHT SIDE – Cart + Manage + Dropdown */}
+          {/* SEARCH – continua no meio, só menor no mobile */}
           <Box
             sx={{
-              display: { xs: 'none', md: 'flex' },
+              flexGrow: 1,
+              display: 'flex',
+              justifyContent: 'flex-start',
+            }}
+            onClick={() => searchInputRef.current?.focus()}
+          >
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                onChange={(event) => onSearch(event.target.value)}
+                inputProps={{ 'aria-label': 'search' }}
+                inputRef={searchInputRef}
+              />
+            </Search>
+          </Box>
+
+          {/* RIGHT SIDE – sempre visível, só reduzido no mobile */}
+          <Box
+            sx={{
+              display: 'flex',
               alignItems: 'center',
-              gap: 1.5,
+              gap: { xs: 1, md: 1.5 },
               marginLeft: 'auto',
-              paddingRight: 2,
-              position: 'relative', // anchor for dropdown
+              paddingRight: { xs: 1, md: 2 },
+              position: 'relative',
             }}
           >
             {/* Cart */}
             <IconButton
               onClick={() => navigate('/checkout')}
               sx={{
-                width: 70,
-                height: 40,
+                width: { xs: 50, md: 70 },
+                height: { xs: 34, md: 40 },
                 borderRadius: 2,
                 backgroundColor: '#e65100',
                 '&:hover': { backgroundColor: '#b33f00' },
-                filter: 'drop-shadow(0px 0px 4px rgba(0,0,0,0.25))',
+                boxShadow: '0px 3px 14px rgba(0,0,0,0.25)'
+                
               }}
             >
               <ShoppingCartIcon
                 sx={{
-                  fontSize: 28,
+                  fontSize: { xs: 24, md: 28 },
                   color: '#ffe0c7',
                 }}
               />
@@ -281,19 +222,26 @@ function Navbar({ onSearch }: NavbarProps) {
               />
             </IconButton>
 
-            {/* Manage Button */}
+            {/* Manage Button (abre dropdown) */}
             <Button
               variant="contained"
               onClick={() => setShown((prev) => !prev)}
               sx={{
-                width: 40,
-                height: 40,
+                width: { xs: 50, md: 68 },
+                height: { xs: 34, md: 40 },
+                minWidth: 'unset',
                 borderRadius: 2,
                 backgroundColor: '#e65100',
                 '&:hover': { backgroundColor: '#b33f00' },
+                padding: 0,
               }}
             >
-              <ManageAccountsIcon sx={{ fontSize: 28, color: '#ffe0c7' }} />
+              <ManageAccountsIcon
+                sx={{
+                  fontSize: { xs: 27, md: 32 },
+                  color: '#ffe0c7',
+                }}
+              />
             </Button>
 
             {shown && (
@@ -311,7 +259,7 @@ function Navbar({ onSearch }: NavbarProps) {
                   borderRadius: 2,
                   boxShadow: '0 6px 16px rgba(0,0,0,0.30)',
                   zIndex: 10,
-                  width: 210,          // fixes text wrapping
+                  width: 210,
                 }}
               >
                 {dropdownItemsChange.map(({ label, icon: Icon, path, click, disabled }) => (
@@ -329,7 +277,7 @@ function Navbar({ onSearch }: NavbarProps) {
                       justifyContent: 'flex-start',
                       gap: 1.2,
                       width: '100%',
-                      px: 1.5,              // ✅ use px instead of paddingX
+                      px: 1.5,
                       textAlign: 'left',
                       textDecoration: 'none',
                       '&:focus': { outlineOffset: '2px' },
@@ -344,13 +292,11 @@ function Navbar({ onSearch }: NavbarProps) {
                     >
                       <Icon sx={{ color: '#e65100' }} />
                     </Box>
-
                     {label}
                   </Button>
                 ))}
               </Box>
             )}
-
           </Box>
         </Toolbar>
       </Box>

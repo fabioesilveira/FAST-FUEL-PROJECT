@@ -5,7 +5,7 @@ import Logo from "../assets/fast-fuel.png";
 
 function NavbarProducts() {
     return (
-        <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0", boxShadow: 1 }}>
+        <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0"}}>
             <Toolbar
                 disableGutters
                 sx={{
@@ -33,8 +33,8 @@ function NavbarProducts() {
                             height: { xs: 69, md: 70 },
                             width: "auto",
                             objectFit: "contain",
-                            transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" }, // estica 20% no desktop
-                            transformOrigin: "left center",                // estica puxando da esquerda
+                            transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" }, // estica no desktop
+                            transformOrigin: "left center", // estica puxando da esquerda
                         }}
                     />
                 </Box>
