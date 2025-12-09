@@ -143,7 +143,6 @@ export default function SignIn() {
                 />
 
                 {/* RIGHT SIDE – Cream with logo */}
-                {/* RIGHT SIDE – Cream with logo */}
                 <Box
                     sx={{
                         flex: 1,
@@ -328,7 +327,7 @@ export default function SignIn() {
                         <Button
                             size="large"
                             variant="contained"
-                            onClick={() => navigate("/contact-us")}
+                            onClick={() => navigate("/")}
                             sx={{
                                 width: 250,
                                 borderRadius: 2,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMediaQuery } from "@mui/material";
 import {
     Box,
@@ -11,13 +11,73 @@ import {
 } from "@mui/material";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
+type Contact = {
+    name: string,
+    email: string,
+    orderNumber: number,
+    phone: string,
+    subject: string,
+    message: string
+}
 
 export default function ContactUs() {
+
+    const [contactForm, setContactForm] = useState<Contact>({
+        name: "",
+        email: "",
+        orderNumber: 0,
+        phone: "",
+        subject: "",
+        message: ""
+    })
 
     const navigate = useNavigate();
 
     const isMobile = useMediaQuery("(max-width:1650px)");
+
+    async function handleClick() {
+
+        if (!contactForm.name || !contactForm.email || !contactForm.subject || !contactForm.message) {
+            alert("Please fill in all required * fields.");
+            return;
+        }
+
+        try {
+            const res = await axios.post("http://localhost:3000/contact-us", contactForm)
+
+            if (!res.data || !res.data.id) {
+                alert("Fail to send the message. Please try again.");
+                return;
+            }
+            alert("Message sent successfully!");
+
+            // limpar o form
+            setContactForm({
+                name: "",
+                email: "",
+                orderNumber: 0,
+                phone: "",
+                subject: "",
+                message: ""
+            });
+        } catch (error) {
+            console.error("error to send the data", error);
+            alert("Fail to send the message. Please try again.");
+        }
+    }
+
+    function handleChange(
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) {
+        const { name, value } = event.target;
+
+        setContactForm(prev => ({
+            ...prev,
+            [name]: name === "orderNumber" ? Number(value) || 0 : value,
+        }));
+    }
 
     return (
         <>
@@ -91,17 +151,32 @@ export default function ContactUs() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "flex-start",
-                        pt: 4,
+                        pt: { xs: 40, sm: 40, md: 4 },     // padding-top responsive
                     }}
                 >
-                    <img
+                    <Box
+                        component="img"
                         src="/src/assets/fast-fuel.png"
                         alt="Fast Fuel Logo"
-                        style={{ width: "280px", height: "220px" }}
+                        sx={{
+                            width: {
+                                xs: 140,   // mobile
+                                sm: 200,   // tablet
+                                md: 220,   // desktop
+                            },
+
+                            height: "auto",
+                            maxWidth: "100%",
+                            objectFit: "contain",
+
+                            transform: {
+                                md: "scaleX(1.20)", // ESTICA SÓ NO DESKTOP NA HORIZONTAL
+                            },
+                        }}
                     />
                 </Box>
 
-                {/* CHECKOUT CARD overlay in center */}
+                {/* paper overlay in center */}
                 <Box
                     sx={{
                         position: "absolute",
@@ -154,6 +229,9 @@ export default function ContactUs() {
                                 size="small"
                                 label="Full Name"
                                 placeholder="Enter your full name"
+                                name="name"
+                                value={contactForm.name}
+                                onChange={handleChange}
                                 fullWidth
                                 variant="outlined"
                                 InputLabelProps={{ shrink: false }}
@@ -164,6 +242,9 @@ export default function ContactUs() {
                                 label="Email"
                                 placeholder="Enter your email"
                                 type="email"
+                                name="email"
+                                value={contactForm.email}
+                                onChange={handleChange}
                                 fullWidth
                                 variant="outlined"
                                 InputLabelProps={{ shrink: false }}
@@ -174,7 +255,11 @@ export default function ContactUs() {
                                 <TextField
                                     size="small"
                                     label="Order Number"
+                                    type="number"
                                     placeholder="Optional"
+                                    name="orderNumber"
+                                    value={contactForm.orderNumber || ""} // nao mostra 0 quando vazio
+                                    onChange={handleChange}
                                     fullWidth
                                     variant="outlined"
                                     InputLabelProps={{ shrink: false }}
@@ -184,6 +269,9 @@ export default function ContactUs() {
                                     size="small"
                                     label="Phone Number"
                                     placeholder="(000) 000-0000"
+                                    name="phone"
+                                    value={contactForm.phone}
+                                    onChange={handleChange}
                                     fullWidth
                                     variant="outlined"
                                     InputLabelProps={{ shrink: false }}
@@ -195,6 +283,9 @@ export default function ContactUs() {
                                 size="small"
                                 label="Subject"
                                 placeholder="Enter the subject"
+                                name="subject"
+                                value={contactForm.subject}
+                                onChange={handleChange}
                                 fullWidth
                                 variant="outlined"
                                 InputLabelProps={{ shrink: false }}
@@ -211,13 +302,16 @@ export default function ContactUs() {
                                         color: "text.secondary",
                                     }}
                                 >
-                                    0 / 300
+                                    {contactForm.message.length} / 300
                                 </Typography>
 
                                 <TextField
                                     size="small"
                                     label="Message"
                                     placeholder="Write your message here..."
+                                    name="message"
+                                    value={contactForm.message}
+                                    onChange={handleChange}
                                     fullWidth
                                     multiline
                                     rows={5}
@@ -232,6 +326,7 @@ export default function ContactUs() {
                                 fullWidth
                                 size="large"
                                 variant="contained"
+                                onClick={handleClick}
                                 sx={{
                                     mt: 2,
                                     borderRadius: 2,
@@ -260,7 +355,7 @@ export default function ContactUs() {
                     </Paper>
 
 
-                    {/* EXIT CHECKOUT BUTTON – Left aligned */}
+                    {/* Cancel BUTTON – Left aligned */}
                     {!isMobile && (
                         <Box
                             sx={{
@@ -274,7 +369,7 @@ export default function ContactUs() {
                             <Button
                                 size="large"
                                 variant="contained"
-                                onClick={() => navigate("/sign-in")}
+                                onClick={() => navigate("/")}
                                 sx={{
                                     width: 250,
                                     borderRadius: 2,
@@ -327,7 +422,7 @@ export default function ContactUs() {
                             size="large"
                             variant="contained"
                             fullWidth
-                            onClick={() => navigate("/sign-in")}
+                            onClick={() => navigate("/")}
                             sx={{
                                 maxWidth: 340,
                                 borderRadius: 2,
