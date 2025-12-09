@@ -327,7 +327,7 @@ export default function SignIn() {
                         <Button
                             size="large"
                             variant="contained"
-                            onClick={() => navigate("/")}
+                            onClick={() => navigate("/deleteaccount")}
                             sx={{
                                 width: 250,
                                 borderRadius: 2,
@@ -379,7 +379,7 @@ export default function SignIn() {
                             size="large"
                             variant="contained"
                             fullWidth
-                            onClick={() => navigate("/")}
+                            onClick={() => navigate("/deleteaccount")}
                             sx={{
                                 maxWidth: 340,
                                 borderRadius: 2,
