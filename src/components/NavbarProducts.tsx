@@ -1,62 +1,44 @@
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import AdbIcon from '@mui/icons-material/Adb';
-import Logo from '../assets/fast-fuel.png';
-
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Logo from "../assets/fast-fuel.png";
 
 function NavbarProducts() {
     return (
-        <AppBar position="fixed" sx={{ backgroundColor: '#fff3e0' }}>
-            <Box sx={{ width: '100%' }}>
-                <Toolbar disableGutters sx={{ minHeight: 80 }}>
-                    {/* LOGO */}
+        <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0", boxShadow: 1 }}>
+            <Toolbar
+                disableGutters
+                sx={{
+                    minHeight: 80,
+                    pl: { xs: 2, md: 0 },   // desktop colado na margem
+                    pr: { xs: 2, md: 4 },   // espaço só do lado direito no desktop
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: { xs: "center", md: "flex-start" },
+                }}
+            >
+                <Box
+                    component="a"
+                    href="#"
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                    }}
+                >
                     <Box
-                        component="a"
-                        href="#"
+                        component="img"
+                        src={Logo}
+                        alt="Fast Fuel Logo"
                         sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            alignItems: 'center',
+                            height: { xs: 69, md: 70 },
+                            width: "auto",
+                            objectFit: "contain",
+                            transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" }, // estica 20% no desktop
+                            transformOrigin: "left center",                // estica puxando da esquerda
                         }}
-                    >
-                        <Box
-                            component="img"
-                            src={Logo}
-                            alt="Fast Fuel Logo"
-                            sx={{ height: 70, width: 75 }}
-                        />
-                    </Box>
-
-                    {/* Mobile Menu Icon */}
-
-
-                    {/* Mobile Text LOGO */}
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: '#e65100' }} />
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="#"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: '#e65100',
-                            outline: '2px solid #e65100',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        LOGO
-                    </Typography>
-
-                </Toolbar>
-
-            </Box>
+                    />
+                </Box>
+            </Toolbar>
         </AppBar>
     );
 }
