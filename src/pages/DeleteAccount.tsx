@@ -174,10 +174,11 @@ export default function DeleteAccount() {
                             width: "100%",
                             maxWidth: 500,
                             p: 3.5,
+                            pt: 4,
                             borderRadius: 3,
                             border: "1.5px solid rgba(230, 81, 0, 0.35)",
                             bgcolor: "background.paper",
-                            mt: -53,
+                            mt: -52.3,
                             boxShadow:
                                 "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
                             transition: "all 0.3s ease",

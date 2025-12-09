@@ -193,6 +193,8 @@ export default function SignIn() {
                             width: "100%",
                             maxWidth: 500,
                             p: 3.5,
+                            pb: 5, 
+                            mt: 1.3,
                             borderRadius: 3,
                             border: "1.5px solid rgba(230, 81, 0, 0.35)",
                             bgcolor: "background.paper",
