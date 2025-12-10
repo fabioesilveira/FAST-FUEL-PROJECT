@@ -191,7 +191,7 @@ export default function SignIn() {
                         elevation={0}
                         sx={{
                             width: "100%",
-                            maxWidth: 500,
+                            maxWidth: 520,
                             p: 3.5,
                             pb: 5, 
                             mt: 1.3,
@@ -240,7 +240,7 @@ export default function SignIn() {
                             }}
                         >
                             <TextField
-                                label="E-mail Address"
+                                label="Email Address*"
                                 variant="outlined"
                                 name="email"
                                 value={signUp.email}
@@ -287,7 +287,7 @@ export default function SignIn() {
 
                             <Typography
                                 align="center"
-                                sx={{ mt: 1, mb: 1, fontSize: "0.85rem", color: "text.secondary" }}
+                                sx={{ mt: 1, mb: 1, fontSize: "0.85rem", color: "rgba(180, 63, 0, 1)", fontWeight: "bold" }}
                             >
                                 OR
                             </Typography>

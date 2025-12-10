@@ -259,6 +259,7 @@ export default function SignUp() {
                                 mb: 2,
                                 fontSize: "0.9rem",
                                 color: "text.secondary",
+                                fontWeight: "bold"
                             }}
                         >
                             Create your Fast Fuel account for a full experience.

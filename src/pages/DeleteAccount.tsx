@@ -172,7 +172,7 @@ export default function DeleteAccount() {
                         elevation={0}
                         sx={{
                             width: "100%",
-                            maxWidth: 500,
+                            maxWidth: 520,
                             p: 3.5,
                             pt: 4,
                             borderRadius: 3,
@@ -214,6 +214,7 @@ export default function DeleteAccount() {
                                 mb: 3,
                                 fontSize: "0.9rem",
                                 color: "text.secondary",
+                                fontWeight: "bold"
                             }}
                         >
                             This action is permanent and cannot be undone.
@@ -223,7 +224,7 @@ export default function DeleteAccount() {
                         <Box
                             sx={{
                                 width: "100%",
-                                maxWidth: 360,                  // 👈 mesmo do SignIn
+                                maxWidth: 360,                  // mesmo do SignIn
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 1.5,
@@ -232,42 +233,40 @@ export default function DeleteAccount() {
                         >
                             <TextField
                                 size="small"
-                                label="Email"
-                                placeholder="Enter your email"
+                                label="Email Address*"
                                 fullWidth
                                 type="email"
                                 variant="outlined"
+                                className="text-field-orange"
                                 name="email"
                                 value={deleteACC.email}
                                 onChange={handleChange}
-                                InputLabelProps={{ shrink: false }}
                             />
 
                             <TextField
                                 size="small"
-                                label="Password"
-                                placeholder="Enter your password"
+                                label="Password*"
                                 fullWidth
                                 type="password"
                                 variant="outlined"
+                                className="text-field-orange"
                                 name="password"
                                 value={deleteACC.password}
                                 onChange={handleChange}
-                                InputLabelProps={{ shrink: false }}
                             />
 
                             <TextField
                                 size="small"
-                                label="Confirm Password"
-                                placeholder="Confirm your password"
+                                label="Confirm Password*"
                                 fullWidth
                                 type="password"
                                 variant="outlined"
+                                className="text-field-orange"
                                 name="confirm-password"
                                 value={deleteACC.password}
                                 onChange={handleChange}
-                                InputLabelProps={{ shrink: false }}
                             />
+
 
                             {/* DELETE BUTTON dentro do mesmo width */}
                             <Button

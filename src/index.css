@@ -301,52 +301,52 @@ body {
   font-weight: 500;
 }
 
-/* Text fields with orange outlines and labels */
+/* ===============================
+   Fast Fuel – Orange TextField
+   =============================== */
+
 .text-field-orange {
   width: 100%;
-  margin-bottom: 16px;
 }
 
-/* Outline color in the default state */
-.text-field-orange .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
-  border-color: #e65100;
+/* Input text */
+.text-field-orange .MuiInputBase-input {
+  color: rgba(180, 63, 0, 1);
 }
 
-/* Outline color when hovering */
-.text-field-orange .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+/* Placeholder (slightly softer) */
+.text-field-orange .MuiInputBase-input::placeholder {
+  color: rgba(180, 63, 0, 0.6);
+}
+
+/* Label */
+.text-field-orange .MuiInputLabel-root,
+.text-field-orange .MuiInputLabel-root.Mui-focused {
+  color: rgba(180, 63, 0, 1);
+}
+
+/* Outline (border) */
+.text-field-orange .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(230, 81, 0, 1);
+}
+
+/* Outline on hover */
+.text-field-orange .MuiOutlinedInput-root:hover
+  .MuiOutlinedInput-notchedOutline {
   border-color: #bf360c;
 }
 
-/* Outline color when focused */
-.text-field-orange .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #e65100;
+/* Outline on focus */
+.text-field-orange .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(230, 81, 0, 1);
 }
 
-/* Label color */
-.text-field-orange .MuiInputLabel-root {
-  color: #e65100;
-}
-
-/* Label color when focused */
-.text-field-orange .MuiInputLabel-root.Mui-focused {
-  color: #e65100;
-}
-
-/* Text color */
-.text-field-orange input {
-  color: #e65100;
-}
-
-/* Solid white background for the input area */
+/* Background */
 .text-field-orange .MuiInputBase-root {
   background-color: #ffffff;
 }
 
-/* Keep the background white on hover and focus */
-.text-field-orange .MuiInputBase-root:hover,
-.text-field-orange .MuiInputBase-root.Mui-focused {
-  background-color: #ffffff;
-}
 
 .signin-button {
   /* Override default MUI contained button colour */
