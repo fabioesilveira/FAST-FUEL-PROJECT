@@ -14,18 +14,30 @@ import { useNavigate } from "react-router-dom";
 type User = {
     email: string;
     password: string;
+    confirmPassword: string
 };
 
 export default function DeleteAccount() {
     const [deleteACC, setDeleteACC] = useState<User>({
         email: "",
         password: "",
+        confirmPassword: ""
     });
 
     const navigate = useNavigate();
     const isMobile = useMediaQuery("(max-width:1650px)");
 
     async function handleDelete() {
+        if (!deleteACC.email || !deleteACC.password || !deleteACC.confirmPassword) {
+            alert("Please fill in all fields");
+            return;
+        }
+
+        if (deleteACC.password !== deleteACC.confirmPassword) {
+            alert("The passwords entered don’t match. Please try again.");
+            return;
+        }
+
         const confirmDelete = window.confirm(
             "Are you sure you want to delete your account? This action cannot be undone"
         );
@@ -182,7 +194,7 @@ export default function DeleteAccount() {
                             boxShadow:
                                 "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
                             transition: "all 0.3s ease",
-                            display: "flex",               // 👈 igual SignIn
+                            display: "flex",               // igual SignIn
                             flexDirection: "column",
                             alignItems: "center",
                             "&:hover": {
@@ -262,13 +274,13 @@ export default function DeleteAccount() {
                                 type="password"
                                 variant="outlined"
                                 className="text-field-orange"
-                                name="confirm-password"
-                                value={deleteACC.password}
+                                name="confirmPassword"
+                                value={deleteACC.confirmPassword}
                                 onChange={handleChange}
                             />
 
 
-                            {/* DELETE BUTTON dentro do mesmo width */}
+                            {/* DELETE BUTTON */}
                             <Button
                                 fullWidth
                                 size="large"
@@ -301,7 +313,7 @@ export default function DeleteAccount() {
                         </Box>
                     </Paper>
 
-                    {/* EXIT BUTTON – desktop */}
+                    {/* CANCEL BUTTON – desktop */}
                     {!isMobile && (
                         <Box
                             sx={{
@@ -345,7 +357,7 @@ export default function DeleteAccount() {
                 </Box>
             </Box>
 
-            {/* FOOTER + MOBILE BUTTON */}
+            {/* FOOTER / MOBILE BUTTON */}
             <Box
                 sx={{
                     position: "fixed",
