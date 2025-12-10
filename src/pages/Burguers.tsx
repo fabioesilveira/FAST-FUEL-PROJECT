@@ -33,11 +33,6 @@ import FriesIcon from '../assets/frenchFries.png';
 import SodaIcon from '../assets/soda.png';
 import DrawerProducts from '../components/DrawerProducts';
 
-const mobileCategoryBtn = {
-  width: { xs: 55, sm: 65, md: 90 },     // 👈 só mobile / tablet
-  height: { xs: 38, sm: 45, md: 55 },   // 👈 só mobile / tablet
-};
-
 export default function Burguers() {
   const [data, setData] = useState<Meal[]>([]);
 
