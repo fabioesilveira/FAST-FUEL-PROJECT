@@ -331,14 +331,12 @@ body {
 }
 
 /* Outline on hover */
-.text-field-orange .MuiOutlinedInput-root:hover
-  .MuiOutlinedInput-notchedOutline {
+.text-field-orange .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
   border-color: #bf360c;
 }
 
 /* Outline on focus */
-.text-field-orange .MuiOutlinedInput-root.Mui-focused
-  .MuiOutlinedInput-notchedOutline {
+.text-field-orange .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: rgba(230, 81, 0, 1);
 }
 
@@ -474,18 +472,63 @@ body {
 }
 
 .h2-products-background {
-  position: absolute;     
-  top: 100px;              
-  left: 30px;             
+  position: absolute;
+  top: 100px;
+  left: 30px;
   z-index: 5;
   font-family: "Faster One", system-ui;
   font-size: 50px;
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(230, 81, 0, 0.15);  /* soft orange */
+  color: rgba(230, 81, 0, 0.15);
+  /* soft orange */
   pointer-events: none;
   user-select: none;
   font-style: italic;
   /* text-shadow: 0px 6px 14px rgba(0, 0, 0, 0.15); */
+}
+
+/* Tablet / medium (até 900px) */
+@media (max-width: 900px) {
+  .h2-products-background {
+    top: 100px;
+    /* sobe / desce um pouco se quiser */
+    left: 50%;
+    /* centraliza */
+    transform: translateX(-50%);
+    /* centraliza de verdade */
+    font-size: 38px;
+    /* menor que o desktop */
+    letter-spacing: 0.15em;
+    /* menos espaço entre letras */
+    text-align: center;
+  }
+}
+
+/* Mobile (até 600px) */
+@media (max-width: 600px) {
+  .h2-products-background {
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 40px;
+    /* menor ainda */
+    letter-spacing: 0.12em;
+  }
+}
+
+
+/* Tablet */
+@media (max-width: 900px) {
+  .nav-products-page {
+    margin-top: -50px;   /* ajuste livre */
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .nav-products-page {
+    margin-top: -50px;   /* pode aumentar mais se quiser */
+  }
 }
