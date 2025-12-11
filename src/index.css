@@ -579,7 +579,7 @@ body {
 /* Tablet */
 @media (max-width: 900px) {
   .nav-products-page {
-    margin-top: -6px;
+    margin-top: 20px;
     /* ajuste livre */
   }
 }
@@ -587,7 +587,7 @@ body {
 /* Mobile */
 @media (max-width: 600px) {
   .nav-products-page {
-    margin-top: -2px;
+    margin-top: 20px;
     /* pode aumentar mais se quiser */
   }
 }

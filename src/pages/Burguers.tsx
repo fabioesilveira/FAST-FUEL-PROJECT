@@ -127,7 +127,7 @@ export default function Burguers() {
             sx={{
               width: 69,
               height: 40,
-              marginTop: -6,
+              marginTop: -5.5,
 
               borderRadius: 2,
               backgroundColor: '#e65100',
@@ -149,7 +149,7 @@ export default function Burguers() {
               width: 70,
               height: 40,
               borderRadius: 2,
-              marginTop: -6,
+              marginTop: -5.5,
 
               backgroundColor: '#e65100',
             }}
@@ -184,7 +184,7 @@ export default function Burguers() {
               backgroundColor: '#e65100'
             }}
           >
-            <ArrowCircleLeftIcon sx={{ fontSize: 33, color: '#ffe0c7' }} />
+            <ArrowCircleLeftIcon sx={{ fontSize: 36, color: '#ffe0c7' }} />
           </Button>
 
           {/* BURGUERS (ATUAL) */}
@@ -203,7 +203,7 @@ export default function Burguers() {
               },
             }}
           >
-            <LunchDiningIcon sx={{ fontSize: 39, color: '#eb631aff' }} />
+            <LunchDiningIcon sx={{ fontSize: { xs: 29, sm: 35, md: 39 }, color: '#eb631aff' }} />
           </Button>
 
           {/* SIDES */}
@@ -217,15 +217,16 @@ export default function Burguers() {
               backgroundColor: '#ffe0c7'
             }}
           >
-            <img
+            <Box
+              component="img"
               src={FriesIcon}
               alt="Drink icon"
-              style={{
-                width: 47,
-                height: 39,
-                objectFit: 'contain',
-                transition: 'transform 0.2s ease',
-                display: 'block',
+              sx={{
+                width: { xs: 38, sm: 42, md: 47 },   // agora funciona!
+                height: { xs: 33, sm: 39, md: 46 },
+                objectFit: "contain",
+                transition: "transform 0.2s ease",
+                display: "block",
               }}
             />
           </Button>
@@ -241,15 +242,16 @@ export default function Burguers() {
               backgroundColor: '#ffe0c7',
             }}
           >
-            <img
+            <Box
+              component="img"
               src={SodaIcon}
               alt="Drink icon"
-              style={{
-                width: 80,
-                height: 40,
-                objectFit: 'contain',
-                transition: 'transform 0.2s ease',
-                display: 'block',
+              sx={{
+                width: { xs: 38, sm: 42, md: 100 },   // agora funciona!
+                height: { xs: 34, sm: 39, md: 45 },
+                objectFit: "contain",
+                transition: "transform 0.2s ease",
+                display: "block",
               }}
             />
           </Button>
@@ -265,7 +267,7 @@ export default function Burguers() {
               backgroundColor: '#ffe0c7'
             }}
           >
-            <CookieIcon sx={{ fontSize: 31, color: '#f1671cff' }} />
+            <CookieIcon sx={{ fontSize: { xs: 28, sm: 32, md: 35 }, color: '#f1671cff' }} />
           </Button>
 
           {/* CART – só desktop */}
@@ -275,7 +277,7 @@ export default function Burguers() {
             sx={{
               display: { xs: "none", sm: "none", md: "inline-flex" },
               width: 80,
-              height: 50,
+              height: 48,
               borderRadius: 2,
               backgroundColor: '#e65100'
             }}
@@ -286,7 +288,7 @@ export default function Burguers() {
               overlap="circular"
               showZero={false}
             >
-              <ShoppingCartIcon sx={{ fontSize: 33, color: '#ffe0c7' }} />
+              <ShoppingCartIcon sx={{ fontSize: 36, color: '#ffe0c7' }} />
             </Badge>
           </Button>
         </div>
