@@ -71,25 +71,73 @@ body {
   border-radius: 8px;
 }
 
-/* Responsive layout */
-@media (max-width: 768px) {
+/* --- SMALL SCREENS (SM) até 900px --- */
+@media (max-width: 900px) {
+  .products-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* 1 card por linha, centralizado */
+    gap: 20px;
+  }
+
+  /* Todos os cards viram coluna */
   .product-card {
+    display: flex;
     flex-direction: column;
     width: 100%;
+    max-width: 320px;         /* 👉 controla o tamanho do card */
+    padding: 10px;
+    border-radius: 14px;
+    box-shadow: 0 5px 12px rgba(255, 102, 0, 0.2);
   }
 
-  .card-left {
-    margin: 0 0 12px 0;
+  /* Cancela o reverse no mobile */
+  .product-card.reverse {
+    flex-direction: column;
   }
 
+  /* IMAGEM em cima */
   .card-right {
+    order: -1;                /* sobe pro topo */
+    display: flex;
     justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  /* TEXTOS centralizados */
+  .card-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0;
   }
 
   .img-home-products {
-    max-width: 250px;
+    max-width: 180px;         /* 👉 controla o tamanho da imagem no sm */
   }
 }
+
+/* --- EXTRA SMALL (XS) até 600px --- */
+@media (max-width: 600px) {
+  .product-card {
+    max-width: 300px;         /* 👉 card um pouco menor no XS */
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(255, 102, 0, 0.18);
+  }
+
+  .img-home-products {
+    max-width: 140px;         /* 👉 imagem um pouco menor ainda */
+  }
+
+  .card-right {
+    margin-bottom: 6px;
+  }
+}
+
+
+
 
 .h1-sandwiches {
   font-family: "Faster One", system-ui;
@@ -498,7 +546,7 @@ body {
     /* centraliza */
     transform: translateX(-50%);
     /* centraliza de verdade */
-    font-size: 38px;
+    font-size: 37px;
     /* menor que o desktop */
     letter-spacing: 0.15em;
     /* menos espaço entre letras */
@@ -512,7 +560,7 @@ body {
     top: 100px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 40px;
+    font-size: 37px;
     /* menor ainda */
     letter-spacing: 0.12em;
   }
@@ -522,13 +570,15 @@ body {
 /* Tablet */
 @media (max-width: 900px) {
   .nav-products-page {
-    margin-top: -50px;   /* ajuste livre */
+    margin-top: -6px;   /* ajuste livre */
   }
 }
 
 /* Mobile */
 @media (max-width: 600px) {
   .nav-products-page {
-    margin-top: -50px;   /* pode aumentar mais se quiser */
+    margin-top: -2px;   /* pode aumentar mais se quiser */
   }
 }
+
+

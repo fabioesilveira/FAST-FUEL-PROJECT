@@ -116,99 +116,185 @@ export default function Beverages() {
       <h2 className='h2-products-background'>BEVERAGES</h2>
       <Container className="margin-top" style={{ marginTop: "200px" }} fixed>
 
-        <div className="nav-products-page">
+       {/* 🔹 MOBILE / TABLET: seta + carrinho em cima */}
+                <Box
+                    sx={{
+                        display: { xs: "flex", sm: "flex", md: "none" }, // 👈 só mobile/tablet
+                        justifyContent: "center",
+                        gap: 40,
+                        mb: 2,
+                    }}
+                >
+                    {/* BACK HOME – mobile */}
+                    <Button
+                        variant="contained"
+                        onClick={() => navigate('/')}
+                        sx={{
+                            width: 70,
+                            height: 40,
+                            marginTop: -12,
 
+                            borderRadius: 2,
+                            backgroundColor: '#e65100',
+                        }}
+                    >
+                        <ArrowCircleLeftIcon
+                            sx={{
+                                fontSize: 28,
+                                color: '#ffe0c7',
+                            }}
+                        />
+                    </Button>
 
-          <Button
-            variant="contained"
-            onClick={() => navigate('/')}
-            sx={{ width: 80, height: 50, borderRadius: 2, backgroundColor: '#e65100' }}
-          >
-            <ArrowCircleLeftIcon sx={{ fontSize: 33, color: '#ffe0c7' }} />
-          </Button>
+                    {/* CART – mobile */}
+                    <Button
+                        variant="contained"
+                        onClick={() => navigate('/checkout')}
+                        sx={{
+                            width: 70,
+                            height: 40,
+                            borderRadius: 2,
+                            marginTop: -12,
 
-          <Button
-            variant="contained"
-            onClick={() => navigate('/burguers')}
-            sx={{ width: 80, height: 50, borderRadius: 2, backgroundColor: '#ffe0c7' }}
-          >
-            <LunchDiningIcon sx={{ fontSize: 33, color: '#f1671cff' }} />
-          </Button>
+                            backgroundColor: '#e65100',
+                        }}
+                    >
+                        <Badge
+                            badgeContent={totalItems}
+                            color="primary"
+                            overlap="circular"
+                            showZero={false}
+                        >
+                            <ShoppingCartIcon
+                                sx={{
+                                    fontSize: 28,
+                                    color: '#ffe0c7',
+                                }}
+                            />
+                        </Badge>
+                    </Button>
+                </Box>
 
-          <Button
-            variant="contained"
-            onClick={() => navigate('/sides')}
-            sx={{ width: 80, height: 50, borderRadius: 2, backgroundColor: '#ffe0c7' }}
+                {/* 🔹 DESKTOP: layout antigo com .nav-products-page */}
+                <div className="nav-products-page">
+                    {/* BACK HOME – só desktop */}
+                    <Button
+                        variant="contained"
+                        onClick={() => navigate('/')}
+                        sx={{
+                            display: { xs: "none", sm: "none", md: "inline-flex" },
+                            width: 80,
+                            height: 50,
+                            borderRadius: 2,
+                            backgroundColor: '#e65100'
+                        }}
+                    >
+                        <ArrowCircleLeftIcon sx={{ fontSize: 33, color: '#ffe0c7' }} />
+                    </Button>
 
-          >
-            <img
-              src={FriesIcon}
-              alt="Drink icon"
-              style={{
-                width: 47,
-                height: 39,
-                objectFit: 'contain',
+                    {/* BURGUERS (ATUAL) */}
+                    <Button
+                        variant="contained"
+                        disabled
+                        sx={{
+                            width: { xs: 60, sm: 70, md: 90 },
+                            height: { xs: 38, sm: 45, md: 55 },
+                            borderRadius: 2,
+                            backgroundColor: '#ffe0c7',
+                            '&.Mui-disabled': {
+                                backgroundColor: '#ffe0c7',
+                                boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
+                                opacity: 1,
+                            },
+                        }}
+                    >
+                        <LunchDiningIcon sx={{ fontSize: 39, color: '#eb631aff' }} />
+                    </Button>
 
-                transition: 'transform 0.2s ease',
-                display: 'block',
-              }}
-            />
-          </Button>
+                    {/* SIDES */}
+                    <Button
+                        variant="contained"
+                        onClick={() => navigate('/sides')}
+                        sx={{
+                            width: { xs: 55, sm: 65, md: 80 },
+                            height: { xs: 38, sm: 45, md: 50 },
+                            borderRadius: 2,
+                            backgroundColor: '#ffe0c7'
+                        }}
+                    >
+                        <img
+                            src={FriesIcon}
+                            alt="Drink icon"
+                            style={{
+                                width: 47,
+                                height: 39,
+                                objectFit: 'contain',
+                                transition: 'transform 0.2s ease',
+                                display: 'block',
+                            }}
+                        />
+                    </Button>
 
-          <Button
-            variant="contained"
-            disabled
-            sx={{
-              width: 90,
-              height: 55,
-              borderRadius: 2,
-              backgroundColor: '#ffe0c7',
+                    {/* BEVERAGES */}
+                    <Button
+                        variant="contained"
+                        onClick={() => navigate('/beverages')}
+                        sx={{
+                            width: { xs: 55, sm: 65, md: 80 },
+                            height: { xs: 38, sm: 45, md: 50 },
+                            borderRadius: 2,
+                            backgroundColor: '#ffe0c7',
+                        }}
+                    >
+                        <img
+                            src={SodaIcon}
+                            alt="Drink icon"
+                            style={{
+                                width: 80,
+                                height: 40,
+                                objectFit: 'contain',
+                                transition: 'transform 0.2s ease',
+                                display: 'block',
+                            }}
+                        />
+                    </Button>
 
-              // keep same color when disabled
-              '&.Mui-disabled': {
-                backgroundColor: '#ffe0c7',
-                boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
-                opacity: 1,
-              },
-            }}
-          >
-            <img
-              src={SodaIcon}
-              alt="Drink icon"
-              style={{
-                width: 110,
-                height: 50,
-                objectFit: 'contain',
-                transition: 'transform 0.2s ease',
-                display: 'block',
-              }}
-            />
-          </Button>
+                    {/* DESSERTS */}
+                    <Button
+                        variant="contained"
+                        onClick={() => navigate('/desserts')}
+                        sx={{
+                            width: { xs: 55, sm: 65, md: 80 },
+                            height: { xs: 38, sm: 45, md: 50 },
+                            borderRadius: 2,
+                            backgroundColor: '#ffe0c7'
+                        }}
+                    >
+                        <CookieIcon sx={{ fontSize: 31, color: '#f1671cff' }} />
+                    </Button>
 
-          <Button
-            variant="contained"
-            onClick={() => navigate('/desserts')}
-            sx={{ width: 80, height: 50, borderRadius: 2, backgroundColor: '#ffe0c7' }}
-          >
-            <CookieIcon sx={{ fontSize: 31, color: '#f1671cff' }} />
-          </Button>
-
-          {/* Cart with default blue badge */}
-          <Button
-            variant="contained"
-            onClick={() => navigate('/checkout')}
-            sx={{ width: 80, height: 50, borderRadius: 2, backgroundColor: '#e65100' }}
-          >
-            <Badge
-              badgeContent={totalItems}
-              color="primary"      // default blue
-              overlap="circular"
-              showZero={false}
-            >
-              <ShoppingCartIcon sx={{ fontSize: 33, color: '#ffe0c7' }} />
-            </Badge>
-          </Button>
-        </div>
+                    {/* CART – só desktop */}
+                    <Button
+                        variant="contained"
+                        onClick={() => navigate('/checkout')}
+                        sx={{
+                            display: { xs: "none", sm: "none", md: "inline-flex" },
+                            width: 80,
+                            height: 50,
+                            borderRadius: 2,
+                            backgroundColor: '#e65100'
+                        }}
+                    >
+                        <Badge
+                            badgeContent={totalItems}
+                            color="primary"      // default blue
+                            overlap="circular"
+                            showZero={false}
+                        >
+                            <ShoppingCartIcon sx={{ fontSize: 33, color: '#ffe0c7' }} />
+                        </Badge>
+                    </Button>
+                </div>
 
         <div className="products-wrapper" style={{ marginTop: "40px", marginBottom: "100px"}}>
           {data.map((e, index) => (

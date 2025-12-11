@@ -116,7 +116,7 @@ export default function Burguers() {
           sx={{
             display: { xs: "flex", sm: "flex", md: "none" }, // 👈 só mobile/tablet
             justifyContent: "center",
-            gap: 40,
+            gap: 10,
             mb: 2,
           }}
         >
@@ -125,9 +125,9 @@ export default function Burguers() {
             variant="contained"
             onClick={() => navigate('/')}
             sx={{
-              width: 70,
+              width: 69,
               height: 40,
-              marginTop: -12,
+              marginTop: -6,
 
               borderRadius: 2,
               backgroundColor: '#e65100',
@@ -149,7 +149,7 @@ export default function Burguers() {
               width: 70,
               height: 40,
               borderRadius: 2,
-              marginTop: -12,
+              marginTop: -6,
 
               backgroundColor: '#e65100',
             }}
@@ -301,13 +301,14 @@ export default function Burguers() {
             >
               <Box className="card-left">
                 <Stack spacing={2}>
-                  <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                  <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500,
+                    fontSize: '1rem', borderRadius: 2, }}>
                     {e.name}
                   </Item>
-                  <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                  <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2,  }}>
                     ${e.price}
                   </Item>
-                  <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                  <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
                     {e.description}
                   </Item>
                   <Button
@@ -329,8 +330,9 @@ export default function Burguers() {
               <Box className="card-right">
                 <Item
                   sx={{
-                    height: '300px',
-                    width: '270px',
+                    height: '275px',
+                    width: '260px',
+                    // marginBottom: "5px",
                     boxSizing: 'border-box',
                     border: '2px solid #e65100',
                     borderRadius: 2,
@@ -341,7 +343,7 @@ export default function Burguers() {
                     key={e.id}
                     src={e.image}
                     alt={e.name}
-                    style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
+                    style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "20px", marginBottom: "50px" }}
                   />
                 </Item>
               </Box>
