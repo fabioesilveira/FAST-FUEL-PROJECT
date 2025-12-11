@@ -301,11 +301,13 @@ export default function Burguers() {
             >
               <Box className="card-left">
                 <Stack spacing={2}>
-                  <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500,
-                    fontSize: '1rem', borderRadius: 2, }}>
+                  <Item sx={{
+                    backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500,
+                    fontSize: '1rem', borderRadius: 2,
+                  }}>
                     {e.name}
                   </Item>
-                  <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2,  }}>
+                  <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
                     ${e.price}
                   </Item>
                   <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
@@ -316,8 +318,17 @@ export default function Burguers() {
                       backgroundColor: '#e65100',
                       color: '#ffe0c7',
                       fontWeight: 'bold',
+                      borderRadius: '10px',
+                      boxShadow: 3,
+                      transition: 'all 0.2s ease-in-out',
+
+                      // ⭐ margem só no mobile e small
+                      mb: { xs: 3, sm: 2, md: 0 },
+
                       '&:hover': {
                         backgroundColor: '#bf360c',
+                        boxShadow: 6,
+                        transform: 'translateY(-2px)',
                       },
                     }}
                     onClick={() => handleOrder(e)}
@@ -327,12 +338,17 @@ export default function Burguers() {
                 </Stack>
               </Box>
 
-              <Box className="card-right">
+              <Box
+                className="card-right"
+                sx={{
+                  mt: { xs: 1.2, sm: 1.6, md: 0 },   // margem em cima só no mobile/tablet
+                  mb: { xs: 1.2, sm: 1, md: 0 },   // margem embaixo só no mobile/tablet
+                }}
+              >
                 <Item
                   sx={{
                     height: '275px',
                     width: '260px',
-                    // marginBottom: "5px",
                     boxSizing: 'border-box',
                     border: '2px solid #e65100',
                     borderRadius: 2,
