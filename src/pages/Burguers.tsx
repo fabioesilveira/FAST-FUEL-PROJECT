@@ -97,27 +97,29 @@ export default function Burguers() {
   }
 
   const imageStyles: { [id: string]: React.CSSProperties } = {
-    "1": { width: "220px", height: "220px", marginTop: "40px" }, // Pit Stop Classic
-    "2": { width: "230px", height: "230px", marginTop: "30px" }, // Turbo Bacon
-    "3": { width: "220px", height: "190px", marginTop: "55px" }, // Double Gear
-    "4": { width: "225px", height: "190px", marginTop: "50px" }, // Fuel Monster
+    "1": { width: "200px", height: "200px", marginTop: "30px" }, // Pit Stop Classic
+    "2": { width: "210px", height: "210px", marginTop: "18px" }, // Turbo Bacon
+    "3": { width: "200px", height: "180px", marginTop: "45px" }, // Double Gear
+    "4": { width: "215px", height: "180px", marginTop: "35px" }, // Fuel Monster
   };
 
   return (
     <>
       <NavbarProducts />
       <DrawerProducts onNavigate={handleDrawerNavigate} />
+      <h2 className='h2-products-background'>BURGUERS</h2>
+      <Container className="margin-top" fixed>
 
-      <Container className="margin-top" style={{ marginTop: "200px" }} fixed>
-        <h2 className='h2-products-background'>BURGUERS</h2>
 
-        {/* 🔹 MOBILE / TABLET: seta + carrinho em cima */}
+
+        {/* MOBILE / TABLET: seta + carrinho em cima */}
         <Box
           sx={{
-            display: { xs: "flex", sm: "flex", md: "none" }, // 👈 só mobile/tablet
+            display: { xs: "flex", sm: "flex", md: "none" },
             justifyContent: "center",
-            gap: 10,
-            mb: 2,
+            gap: 4,      // diminui o espaço horizontal
+            mt: -5.5,      // puxa o grupo para cima
+            mb: -2,       // diminui o espaço antes dos cards
           }}
         >
           {/* BACK HOME – mobile */}
@@ -170,7 +172,7 @@ export default function Burguers() {
           </Button>
         </Box>
 
-        {/* 🔹 DESKTOP: layout antigo com .nav-products-page */}
+        {/* DESKTOP: layout antigo com .nav-products-page */}
         <div className="nav-products-page">
           {/* BACK HOME – só desktop */}
           <Button
@@ -222,7 +224,7 @@ export default function Burguers() {
               src={FriesIcon}
               alt="Drink icon"
               sx={{
-                width: { xs: 38, sm: 42, md: 47 },   // agora funciona!
+                width: { xs: 38, sm: 42, md: 47 },   
                 height: { xs: 33, sm: 39, md: 46 },
                 objectFit: "contain",
                 transition: "transform 0.2s ease",
@@ -247,7 +249,7 @@ export default function Burguers() {
               src={SodaIcon}
               alt="Drink icon"
               sx={{
-                width: { xs: 38, sm: 42, md: 100 },   // agora funciona!
+                width: { xs: 38, sm: 42, md: 100 },   
                 height: { xs: 34, sm: 39, md: 45 },
                 objectFit: "contain",
                 transition: "transform 0.2s ease",
@@ -295,7 +297,13 @@ export default function Burguers() {
 
 
 
-        <div className="products-wrapper" style={{ marginTop: "40px", marginBottom: "100px" }}>
+        <Box
+          className="products-wrapper"
+          sx={{
+            mt: { xs: 3, sm: 3, md: 4 },   // controla espaço antes dos cards
+            mb: { xs: 6, sm: 8, md: 10 },  // controla espaço depois dos cards
+          }}
+        >
           {data.map((e, index) => (
             <Box
               className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
@@ -324,7 +332,7 @@ export default function Burguers() {
                       boxShadow: 3,
                       transition: 'all 0.2s ease-in-out',
 
-                      // ⭐ margem só no mobile e small
+                      // margem só no mobile e small
                       mb: { xs: 3, sm: 2, md: 0 },
 
                       '&:hover': {
@@ -367,8 +375,7 @@ export default function Burguers() {
               </Box>
             </Box>
           ))}
-        </div>
-
+        </Box>
       </Container>
 
       <Box

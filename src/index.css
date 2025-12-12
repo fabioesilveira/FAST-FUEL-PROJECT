@@ -317,10 +317,8 @@ body {
   flex-wrap: wrap;
   gap: 50px;
   margin-bottom: 15px;
-  margin-top: -80px;
+  margin-top: -133px;
 }
-
-
 
 /* Optional: reuse this class for both drawer and order box */
 .drawer-striped {
@@ -529,49 +527,51 @@ body {
 }
 
 .h2-products-background {
-  position: absolute;
-  top: 100px;
-  left: 30px;
-  z-index: 5;
+  /* aparência */
   font-family: "Faster One", system-ui;
   font-size: 50px;
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(230, 81, 0, 0.15);
-  /* soft orange */
+  color: rgba(230, 81, 0, 0.22);
+  /* tom igual, só um pouco mais forte */
+  font-style: italic;
   pointer-events: none;
   user-select: none;
-  font-style: italic;
-  /* text-shadow: 0px 6px 14px rgba(0, 0, 0, 0.15); */
+  margin: 0;
+  /* remove espaço vertical */
+  padding: 0;
+  line-height: 1;
+  /* reduz altura visual */
+
+  /* layout – DESKTOP: topo esquerdo, sem absolute */
+  display: block;
+  text-align: left;
+  margin-top: 100px;
+  /* ajusta a altura */
+  margin-left: 30px;
+  /* encosta um pouco na esquerda */
 }
 
-/* Tablet / medium (até 900px) */
+/* Tablet / medium (até 900px) – vai pro centro no topo */
 @media (max-width: 900px) {
   .h2-products-background {
-    top: 100px;
-    /* sobe / desce um pouco se quiser */
-    left: 50%;
-    /* centraliza */
-    transform: translateX(-50%);
-    /* centraliza de verdade */
     font-size: 37px;
-    /* menor que o desktop */
     letter-spacing: 0.15em;
-    /* menos espaço entre letras */
     text-align: center;
+    margin-top: 90px;
+    /* ajusta se precisar */
+    margin-left: 0;
+    /* tira o “empurrão” pra esquerda */
   }
 }
 
-/* Mobile (até 600px) */
+/* Mobile (até 600px) – continua centralizado, menorzinho */
 @media (max-width: 600px) {
   .h2-products-background {
-    top: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 37px;
-    /* menor ainda */
+    font-size: 32px;
     letter-spacing: 0.12em;
+    margin-top: 90px;
   }
 }
 
@@ -579,15 +579,42 @@ body {
 /* Tablet */
 @media (max-width: 900px) {
   .nav-products-page {
-    margin-top: 20px;
-    /* ajuste livre */
+    margin-top: 32px;
+    gap: 25px;
+    /* 🔥 diminui o espaçamento no tablet */
   }
 }
 
 /* Mobile */
 @media (max-width: 600px) {
   .nav-products-page {
-    margin-top: 20px;
-    /* pode aumentar mais se quiser */
+    margin-top: 30px;
+    gap: 18px;
+    /* 🔥 ainda menor no mobile */
   }
 }
+
+/* Desktop only — padding maior no card */
+@media (min-width: 900px) {
+  .product-card {
+    padding: 15px;
+    /* 🔥 aumenta só um pouquinho */
+  }
+}
+
+/* DESKTOP PEQUENO: 901px–1200px */
+@media (min-width: 901px) and (max-width: 1200px) {
+  .products-wrapper {
+    justify-content: center;
+    padding: 0;        /* nada de padding externo */
+    margin-top: -40px; /* controla só o espaço entre nav e cards */
+  }
+
+  .product-card {
+    width: 80%;
+    max-width: 900px;
+    padding: 60px;     /* espaçamento bonito dentro do card */
+    margin-top: 0;
+  }
+}
+
