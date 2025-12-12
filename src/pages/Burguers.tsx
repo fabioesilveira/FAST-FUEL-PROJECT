@@ -98,8 +98,8 @@ export default function Burguers() {
 
   const imageStyles: { [id: string]: React.CSSProperties } = {
     "1": { width: "200px", height: "200px", marginTop: "30px" }, // Pit Stop Classic
-    "2": { width: "210px", height: "210px", marginTop: "18px" }, // Turbo Bacon
-    "3": { width: "200px", height: "180px", marginTop: "45px" }, // Double Gear
+    "2": { width: "210px", height: "215px", marginTop: "18px" }, // Turbo Bacon
+    "3": { width: "200px", height: "185px", marginTop: "42px" }, // Double Gear
     "4": { width: "215px", height: "180px", marginTop: "35px" }, // Fuel Monster
   };
 
