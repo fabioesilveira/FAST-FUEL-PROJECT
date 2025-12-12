@@ -200,15 +200,10 @@ export default function Beverages() {
             variant="contained"
             onClick={() => navigate('/burguers')}
             sx={{
-              width: { xs: 60, sm: 70, md: 90 },
-              height: { xs: 38, sm: 45, md: 55 },
+              width: { xs: 55, sm: 65, md: 80 },
+              height: { xs: 38, sm: 45, md: 50 },
               borderRadius: 2,
               backgroundColor: '#ffe0c7',
-              '&.Mui-disabled': {
-                backgroundColor: '#ffe0c7',
-                boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
-                opacity: 1,
-              },
             }}
           >
             <LunchDiningIcon sx={{ fontSize: { xs: 29, sm: 35, md: 39 }, color: '#eb631aff' }} />

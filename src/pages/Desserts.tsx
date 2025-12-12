@@ -99,27 +99,29 @@ export default function Desserts() {
     );
 
     const imageStyles: { [id: string]: React.CSSProperties } = {
-        "15": { width: "250px", height: "220px", marginTop: "40px" },
-        "16": { width: "205px", height: "180px", marginTop: "60px" },
-        "17": { width: "190px", height: "180px", marginTop: "55px" },
-        "18": { width: "160px", height: "145px", marginTop: "60px" },
+        "15": { width: "240px", height: "213px", marginTop: "25px" },
+        "16": { width: "200px", height: "168px", marginTop: "45px" },
+        "17": { width: "200px", height: "205px", marginTop: "33px" },
+        "18": { width: "155px", height: "137px", marginTop: "59px" },
     };
 
     return (
         <>
             <NavbarProducts />
             <DrawerProducts onNavigate={handleDrawerNavigate} />
+            <h2 className='h2-products-background'>DESSERTS</h2>
+            <Container className="margin-top" fixed>
 
-            <Container className="margin-top" style={{ marginTop: "200px" }} fixed>
-                <h2 className='h2-products-background'>DESSERTS</h2>
-                
-                {/* 🔹 MOBILE / TABLET: seta + carrinho em cima */}
+
+
+                {/* MOBILE / TABLET: seta + carrinho em cima */}
                 <Box
                     sx={{
-                        display: { xs: "flex", sm: "flex", md: "none" }, // 👈 só mobile/tablet
+                        display: { xs: "flex", sm: "flex", md: "none" },
                         justifyContent: "center",
-                        gap: 40,
-                        mb: 2,
+                        gap: 4,      // diminui o espaço horizontal
+                        mt: -5.5,      // puxa o grupo para cima
+                        mb: -2,       // diminui o espaço antes dos cards
                     }}
                 >
                     {/* BACK HOME – mobile */}
@@ -127,9 +129,9 @@ export default function Desserts() {
                         variant="contained"
                         onClick={() => navigate('/')}
                         sx={{
-                            width: 70,
+                            width: 69,
                             height: 40,
-                            marginTop: -12,
+                            marginTop: -5.5,
 
                             borderRadius: 2,
                             backgroundColor: '#e65100',
@@ -151,7 +153,7 @@ export default function Desserts() {
                             width: 70,
                             height: 40,
                             borderRadius: 2,
-                            marginTop: -12,
+                            marginTop: -5.5,
 
                             backgroundColor: '#e65100',
                         }}
@@ -172,7 +174,7 @@ export default function Desserts() {
                     </Button>
                 </Box>
 
-                {/* 🔹 DESKTOP: layout antigo com .nav-products-page */}
+                {/* DESKTOP: layout antigo com .nav-products-page */}
                 <div className="nav-products-page">
                     {/* BACK HOME – só desktop */}
                     <Button
@@ -186,26 +188,21 @@ export default function Desserts() {
                             backgroundColor: '#e65100'
                         }}
                     >
-                        <ArrowCircleLeftIcon sx={{ fontSize: 33, color: '#ffe0c7' }} />
+                        <ArrowCircleLeftIcon sx={{ fontSize: 36, color: '#ffe0c7' }} />
                     </Button>
 
                     {/* BURGUERS (ATUAL) */}
                     <Button
                         variant="contained"
-                        disabled
+                        onClick={() => navigate('/burguers')}
                         sx={{
-                            width: { xs: 60, sm: 70, md: 90 },
-                            height: { xs: 38, sm: 45, md: 55 },
+                            width: { xs: 55, sm: 65, md: 80 },
+                            height: { xs: 38, sm: 45, md: 50 },
                             borderRadius: 2,
                             backgroundColor: '#ffe0c7',
-                            '&.Mui-disabled': {
-                                backgroundColor: '#ffe0c7',
-                                boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
-                                opacity: 1,
-                            },
                         }}
                     >
-                        <LunchDiningIcon sx={{ fontSize: 39, color: '#eb631aff' }} />
+                        <LunchDiningIcon sx={{ fontSize: { xs: 29, sm: 35, md: 39 }, color: '#eb631aff' }} />
                     </Button>
 
                     {/* SIDES */}
@@ -219,15 +216,16 @@ export default function Desserts() {
                             backgroundColor: '#ffe0c7'
                         }}
                     >
-                        <img
+                        <Box
+                            component="img"
                             src={FriesIcon}
                             alt="Drink icon"
-                            style={{
-                                width: 47,
-                                height: 39,
-                                objectFit: 'contain',
-                                transition: 'transform 0.2s ease',
-                                display: 'block',
+                            sx={{
+                                width: { xs: 38, sm: 42, md: 47 },
+                                height: { xs: 33, sm: 39, md: 46 },
+                                objectFit: "contain",
+                                transition: "transform 0.2s ease",
+                                display: "block",
                             }}
                         />
                     </Button>
@@ -243,15 +241,16 @@ export default function Desserts() {
                             backgroundColor: '#ffe0c7',
                         }}
                     >
-                        <img
+                        <Box
+                            component="img"
                             src={SodaIcon}
                             alt="Drink icon"
-                            style={{
-                                width: 80,
-                                height: 40,
-                                objectFit: 'contain',
-                                transition: 'transform 0.2s ease',
-                                display: 'block',
+                            sx={{
+                                width: { xs: 38, sm: 42, md: 100 },
+                                height: { xs: 34, sm: 39, md: 45 },
+                                objectFit: "contain",
+                                transition: "transform 0.2s ease",
+                                display: "block",
                             }}
                         />
                     </Button>
@@ -259,15 +258,20 @@ export default function Desserts() {
                     {/* DESSERTS */}
                     <Button
                         variant="contained"
-                        onClick={() => navigate('/desserts')}
+                        disabled
                         sx={{
-                            width: { xs: 55, sm: 65, md: 80 },
-                            height: { xs: 38, sm: 45, md: 50 },
+                            width: { xs: 60, sm: 70, md: 90 },
+                            height: { xs: 38, sm: 45, md: 55 },
                             borderRadius: 2,
-                            backgroundColor: '#ffe0c7'
+                            backgroundColor: '#ffe0c7',
+                            '&.Mui-disabled': {
+                                backgroundColor: '#ffe0c7',
+                                boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
+                                opacity: 1,
+                            },
                         }}
                     >
-                        <CookieIcon sx={{ fontSize: 31, color: '#f1671cff' }} />
+                        <CookieIcon sx={{ fontSize: { xs: 28, sm: 32, md: 35 }, color: '#f1671cff' }} />
                     </Button>
 
                     {/* CART – só desktop */}
@@ -277,7 +281,7 @@ export default function Desserts() {
                         sx={{
                             display: { xs: "none", sm: "none", md: "inline-flex" },
                             width: 80,
-                            height: 50,
+                            height: 48,
                             borderRadius: 2,
                             backgroundColor: '#e65100'
                         }}
@@ -288,12 +292,20 @@ export default function Desserts() {
                             overlap="circular"
                             showZero={false}
                         >
-                            <ShoppingCartIcon sx={{ fontSize: 33, color: '#ffe0c7' }} />
+                            <ShoppingCartIcon sx={{ fontSize: 36, color: '#ffe0c7' }} />
                         </Badge>
                     </Button>
                 </div>
 
-                <div className="products-wrapper" style={{ marginTop: "40px", marginBottom: "100px" }}>
+
+
+                <Box
+                    className="products-wrapper"
+                    sx={{
+                        mt: { xs: 3, sm: 3, md: 4 },   // controla espaço antes dos cards
+                        mb: { xs: 6, sm: 8, md: 10 },  // controla espaço depois dos cards
+                    }}
+                >
                     {data.map((e, index) => (
                         <Box
                             className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
@@ -301,13 +313,16 @@ export default function Desserts() {
                         >
                             <Box className="card-left">
                                 <Stack spacing={2}>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                    <Item sx={{
+                                        backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500,
+                                        fontSize: '1rem', borderRadius: 2,
+                                    }}>
                                         {e.name}
                                     </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
                                         ${e.price}
                                     </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
                                         {e.description}
                                     </Item>
                                     <Button
@@ -315,8 +330,17 @@ export default function Desserts() {
                                             backgroundColor: '#e65100',
                                             color: '#ffe0c7',
                                             fontWeight: 'bold',
+                                            borderRadius: '10px',
+                                            boxShadow: 3,
+                                            transition: 'all 0.2s ease-in-out',
+
+                                            // margem só no mobile e small
+                                            mb: { xs: 3, sm: 2, md: 0 },
+
                                             '&:hover': {
                                                 backgroundColor: '#bf360c',
+                                                boxShadow: 6,
+                                                transform: 'translateY(-2px)',
                                             },
                                         }}
                                         onClick={() => handleOrder(e)}
@@ -326,11 +350,17 @@ export default function Desserts() {
                                 </Stack>
                             </Box>
 
-                            <Box className="card-right">
+                            <Box
+                                className="card-right"
+                                sx={{
+                                    mt: { xs: 1.2, sm: 1.6, md: 0 },   // margem em cima só no mobile/tablet
+                                    mb: { xs: 1.2, sm: 1, md: 0 },   // margem embaixo só no mobile/tablet
+                                }}
+                            >
                                 <Item
                                     sx={{
-                                        height: '300px',
-                                        width: '270px',
+                                        height: '275px',
+                                        width: '260px',
                                         boxSizing: 'border-box',
                                         border: '2px solid #e65100',
                                         borderRadius: 2,
@@ -341,15 +371,15 @@ export default function Desserts() {
                                         key={e.id}
                                         src={e.image}
                                         alt={e.name}
-                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
+                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "20px", marginBottom: "50px" }}
                                     />
                                 </Item>
                             </Box>
                         </Box>
                     ))}
-                </div>
-
+                </Box>
             </Container>
+
             <Box
                 sx={{
                     position: "fixed",
