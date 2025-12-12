@@ -613,7 +613,7 @@ body {
   .product-card {
     width: 80%;
     max-width: 900px;
-    padding: 60px;     /* espaçamento bonito dentro do card */
+    padding: 64px;     /* espaçamento bonito dentro do card */
     margin-top: 0;
   }
 }
