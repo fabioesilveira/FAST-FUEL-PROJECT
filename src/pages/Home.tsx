@@ -35,13 +35,15 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Home() {
-    const [lanche, setLanche] = useState<Meal[]>([]);
-    const [bebidas, setBebidas] = useState<Meal[]>([]);
-    const [sides, setSides] = useState<Meal[]>([]);
-    const [desserts, setDesserts] = useState<Meal[]>([]);
     const [search, setSearch] = useState("");
     const [checkout, setCheckout] = useState(0);
     const [username, setUserName] = useState<string | null>("");
+    const [data, setData] = useState<Meal[]>([]);
+
+    const filteredData = data.filter(item =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+    );
+
 
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext();
@@ -69,66 +71,32 @@ export default function Home() {
     // Init: fetch products + hydrate order from localStorage
     useEffect(() => {
         async function init() {
-            const [reqLanche, reqBebidas, reqSides, reqDesserts] = await Promise.all([
-                axios.get("http://localhost:3000/products/category/sandwiches"),
-                axios.get("http://localhost:3000/products/category/beverages"),
-                axios.get("http://localhost:3000/products/category/sides"),
-                axios.get("http://localhost:3000/products/category/desserts"),
-            ]);
+            try {
+                const res = await axios.get("http://localhost:3000/products");
+                const allProducts: Meal[] = res.data;
 
-            const lancheData: Meal[] = reqLanche.data;
-            const bebidasData: Meal[] = reqBebidas.data;
-            const sidesData: Meal[] = reqSides.data;
-            const dessertsData: Meal[] = reqDesserts.data;
+                // joga tudo no data
+                setData(allProducts);
+            } catch (err) {
+                console.error("Erro ao buscar /products:", err);
+            }
 
-            setLanche(lancheData);
-            setBebidas(bebidasData);
-            setSides(sidesData);
-            setDesserts(dessertsData);
-
-            const allProducts = [
-                ...lancheData,
-                ...bebidasData,
-                ...sidesData,
-                ...dessertsData,
-            ];
-
-            const lsUserName = localStorage.getItem("userName");
-            setUserName(lsUserName);
-
-            const rawLsOrder = localStorage.getItem("lsOrder");
-            if (rawLsOrder) {
+            // hidratar carrinho do localStorage (se você já tinha isso)
+            const raw = localStorage.getItem("lsOrder");
+            if (raw) {
                 try {
-                    const parsed = JSON.parse(rawLsOrder);
-
-                    const sanitized: Meal[] = parsed.map((item: any) => {
-                        const found = allProducts.find(
-                            (p) => String(p.id) === String(item.id) || p.name === item.name
-                        );
-
-                        if (found) {
-                            return {
-                                ...found,
-                                quantidade: item.quantidade ?? 1,
-                            };
-                        }
-
-                        return {
-                            ...item,
-                            quantidade: item.quantidade ?? 1,
-                        } as Meal;
-                    });
-
-                    setOrder(sanitized);
+                    const lsOrder = JSON.parse(raw) as Meal[];
+                    setOrder(lsOrder);
                 } catch (err) {
-                    console.error("Error parsing lsOrder:", err);
-                    localStorage.removeItem("lsOrder");
+                    console.error("Erro ao ler lsOrder em Home:", err);
                 }
             }
         }
 
         init();
     }, [setOrder]);
+
+
 
     // Save order to localStorage whenever it changes
     useEffect(() => {
@@ -234,11 +202,6 @@ export default function Home() {
         }
     }
 
-    // Filtered lists:
-    const filteredLanche = lanche.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
-    const filteredBebidas = bebidas.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
-    const filteredSides = sides.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
-    const filteredDesserts = desserts.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
 
     const imageStylesOrder: { [id: string]: React.CSSProperties } = {
         "1": { width: "90px", height: "80px", marginTop: "45px" },
@@ -262,24 +225,24 @@ export default function Home() {
     };
 
     const imageStyles: { [id: string]: React.CSSProperties } = {
-        "1": { width: "220px", height: "220px", marginTop: "40px" },
-        "2": { width: "230px", height: "230px", marginTop: "30px" },
-        "3": { width: "220px", height: "190px", marginTop: "55px" },
-        "4": { width: "225px", height: "190px", marginTop: "50px" },
-        "11": { width: "200px", height: "200px", marginTop: "35px" },
-        "12": { width: "220px", height: "160px", marginTop: "60px" },
-        "13": { width: "255px", height: "170px", marginTop: "55px" },
-        "14": { width: "160px", height: "145px", marginTop: "60px" },
-        "5": { width: "190px", height: "150px", marginTop: "70px" },
-        "6": { width: "135px", height: "200px", marginTop: "45px" },
-        "7": { width: "170px", height: "170px", marginTop: "55px" },
-        "8": { width: "140px", height: "145px", marginTop: "60px" },
-        "9": { width: "255px", height: "180px", marginTop: "50px" },
-        "10": { width: "180px", height: "185px", marginTop: "40px" },
-        "15": { width: "250px", height: "220px", marginTop: "40px" },
-        "16": { width: "205px", height: "180px", marginTop: "60px" },
-        "17": { width: "190px", height: "180px", marginTop: "55px" },
-        "18": { width: "160px", height: "145px", marginTop: "60px" },
+        "1": { width: "200px", height: "200px", marginTop: "30px" }, // Pit Stop Classic
+        "2": { width: "210px", height: "215px", marginTop: "18px" }, // Turbo Bacon
+        "3": { width: "200px", height: "185px", marginTop: "42px" }, // Double Gear
+        "4": { width: "215px", height: "180px", marginTop: "35px" }, // Fuel Monster
+        "11": { width: "180px", height: "180px", marginTop: "34px" }, // Fries
+        "12": { width: "200px", height: "150px", marginTop: "58px" }, // Onion Rings
+        "13": { width: "245px", height: "160px", marginTop: "50px" }, // Salad
+        "14": { width: "150px", height: "140px", marginTop: "60px" }, // Mozzarella
+        "5": { width: "180px", height: "140px", marginTop: "60px" },  // Coke
+        "6": { width: "125px", height: "190px", marginTop: "33px" },  // Sprite
+        "7": { width: "160px", height: "160px", marginTop: "47px" },  // Dr. Pepper
+        "8": { width: "130px", height: "135px", marginTop: "63px" },  // Fanta Orange
+        "9": { width: "247px", height: "170px", marginTop: "40px" },  // Diet Coke
+        "10": { width: "170px", height: "179px", marginTop: "37px" }, // Lemonade
+        "15": { width: "240px", height: "213px", marginTop: "25px" },
+        "16": { width: "200px", height: "168px", marginTop: "45px" },
+        "17": { width: "200px", height: "205px", marginTop: "33px" },
+        "18": { width: "155px", height: "137px", marginTop: "59px" },
     };
 
     return (
@@ -492,117 +455,117 @@ export default function Home() {
                                     })}
                                 </Box>
 
-                               {/* TOTAL + BUTTONS */}
-<Box
-  sx={{
-    display: "flex",
-    flexDirection: "column",        // 👉 tudo em coluna
-    alignItems: "center",           // 👉 centraliza horizontalmente
-    justifyContent: "center",
-    gap: 2,
-  }}
->
-  <Typography
-    variant="h6"
-    sx={{ fontWeight: 700, color: "#e65100", textAlign: "center" }}
-  >
-    TOTAL R$: {checkout.toFixed(2)}
-  </Typography>
+                                {/* TOTAL + BUTTONS */}
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "column",        // 👉 tudo em coluna
+                                        alignItems: "center",           // 👉 centraliza horizontalmente
+                                        justifyContent: "center",
+                                        gap: 2,
+                                    }}
+                                >
+                                    <Typography
+                                        variant="h6"
+                                        sx={{ fontWeight: 700, color: "#e65100", textAlign: "center" }}
+                                    >
+                                        TOTAL R$: {checkout.toFixed(2)}
+                                    </Typography>
 
-  <Box
-    sx={{
-      display: "flex",
-      gap: 2,
-      justifyContent: "center",     // centraliza os botões
-      width: "100%",
-    }}
-  >
-    <Button
-      className="btns-checkout-clearCart"
-      onClick={handleCheckout}
-      variant="contained"
-      sx={{
-        width: 80,
-        height: 40,
-        borderRadius: 2,
-        backgroundColor: "#e65100",
-      }}
-    >
-      <Badge
-        badgeContent={totalItems}
-        color="primary"
-        overlap="circular"
-        showZero={false}
-      >
-        <ShoppingCartIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
-      </Badge>
-      &nbsp;
-    </Button>
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            gap: 2,
+                                            justifyContent: "center",     // centraliza os botões
+                                            width: "100%",
+                                        }}
+                                    >
+                                        <Button
+                                            className="btns-checkout-clearCart"
+                                            onClick={handleCheckout}
+                                            variant="contained"
+                                            sx={{
+                                                width: 80,
+                                                height: 40,
+                                                borderRadius: 2,
+                                                backgroundColor: "#e65100",
+                                            }}
+                                        >
+                                            <Badge
+                                                badgeContent={totalItems}
+                                                color="primary"
+                                                overlap="circular"
+                                                showZero={false}
+                                            >
+                                                <ShoppingCartIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
+                                            </Badge>
+                                            &nbsp;
+                                        </Button>
 
-    <Button
-      className="btns-checkout-clearCart"
-      variant="contained"
-      onClick={handleClearCart}
-      sx={{
-        width: 80,
-        height: 40,
-        borderRadius: 2,
-        backgroundColor: "#e65100",
-      }}
-    >
-      <DeleteForeverIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
-      &nbsp;
-    </Button>
-  </Box>
-</Box>
+                                        <Button
+                                            className="btns-checkout-clearCart"
+                                            variant="contained"
+                                            onClick={handleClearCart}
+                                            sx={{
+                                                width: 80,
+                                                height: 40,
+                                                borderRadius: 2,
+                                                backgroundColor: "#e65100",
+                                            }}
+                                        >
+                                            <DeleteForeverIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
+                                            &nbsp;
+                                        </Button>
+                                    </Box>
+                                </Box>
 
                             </Paper>
                         </Box>
                     </>
                 )}
 
-                {filteredLanche.length === 0 ? null : <h1 className="h1-sandwiches">Sandwiches:</h1>}
-
-                <div className="products-wrapper">
-                    {filteredLanche.map((e, index) => (
+                <Box
+                    className="products-wrapper"
+                    sx={{
+                        mt: { xs: 3, sm: 3, md: 4 },   // controla espaço antes dos cards
+                        mb: { xs: 6, sm: 8, md: 10 },  // controla espaço depois dos cards
+                    }}
+                >
+                    {filteredData.map((e, index) => (
                         <Box
                             className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
                             key={e.id}
                         >
                             <Box className="card-left">
                                 <Stack spacing={2}>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                    <Item sx={{
+                                        backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500,
+                                        fontSize: '1rem', borderRadius: 2,
+                                    }}>
                                         {e.name}
                                     </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
                                         ${e.price}
                                     </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
+                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
                                         {e.description}
                                     </Item>
                                     <Button
                                         sx={{
-                                            mt: 2.5,
-                                            borderRadius: 2,
-                                            textTransform: "uppercase",
-                                            bgcolor: "#e65100",
-                                            color: "#ffe0c7",
-                                            letterSpacing: "0.16em",
-                                            fontWeight: 700,
-                                            boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
-                                            transition: "0.25s ease",
+                                            backgroundColor: '#e65100',
+                                            color: '#ffe0c7',
+                                            fontWeight: 'bold',
+                                            borderRadius: '10px',
+                                            boxShadow: 3,
+                                            transition: 'all 0.2s ease-in-out',
 
-                                            "&:hover": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
-                                            },
+                                            // margem só no mobile e small
+                                            mb: { xs: 3, sm: 2, md: 0 },
 
-                                            "&:active": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                transform: "scale(0.98)",
-                                                boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
+                                            '&:hover': {
+                                                backgroundColor: '#bf360c',
+                                                boxShadow: 6,
+                                                transform: 'translateY(-2px)',
                                             },
                                         }}
                                         onClick={() => handleOrder(e)}
@@ -612,11 +575,17 @@ export default function Home() {
                                 </Stack>
                             </Box>
 
-                            <Box className="card-right">
+                            <Box
+                                className="card-right"
+                                sx={{
+                                    mt: { xs: 1.2, sm: 1.6, md: 0 },   // margem em cima só no mobile/tablet
+                                    mb: { xs: 1.2, sm: 1, md: 0 },   // margem embaixo só no mobile/tablet
+                                }}
+                            >
                                 <Item
                                     sx={{
-                                        height: '300px',
-                                        width: '270px',
+                                        height: '275px',
+                                        width: '260px',
                                         boxSizing: 'border-box',
                                         border: '2px solid #e65100',
                                         borderRadius: 2,
@@ -627,235 +596,14 @@ export default function Home() {
                                         key={e.id}
                                         src={e.image}
                                         alt={e.name}
-                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
+                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "20px", marginBottom: "50px" }}
                                     />
                                 </Item>
                             </Box>
                         </Box>
                     ))}
-                </div>
+                </Box>
 
-                {filteredSides.length === 0 ? null : <h1 className="h1-sandwiches">Sides:</h1>}
-
-                <div className="products-wrapper">
-                    {filteredSides.map((e, index) => (
-                        <Box
-                            className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
-                            key={e.id}
-                        >
-                            <Box className="card-left">
-                                <Stack spacing={2}>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.name}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        ${e.price}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.description}
-                                    </Item>
-                                    <Button
-                                        sx={{
-                                            mt: 2.5,
-                                            borderRadius: 2,
-                                            textTransform: "uppercase",
-                                            bgcolor: "#e65100",
-                                            color: "#ffe0c7",
-                                            letterSpacing: "0.16em",
-                                            fontWeight: 700,
-                                            boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
-                                            transition: "0.25s ease",
-
-                                            "&:hover": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
-                                            },
-
-                                            "&:active": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                transform: "scale(0.98)",
-                                                boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
-                                            },
-                                        }}
-                                        onClick={() => handleOrder(e)}
-                                    >
-                                        ADD TO CART
-                                    </Button>
-                                </Stack>
-                            </Box>
-
-                            <Box className="card-right">
-                                <Item
-                                    sx={{
-                                        height: '300px',
-                                        width: '270px',
-                                        boxSizing: 'border-box',
-                                        border: '2px solid #e65100',
-                                        borderRadius: 2,
-                                        padding: 1,
-                                    }}
-                                >
-                                    <img
-                                        key={e.id}
-                                        src={e.image}
-                                        alt={e.name}
-                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
-                                    />
-                                </Item>
-                            </Box>
-                        </Box>
-                    ))}
-                </div>
-
-                {filteredBebidas.length === 0 ? null : <h1 className="h1-sandwiches">Beverages:</h1>}
-
-                <div className="products-wrapper">
-                    {filteredBebidas.map((e, index) => (
-                        <Box
-                            className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
-                            key={e.id}
-                        >
-                            <Box className="card-left">
-                                <Stack spacing={2}>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.name}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        ${e.price}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.description}
-                                    </Item>
-                                    <Button
-                                        sx={{
-                                            mt: 2.5,
-                                            borderRadius: 2,
-                                            textTransform: "uppercase",
-                                            bgcolor: "#e65100",
-                                            color: "#ffe0c7",
-                                            letterSpacing: "0.16em",
-                                            fontWeight: 700,
-                                            boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
-                                            transition: "0.25s ease",
-
-                                            "&:hover": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
-                                            },
-
-                                            "&:active": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                transform: "scale(0.98)",
-                                                boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
-                                            },
-                                        }}
-                                        onClick={() => handleOrder(e)}
-                                    >
-                                        ADD TO CART
-                                    </Button>
-                                </Stack>
-                            </Box>
-
-                            <Box className="card-right">
-                                <Item
-                                    sx={{
-                                        height: '300px',
-                                        width: '270px',
-                                        boxSizing: 'border-box',
-                                        border: '2px solid #e65100',
-                                        borderRadius: 2,
-                                        padding: 1,
-                                    }}
-                                >
-                                    <img
-                                        key={e.id}
-                                        src={e.image}
-                                        alt={e.name}
-                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
-                                    />
-                                </Item>
-                            </Box>
-                        </Box>
-                    ))}
-                </div>
-
-                {filteredDesserts.length === 0 ? null : <h1 className="h1-sandwiches">Desserts:</h1>}
-
-                <div className="products-wrapper">
-                    {filteredDesserts.map((e, index) => (
-                        <Box
-                            className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
-                            key={e.id}
-                        >
-                            <Box className="card-left">
-                                <Stack spacing={2}>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.name}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        ${e.price}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '250px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, padding: '12px' }}>
-                                        {e.description}
-                                    </Item>
-                                    <Button
-                                        sx={{
-                                            mt: 2.5,
-                                            borderRadius: 2,
-                                            textTransform: "uppercase",
-                                            bgcolor: "#e65100",
-                                            color: "#ffe0c7",
-                                            letterSpacing: "0.16em",
-                                            fontWeight: 700,
-                                            boxShadow: "0 4px 10px rgba(0,0,0,0.20)",
-                                            transition: "0.25s ease",
-
-                                            "&:hover": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                boxShadow: "0 6px 14px rgba(0,0,0,0.25)",
-                                            },
-
-                                            "&:active": {
-                                                bgcolor: "#ffe0c7",
-                                                color: "#e65100",
-                                                transform: "scale(0.98)",
-                                                boxShadow: "0 3px 8px rgba(0,0,0,0.18)",
-                                            },
-                                        }}
-                                        onClick={() => handleOrder(e)}
-                                    >
-                                        ADD TO CART
-                                    </Button>
-                                </Stack>
-                            </Box>
-
-                            <Box className="card-right">
-                                <Item
-                                    sx={{
-                                        height: '300px',
-                                        width: '270px',
-                                        boxSizing: 'border-box',
-                                        border: '2px solid #e65100',
-                                        borderRadius: 2,
-                                        padding: 1,
-                                    }}
-                                >
-                                    <img
-                                        key={e.id}
-                                        src={e.image}
-                                        alt={e.name}
-                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "60px" }}
-                                    />
-                                </Item>
-                            </Box>
-                        </Box>
-                    ))}
-                </div>
             </Container>
 
             <Footer />
