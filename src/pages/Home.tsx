@@ -21,8 +21,6 @@ import Typography from '@mui/material/Typography';
 import CategoryDrawer from '../components/CategoryDrawer';
 import type { Meal } from '../context/context';   // type-only import
 
-
-
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: '#fff',
     ...theme.typography.body2,
@@ -95,7 +93,6 @@ export default function Home() {
 
         init();
     }, [setOrder]);
-
 
 
     // Save order to localStorage whenever it changes
@@ -248,7 +245,7 @@ export default function Home() {
     return (
         <Box
             sx={{
-                minHeight: '100vh',       // footer não sobe
+                minHeight: '100vh',
                 display: 'flex',
                 flexDirection: 'column',
             }}
@@ -256,16 +253,9 @@ export default function Home() {
             <Navbar onSearch={handleSearchInput} />
             <CssBaseline />
 
-            {/* Drawer não entra no fluxo, está fixo na lateral */}
             <CategoryDrawer onNavigate={handleDrawerNavigate} />
 
-            {/* Conteúdo principal */}
             <Container className="margin-top" fixed sx={{ flexGrow: 1 }}>
-                {/* AQUI fica exatamente o que você já tinha antes:
-          h1, shouldShowCarousel, shouldShowOrderPreview,
-          Sandwiches / Sides / Beverages / Desserts etc. */}
-
-                {/* começa aqui o seu conteúdo original */}
                 <h1
                     className="h1-home"
                     style={{
@@ -281,15 +271,86 @@ export default function Home() {
                     Fuel Up Fast. Taste That Lasts.
                 </h1>
 
-                {/* ...tudo o resto igualzinho: carousel, Order Preview,
-          e todos os blocos de products-wrapper... */}
-                {/* (pode colar aqui exatamente o seu código que já estava funcionando) */}
-                {/* ...rest of your JSX unchanged... */}
+                {/* quando tiver search, mostra o MESMO products-wrapper logo abaixo do H1 */}
+                {search.trim() && (
+                    <Box className={`products-wrapper ${filteredData.length === 1 ? "one-item" : ""}`}>
+                    
+                        {filteredData.map((e, index) => (
+                            <Box
+                                className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
+                                key={e.id}
+                            >
+                                <Box className="card-left">
+                                    <Stack spacing={2}>
+                                        <Item sx={{
+                                            backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500,
+                                            fontSize: '1rem', borderRadius: 2,
+                                        }}>
+                                            {e.name}
+                                        </Item>
+                                        <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
+                                            ${e.price}
+                                        </Item>
+                                        <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
+                                            {e.description}
+                                        </Item>
+                                        <Button
+                                            sx={{
+                                                backgroundColor: '#e65100',
+                                                color: '#ffe0c7',
+                                                fontWeight: 'bold',
+                                                borderRadius: '10px',
+                                                boxShadow: 3,
+                                                transition: 'all 0.2s ease-in-out',
+                                                mb: { xs: 3, sm: 2, md: 0 },
+                                                '&:hover': {
+                                                    backgroundColor: '#bf360c',
+                                                    boxShadow: 6,
+                                                    transform: 'translateY(-2px)',
+                                                },
+                                            }}
+                                            onClick={() => handleOrder(e)}
+                                        >
+                                            ADD TO CART
+                                        </Button>
+                                    </Stack>
+                                </Box>
+
+                                <Box
+                                    className="card-right"
+                                    sx={{
+                                        mt: { xs: 1.2, sm: 1.6, md: 0 },
+                                        mb: { xs: 1.2, sm: 1, md: 0 },
+                                    }}
+                                >
+                                    <Item
+                                        sx={{
+                                            height: '275px',
+                                            width: '260px',
+                                            boxSizing: 'border-box',
+                                            border: '2px solid #e65100',
+                                            borderRadius: 2,
+                                            padding: 1,
+                                        }}
+                                    >
+                                        <img
+                                            key={e.id}
+                                            src={e.image}
+                                            alt={e.name}
+                                            style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "20px", marginBottom: "50px" }}
+                                        />
+                                    </Item>
+                                </Box>
+                            </Box>
+                        ))}
+                    </Box>
+                )}
+
                 {shouldShowCarousel && (
                     <div
                         className="div-carousel"
                         style={{
-                            boxShadow: "0 8px 24px rgba(230, 81, 0, 0.25)", // sombra laranja suave
+                            boxShadow: "0 8px 24px rgba(230, 81, 0, 0.25)",
                             borderRadius: "16px",
                         }}
                     >
@@ -320,7 +381,6 @@ export default function Home() {
                         </Carousel>
                     </div>
                 )}
-
 
                 {shouldShowOrderPreview && (
                     <>
@@ -459,8 +519,8 @@ export default function Home() {
                                 <Box
                                     sx={{
                                         display: "flex",
-                                        flexDirection: "column",        // 👉 tudo em coluna
-                                        alignItems: "center",           // 👉 centraliza horizontalmente
+                                        flexDirection: "column",        // tudo em coluna
+                                        alignItems: "center",           // centraliza horizontalmente
                                         justifyContent: "center",
                                         gap: 2,
                                     }}
@@ -524,91 +584,91 @@ export default function Home() {
                     </>
                 )}
 
-                <Box
-                    className="products-wrapper"
-                    sx={{
-                        mt: { xs: 3, sm: 3, md: 4 },   // controla espaço antes dos cards
-                        mb: { xs: 6, sm: 8, md: 10 },  // controla espaço depois dos cards
-                    }}
-                >
-                    {filteredData.map((e, index) => (
-                        <Box
-                            className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
-                            key={e.id}
-                        >
-                            <Box className="card-left">
-                                <Stack spacing={2}>
-                                    <Item sx={{
-                                        backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500,
-                                        fontSize: '1rem', borderRadius: 2,
-                                    }}>
-                                        {e.name}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
-                                        ${e.price}
-                                    </Item>
-                                    <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
-                                        {e.description}
-                                    </Item>
-                                    <Button
-                                        sx={{
-                                            backgroundColor: '#e65100',
-                                            color: '#ffe0c7',
-                                            fontWeight: 'bold',
-                                            borderRadius: '10px',
-                                            boxShadow: 3,
-                                            transition: 'all 0.2s ease-in-out',
-
-                                            // margem só no mobile e small
-                                            mb: { xs: 3, sm: 2, md: 0 },
-
-                                            '&:hover': {
-                                                backgroundColor: '#bf360c',
-                                                boxShadow: 6,
-                                                transform: 'translateY(-2px)',
-                                            },
-                                        }}
-                                        onClick={() => handleOrder(e)}
-                                    >
-                                        ADD TO CART
-                                    </Button>
-                                </Stack>
-                            </Box>
-
+                {/* ✅ AQUI: lista normal só aparece quando NÃO tem search */}
+                {!search.trim() && (
+                    <Box
+                        className="products-wrapper"
+                        sx={{
+                            mt: { xs: 3, sm: 3, md: 4 },
+                            mb: { xs: 6, sm: 8, md: 10 },
+                        }}
+                    >
+                        {filteredData.map((e, index) => (
                             <Box
-                                className="card-right"
-                                sx={{
-                                    mt: { xs: 1.2, sm: 1.6, md: 0 },   // margem em cima só no mobile/tablet
-                                    mb: { xs: 1.2, sm: 1, md: 0 },   // margem embaixo só no mobile/tablet
-                                }}
+                                className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
+                                key={e.id}
                             >
-                                <Item
+                                <Box className="card-left">
+                                    <Stack spacing={2}>
+                                        <Item sx={{
+                                            backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500,
+                                            fontSize: '1rem', borderRadius: 2,
+                                        }}>
+                                            {e.name}
+                                        </Item>
+                                        <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
+                                            ${e.price}
+                                        </Item>
+                                        <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
+                                            {e.description}
+                                        </Item>
+                                        <Button
+                                            sx={{
+                                                backgroundColor: '#e65100',
+                                                color: '#ffe0c7',
+                                                fontWeight: 'bold',
+                                                borderRadius: '10px',
+                                                boxShadow: 3,
+                                                transition: 'all 0.2s ease-in-out',
+                                                mb: { xs: 3, sm: 2, md: 0 },
+                                                '&:hover': {
+                                                    backgroundColor: '#bf360c',
+                                                    boxShadow: 6,
+                                                    transform: 'translateY(-2px)',
+                                                },
+                                            }}
+                                            onClick={() => handleOrder(e)}
+                                        >
+                                            ADD TO CART
+                                        </Button>
+                                    </Stack>
+                                </Box>
+
+                                <Box
+                                    className="card-right"
                                     sx={{
-                                        height: '275px',
-                                        width: '260px',
-                                        boxSizing: 'border-box',
-                                        border: '2px solid #e65100',
-                                        borderRadius: 2,
-                                        padding: 1,
+                                        mt: { xs: 1.2, sm: 1.6, md: 0 },
+                                        mb: { xs: 1.2, sm: 1, md: 0 },
                                     }}
                                 >
-                                    <img
-                                        key={e.id}
-                                        src={e.image}
-                                        alt={e.name}
-                                        style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "20px", marginBottom: "50px" }}
-                                    />
-                                </Item>
+                                    <Item
+                                        sx={{
+                                            height: '275px',
+                                            width: '260px',
+                                            boxSizing: 'border-box',
+                                            border: '2px solid #e65100',
+                                            borderRadius: 2,
+                                            padding: 1,
+                                        }}
+                                    >
+                                        <img
+                                            key={e.id}
+                                            src={e.image}
+                                            alt={e.name}
+                                            style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "20px", marginBottom: "50px" }}
+                                        />
+                                    </Item>
+                                </Box>
                             </Box>
-                        </Box>
-                    ))}
-                </Box>
-
+                        ))}
+                    </Box>
+                )}
             </Container>
 
             <Footer />
         </Box>
     );
+
 
 
 }

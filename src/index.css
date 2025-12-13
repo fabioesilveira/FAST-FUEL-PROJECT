@@ -618,3 +618,23 @@ body {
   }
 }
 
+/* Centralizar quando só existir 1 produto (desktop) */
+.products-wrapper.one-item {
+  justify-content: center;
+}
+
+/* Faz o card não ficar com 50% quando é só 1 */
+.products-wrapper.one-item .product-card {
+  width: 80%;
+  max-width: 900px;
+}
+
+/* ✅ 1 item: centraliza SEM aumentar o card */
+.products-wrapper.one-item {
+  justify-content: center;
+}
+
+.products-wrapper.one-item .product-card {
+  width: calc(50% - 12px);   /* mesmo tamanho de quando tem 2 */
+  flex: 0 0 calc(50% - 12px);/* impede de esticar */
+}
