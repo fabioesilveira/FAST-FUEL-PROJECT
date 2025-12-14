@@ -11,7 +11,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Chat from '../assets/ChatGPT2.png';
-import Chat2 from '../assets/ChatGPT-2.png';
+import Chat2 from '../assets/ChatGPT-6.png';
 import Carousel from 'react-bootstrap/Carousel';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -274,7 +274,7 @@ export default function Home() {
                 {/* quando tiver search, mostra o MESMO products-wrapper logo abaixo do H1 */}
                 {search.trim() && (
                     <Box className={`products-wrapper ${filteredData.length === 1 ? "one-item" : ""}`}>
-                    
+
                         {filteredData.map((e, index) => (
                             <Box
                                 className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
@@ -350,37 +350,47 @@ export default function Home() {
                     <div
                         className="div-carousel"
                         style={{
-                            boxShadow: "0 8px 24px rgba(230, 81, 0, 0.25)",
+                            width: "100%",
+                            maxWidth: "1200px",
+                            margin: "0 auto",
                             borderRadius: "16px",
+                            overflow: "hidden",
+                            boxShadow: "0 8px 24px rgba(230, 81, 0, 0.25)",
+                            aspectRatio: "16 / 10",
                         }}
                     >
-                        <Carousel>
-                            <Carousel.Item>
+                        <Carousel style={{ height: "100%" }}>
+                            <Carousel.Item style={{ height: "100%" }}>
                                 <img
                                     src={Chat}
                                     alt="Fast Fuel Banner"
                                     style={{
-                                        height: "700px",
-                                        width: "1200px",
-                                        borderRadius: "16px",
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "cover",
+                                        display: "block",
                                     }}
                                 />
                             </Carousel.Item>
 
-                            <Carousel.Item>
+                            <Carousel.Item style={{ height: "100%" }}>
                                 <img
                                     src={Chat2}
                                     alt="Fast Fuel Banner"
                                     style={{
-                                        height: "700px",
-                                        width: "1200px",
-                                        borderRadius: "16px",
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "contain",
+                                        display: "block",
+                                        backgroundColor: "#fff3e0",
                                     }}
                                 />
                             </Carousel.Item>
                         </Carousel>
                     </div>
                 )}
+
+
 
                 {shouldShowOrderPreview && (
                     <>
