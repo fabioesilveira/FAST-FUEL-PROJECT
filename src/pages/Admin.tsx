@@ -19,29 +19,20 @@ type Meal = {
 type MiniActionCardProps = {
     image: string;
     title?: string;
-    primaryLabel?: string;
     secondaryLabel?: string;
     onClick: () => void;
 };
 
 /* 🔥 helper to clean product name */
-const cleanProductName = (name: string) =>
-    name.split("/")[0].trim();
+const cleanProductName = (name: string) => name.split("/")[0].trim();
+const getNameWithKcal = (name: string) => name.trim();
 
-function MiniCard({
-    image,
-    title,
-    secondaryLabel = "$0.00",
-    onClick,
-}: MiniActionCardProps) {
+/* ---------------- MiniCard (botões pequenos) ---------------- */
+function MiniCard({ image, title, secondaryLabel = "$0.00", onClick }: MiniActionCardProps) {
     return (
         <ButtonBase
             onClick={onClick}
-            sx={{
-                width: 143,
-                borderRadius: "14px",
-                textAlign: "center",
-            }}
+            sx={{ width: 143, borderRadius: "14px", textAlign: "center" }}
         >
             <Box
                 sx={{
@@ -63,7 +54,6 @@ function MiniCard({
                     },
                 }}
             >
-                {/* image */}
                 <Box
                     sx={{
                         width: "100%",
@@ -83,7 +73,6 @@ function MiniCard({
                     />
                 </Box>
 
-                {/* title */}
                 {title && (
                     <Typography
                         sx={{
@@ -98,7 +87,6 @@ function MiniCard({
                     </Typography>
                 )}
 
-                {/* bottom label */}
                 <Box
                     sx={{
                         width: "100%",
@@ -121,6 +109,102 @@ function MiniCard({
     );
 }
 
+/* ---------------- ProductCard (cards grandes com descrição) ---------------- */
+function ProductCard({ product }: { product: Meal }) {
+    const title = getNameWithKcal(product.name);
+
+    return (
+        <Box
+            sx={{
+                width: 300,
+                borderRadius: "13px",
+                border: "2px solid #e65100",
+                backgroundColor: "#fff3e0",
+                boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
+                p: 2.5,
+                display: "flex",
+                flexDirection: "column",
+                gap: 1.6,
+                transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                "&:hover": {
+                    transform: "translateY(-5px)",
+                    boxShadow: "0 12px 26px rgba(230, 81, 0, 0.38)",
+                },
+            }}
+        >
+            {/* Image */}
+            <Box
+                sx={{
+                    width: "100%",
+                    height: 170,
+                    backgroundColor: "#fff",
+                    borderRadius: "9px",
+                    border: "2px solid #e65100",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <img
+                    src={product.image}
+                    alt={title}
+                    style={{ maxWidth: "85%", maxHeight: "85%", objectFit: "contain" }}
+                />
+            </Box>
+
+            {/* Title box */}
+            <Box
+                sx={{
+                    width: "100%",
+                    backgroundColor: "#ffe0c7",
+                    borderRadius: "9px",
+                    px: 2,
+                    py: 1.2,
+                    boxShadow: 2, // shadow padrão MUI
+                    textAlign: "center",
+                }}
+            >
+                <Typography
+                    sx={{
+                        fontSize: "0.98rem",
+                        fontWeight: 800,
+                        color: "#e65100",
+                    }}
+                >
+                    {title}
+                </Typography>
+            </Box>
+
+            {/* Description */}
+            {/* Description */}
+            <Box
+                sx={{
+                    width: "100%",
+                    backgroundColor: "#ffe0c7",
+                    borderRadius: "10px",
+                    px: 2,
+                    py: 1.5,
+                    boxShadow: 2, // 👈 shadow padrão do MUI
+                    textAlign: "center",
+                }}
+            >
+                <Typography
+                    sx={{
+                        fontSize: "0.95rem",
+                        fontWeight: 800,
+                        color: "#e65100"
+                    }}
+                >
+                    {product.description}
+                </Typography>
+            </Box>
+
+        </Box>
+    );
+}
+
+
+/* ---------------- Page ---------------- */
 export default function Admin() {
     const [data, setData] = useState<Meal[]>([]);
 
@@ -133,7 +217,6 @@ export default function Admin() {
                 console.error("Erro ao buscar /products:", err);
             }
         }
-
         init();
     }, []);
 
@@ -142,16 +225,16 @@ export default function Admin() {
             <CssBaseline />
 
             <Container className="margin-top" fixed sx={{ flexGrow: 1 }}>
+                {/* TOP: mini buttons */}
                 <Box
                     sx={{
                         display: "grid",
                         gap: 2,
                         justifyContent: "center",
                         gridTemplateColumns: {
-                            xs: "repeat(2, 143px)", // mobile
-                            sm: "repeat(3, 143px)", // mobile grande / tablet
-                            
-                            lg: "repeat(6, 143px)", // desktop
+                            xs: "repeat(2, 143px)",
+                            sm: "repeat(3, 143px)",
+                            lg: "repeat(6, 143px)",
                         },
                     }}
                 >
@@ -165,8 +248,31 @@ export default function Admin() {
                         />
                     ))}
                 </Box>
+
+                {/* BOTTOM: big cards */}
+                <Box sx={{ mt: 4 }}>
+                    <Typography sx={{ color: "#e65100", fontWeight: 800, mb: 2, textAlign: "center" }}>
+                        Product Details
+                    </Typography>
+
+                    <Box
+                        sx={{
+                            display: "grid",
+                            justifyContent: "center",
+                            gap: 4, // 👈 gap real entre os cards
+                            gridTemplateColumns: {
+                                xs: "repeat(1, 300px)",
+                                sm: "repeat(2, 300px)",
+                                md: "repeat(3, 300px)", // 
+                            },
+                        }}
+                    >
+                        {data.map((product) => (
+                            <ProductCard key={`big-${product.id}`} product={product} />
+                        ))}
+                    </Box>
+                </Box>
             </Container>
         </Box>
     );
-
 }

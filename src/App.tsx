@@ -11,6 +11,7 @@ import Checkout from "./pages/Checkout";
 import Admin from "./pages/Admin";
 import DeleteAccount from "./pages/DeleteAccount";
 import ContactUs from "./pages/ContactUs";
+import Orders from "./pages/Orders";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
       <Route path="/checkout" element={<Checkout />}/>
       <Route path="/deleteaccount" element={<DeleteAccount/>}/>
       <Route path="/contact-us" element={<ContactUs />}/>
+      <Route path="/orders" element={<Orders />}/>
       <Route path="/admin" element={<Admin />}/>
     </Routes>
   ) 

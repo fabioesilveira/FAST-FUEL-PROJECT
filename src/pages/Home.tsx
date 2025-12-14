@@ -11,7 +11,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Chat from '../assets/ChatGPT2.png';
-import Chat2 from '../assets/ChatGPT-6.png';
+import Chat2 from '../assets/ChatGPT-3.png';
 import Carousel from 'react-bootstrap/Carousel';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -31,6 +31,101 @@ const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: '#1A2027',
     }),
 }));
+
+// mantém kcal no card grande
+const getNameWithKcal = (name: string) => name.trim();
+
+function ProductCard({ product }: { product: Meal }) {
+    const title = getNameWithKcal(product.name);
+
+    return (
+        <Box
+            sx={{
+                width: 300,
+                borderRadius: "13px",
+                border: "2px solid #e65100",
+                backgroundColor: "#fff3e0",
+                boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
+                p: 2.5,
+                display: "flex",
+                flexDirection: "column",
+                gap: 1.6,
+                transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                "&:hover": {
+                    transform: "translateY(-5px)",
+                    boxShadow: "0 12px 26px rgba(230, 81, 0, 0.38)",
+                },
+            }}
+        >
+            {/* Image */}
+            <Box
+                sx={{
+                    width: "100%",
+                    height: 170,
+                    backgroundColor: "#fff",
+                    borderRadius: "9px",
+                    border: "2px solid #e65100",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <img
+                    src={product.image}
+                    alt={title}
+                    style={{ maxWidth: "85%", maxHeight: "85%", objectFit: "contain" }}
+                />
+            </Box>
+
+            {/* Title box */}
+            <Box
+                sx={{
+                    width: "100%",
+                    backgroundColor: "#ffe0c7",
+                    borderRadius: "9px",
+                    px: 2,
+                    py: 1.2,
+                    boxShadow: 2,
+                    textAlign: "center",
+                }}
+            >
+                <Typography
+                    sx={{
+                        fontSize: "0.98rem",
+                        fontWeight: 800,
+                        color: "#e65100",
+                    }}
+                >
+                    {title}
+                </Typography>
+            </Box>
+
+            {/* Description box */}
+            <Box
+                sx={{
+                    width: "100%",
+                    backgroundColor: "#ffe0c7",
+                    borderRadius: "10px",
+                    px: 2,
+                    py: 1.5,
+                    boxShadow: 2,
+                    textAlign: "center",
+                }}
+            >
+                <Typography
+                    sx={{
+                        fontSize: "0.95rem",
+                        fontWeight: 800,
+                        color: "#e65100",
+                    }}
+                >
+                    {product.description}
+                </Typography>
+            </Box>
+        </Box>
+    );
+}
+
 
 export default function Home() {
     const [search, setSearch] = useState("");
@@ -271,80 +366,28 @@ export default function Home() {
                     Fuel Up Fast. Taste That Lasts.
                 </h1>
 
-                {/* quando tiver search, mostra o MESMO products-wrapper logo abaixo do H1 */}
                 {search.trim() && (
-                    <Box className={`products-wrapper ${filteredData.length === 1 ? "one-item" : ""}`}>
-
-                        {filteredData.map((e, index) => (
-                            <Box
-                                className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
-                                key={e.id}
-                            >
-                                <Box className="card-left">
-                                    <Stack spacing={2}>
-                                        <Item sx={{
-                                            backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500,
-                                            fontSize: '1rem', borderRadius: 2,
-                                        }}>
-                                            {e.name}
-                                        </Item>
-                                        <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
-                                            ${e.price}
-                                        </Item>
-                                        <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
-                                            {e.description}
-                                        </Item>
-                                        <Button
-                                            sx={{
-                                                backgroundColor: '#e65100',
-                                                color: '#ffe0c7',
-                                                fontWeight: 'bold',
-                                                borderRadius: '10px',
-                                                boxShadow: 3,
-                                                transition: 'all 0.2s ease-in-out',
-                                                mb: { xs: 3, sm: 2, md: 0 },
-                                                '&:hover': {
-                                                    backgroundColor: '#bf360c',
-                                                    boxShadow: 6,
-                                                    transform: 'translateY(-2px)',
-                                                },
-                                            }}
-                                            onClick={() => handleOrder(e)}
-                                        >
-                                            ADD TO CART
-                                        </Button>
-                                    </Stack>
-                                </Box>
-
-                                <Box
-                                    className="card-right"
-                                    sx={{
-                                        mt: { xs: 1.2, sm: 1.6, md: 0 },
-                                        mb: { xs: 1.2, sm: 1, md: 0 },
-                                    }}
-                                >
-                                    <Item
-                                        sx={{
-                                            height: '275px',
-                                            width: '260px',
-                                            boxSizing: 'border-box',
-                                            border: '2px solid #e65100',
-                                            borderRadius: 2,
-                                            padding: 1,
-                                        }}
-                                    >
-                                        <img
-                                            key={e.id}
-                                            src={e.image}
-                                            alt={e.name}
-                                            style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "20px", marginBottom: "50px" }}
-                                        />
-                                    </Item>
-                                </Box>
-                            </Box>
+                    <Box
+                        sx={{
+                            display: "grid",
+                            justifyContent: "center",
+                            justifyItems: filteredData.length === 1 ? "center" : "stretch",
+                            gap: 4,
+                            mb: 4,
+                            gridTemplateColumns: {
+                                xs: "repeat(1, 300px)",
+                                sm: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
+                                md: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(3, 300px)",
+                            },
+                        }}
+                    >
+                        {filteredData.map((e) => (
+                            <ProductCard key={e.id} product={e} />
                         ))}
                     </Box>
                 )}
+
+
 
                 {shouldShowCarousel && (
                     <div
@@ -356,7 +399,7 @@ export default function Home() {
                             borderRadius: "16px",
                             overflow: "hidden",
                             boxShadow: "0 8px 24px rgba(230, 81, 0, 0.25)",
-                            aspectRatio: "16 / 10",
+                            aspectRatio: "16 / 9.7",
                         }}
                     >
                         <Carousel style={{ height: "100%" }}>
@@ -594,91 +637,29 @@ export default function Home() {
                     </>
                 )}
 
-                {/* ✅ AQUI: lista normal só aparece quando NÃO tem search */}
+                {/* lista normal só aparece quando NÃO tem search
                 {!search.trim() && (
                     <Box
-                        className="products-wrapper"
                         sx={{
-                            mt: { xs: 3, sm: 3, md: 4 },
-                            mb: { xs: 6, sm: 8, md: 10 },
+                            display: "grid",
+                            justifyContent: "center",
+                            gap: 4,
+                            gridTemplateColumns: {
+                                xs: "repeat(1, 300px)",
+                                sm: "repeat(2, 300px)",
+                                md: "repeat(3, 300px)",
+                            },
                         }}
                     >
-                        {filteredData.map((e, index) => (
-                            <Box
-                                className={`box-home product-card ${index % 2 !== 0 ? 'reverse' : ''}`}
-                                key={e.id}
-                            >
-                                <Box className="card-left">
-                                    <Stack spacing={2}>
-                                        <Item sx={{
-                                            backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500,
-                                            fontSize: '1rem', borderRadius: 2,
-                                        }}>
-                                            {e.name}
-                                        </Item>
-                                        <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
-                                            ${e.price}
-                                        </Item>
-                                        <Item sx={{ backgroundColor: '#ffe0c7', color: '#e65100', width: '260px', fontWeight: 500, fontSize: '1rem', borderRadius: 2, }}>
-                                            {e.description}
-                                        </Item>
-                                        <Button
-                                            sx={{
-                                                backgroundColor: '#e65100',
-                                                color: '#ffe0c7',
-                                                fontWeight: 'bold',
-                                                borderRadius: '10px',
-                                                boxShadow: 3,
-                                                transition: 'all 0.2s ease-in-out',
-                                                mb: { xs: 3, sm: 2, md: 0 },
-                                                '&:hover': {
-                                                    backgroundColor: '#bf360c',
-                                                    boxShadow: 6,
-                                                    transform: 'translateY(-2px)',
-                                                },
-                                            }}
-                                            onClick={() => handleOrder(e)}
-                                        >
-                                            ADD TO CART
-                                        </Button>
-                                    </Stack>
-                                </Box>
-
-                                <Box
-                                    className="card-right"
-                                    sx={{
-                                        mt: { xs: 1.2, sm: 1.6, md: 0 },
-                                        mb: { xs: 1.2, sm: 1, md: 0 },
-                                    }}
-                                >
-                                    <Item
-                                        sx={{
-                                            height: '275px',
-                                            width: '260px',
-                                            boxSizing: 'border-box',
-                                            border: '2px solid #e65100',
-                                            borderRadius: 2,
-                                            padding: 1,
-                                        }}
-                                    >
-                                        <img
-                                            key={e.id}
-                                            src={e.image}
-                                            alt={e.name}
-                                            style={imageStyles[e.id] || { width: "160px", height: "160px", marginTop: "20px", marginBottom: "50px" }}
-                                        />
-                                    </Item>
-                                </Box>
-                            </Box>
+                        {filteredData.map((e) => (
+                            <ProductCard key={e.id} product={e} />
                         ))}
                     </Box>
-                )}
+
+                )} */}
             </Container>
 
             <Footer />
         </Box>
     );
-
-
-
 }
