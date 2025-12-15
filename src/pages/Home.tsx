@@ -286,7 +286,8 @@ export default function Home() {
 
 
 
-    const shouldUseCreamTitle = search.length > 0 || totalItems > 0;
+    const shouldUseCreamTitle =
+        search.length > 0 || totalItems > 0 || showDriveThru;
 
     const shouldShowCarousel =
         !showDriveThru && search.trim().length === 0 && totalItems === 0;
@@ -482,13 +483,17 @@ export default function Home() {
                     <button
                         className={`drive-thru-box ${showDriveThru ? "drive-thru-static" : ""}`}
                         type="button"
+                        disabled={showDriveThru}
                         onClick={() => setShowDriveThru(true)}
                     >
-                        <span className="drive-small">TRY OUR</span>
+                        {!showDriveThru && (
+                            <span className="drive-small">TRY OUR</span>
+                        )}
+
                         <span className="drive-big">DRIVE THRU</span>
                     </button>
-
                 </div>
+
 
 
                 <h1
@@ -602,8 +607,12 @@ export default function Home() {
                                 elevation={0}
                                 sx={{
                                     width: "100%",
-                                    maxWidth: { xs: "100%", md: 900 },
-                                    p: { xs: 2, md: 3.5 },
+                                    maxWidth: { xs: 310, sm:450, md: 940 },
+
+                                    pt: { xs: 4, md: 3 },      // topo ok
+                                    px: { xs: 4, md: 3.5 },    // lados mantidos
+                                    pb: { xs: 2.5,sm:5, md: 3.5 },    // 👈 reduz o espaço embaixo
+
                                     borderRadius: 3,
                                     border: "1.5px solid rgba(230, 81, 0, 0.35)",
                                     bgcolor: "background.paper",
@@ -618,6 +627,7 @@ export default function Home() {
                                         fontWeight: 800,
                                         color: "#e65100",
                                         textAlign: "center",
+                                        fontSize: {xs:"23px", md:"28px"},
                                         mb: 2,
                                     }}
                                 >
@@ -631,7 +641,7 @@ export default function Home() {
                                         gap: 2,
                                         justifyContent: "center",
                                         width: "100%",
-                                        pb: { xs: 6, sm: 0 }, // espaço pro NavFooter
+                                        pb: { xs: 2, sm: 0 }, // espaço pro NavFooter
                                     }}
                                 >
                                     <Button
@@ -683,11 +693,12 @@ export default function Home() {
                             align="center"
                             sx={{
                                 mb: 2,
+                                mt: -3,
                                 letterSpacing: "0.16em",
                                 textTransform: "uppercase",
                                 color: "#e65100",
                                 fontFamily: "Faster One",
-                                fontSize: { xs: "22px", md: "28px" },
+                                fontSize: { xs: "25px", md: "35px" },
                                 fontWeight: "400",
                                 textShadow: "0px 0px 4px rgba(230, 81, 0, 0.20)",
                             }}
