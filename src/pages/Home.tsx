@@ -1,12 +1,10 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState} from 'react';
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Badge from '@mui/material/Badge';
 import axios from "axios";
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
@@ -23,18 +21,21 @@ import type { Meal } from '../context/context';   // type-only import
 import NavFooter from "../components/NavFooter";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import ButtonBase from "@mui/material/ButtonBase";
 
 
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: (theme.vars ?? theme).palette.text.secondary,
-    ...theme.applyStyles('dark', {
-        backgroundColor: '#1A2027',
-    }),
-}));
+const cleanProductName = (name: string) => name.split("/")[0].trim();
+
+type MiniActionCardProps = {
+    id: string;
+    image: string;
+    title?: string;
+    secondaryLabel?: string;
+    onClick: () => void;
+    count?: number;
+};
+
+type CartMap = Record<string, number>; // { "1": 2, "5": 1 }
 
 // mantém kcal no card grande
 const getNameWithKcal = (name: string) => name.trim();
@@ -131,11 +132,131 @@ function ProductCard({ product }: { product: Meal }) {
 }
 
 
+function MiniCard({
+    id,
+    image,
+    title,
+    secondaryLabel = "$0.00",
+    onClick,
+    count = 0,
+}: MiniActionCardProps) {
+    return (
+        <ButtonBase
+            onClick={onClick}
+            sx={{ width: 143, borderRadius: "14px", textAlign: "center" }}
+        >
+            <Box sx={{ position: "relative", width: "100%" }}>
+                {/* ✅ BADGE overlay (só aparece se count > 0) */}
+                {count > 0 && (
+                    <Box
+                        sx={{
+                            position: "absolute",
+                            top: -10,
+                            right: -10,
+                            zIndex: 2,
+                            minWidth: 26,
+                            height: 26,
+                            px: 0.7,
+                            borderRadius: "999px",
+                            backgroundColor: "#1976d2",
+                            color: "#fff",
+                            fontWeight: 900,
+                            fontSize: "0.78rem",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            boxShadow: "0px 6px 14px rgba(0,0,0,0.25)",
+                            border: "2px solid #fff3e0",
+                        }}
+                    >
+                        {count}
+                    </Box>
+                )}
+
+                {/* CARD (exatamente seu estilo) */}
+                <Box
+                    sx={{
+                        width: "100%",
+                        borderRadius: "14px",
+                        border: "2px solid #e65100",
+                        backgroundColor: "#fff3e0",
+                        boxShadow: "0 4px 10px rgba(230, 81, 0, 0.22)",
+                        p: 1.5,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: 1.1,
+                        transition: "all 0.2s ease",
+                        cursor: "pointer",
+                        "&:hover": {
+                            boxShadow: "0 6px 16px rgba(230, 81, 0, 0.35)",
+                            transform: "translateY(-2px)",
+                        },
+                    }}
+                >
+                    <Box
+                        sx={{
+                            width: "100%",
+                            height: 85,
+                            backgroundColor: "#fff",
+                            borderRadius: "10px",
+                            border: "2px solid #e65100",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <img
+                            src={image}
+                            alt={title || "item"}
+                            style={{ maxWidth: "85%", maxHeight: "85%", objectFit: "contain" }}
+                        />
+                    </Box>
+
+                    {title && (
+                        <Typography
+                            sx={{
+                                fontSize: "0.75rem",
+                                fontWeight: 600,
+                                color: "#e65100",
+                                textAlign: "center",
+                                lineHeight: 1.2,
+                            }}
+                        >
+                            {title}
+                        </Typography>
+                    )}
+
+                    <Box
+                        sx={{
+                            width: "100%",
+                            height: 25,
+                            borderRadius: "8px",
+                            backgroundColor: "#e65100",
+                            color: "#ffe0c7",
+                            fontSize: "0.7rem",
+                            fontWeight: 600,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textTransform: "none",
+                        }}
+                    >
+                        {secondaryLabel}
+                    </Box>
+                </Box>
+            </Box>
+        </ButtonBase>
+    );
+}
+
+
 export default function Home() {
     const [search, setSearch] = useState("");
     const [checkout, setCheckout] = useState(0);
     const [username, setUserName] = useState<string | null>("");
     const [data, setData] = useState<Meal[]>([]);
+    const [showDriveThru, setShowDriveThru] = useState(false);
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -157,7 +278,17 @@ export default function Home() {
         0
     );
 
-    const shouldShowCarousel = search.length === 0 && totalItems === 0;
+    const qtyMap = order.reduce<Record<string, number>>((acc, item) => {
+        const q = item.quantidade ?? 1;
+        acc[item.id] = (acc[item.id] ?? 0) + q;
+        return acc;
+    }, {});
+
+    const shouldShowCarousel =
+        search.length === 0 &&
+        totalItems === 0 &&
+        !showDriveThru;
+
     const shouldUseCreamTitle = search.length > 0 || totalItems > 0;
     const shouldShowOrderPreview = search.length > 0 || totalItems > 0;
 
@@ -227,24 +358,6 @@ export default function Home() {
         }
     }
 
-    function handleIncrease(e: Meal) {
-        const newOrder = order.map((item) =>
-            item.id === e.id
-                ? { ...item, quantidade: (item.quantidade ?? 0) + 1 }
-                : item
-        );
-        setOrder(newOrder);
-    }
-
-    function handleDecrease(e: Meal) {
-        const newOrder = order.map((item) =>
-            item.id === e.id
-                ? { ...item, quantidade: Math.max((item.quantidade ?? 1) - 1, 1) }
-                : item
-        );
-        setOrder(newOrder);
-    }
-
     function handleClearCart() {
         setOrder([]);
         localStorage.removeItem("lsOrder");
@@ -302,26 +415,26 @@ export default function Home() {
     }
 
 
-    const imageStylesOrder: { [id: string]: React.CSSProperties } = {
-        "1": { width: "90px", height: "80px", marginTop: "45px" },
-        "2": { width: "100px", height: "90px", marginTop: "30px" },
-        "3": { width: "95px", height: "75px", marginTop: "45px" },
-        "4": { width: "95px", height: "75px", marginTop: "50px" },
-        "11": { width: "100px", height: "80px", marginTop: "40px" },
-        "12": { width: "100px", height: "70px", marginTop: "50px" },
-        "13": { width: "105px", height: "70px", marginTop: "50px" },
-        "14": { width: "90px", height: "80px", marginTop: "45px" },
-        "5": { width: "100px", height: "80px", marginTop: "43px" },
-        "6": { width: "70px", height: "100px", marginTop: "23px" },
-        "7": { width: "90px", height: "90px", marginTop: "30px" },
-        "8": { width: "77px", height: "80px", marginTop: "40px" },
-        "9": { width: "140px", height: "95px", marginTop: "25px" },
-        "10": { width: "95px", height: "95px", marginTop: "25px" },
-        "15": { width: "110px", height: "100px", marginTop: "20px" },
-        "16": { width: "105px", height: "90px", marginTop: "30px" },
-        "17": { width: "90px", height: "95px", marginTop: "25px" },
-        "18": { width: "80px", height: "65px", marginTop: "55px" },
-    };
+    // const imageStylesOrder: { [id: string]: React.CSSProperties } = {
+    //     "1": { width: "90px", height: "80px", marginTop: "45px" },
+    //     "2": { width: "100px", height: "90px", marginTop: "30px" },
+    //     "3": { width: "95px", height: "75px", marginTop: "45px" },
+    //     "4": { width: "95px", height: "75px", marginTop: "50px" },
+    //     "11": { width: "100px", height: "80px", marginTop: "40px" },
+    //     "12": { width: "100px", height: "70px", marginTop: "50px" },
+    //     "13": { width: "105px", height: "70px", marginTop: "50px" },
+    //     "14": { width: "90px", height: "80px", marginTop: "45px" },
+    //     "5": { width: "100px", height: "80px", marginTop: "43px" },
+    //     "6": { width: "70px", height: "100px", marginTop: "23px" },
+    //     "7": { width: "90px", height: "90px", marginTop: "30px" },
+    //     "8": { width: "77px", height: "80px", marginTop: "40px" },
+    //     "9": { width: "140px", height: "95px", marginTop: "25px" },
+    //     "10": { width: "95px", height: "95px", marginTop: "25px" },
+    //     "15": { width: "110px", height: "100px", marginTop: "20px" },
+    //     "16": { width: "105px", height: "90px", marginTop: "30px" },
+    //     "17": { width: "90px", height: "95px", marginTop: "25px" },
+    //     "18": { width: "80px", height: "65px", marginTop: "55px" },
+    // };
 
     const imageStyles: { [id: string]: React.CSSProperties } = {
         "1": { width: "200px", height: "200px", marginTop: "30px" }, // Pit Stop Classic
@@ -359,14 +472,18 @@ export default function Home() {
 
             <Container className="margin-top" fixed sx={{ flexGrow: 2 }}>
 
-                 <div className="div-h2-drive-thru">
-                    <button className="drive-thru-box" type="button">
+                <div className="div-h2-drive-thru">
+                    <button
+                        className="drive-thru-box"
+                        type="button"
+                        onClick={() => setShowDriveThru((prev) => !prev)}
+                    >
                         <span className="drive-small">TRY OUR</span>
                         <span className="drive-big">DRIVE THRU</span>
                     </button>
                 </div>
 
-                 <h1
+                <h1
                     className="h1-home"
                     style={{
                         color: shouldUseCreamTitle ? '#ffe0c7' : '#e65100',
@@ -381,10 +498,6 @@ export default function Home() {
                     Fuel Up Fast. Taste That Lasts.
                 </h1>
 
-               
-
-
-               
                 {search.trim() && (
                     <Box
                         sx={{
@@ -405,7 +518,6 @@ export default function Home() {
                         ))}
                     </Box>
                 )}
-
 
 
                 {shouldShowCarousel && (
@@ -452,8 +564,6 @@ export default function Home() {
                     </div>
                 )}
 
-
-
                 {shouldShowOrderPreview && (
                     <>
                         <Typography
@@ -493,179 +603,117 @@ export default function Home() {
                                         "0 4px 12px rgba(230, 81, 0, 0.25), 0 8px 20px rgba(230, 81, 0, 0.18)",
                                 }}
                             >
-                                {/* PRODUCTS */}
-                                <Box
+                                {/* TOTAL */}
+                                <Typography
+                                    variant="h6"
                                     sx={{
-                                        display: "flex",
-                                        flexDirection: { xs: "column", sm: "row" }, // ✅ mobile coluna
-                                        flexWrap: { sm: "wrap" },
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        gap: { xs: 2.5, sm: 2 },
-                                        mb: 3,
+                                        fontWeight: 800,
+                                        color: "#e65100",
+                                        textAlign: "center",
+                                        mb: 2,
                                     }}
                                 >
-                                    {order.map((e, index) => {
-                                        const quantity = e.quantidade ?? 1;
+                                    TOTAL R$: {checkout.toFixed(2)}
+                                </Typography>
 
-                                        return (
-                                            <Fragment key={e.id}>
-                                                <Box
-                                                    sx={{
-                                                        display: "flex",
-                                                        flexDirection: "column",
-                                                        alignItems: "center",
-                                                        width: { xs: "100%", sm: "auto" }, // ✅ ocupa a linha toda no mobile
-                                                        minWidth: { sm: 120 },
-                                                    }}
-                                                >
-                                                    <img
-                                                        src={e.image}
-                                                        alt={e.name}
-                                                        style={
-                                                            imageStylesOrder[e.id] || {
-                                                                width: isMobile ? "120px" : "160px",
-                                                                height: isMobile ? "120px" : "160px",
-                                                                objectFit: "contain",
-                                                            }
-                                                        }
-                                                    />
-
-                                                    <Box
-                                                        sx={{
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
-                                                            gap: 1,
-                                                            mt: 1,
-                                                        }}
-                                                    >
-                                                        <Button
-                                                            size="small"
-                                                            variant="outlined"
-                                                            onClick={() => handleDecrease(e)}
-                                                            disabled={quantity <= 1}
-                                                            sx={{
-                                                                minWidth: { xs: 30, sm: 32 },
-                                                                height: { xs: 28, sm: "auto" },
-                                                                borderRadius: "999px",
-                                                                borderColor: "#e65100",
-                                                                color: "#e65100",
-                                                                px: 0,
-                                                            }}
-                                                        >
-                                                            −
-                                                        </Button>
-
-                                                        <Typography
-                                                            variant="subtitle1"
-                                                            sx={{
-                                                                fontWeight: 700,
-                                                                minWidth: 44,
-                                                                textAlign: "center",
-                                                                color: "#e65100",
-                                                            }}
-                                                        >
-                                                            x{quantity}
-                                                        </Typography>
-
-                                                        <Button
-                                                            size="small"
-                                                            variant="outlined"
-                                                            onClick={() => handleIncrease(e)}
-                                                            sx={{
-                                                                minWidth: { xs: 30, sm: 32 },
-                                                                height: { xs: 28, sm: "auto" },
-                                                                borderRadius: "999px",
-                                                                borderColor: "#e65100",
-                                                                color: "#e65100",
-                                                                px: 0,
-                                                            }}
-                                                        >
-                                                            +
-                                                        </Button>
-                                                    </Box>
-                                                </Box>
-
-                                                {/* + sinal só no desktop/tablet */}
-                                                {!isMobile && index < order.length - 1 && (
-                                                    <Typography variant="h5" sx={{ fontWeight: 700, mx: 1, color: "#e65100" }}>
-                                                        +
-                                                    </Typography>
-                                                )}
-                                            </Fragment>
-                                        );
-                                    })}
-                                </Box>
-
-                                {/* TOTAL + BUTTONS */}
+                                {/* BUTTONS */}
                                 <Box
                                     sx={{
                                         display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center",
-                                        justifyContent: "center",
                                         gap: 2,
+                                        justifyContent: "center",
+                                        width: "100%",
                                         pb: { xs: 6, sm: 0 }, // espaço pro NavFooter
                                     }}
                                 >
-                                    <Typography
-                                        variant="h6"
-                                        sx={{ fontWeight: 800, color: "#e65100", textAlign: "center" }}
-                                    >
-                                        TOTAL R$: {checkout.toFixed(2)}
-                                    </Typography>
-
-                                    <Box
+                                    <Button
+                                        className="btns-checkout-clearCart"
+                                        onClick={handleCheckout}
+                                        variant="contained"
                                         sx={{
-                                            display: "flex",
-                                            gap: 2,
-                                            justifyContent: "center",
-                                            width: "100%",
+                                            width: { xs: 80, sm: 90 },
+                                            height: 40,
+                                            borderRadius: 2,
+                                            backgroundColor: "#e65100",
+                                            "&:hover": { backgroundColor: "#b33f00" },
                                         }}
                                     >
-                                        <Button
-                                            className="btns-checkout-clearCart"
-                                            onClick={handleCheckout}
-                                            variant="contained"
-                                            sx={{
-                                                width: { xs: 70, sm: 80 },
-                                                height: 40,
-                                                borderRadius: 2,
-                                                backgroundColor: "#e65100",
-                                                "&:hover": { backgroundColor: "#b33f00" },
-                                            }}
+                                        <Badge
+                                            badgeContent={totalItems}
+                                            color="primary"
+                                            overlap="circular"
+                                            showZero={false}
                                         >
-                                            <Badge
-                                                badgeContent={totalItems}
-                                                color="primary"
-                                                overlap="circular"
-                                                showZero={false}
-                                            >
-                                                <ShoppingCartIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
-                                            </Badge>
-                                        </Button>
+                                            <ShoppingCartIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
+                                        </Badge>
+                                    </Button>
 
-                                        <Button
-                                            className="btns-checkout-clearCart"
-                                            variant="contained"
-                                            onClick={handleClearCart}
-                                            sx={{
-                                                width: { xs: 70, sm: 80 },
-                                                height: 40,
-                                                borderRadius: 2,
-                                                backgroundColor: "#e65100",
-                                                "&:hover": { backgroundColor: "#b33f00" },
-                                            }}
-                                        >
-                                            <DeleteForeverIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
-                                        </Button>
-                                    </Box>
+                                    <Button
+                                        className="btns-checkout-clearCart"
+                                        variant="contained"
+                                        onClick={handleClearCart}
+                                        sx={{
+                                            width: { xs: 80, sm: 90 },
+                                            height: 40,
+                                            borderRadius: 2,
+                                            backgroundColor: "#e65100",
+                                            "&:hover": { backgroundColor: "#b33f00" },
+                                        }}
+                                    >
+                                        <DeleteForeverIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
+                                    </Button>
                                 </Box>
                             </Paper>
                         </Box>
                     </>
                 )}
+
+                {showDriveThru && (
+                    <Box sx={{ mb: { xs: 4, md: 6 } }}>
+                        <Typography
+                            align="center"
+                            sx={{
+                                mb: 2,
+                                letterSpacing: "0.16em",
+                                textTransform: "uppercase",
+                                color: "#e65100",
+                                fontFamily: "Faster One",
+                                fontSize: { xs: "22px", md: "28px" },
+                                fontWeight: "400",
+                                textShadow: "0px 0px 4px rgba(230, 81, 0, 0.20)",
+                            }}
+                        >
+                            Menu
+                        </Typography>
+
+                        <Box
+                            sx={{
+                                display: "grid",
+                                gap: 2,
+                                justifyContent: "center",
+                                gridTemplateColumns: {
+                                    xs: "repeat(2, 143px)",
+                                    sm: "repeat(3, 143px)",
+                                    lg: "repeat(6, 143px)",
+                                },
+                            }}
+                        >
+                            {data.map((product) => (
+                                <MiniCard
+                                    key={product.id}
+                                    id={product.id}
+                                    image={product.image}
+                                    title={cleanProductName(product.name)}
+                                    secondaryLabel={`$${Number(product.price).toFixed(2)}`}
+                                    count={qtyMap[product.id] ?? 0}   // ✅ aqui
+                                    onClick={() => handleOrder(product)}
+                                />
+                            ))}
+
+                        </Box>
+                    </Box>
+                )}
+
 
 
                 {/* lista normal só aparece quando NÃO tem search
