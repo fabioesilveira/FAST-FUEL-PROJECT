@@ -20,6 +20,10 @@ import { useAppContext } from '../context/context';
 import Typography from '@mui/material/Typography';
 import CategoryDrawer from '../components/CategoryDrawer';
 import type { Meal } from '../context/context';   // type-only import
+import NavFooter from "../components/NavFooter";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -132,6 +136,9 @@ export default function Home() {
     const [checkout, setCheckout] = useState(0);
     const [username, setUserName] = useState<string | null>("");
     const [data, setData] = useState<Meal[]>([]);
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const filteredData = data.filter(item =>
         item.name.toLowerCase().includes(search.toLowerCase())
@@ -348,9 +355,9 @@ export default function Home() {
             <Navbar onSearch={handleSearchInput} />
             <CssBaseline />
 
-            <CategoryDrawer onNavigate={handleDrawerNavigate} />
+            {!isMobile && <CategoryDrawer onNavigate={handleDrawerNavigate} />}
 
-            <Container className="margin-top" fixed sx={{ flexGrow: 1 }}>
+            <Container className="margin-top" fixed sx={{ flexGrow: 2 }}>
                 <h1
                     className="h1-home"
                     style={{
@@ -659,7 +666,7 @@ export default function Home() {
                 )} */}
             </Container>
 
-            <Footer />
+            {isMobile ? <NavFooter onNavigate={handleDrawerNavigate} /> : <Footer />}
         </Box>
     );
 }
