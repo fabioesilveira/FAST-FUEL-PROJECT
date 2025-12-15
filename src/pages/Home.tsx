@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Badge from '@mui/material/Badge';
@@ -284,13 +284,15 @@ export default function Home() {
         return acc;
     }, {});
 
-    const shouldShowCarousel =
-        search.length === 0 &&
-        totalItems === 0 &&
-        !showDriveThru;
+
 
     const shouldUseCreamTitle = search.length > 0 || totalItems > 0;
-    const shouldShowOrderPreview = search.length > 0 || totalItems > 0;
+
+    const shouldShowCarousel =
+        !showDriveThru && search.trim().length === 0 && totalItems === 0;
+
+    const shouldShowOrderPreview =
+        showDriveThru || search.trim().length > 0 || totalItems > 0;
 
 
     // tenario removendo o shadow de quando o h1 muda pra cream cor
@@ -362,6 +364,10 @@ export default function Home() {
         setOrder([]);
         localStorage.removeItem("lsOrder");
         setCheckout(0);
+
+        // volta estado da home
+        setSearch("");
+        setShowDriveThru(false);
     }
 
     // Discount: any 1 sandwich + 1 side + 1 beverage = $2 off, unlimited combos
@@ -474,14 +480,16 @@ export default function Home() {
 
                 <div className="div-h2-drive-thru">
                     <button
-                        className="drive-thru-box"
+                        className={`drive-thru-box ${showDriveThru ? "drive-thru-static" : ""}`}
                         type="button"
-                        onClick={() => setShowDriveThru((prev) => !prev)}
+                        onClick={() => setShowDriveThru(true)}
                     >
                         <span className="drive-small">TRY OUR</span>
                         <span className="drive-big">DRIVE THRU</span>
                     </button>
+
                 </div>
+
 
                 <h1
                     className="h1-home"
@@ -670,6 +678,7 @@ export default function Home() {
 
                 {showDriveThru && (
                     <Box sx={{ mb: { xs: 4, md: 6 } }}>
+                        {/* TÍTULO MENU */}
                         <Typography
                             align="center"
                             sx={{
@@ -686,6 +695,7 @@ export default function Home() {
                             Menu
                         </Typography>
 
+                        {/* MINI CARDS */}
                         <Box
                             sx={{
                                 display: "grid",
@@ -701,18 +711,18 @@ export default function Home() {
                             {data.map((product) => (
                                 <MiniCard
                                     key={product.id}
-                                    id={product.id}
+                                    id={product.id} // obrigatório agora
                                     image={product.image}
                                     title={cleanProductName(product.name)}
                                     secondaryLabel={`$${Number(product.price).toFixed(2)}`}
-                                    count={qtyMap[product.id] ?? 0}   // ✅ aqui
+                                    count={qtyMap[product.id] ?? 0} // ✅ badge por produto
                                     onClick={() => handleOrder(product)}
                                 />
                             ))}
-
                         </Box>
                     </Box>
                 )}
+
 
 
 

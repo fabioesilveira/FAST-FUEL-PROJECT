@@ -751,4 +751,7 @@ body {
   }
 }
 
+.drive-thru-static {
+  animation: none !important;
+}
 
