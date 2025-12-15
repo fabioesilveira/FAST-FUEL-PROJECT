@@ -138,6 +138,28 @@ function MiniCard({
     onClick,
     count = 0,
 }: MiniActionCardProps) {
+
+      const imageStylesOrder: { [id: string]: React.CSSProperties } = {
+        "1": { width: "80px", height: "70px" },
+        "2": { width: "90px", height: "77px"},
+        "3": { width: "95px", height: "75px" },
+        "4": { width: "85px", height: "67px" },
+        "11": { width: "70px", height: "73px" },
+        "12": { width: "85px", height: "70px" },
+        "13": { width: "105px", height: "70px" },
+        "14": { width: "70px", height: "75px" },
+        "5": { width: "80px", height: "60px" },
+        "6": { width: "70px", height: "79px" },
+        "7": { width: "67px", height: "67px" },
+        "8": { width: "58px", height: "58px" },
+        "9": { width: "110px", height: "87px" },
+        "10": { width: "74px", height: "74px" },
+        "15": { width: "2000px", height: "88px" },
+        "16": { width: "85px", height: "70px" },
+        "17": { width: "80px", height: "85px" },
+        "18": { width: "65px", height: "55px" },
+    };
+
     return (
         <ButtonBase
             onClick={onClick}
@@ -207,7 +229,14 @@ function MiniCard({
                         <img
                             src={image}
                             alt={title || "item"}
-                            style={{ maxWidth: "85%", maxHeight: "85%", objectFit: "contain" }}
+                            style={{
+                                ...(imageStylesOrder[id] ?? {
+                                    width: "85px",
+                                    height: "85px",
+                                    marginTop: "0px",
+                                }),
+                                objectFit: "contain",
+                            }}
                         />
                     </Box>
 
@@ -419,26 +448,6 @@ export default function Home() {
         }
     }
 
-    // const imageStylesOrder: { [id: string]: React.CSSProperties } = {
-    //     "1": { width: "90px", height: "80px", marginTop: "45px" },
-    //     "2": { width: "100px", height: "90px", marginTop: "30px" },
-    //     "3": { width: "95px", height: "75px", marginTop: "45px" },
-    //     "4": { width: "95px", height: "75px", marginTop: "50px" },
-    //     "11": { width: "100px", height: "80px", marginTop: "40px" },
-    //     "12": { width: "100px", height: "70px", marginTop: "50px" },
-    //     "13": { width: "105px", height: "70px", marginTop: "50px" },
-    //     "14": { width: "90px", height: "80px", marginTop: "45px" },
-    //     "5": { width: "100px", height: "80px", marginTop: "43px" },
-    //     "6": { width: "70px", height: "100px", marginTop: "23px" },
-    //     "7": { width: "90px", height: "90px", marginTop: "30px" },
-    //     "8": { width: "77px", height: "80px", marginTop: "40px" },
-    //     "9": { width: "140px", height: "95px", marginTop: "25px" },
-    //     "10": { width: "95px", height: "95px", marginTop: "25px" },
-    //     "15": { width: "110px", height: "100px", marginTop: "20px" },
-    //     "16": { width: "105px", height: "90px", marginTop: "30px" },
-    //     "17": { width: "90px", height: "95px", marginTop: "25px" },
-    //     "18": { width: "80px", height: "65px", marginTop: "55px" },
-    // };
 
     const imageStyles: { [id: string]: React.CSSProperties } = {
         "1": { width: "200px", height: "200px", marginTop: "30px" }, // Pit Stop Classic
