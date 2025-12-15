@@ -33,9 +33,7 @@ type MiniActionCardProps = {
     secondaryLabel?: string;
     onClick: () => void;
     count?: number;
-};
-
-type CartMap = Record<string, number>; // { "1": 2, "5": 1 }
+}
 
 // mantém kcal no card grande
 const getNameWithKcal = (name: string) => name.trim();
@@ -146,7 +144,7 @@ function MiniCard({
             sx={{ width: 143, borderRadius: "14px", textAlign: "center" }}
         >
             <Box sx={{ position: "relative", width: "100%" }}>
-                {/* ✅ BADGE overlay (só aparece se count > 0) */}
+                {/* BADGE overlay (só aparece se count > 0) */}
                 {count > 0 && (
                     <Box
                         sx={{
@@ -421,7 +419,6 @@ export default function Home() {
         }
     }
 
-
     // const imageStylesOrder: { [id: string]: React.CSSProperties } = {
     //     "1": { width: "90px", height: "80px", marginTop: "45px" },
     //     "2": { width: "100px", height: "90px", marginTop: "30px" },
@@ -494,8 +491,6 @@ export default function Home() {
                     </button>
                 </div>
 
-
-
                 <h1
                     className="h1-home"
                     style={{
@@ -504,7 +499,7 @@ export default function Home() {
                         textAlign: 'center',
                         fontFamily: 'Faster One',
                         fontWeight: '400',
-                        marginBottom: '30px',
+                        marginBottom: '10px',
                         textShadow: titleShadow
                     }}
                 >
@@ -582,13 +577,13 @@ export default function Home() {
                         <Typography
                             align="center"
                             sx={{
-                                mt: { xs: 3, md: 4 },
-                                mb: { xs: 1.5, md: 2 },
+                                mt: { xs: 1, md: 2 },
+                                mb: { xs: 2.5, md: 2 },
                                 letterSpacing: "0.16em",
                                 textTransform: "uppercase",
                                 color: "#e65100",
                                 fontFamily: "Faster One",
-                                fontSize: { xs: "24px", md: "35px" },
+                                fontSize: { xs: "26px", md: "35px" },
                                 fontWeight: "400",
                                 textShadow: "0px 0px 4px rgba(230, 81, 0, 0.30)",
                             }}
@@ -607,11 +602,11 @@ export default function Home() {
                                 elevation={0}
                                 sx={{
                                     width: "100%",
-                                    maxWidth: { xs: 310, sm:450, md: 940 },
+                                    maxWidth: { xs: 310, sm: 450, md: 940 },
 
-                                    pt: { xs: 4, md: 3 },      // topo ok
-                                    px: { xs: 4, md: 3.5 },    // lados mantidos
-                                    pb: { xs: 2.5,sm:5, md: 3.5 },    // 👈 reduz o espaço embaixo
+                                    pt: { xs: 4.5, md: 3 },      // topo ok
+                                    px: { xs: 3.5, md: 3.5 },    // lados mantidos
+                                    pb: { xs: 2.5, sm: 5, md: 3.5 },    // 👈 reduz o espaço embaixo
 
                                     borderRadius: 3,
                                     border: "1.5px solid rgba(230, 81, 0, 0.35)",
@@ -627,7 +622,7 @@ export default function Home() {
                                         fontWeight: 800,
                                         color: "#e65100",
                                         textAlign: "center",
-                                        fontSize: {xs:"23px", md:"28px"},
+                                        fontSize: { xs: "23px", md: "28px" },
                                         mb: 2,
                                     }}
                                 >
@@ -649,7 +644,7 @@ export default function Home() {
                                         onClick={handleCheckout}
                                         variant="contained"
                                         sx={{
-                                            width: { xs: 80, sm: 90 },
+                                            width: { xs: 55, sm: 75 },
                                             height: 40,
                                             borderRadius: 2,
                                             backgroundColor: "#e65100",
@@ -662,7 +657,7 @@ export default function Home() {
                                             overlap="circular"
                                             showZero={false}
                                         >
-                                            <ShoppingCartIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
+                                            <ShoppingCartIcon sx={{ fontSize: { xs: 26, md: 29 }, color: "#ffe0c7" }} />
                                         </Badge>
                                     </Button>
 
@@ -671,14 +666,14 @@ export default function Home() {
                                         variant="contained"
                                         onClick={handleClearCart}
                                         sx={{
-                                            width: { xs: 80, sm: 90 },
+                                            width: { xs: 55, sm: 75 },
                                             height: 40,
                                             borderRadius: 2,
                                             backgroundColor: "#e65100",
                                             "&:hover": { backgroundColor: "#b33f00" },
                                         }}
                                     >
-                                        <DeleteForeverIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
+                                        <DeleteForeverIcon sx={{ fontSize: { xs: 28, md: 30 }, color: "#ffe0c7" }} />
                                     </Button>
                                 </Box>
                             </Paper>
@@ -687,13 +682,13 @@ export default function Home() {
                 )}
 
                 {showDriveThru && (
-                    <Box sx={{ mb: { xs: 4, md: 6 } }}>
-                        {/* TÍTULO MENU */}
+                    <Box sx={{ mb: { xs: 6, md: 3 } }}>
+                        {/* TITULO MENU */}
                         <Typography
                             align="center"
                             sx={{
                                 mb: 2,
-                                mt: -3,
+                                mt: { xs: -2, md: -3 },
                                 letterSpacing: "0.16em",
                                 textTransform: "uppercase",
                                 color: "#e65100",
@@ -722,19 +717,17 @@ export default function Home() {
                             {data.map((product) => (
                                 <MiniCard
                                     key={product.id}
-                                    id={product.id} // obrigatório agora
+                                    id={product.id} // obrigatorio agora
                                     image={product.image}
                                     title={cleanProductName(product.name)}
                                     secondaryLabel={`$${Number(product.price).toFixed(2)}`}
-                                    count={qtyMap[product.id] ?? 0} // ✅ badge por produto
+                                    count={qtyMap[product.id] ?? 0} // badge por produto
                                     onClick={() => handleOrder(product)}
                                 />
                             ))}
                         </Box>
                     </Box>
                 )}
-
-
 
 
                 {/* lista normal só aparece quando NÃO tem search
