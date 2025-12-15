@@ -665,3 +665,90 @@ body {
     flex: 0 0 auto;
   }
 }
+
+
+/* ========================= */
+/* 🖥 DESKTOP GRANDE (>= 1200px) */
+/* ========================= */
+.div-h2-drive-thru {
+  position: fixed;
+  left: 30px;
+  top: 16%;
+  transform: translateY(-50%);
+  z-index: 1200;
+}
+
+/* BOTÃO */
+.drive-thru-box {
+  background-color: #ffe0c7;
+  padding: 10px 18px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+
+  box-shadow:
+    0 4px 12px rgba(230, 81, 0, 0.35),
+    0 8px 20px rgba(230, 81, 0, 0.25);
+
+  animation: driveTextPulse 2.2s ease-in-out infinite;
+}
+
+/* TEXTO */
+.drive-small {
+  display: block;
+  font-family: "Faster One", system-ui;
+  font-size: 18px;
+  color: #e65100;
+  opacity: 0.9;
+}
+
+.drive-big {
+  display: block;
+  font-family: "Faster One", system-ui;
+  font-size: 26px;
+  color: #e65100;
+}
+
+/* 🔥 anima só o TEXTO */
+@keyframes driveTextPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* ========================= */
+/* 💻 DESKTOP PEQUENO / TABLET (< 1200px) */
+/* ========================= */
+@media (max-width: 1199px) {
+  .div-h2-drive-thru {
+    position: relative;     /* volta pro fluxo */
+    left: auto;
+    top: auto;
+    transform: none;
+
+    display: flex;
+    justify-content: center;
+    margin: 18px 0 24px;    /* 👈 margin-bottom pro conteúdo de baixo */
+    z-index: 1;
+  }
+}
+
+/* ========================= */
+/* 📱 MOBILE (< 600px) */
+/* ========================= */
+@media (max-width: 600px) {
+  .drive-thru-box {
+    padding: 10px 22px;
+  }
+
+  .drive-small {
+    font-size: 16px;
+  }
+
+  .drive-big {
+    font-size: 28px;
+  }
+}
+
+

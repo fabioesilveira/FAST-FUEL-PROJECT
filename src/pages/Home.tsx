@@ -358,7 +358,15 @@ export default function Home() {
             {!isMobile && <CategoryDrawer onNavigate={handleDrawerNavigate} />}
 
             <Container className="margin-top" fixed sx={{ flexGrow: 2 }}>
-                <h1
+
+                 <div className="div-h2-drive-thru">
+                    <button className="drive-thru-box" type="button">
+                        <span className="drive-small">TRY OUR</span>
+                        <span className="drive-big">DRIVE THRU</span>
+                    </button>
+                </div>
+
+                 <h1
                     className="h1-home"
                     style={{
                         color: shouldUseCreamTitle ? '#ffe0c7' : '#e65100',
@@ -373,6 +381,10 @@ export default function Home() {
                     Fuel Up Fast. Taste That Lasts.
                 </h1>
 
+               
+
+
+               
                 {search.trim() && (
                     <Box
                         sx={{
@@ -445,18 +457,17 @@ export default function Home() {
                 {shouldShowOrderPreview && (
                     <>
                         <Typography
-                            variant="h5"
                             align="center"
                             sx={{
-                                mt: 4,
-                                mb: 2,
+                                mt: { xs: 3, md: 4 },
+                                mb: { xs: 1.5, md: 2 },
                                 letterSpacing: "0.16em",
                                 textTransform: "uppercase",
                                 color: "#e65100",
                                 fontFamily: "Faster One",
-                                fontSize: "35px",
+                                fontSize: { xs: "24px", md: "35px" },
                                 fontWeight: "400",
-                                textShadow: "0px 0px 4px rgba(230, 81, 0, 0.30)"
+                                textShadow: "0px 0px 4px rgba(230, 81, 0, 0.30)",
                             }}
                         >
                             Order Preview
@@ -466,15 +477,15 @@ export default function Home() {
                             sx={{
                                 display: "flex",
                                 justifyContent: "center",
-                                mb: 6,
+                                mb: { xs: 4, md: 6 },
                             }}
                         >
                             <Paper
                                 elevation={0}
                                 sx={{
                                     width: "100%",
-                                    maxWidth: 900,
-                                    p: 3.5,
+                                    maxWidth: { xs: "100%", md: 900 },
+                                    p: { xs: 2, md: 3.5 },
                                     borderRadius: 3,
                                     border: "1.5px solid rgba(230, 81, 0, 0.35)",
                                     bgcolor: "background.paper",
@@ -482,14 +493,15 @@ export default function Home() {
                                         "0 4px 12px rgba(230, 81, 0, 0.25), 0 8px 20px rgba(230, 81, 0, 0.18)",
                                 }}
                             >
-                                {/* PRODUCTS ROW */}
+                                {/* PRODUCTS */}
                                 <Box
                                     sx={{
                                         display: "flex",
-                                        flexWrap: "wrap",
+                                        flexDirection: { xs: "column", sm: "row" }, // ✅ mobile coluna
+                                        flexWrap: { sm: "wrap" },
                                         alignItems: "center",
                                         justifyContent: "center",
-                                        gap: 2,
+                                        gap: { xs: 2.5, sm: 2 },
                                         mb: 3,
                                     }}
                                 >
@@ -503,7 +515,8 @@ export default function Home() {
                                                         display: "flex",
                                                         flexDirection: "column",
                                                         alignItems: "center",
-                                                        minWidth: 120,
+                                                        width: { xs: "100%", sm: "auto" }, // ✅ ocupa a linha toda no mobile
+                                                        minWidth: { sm: 120 },
                                                     }}
                                                 >
                                                     <img
@@ -511,16 +524,18 @@ export default function Home() {
                                                         alt={e.name}
                                                         style={
                                                             imageStylesOrder[e.id] || {
-                                                                width: "160px",
-                                                                height: "160px",
-                                                                objectFit: "cover",
+                                                                width: isMobile ? "120px" : "160px",
+                                                                height: isMobile ? "120px" : "160px",
+                                                                objectFit: "contain",
                                                             }
                                                         }
                                                     />
+
                                                     <Box
                                                         sx={{
                                                             display: "flex",
                                                             alignItems: "center",
+                                                            justifyContent: "center",
                                                             gap: 1,
                                                             mt: 1,
                                                         }}
@@ -531,7 +546,8 @@ export default function Home() {
                                                             onClick={() => handleDecrease(e)}
                                                             disabled={quantity <= 1}
                                                             sx={{
-                                                                minWidth: 32,
+                                                                minWidth: { xs: 30, sm: 32 },
+                                                                height: { xs: 28, sm: "auto" },
                                                                 borderRadius: "999px",
                                                                 borderColor: "#e65100",
                                                                 color: "#e65100",
@@ -543,7 +559,12 @@ export default function Home() {
 
                                                         <Typography
                                                             variant="subtitle1"
-                                                            sx={{ fontWeight: 600, minWidth: 40, textAlign: "center" }}
+                                                            sx={{
+                                                                fontWeight: 700,
+                                                                minWidth: 44,
+                                                                textAlign: "center",
+                                                                color: "#e65100",
+                                                            }}
                                                         >
                                                             x{quantity}
                                                         </Typography>
@@ -553,7 +574,8 @@ export default function Home() {
                                                             variant="outlined"
                                                             onClick={() => handleIncrease(e)}
                                                             sx={{
-                                                                minWidth: 32,
+                                                                minWidth: { xs: 30, sm: 32 },
+                                                                height: { xs: 28, sm: "auto" },
                                                                 borderRadius: "999px",
                                                                 borderColor: "#e65100",
                                                                 color: "#e65100",
@@ -565,8 +587,9 @@ export default function Home() {
                                                     </Box>
                                                 </Box>
 
-                                                {index < order.length - 1 && (
-                                                    <Typography variant="h5" sx={{ fontWeight: 700, mx: 1 }}>
+                                                {/* + sinal só no desktop/tablet */}
+                                                {!isMobile && index < order.length - 1 && (
+                                                    <Typography variant="h5" sx={{ fontWeight: 700, mx: 1, color: "#e65100" }}>
                                                         +
                                                     </Typography>
                                                 )}
@@ -579,15 +602,16 @@ export default function Home() {
                                 <Box
                                     sx={{
                                         display: "flex",
-                                        flexDirection: "column",        // tudo em coluna
-                                        alignItems: "center",           // centraliza horizontalmente
+                                        flexDirection: "column",
+                                        alignItems: "center",
                                         justifyContent: "center",
                                         gap: 2,
+                                        pb: { xs: 6, sm: 0 }, // espaço pro NavFooter
                                     }}
                                 >
                                     <Typography
                                         variant="h6"
-                                        sx={{ fontWeight: 700, color: "#e65100", textAlign: "center" }}
+                                        sx={{ fontWeight: 800, color: "#e65100", textAlign: "center" }}
                                     >
                                         TOTAL R$: {checkout.toFixed(2)}
                                     </Typography>
@@ -596,7 +620,7 @@ export default function Home() {
                                         sx={{
                                             display: "flex",
                                             gap: 2,
-                                            justifyContent: "center",     // centraliza os botões
+                                            justifyContent: "center",
                                             width: "100%",
                                         }}
                                     >
@@ -605,10 +629,11 @@ export default function Home() {
                                             onClick={handleCheckout}
                                             variant="contained"
                                             sx={{
-                                                width: 80,
+                                                width: { xs: 70, sm: 80 },
                                                 height: 40,
                                                 borderRadius: 2,
                                                 backgroundColor: "#e65100",
+                                                "&:hover": { backgroundColor: "#b33f00" },
                                             }}
                                         >
                                             <Badge
@@ -619,7 +644,6 @@ export default function Home() {
                                             >
                                                 <ShoppingCartIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
                                             </Badge>
-                                            &nbsp;
                                         </Button>
 
                                         <Button
@@ -627,22 +651,22 @@ export default function Home() {
                                             variant="contained"
                                             onClick={handleClearCart}
                                             sx={{
-                                                width: 80,
+                                                width: { xs: 70, sm: 80 },
                                                 height: 40,
                                                 borderRadius: 2,
                                                 backgroundColor: "#e65100",
+                                                "&:hover": { backgroundColor: "#b33f00" },
                                             }}
                                         >
                                             <DeleteForeverIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
-                                            &nbsp;
                                         </Button>
                                     </Box>
                                 </Box>
-
                             </Paper>
                         </Box>
                     </>
                 )}
+
 
                 {/* lista normal só aparece quando NÃO tem search
                 {!search.trim() && (

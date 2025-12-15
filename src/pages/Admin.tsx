@@ -224,7 +224,9 @@ export default function Admin() {
         <Box sx={{ minHeight: "100vh" }}>
             <CssBaseline />
 
+
             <Container className="margin-top" fixed sx={{ flexGrow: 1 }}>
+
                 {/* TOP: mini buttons */}
                 <Box
                     sx={{
