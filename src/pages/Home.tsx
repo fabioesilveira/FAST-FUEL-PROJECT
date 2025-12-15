@@ -606,7 +606,7 @@ export default function Home() {
 
                                     pt: { xs: 4.5, md: 3 },      // topo ok
                                     px: { xs: 3.5, md: 3.5 },    // lados mantidos
-                                    pb: { xs: 2.5, sm: 5, md: 3.5 },    // 👈 reduz o espaço embaixo
+                                    pb: { xs: 2.5, sm: 5, md: 3.5 },    // reduz o espaço embaixo
 
                                     borderRadius: 3,
                                     border: "1.5px solid rgba(230, 81, 0, 0.35)",
@@ -682,7 +682,7 @@ export default function Home() {
                 )}
 
                 {showDriveThru && (
-                    <Box sx={{ mb: { xs: 6, md: 3 } }}>
+                    <Box sx={{ mb: { xs: 5, md: 2 } }}>
                         {/* TITULO MENU */}
                         <Typography
                             align="center"
@@ -717,7 +717,7 @@ export default function Home() {
                             {data.map((product) => (
                                 <MiniCard
                                     key={product.id}
-                                    id={product.id} // obrigatorio agora
+                                    id={product.id} // obrigatorio 
                                     image={product.image}
                                     title={cleanProductName(product.name)}
                                     secondaryLabel={`$${Number(product.price).toFixed(2)}`}

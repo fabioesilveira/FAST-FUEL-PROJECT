@@ -722,6 +722,7 @@ body {
 @media (max-width: 600px) {
   .drive-thru-box {
     padding: 10px 22px;
+    margin-bottom: 10px;
   }
 
   .drive-small {
@@ -737,3 +738,6 @@ body {
   animation: none !important;
 }
 
+.h1-home{
+  margin-top: -15px;
+}
