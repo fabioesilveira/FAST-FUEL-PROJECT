@@ -500,20 +500,26 @@ export default function Home() {
                     </button>
                 </div>
 
-                <h1
-                    className="h1-home"
-                    style={{
-                        color: shouldUseCreamTitle ? '#ffe0c7' : '#e65100',
-                        transition: 'color 0.3s ease',
-                        textAlign: 'center',
-                        fontFamily: 'Faster One',
-                        fontWeight: '400',
-                        marginBottom: '10px',
-                        textShadow: titleShadow
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        mb: { xs: 1, md: 2 },
+                        mt: {xs:-1, md: -1},
+                        px: { xs: 1.5, md: 0 }, // evita quebrar em telas pequenas
                     }}
                 >
-                    Fuel Up Fast. Taste That Lasts.
-                </h1>
+                    <h1
+                        className="h1-home"
+                        style={{
+                            color: shouldUseCreamTitle ? "#ffe0c7" : "#e65100",
+                            transition: "color 0.3s ease",
+                            textShadow: titleShadow,
+                        }}
+                    >
+                        Fuel Up Fast. Taste That Lasts.
+                    </h1>
+                </Box>
 
                 {search.trim() && (
                     <Box
@@ -535,7 +541,6 @@ export default function Home() {
                         ))}
                     </Box>
                 )}
-
 
                 {shouldShowCarousel && (
                     <div
@@ -614,22 +619,6 @@ export default function Home() {
                                     gap: 1.2, // botões mais juntinhos
                                 }}
                             >
-                                {/* <Button
-                                    onClick={handleCheckout}
-                                    variant="contained"
-                                    sx={{
-                                        width: { xs: 48, sm: 55 },
-                                        height: 40,
-                                        borderRadius: 2,
-                                        backgroundColor: "#e65100",
-                                        "&:hover": { backgroundColor: "#b33f00" },
-                                    }}
-                                >
-                                    <Badge badgeContent={totalItems} color="primary" overlap="circular" showZero={false}>
-                                        <ShoppingCartIcon sx={{ fontSize: 26, color: "#ffe0c7" }} />
-                                    </Badge>
-                                </Button> */}
-
                                 <Button
                                     variant="contained"
                                     onClick={handleClearCart}
@@ -654,7 +643,6 @@ export default function Home() {
                 )}
 
 
-
                 {showDriveThru && (
                     <Box sx={{ mb: { xs: 5, md: 2 } }}>
                         {/* TITULO MENU */}
@@ -667,7 +655,7 @@ export default function Home() {
                                 textTransform: "uppercase",
                                 color: "#e65100",
                                 fontFamily: "Faster One",
-                                fontSize: { xs: "25px", md: "35px" },
+                                fontSize: { xs: "21px", md: "35px" },
                                 fontWeight: "400",
                                 textShadow: "0px 0px 4px rgba(230, 81, 0, 0.20)",
                             }}

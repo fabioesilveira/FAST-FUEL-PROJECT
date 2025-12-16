@@ -593,14 +593,17 @@ body {
 @media (min-width: 901px) and (max-width: 1200px) {
   .products-wrapper {
     justify-content: center;
-    padding: 0;        /* nada de padding externo */
-    margin-top: -40px; /* controla só o espaço entre nav e cards */
+    padding: 0;
+    /* nada de padding externo */
+    margin-top: -40px;
+    /* controla só o espaço entre nav e cards */
   }
 
   .product-card {
     width: 80%;
     max-width: 900px;
-    padding: 64px;     /* espaçamento bonito dentro do card */
+    padding: 64px;
+    /* espaçamento bonito dentro do card */
     margin-top: 0;
   }
 }
@@ -621,18 +624,21 @@ body {
 
   .products-wrapper.one-item .product-card {
     width: 100%;
-    max-width: 320px; /* seu tamanho natural mobile */
+    max-width: 320px;
+    /* seu tamanho natural mobile */
   }
 }
 
 /* DESKTOP (a partir de 901px): centraliza mantendo tamanho natural */
 @media (min-width: 901px) {
   .products-wrapper.one-item {
-    justify-content: center;   /* centraliza o card único */
+    justify-content: center;
+    /* centraliza o card único */
   }
 
   .products-wrapper.one-item .product-card {
-    width: calc(50% - 12px);   /* mesmo tamanho de 2 cards */
+    width: calc(50% - 12px);
+    /* mesmo tamanho de 2 cards */
     flex: 0 0 calc(50% - 12px);
   }
 }
@@ -696,50 +702,66 @@ body {
 
 /* 🔥 anima só o TEXTO */
 @keyframes driveTextPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* DESKTOP PEQUENO / TABLET (< 1200px) */
 
 @media (max-width: 1199px) {
   .div-h2-drive-thru {
-    position: relative;     /* volta pro fluxo */
+    position: relative;
+    /* volta pro fluxo */
     left: auto;
     top: auto;
     transform: none;
 
     display: flex;
     justify-content: center;
-    margin: 10px 0 24px;    /* margin-bottom pro conteúdo de baixo */
+    margin: 10px 0 24px;
+    /* margin-bottom pro conteúdo de baixo */
     z-index: 1;
   }
 }
 
 /* MOBILE (< 600px) */
-
 @media (max-width: 600px) {
   .drive-thru-box {
-    padding: 10px 22px;
-    margin-bottom: 10px;
+    padding: 6px 14px;
+    /* ⬅️ menor */
+    border-radius: 12px;
+    /* ⬅️ mais compacto */
+    margin-bottom: 8px;
+
+    box-shadow:
+      0 3px 8px rgba(230, 81, 0, 0.28),
+      0 6px 14px rgba(230, 81, 0, 0.20);
   }
 
   .drive-small {
-    font-size: 16px;
+    font-size: 13px;
+    /* ⬅️ reduz bastante */
+    letter-spacing: 0.08em;
   }
 
   .drive-big {
-    font-size: 28px;
+    font-size: 20px;
+    /* ⬅️ foco mas sem exagero */
+    letter-spacing: 0.12em;
   }
 }
 
 .drive-thru-static {
   animation: none !important;
-}
-
-.h1-home{
-  margin-top: -15px;
 }
 
 .total {
@@ -750,11 +772,46 @@ body {
   font-size: 2.2rem;
   letter-spacing: 0.08em;
 
-  
-  color: #1e5bb8; /* azul levemente mais fechado */
+
+  color: #1e5bb8;
+  /* azul levemente mais fechado */
   text-shadow:
     0 1px 2px rgba(0, 0, 0, 0.12),
-    0 2px 6px rgba(180, 200, 255, 0.45); /* silver-blue */
+    0 2px 6px rgba(180, 200, 255, 0.45);
+  /* silver-blue */
 
 }
+
+.h1-home {
+  margin: 0;
+  text-align: center;
+  font-family: "Faster One", system-ui;
+  font-weight: 400;
+
+  /* Desktop base */
+  font-size: 38px;
+  line-height: 1.15;
+  letter-spacing: 0.06em;
+
+  /* deixa quebrar naturalmente */
+  white-space: normal;
+}
+
+/* TABLET */
+@media (max-width: 900px) {
+  .h1-home {
+    font-size: 30px;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .h1-home {
+    font-size: 24px;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+  }
+}
+
 
