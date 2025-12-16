@@ -140,10 +140,10 @@ function MiniCard({
 }: MiniActionCardProps) {
 
       const imageStylesOrder: { [id: string]: React.CSSProperties } = {
-        "1": { width: "80px", height: "70px" },
+        "1": { width: "60px", height: "52px" },
         "2": { width: "90px", height: "77px"},
-        "3": { width: "95px", height: "75px" },
-        "4": { width: "85px", height: "67px" },
+        "3": { width: "65px", height: "55px" },
+        "4": { width: "85px", height: "65px" },
         "11": { width: "70px", height: "73px" },
         "12": { width: "85px", height: "70px" },
         "13": { width: "105px", height: "70px" },
@@ -154,10 +154,10 @@ function MiniCard({
         "8": { width: "58px", height: "58px" },
         "9": { width: "110px", height: "87px" },
         "10": { width: "74px", height: "74px" },
-        "15": { width: "2000px", height: "88px" },
+        "15": { width: "200px", height: "81px" },
         "16": { width: "85px", height: "70px" },
         "17": { width: "80px", height: "85px" },
-        "18": { width: "65px", height: "55px" },
+        "18": { width: "62px", height: "55px" },
     };
 
     return (

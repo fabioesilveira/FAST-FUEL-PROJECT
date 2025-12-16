@@ -577,7 +577,7 @@ body {
 /* Mobile */
 @media (max-width: 600px) {
   .nav-products-page {
-    margin-top: 30px;
+    margin-top: 34px;
     gap: 18px;
   }
 }

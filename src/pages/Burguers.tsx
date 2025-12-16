@@ -34,9 +34,11 @@ const getNameWithKcal = (name: string) => name.trim();
 function ProductCard({
   product,
   onAdd,
+  imgStyle,
 }: {
   product: Meal;
   onAdd: (p: Meal) => void;
+  imgStyle?: React.CSSProperties;
 }) {
   const title = getNameWithKcal(product.name);
 
@@ -70,12 +72,19 @@ function ProductCard({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          overflow: "hidden",
         }}
       >
         <img
           src={product.image}
-          alt={title}
-          style={{ maxWidth: "85%", maxHeight: "85%", objectFit: "contain" }}
+          alt={product.name}
+          style={{
+            ...(imgStyle ?? {}),
+            maxWidth: "100%",
+            maxHeight: "100%",
+            objectFit: "contain",
+            display: "block",
+          }}
         />
       </Box>
 
@@ -96,7 +105,7 @@ function ProductCard({
         </Typography>
       </Box>
 
-      {/* PRICE ✅ */}
+      {/* PRICE */}
       <Box
         sx={{
           width: "100%",
@@ -130,7 +139,7 @@ function ProductCard({
         </Typography>
       </Box>
 
-      {/* ADD TO CART ✅ dentro do card */}
+      {/* ADD TO CART dentro do card */}
       <Button
         onClick={() => onAdd(product)}
         variant="contained"
@@ -149,7 +158,6 @@ function ProductCard({
     </Box>
   );
 }
-
 
 // Icons
 import LunchDiningIcon from '@mui/icons-material/LunchDining';
@@ -170,6 +178,7 @@ export default function Burguers() {
   };
 
   const theme = useTheme();
+  const isMobileTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isDesktop = useMediaQuery(theme.breakpoints.up("lg")); // md+ = desktop
 
   // total items for badge
@@ -225,10 +234,24 @@ export default function Burguers() {
   }
 
   const imageStyles: { [id: string]: React.CSSProperties } = {
-    "1": { width: "200px", height: "200px", marginTop: "30px" }, // Pit Stop Classic
-    "2": { width: "210px", height: "215px", marginTop: "18px" }, // Turbo Bacon
-    "3": { width: "200px", height: "185px", marginTop: "42px" }, // Double Gear
-    "4": { width: "215px", height: "180px", marginTop: "35px" }, // Fuel Monster
+    "1": { width: "170px", height: "140px", marginTop: "64px" }, // Pit Stop Classic
+    "2": { width: "220px", height: "210px", marginTop: "22px" }, // Turbo Bacon
+    "3": { width: "168px", height: "158px", marginTop: "55px" }, // Double Gear
+    "4": { width: "210px", height: "185px", marginTop: "35px" }, // Fuel Monster
+  };
+
+  const imageStylesMobile: Record<string, React.CSSProperties> = {
+    "1": { width: "130px", height: "120px" },
+    "2": { width: "220px", height: "210px" },
+    "3": { width: "158px", height: "118px", marginTop: "10px" },
+    "4": { width: "190px", height: "135px" },
+  };
+
+  const imageStylesDesktop: Record<string, React.CSSProperties> = {
+    "1": { width: "130px", height: "120px" }, // Pit Stop Classic
+    "2": { width: "220px", height: "210px" }, // Turbo Bacon
+    "3": { width: "158px", height: "118px", marginTop: "10px" }, // Double Gear
+    "4": { width: "190px", height: "135px" }, // Fuel Monster
   };
 
   const mobileTabletGrid = (
@@ -241,7 +264,7 @@ export default function Burguers() {
           xs: "repeat(1, 300px)",
           sm: "repeat(2, 300px)",
         },
-        mt: 5,
+        mt: 4.5,
         mb: 10,
       }}
     >
@@ -250,11 +273,15 @@ export default function Burguers() {
           key={product.id}
           product={product}
           onAdd={handleOrder}
+          imgStyle={
+            isMobileTablet
+              ? (imageStylesMobile[product.id] ?? {})
+              : (imageStylesDesktop[product.id] ?? {})
+          }
         />
       ))}
     </Box>
   );
-
 
   return (
     <>
@@ -377,7 +404,7 @@ export default function Burguers() {
               src={FriesIcon}
               alt="Drink icon"
               sx={{
-                width: { xs: 45, sm: 42, md: 47 },
+                width: { xs: 45, sm: 42, md: 44 },
                 height: { xs: 38, sm: 39, md: 46 },
                 objectFit: "contain",
                 transition: "transform 0.2s ease",
@@ -402,8 +429,8 @@ export default function Burguers() {
               src={SodaIcon}
               alt="Drink icon"
               sx={{
-                width: { xs: 45, sm: 42, md: 100 },
-                height: { xs: 38, sm: 39, md: 45 },
+                width: { xs: 45, sm: 42, md: 80 },
+                height: { xs: 38, sm: 39, md: 43 },
                 objectFit: "contain",
                 transition: "transform 0.2s ease",
                 display: "block",
@@ -562,11 +589,6 @@ export default function Burguers() {
         ) : (
           mobileTabletGrid
         )}
-
-
-
-
-
 
       </Container>
 
