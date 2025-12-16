@@ -5,6 +5,7 @@ import ButtonBase from "@mui/material/ButtonBase";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import TotalFloat from "../components/TotalFloat";
 
 type Meal = {
     id: string;
@@ -111,54 +112,56 @@ function MiniCard({ image, title, secondaryLabel = "$0.00", onClick }: MiniActio
 
 /* ---------------- Page ---------------- */
 export default function Admin() {
-    const [data, setData] = useState<Meal[]>([]);
+  const [data, setData] = useState<Meal[]>([]);
+  const [total, setTotal] = useState(0); // ✅ exemplo
 
-    useEffect(() => {
-        async function init() {
-            try {
-                const res = await axios.get("http://localhost:3000/products");
-                setData(res.data);
-            } catch (err) {
-                console.error("Erro ao buscar /products:", err);
-            }
-        }
-        init();
-    }, []);
+  useEffect(() => {
+    async function init() {
+      try {
+        const res = await axios.get("http://localhost:3000/products");
+        setData(res.data);
+      } catch (err) {
+        console.error("Erro ao buscar /products:", err);
+      }
+    }
+    init();
+  }, []);
 
-    return (
-        <Box sx={{ minHeight: "100vh" }}>
-            <CssBaseline />
+  return (
+    <Box sx={{ minHeight: "100vh" }}>
+      <CssBaseline />
 
+      <Container className="margin-top" fixed sx={{ flexGrow: 1 }}>
+        {/* ✅ agora funciona */}
+        <TotalFloat total={total} />
 
-            <Container className="margin-top" fixed sx={{ flexGrow: 1 }}>
-
-                {/* TOP: mini buttons */}
-                <Box
-                    sx={{
-                        display: "grid",
-                        gap: 2,
-                        justifyContent: "center",
-                        gridTemplateColumns: {
-                            xs: "repeat(2, 143px)",
-                            sm: "repeat(3, 143px)",
-                            lg: "repeat(6, 143px)",
-                        },
-                    }}
-                >
-                    {data.map((product) => (
-                        <MiniCard
-                            key={product.id}
-                            image={product.image}
-                            title={cleanProductName(product.name)}
-                            secondaryLabel={`$${Number(product.price).toFixed(2)}`}
-                            onClick={() => console.log("clicked product:", product.id)}
-                        />
-                    ))}
-                </Box>
-
-               
-                
-            </Container>
+        <Box
+          sx={{
+            display: "grid",
+            gap: 2,
+            justifyContent: "center",
+            gridTemplateColumns: {
+              xs: "repeat(2, 143px)",
+              sm: "repeat(3, 143px)",
+              lg: "repeat(6, 143px)",
+            },
+          }}
+        >
+          {data.map((product) => (
+            <MiniCard
+              key={product.id}
+              image={product.image}
+              title={cleanProductName(product.name)}
+              secondaryLabel={`$${Number(product.price).toFixed(2)}`}
+              onClick={() => {
+                // ✅ exemplo: soma no total quando clicar
+                setTotal((prev) => prev + Number(product.price || 0));
+              }}
+            />
+          ))}
         </Box>
-    );
+      </Container>
+    </Box>
+  );
 }
+

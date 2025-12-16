@@ -139,9 +139,9 @@ function MiniCard({
     count = 0,
 }: MiniActionCardProps) {
 
-      const imageStylesOrder: { [id: string]: React.CSSProperties } = {
+    const imageStylesOrder: { [id: string]: React.CSSProperties } = {
         "1": { width: "60px", height: "52px" },
-        "2": { width: "90px", height: "77px"},
+        "2": { width: "90px", height: "77px" },
         "3": { width: "65px", height: "55px" },
         "4": { width: "85px", height: "65px" },
         "11": { width: "70px", height: "73px" },
@@ -178,7 +178,7 @@ function MiniCard({
                             height: 26,
                             px: 0.7,
                             borderRadius: "999px",
-                            backgroundColor: "#1976d2",
+                            backgroundColor: "#1e5bb8",
                             color: "#fff",
                             fontWeight: 900,
                             fontSize: "0.78rem",
@@ -493,7 +493,7 @@ export default function Home() {
                         onClick={() => setShowDriveThru(true)}
                     >
                         {!showDriveThru && (
-                            <span className="drive-small">TRY OUR</span>
+                            <span className="drive-small">QUICK ADD</span>
                         )}
 
                         <span className="drive-big">DRIVE THRU</span>
@@ -583,112 +583,77 @@ export default function Home() {
 
                 {shouldShowOrderPreview && (
                     <>
-                        <Typography
-                            align="center"
-                            sx={{
-                                mt: { xs: 1, md: 2 },
-                                mb: { xs: 2.5, md: 2 },
-                                letterSpacing: "0.16em",
-                                textTransform: "uppercase",
-                                color: "#e65100",
-                                fontFamily: "Faster One",
-                                fontSize: { xs: "26px", md: "35px" },
-                                fontWeight: "400",
-                                textShadow: "0px 0px 4px rgba(230, 81, 0, 0.30)",
-                            }}
-                        >
-                            Order Preview
-                        </Typography>
-
                         <Box
                             sx={{
                                 display: "flex",
-                                justifyContent: "center",
+                                alignItems: "center",
+                                justifyContent: "center", // conjunto centralizado
+                                gap: { xs: 1.5, md: 2 },  // gap controlado (sem gigante)
                                 mb: { xs: 4, md: 6 },
+                                mt: { xs: 2, md: 4 },
+                                flexWrap: "wrap", // quebra bonito no mobile
                             }}
                         >
-                            <Paper
-                                elevation={0}
-                                sx={{
-                                    width: "100%",
-                                    maxWidth: { xs: 310, sm: 450, md: 940 },
-
-                                    pt: { xs: 4.5, md: 3 },      // topo ok
-                                    px: { xs: 3.5, md: 3.5 },    // lados mantidos
-                                    pb: { xs: 2.5, sm: 5, md: 3.5 },    // reduz o espaço embaixo
-
-                                    borderRadius: 3,
-                                    border: "1.5px solid rgba(230, 81, 0, 0.35)",
-                                    bgcolor: "background.paper",
-                                    boxShadow:
-                                        "0 4px 12px rgba(230, 81, 0, 0.25), 0 8px 20px rgba(230, 81, 0, 0.18)",
+                            {/* TOTAL */}
+                            <h2
+                                className="total"
+                                style={{
+                                    margin: 0,
+                                    fontSize: "clamp(26px, 3.2vw, 40px)",
+                                    lineHeight: 1,
+                                    whiteSpace: "nowrap",
                                 }}
                             >
-                                {/* TOTAL */}
-                                <Typography
-                                    variant="h6"
+                                TOTAL R$: {checkout.toFixed(2)}
+                            </h2>
+
+                            {/* BOTÕES */}
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    gap: 1.2, // botões mais juntinhos
+                                }}
+                            >
+                                {/* <Button
+                                    onClick={handleCheckout}
+                                    variant="contained"
                                     sx={{
-                                        fontWeight: 800,
-                                        color: "#e65100",
-                                        textAlign: "center",
-                                        fontSize: { xs: "23px", md: "28px" },
-                                        mb: 2,
+                                        width: { xs: 48, sm: 55 },
+                                        height: 40,
+                                        borderRadius: 2,
+                                        backgroundColor: "#e65100",
+                                        "&:hover": { backgroundColor: "#b33f00" },
                                     }}
                                 >
-                                    TOTAL R$: {checkout.toFixed(2)}
-                                </Typography>
+                                    <Badge badgeContent={totalItems} color="primary" overlap="circular" showZero={false}>
+                                        <ShoppingCartIcon sx={{ fontSize: 26, color: "#ffe0c7" }} />
+                                    </Badge>
+                                </Button> */}
 
-                                {/* BUTTONS */}
-                                <Box
+                                <Button
+                                    variant="contained"
+                                    onClick={handleClearCart}
                                     sx={{
-                                        display: "flex",
-                                        gap: 2,
-                                        justifyContent: "center",
-                                        width: "100%",
-                                        pb: { xs: 2, sm: 0 }, // espaço pro NavFooter
+                                        minWidth: { xs: 30, sm: 45 },   // 🔥 ISSO resolve
+                                        width: { xs: 45, sm: 45, md: 57 },
+                                        height: { xs: 30, md: 35 },
+                                        borderRadius: 2,
+                                        backgroundColor: "#e65100",
+                                        "&:hover": { backgroundColor: "#b33f00" },
+                                        p: 0, // remove padding extra
                                     }}
                                 >
-                                    <Button
-                                        className="btns-checkout-clearCart"
-                                        onClick={handleCheckout}
-                                        variant="contained"
-                                        sx={{
-                                            width: { xs: 55, sm: 75 },
-                                            height: 40,
-                                            borderRadius: 2,
-                                            backgroundColor: "#e65100",
-                                            "&:hover": { backgroundColor: "#b33f00" },
-                                        }}
-                                    >
-                                        <Badge
-                                            badgeContent={totalItems}
-                                            color="primary"
-                                            overlap="circular"
-                                            showZero={false}
-                                        >
-                                            <ShoppingCartIcon sx={{ fontSize: { xs: 26, md: 29 }, color: "#ffe0c7" }} />
-                                        </Badge>
-                                    </Button>
+                                    <DeleteForeverIcon
+                                        sx={{ fontSize: { xs: 21, md: 28 }, color: "#ffe0c7" }}
+                                    />
+                                </Button>
 
-                                    <Button
-                                        className="btns-checkout-clearCart"
-                                        variant="contained"
-                                        onClick={handleClearCart}
-                                        sx={{
-                                            width: { xs: 55, sm: 75 },
-                                            height: 40,
-                                            borderRadius: 2,
-                                            backgroundColor: "#e65100",
-                                            "&:hover": { backgroundColor: "#b33f00" },
-                                        }}
-                                    >
-                                        <DeleteForeverIcon sx={{ fontSize: { xs: 28, md: 30 }, color: "#ffe0c7" }} />
-                                    </Button>
-                                </Box>
-                            </Paper>
+                            </Box>
                         </Box>
                     </>
                 )}
+
+
 
                 {showDriveThru && (
                     <Box sx={{ mb: { xs: 5, md: 2 } }}>
@@ -707,7 +672,7 @@ export default function Home() {
                                 textShadow: "0px 0px 4px rgba(230, 81, 0, 0.20)",
                             }}
                         >
-                            Menu
+                            Quick add Menu:
                         </Typography>
 
                         {/* MINI CARDS */}
