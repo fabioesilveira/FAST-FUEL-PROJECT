@@ -9,9 +9,6 @@ import {
     Typography,
     TextField,
     Button,
-    FormGroup,
-    FormControlLabel,
-    Checkbox,
 } from "@mui/material";
 
 type User = {
@@ -33,7 +30,7 @@ export default function SignUp() {
 
     const navigate = useNavigate();
 
-    const isMobile = useMediaQuery("(max-width:1650px)"); // quando o botao vai pra parte debaixo.
+    const isMobile = useMediaQuery("(max-width:900px)");
 
     useEffect(() => {
         if (localStorage.getItem("idUser")) {
@@ -112,6 +109,8 @@ export default function SignUp() {
         }
     }
 
+    const FOOTER_HEIGHT = 75;
+
     return (
         <>
             <Box
@@ -125,52 +124,36 @@ export default function SignUp() {
                     boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
                 }}
             >
-                {/* LEFT SIDE – solid stripe panel */}
-                <Box
-                    sx={{
-                        flexShrink: 0,
-                        boxSizing: "border-box",
-                        backgroundImage: `repeating-linear-gradient(
-              to right,
-              rgba(255, 244, 225, 0.4),
-              rgba(255, 244, 225, 0.4) 20px,
-              transparent 20px,
-              transparent 40px
-            )`,
-                        backgroundSize: "100% 40px",
-                        backgroundRepeat: "repeat-y",
-                        backgroundAttachment: "fixed",
-                        borderLeft: "3px solid #e65100",
-                        boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
-                    }}
-                />
-
-                {/* MIDDLE – Stripe Background (invertido) */}
+                {/* MIDDLE – Stripe Background (desliga no mobile) */}
                 <Box
                     sx={{
                         flex: 3,
                         position: "relative",
-                        backgroundImage: `
-              linear-gradient(
-                to left,
-                #fff4e1 0%,
-                #fff4e1 25%,
-                rgba(255, 244, 225, 0.7) 25%,
-                rgba(255, 244, 225, 0.0) 45%
-              ),
-              repeating-linear-gradient(
-                to right,
-                rgba(255, 244, 225, 0.4),
-                rgba(255, 244, 225, 0.4) 20px,
-                transparent 20px,
-                transparent 40px
-              )
-            `,
-                        backgroundSize: "100% 40px, 100% 40px",
-                        backgroundRepeat: "repeat-y, repeat-y",
-                        backgroundAttachment: "fixed",
+                        background: isMobile ? "#fff4e1" : "transparent",
+                        backgroundImage: isMobile
+                            ? "none"
+                            : `
+        linear-gradient(
+          to left,
+          #fff4e1 0%,
+          #fff4e1 25%,
+          rgba(255, 244, 225, 0.7) 25%,
+          rgba(255, 244, 225, 0.0) 45%
+        ),
+        repeating-linear-gradient(
+          to right,
+          rgba(255, 244, 225, 0.4),
+          rgba(255, 244, 225, 0.4) 20px,
+          transparent 20px,
+          transparent 40px
+        )
+      `,
+                        backgroundSize: isMobile ? "auto" : "100% 40px, 100% 40px",
+                        backgroundRepeat: isMobile ? "no-repeat" : "repeat-y, repeat-y",
+                        backgroundAttachment: isMobile ? "scroll" : "fixed",
                     }}
                 />
+
 
                 {/* RIGHT SIDE – Cream with logo */}
                 <Box
@@ -180,7 +163,7 @@ export default function SignUp() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "flex-start",
-                        pt: { xs: 40, sm: 40, md: 4 },     // padding-top responsivo
+                        pt: { xs: 70, sm: 70, md: 17 }, // padding-top responsivo
                     }}
                 >
                     <Box
@@ -189,8 +172,8 @@ export default function SignUp() {
                         alt="Fast Fuel Logo"
                         sx={{
                             width: {
-                                xs: 140,   // mobile
-                                sm: 200,   // tablet
+                                xs: 120,   // mobile
+                                sm: 140,   // tablet
                                 md: 220,   // desktop
                             },
 
@@ -209,12 +192,14 @@ export default function SignUp() {
                 <Box
                     sx={{
                         position: "absolute",
-                        inset: 0,
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        height: `calc(100vh - ${FOOTER_HEIGHT}px)`,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         p: 2,
-                        mt: -30,
                     }}
                 >
                     <Paper
@@ -223,6 +208,7 @@ export default function SignUp() {
                             width: "100%",
                             maxWidth: 520,
                             p: 3.5,
+                            pb: 5,
                             borderRadius: 3,
                             border: "1.5px solid rgba(230, 81, 0, 0.35)",
                             bgcolor: "background.paper",
@@ -243,6 +229,7 @@ export default function SignUp() {
                             align="center"
                             sx={{
                                 mb: 1.5,
+                                mt: 0.5,
                                 letterSpacing: "0.12em",
                                 textTransform: "uppercase",
                                 color: "#e65100",
@@ -335,14 +322,6 @@ export default function SignUp() {
                                 fullWidth
                             />
 
-                            <FormGroup sx={{ mt: 0.5 }}>
-                                <FormControlLabel
-                                    control={<Checkbox defaultChecked />}
-                                    label="I agree to the terms of service"
-                                    sx={{ fontSize: "0.85rem" }}
-                                />
-                            </FormGroup>
-
                             <Button
                                 variant="contained"
                                 onClick={handleClick}
@@ -383,7 +362,7 @@ export default function SignUp() {
                             <Button
                                 variant="contained"
                                 fullWidth
-                                onClick={() => navigate("/deleteaccount")}
+                                onClick={() => navigate("/")}
                                 sx={{
                                     mt: 1,
                                     borderRadius: 2,
