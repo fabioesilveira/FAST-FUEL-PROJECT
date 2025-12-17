@@ -174,9 +174,7 @@ export default function Burguers() {
   const { order, setOrder } = useAppContext();
 
   const navigate = useNavigate();
-  const handleDrawerNavigate = (category: string) => {
-    navigate(`/${category.toLowerCase()}`);
-  };
+  
 
   const theme = useTheme();
   const isMobileTablet = useMediaQuery(theme.breakpoints.down("md"));
