@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import Badge from '@mui/material/Badge';
 import axios from "axios";
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
@@ -484,8 +482,7 @@ export default function Home() {
             {!isMobile && <CategoryDrawer onNavigate={handleDrawerNavigate} />}
 
             <Container className="margin-top" fixed sx={{ flexGrow: 2 }}>
-
-                <div className="div-h2-drive-thru">
+                 <div className="div-h2-drive-thru">
                     <button
                         className={`drive-thru-box ${showDriveThru ? "drive-thru-static" : ""}`}
                         type="button"
@@ -505,7 +502,7 @@ export default function Home() {
                         display: "flex",
                         justifyContent: "center",
                         mb: { xs: 1, md: 2 },
-                        mt: {xs:-1, md: -1},
+                        mt: {xs:-1, md: -1.5},
                         px: { xs: 1.5, md: 0 }, // evita quebrar em telas pequenas
                     }}
                 >
@@ -623,7 +620,7 @@ export default function Home() {
                                     variant="contained"
                                     onClick={handleClearCart}
                                     sx={{
-                                        minWidth: { xs: 30, sm: 45 },   // 🔥 ISSO resolve
+                                        minWidth: { xs: 30, sm: 45 },   //deixa mexer no tamanho dos botoes
                                         width: { xs: 45, sm: 45, md: 57 },
                                         height: { xs: 30, md: 35 },
                                         borderRadius: 2,

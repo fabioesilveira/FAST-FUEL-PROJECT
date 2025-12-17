@@ -558,9 +558,10 @@ body {
 /* Mobile (até 600px) – continua centralizado, menorzinho */
 @media (max-width: 600px) {
   .h2-products-background {
-    font-size: 40px;
+    font-size: 42px;
     letter-spacing: 0.12em;
     margin-top: 100px;
+
   }
 }
 
@@ -577,7 +578,7 @@ body {
 /* Mobile */
 @media (max-width: 600px) {
   .nav-products-page {
-    margin-top: 34px;
+    margin-top: 36px;
     gap: 18px;
   }
 }

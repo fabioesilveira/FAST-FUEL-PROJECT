@@ -17,6 +17,7 @@ import NavbarProducts from '../components/NavbarProducts';
 import Typography from '@mui/material/Typography';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import HomeIcon from '@mui/icons-material/Home';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -286,7 +287,7 @@ export default function Burguers() {
   return (
     <>
       <NavbarProducts />
-      <DrawerProducts onNavigate={handleDrawerNavigate} />
+      <DrawerProducts />
       <h2 className='h2-products-background'>BURGUERS</h2>
       <Container className="margin-top" fixed>
 
@@ -297,8 +298,8 @@ export default function Burguers() {
           sx={{
             display: { xs: "flex", sm: "flex", md: "none" },
             justifyContent: "center",
-            gap: 4,      // diminui o espaço horizontal
-            mt: -5.5,      // puxa o grupo para cima
+            gap: 3,      // diminui o espaço horizontal
+            mt: -5,      // puxa o grupo para cima
             mb: -2,       // diminui o espaço antes dos cards
           }}
         >
@@ -307,7 +308,7 @@ export default function Burguers() {
             variant="contained"
             onClick={() => navigate('/')}
             sx={{
-              width: 72,
+              width: {xs:72, sm:80},
               height: 42,
               marginTop: -5.5,
 
@@ -315,7 +316,7 @@ export default function Burguers() {
               backgroundColor: '#e65100',
             }}
           >
-            <ArrowCircleLeftIcon
+            <HomeIcon
               sx={{
                 fontSize: 29,
                 color: '#ffe0c7',
@@ -328,7 +329,7 @@ export default function Burguers() {
             variant="contained"
             onClick={() => navigate('/checkout')}
             sx={{
-              width: 72,
+              width: {xs:72, sm:80},
               height: 42,
               borderRadius: 2,
               marginTop: -5.5,
@@ -344,7 +345,7 @@ export default function Burguers() {
             >
               <ShoppingCartIcon
                 sx={{
-                  fontSize: 28,
+                  fontSize: 29,
                   color: '#ffe0c7',
                 }}
               />
@@ -360,13 +361,13 @@ export default function Burguers() {
             onClick={() => navigate('/')}
             sx={{
               display: { xs: "none", sm: "none", md: "inline-flex" },
-              width: 80,
+              width: 85,
               height: 50,
               borderRadius: 2,
               backgroundColor: '#e65100'
             }}
           >
-            <ArrowCircleLeftIcon sx={{ fontSize: 36, color: '#ffe0c7' }} />
+            <HomeIcon sx={{ fontSize: 36, color: '#ffe0c7' }} />
           </Button>
 
           {/* BURGUERS (ATUAL) */}
@@ -374,7 +375,7 @@ export default function Burguers() {
             variant="contained"
             disabled
             sx={{
-              width: { xs: 72, sm: 70, md: 90 },
+              width: { xs: 75, sm: 80, md: 85 },
               height: { xs: 42, sm: 45, md: 55 },
               borderRadius: 2,
               backgroundColor: '#ffe0c7',
@@ -385,7 +386,7 @@ export default function Burguers() {
               },
             }}
           >
-            <LunchDiningIcon sx={{ fontSize: { xs: 32, sm: 35, md: 39 }, color: '#eb631aff' }} />
+            <LunchDiningIcon sx={{ fontSize: { xs: 34, sm: 35, md: 39 }, color: '#eb631aff' }} />
           </Button>
 
           {/* SIDES */}
@@ -393,7 +394,7 @@ export default function Burguers() {
             variant="contained"
             onClick={() => navigate('/sides')}
             sx={{
-              width: { xs: 72, sm: 65, md: 80 },
+              width: { xs: 75, sm: 80, md: 85 },
               height: { xs: 42, sm: 45, md: 50 },
               borderRadius: 2,
               backgroundColor: '#ffe0c7'
@@ -404,8 +405,8 @@ export default function Burguers() {
               src={FriesIcon}
               alt="Drink icon"
               sx={{
-                width: { xs: 45, sm: 42, md: 44 },
-                height: { xs: 38, sm: 39, md: 46 },
+                width: { xs: 43, sm: 42, md: 44 },
+                height: { xs: 37, sm: 39, md: 46 },
                 objectFit: "contain",
                 transition: "transform 0.2s ease",
                 display: "block",
@@ -418,7 +419,7 @@ export default function Burguers() {
             variant="contained"
             onClick={() => navigate('/beverages')}
             sx={{
-              width: { xs: 72, sm: 65, md: 80 },
+              width: { xs: 75, sm: 80, md: 85 },
               height: { xs: 42, sm: 45, md: 50 },
               borderRadius: 2,
               backgroundColor: '#ffe0c7',
@@ -429,7 +430,7 @@ export default function Burguers() {
               src={SodaIcon}
               alt="Drink icon"
               sx={{
-                width: { xs: 45, sm: 42, md: 80 },
+                width: { xs: 45, sm: 42, md: 45 },
                 height: { xs: 38, sm: 39, md: 43 },
                 objectFit: "contain",
                 transition: "transform 0.2s ease",
@@ -443,7 +444,7 @@ export default function Burguers() {
             variant="contained"
             onClick={() => navigate('/desserts')}
             sx={{
-              width: { xs: 72, sm: 65, md: 80 },
+              width: { xs: 75, sm: 80, md: 85 },
               height: { xs: 42, sm: 45, md: 50 },
               borderRadius: 2,
               backgroundColor: '#ffe0c7'
@@ -458,7 +459,7 @@ export default function Burguers() {
             onClick={() => navigate('/checkout')}
             sx={{
               display: { xs: "none", sm: "none", md: "inline-flex" },
-              width: 80,
+              width: 85,
               height: 48,
               borderRadius: 2,
               backgroundColor: '#e65100'

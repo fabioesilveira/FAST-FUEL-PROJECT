@@ -112,7 +112,7 @@ export default function Beverages() {
   return (
     <>
       <NavbarProducts />
-      <DrawerProducts onNavigate={handleDrawerNavigate} />
+      <DrawerProducts />
       <h2 className='h2-products-background'>BEVERAGES</h2>
       <Container className="margin-top" fixed>
 
