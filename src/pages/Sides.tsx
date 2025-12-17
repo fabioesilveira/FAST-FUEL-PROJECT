@@ -402,10 +402,15 @@ export default function Sides() {
               width: { xs: 75, sm: 80, md: 85 },
               height: { xs: 42, sm: 45, md: 55 },
               borderRadius: 2,
-              backgroundColor: '#ffe0c7',
-              '&.Mui-disabled': {
-                backgroundColor: '#ffe0c7',
-                boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
+              backgroundColor: "#ffe0c7",
+
+              padding: 0,              // ESSENCIAL
+              minWidth: 0,             // evita trava do MUI
+
+              "&.Mui-disabled": {
+                backgroundColor: "#ffe0c7",
+                boxShadow:
+                  "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
                 opacity: 1,
               },
             }}
@@ -415,8 +420,8 @@ export default function Sides() {
               src={FriesIcon}
               alt="Drink icon"
               sx={{
-                width: { xs: 43, sm: 42, md: 44 },
-                height: { xs: 37, sm: 39, md: 46 },
+                width: { xs: 43, sm: 42, md: 47 },
+                height: { xs: 40, sm: 42, md: 50 },
                 objectFit: "contain",
                 transition: "transform 0.2s ease",
                 display: "block",

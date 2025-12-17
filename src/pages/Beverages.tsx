@@ -24,6 +24,7 @@ import CookieIcon from '@mui/icons-material/Cookie';
 import FriesIcon from '../assets/frenchFries.png';
 import SodaIcon from '../assets/soda.png';
 import DrawerProducts from '../components/DrawerProducts';
+import NavFooterProducts from '../components/NavFooterProducts';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -172,7 +173,9 @@ export default function Beverages() {
   //  global cart from context (same cart as Home)
   const { order, setOrder } = useAppContext();
 
-    const theme = useTheme();
+  const navigate = useNavigate();
+
+  const theme = useTheme();
   const isMobileTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isDesktop = useMediaQuery(theme.breakpoints.up("lg")); // md+ = desktop
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -231,7 +234,7 @@ export default function Beverages() {
     }
   }
 
-   const imageStyles: { [id: string]: React.CSSProperties } = {
+  const imageStyles: { [id: string]: React.CSSProperties } = {
     "5": { width: "180px", height: "140px", marginTop: "60px" },  // Coke
     "6": { width: "125px", height: "190px", marginTop: "33px" },  // Sprite
     "7": { width: "160px", height: "160px", marginTop: "47px" },  // Dr. Pepper
@@ -239,21 +242,53 @@ export default function Beverages() {
     "9": { width: "247px", height: "170px", marginTop: "40px" },  // Diet Coke
     "10": { width: "170px", height: "179px", marginTop: "37px" }, // Lemonade
   };
-  
-    const imageStylesMobile: Record<string, React.CSSProperties> = {
-      "5": { width: "130px", height: "120px" },
-      "6": { width: "220px", height: "210px" },
-      "3": { width: "158px", height: "118px", marginTop: "10px" },
-      "4": { width: "190px", height: "135px" },
-    };
-  
-    const imageStylesDesktop: Record<string, React.CSSProperties> = {
-      "1": { width: "130px", height: "120px" }, // Pit Stop Classic
-      "2": { width: "220px", height: "210px" }, // Turbo Bacon
-      "3": { width: "158px", height: "118px", marginTop: "10px" }, // Double Gear
-      "4": { width: "190px", height: "135px" }, // Fuel Monster
-    };
 
+  const imageStylesMobile: Record<string, React.CSSProperties> = {
+    "5": { width: "130px", height: "120px" },
+    "6": { width: "220px", height: "210px" },
+    "7": { width: "158px", height: "118px", marginTop: "10px" },
+    "8": { width: "190px", height: "135px" },
+    "9": { width: "247px", height: "170px", marginTop: "40px" },  // Diet Coke
+    "10": { width: "170px", height: "179px", marginTop: "37px" }, // Lemonade
+  };
+
+  const imageStylesDesktop: Record<string, React.CSSProperties> = {
+    "5": { width: "130px", height: "120px" }, // Pit Stop Classic
+    "6": { width: "220px", height: "210px" }, // Turbo Bacon
+    "7": { width: "158px", height: "118px", marginTop: "10px" }, // Double Gear
+    "8": { width: "190px", height: "135px" }, // Fuel Monster
+    "9": { width: "247px", height: "170px", marginTop: "40px" },  // Diet Coke
+    "10": { width: "170px", height: "179px", marginTop: "37px" }, // Lemonade
+  };
+
+  const mobileTabletGrid = (
+    <Box
+      sx={{
+        display: "grid",
+        justifyContent: "center",
+        gap: 3,
+        gridTemplateColumns: {
+          xs: "repeat(1, 300px)",
+          sm: "repeat(2, 300px)",
+        },
+        mt: 4.5,
+        mb: 10,
+      }}
+    >
+      {data.map((product) => (
+        <ProductCard
+          key={product.id}
+          product={product}
+          onAdd={handleOrder}
+          imgStyle={
+            isMobileTablet
+              ? (imageStylesMobile[product.id] ?? {})
+              : (imageStylesDesktop[product.id] ?? {})
+          }
+        />
+      ))}
+    </Box>
+  );
 
   return (
     <>
@@ -261,7 +296,7 @@ export default function Beverages() {
 
       {!isMobile && <DrawerProducts />}
 
-      <h2 className='h2-products-background'>BURGUERS</h2>
+      <h2 className='h2-products-background'>BEVERAGES</h2>
       <Container className="margin-top" fixed>
 
 
@@ -346,20 +381,15 @@ export default function Beverages() {
           {/* BURGUERS (ATUAL) */}
           <Button
             variant="contained"
-            disabled
+            onClick={() => navigate('/burguers')}
             sx={{
               width: { xs: 75, sm: 80, md: 85 },
-              height: { xs: 42, sm: 45, md: 55 },
+              height: { xs: 42, sm: 45, md: 50 },
               borderRadius: 2,
-              backgroundColor: '#ffe0c7',
-              '&.Mui-disabled': {
-                backgroundColor: '#ffe0c7',
-                boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
-                opacity: 1,
-              },
+              backgroundColor: '#ffe0c7'
             }}
           >
-            <LunchDiningIcon sx={{ fontSize: { xs: 34, sm: 35, md: 39 }, color: '#eb631aff' }} />
+            <LunchDiningIcon sx={{ fontSize: { xs: 31, sm: 34, md: 37 }, color: '#eb631aff' }} />
           </Button>
 
           {/* SIDES */}
@@ -390,12 +420,22 @@ export default function Beverages() {
           {/* BEVERAGES */}
           <Button
             variant="contained"
-            onClick={() => navigate('/beverages')}
+            disabled
             sx={{
-              width: { xs: 75, sm: 80, md: 85 },
-              height: { xs: 42, sm: 45, md: 50 },
+              width: { xs: 77, sm: 80, md: 85 },
+              height: { xs: 42, sm: 45, md: 56 },
               borderRadius: 2,
-              backgroundColor: '#ffe0c7',
+              backgroundColor: "#ffe0c7",
+
+              padding: 0,              // ESSENCIAL
+              minWidth: 0,             // evita trava do MUI
+
+              "&.Mui-disabled": {
+                backgroundColor: "#ffe0c7",
+                boxShadow:
+                  "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
+                opacity: 1,
+              },
             }}
           >
             <Box
@@ -403,8 +443,8 @@ export default function Beverages() {
               src={SodaIcon}
               alt="Drink icon"
               sx={{
-                width: { xs: 45, sm: 42, md: 45 },
-                height: { xs: 38, sm: 39, md: 43 },
+                width: { xs: 45, sm: 42, md: 50 },
+                height: { xs: 40, sm: 42, md: 47 },
                 objectFit: "contain",
                 transition: "transform 0.2s ease",
                 display: "block",

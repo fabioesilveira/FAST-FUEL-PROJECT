@@ -174,7 +174,6 @@ export default function Burguers() {
   const { order, setOrder } = useAppContext();
 
   const navigate = useNavigate();
-  
 
   const theme = useTheme();
   const isMobileTablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -408,7 +407,7 @@ export default function Burguers() {
               alt="Drink icon"
               sx={{
                 width: { xs: 43, sm: 42, md: 44 },
-                height: { xs: 37, sm: 39, md: 46 },
+                height: { xs: 37, sm: 39, md: 44 },
                 objectFit: "contain",
                 transition: "transform 0.2s ease",
                 display: "block",
