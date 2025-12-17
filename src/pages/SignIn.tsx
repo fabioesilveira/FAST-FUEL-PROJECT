@@ -244,7 +244,6 @@ export default function SignIn() {
                             <Button
                                 variant="contained"
                                 onClick={handleClick}
-                                className="signin-button"
                                 sx={{
                                     mt: 1,
                                     borderRadius: 2,
@@ -280,18 +279,19 @@ export default function SignIn() {
                             <Button
                                 variant="contained"
                                 onClick={() => navigate("/sign-up")}
-                                className="signin-button"
                                 sx={{
+                                    mt: 1,
                                     borderRadius: 2,
                                     textTransform: "uppercase",
-                                    bgcolor: "#ffe0c7",
-                                    color: "#e65100",
+                                    bgcolor: "#e65100",
+                                    color: "#ffe0c7",
                                     letterSpacing: "0.12em",
                                     fontWeight: 700,
-                                    boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
+                                    boxShadow: "0 6px 16px rgba(0,0,0,0.35)",
                                     "&:hover": {
-                                        bgcolor: "#fff4e1",
-                                        boxShadow: "0 6px 16px rgba(0,0,0,0.35)",
+                                        bgcolor: "#ffe0c7",
+                                        color: "#e65100",
+                                        boxShadow: "0 8px 20px rgba(0,0,0,0.45)",
                                     },
                                 }}
                             >
@@ -317,7 +317,6 @@ export default function SignIn() {
                                         boxShadow: "0 8px 20px rgba(0,0,0,0.45)",
                                     },
                                 }}
-
                             >
                                 Continue as guest
                             </Button>

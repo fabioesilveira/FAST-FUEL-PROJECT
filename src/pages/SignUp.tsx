@@ -259,10 +259,10 @@ export default function SignUp() {
                             autoComplete="off"
                             sx={{
                                 width: "100%",
-                                maxWidth: 380,
+                                maxWidth: 360,
                                 display: "flex",
                                 flexDirection: "column",
-                                gap: 1.6,
+                                gap: 2,
                             }}
                         >
                             <TextField
