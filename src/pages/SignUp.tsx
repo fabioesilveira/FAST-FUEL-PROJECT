@@ -380,91 +380,32 @@ export default function SignUp() {
                             >
                                 Already have an account? Sign In
                             </Button>
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                onClick={() => navigate("/deleteaccount")}
+                                sx={{
+                                    mt: 1,
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    bgcolor: "#e65100",
+                                    color: "#ffe0c7",
+                                    letterSpacing: "0.12em",
+                                    fontWeight: 700,
+                                    boxShadow: "0 6px 16px rgba(0,0,0,0.35)",
+                                    "&:hover": {
+                                        bgcolor: "#ffe0c7",
+                                        color: "#e65100",
+                                        boxShadow: "0 8px 20px rgba(0,0,0,0.45)",
+                                    },
+                                }}
+
+                            >
+                                Continue as guest
+                            </Button>
                         </Box>
                     </Paper>
                 </Box>
-
-                {!isMobile && (
-                    <Box
-                        sx={{
-                            position: "absolute",
-                            top: 255,
-                            right: 88,
-                            display: "flex",
-                            zIndex: 2,
-                        }}
-                    >
-                        <Button
-                            size="large"
-                            variant="contained"
-                            onClick={() => navigate("/")}
-                            sx={{
-                                width: 250,
-                                borderRadius: 2,
-                                textTransform: "uppercase",
-                                bgcolor: "#e65100",
-                                color: "#ffe0c7",
-                                letterSpacing: "0.16em",
-                                fontWeight: 700,
-                                boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
-                                "&:hover": {
-                                    bgcolor: "#ffe0c7",
-                                    color: "#e65100",
-                                    boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
-                                },
-                                "&:active": {
-                                    bgcolor: "#ffe0c7",
-                                    color: "#e65100",
-                                    transform: "scale(0.98)",
-                                    boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                                },
-                            }}
-                        >
-                            Continue as guest
-                        </Button>
-                    </Box>
-                )}
-            </Box>
-
-            <Box
-                sx={{
-                    position: "fixed",
-                    bottom: 0,
-                    left: 0,
-                    width: "100%",
-                    zIndex: 2000,
-                }}
-            >
-                {isMobile && (
-                    <Box
-                        sx={{
-                            width: "100%",
-                            display: "flex",
-                            justifyContent: "center",
-                            mb: 3.5,
-                            zIndex: 5,
-                        }}
-                    >
-                        <Button
-                            size="large"
-                            variant="contained"
-                            fullWidth
-                            onClick={() => navigate("/")}
-                            sx={{
-                                maxWidth: 340,
-                                borderRadius: 2,
-                                textTransform: "uppercase",
-                                bgcolor: "#e65100",
-                                color: "#ffe0c7",
-                                letterSpacing: "0.16em",
-                                fontWeight: 700,
-                                boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
-                            }}
-                        >
-                            Continue as guest
-                        </Button>
-                    </Box>
-                )}
 
                 <Footer />
             </Box>
