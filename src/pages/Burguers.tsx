@@ -178,7 +178,6 @@ export default function Burguers() {
   const theme = useTheme();
   const isMobileTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isDesktop = useMediaQuery(theme.breakpoints.up("lg")); // md+ = desktop
-  
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   // total items for badge
