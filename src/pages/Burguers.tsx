@@ -8,7 +8,6 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Footer from "../components/Footer";
-import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import { useNavigate } from 'react-router-dom';
@@ -166,6 +165,7 @@ import CookieIcon from '@mui/icons-material/Cookie';
 import FriesIcon from '../assets/frenchFries.png';
 import SodaIcon from '../assets/soda.png';
 import DrawerProducts from '../components/DrawerProducts';
+import NavFooterProducts from '../components/NavFooterProducts';
 
 export default function Burguers() {
   const [data, setData] = useState<Meal[]>([]);
@@ -181,6 +181,8 @@ export default function Burguers() {
   const theme = useTheme();
   const isMobileTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isDesktop = useMediaQuery(theme.breakpoints.up("lg")); // md+ = desktop
+  
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   // total items for badge
   const totalItems = order.reduce(
@@ -287,7 +289,9 @@ export default function Burguers() {
   return (
     <>
       <NavbarProducts />
-      <DrawerProducts />
+
+      {!isMobile && <DrawerProducts/>}
+     
       <h2 className='h2-products-background'>BURGUERS</h2>
       <Container className="margin-top" fixed>
 
@@ -602,7 +606,8 @@ export default function Burguers() {
           zIndex: 2000,
         }}
       >
-        <Footer />
+
+       {isMobile ? <NavFooterProducts /> : <Footer />}
       </Box>
     </>
   );
