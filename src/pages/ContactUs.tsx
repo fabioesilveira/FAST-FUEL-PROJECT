@@ -6,8 +6,6 @@ import {
     Typography,
     TextField,
     Button,
-    Stack,
-
 } from "@mui/material";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
@@ -35,7 +33,7 @@ export default function ContactUs() {
 
     const navigate = useNavigate();
 
-    const isMobile = useMediaQuery("(max-width:1650px)");
+    const isMobile = useMediaQuery("(max-width:900px)");
 
     async function handleClick() {
 
@@ -79,6 +77,8 @@ export default function ContactUs() {
         }));
     }
 
+    const FOOTER_HEIGHT = 75;
+
     return (
         <>
             <Box
@@ -92,56 +92,37 @@ export default function ContactUs() {
                     boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
                 }}
             >
-                {/* LEFT SIDE – solid stripe panel */}
-                <Box
-                    sx={{
 
-                        flexShrink: 0,
-                        boxSizing: "border-box",
-                        backgroundImage: `repeating-linear-gradient(
-                                  to right,
-                                rgba(255, 244, 225, 0.4),
-                                rgba(255, 244, 225, 0.4) 20px,
-                                  transparent 20px,
-                                  transparent 40px
-                                   )`,
-                        backgroundSize: "100% 40px",
-                        backgroundRepeat: "repeat-y",
-                        backgroundAttachment: "fixed",
-                        borderLeft: "3px solid #e65100",
-                        boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
-
-                    }}
-
-                />
-
-
-                {/* MIDDLE – Stripe Background (invertido) */}
+                {/* MIDDLE – Stripe Background (desliga no mobile) */}
                 <Box
                     sx={{
                         flex: 3,
                         position: "relative",
-                        backgroundImage: `
-                      linear-gradient(
-                        to left,
-                        #fff4e1 0%,
-                        #fff4e1 25%,
-                        rgba(255, 244, 225, 0.7) 25%,
-                        rgba(255, 244, 225, 0.0) 45%
-                      ),
-                      repeating-linear-gradient(
-                        to right,
-                        rgba(255, 244, 225, 0.4),
-                        rgba(255, 244, 225, 0.4) 20px,
-                        transparent 20px,
-                        transparent 40px
-                      )
-                    `,
-                        backgroundSize: "100% 40px, 100% 40px",
-                        backgroundRepeat: "repeat-y, repeat-y",
-                        backgroundAttachment: "fixed",
+                        background: isMobile ? "#fff4e1" : "transparent",
+                        backgroundImage: isMobile
+                            ? "none"
+                            : `
+                            linear-gradient(
+                            to left,
+                            #fff4e1 0%,
+                            #fff4e1 25%,
+                            rgba(255, 244, 225, 0.7) 25%,
+                            rgba(255, 244, 225, 0.0) 45%
+                             ),
+                            repeating-linear-gradient(
+                            to right,
+                            rgba(255, 244, 225, 0.4),
+                            rgba(255, 244, 225, 0.4) 20px,
+                              transparent 20px,
+                              transparent 40px
+                               )
+                               `,
+                        backgroundSize: isMobile ? "auto" : "100% 40px, 100% 40px",
+                        backgroundRepeat: isMobile ? "no-repeat" : "repeat-y, repeat-y",
+                        backgroundAttachment: isMobile ? "scroll" : "fixed",
                     }}
                 />
+
 
                 {/* RIGHT SIDE – Cream with logo */}
                 <Box
@@ -151,7 +132,7 @@ export default function ContactUs() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "flex-start",
-                        pt: { xs: 40, sm: 40, md: 4 },     // padding-top responsive
+                        pt: { xs: 70, sm: 73, md: 17 }, // padding-top responsivo
                     }}
                 >
                     <Box
@@ -160,8 +141,8 @@ export default function ContactUs() {
                         alt="Fast Fuel Logo"
                         sx={{
                             width: {
-                                xs: 140,   // mobile
-                                sm: 200,   // tablet
+                                xs: 100,   // mobile
+                                sm: 120,   // tablet
                                 md: 220,   // desktop
                             },
 
@@ -170,17 +151,20 @@ export default function ContactUs() {
                             objectFit: "contain",
 
                             transform: {
-                                md: "scaleX(1.20)", // ESTICA SÓ NO DESKTOP NA HORIZONTAL
+                                md: "scaleX(1.1)",   // ESTICA SÓ NO DESKTOP NA HORIZONTAL
                             },
                         }}
                     />
                 </Box>
 
-                {/* paper overlay in center */}
+                {/* SIGN-UP CARD overlay in center */}
                 <Box
                     sx={{
                         position: "absolute",
-                        inset: 0,
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        height: `calc(100vh - ${FOOTER_HEIGHT}px)`,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -191,19 +175,34 @@ export default function ContactUs() {
                         elevation={0}
                         sx={{
                             width: "100%",
-                            maxWidth: 500,
-                            p: 3.5,
+                            maxWidth: {
+                                xs: 420,
+                                sm: 480,
+                                md: 520,
+                            },
+                            p: {
+                                xs: 2.5,
+                                sm: 3,
+                                md: 3.5,
+                            },
+                            pb: {
+                                xs: 4,
+                                sm: 4,
+                                md: 7,
+                            },
+                            pt: {
+                                xs: 3.5,
+                                sm: 5,
+                                md: 6,
+                            },
                             borderRadius: 3,
                             border: "1.5px solid rgba(230, 81, 0, 0.35)",
                             bgcolor: "background.paper",
-                            mt: -31.7,
                             boxShadow:
                                 "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
-                            transition: "all 0.3s ease",
-                            "&:hover": {
-                                boxShadow:
-                                    "0 6px 18px rgba(230, 81, 0, 0.45), 0 10px 28px rgba(230, 81, 0, 0.35)",
-                            },
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
                         }}
                     >
                         {/* Title */}
@@ -222,76 +221,75 @@ export default function ContactUs() {
                             Contact Us
                         </Typography>
 
-                        {/* Contact Form */}
-                        <Stack spacing={2}>
-                            {/* Name + Email */}
+                        {/* FORM */}
+                        <Box
+                            component="form"
+                            noValidate
+                            autoComplete="off"
+                            sx={{
+                                width: "100%",
+                                maxWidth: 360,
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 2,
+                            }}
+                        >
                             <TextField
+                                className="text-field-orange"
                                 size="small"
                                 label="Full Name"
-                                placeholder="Enter your full name"
                                 name="name"
                                 value={contactForm.name}
                                 onChange={handleChange}
                                 fullWidth
-                                variant="outlined"
-                                InputLabelProps={{ shrink: false }}
                             />
 
                             <TextField
+                                className="text-field-orange"
                                 size="small"
                                 label="Email"
-                                placeholder="Enter your email"
                                 type="email"
                                 name="email"
                                 value={contactForm.email}
                                 onChange={handleChange}
                                 fullWidth
-                                variant="outlined"
-                                InputLabelProps={{ shrink: false }}
                             />
 
-                            {/* Order Number + Phone on SAME LINE */}
-                            <Stack direction="row" spacing={1.5}>
+                            {/* Order + Phone */}
+                            <Box sx={{ display: "flex", gap: 1.5 }}>
                                 <TextField
+                                    className="text-field-orange"
                                     size="small"
                                     label="Order Number"
                                     type="number"
-                                    placeholder="Optional"
                                     name="orderNumber"
-                                    value={contactForm.orderNumber || ""} // nao mostra 0 quando vazio
+                                    value={contactForm.orderNumber || ""}
                                     onChange={handleChange}
                                     fullWidth
-                                    variant="outlined"
-                                    InputLabelProps={{ shrink: false }}
                                 />
 
                                 <TextField
+                                    className="text-field-orange"
                                     size="small"
                                     label="Phone Number"
-                                    placeholder="(000) 000-0000"
                                     name="phone"
                                     value={contactForm.phone}
                                     onChange={handleChange}
                                     fullWidth
-                                    variant="outlined"
-                                    InputLabelProps={{ shrink: false }}
                                 />
-                            </Stack>
+                            </Box>
 
-                            {/* Subject UNDER the line */}
                             <TextField
+                                className="text-field-orange"
                                 size="small"
                                 label="Subject"
-                                placeholder="Enter the subject"
                                 name="subject"
                                 value={contactForm.subject}
                                 onChange={handleChange}
                                 fullWidth
-                                variant="outlined"
-                                InputLabelProps={{ shrink: false }}
                             />
 
-                            {/* Message with Counter */}
+                            {/* Message */}
                             <Box>
                                 <Typography
                                     variant="caption"
@@ -306,9 +304,9 @@ export default function ContactUs() {
                                 </Typography>
 
                                 <TextField
+                                    className="text-field-orange"
                                     size="small"
                                     label="Message"
-                                    placeholder="Write your message here..."
                                     name="message"
                                     value={contactForm.message}
                                     onChange={handleChange}
@@ -316,19 +314,16 @@ export default function ContactUs() {
                                     multiline
                                     rows={5}
                                     inputProps={{ maxLength: 300 }}
-                                    variant="outlined"
-                                    InputLabelProps={{ shrink: false }}
                                 />
                             </Box>
 
-                            {/* Button */}
                             <Button
                                 fullWidth
                                 size="large"
                                 variant="contained"
                                 onClick={handleClick}
                                 sx={{
-                                    mt: 2,
+                                    mt: { xs: 1, sm: 1, md: 2 },
                                     borderRadius: 2,
                                     textTransform: "uppercase",
                                     bgcolor: "#e65100",
@@ -340,106 +335,45 @@ export default function ContactUs() {
                                         bgcolor: "#ffe0c7",
                                         color: "#e65100",
                                         boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
-                                    },
-                                    "&:active": {
-                                        bgcolor: "#ffe0c7",
-                                        color: "#e65100",
-                                        transform: "scale(0.98)",
-                                        boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
                                     },
                                 }}
                             >
                                 Send Message
                             </Button>
-                        </Stack>
-                    </Paper>
 
-
-                    {/* Cancel BUTTON – Left aligned */}
-                    {!isMobile && (
-                        <Box
-                            sx={{
-                                position: "absolute",
-                                top: 255,
-                                right: 88,
-                                display: "flex",
-                                zIndex: 2,
-                            }}
-                        >
                             <Button
-                                size="large"
-                                variant="contained"
+                                variant="outlined"
+                                fullWidth
                                 onClick={() => navigate("/")}
                                 sx={{
-                                    width: 250,
+                                    mt: { sm: 0.5, md: 2 },
                                     borderRadius: 2,
                                     textTransform: "uppercase",
-                                    bgcolor: "#e65100",
-                                    color: "#ffe0c7",
-                                    letterSpacing: "0.16em",
+                                    border: "2px solid #e65100",
+                                    color: "#e65100",
+                                    letterSpacing: "0.12em",
                                     fontWeight: 700,
-                                    boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
+                                    bgcolor: "#fff4e1",
+                                    boxShadow: "0 3px 10px rgba(0,0,0,0.18)",
                                     "&:hover": {
                                         bgcolor: "#ffe0c7",
-                                        color: "#e65100",
-                                        boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
-                                    },
-                                    "&:active": {
-                                        bgcolor: "#ffe0c7",
-                                        color: "#e65100",
-                                        transform: "scale(0.98)",
-                                        boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
+                                        boxShadow: "0 6px 16px rgba(0,0,0,0.28)",
                                     },
                                 }}
                             >
                                 Cancel
                             </Button>
                         </Box>
-                    )}
-                </Box>
-            </Box>
+                    </Paper>
 
-            <Box
-                sx={{
-                    position: "fixed",
-                    bottom: 0,
-                    left: 0,
-                    width: "100%",
-                    zIndex: 2000,
-                }}
-            >
-                {isMobile && (
-                    <Box
-                        sx={{
-                            width: "100%",
-                            display: "flex",
-                            justifyContent: "center",
-                            mb: 3.5,
-                            zIndex: 5,
-                        }}
-                    >
-                        <Button
-                            size="large"
-                            variant="contained"
-                            fullWidth
-                            onClick={() => navigate("/")}
-                            sx={{
-                                maxWidth: 340,
-                                borderRadius: 2,
-                                textTransform: "uppercase",
-                                bgcolor: "#e65100",
-                                color: "#ffe0c7",
-                                letterSpacing: "0.16em",
-                                fontWeight: 700,
-                                boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
-                            }}
-                        >
-                            Cancel
-                        </Button>
-                    </Box>
-                )}
-                <Footer />
-            </Box>
+
+
+                    <Box />
+                </Box>
+            </Box >
+
+            <Footer />
+
         </>
     )
 }

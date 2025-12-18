@@ -378,7 +378,7 @@ export default function SignUp() {
                                 fullWidth
                                 onClick={() => navigate("/")}
                                 sx={{
-                                    mt: 1,
+                                    // mt: 2,
                                     borderRadius: 2,
                                     textTransform: "uppercase",
                                     border: "2px solid #e65100",
