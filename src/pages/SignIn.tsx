@@ -92,21 +92,21 @@ export default function SignIn() {
                         backgroundImage: isMobile
                             ? "none"
                             : `
-        linear-gradient(
-          to left,
-          #fff4e1 0%,
-          #fff4e1 25%,
-          rgba(255, 244, 225, 0.7) 25%,
-          rgba(255, 244, 225, 0.0) 45%
-        ),
-        repeating-linear-gradient(
-          to right,
-          rgba(255, 244, 225, 0.4),
-          rgba(255, 244, 225, 0.4) 20px,
-          transparent 20px,
-          transparent 40px
-        )
-      `,
+                                linear-gradient(
+                                to left,
+                                #fff4e1 0%,
+                                #fff4e1 25%,
+                                rgba(255, 244, 225, 0.7) 25%,
+                                rgba(255, 244, 225, 0.0) 45%
+                                 ),
+                                 repeating-linear-gradient(
+                                 to right,
+                                 rgba(255, 244, 225, 0.4),
+                                 rgba(255, 244, 225, 0.4) 20px,
+                                  transparent 20px,
+                                  transparent 40px
+                                 )
+                                   `,
                         backgroundSize: isMobile ? "auto" : "100% 40px, 100% 40px",
                         backgroundRepeat: isMobile ? "no-repeat" : "repeat-y, repeat-y",
                         backgroundAttachment: isMobile ? "scroll" : "fixed",
@@ -121,7 +121,7 @@ export default function SignIn() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "flex-start",
-                        pt: { xs: 70, sm: 70, md: 17 },
+                        pt: { xs: 70, sm: 73, md: 17 },
                     }}
                 >
                     <Box
@@ -129,11 +129,11 @@ export default function SignIn() {
                         src="/src/assets/fast-fuel.png"
                         alt="Fast Fuel Logo"
                         sx={{
-                            width: { xs: 120, sm: 140, md: 220 },
+                            width: { xs: 100, sm: 120, md: 220 },
                             height: "auto",
                             maxWidth: "100%",
                             objectFit: "contain",
-                            transform: { md: "scaleX(1.2)" },
+                            transform: { md: "scaleX(1.1)" },
                         }}
                     />
                 </Box>
@@ -156,24 +156,38 @@ export default function SignIn() {
                         elevation={0}
                         sx={{
                             width: "100%",
-                            maxWidth: 520,
-                            p: 3.5,
-                            pb: 5,
+                            maxWidth: {
+                                xs: 420,   // mobile: paper menor
+                                sm: 480,   // tablet
+                                md: 520,   // desktop 
+                            },
+                            p: {
+                                xs: 2.5,   // padding no mobile
+                                sm: 3,
+                                md: 3.5,
+                            },
+                            pb: {
+                                xs: 4.5,
+                                sm: 5,
+                                md: 8,
+                            },
+                            pt: {
+                                xs: 3.5,
+                                sm: 5,
+                                md: 6
+                            },
                             borderRadius: 3,
                             border: "1.5px solid rgba(230, 81, 0, 0.35)",
                             bgcolor: "background.paper",
                             boxShadow:
                                 "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
-                            transition: "all 0.3s ease",
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
-                            "&:hover": {
-                                boxShadow:
-                                    "0 6px 18px rgba(230, 81, 0, 0.45), 0 10px 28px rgba(230, 81, 0, 0.35)",
-                            },
+
                         }}
                     >
+
                         {/* Form (tudo alinhado na mesma coluna) */}
                         <Box
                             component="form"
@@ -194,8 +208,8 @@ export default function SignIn() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    mt: 0.5,
-                                    mb: 0.5,
+
+
                                     letterSpacing: "0.12em",
                                     textTransform: "uppercase",
                                     color: "#e65100",
@@ -209,7 +223,7 @@ export default function SignIn() {
                             <Typography
                                 align="center"
                                 sx={{
-                                    mb: 2,
+
                                     fontSize: "0.9rem",
                                     color: "text.secondary",
                                     fontWeight: "bold"
@@ -267,7 +281,6 @@ export default function SignIn() {
                                 align="center"
                                 sx={{
                                     mt: 1,
-                                    mb: 1,
                                     fontSize: "0.85rem",
                                     color: "rgba(180, 63, 0, 1)",
                                     fontWeight: "bold",
