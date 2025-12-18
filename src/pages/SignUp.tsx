@@ -212,7 +212,7 @@ export default function SignUp() {
                                 md: 520,   // desktop 
                             },
                             p: {
-                                xs: 2.5,  
+                                xs: 2.5,
                                 sm: 3,
                                 md: 3.5,
                             },
@@ -374,28 +374,28 @@ export default function SignUp() {
                                 Already have an account? Sign In
                             </Button>
                             <Button
-                                variant="contained"
+                                variant="outlined"
                                 fullWidth
                                 onClick={() => navigate("/")}
                                 sx={{
-                                    mt: 0.5,
+                                    mt: 1,
                                     borderRadius: 2,
                                     textTransform: "uppercase",
-                                    bgcolor: "#e65100",
-                                    color: "#ffe0c7",
+                                    border: "2px solid #e65100",
+                                    color: "#e65100",
                                     letterSpacing: "0.12em",
                                     fontWeight: 700,
-                                    boxShadow: "0 6px 16px rgba(0,0,0,0.35)",
+                                    bgcolor: "#fff4e1",
+                                    boxShadow: "0 3px 10px rgba(0,0,0,0.18)",
                                     "&:hover": {
                                         bgcolor: "#ffe0c7",
-                                        color: "#e65100",
-                                        boxShadow: "0 8px 20px rgba(0,0,0,0.45)",
+                                        boxShadow: "0 6px 16px rgba(0,0,0,0.28)",
                                     },
                                 }}
-
                             >
                                 Continue as guest
                             </Button>
+
                         </Box>
                     </Paper>
                 </Box>

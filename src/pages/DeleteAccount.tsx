@@ -24,8 +24,9 @@ export default function DeleteAccount() {
         confirmPassword: ""
     });
 
+
     const navigate = useNavigate();
-    const isMobile = useMediaQuery("(max-width:1650px)");
+    const isMobile = useMediaQuery("(max-width:900px)");
 
     async function handleDelete() {
         if (!deleteACC.email || !deleteACC.password || !deleteACC.confirmPassword) {
@@ -76,6 +77,8 @@ export default function DeleteAccount() {
         }));
     }
 
+    const FOOTER_HEIGHT = 75;
+
     return (
         <>
             <Box
@@ -89,52 +92,37 @@ export default function DeleteAccount() {
                     boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
                 }}
             >
-                {/* LEFT SIDE – solid stripe panel */}
-                <Box
-                    sx={{
-                        flexShrink: 0,
-                        boxSizing: "border-box",
-                        backgroundImage: `repeating-linear-gradient(
-              to right,
-              rgba(255, 244, 225, 0.4),
-              rgba(255, 244, 225, 0.4) 20px,
-              transparent 20px,
-              transparent 40px
-            )`,
-                        backgroundSize: "100% 40px",
-                        backgroundRepeat: "repeat-y",
-                        backgroundAttachment: "fixed",
-                        borderLeft: "3px solid #e65100",
-                        boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
-                    }}
-                />
 
-                {/* MIDDLE – Stripe Background (invertido) */}
+                {/* MIDDLE – Stripe Background (desliga no mobile) */}
                 <Box
                     sx={{
                         flex: 3,
                         position: "relative",
-                        backgroundImage: `
-                      linear-gradient(
-                        to left,
-                        #fff4e1 0%,
-                        #fff4e1 25%,
-                        rgba(255, 244, 225, 0.7) 25%,
-                        rgba(255, 244, 225, 0.0) 45%
-                      ),
-                      repeating-linear-gradient(
-                        to right,
-                        rgba(255, 244, 225, 0.4),
-                        rgba(255, 244, 225, 0.4) 20px,
-                        transparent 20px,
-                        transparent 40px
-                      )
-                    `,
-                        backgroundSize: "100% 40px, 100% 40px",
-                        backgroundRepeat: "repeat-y, repeat-y",
-                        backgroundAttachment: "fixed",
+                        background: isMobile ? "#fff4e1" : "transparent",
+                        backgroundImage: isMobile
+                            ? "none"
+                            : `
+                            linear-gradient(
+                            to left,
+                            #fff4e1 0%,
+                            #fff4e1 25%,
+                            rgba(255, 244, 225, 0.7) 25%,
+                            rgba(255, 244, 225, 0.0) 45%
+                             ),
+                            repeating-linear-gradient(
+                            to right,
+                            rgba(255, 244, 225, 0.4),
+                            rgba(255, 244, 225, 0.4) 20px,
+                              transparent 20px,
+                              transparent 40px
+                               )
+                               `,
+                        backgroundSize: isMobile ? "auto" : "100% 40px, 100% 40px",
+                        backgroundRepeat: isMobile ? "no-repeat" : "repeat-y, repeat-y",
+                        backgroundAttachment: isMobile ? "scroll" : "fixed",
                     }}
                 />
+
 
                 {/* RIGHT SIDE – Cream with logo */}
                 <Box
@@ -144,7 +132,7 @@ export default function DeleteAccount() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "flex-start",
-                        pt: { xs: 40, sm: 40, md: 4 },     // padding-top responsivo
+                        pt: { xs: 70, sm: 73, md: 17 }, // padding-top responsivo
                     }}
                 >
                     <Box
@@ -153,8 +141,8 @@ export default function DeleteAccount() {
                         alt="Fast Fuel Logo"
                         sx={{
                             width: {
-                                xs: 140,   // mobile
-                                sm: 200,   // tablet
+                                xs: 100,   // mobile
+                                sm: 120,   // tablet
                                 md: 220,   // desktop
                             },
 
@@ -163,7 +151,7 @@ export default function DeleteAccount() {
                             objectFit: "contain",
 
                             transform: {
-                                md: "scaleX(1.20)", // ESTICA SÓ NO DESKTOP NA HORIZONTAL
+                                md: "scaleX(1.1)",   // ESTICA SÓ NO DESKTOP NA HORIZONTAL
                             },
                         }}
                     />
@@ -173,7 +161,10 @@ export default function DeleteAccount() {
                 <Box
                     sx={{
                         position: "absolute",
-                        inset: 0,
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        height: `calc(100vh - ${FOOTER_HEIGHT}px)`,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -184,23 +175,35 @@ export default function DeleteAccount() {
                         elevation={0}
                         sx={{
                             width: "100%",
-                            maxWidth: 520,
-                            p: 3.5,
-                            pt: 4,
+                            maxWidth: {
+                                xs: 420,   // mobile: paper menor
+                                sm: 480,   // tablet
+                                md: 520,   // desktop 
+                            },
+                            p: {
+                                xs: 2.5,   // padding no mobile
+                                sm: 3,
+                                md: 3.5,
+                            },
+                            pb: {
+                                xs: 2.5,
+                                sm: 4,
+                                md: 5,
+                            },
+                            pt: {
+                                xs: 3.5,
+                                sm: 5,
+                                md: 6
+                            },
                             borderRadius: 3,
                             border: "1.5px solid rgba(230, 81, 0, 0.35)",
                             bgcolor: "background.paper",
-                            mt: -52.3,
                             boxShadow:
                                 "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
-                            transition: "all 0.3s ease",
-                            display: "flex",               // igual SignIn
+                            display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
-                            "&:hover": {
-                                boxShadow:
-                                    "0 6px 18px rgba(230, 81, 0, 0.45), 0 10px 28px rgba(230, 81, 0, 0.35)",
-                            },
+
                         }}
                     >
                         {/* TITLE */}
@@ -208,7 +211,7 @@ export default function DeleteAccount() {
                             variant="h4"
                             align="center"
                             sx={{
-                                mb: 2.5,
+                                mb: 2,
                                 letterSpacing: "0.12em",
                                 textTransform: "uppercase",
                                 color: "#b71c1c",
@@ -223,7 +226,7 @@ export default function DeleteAccount() {
                         <Typography
                             align="center"
                             sx={{
-                                mb: 3,
+                                mb: 2,
                                 fontSize: "0.9rem",
                                 color: "text.secondary",
                                 fontWeight: "bold"
@@ -310,95 +313,37 @@ export default function DeleteAccount() {
                             >
                                 Delete Account
                             </Button>
-                        </Box>
-                    </Paper>
 
-                    {/* CANCEL BUTTON – desktop */}
-                    {!isMobile && (
-                        <Box
-                            sx={{
-                                position: "absolute",
-                                top: 255,
-                                right: 88,
-                                display: "flex",
-                                zIndex: 2,
-                            }}
-                        >
                             <Button
-                                size="large"
-                                variant="contained"
-                                onClick={() => navigate("/sign-in")}
+                                variant="outlined"
+                                fullWidth
+                                onClick={() => navigate("/")}
                                 sx={{
-                                    width: 250,
+                                    mt: 2,
                                     borderRadius: 2,
                                     textTransform: "uppercase",
-                                    bgcolor: "#e65100",
-                                    color: "#ffe0c7",
-                                    letterSpacing: "0.16em",
+                                    border: "2px solid #e65100",
+                                    color: "#e65100",
+                                    letterSpacing: "0.12em",
                                     fontWeight: 700,
-                                    boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
+                                    bgcolor: "#fff4e1",
+                                    boxShadow: "0 3px 10px rgba(0,0,0,0.18)",
                                     "&:hover": {
                                         bgcolor: "#ffe0c7",
-                                        color: "#e65100",
-                                        boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
-                                    },
-                                    "&:active": {
-                                        bgcolor: "#ffe0c7",
-                                        color: "#e65100",
-                                        transform: "scale(0.98)",
-                                        boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
+                                        boxShadow: "0 6px 16px rgba(0,0,0,0.28)",
                                     },
                                 }}
                             >
                                 Cancel
                             </Button>
                         </Box>
-                    )}
+                    </Paper>
+
                 </Box>
             </Box>
 
-            {/* FOOTER / MOBILE BUTTON */}
-            <Box
-                sx={{
-                    position: "fixed",
-                    bottom: 0,
-                    left: 0,
-                    width: "100%",
-                    zIndex: 2000,
-                }}
-            >
-                {isMobile && (
-                    <Box
-                        sx={{
-                            width: "100%",
-                            display: "flex",
-                            justifyContent: "center",
-                            mb: 3.5,
-                            zIndex: 5,
-                        }}
-                    >
-                        <Button
-                            size="large"
-                            variant="contained"
-                            fullWidth
-                            onClick={() => navigate("/sign-in")}
-                            sx={{
-                                maxWidth: 340,
-                                borderRadius: 2,
-                                textTransform: "uppercase",
-                                bgcolor: "#e65100",
-                                color: "#ffe0c7",
-                                letterSpacing: "0.16em",
-                                fontWeight: 700,
-                                boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
-                            }}
-                        >
-                            Cancel
-                        </Button>
-                    </Box>
-                )}
-                <Footer />
-            </Box>
+            <Footer />
+
         </>
     );
 }
