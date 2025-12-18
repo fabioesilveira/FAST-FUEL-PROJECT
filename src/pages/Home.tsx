@@ -333,16 +333,16 @@ export default function Home() {
         return acc;
     }, {});
 
+    const driveModeActive = showDriveThru || search.trim().length > 0 || totalItems > 0;
 
 
     const shouldUseCreamTitle =
         search.length > 0 || totalItems > 0 || showDriveThru;
 
     const shouldShowCarousel =
-        !showDriveThru && search.trim().length === 0 && totalItems === 0;
+        !driveModeActive && search.trim().length === 0 && totalItems === 0;
 
-    const shouldShowOrderPreview =
-        showDriveThru || search.trim().length > 0 || totalItems > 0;
+    const shouldShowOrderPreview = driveModeActive;
 
 
     // tenario removendo o shadow de quando o h1 muda pra cream cor
@@ -409,6 +409,12 @@ export default function Home() {
             setOrder(newOrder);
         }
     }
+
+    useEffect(() => {
+        if (search.trim().length > 0 || totalItems > 0) {
+            setShowDriveThru(true);
+        }
+    }, [search, totalItems]);
 
     function handleClearCart() {
         setOrder([]);
@@ -642,9 +648,8 @@ export default function Home() {
                 )}
 
 
-                {showDriveThru && (
+                {driveModeActive && (
                     <Box sx={{ mb: { xs: 5, md: 2 } }}>
-                        {/* TITULO MENU */}
                         <Typography
                             align="center"
                             sx={{
@@ -662,7 +667,6 @@ export default function Home() {
                             Quick add Menu:
                         </Typography>
 
-                        {/* MINI CARDS */}
                         <Box
                             sx={{
                                 display: "grid",
@@ -678,18 +682,18 @@ export default function Home() {
                             {data.map((product) => (
                                 <MiniCard
                                     key={product.id}
-                                    id={product.id} // obrigatorio 
+                                    id={product.id}
                                     image={product.image}
                                     title={cleanProductName(product.name)}
                                     secondaryLabel={`$${Number(product.price).toFixed(2)}`}
-                                    count={qtyMap[product.id] ?? 0} // badge por produto
+                                    count={qtyMap[product.id] ?? 0}
                                     onClick={() => handleOrder(product)}
                                 />
                             ))}
                         </Box>
                     </Box>
                 )}
-                
+
             </Container>
 
             {isMobile ? <NavFooter onNavigate={handleDrawerNavigate} /> : <Footer />}

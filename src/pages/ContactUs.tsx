@@ -355,7 +355,7 @@ export default function ContactUs() {
                                 fullWidth
                                 onClick={() => navigate("/")}
                                 sx={{
-                                    mt: { sm: 0.5, md: 1.5 },
+                                    mt: { sm: 0.5, md: 1 },
                                     borderRadius: 2,
                                     textTransform: "uppercase",
                                     border: "2px solid #e65100",
