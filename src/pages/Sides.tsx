@@ -245,17 +245,17 @@ export default function Sides() {
   };
 
   const imageStylesMobile: Record<string, React.CSSProperties> = {
-    "11": { width: "130px", height: "120px" },
-    "12": { width: "220px", height: "210px" },
-    "13": { width: "158px", height: "118px", marginTop: "10px" },
-    "14": { width: "190px", height: "135px" },
+    "11": { width: "135px", height: "135px" },
+    "12": { width: "165px", height: "120px" },
+    "13": { width: "178px", height: "138px" },
+    "14": { width: "170px", height: "115px" },
   };
 
   const imageStylesDesktop: Record<string, React.CSSProperties> = {
-    "11": { width: "130px", height: "120px" }, // Pit Stop Classic
-    "12": { width: "220px", height: "210px" }, // Turbo Bacon
-    "13": { width: "158px", height: "118px", marginTop: "10px" }, // Double Gear
-    "14": { width: "190px", height: "135px" }, // Fuel Monster
+    "11": { width: "135px", height: "135px" },
+    "12": { width: "165px", height: "120px" },
+    "13": { width: "178px", height: "138px" },
+    "14": { width: "170px", height: "115px" },
   };
 
   const mobileTabletGrid = (

@@ -9,7 +9,6 @@ import Button from '@mui/material/Button';
 import Chat from '../assets/ChatGPT2.png';
 import Chat2 from '../assets/ChatGPT-3.png';
 import Carousel from 'react-bootstrap/Carousel';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/context';
@@ -23,6 +22,28 @@ import ButtonBase from "@mui/material/ButtonBase";
 
 
 const cleanProductName = (name: string) => name.split("/")[0].trim();
+
+const imageStylesById: Record<string, React.CSSProperties> = {
+    "1": { width: "130px", height: "120px" },
+    "2": { width: "220px", height: "210px" },
+    "3": { width: "158px", height: "118px", marginTop: "10px" },
+    "4": { width: "200px", height: "135px" },
+    "11": { width: "135px", height: "135px" },
+    "12": { width: "165px", height: "120px" },
+    "13": { width: "178px", height: "138px" },
+    "14": { width: "170px", height: "115px" },
+    "5": { width: "140px", height: "150px" },
+    "6": { width: "180px", height: "145px" },
+    "7": { width: "168px", height: "118px" },
+    "8": { width: "140px", height: "102px" },
+    "9": { width: "190px", height: "180px" },
+    "10": { width: "145px", height: "133px" },
+    "15": { width: "180px", height: "190px" },
+    "16": { width: "150px", height: "140px" },
+    "17": { width: "143px", height: "133px" },
+    "18": { width: "115px", height: "120px" },
+};
+
 
 type MiniActionCardProps = {
     id: string;
@@ -74,7 +95,12 @@ function ProductCard({ product }: { product: Meal }) {
                 <img
                     src={product.image}
                     alt={title}
-                    style={{ maxWidth: "85%", maxHeight: "85%", objectFit: "contain" }}
+                    style={{
+                        ...(imageStylesById[product.id] ?? { width: "180px", height: "150px" }),
+                        maxWidth: "100%",
+                        maxHeight: "100%",
+                        objectFit: "contain",
+                    }}
                 />
             </Box>
 
@@ -127,7 +153,6 @@ function ProductCard({ product }: { product: Meal }) {
     );
 }
 
-
 function MiniCard({
     id,
     image,
@@ -145,7 +170,7 @@ function MiniCard({
         "11": { width: "70px", height: "73px" },
         "12": { width: "85px", height: "70px" },
         "13": { width: "105px", height: "70px" },
-        "14": { width: "70px", height: "75px" },
+        "14": { width: "65px", height: "70px" },
         "5": { width: "80px", height: "60px" },
         "6": { width: "70px", height: "79px" },
         "7": { width: "67px", height: "67px" },
@@ -274,7 +299,6 @@ function MiniCard({
         </ButtonBase>
     );
 }
-
 
 export default function Home() {
     const [search, setSearch] = useState("");
@@ -446,28 +470,6 @@ export default function Home() {
         }
     }
 
-
-    const imageStyles: { [id: string]: React.CSSProperties } = {
-        "1": { width: "200px", height: "200px", marginTop: "30px" }, // Pit Stop Classic
-        "2": { width: "210px", height: "215px", marginTop: "18px" }, // Turbo Bacon
-        "3": { width: "200px", height: "185px", marginTop: "42px" }, // Double Gear
-        "4": { width: "215px", height: "180px", marginTop: "35px" }, // Fuel Monster
-        "11": { width: "180px", height: "180px", marginTop: "34px" }, // Fries
-        "12": { width: "200px", height: "150px", marginTop: "58px" }, // Onion Rings
-        "13": { width: "245px", height: "160px", marginTop: "50px" }, // Salad
-        "14": { width: "150px", height: "140px", marginTop: "60px" }, // Mozzarella
-        "5": { width: "180px", height: "140px", marginTop: "60px" },  // Coke
-        "6": { width: "125px", height: "190px", marginTop: "33px" },  // Sprite
-        "7": { width: "160px", height: "160px", marginTop: "47px" },  // Dr. Pepper
-        "8": { width: "130px", height: "135px", marginTop: "63px" },  // Fanta Orange
-        "9": { width: "247px", height: "170px", marginTop: "40px" },  // Diet Coke
-        "10": { width: "170px", height: "179px", marginTop: "37px" }, // Lemonade
-        "15": { width: "240px", height: "213px", marginTop: "25px" },
-        "16": { width: "200px", height: "168px", marginTop: "45px" },
-        "17": { width: "200px", height: "205px", marginTop: "33px" },
-        "18": { width: "155px", height: "137px", marginTop: "59px" },
-    };
-
     return (
         <Box
             sx={{
@@ -482,7 +484,7 @@ export default function Home() {
             {!isMobile && <CategoryDrawer onNavigate={handleDrawerNavigate} />}
 
             <Container className="margin-top" fixed sx={{ flexGrow: 2 }}>
-                 <div className="div-h2-drive-thru">
+                <div className="div-h2-drive-thru">
                     <button
                         className={`drive-thru-box ${showDriveThru ? "drive-thru-static" : ""}`}
                         type="button"
@@ -502,7 +504,7 @@ export default function Home() {
                         display: "flex",
                         justifyContent: "center",
                         mb: { xs: 1, md: 2 },
-                        mt: {xs:-1, md: -1.5},
+                        mt: { xs: -1, md: -1.5 },
                         px: { xs: 1.5, md: 0 }, // evita quebrar em telas pequenas
                     }}
                 >
@@ -687,28 +689,7 @@ export default function Home() {
                         </Box>
                     </Box>
                 )}
-
-
-                {/* lista normal só aparece quando NÃO tem search
-                {!search.trim() && (
-                    <Box
-                        sx={{
-                            display: "grid",
-                            justifyContent: "center",
-                            gap: 4,
-                            gridTemplateColumns: {
-                                xs: "repeat(1, 300px)",
-                                sm: "repeat(2, 300px)",
-                                md: "repeat(3, 300px)",
-                            },
-                        }}
-                    >
-                        {filteredData.map((e) => (
-                            <ProductCard key={e.id} product={e} />
-                        ))}
-                    </Box>
-
-                )} */}
+                
             </Container>
 
             {isMobile ? <NavFooter onNavigate={handleDrawerNavigate} /> : <Footer />}

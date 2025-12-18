@@ -192,7 +192,7 @@ export default function ContactUs() {
                             },
                             pt: {
                                 xs: 3.5,
-                                sm: 5,
+                                sm: 3.5,
                                 md: 6,
                             },
                             borderRadius: 3,
@@ -210,7 +210,7 @@ export default function ContactUs() {
                             variant="h4"
                             align="center"
                             sx={{
-                                mb: 2,
+                                mb: 3,
                                 letterSpacing: "0.12em",
                                 textTransform: "uppercase",
                                 color: "#e65100",
@@ -323,7 +323,7 @@ export default function ContactUs() {
                                 variant="contained"
                                 onClick={handleClick}
                                 sx={{
-                                    mt: { xs: 1, sm: 1, md: 2 },
+                                    mt: { xs: 1, sm: 1, md: 1 },
                                     borderRadius: 2,
                                     textTransform: "uppercase",
                                     bgcolor: "#e65100",

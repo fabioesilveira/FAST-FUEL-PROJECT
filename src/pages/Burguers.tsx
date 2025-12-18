@@ -243,14 +243,14 @@ export default function Burguers() {
     "1": { width: "130px", height: "120px" },
     "2": { width: "220px", height: "210px" },
     "3": { width: "158px", height: "118px", marginTop: "10px" },
-    "4": { width: "190px", height: "135px" },
+    "4": { width: "200px", height: "135px" },
   };
 
   const imageStylesDesktop: Record<string, React.CSSProperties> = {
-    "1": { width: "130px", height: "120px" }, // Pit Stop Classic
-    "2": { width: "220px", height: "210px" }, // Turbo Bacon
-    "3": { width: "158px", height: "118px", marginTop: "10px" }, // Double Gear
-    "4": { width: "190px", height: "135px" }, // Fuel Monster
+    "1": { width: "130px", height: "120px" }, 
+    "2": { width: "220px", height: "210px" }, 
+    "3": { width: "158px", height: "118px", marginTop: "10px" },
+    "4": { width: "200px", height: "135px" }, 
   };
 
   const mobileTabletGrid = (

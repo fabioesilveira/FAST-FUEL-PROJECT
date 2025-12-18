@@ -235,24 +235,24 @@ export default function Desserts() {
     );
 
     const imageStyles: { [id: string]: React.CSSProperties } = {
-        "15": { width: "240px", height: "213px", marginTop: "25px" },
-        "16": { width: "200px", height: "168px", marginTop: "45px" },
+        "15": { width: "190px", height: "250px", marginBottom: "20px" },
+        "16": { width: "200px", height: "175px", marginTop: "40px" },
         "17": { width: "200px", height: "205px", marginTop: "33px" },
         "18": { width: "155px", height: "137px", marginTop: "59px" },
     };
 
     const imageStylesMobile: Record<string, React.CSSProperties> = {
-        "15": { width: "130px", height: "120px" },
-        "16": { width: "220px", height: "210px" },
-        "17": { width: "158px", height: "118px", marginTop: "10px" },
-        "18": { width: "190px", height: "135px" },
+        "15": { width: "180px", height: "190px" },
+        "16": { width: "150px", height: "140px" },
+        "17": { width: "143px", height: "133px" },
+        "18": { width: "115px", height: "120px" },
     };
 
     const imageStylesDesktop: Record<string, React.CSSProperties> = {
-        "15": { width: "130px", height: "120px" }, // Pit Stop Classic
-        "16": { width: "220px", height: "210px" }, // Turbo Bacon
-        "17": { width: "158px", height: "118px", marginTop: "10px" }, // Double Gear
-        "18": { width: "190px", height: "135px" }, // Fuel Monster
+        "15": { width: "180px", height: "190px" },
+        "16": { width: "150px", height: "140px" },
+        "17": { width: "148px", height: "138px" },
+        "18": { width: "120px", height: "125px" },
     };
 
     const mobileTabletGrid = (

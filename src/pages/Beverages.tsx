@@ -244,21 +244,21 @@ export default function Beverages() {
   };
 
   const imageStylesMobile: Record<string, React.CSSProperties> = {
-    "5": { width: "130px", height: "120px" },
-    "6": { width: "220px", height: "210px" },
-    "7": { width: "158px", height: "118px", marginTop: "10px" },
-    "8": { width: "190px", height: "135px" },
-    "9": { width: "247px", height: "170px", marginTop: "40px" },  // Diet Coke
-    "10": { width: "170px", height: "179px", marginTop: "37px" }, // Lemonade
+    "5": { width: "140px", height: "150px" },
+    "6": { width: "180px", height: "145px" },
+    "7": { width: "168px", height: "118px" },
+    "8": { width: "140px", height: "102px" },
+    "9": { width: "190px", height: "180px" },  
+    "10": { width: "145px", height: "133px" }, 
   };
 
   const imageStylesDesktop: Record<string, React.CSSProperties> = {
-    "5": { width: "130px", height: "120px" }, // Pit Stop Classic
-    "6": { width: "220px", height: "210px" }, // Turbo Bacon
-    "7": { width: "158px", height: "118px", marginTop: "10px" }, // Double Gear
-    "8": { width: "190px", height: "135px" }, // Fuel Monster
-    "9": { width: "247px", height: "170px", marginTop: "40px" },  // Diet Coke
-    "10": { width: "170px", height: "179px", marginTop: "37px" }, // Lemonade
+    "5": { width: "140px", height: "150px" },
+    "6": { width: "180px", height: "145px" },
+    "7": { width: "168px", height: "118px" },
+    "8": { width: "140px", height: "102px" },
+    "9": { width: "190px", height: "180px" },  
+    "10": { width: "145px", height: "133px" }, 
   };
 
   const mobileTabletGrid = (
