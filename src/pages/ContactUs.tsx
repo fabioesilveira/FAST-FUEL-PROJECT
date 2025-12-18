@@ -193,7 +193,7 @@ export default function ContactUs() {
                             pt: {
                                 xs: 3.5,
                                 sm: 3.5,
-                                md: 6,
+                                md: 5,
                             },
                             borderRadius: 3,
                             border: "1.5px solid rgba(230, 81, 0, 0.35)",
@@ -323,30 +323,39 @@ export default function ContactUs() {
                                 variant="contained"
                                 onClick={handleClick}
                                 sx={{
-                                    mt: { xs: 1, sm: 1, md: 1 },
+                                    mt: { xs: 0, sm: 0, md: 0.5 },
+                                    height: 42,
                                     borderRadius: 2,
                                     textTransform: "uppercase",
                                     bgcolor: "#e65100",
                                     color: "#ffe0c7",
-                                    letterSpacing: "0.16em",
+                                    letterSpacing: "0.14em",
                                     fontWeight: 700,
-                                    boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
+
+                                    //  sombra bem mais suave
+                                    boxShadow: "0 3px 8px rgba(0,0,0,0.22)",
+
                                     "&:hover": {
-                                        bgcolor: "#ffe0c7",
-                                        color: "#e65100",
-                                        boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
+                                        bgcolor: "#e65100",
+                                        boxShadow: "0 5px 12px rgba(0,0,0,0.28)",
+                                    },
+
+                                    "&:active": {
+                                        boxShadow: "0 2px 5px rgba(0,0,0,0.25)",
+                                        transform: "translateY(1px)",
                                     },
                                 }}
                             >
                                 Send Message
                             </Button>
 
+
                             <Button
                                 variant="outlined"
                                 fullWidth
                                 onClick={() => navigate("/")}
                                 sx={{
-                                    mt: { sm: 0.5, md: 2 },
+                                    mt: { sm: 0.5, md: 1.5 },
                                     borderRadius: 2,
                                     textTransform: "uppercase",
                                     border: "2px solid #e65100",

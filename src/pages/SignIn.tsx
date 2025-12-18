@@ -256,26 +256,37 @@ export default function SignIn() {
                             />
 
                             <Button
+                                fullWidth
+                                size="large"
                                 variant="contained"
                                 onClick={handleClick}
                                 sx={{
                                     mt: 1,
+                                    height: 42,
                                     borderRadius: 2,
                                     textTransform: "uppercase",
                                     bgcolor: "#e65100",
                                     color: "#ffe0c7",
-                                    letterSpacing: "0.12em",
+                                    letterSpacing: "0.14em",
                                     fontWeight: 700,
-                                    boxShadow: "0 6px 16px rgba(0,0,0,0.35)",
+
+                                    //  sombra bem mais suave
+                                    boxShadow: "0 3px 8px rgba(0,0,0,0.22)",
+
                                     "&:hover": {
-                                        bgcolor: "#ffe0c7",
-                                        color: "#e65100",
-                                        boxShadow: "0 8px 20px rgba(0,0,0,0.45)",
+                                        bgcolor: "#e65100",
+                                        boxShadow: "0 5px 12px rgba(0,0,0,0.28)",
+                                    },
+
+                                    "&:active": {
+                                        boxShadow: "0 2px 5px rgba(0,0,0,0.25)",
+                                        transform: "translateY(1px)",
                                     },
                                 }}
                             >
-                                Sign In
+                                Sign in
                             </Button>
+
 
                             <Typography
                                 align="center"
@@ -289,26 +300,36 @@ export default function SignIn() {
                                 OR
                             </Typography>
 
+
                             <Button
+                                fullWidth
+                                size="large"
                                 variant="contained"
                                 onClick={() => navigate("/sign-up")}
                                 sx={{
                                     mt: 1,
+                                    height: 42,
                                     borderRadius: 2,
                                     textTransform: "uppercase",
                                     bgcolor: "#e65100",
                                     color: "#ffe0c7",
-                                    letterSpacing: "0.12em",
+                                    letterSpacing: "0.14em",
                                     fontWeight: 700,
-                                    boxShadow: "0 6px 16px rgba(0,0,0,0.35)",
+
+                                    boxShadow: "0 3px 8px rgba(0,0,0,0.22)",
+
                                     "&:hover": {
-                                        bgcolor: "#ffe0c7",
-                                        color: "#e65100",
-                                        boxShadow: "0 8px 20px rgba(0,0,0,0.45)",
+                                        bgcolor: "#e65100",
+                                        boxShadow: "0 5px 12px rgba(0,0,0,0.28)",
+                                    },
+
+                                    "&:active": {
+                                        boxShadow: "0 2px 5px rgba(0,0,0,0.25)",
+                                        transform: "translateY(1px)",
                                     },
                                 }}
                             >
-                                Create new account
+                                Create new Account
                             </Button>
 
                             <Button
