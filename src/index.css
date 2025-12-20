@@ -809,6 +809,7 @@ body {
   .h1-home {
     font-size: 30px;
     letter-spacing: 0.05em;
+    margin-bottom: 15px;
   }
 }
 
@@ -818,6 +819,7 @@ body {
     font-size: 24px;
     letter-spacing: 0.04em;
     line-height: 1.2;
+    margin-bottom: 15px;
   }
 }
 
@@ -850,4 +852,100 @@ body {
   background: transparent !important;
 }
 
+.h2-driveMode-desk {
+  font-size: 0.80rem;              /* pequeno */
+  font-weight: 600;
+  color: #1e5bb8;                  /* azul badge */
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  text-align: center;
+  margin-top: 8px;
+}
 
+/* some no mobile/tablet */
+@media (max-width: 900px) {
+  .h2-driveMode-desk {
+    display: none;
+  }
+}
+
+/* WRAPPER  */
+.combo-promo-mobile {
+  margin-top: 40px;
+  width: 100%;
+  min-height: 180px;           /* ocupa o espaço vazio abaixo do carousel */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;     /* centro vertical */
+  align-items: center;
+  text-align: center;
+}
+
+/* TÍTULO */
+.combo-title-mobile {
+  font-family: "Titan One", sans-serif;
+  font-size: 32px;
+  letter-spacing: 0.18em;
+  color: #e65100;
+  margin-bottom: 14px;
+
+  text-shadow:
+    0 4px 10px rgba(230, 81, 0, 0.35);
+}
+
+/* LINHA DOS ÍCONES */
+.combo-icons-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+/* EMOJIS */
+.combo-emoji {
+  font-size: 42px;
+  line-height: 1;
+}
+
+/* SINAL + */
+.combo-plus {
+  font-size: 24px;
+  font-weight: 900;
+  color: #e65100;
+  line-height: 1;
+}
+
+/* R$ 2 OFF */
+.combo-off-mobile {
+  font-size: 26px;
+  font-weight: 900;
+  color: #1e5bb8;
+  margin-top: 6px;
+
+  text-shadow:
+    0 6px 14px rgba(30, 91, 184, 0.45);
+}
+
+/* TEXTO PEQUENO */
+.combo-caption-mobile {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+
+.combo-emoji {
+  font-size: 42px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* sobe levemente c o soda*/
+.combo-soda {
+  font-size: 48px;          
+  transform: translateY(-4px);
+}

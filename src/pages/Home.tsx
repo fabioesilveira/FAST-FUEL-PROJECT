@@ -7,8 +7,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Chat from '../assets/ChatGPT2.png';
-// import Chat2 from '../assets/ChatGPT-3.png';
-import Chat3 from '../assets/Fuel.png'
 import Chat4 from '../assets/Fuel-Up.png'
 import Chat5 from '../assets/Fuel.png'
 import Chat6 from '../assets/Restaurant.png'
@@ -579,7 +577,7 @@ export default function Home() {
                                 />
                             </Carousel.Item>
 
-                              <Carousel.Item style={{ height: "100%" }}>
+                            <Carousel.Item style={{ height: "100%" }}>
                                 <img
                                     src={Chat6}
                                     alt="Fast Fuel Banner"
@@ -624,6 +622,29 @@ export default function Home() {
                         </Carousel>
                     </div>
                 )}
+
+                {isMobile && shouldShowCarousel && (
+                    <div className="combo-promo-mobile">
+                        <div className="combo-title-mobile">COMBO PROMO</div>
+
+                        <div className="combo-icons-row">
+                            <span className="combo-emoji">🍔</span>
+                            <span className="combo-plus">+</span>
+                            <span className="combo-emoji">🍟</span>
+                            <span className="combo-plus">+</span>
+                            <span className="combo-emoji combo-soda">🥤</span>
+                        </div>
+
+                        <div className="combo-off-mobile">R$ 2 OFF</div>
+
+                        <div className="combo-caption-mobile">
+                            Discount applied at total.
+                        </div>
+                    </div>
+                )}
+
+
+
 
                 {shouldShowOrderPreview && (
                     <>
@@ -687,7 +708,7 @@ export default function Home() {
                         <Typography
                             align="center"
                             sx={{
-                                mb: 2,
+                                mb: 1.2,
                                 mt: { xs: -2, md: -3 },
                                 letterSpacing: "0.16em",
                                 textTransform: "uppercase",
@@ -700,6 +721,12 @@ export default function Home() {
                         >
                             Quick add Menu:
                         </Typography>
+
+                        <h2 className='h2-driveMode-desk'>
+                            *COMBO PROMO: Burger + Side + Beverage = $2 OFF.
+                            Discount applied at checkout.
+                            Search by name or visit the Products page for full descriptions.
+                        </h2>
 
                         <Box
                             sx={{
@@ -731,6 +758,6 @@ export default function Home() {
             </Container>
 
             {isMobile ? <NavFooter onNavigate={handleDrawerNavigate} /> : <Footer />}
-        </Box>
+        </Box >
     );
 }
