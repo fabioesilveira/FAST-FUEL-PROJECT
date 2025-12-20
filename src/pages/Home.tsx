@@ -7,7 +7,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Chat from '../assets/ChatGPT2.png';
-import Chat2 from '../assets/ChatGPT-3.png';
+// import Chat2 from '../assets/ChatGPT-3.png';
+import Chat3 from '../assets/Fuel.png'
+import Chat4 from '../assets/Fuel-Up.png'
+import Chat5 from '../assets/Fuel.png'
+import Chat6 from '../assets/Restaurant.png'
 import Carousel from 'react-bootstrap/Carousel';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useNavigate } from 'react-router-dom';
@@ -560,7 +564,8 @@ export default function Home() {
                             aspectRatio: "16 / 9.7",
                         }}
                     >
-                        <Carousel style={{ height: "100%" }}>
+                        <Carousel indicators={false} style={{ height: "100%" }}>
+
                             <Carousel.Item style={{ height: "100%" }}>
                                 <img
                                     src={Chat}
@@ -574,9 +579,9 @@ export default function Home() {
                                 />
                             </Carousel.Item>
 
-                            <Carousel.Item style={{ height: "100%" }}>
+                              <Carousel.Item style={{ height: "100%" }}>
                                 <img
-                                    src={Chat2}
+                                    src={Chat6}
                                     alt="Fast Fuel Banner"
                                     style={{
                                         width: "100%",
@@ -587,6 +592,35 @@ export default function Home() {
                                     }}
                                 />
                             </Carousel.Item>
+
+                            <Carousel.Item style={{ height: "100%" }}>
+                                <img
+                                    src={Chat5}
+                                    alt="Fast Fuel Banner"
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "contain",
+                                        display: "block",
+                                        backgroundColor: "#fff3e0",
+                                    }}
+                                />
+                            </Carousel.Item>
+
+                            <Carousel.Item style={{ height: "100%" }}>
+                                <img
+                                    src={Chat4}
+                                    alt="Fast Fuel Banner"
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "contain",
+                                        display: "block",
+                                        backgroundColor: "#fff3e0",
+                                    }}
+                                />
+                            </Carousel.Item>
+
                         </Carousel>
                     </div>
                 )}
