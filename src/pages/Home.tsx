@@ -708,7 +708,7 @@ export default function Home() {
                         <Typography
                             align="center"
                             sx={{
-                                mb: 1.2,
+                                mb: 1,
                                 mt: { xs: -2, md: -3 },
                                 letterSpacing: "0.16em",
                                 textTransform: "uppercase",
