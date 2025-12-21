@@ -950,3 +950,21 @@ body {
   transform: translateY(-4px);
 }
 
+/* Tabs container */
+.ff-tabs .nav-link {
+  color: #e65100 !important;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  border-radius: 12px !important;
+}
+
+.ff-tabs .nav-link.active {
+  background: #e65100 !important;
+  color: #ffe0c7 !important;
+}
+
+.ff-tabs .nav-link.disabled {
+  opacity: 0.45;
+}
+

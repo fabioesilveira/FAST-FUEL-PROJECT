@@ -8,10 +8,11 @@ import Desserts from "./pages/Desserts";
 import Beverages from "./pages/Beverages";
 import Sides from "./pages/Sides";
 import Checkout from "./pages/Checkout";
-import Admin from "./pages/Admin";
 import DeleteAccount from "./pages/DeleteAccount";
 import ContactUs from "./pages/ContactUs";
 import Orders from "./pages/Orders";
+import AdminMessages from "./pages/admin/AdminMessages";
+
 
 export default function App() {
   return (
@@ -27,7 +28,7 @@ export default function App() {
       <Route path="/deleteaccount" element={<DeleteAccount/>}/>
       <Route path="/contact-us" element={<ContactUs />}/>
       <Route path="/orders" element={<Orders />}/>
-      <Route path="/admin" element={<Admin />}/>
+      <Route path="/admin/messages" element={<AdminMessages/>}/>
     </Routes>
   ) 
 }
