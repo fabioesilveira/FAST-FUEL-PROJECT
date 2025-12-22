@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useMediaQuery } from "@mui/material";
+import { useAppAlert } from "../hooks/useAppAlert";
 import {
     Box,
     Paper,
@@ -30,6 +31,11 @@ export default function SignUp() {
     });
 
     const navigate = useNavigate();
+
+    const { showAlert, AlertUI } = useAppAlert({
+        vertical: "top",
+        horizontal: "center",
+    });
 
     const isMobile = useMediaQuery("(max-width:900px)");
 
@@ -61,33 +67,35 @@ export default function SignUp() {
     }
 
     async function handleClick() {
-        // validações de registro 
+        // validações de registro
         if (!signUp.name || !signUp.email || !signUp.number || !signUp.password || !signUp.confirmPassword) {
-            alert("Please fill in all fields.");
+            showAlert("Please fill in all fields.", "warning");
             return;
         }
 
         if (!isValidEmail(signUp.email)) {
-            alert("Please enter a valid email address.");
+            showAlert("Please enter a valid email address.", "warning");
             return;
         }
 
         if (!isValidUSPhone(signUp.number)) {
-            alert("Please enter a valid US phone number (10 digits).");
+            showAlert("Please enter a valid US phone number (10 digits).", "warning");
             return;
         }
 
         if (!isValidPassword(signUp.password)) {
-            alert("Password must be at least 8 characters long and contain at least one number and one letter.");
+            showAlert(
+                "Password must be at least 8 characters long and contain at least one number and one letter.",
+                "warning"
+            );
             return;
         }
 
         if (signUp.password !== signUp.confirmPassword) {
-            alert("Passwords do not match.");
+            showAlert("Passwords do not match.", "error");
             return;
         }
 
-        // continua pro backend se passar por tudo
         try {
             const res = await axios.post(
                 "http://localhost:3000/users/register",
@@ -97,15 +105,16 @@ export default function SignUp() {
             localStorage.setItem("idUser", res.data.id);
             localStorage.setItem("userName", res.data.fullName);
 
+            showAlert("Account created successfully!", "success");
+
             navigate("/");
         } catch (error: any) {
             console.error("error to send the data", error);
 
-            // backend manda 409 (if user already exists)
-            if (error.response && error.response.status === 409) {
-                alert("This email is already in use.");
+            if (error.response?.status === 409) {
+                showAlert("This email is already in use.", "error");
             } else {
-                alert("Error creating account. Please try again.");
+                showAlert("Error creating account. Please try again.", "error");
             }
         }
     }
@@ -113,6 +122,7 @@ export default function SignUp() {
     return (
         <>
             <NavbarProducts />
+            {AlertUI}
 
             <Box
                 sx={{
@@ -215,7 +225,7 @@ export default function SignUp() {
                                     mt: 0.5,
                                     letterSpacing: "0.12em",
                                     textTransform: "uppercase",
-                                    color: "#e65100",
+                                    color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
                                 }}
@@ -254,9 +264,30 @@ export default function SignUp() {
                                     name="name"
                                     value={signUp.name}
                                     onChange={handleChange}
-                                    className="text-field-orange"
                                     size="small"
                                     fullWidth
+                                    sx={{
+                                        "& label": {
+                                            color: "#0d47a1",
+                                            fontWeight: 600,
+                                        },
+                                        "& label.Mui-focused": {
+                                            color: "#0d47a1",
+                                        },
+                                        "& .MuiOutlinedInput-root": {
+                                            color: "#0d47a1",
+                                            "& fieldset": {
+                                                borderColor: "rgba(13, 71, 161, 0.65)",
+                                            },
+                                            "&:hover fieldset": {
+                                                borderColor: "#0d47a1",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                                borderColor: "#0d47a1",
+                                                borderWidth: 2,
+                                            },
+                                        },
+                                    }}
                                 />
 
                                 <TextField
@@ -265,9 +296,30 @@ export default function SignUp() {
                                     name="email"
                                     value={signUp.email}
                                     onChange={handleChange}
-                                    className="text-field-orange"
                                     size="small"
                                     fullWidth
+                                    sx={{
+                                        "& label": {
+                                            color: "#0d47a1",
+                                            fontWeight: 600,
+                                        },
+                                        "& label.Mui-focused": {
+                                            color: "#0d47a1",
+                                        },
+                                        "& .MuiOutlinedInput-root": {
+                                            color: "#0d47a1",
+                                            "& fieldset": {
+                                                borderColor: "rgba(13, 71, 161, 0.65)",
+                                            },
+                                            "&:hover fieldset": {
+                                                borderColor: "#0d47a1",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                                borderColor: "#0d47a1",
+                                                borderWidth: 2,
+                                            },
+                                        },
+                                    }}
                                 />
 
                                 <TextField
@@ -276,9 +328,30 @@ export default function SignUp() {
                                     name="number"
                                     value={signUp.number}
                                     onChange={handleChange}
-                                    className="text-field-orange"
                                     size="small"
                                     fullWidth
+                                    sx={{
+                                        "& label": {
+                                            color: "#0d47a1",
+                                            fontWeight: 600,
+                                        },
+                                        "& label.Mui-focused": {
+                                            color: "#0d47a1",
+                                        },
+                                        "& .MuiOutlinedInput-root": {
+                                            color: "#0d47a1",
+                                            "& fieldset": {
+                                                borderColor: "rgba(13, 71, 161, 0.65)",
+                                            },
+                                            "&:hover fieldset": {
+                                                borderColor: "#0d47a1",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                                borderColor: "#0d47a1",
+                                                borderWidth: 2,
+                                            },
+                                        },
+                                    }}
                                 />
 
                                 <TextField
@@ -288,11 +361,32 @@ export default function SignUp() {
                                     name="password"
                                     value={signUp.password}
                                     onChange={handleChange}
-                                    className="text-field-orange"
                                     size="small"
                                     fullWidth
+                                    sx={{
+                                        "& label": {
+                                            color: "#0d47a1",
+                                            fontWeight: 600,
+                                        },
+                                        "& label.Mui-focused": {
+                                            color: "#0d47a1",
+                                        },
+                                        "& .MuiOutlinedInput-root": {
+                                            color: "#0d47a1",
+                                            "& fieldset": {
+                                                borderColor: "rgba(13, 71, 161, 0.65)",
+                                            },
+                                            "&:hover fieldset": {
+                                                borderColor: "#0d47a1",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                                borderColor: "#0d47a1",
+                                                borderWidth: 2,
+                                            },
+                                        },
+                                    }}
                                 />
-
+                                
                                 <TextField
                                     label="Confirm Password*"
                                     variant="outlined"
@@ -300,35 +394,62 @@ export default function SignUp() {
                                     name="confirmPassword"
                                     value={signUp.confirmPassword}
                                     onChange={handleChange}
-                                    className="text-field-orange"
                                     size="small"
                                     fullWidth
+                                    sx={{
+                                        "& label": {
+                                            color: "#0d47a1",
+                                            fontWeight: 600,
+                                        },
+                                        "& label.Mui-focused": {
+                                            color: "#0d47a1",
+                                        },
+                                        "& .MuiOutlinedInput-root": {
+                                            color: "#0d47a1",
+                                            "& fieldset": {
+                                                borderColor: "rgba(13, 71, 161, 0.65)",
+                                            },
+                                            "&:hover fieldset": {
+                                                borderColor: "#0d47a1",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                                borderColor: "#0d47a1",
+                                                borderWidth: 2,
+                                            },
+                                        },
+                                    }}
                                 />
 
                                 <Button
                                     fullWidth
                                     size="large"
-                                    variant="contained"
+                                    variant="outlined"
                                     onClick={handleClick}
                                     sx={{
                                         mt: 1,
                                         height: 42,
                                         borderRadius: 2,
                                         textTransform: "uppercase",
-                                        bgcolor: "#e65100",
-                                        color: "#ffe0c7",
+
+                                        border: "2px solid #0d47a1",
+                                        color: "#0d47a1",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
 
-                                        boxShadow: "0 3px 8px rgba(0,0,0,0.22)",
+                                        bgcolor: "rgba(230, 81, 0, 0.14)",
+
+                                        boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
 
                                         "&:hover": {
-                                            bgcolor: "#e65100",
-                                            boxShadow: "0 5px 12px rgba(0,0,0,0.28)",
+                                            bgcolor: "rgba(230, 81, 0, 0.22)",
+                                            borderColor: "#0d47a1",
+                                            color: "#0d47a1",
+                                            boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
                                         },
 
                                         "&:active": {
-                                            boxShadow: "0 2px 5px rgba(0,0,0,0.25)",
+                                            bgcolor: "rgba(230, 81, 0, 0.28)",
+                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
                                             transform: "translateY(1px)",
                                         },
                                     }}
@@ -343,7 +464,7 @@ export default function SignUp() {
                                         mt: 0.5,
                                         fontSize: "0.85rem",
                                         textTransform: "none",
-                                        color: "#e65100",
+                                        color: "rgba(180, 63, 0, 1)",
                                         "&:hover": {
                                             textDecoration: "underline",
                                         },
@@ -356,18 +477,29 @@ export default function SignUp() {
                                     fullWidth
                                     onClick={() => navigate("/")}
                                     sx={{
-                                        // mt: 2,
                                         borderRadius: 2,
                                         textTransform: "uppercase",
-                                        border: "2px solid #e65100",
-                                        color: "#e65100",
-                                        letterSpacing: "0.12em",
+
+                                        border: "2px solid #0d47a1",
+                                        color: "#0d47a1",
+                                        letterSpacing: "0.14em",
                                         fontWeight: 700,
-                                        bgcolor: "#fff4e1",
-                                        boxShadow: "0 3px 10px rgba(0,0,0,0.18)",
+
+                                        bgcolor: "rgba(230, 81, 0, 0.14)",
+
+                                        boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+
                                         "&:hover": {
-                                            bgcolor: "#ffe0c7",
-                                            boxShadow: "0 6px 16px rgba(0,0,0,0.28)",
+                                            bgcolor: "rgba(230, 81, 0, 0.22)",
+                                            borderColor: "#0d47a1",
+                                            color: "#0d47a1",
+                                            boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
+                                        },
+
+                                        "&:active": {
+                                            bgcolor: "rgba(230, 81, 0, 0.28)",
+                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
+                                            transform: "translateY(1px)",
                                         },
                                     }}
                                 >
