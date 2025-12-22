@@ -120,7 +120,7 @@ export default function NavbarAdmin() {
                   minWidth: { xs: "unset", md: 140 },
                 }}
               >
-                <Box sx={{ display: { xs: "none", md: "block" } }}>Orders</Box>
+                <Box sx={{ display: "block" }}>Orders</Box>
               </Button>
             )}
 
@@ -144,7 +144,7 @@ export default function NavbarAdmin() {
                   minWidth: { xs: "unset", md: 160 },
                 }}
               >
-                <Box sx={{ display: { xs: "none", md: "block" } }}>Messages</Box>
+                <Box sx={{ display: "block" }}>Messages</Box>
               </Button>
             )}
 
