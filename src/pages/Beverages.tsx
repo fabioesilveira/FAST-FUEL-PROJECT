@@ -234,6 +234,10 @@ export default function Beverages() {
     }
   }
 
+  const handleNavigate = (category: string) => {
+  navigate(`/${category.toLowerCase()}`);
+};
+
   const imageStyles: { [id: string]: React.CSSProperties } = {
     "5": { width: "180px", height: "140px", marginTop: "60px" },  // Coke
     "6": { width: "125px", height: "190px", marginTop: "33px" },  // Sprite

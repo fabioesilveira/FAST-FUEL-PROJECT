@@ -11,6 +11,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useNavigate } from "react-router-dom";
+import { useAppAlert } from "../hooks/useAppAlert";
 
 // ícones
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -20,16 +21,22 @@ import EmailIcon from "@mui/icons-material/Email";
 
 const drawerWidth = 240;
 
-// 🔵 estrutura / 🟠 atmosfera
+// 🎨 identidade
 const BLUE = "#0d47a1";
-const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
-const ORANGE_SOFT_HOVER = "rgba(230, 81, 0, 0.22)";
+const ORANGE = "#e85f10";
+const ORANGE_SOFT = "rgba(230,81,0,.18)";
+const ORANGE_SOFT_HOVER = "rgba(230,81,0,.22)";
 
 const items = [
-  { label: "SIGNIN / SIGNUP", icon: AccountCircleIcon, path: "/sign-in", disabled: false },
-  { label: "MY ORDERS", icon: HistoryIcon, path: "/history", disabled: false },
-  { label: "CONTACT US", icon: EmailIcon, path: "/contact-us", disabled: false },
-  { label: "DELETE ACCOUNT", icon: NoAccountsIcon, path: "/deleteaccount", disabled: true },
+  { label: "SIGNIN / SIGNUP", icon: AccountCircleIcon, path: "/sign-in" },
+  { label: "MY ORDERS", icon: HistoryIcon, path: "/history" },
+  { label: "CONTACT US", icon: EmailIcon, path: "/contact-us" },
+  {
+    label: "DELETE ACCOUNT",
+    icon: NoAccountsIcon,
+    path: "/deleteaccount",
+    requiresAuth: true,
+  },
 ];
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -77,111 +84,130 @@ export default function DrawerProducts() {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
 
+  const { showAlert, AlertUI } = useAppAlert({
+    vertical: "top",
+    horizontal: "center",
+  });
+
   const handleToggle = () => setOpen((prev) => !prev);
 
+  const handleNavigate = (path: string, requiresAuth?: boolean) => {
+    const isLogged = Boolean(localStorage.getItem("idUser"));
+
+    if (requiresAuth && !isLogged) {
+      showAlert("Please sign in to delete your account", "warning");
+      return;
+    }
+
+    navigate(path);
+  };
+
   return (
-    <Drawer
-      variant="permanent"
-      open={open}
-      PaperProps={{
-        sx: {
-          position: "fixed",
-          top: "50%",
-          left: 0,
-          transform: "translateY(-50%)",
-          height: "auto",
-          backgroundColor: "#fff3e0",
-          borderRadius: "0 13px 13px 0",
-          boxShadow:
-            "0 6px 18px rgba(13, 71, 161, 0.22), 0 10px 28px rgba(230, 81, 0, 0.14)",
-        },
-      }}
-    >
-      {/* Toggle */}
-      <DrawerHeader>
-        <IconButton onClick={handleToggle}>
-          {open ? (
-            <ChevronLeftIcon sx={{ color: BLUE }} />
-          ) : (
-            <ChevronRightIcon sx={{ color: BLUE }} />
-          )}
-        </IconButton>
-      </DrawerHeader>
+    <>
+      {AlertUI}
 
-      <Divider sx={{ backgroundColor: "rgba(13, 71, 161, 0.35)" }} />
+      <Drawer
+        variant="permanent"
+        open={open}
+        PaperProps={{
+          sx: {
+            position: "fixed",
+            top: "50%",
+            left: 0,
+            transform: "translateY(-50%)",
+            height: "auto",
+            backgroundColor: "#fff3e0",
+            borderRadius: "0 13px 13px 0",
+            boxShadow:
+              "0 6px 18px rgba(13,71,161,.22), 0 10px 28px rgba(230,81,0,.14)",
+          },
+        }}
+      >
+        {/* Toggle */}
+        <DrawerHeader>
+          <IconButton onClick={handleToggle}>
+            {open ? (
+              <ChevronLeftIcon sx={{ color: BLUE }} />
+            ) : (
+              <ChevronRightIcon sx={{ color: BLUE }} />
+            )}
+          </IconButton>
+        </DrawerHeader>
 
-      {/* Menu */}
-      <List sx={{ px: 1 }}>
-        {items.map(({ label, icon: IconComp, path, disabled }) => (
-          <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.5 }}>
-            <ListItemButton
-              disabled={disabled}
-              onClick={() => {
-                if (!disabled) navigate(path);
-              }}
-              sx={[
-                {
-                  minHeight: 56,
-                  px: 2,
-                  borderRadius: 1.5,
-                  border: "2px solid transparent",
-                  bgcolor: "transparent",
+        <Divider sx={{ backgroundColor: "rgba(13,71,161,.35)" }} />
 
-                  "&:hover": {
-                    bgcolor: ORANGE_SOFT,
-                    borderColor: BLUE,
-                  },
-
-                  "&.Mui-disabled": {
-                    opacity: 0.4,
-                  },
-                },
-                open ? { justifyContent: "initial" } : { justifyContent: "center" },
-              ]}
-            >
-              <ListItemIcon
+        {/* Menu */}
+        <List sx={{ px: 1 }}>
+          {items.map(({ label, icon: IconComp, path, requiresAuth }) => (
+            <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.5 }}>
+              <ListItemButton
+                onClick={() => handleNavigate(path, requiresAuth)}
                 sx={[
                   {
-                    minWidth: 0,
-                    width: 40,
-                    height: 40,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: BLUE,
-                    opacity: disabled ? 0.45 : 1,
-                  },
-                  open ? { mr: 2 } : { mr: "auto" },
-                ]}
-              >
-                <IconComp
-                  sx={{
-                    fontSize: 24,
-                    transition: "transform 0.2s ease",
-                    transform: open ? "scale(1.05)" : "scale(1)",
-                  }}
-                />
-              </ListItemIcon>
+                    minHeight: 56,
+                    px: 2,
+                    borderRadius: 1.5,
+                    border: "2px solid transparent",
+                    bgcolor: "transparent",
+                    transition: "all .18s ease",
 
-              <ListItemText
-                primary={label}
-                sx={[
-                  {
-                    "& .MuiTypography-root": {
-                      fontWeight: 600,
-                      fontSize: "0.9rem",
-                      letterSpacing: "0.06em",
-                      color: BLUE,
-                      textTransform: "uppercase",
+                    "&:hover": {
+                      bgcolor: ORANGE_SOFT_HOVER,
+                      borderColor: BLUE,
+                    },
+
+                    "&:active": {
+                      bgcolor: "rgba(230,81,0,.28)",
+                      transform: "translateY(1px)",
                     },
                   },
-                  open ? { opacity: 1 } : { opacity: 0 },
+                  open ? { justifyContent: "initial" } : { justifyContent: "center" },
                 ]}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Drawer>
+              >
+                <ListItemIcon
+                  sx={[
+                    {
+                      minWidth: 0,
+                      width: 40,
+                      height: 40,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: ORANGE,
+                    },
+                    open ? { mr: 2 } : { mr: "auto" },
+                  ]}
+                >
+                  <IconComp
+                    sx={{
+                      fontSize: 24,
+                      color: ORANGE,
+                      transition: "transform .2s ease",
+                      transform: open ? "scale(1.05)" : "scale(1)",
+                    }}
+                  />
+                </ListItemIcon>
+
+                <ListItemText
+                  primary={label}
+                  sx={[
+                    {
+                      "& .MuiTypography-root": {
+                        fontWeight: 600,
+                        fontSize: "0.9rem",
+                        letterSpacing: "0.06em",
+                        color: BLUE,
+                        textTransform: "uppercase",
+                      },
+                    },
+                    open ? { opacity: 1 } : { opacity: 0 },
+                  ]}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+    </>
   );
 }
