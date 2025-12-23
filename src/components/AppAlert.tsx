@@ -22,7 +22,7 @@ export default function AppAlert({
   message,
   severity = "info",
   onClose,
-  autoHideDuration = 2600,
+  autoHideDuration = 5000,
   position = { vertical: "bottom", horizontal: "center" },
 }: AppAlertProps) {
   return (

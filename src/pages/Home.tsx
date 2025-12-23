@@ -609,7 +609,7 @@ export default function Home() {
                                 justifyContent: "center", // conjunto centralizado
                                 gap: { xs: 1.5, md: 2 },  // gap controlado (sem gigante)
                                 mb: { xs: 4, md: 6 },
-                                mt: { xs: 2, md: 4 },
+                                mt: { xs: 1, md: 4 },
                                 flexWrap: "wrap", // quebra bonito no mobile
                             }}
                         >
@@ -618,7 +618,7 @@ export default function Home() {
                                 className="total"
                                 style={{
                                     margin: 0,
-                                    fontSize: "clamp(26px, 3.2vw, 40px)",
+                                    fontSize: "clamp(30px, 3.2vw, 40px)",
                                     lineHeight: 1,
                                     whiteSpace: "nowrap",
                                 }}
