@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useMediaQuery } from "@mui/material";
+import { useAppAlert } from "../hooks/useAppAlert";
 import {
     Box,
     Paper,
@@ -34,23 +35,34 @@ export default function ContactUs() {
 
     const navigate = useNavigate();
 
+    const { showAlert, AlertUI } = useAppAlert({
+        vertical: "top",
+        horizontal: "center",
+    });
+
+
     const isMobile = useMediaQuery("(max-width:900px)");
 
     async function handleClick() {
-
-        if (!contactForm.name || !contactForm.email || !contactForm.subject || !contactForm.message) {
-            alert("Please fill in all required * fields.");
+        if (
+            !contactForm.name || !contactForm.email || !contactForm.subject || !contactForm.message
+        ) {
+            showAlert("Please fill in all required * fields.", "warning");
             return;
         }
 
         try {
-            const res = await axios.post("http://localhost:3000/contact-us", contactForm)
+            const res = await axios.post(
+                "http://localhost:3000/contact-us",
+                contactForm
+            );
 
             if (!res.data || !res.data.id) {
-                alert("Fail to send the message. Please try again.");
+                showAlert("Failed to send the message. Please try again.", "error");
                 return;
             }
-            alert("Message sent successfully!");
+
+            showAlert("Message sent successfully!", "success");
 
             // limpar o form
             setContactForm({
@@ -59,13 +71,14 @@ export default function ContactUs() {
                 orderNumber: 0,
                 phone: "",
                 subject: "",
-                message: ""
+                message: "",
             });
         } catch (error) {
             console.error("error to send the data", error);
-            alert("Fail to send the message. Please try again.");
+            showAlert("Failed to send the message. Please try again.", "error");
         }
     }
+
 
     function handleChange(
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -82,6 +95,8 @@ export default function ContactUs() {
         <>
 
             <NavbarProducts />
+
+            {AlertUI}
 
             <Box
                 sx={{
@@ -191,7 +206,7 @@ export default function ContactUs() {
                                     mb: 3,
                                     letterSpacing: "0.12em",
                                     textTransform: "uppercase",
-                                    color: "#e65100",
+                                    color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
                                 }}
@@ -213,58 +228,171 @@ export default function ContactUs() {
                                 }}
                             >
                                 <TextField
-                                    className="text-field-orange"
-                                    size="small"
-                                    label="Full Name"
+                                    variant="outlined"
+                                    label="Full Name*"
                                     name="name"
                                     value={contactForm.name}
                                     onChange={handleChange}
+                                    size="small"
                                     fullWidth
+                                    sx={{
+                                        "& label": {
+                                            color: "#0d47a1",
+                                            fontWeight: 600,
+                                        },
+                                        "& label.Mui-focused": {
+                                            color: "#0d47a1",
+                                        },
+                                        "& .MuiOutlinedInput-root": {
+                                            color: "#0d47a1",
+                                            "& fieldset": {
+                                                borderColor: "#0d47a1",
+                                            },
+                                            "&:hover fieldset": {
+                                                borderColor: "#123b7a",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                                borderColor: "#0d47a1",
+                                                borderWidth: 2,
+                                            },
+                                        },
+                                    }}
                                 />
 
                                 <TextField
-                                    className="text-field-orange"
-                                    size="small"
-                                    label="Email"
+                                    variant="outlined"
+                                    label="Email*"
                                     type="email"
                                     name="email"
                                     value={contactForm.email}
                                     onChange={handleChange}
+                                    size="small"
                                     fullWidth
+                                    sx={{
+                                        "& label": {
+                                            color: "#0d47a1",
+                                            fontWeight: 600,
+                                        },
+                                        "& label.Mui-focused": {
+                                            color: "#0d47a1",
+                                        },
+                                        "& .MuiOutlinedInput-root": {
+                                            color: "#0d47a1",
+                                            "& fieldset": {
+                                                borderColor: "#0d47a1",
+                                            },
+                                            "&:hover fieldset": {
+                                                borderColor: "#123b7a",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                                borderColor: "#0d47a1",
+                                                borderWidth: 2,
+                                            },
+                                        },
+                                    }}
                                 />
+
 
                                 {/* Order + Phone */}
                                 <Box sx={{ display: "flex", gap: 1.5 }}>
+
                                     <TextField
-                                        className="text-field-orange"
+                                        variant="outlined"
                                         size="small"
                                         label="Order Number"
-                                        type="number"
                                         name="orderNumber"
                                         value={contactForm.orderNumber || ""}
                                         onChange={handleChange}
                                         fullWidth
+                                        sx={{
+                                            "& label": {
+                                                color: "#0d47a1",
+                                                fontWeight: 600,
+                                            },
+                                            "& label.Mui-focused": {
+                                                color: "#0d47a1",
+                                            },
+                                            "& .MuiOutlinedInput-root": {
+                                                color: "#0d47a1",
+                                                "& fieldset": {
+                                                    borderColor: "#0d47a1",
+                                                },
+                                                "&:hover fieldset": {
+                                                    borderColor: "#123b7a",
+                                                },
+                                                "&.Mui-focused fieldset": {
+                                                    borderColor: "#0d47a1",
+                                                    borderWidth: 2,
+                                                },
+                                            },
+                                        }}
                                     />
 
                                     <TextField
-                                        className="text-field-orange"
+                                        variant="outlined"
                                         size="small"
                                         label="Phone Number"
                                         name="phone"
                                         value={contactForm.phone}
                                         onChange={handleChange}
                                         fullWidth
+                                        sx={{
+                                            "& label": {
+                                                color: "#0d47a1",
+                                                fontWeight: 600,
+                                            },
+                                            "& label.Mui-focused": {
+                                                color: "#0d47a1",
+                                            },
+                                            "& .MuiOutlinedInput-root": {
+                                                color: "#0d47a1",
+                                                "& fieldset": {
+                                                    borderColor: "#0d47a1",
+                                                },
+                                                "&:hover fieldset": {
+                                                    borderColor: "#123b7a",
+                                                },
+                                                "&.Mui-focused fieldset": {
+                                                    borderColor: "#0d47a1",
+                                                    borderWidth: 2,
+                                                },
+                                            },
+                                        }}
                                     />
+
+
                                 </Box>
 
                                 <TextField
-                                    className="text-field-orange"
+                                    variant="outlined"
                                     size="small"
-                                    label="Subject"
+                                    label="Subject*"
                                     name="subject"
                                     value={contactForm.subject}
                                     onChange={handleChange}
                                     fullWidth
+                                    sx={{
+                                        "& label": {
+                                            color: "#0d47a1",
+                                            fontWeight: 600,
+                                        },
+                                        "& label.Mui-focused": {
+                                            color: "#0d47a1",
+                                        },
+                                        "& .MuiOutlinedInput-root": {
+                                            color: "#0d47a1",
+                                            "& fieldset": {
+                                                borderColor: "#0d47a1",
+                                            },
+                                            "&:hover fieldset": {
+                                                borderColor: "#123b7a",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                                borderColor: "#0d47a1",
+                                                borderWidth: 2,
+                                            },
+                                        },
+                                    }}
                                 />
 
                                 {/* Message */}
@@ -275,16 +403,15 @@ export default function ContactUs() {
                                             display: "block",
                                             textAlign: "right",
                                             mb: 0.5,
-                                            color: "text.secondary",
+                                            color: "rgba(180, 63, 0, 1)",
                                         }}
                                     >
                                         {contactForm.message.length} / 300
                                     </Typography>
-
+                                    
                                     <TextField
-                                        className="text-field-orange"
                                         size="small"
-                                        label="Message"
+                                        label="Message*"
                                         name="message"
                                         value={contactForm.message}
                                         onChange={handleChange}
@@ -292,34 +419,61 @@ export default function ContactUs() {
                                         multiline
                                         rows={5}
                                         inputProps={{ maxLength: 300 }}
+                                        sx={{
+                                        "& label": {
+                                            color: "#0d47a1",
+                                            fontWeight: 600,
+                                        },
+                                        "& label.Mui-focused": {
+                                            color: "#0d47a1",
+                                        },
+                                        "& .MuiOutlinedInput-root": {
+                                            color: "#0d47a1",
+                                            "& fieldset": {
+                                                borderColor: "#0d47a1",
+                                            },
+                                            "&:hover fieldset": {
+                                                borderColor: "#123b7a",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                                borderColor: "#0d47a1",
+                                                borderWidth: 2,
+                                            },
+                                        },
+                                    }}
                                     />
                                 </Box>
 
                                 <Button
                                     fullWidth
                                     size="large"
-                                    variant="contained"
+                                    variant="outlined"
                                     onClick={handleClick}
                                     sx={{
                                         mt: { xs: 0, sm: 0, md: 0.5 },
                                         height: 42,
                                         borderRadius: 2,
                                         textTransform: "uppercase",
-                                        bgcolor: "#e65100",
-                                        color: "#ffe0c7",
+
+                                        border: "2px solid #0d47a1",
+                                        color: "#0d47a1",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
 
-                                        //  sombra bem mais suave
-                                        boxShadow: "0 3px 8px rgba(0,0,0,0.22)",
+                                        bgcolor: "rgba(230, 81, 0, 0.14)",
+
+                                        boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
 
                                         "&:hover": {
-                                            bgcolor: "#e65100",
-                                            boxShadow: "0 5px 12px rgba(0,0,0,0.28)",
+                                            bgcolor: "rgba(230, 81, 0, 0.22)",
+                                            borderColor: "#0d47a1",
+                                            color: "#0d47a1",
+                                            boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
                                         },
 
                                         "&:active": {
-                                            boxShadow: "0 2px 5px rgba(0,0,0,0.25)",
+                                            bgcolor: "rgba(230, 81, 0, 0.28)",
+                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
                                             transform: "translateY(1px)",
                                         },
                                     }}
@@ -334,22 +488,36 @@ export default function ContactUs() {
                                     onClick={() => navigate("/")}
                                     sx={{
                                         mt: { sm: 0.5, md: 1 },
+                                        height: 42,
                                         borderRadius: 2,
                                         textTransform: "uppercase",
-                                        border: "2px solid #e65100",
-                                        color: "#e65100",
-                                        letterSpacing: "0.12em",
+
+                                        border: "2px solid #0d47a1",
+                                        color: "#0d47a1",
+                                        letterSpacing: "0.14em",
                                         fontWeight: 700,
-                                        bgcolor: "#fff4e1",
-                                        boxShadow: "0 3px 10px rgba(0,0,0,0.18)",
+
+                                        bgcolor: "rgba(230, 81, 0, 0.14)",
+
+                                        boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+
                                         "&:hover": {
-                                            bgcolor: "#ffe0c7",
-                                            boxShadow: "0 6px 16px rgba(0,0,0,0.28)",
+                                            bgcolor: "rgba(230, 81, 0, 0.22)",
+                                            borderColor: "#0d47a1",
+                                            color: "#0d47a1",
+                                            boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
+                                        },
+
+                                        "&:active": {
+                                            bgcolor: "rgba(230, 81, 0, 0.28)",
+                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
+                                            transform: "translateY(1px)",
                                         },
                                     }}
                                 >
                                     Cancel
                                 </Button>
+
                             </Box>
                         </Paper>
                     </Box>
