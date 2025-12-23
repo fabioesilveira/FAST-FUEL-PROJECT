@@ -11,6 +11,7 @@ import Footer from "../components/Footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import NavbarProducts from "../components/NavbarProducts";
+import { useAppAlert } from "../hooks/useAppAlert";
 
 type User = {
     email: string;
@@ -29,22 +30,29 @@ export default function DeleteAccount() {
     const navigate = useNavigate();
     const isMobile = useMediaQuery("(max-width:900px)");
 
+    const { showAlert, AlertUI } = useAppAlert({
+        vertical: "top",
+        horizontal: "center",
+    });
+
+
     async function handleDelete() {
         if (!deleteACC.email || !deleteACC.password || !deleteACC.confirmPassword) {
-            alert("Please fill in all fields");
+            showAlert("Please fill in all fields.", "warning");
             return;
         }
 
         if (deleteACC.password !== deleteACC.confirmPassword) {
-            alert("The passwords entered don’t match. Please try again.");
+            showAlert("The passwords entered don’t match. Please try again.", "error");
             return;
         }
 
         const confirmDelete = window.confirm(
-            "Are you sure you want to delete your account? This action cannot be undone"
+            "Are you sure you want to delete your account?\nThis action cannot be undone."
         );
 
         if (!confirmDelete) {
+            showAlert("Account deletion canceled.", "info");
             return;
         }
 
@@ -55,18 +63,20 @@ export default function DeleteAccount() {
             );
 
             if (!res.data || res.data.affectedRows === 0) {
-                alert("Email and password do not match any account.");
+                showAlert("Email and password do not match any account.", "error");
                 return;
             }
 
-            // Só limpa o localStorage SE o backend confirmar o delete
+            // backend confirmou → limpar sessão
             localStorage.removeItem("idUser");
             localStorage.removeItem("userName");
+
+            showAlert("Account deleted successfully.", "success");
 
             navigate("/sign-in");
         } catch (error: any) {
             console.error("error to send the data", error);
-            alert("Error deleting account. Please try again.");
+            showAlert("Error deleting account. Please try again.", "error");
         }
     }
 
@@ -78,11 +88,11 @@ export default function DeleteAccount() {
         }));
     }
 
-
     return (
         <>
-
             <NavbarProducts />
+
+            {AlertUI}
 
             <Box
                 sx={{
@@ -214,11 +224,10 @@ export default function DeleteAccount() {
                                 This action is permanent and cannot be undone.
                             </Typography>
 
-                            {/* FORM AREA – MESMO LAYOUT DO SIGNIN */}
                             <Box
                                 sx={{
                                     width: "100%",
-                                    maxWidth: 360,                  // mesmo do SignIn
+                                    maxWidth: 360,
                                     display: "flex",
                                     flexDirection: "column",
                                     gap: 1.5,
@@ -298,18 +307,31 @@ export default function DeleteAccount() {
                                     fullWidth
                                     onClick={() => navigate("/")}
                                     sx={{
-                                        mt: 2,
+                                        mt: { sm: 0.5, md: 1 },
+                                        height: 42,
                                         borderRadius: 2,
                                         textTransform: "uppercase",
-                                        border: "2px solid #e65100",
-                                        color: "#e65100",
-                                        letterSpacing: "0.12em",
+
+                                        border: "2px solid #0d47a1",
+                                        color: "#0d47a1",
+                                        letterSpacing: "0.14em",
                                         fontWeight: 700,
-                                        bgcolor: "#fff4e1",
-                                        boxShadow: "0 3px 10px rgba(0,0,0,0.18)",
+
+                                        bgcolor: "rgba(230, 81, 0, 0.14)",
+
+                                        boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+
                                         "&:hover": {
-                                            bgcolor: "#ffe0c7",
-                                            boxShadow: "0 6px 16px rgba(0,0,0,0.28)",
+                                            bgcolor: "rgba(230, 81, 0, 0.22)",
+                                            borderColor: "#0d47a1",
+                                            color: "#0d47a1",
+                                            boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
+                                        },
+
+                                        "&:active": {
+                                            bgcolor: "rgba(230, 81, 0, 0.28)",
+                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
+                                            transform: "translateY(1px)",
                                         },
                                     }}
                                 >
