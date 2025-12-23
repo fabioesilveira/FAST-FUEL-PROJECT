@@ -20,6 +20,11 @@ import EmailIcon from "@mui/icons-material/Email";
 
 const drawerWidth = 240;
 
+// 🔵 estrutura / 🟠 atmosfera
+const BLUE = "#0d47a1";
+const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
+const ORANGE_SOFT_HOVER = "rgba(230, 81, 0, 0.22)";
+
 const items = [
   { label: "SIGNIN / SIGNUP", icon: AccountCircleIcon, path: "/sign-in", disabled: false },
   { label: "MY ORDERS", icon: HistoryIcon, path: "/history", disabled: false },
@@ -88,32 +93,49 @@ export default function DrawerProducts() {
           backgroundColor: "#fff3e0",
           borderRadius: "0 13px 13px 0",
           boxShadow:
-            "0 4px 12px rgba(230, 81, 0, 0.25), 0 8px 20px rgba(230, 81, 0, 0.18)",
+            "0 6px 18px rgba(13, 71, 161, 0.22), 0 10px 28px rgba(230, 81, 0, 0.14)",
         },
       }}
     >
+      {/* Toggle */}
       <DrawerHeader>
         <IconButton onClick={handleToggle}>
           {open ? (
-            <ChevronLeftIcon sx={{ color: "#e65100" }} />
+            <ChevronLeftIcon sx={{ color: BLUE }} />
           ) : (
-            <ChevronRightIcon sx={{ color: "#e65100" }} />
+            <ChevronRightIcon sx={{ color: BLUE }} />
           )}
         </IconButton>
       </DrawerHeader>
 
-      <Divider sx={{ backgroundColor: "#e65100" }} />
+      <Divider sx={{ backgroundColor: "rgba(13, 71, 161, 0.35)" }} />
 
-      <List>
+      {/* Menu */}
+      <List sx={{ px: 1 }}>
         {items.map(({ label, icon: IconComp, path, disabled }) => (
-          <ListItem key={label} disablePadding sx={{ display: "block" }}>
+          <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.5 }}>
             <ListItemButton
               disabled={disabled}
               onClick={() => {
                 if (!disabled) navigate(path);
               }}
               sx={[
-                { minHeight: 59, px: 2.5 },
+                {
+                  minHeight: 56,
+                  px: 2,
+                  borderRadius: 1.5,
+                  border: "2px solid transparent",
+                  bgcolor: "transparent",
+
+                  "&:hover": {
+                    bgcolor: ORANGE_SOFT,
+                    borderColor: BLUE,
+                  },
+
+                  "&.Mui-disabled": {
+                    opacity: 0.4,
+                  },
+                },
                 open ? { justifyContent: "initial" } : { justifyContent: "center" },
               ]}
             >
@@ -126,7 +148,7 @@ export default function DrawerProducts() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: "#f1671cff",
+                    color: BLUE,
                     opacity: disabled ? 0.45 : 1,
                   },
                   open ? { mr: 2 } : { mr: "auto" },
@@ -135,8 +157,8 @@ export default function DrawerProducts() {
                 <IconComp
                   sx={{
                     fontSize: 24,
-                    transform: open ? "scale(1.1)" : "scale(1)",
                     transition: "transform 0.2s ease",
+                    transform: open ? "scale(1.05)" : "scale(1)",
                   }}
                 />
               </ListItemIcon>
@@ -148,7 +170,9 @@ export default function DrawerProducts() {
                     "& .MuiTypography-root": {
                       fontWeight: 600,
                       fontSize: "0.9rem",
-                      color: "#e65100",
+                      letterSpacing: "0.06em",
+                      color: BLUE,
+                      textTransform: "uppercase",
                     },
                   },
                   open ? { opacity: 1 } : { opacity: 0 },
@@ -161,3 +185,4 @@ export default function DrawerProducts() {
     </Drawer>
   );
 }
+

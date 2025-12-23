@@ -21,6 +21,7 @@ import NavFooter from "../components/NavFooter";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ButtonBase from "@mui/material/ButtonBase";
+import MobileStackCarousel from "../components/MobileStackCarousel";
 
 
 const cleanProductName = (name: string) => name.split("/")[0].trim();
@@ -45,6 +46,13 @@ const imageStylesById: Record<string, React.CSSProperties> = {
     "17": { width: "143px", height: "133px" },
     "18": { width: "115px", height: "120px" },
 };
+
+const mobileSlides = [
+    { id: "drive", src: Chat, alt: "Drive Thru" },
+    { id: "combo", src: Chat5, alt: "Combo Promo" },
+    { id: "team", src: Chat4, alt: "Fast Fuel Team" },
+    { id: "team", src: Chat6, alt: "Fast Fuel Team" },
+];
 
 
 type MiniActionCardProps = {
@@ -346,7 +354,6 @@ export default function Home() {
 
     const shouldShowOrderPreview = driveModeActive;
 
-
     // tenario removendo o shadow de quando o h1 muda pra cream cor
     const titleShadow = shouldUseCreamTitle
         ? "none"
@@ -550,101 +557,48 @@ export default function Home() {
                 )}
 
                 {shouldShowCarousel && (
-                    <div
-                        className="div-carousel"
-                        style={{
-                            width: "100%",
-                            maxWidth: "1200px",
-                            margin: "0 auto",
-                            borderRadius: "16px",
-                            overflow: "hidden",
-                            boxShadow: "0 8px 24px rgba(230, 81, 0, 0.25)",
-                            aspectRatio: "16 / 9.7",
-                        }}
-                    >
-                        <Carousel indicators={false} style={{ height: "100%" }}>
-
-                            <Carousel.Item style={{ height: "100%" }}>
-                                <img
-                                    src={Chat}
-                                    alt="Fast Fuel Banner"
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        objectFit: "cover",
-                                        display: "block",
-                                    }}
-                                />
-                            </Carousel.Item>
-
-                            <Carousel.Item style={{ height: "100%" }}>
-                                <img
-                                    src={Chat6}
-                                    alt="Fast Fuel Banner"
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        objectFit: "contain",
-                                        display: "block",
-                                        backgroundColor: "#fff3e0",
-                                    }}
-                                />
-                            </Carousel.Item>
-
-                            <Carousel.Item style={{ height: "100%" }}>
-                                <img
-                                    src={Chat5}
-                                    alt="Fast Fuel Banner"
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        objectFit: "contain",
-                                        display: "block",
-                                        backgroundColor: "#fff3e0",
-                                    }}
-                                />
-                            </Carousel.Item>
-
-                            <Carousel.Item style={{ height: "100%" }}>
-                                <img
-                                    src={Chat4}
-                                    alt="Fast Fuel Banner"
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        objectFit: "contain",
-                                        display: "block",
-                                        backgroundColor: "#fff3e0",
-                                    }}
-                                />
-                            </Carousel.Item>
-
-                        </Carousel>
-                    </div>
+                    <>
+                        {!isMobile ? (
+                            // DESKTOP → carousel normal
+                            <div
+                                className="div-carousel"
+                                style={{
+                                    width: "100%",
+                                    maxWidth: "1200px",
+                                    margin: "0 auto",
+                                    borderRadius: "16px",
+                                    overflow: "hidden",
+                                    boxShadow: "0 8px 24px rgba(230, 81, 0, 0.25)",
+                                    aspectRatio: "16 / 9.7",
+                                }}
+                            >
+                                <Carousel indicators={false} style={{ height: "100%" }}>
+                                    <Carousel.Item>
+                                        <img src={Chat} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                                    </Carousel.Item>
+                                    <Carousel.Item>
+                                        <img src={Chat6} style={{ width: "100%", height: "100%", objectFit: "contain", background: "#fff3e0" }} />
+                                    </Carousel.Item>
+                                    <Carousel.Item>
+                                        <img src={Chat5} style={{ width: "100%", height: "100%", objectFit: "contain", background: "#fff3e0" }} />
+                                    </Carousel.Item>
+                                    <Carousel.Item>
+                                        <img src={Chat4} style={{ width: "100%", height: "100%", objectFit: "contain", background: "#fff3e0" }} />
+                                    </Carousel.Item>
+                                </Carousel>
+                            </div>
+                        ) : (
+                            // MOBILE → stacked carousel
+                            <MobileStackCarousel
+                                slides={mobileSlides}
+                                height={255}
+                                gap={14}
+                                interval={4200}
+                                animationMs={780}
+                            />
+                        )}
+                    </>
                 )}
-
-                {isMobile && shouldShowCarousel && (
-                    <div className="combo-promo-mobile">
-                        <div className="combo-title-mobile">COMBO PROMO</div>
-
-                        <div className="combo-icons-row">
-                            <span className="combo-emoji">🍔</span>
-                            <span className="combo-plus">+</span>
-                            <span className="combo-emoji">🍟</span>
-                            <span className="combo-plus">+</span>
-                            <span className="combo-emoji combo-soda">🥤</span>
-                        </div>
-
-                        <div className="combo-off-mobile">R$ 2 OFF</div>
-
-                        <div className="combo-caption-mobile">
-                            Discount applied at total.
-                        </div>
-                    </div>
-                )}
-
-
-
 
                 {shouldShowOrderPreview && (
                     <>
@@ -701,7 +655,6 @@ export default function Home() {
                         </Box>
                     </>
                 )}
-
 
                 {driveModeActive && (
                     <Box sx={{ mb: { xs: 5, md: 2 } }}>

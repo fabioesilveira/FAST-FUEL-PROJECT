@@ -264,25 +264,50 @@ function Navbar({ onSearch }: NavbarProps) {
               >
                 {dropdownItemsChange.map(({ label, icon: Icon, path, click, disabled }) => (
                   <Button
-                    key={label}
-                    component={Link}
-                    to={path}
-                    onClick={click}
-                    disabled={disabled}
-                    sx={{
-                      color: '#e65100',
-                      outline: '2px solid #e65100',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'flex-start',
-                      gap: 1.2,
-                      width: '100%',
-                      px: 1.5,
-                      textAlign: 'left',
-                      textDecoration: 'none',
-                      '&:focus': { outlineOffset: '2px' },
-                    }}
-                  >
+  key={label}
+  component={Link}
+  to={path}
+  onClick={click}
+  disabled={disabled}
+  sx={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    gap: 1.2,
+    width: '100%',
+    px: 1.5,
+    py: 0.8,
+
+    borderRadius: 1.5,
+    textTransform: 'none',
+
+    border: '2px solid #0d47a1',
+    color: '#0d47a1',
+    fontWeight: 600,
+
+    bgcolor: 'rgba(230, 81, 0, 0.14)',
+
+    boxShadow: '0 2px 6px rgba(13, 71, 161, 0.18)',
+    textAlign: 'left',
+    textDecoration: 'none',
+
+    '&:hover': {
+      bgcolor: 'rgba(230, 81, 0, 0.22)',
+      boxShadow: '0 4px 10px rgba(13, 71, 161, 0.28)',
+    },
+
+    '&:active': {
+      bgcolor: 'rgba(230, 81, 0, 0.28)',
+      transform: 'translateY(1px)',
+    },
+
+    '&.Mui-disabled': {
+      opacity: 0.45,
+      borderColor: 'rgba(13, 71, 161, 0.4)',
+      color: 'rgba(13, 71, 161, 0.4)',
+    },
+  }}
+>
                     <Box
                       sx={{
                         width: 24,
