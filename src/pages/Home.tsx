@@ -526,7 +526,7 @@ export default function Home() {
                     <h1
                         className="h1-home"
                         style={{
-                            color: shouldUseCreamTitle ? "#ffe0c7" : "#e65100",
+                            color: shouldUseCreamTitle ? "#ffe0c7" : "#0d47a1",
                             transition: "color 0.3s ease",
                             textShadow: titleShadow,
                         }}

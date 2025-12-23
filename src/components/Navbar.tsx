@@ -17,12 +17,18 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NoAccountsIcon from '@mui/icons-material/NoAccounts';
 import HistoryIcon from '@mui/icons-material/History';
 import EmailIcon from '@mui/icons-material/Email';
+import { useAppAlert } from "../hooks/useAppAlert";
 
 const dropdownItems = [
-  { label: 'Signin / Signup', icon: AccountCircleIcon, path: '/sign-in', click: () => { }, disabled: false },
-  { label: 'My Orders', icon: HistoryIcon, path: '/history', click: () => { }, disabled: false },
-  { label: 'Contact Us', icon: EmailIcon, path: '/contact-us', click: () => { }, disabled: false },
-  { label: 'Delete Account', icon: NoAccountsIcon, path: '/deleteaccount', click: () => { }, disabled: true },
+  { label: 'Signin / Signup', icon: AccountCircleIcon, path: '/sign-in' },
+  { label: 'My Orders', icon: HistoryIcon, path: '/history' },
+  { label: 'Contact Us', icon: EmailIcon, path: '/contact-us' },
+  {
+    label: 'Delete Account',
+    icon: NoAccountsIcon,
+    path: '/deleteaccount',
+    requiresAuth: true, // importante
+  },
 ];
 
 const Search = styled('div')(({ theme }) => ({
@@ -92,19 +98,43 @@ function Navbar({ onSearch }: NavbarProps) {
     localStorage.clear();
   };
 
-  // user logged in?
+  const { showAlert, AlertUI } = useAppAlert({
+    vertical: "top",
+    horizontal: "center",
+  });
+
   useEffect(() => {
-    if (localStorage.getItem('idUser')) {
+    if (localStorage.getItem("idUser")) {
       setShown(false);
+
       setDropDownChange([
-        { label: 'Signout', icon: AccountCircleIcon, path: '/sign-in', click: handleClickSignout, disabled: false },
-        { label: 'My Orders', icon: HistoryIcon, path: '/history', click: () => { }, disabled: false },
-        { label: 'Contact Us', icon: EmailIcon, path: '/contact', click: () => { }, disabled: false },
-        { label: 'Delete Account', icon: NoAccountsIcon, path: '/deleteaccount', click: () => { }, disabled: false },
+        {
+          label: "Signout",
+          icon: AccountCircleIcon,
+          path: "/sign-in",
+        },
+        {
+          label: "My Orders",
+          icon: HistoryIcon,
+          path: "/history",
+        },
+        {
+          label: "Contact Us",
+          icon: EmailIcon,
+          path: "/contact-us",
+        },
+        {
+          label: "Delete Account",
+          icon: NoAccountsIcon,
+          path: "/deleteaccount",
+          requiresAuth: true,
+        },
       ]);
     }
+
     setBadgeQuantity(order.length);
-  }, []);
+  }, [order]);
+
 
   useEffect(() => {
     const qtdTotal = order.reduce((acc, element) => acc + element.quantidade, 0);
@@ -129,204 +159,207 @@ function Navbar({ onSearch }: NavbarProps) {
   }, [shown]);
 
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: '#fff3e0' }}>
-      <Box sx={{ width: '100%' }}>
-        <Toolbar
-          disableGutters
-          sx={{
-            minHeight: 80,
-            px: { xs: 1, md: 2 },
-            gap: { xs: 1, md: 2 },
-          }}
-        >
-          {/* LOGO – sempre visível, só menor no mobile */}
-          <Box
-            component="a"
-            href="#"
+    <>
+      {AlertUI}
+
+      <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
+        <Box sx={{ width: "100%" }}>
+          <Toolbar
+            disableGutters
             sx={{
-              display: "flex",
-              alignItems: "center",
-              ml: { xs: -1, md: -2 }, // puxa pra esquerda
+              minHeight: 80,
+              px: { xs: 1, md: 2 },
+              gap: { xs: 1, md: 2 },
             }}
           >
+            {/* LOGO */}
             <Box
-              component="img"
-              src={Logo}
-              alt="Fast Fuel Logo"
+              component="a"
+              href="#"
               sx={{
-                height: { xs: 62, md: 70 },
-                width: "auto",
-                objectFit: "contain",
-                transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" }, // estica no desktop
-                transformOrigin: "left center",  // estica puxando da esquerda
-              }}
-            />
-          </Box>
-
-          {/* SEARCH – continua no meio, só menor no mobile */}
-          <Box
-            sx={{
-              flexGrow: 1,
-              display: 'flex',
-              justifyContent: 'flex-start',
-            }}
-            onClick={() => searchInputRef.current?.focus()}
-          >
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                onChange={(event) => onSearch(event.target.value)}
-                inputProps={{ 'aria-label': 'search' }}
-                inputRef={searchInputRef}
-              />
-            </Search>
-          </Box>
-
-          {/* RIGHT SIDE – sempre visível, só reduzido no mobile */}
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: { xs: 1, md: 1.5 },
-              marginLeft: 'auto',
-              paddingRight: { xs: 1, md: 2 },
-              position: 'relative',
-            }}
-          >
-            {/* Cart */}
-            <IconButton
-              onClick={() => navigate('/checkout')}
-              sx={{
-                width: { xs: 50, md: 70 },
-                height: { xs: 34, md: 40 },
-                borderRadius: 2,
-                backgroundColor: '#e65100',
-                '&:hover': { backgroundColor: '#b33f00' },
-                boxShadow: '0px 3px 14px rgba(0,0,0,0.25)'
-                
+                display: "flex",
+                alignItems: "center",
+                ml: { xs: -1, md: -2 },
               }}
             >
-              <ShoppingCartIcon
-                sx={{
-                  fontSize: { xs: 24, md: 28 },
-                  color: '#ffe0c7',
-                }}
-              />
-              <CartBadge
-                badgeContent={badgeQuantity}
-                overlap="circular"
-                sx={{ pointerEvents: 'none' }}
-              />
-            </IconButton>
-
-            {/* Manage Button (abre dropdown) */}
-            <Button
-              variant="contained"
-              onClick={() => setShown((prev) => !prev)}
-              sx={{
-                width: { xs: 50, md: 68 },
-                height: { xs: 34, md: 40 },
-                minWidth: 'unset',
-                borderRadius: 2,
-                backgroundColor: '#e65100',
-                '&:hover': { backgroundColor: '#b33f00' },
-                padding: 0,
-              }}
-            >
-              <ManageAccountsIcon
-                sx={{
-                  fontSize: { xs: 27, md: 32 },
-                  color: '#ffe0c7',
-                }}
-              />
-            </Button>
-
-            {shown && (
               <Box
-                ref={menuRef}
+                component="img"
+                src={Logo}
+                alt="Fast Fuel Logo"
                 sx={{
-                  position: 'absolute',
-                  top: '115%',
-                  right: 0,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 1,
-                  backgroundColor: '#fff3e0',
-                  padding: 1.2,
+                  height: { xs: 62, md: 70 },
+                  width: "auto",
+                  objectFit: "contain",
+                  transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" },
+                  transformOrigin: "left center",
+                }}
+              />
+            </Box>
+
+            {/* SEARCH */}
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                justifyContent: "flex-start",
+              }}
+              onClick={() => searchInputRef.current?.focus()}
+            >
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+
+                <StyledInputBase
+                  placeholder="Search…"
+                  onChange={(event) => onSearch(event.target.value)}
+                  inputProps={{ "aria-label": "search" }}
+                  inputRef={searchInputRef}
+                />
+              </Search>
+            </Box>
+
+            {/* RIGHT SIDE */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: { xs: 1, md: 1.5 },
+                marginLeft: "auto",
+                paddingRight: { xs: 1, md: 2 },
+                position: "relative",
+              }}
+            >
+              {/* Cart */}
+              <IconButton
+                onClick={() => navigate("/checkout")}
+                sx={{
+                  width: { xs: 50, md: 70 },
+                  height: { xs: 34, md: 40 },
                   borderRadius: 2,
-                  boxShadow: '0 6px 16px rgba(0,0,0,0.30)',
-                  zIndex: 10,
-                  width: 210,
+                  backgroundColor: "#e65100",
+                  "&:hover": { backgroundColor: "#b33f00" },
+                  boxShadow: "0px 3px 14px rgba(0,0,0,0.25)",
                 }}
               >
-                {dropdownItemsChange.map(({ label, icon: Icon, path, click, disabled }) => (
-                  <Button
-  key={label}
-  component={Link}
-  to={path}
-  onClick={click}
-  disabled={disabled}
-  sx={{
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    gap: 1.2,
-    width: '100%',
-    px: 1.5,
-    py: 0.8,
+                <ShoppingCartIcon
+                  sx={{
+                    fontSize: { xs: 24, md: 28 },
+                    color: "#ffe0c7",
+                  }}
+                />
 
-    borderRadius: 1.5,
-    textTransform: 'none',
+                <CartBadge
+                  badgeContent={badgeQuantity}
+                  overlap="circular"
+                  sx={{ pointerEvents: "none" }}
+                />
+              </IconButton>
 
-    border: '2px solid #0d47a1',
-    color: '#0d47a1',
-    fontWeight: 600,
+              {/* Manage Button */}
+              <Button
+                variant="contained"
+                onClick={() => setShown((prev) => !prev)}
+                sx={{
+                  width: { xs: 50, md: 68 },
+                  height: { xs: 34, md: 40 },
+                  minWidth: "unset",
+                  borderRadius: 2,
+                  backgroundColor: "#e65100",
+                  "&:hover": { backgroundColor: "#b33f00" },
+                  padding: 0,
+                }}
+              >
+                <ManageAccountsIcon
+                  sx={{
+                    fontSize: { xs: 27, md: 32 },
+                    color: "#ffe0c7",
+                  }}
+                />
+              </Button>
 
-    bgcolor: 'rgba(230, 81, 0, 0.14)',
+              {/* Dropdown */}
+              {shown && (
+                <Box
+                  ref={menuRef}
+                  sx={{
+                    position: "absolute",
+                    top: "115%",
+                    right: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 1,
+                    backgroundColor: "#fff3e0",
+                    padding: 1.2,
+                    borderRadius: 2,
+                    boxShadow: "0 6px 16px rgba(0,0,0,0.30)",
+                    zIndex: 10,
+                    width: 210,
+                  }}
+                >
+                  {dropdownItemsChange.map(({ label, icon: Icon, path, requiresAuth }) => (
+                    <Button
+                      key={label}
+                      component={Link}
+                      to={path}
+                      onClick={(e) => {
+                        const isLogged = Boolean(localStorage.getItem("idUser"));
 
-    boxShadow: '0 2px 6px rgba(13, 71, 161, 0.18)',
-    textAlign: 'left',
-    textDecoration: 'none',
+                        if (requiresAuth && !isLogged) {
+                          e.preventDefault(); // impede navegação
+                          showAlert("Please sign in to delete your account", "warning");
+                          setShown(false); // opcional: fecha o menu
+                          return;
+                        }
 
-    '&:hover': {
-      bgcolor: 'rgba(230, 81, 0, 0.22)',
-      boxShadow: '0 4px 10px rgba(13, 71, 161, 0.28)',
-    },
-
-    '&:active': {
-      bgcolor: 'rgba(230, 81, 0, 0.28)',
-      transform: 'translateY(1px)',
-    },
-
-    '&.Mui-disabled': {
-      opacity: 0.45,
-      borderColor: 'rgba(13, 71, 161, 0.4)',
-      color: 'rgba(13, 71, 161, 0.4)',
-    },
-  }}
->
-                    <Box
+                        // opcional: fecha o menu ao clicar em qualquer item
+                        setShown(false);
+                      }}
                       sx={{
-                        width: 24,
-                        display: 'flex',
-                        justifyContent: 'flex-start',
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "flex-start",
+                        gap: 1.2,
+                        width: "100%",
+                        px: 1.5,
+                        py: 0.8,
+
+                        borderRadius: 1.5,
+                        textTransform: "none",
+
+                        border: "2px solid #0d47a1",
+                        color: "#0d47a1",
+                        fontWeight: 600,
+
+                        bgcolor: "rgba(230, 81, 0, 0.14)",
+                        boxShadow: "0 2px 6px rgba(13, 71, 161, 0.18)",
+
+                        "&:hover": {
+                          bgcolor: "rgba(230, 81, 0, 0.22)",
+                          boxShadow: "0 4px 10px rgba(13, 71, 161, 0.28)",
+                        },
+
+                        "&:active": {
+                          bgcolor: "rgba(230, 81, 0, 0.28)",
+                          transform: "translateY(1px)",
+                        },
                       }}
                     >
-                      <Icon sx={{ color: '#e65100' }} />
-                    </Box>
-                    {label}
-                  </Button>
-                ))}
-              </Box>
-            )}
-          </Box>
-        </Toolbar>
-      </Box>
-    </AppBar>
+                      <Box sx={{ width: 24, display: "flex" }}>
+                        <Icon sx={{ color: "#e85f10" }} />
+                      </Box>
+                      {label}
+                    </Button>
+                  ))}
+                </Box>
+              )}
+            </Box>
+          </Toolbar>
+        </Box>
+      </AppBar>
+    </>
   );
+
 }
 
 export default Navbar;
