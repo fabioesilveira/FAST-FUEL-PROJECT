@@ -525,51 +525,50 @@ body {
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(230, 81, 0, 0.22);
+
+  color: rgba(13, 71, 161, 0.22); /* 🔵 azul */
+
   font-style: italic;
   pointer-events: none;
   user-select: none;
   margin: 0;
-  /* remove espaço vertical */
   padding: 0;
   line-height: 1;
-  /* reduz altura visual */
 
-  /* layout – DESKTOP: topo esquerdo, sem absolute */
   display: block;
   text-align: left;
   margin-top: 100px;
   margin-left: 30px;
 }
 
-/* Tablet / medium (até 900px) – vai pro centro no topo */
+/* Tablet */
 @media (max-width: 900px) {
   .h2-products-background {
     font-size: 48px;
     letter-spacing: 0.15em;
     text-align: center;
-    margin-top: 90px;
-    /* ajusta se precisar */
+    margin-top: 100px;
+    margin-bottom: 110px;
     margin-left: 0;
-    /* tira o “empurrão” pra esquerda */
   }
 }
 
-/* Mobile (até 600px) – continua centralizado, menorzinho */
+/* Mobile */
 @media (max-width: 600px) {
   .h2-products-background {
     font-size: 42px;
     letter-spacing: 0.12em;
-    margin-top: 100px;
-
+    margin-top: 110px;
+    margin-bottom: 110px;
   }
 }
+
 
 
 /* Tablet */
 @media (max-width: 900px) {
   .nav-products-page {
-    margin-top: 32px;
+    margin-top: 42px;
     gap: 25px;
     /* diminui o espaçamento no tablet */
   }
@@ -578,7 +577,7 @@ body {
 /* Mobile */
 @media (max-width: 600px) {
   .nav-products-page {
-    margin-top: 38px;
+    margin-top: 42px;
     gap: 18px;
   }
 }

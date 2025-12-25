@@ -34,10 +34,16 @@ const dropdownItems = [
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha('#e65100', 0.15),
+
+  backgroundColor: alpha('#0d47a1', 0.08),
+
+  border: '2px solid rgba(13, 71, 161, 0.45)',
+
   '&:hover': {
-    backgroundColor: alpha('#e65100', 0.25),
+    backgroundColor: alpha('#0d47a1', 0.15),
+    borderColor: '#0d47a1',
   },
+
   marginRight: theme.spacing(2),
   marginLeft: theme.spacing(2),
   width: '100%',
@@ -46,6 +52,8 @@ const Search = styled('div')(({ theme }) => ({
   alignItems: 'center',
   cursor: 'text',
 }));
+
+
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),

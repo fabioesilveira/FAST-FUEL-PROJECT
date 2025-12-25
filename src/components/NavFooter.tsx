@@ -85,24 +85,28 @@ export default function NavFooter({ onNavigate }: NavFooterProps) {
               },
             }}
           >
-            {c.type === "img" ? (
-              <img
-                src={c.src}
-                alt={c.label}
-                style={{
-                  width: c.label === "BEVERAGES" ? 36 : 32,
-                  height: c.label === "BEVERAGES" ? 36 : 32,
-                  objectFit: "contain",
-                }}
-              />
-            ) : (
-              <c.Icon
-                sx={{
-                  fontSize: 26,
-                  color: ORANGE,
-                }}
-              />
-            )}
+           {c.type === "img" ? (
+  <img
+    src={c.src}
+    alt={c.label}
+    style={{
+      width: c.label === "BEVERAGES" ? 34.5 : 32,
+      height: c.label === "BEVERAGES" ? 34.5 : 32,
+      objectFit: "contain",
+
+      // 🔥 sobe só o BEVERAGES
+      transform: c.label === "BEVERAGES" ? "translateY(-3px)" : "none",
+    }}
+  />
+) : (
+  <c.Icon
+    sx={{
+      fontSize: 26,
+      color: ORANGE,
+    }}
+  />
+)}
+
           </IconButton>
         ))}
       </Box>
