@@ -47,15 +47,15 @@ function ProductCard({
   return (
     <Box
       sx={{
-        width: isMobile ? 260 : 300,           // ✅ menor no mobile
+        width: isMobile ? 260 : 300,           
         borderRadius: "13px",
         border: "2px solid #e65100",
         backgroundColor: "#fff3e0",
         boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
-        p: isMobile ? 2 : 2.5,                 // ✅ padding menor
+        p: isMobile ? 2 : 2.5,                
         display: "flex",
         flexDirection: "column",
-        gap: isMobile ? 1.2 : 1.6,             // ✅ espaçamento menor
+        gap: isMobile ? 1.2 : 1.6,            
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
         "&:hover": {
           transform: "translateY(-5px)",
@@ -67,7 +67,7 @@ function ProductCard({
       <Box
         sx={{
           width: "100%",
-          height: isMobile ? 150 : 170,         // ✅ imagem menor
+          height: isMobile ? 150 : 170,        
           backgroundColor: "#fff",
           borderRadius: "9px",
           border: "2px solid #e65100",
@@ -147,7 +147,7 @@ function ProductCard({
         variant="contained"
         sx={{
           mt: 0.5,
-          height: isMobile ? 38 : 42,           // ✅ botão menor
+          height: isMobile ? 38 : 42,           
           borderRadius: 2,
           backgroundColor: "#e65100",
           "&:hover": { backgroundColor: "#bf360c" },
@@ -262,13 +262,13 @@ export default function Burguers() {
       sx={{
         display: "grid",
         justifyContent: "center",
-        justifyItems: "center",   // ✅ centraliza os cards
+        justifyItems: "center",   
         gap: { xs: 3, sm: 3 },
         gridTemplateColumns: {
-          xs: "1fr",              // ✅ um card por linha
+          xs: "1fr",              
           sm: "repeat(2, 300px)",
         },
-        maxWidth: 360,            // ✅ opcional, melhora visual
+        maxWidth: 360,           
         mx: "auto",
         mt: 4.5,
         mb: 12,
@@ -279,7 +279,7 @@ export default function Burguers() {
           key={product.id}
           product={product}
           onAdd={handleOrder}
-          isMobile={isMobile}     // continua correto
+          isMobile={isMobile}   
           imgStyle={
             isMobileTablet
               ? (imageStylesMobile[product.id] ?? {})
@@ -313,7 +313,7 @@ export default function Burguers() {
         >
           {/* BACK HOME – mobile */}
           <Button
-            variant="contained" // ✅ NÃO outlined
+            variant="contained" 
             onClick={() => navigate("/")}
             sx={{
               width: { xs: 72, sm: 80 },
@@ -322,7 +322,7 @@ export default function Burguers() {
               minWidth: 0,
               borderRadius: 2,
 
-              backgroundColor: "#ffe0c7", // ✅ 100% sólido
+              backgroundColor: "#ffe0c7", 
               border: "2px solid #0d47a1",
               color: "#0d47a1",
               boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
@@ -344,7 +344,7 @@ export default function Burguers() {
 
           {/* CART – mobile */}
           <Button
-            variant="contained" // ✅ NÃO outlined
+            variant="contained" 
             onClick={() => navigate("/checkout")}
             sx={{
               width: { xs: 72, sm: 80 },
@@ -353,7 +353,7 @@ export default function Burguers() {
               minWidth: 0,
               borderRadius: 2,
 
-              backgroundColor: "#ffe0c7", // ✅ 100% sólido
+              backgroundColor: "#ffe0c7", 
               border: "2px solid #0d47a1",
               color: "#0d47a1",
               boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
@@ -426,12 +426,12 @@ export default function Burguers() {
                 backgroundColor: '#ffe0c7',
                 boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
                 opacity: 1,
-                border: "2px solid #f5c16c", // ✅ creme mais forte
+                border: "2px solid #f5c16c", 
                 boxSizing: "border-box",
               },
             }}
           >
-            <LunchDiningIcon sx={{ fontSize: { xs: 34, sm: 35, md: 39 }, color: '#eb631aff' }} />
+            <LunchDiningIcon sx={{ fontSize: { xs: 34, sm: 35, md: 40 }, color: '#eb631aff' }} />
           </Button>
 
           {/* SIDES */}
@@ -443,7 +443,7 @@ export default function Burguers() {
               height: { xs: 42, sm: 45, md: 50 },
               borderRadius: 2,
               backgroundColor: '#ffe0c7',
-              border: "2px solid #f5c16c", // ✅ creme mais forte
+              border: "2px solid #f5c16c", 
               boxSizing: "border-box",
             }}
           >
@@ -471,7 +471,7 @@ export default function Burguers() {
               height: { xs: 42, sm: 45, md: 50 },
               borderRadius: 2,
               backgroundColor: '#ffe0c7',
-              border: "2px solid #f5c16c", // ✅ creme mais forte
+              border: "2px solid #f5c16c", 
               boxSizing: "border-box",
             }}
           >
@@ -498,7 +498,7 @@ export default function Burguers() {
               height: { xs: 42, sm: 45, md: 50 },
               borderRadius: 2,
               backgroundColor: '#ffe0c7',
-              border: "2px solid #f5c16c", // ✅ creme mais forte
+              border: "2px solid #f5c16c", 
               boxSizing: "border-box",
             }}
           >
