@@ -428,7 +428,7 @@ export default function Sides() {
               height: { xs: 42, sm: 45, md: 50 },
               borderRadius: 2,
               backgroundColor: '#ffe0c7',
-              border: "2px solid #f5c16c", // ✅ creme mais forte
+              border: "2px solid #f5c16c", // creme mais forte
               boxSizing: "border-box",
             }}
           >
@@ -461,7 +461,7 @@ export default function Sides() {
               alt="Drink icon"
               sx={{
                 width: { xs: 72, sm: 77, md: 80 },
-                height: { xs: 40, sm: 42, md: 50 },
+                height: { xs: 40, sm: 42, md: 48 },
                 objectFit: "contain",
                 transition: "transform 0.2s ease",
                 display: "block",

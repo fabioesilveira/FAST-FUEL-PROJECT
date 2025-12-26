@@ -10,11 +10,13 @@ import {
 
 } from "@mui/material";
 import Footer from "../components/Footer";
+import NavbarCheckout from "../components/NavBarCheckout";
 
 
 export default function Checkout() {
     return (
         <>
+            <NavbarCheckout />
             <Box
                 sx={{
                     position: "relative",
@@ -48,7 +50,6 @@ export default function Checkout() {
                     }}
 
                 />
-
 
                 {/* MIDDLE – Stripe Background (invertido) */}
                 <Box
@@ -387,33 +388,6 @@ export default function Checkout() {
                             width: "auto",
                         }}
                     >
-                        <Button
-                            size="large"
-                            variant="contained"
-                            sx={{
-                                width: 200,
-                                borderRadius: 2,
-                                textTransform: "uppercase",
-                                bgcolor: "#e65100",
-                                color: "#ffe0c7",
-                                letterSpacing: "0.16em",
-                                fontWeight: 700,
-                                boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
-                                "&:hover": {
-                                    bgcolor: "#ffe0c7",
-                                    color: "#e65100",
-                                    boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
-                                },
-                                "&:active": {
-                                    bgcolor: "#ffe0c7",
-                                    color: "#e65100",
-                                    transform: "scale(0.98)",
-                                    boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                                },
-                            }}
-                        >
-                            Exit Checkout
-                        </Button>
                     </Box>
 
                 </Box>
