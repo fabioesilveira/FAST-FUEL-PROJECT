@@ -4,48 +4,71 @@ import Footer from "../components/Footer";
 import NavbarCheckout from "../components/NavBarCheckout";
 
 export default function Checkout() {
-  const NAV_H = 80;   
-  const FOOT_H = 72; 
+    const NAV_H = 80;
+    const FOOT_H = 72;
 
-  return (
-    <>
-      <NavbarCheckout />
+    const tfBlueLabelSx = {
+        "& label": {
+            color: "#0d47a1",
+            // fontWeight: 700,
+        },
+        "& label.Mui-focused": {
+            color: "#0d47a1",
+        },
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+                borderColor: "#0d47a1",
+            },
+            "&:hover fieldset": {
+                borderColor: "#123b7a",
+            },
+            "&.Mui-focused fieldset": {
+                borderColor: "#0d47a1",
+                borderWidth: 2,
+            },
+        },
+    };
 
-      <Box
-        sx={{
-          position: "relative",
-          width: "100%",
-          minHeight: "100dvh",
-          display: "flex",
-          flexDirection: "row",
-          borderTop: "3px solid #e65100",
-          boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
-        }}
-      >
 
-        <Box
-          sx={{
-            width: 70,
-            flexShrink: 0,
-            backgroundImage: `repeating-linear-gradient(
+    return (
+        <>
+            <NavbarCheckout />
+
+            <Box
+                sx={{
+                    position: "relative",
+                    width: "100%",
+                    minHeight: "100dvh",
+                    display: "flex",
+                    flexDirection: "row",
+                    borderTop: "3px solid #e65100",
+                    boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
+                }}
+            >
+
+                <Box
+                    sx={{
+                        width: 70,
+                        flexShrink: 0,
+                        backgroundImage: `repeating-linear-gradient(
               to right,
               rgba(255, 244, 225, 0.4),
               rgba(255, 244, 225, 0.4) 20px,
               transparent 20px,
               transparent 40px
             )`,
-            backgroundSize: "100% 40px",
-            backgroundRepeat: "repeat-y",
-            backgroundAttachment: "fixed",
-            borderLeft: "3px solid #e65100",
-          }}
-        />
+                        backgroundSize: "100% 40px",
+                        backgroundRepeat: "repeat-y",
+                        backgroundAttachment: "fixed",
+                        borderLeft: "3px solid #e65100",
+                    }}
+                />
 
-        {/* MIDDLE – stripes + gradient */}
-        <Box
-          sx={{
-            flex: 3,
-            backgroundImage: `
+                {/* MIDDLE – stripes + gradient */}
+                <Box
+                    sx={{
+                        flex: 3,
+                        backgroundImage: `
               linear-gradient(
                 to left,
                 #fff4e1 0%,
@@ -61,216 +84,331 @@ export default function Checkout() {
                 transparent 40px
               )
             `,
-            backgroundSize: "100% 40px, 100% 40px",
-            backgroundRepeat: "repeat-y, repeat-y",
-            backgroundAttachment: "fixed",
-          }}
-        />
-
-        {/* RIGHT SIDE – cream  */}
-        <Box sx={{ flex: 1, background: "#fff4e1" }} />
-
-        
-        <Box
-          sx={{
-            position: "absolute",
-            inset: 0,
-            px: 2,
-            pt: `${NAV_H + 16}px`,
-            pb: `${FOOT_H + 16}px`,
-            boxSizing: "border-box",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-          }}
-        >
-          <Paper
-            elevation={0}
-            sx={{
-              width: "100%",
-              maxWidth: 500,
-              p: 3.5,
-              borderRadius: 3,
-              border: "1.5px solid rgba(230, 81, 0, 0.35)",
-              bgcolor: "background.paper",
-
-              maxHeight: `calc(100dvh - ${NAV_H}px - ${FOOT_H}px - 32px)`,
-              overflowY: "auto",
-              WebkitOverflowScrolling: "touch",
-
-              boxShadow:
-                "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
-              transition: "all 0.3s ease",
-              "&:hover": {
-                boxShadow:
-                  "0 6px 18px rgba(230, 81, 0, 0.45), 0 10px 28px rgba(230, 81, 0, 0.35)",
-              },
-            }}
-          >
-            {/* Title */}
-            <Typography
-              variant="h4"
-              align="center"
-              sx={{
-                mb: 2,
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                color: "#e65100",
-                fontWeight: 700,
-                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-              }}
-            >
-              Checkout
-            </Typography>
-
-            {/* Order summary */}
-            <Box sx={{ mb: 3 }}>
-              <Chip
-                label="Order Summary"
-                size="small"
-                sx={{
-                  mb: 1.5,
-                  fontSize: "0.7rem",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  bgcolor: "primary.main",
-                  color: "#fff",
-                }}
-              />
-
-              <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-                Product: Nike Air Force
-              </Typography>
-
-              <Stack direction="row" spacing={1.5} alignItems="center">
-                <Box
-                  component="img"
-                  src="/images/nike-air-force.png"
-                  alt="Nike Air Force"
-                  sx={{ width: 64, height: 64, objectFit: "contain" }}
+                        backgroundSize: "100% 40px, 100% 40px",
+                        backgroundRepeat: "repeat-y, repeat-y",
+                        backgroundAttachment: "fixed",
+                    }}
                 />
 
-                <Box>
-                  <Typography variant="body2">
-                    Quantity: <Box component="span" sx={{ fontWeight: 600 }}>2</Box>
-                  </Typography>
-                  <Typography variant="body2">
-                    Total Price: <Box component="span" sx={{ fontWeight: 600 }}>$580.00</Box>
-                  </Typography>
+                {/* RIGHT SIDE – cream  */}
+                <Box sx={{ flex: 1, background: "#fff4e1" }} />
+
+
+                <Box
+                    sx={{
+                        position: "absolute",
+                        inset: 0,
+                        px: 2,
+                        pt: `${NAV_H + 16}px`,
+                        pb: `${FOOT_H + 16}px`,
+                        boxSizing: "border-box",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "flex-start",
+                    }}
+                >
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            width: "100%",
+                            maxWidth: 500,
+                            p: 3.5,
+                            borderRadius: 3,
+                            border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                            bgcolor: "background.paper",
+
+                            maxHeight: `calc(100dvh - ${NAV_H}px - ${FOOT_H}px - 32px)`,
+                            overflowY: "auto",
+                            WebkitOverflowScrolling: "touch",
+
+                            boxShadow:
+                                "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
+                            transition: "all 0.3s ease",
+                            "&:hover": {
+                                boxShadow:
+                                    "0 6px 18px rgba(230, 81, 0, 0.45), 0 10px 28px rgba(230, 81, 0, 0.35)",
+                            },
+                        }}
+                    >
+                        {/* Title */}
+                        <Typography
+                            variant="h4"
+                            align="center"
+                            sx={{
+                                mb: 2,
+                                letterSpacing: "0.12em",
+                                textTransform: "uppercase",
+                                color: "#0d47a1",
+                                fontWeight: 700,
+                                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
+                            }}
+                        >
+                            Checkout
+                        </Typography>
+
+                        {/* Order summary */}
+                        <Box sx={{ mb: 3 }}>
+                            <Chip
+                                label="Order Summary"
+                                size="small"
+                                sx={{
+                                    mb: 1.5,
+                                    fontSize: "0.7rem",
+                                    letterSpacing: "0.1em",
+                                    textTransform: "uppercase",
+                                    bgcolor: "#0d47a1",
+                                    color: "#fff",
+                                }}
+                            />
+
+                            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
+                                Product: Nike Air Force
+                            </Typography>
+
+                            <Stack direction="row" spacing={1.5} alignItems="center">
+                                <Box
+                                    component="img"
+                                    src="/images/nike-air-force.png"
+                                    alt="Nike Air Force"
+                                    sx={{ width: 64, height: 64, objectFit: "contain" }}
+                                />
+
+                                <Box>
+                                    <Typography variant="body2">
+                                        Quantity: <Box component="span" sx={{ fontWeight: 600 }}>2</Box>
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        Total Price: <Box component="span" sx={{ fontWeight: 600 }}>$580.00</Box>
+                                    </Typography>
+                                </Box>
+                            </Stack>
+                        </Box>
+
+                        {/* Delivery */}
+                        <Box sx={{ mb: 2.5 }}>
+                            <Typography
+                                variant="subtitle1"
+                                align="center"
+                                sx={{
+                                    textTransform: "uppercase",
+                                    letterSpacing: "0.16em",
+                                    mb: 1.4,
+                                    fontWeight: 700,
+                                    position: "relative",
+                                    "&::after": {
+                                        content: '""',
+                                        display: "block",
+                                        width: 52,
+                                        height: 3,
+                                        borderRadius: 999,
+                                        bgcolor: "#0d47a1",
+                                        mx: "auto",
+                                        mt: 0.8,
+                                    },
+                                }}
+                            >
+                                Delivery
+                            </Typography>
+
+                            <Stack spacing={1.2}>
+                                <TextField
+                                    size="small"
+                                    label="Full Name"
+                                    placeholder="Enter your full name"
+                                    fullWidth
+                                    variant="outlined"
+
+                                    sx={tfBlueLabelSx}
+                                />
+                                <TextField
+                                    size="small"
+                                    label="Email"
+                                    placeholder="Enter your email"
+                                    type="email"
+                                    fullWidth
+                                    variant="outlined"
+                                    sx={tfBlueLabelSx}
+                                />
+                                <TextField
+                                    size="small"
+                                    label="Street"
+                                    placeholder="Enter your street"
+                                    fullWidth
+                                    variant="outlined"
+                                    sx={tfBlueLabelSx}
+                                />
+
+                                <Box sx={{ display: "flex", gap: 1.2 }} >
+
+                                    <TextField
+                                        size="small"
+                                        label="City"
+                                        placeholder="City"
+                                        fullWidth
+                                        variant="outlined"
+                                        sx={[tfBlueLabelSx, { flex: 4 }]}
+                                    />
+
+                                    <TextField
+                                        size="small"
+                                        label="State"
+                                        placeholder="CA"
+                                        variant="outlined"
+                                        sx={[tfBlueLabelSx, { flex: 2 }]}
+                                    />
+
+                                    <TextField
+                                        size="small"
+                                        label="Zipcode"
+                                        placeholder="00000"
+                                        variant="outlined"
+                                        sx={[tfBlueLabelSx, { flex: 2 }]}
+                                    />
+                                </Box>
+                            </Stack>
+                        </Box>
+
+                        {/* Payment */}
+                        <Box sx={{ mb: 1 }}>
+                            
+
+                            <Typography
+                                variant="subtitle1"
+                                align="center"
+                                sx={{
+                                    textTransform: "uppercase",
+                                    letterSpacing: "0.16em",
+                                    mb: 1.4,
+                                    fontWeight: 700,
+                                    position: "relative",
+                                    "&::after": {
+                                        content: '""',
+                                        display: "block",
+                                        width: 52,
+                                        height: 3,
+                                        borderRadius: 999,
+                                        bgcolor: "#0d47a1",
+                                        mx: "auto",
+                                        mt: 0.8,
+                                    },
+                                }}
+                            >
+                                Payment
+                            </Typography>
+
+                            <Stack spacing={1.2}>
+                                <TextField
+                                    size="small"
+                                    label="Name on Card"
+                                    value="Fast Fuel Payment Simulation"
+                                    fullWidth
+                                    variant="outlined"
+                                    sx={[
+                                        tfBlueLabelSx,
+                                        {
+                                            "& .MuiOutlinedInput-root": {
+                                                bgcolor: "rgba(13, 71, 161, 0.06)",
+                                            },
+                                        },
+                                    ]}
+                                    InputProps={{ readOnly: true }}
+                                />
+
+                                <TextField
+                                    size="small"
+                                    label="Card Number"
+                                    value="4242 4242 4242 4242"
+                                    fullWidth
+                                    variant="outlined"
+                                    sx={[
+                                        tfBlueLabelSx,
+                                        {
+                                            "& .MuiOutlinedInput-root": {
+                                                bgcolor: "rgba(13, 71, 161, 0.06)",
+                                            },
+                                        },
+                                    ]}
+                                    InputProps={{ readOnly: true }}
+                                />
+
+                                <Stack direction="row" spacing={1.2}>
+                                    <TextField
+                                        size="small"
+                                        label="Valid Through"
+                                        value="12/30"
+                                        fullWidth
+                                        variant="outlined"
+                                        sx={[
+                                            tfBlueLabelSx,
+                                            { flex: 7 },
+                                            { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                        ]}
+                                        InputProps={{ readOnly: true }}
+                                    />
+
+                                    <TextField
+                                        size="small"
+                                        label="CVV"
+                                        value="123"
+                                        fullWidth
+                                        variant="outlined"
+                                        sx={[
+                                            tfBlueLabelSx,
+                                            { flex: 5 },
+                                            { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                        ]}
+                                        InputProps={{ readOnly: true }}
+                                    />
+                                </Stack>
+
+                                <Typography
+                                    align="center"
+                                    sx={{
+                                        mt: 0.5,
+                                        fontSize: "0.75rem",
+                                        color: "text.secondary",
+                                    }}
+                                >
+                                    This is a portfolio demo — no real payment is processed.
+                                </Typography>
+                            </Stack>
+                        </Box>
+
+
+                        {/* Button */}
+                        <Button
+                            fullWidth
+                            size="large"
+                            variant="contained"
+                            sx={{
+                                mt: 2.5,
+                                borderRadius: 2,
+                                textTransform: "uppercase",
+                                bgcolor: "#e65100",
+                                color: "#ffe0c7",
+                                letterSpacing: "0.16em",
+                                fontWeight: 700,
+                                boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
+                                "&:hover": {
+                                    bgcolor: "#ffe0c7",
+                                    color: "#e65100",
+                                    boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
+                                },
+                                "&:active": {
+                                    bgcolor: "#ffe0c7",
+                                    color: "#e65100",
+                                    transform: "scale(0.98)",
+                                    boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
+                                },
+                            }}
+                        >
+                            Process Payment
+                        </Button>
+                    </Paper>
                 </Box>
-              </Stack>
             </Box>
 
-            {/* Delivery */}
-            <Box sx={{ mb: 2.5 }}>
-              <Typography
-                variant="subtitle1"
-                align="center"
-                sx={{
-                  textTransform: "uppercase",
-                  letterSpacing: "0.16em",
-                  mb: 1.4,
-                  fontWeight: 700,
-                  position: "relative",
-                  "&::after": {
-                    content: '""',
-                    display: "block",
-                    width: 52,
-                    height: 3,
-                    borderRadius: 999,
-                    bgcolor: "primary.main",
-                    mx: "auto",
-                    mt: 0.8,
-                  },
-                }}
-              >
-                Delivery
-              </Typography>
-
-              <Stack spacing={1.2}>
-                <TextField size="small" label="Full Name" placeholder="Enter your full name" fullWidth />
-                <TextField size="small" label="Email" placeholder="Enter your email" type="email" fullWidth />
-                <TextField size="small" label="Street" placeholder="Enter your street" fullWidth />
-
-                <Box sx={{ display: "flex", gap: 1.2 }}>
-                  <TextField size="small" label="City" placeholder="City" fullWidth sx={{ flex: 4 }} />
-                  <TextField size="small" label="State" placeholder="CA" sx={{ flex: 2 }} />
-                  <TextField size="small" label="Zipcode" placeholder="00000" sx={{ flex: 2 }} />
-                </Box>
-              </Stack>
-            </Box>
-
-            {/* Payment */}
-            <Box sx={{ mb: 1 }}>
-              <Typography
-                variant="subtitle1"
-                align="center"
-                sx={{
-                  textTransform: "uppercase",
-                  letterSpacing: "0.16em",
-                  mb: 1.4,
-                  fontWeight: 700,
-                  position: "relative",
-                  "&::after": {
-                    content: '""',
-                    display: "block",
-                    width: 52,
-                    height: 3,
-                    borderRadius: 999,
-                    bgcolor: "primary.main",
-                    mx: "auto",
-                    mt: 0.8,
-                  },
-                }}
-              >
-                Payment
-              </Typography>
-
-              <Stack spacing={1.2}>
-                <TextField size="small" label="Name on Card" placeholder="Enter your name" fullWidth />
-                <TextField size="small" label="Card Number" placeholder="1234 5678 9012 3456" fullWidth />
-
-                <Stack direction="row" spacing={1.2}>
-                  <TextField size="small" label="Valid Through" placeholder="MM/YY" fullWidth sx={{ flex: 7 }} />
-                  <TextField size="small" label="CVV" placeholder="123" fullWidth sx={{ flex: 5 }} />
-                </Stack>
-              </Stack>
-            </Box>
-
-            {/* Button */}
-            <Button
-              fullWidth
-              size="large"
-              variant="contained"
-              sx={{
-                mt: 2.5,
-                borderRadius: 2,
-                textTransform: "uppercase",
-                bgcolor: "#e65100",
-                color: "#ffe0c7",
-                letterSpacing: "0.16em",
-                fontWeight: 700,
-                boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
-                "&:hover": {
-                  bgcolor: "#ffe0c7",
-                  color: "#e65100",
-                  boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
-                },
-                "&:active": {
-                  bgcolor: "#ffe0c7",
-                  color: "#e65100",
-                  transform: "scale(0.98)",
-                  boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                },
-              }}
-            >
-              Process Payment
-            </Button>
-          </Paper>
-        </Box>
-      </Box>
-
-      <Footer />
-    </>
-  );
+            <Footer />
+        </>
+    );
 }
