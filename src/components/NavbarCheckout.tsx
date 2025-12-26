@@ -2,7 +2,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useNavigate } from "react-router-dom";
 
@@ -10,86 +9,79 @@ import Logo from "../assets/fast-fuel.png";
 import { useAppAlert } from "../hooks/useAppAlert";
 
 export default function NavbarCheckout() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const { confirmAlert, AlertUI, ConfirmUI } = useAppAlert({
-    vertical: "top",
-    horizontal: "center",
-  });
-
-  function handleExitCheckout() {
-    confirmAlert({
-      title: "Almost there!",
-      message:
-        "You are so close to finishing your order. Are you sure you want to exit?",
-      confirmText: "Yes, exit",
-      cancelText: "No, stay",
-      onConfirm: () => navigate("/"),
+    const { confirmAlert, AlertUI, ConfirmUI } = useAppAlert({
+        vertical: "top",
+        horizontal: "center",
     });
-  }
 
-  return (
-    <>
-      <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
-        <Box sx={{ width: "100%" }}>
-          <Toolbar disableGutters sx={{ minHeight: 80, px: { xs: 1, md: 2 } }}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: { xs: 1, md: 1.5 },
-                ml: { xs: -1, md: -2 },
-              }}
-            >
-              <Box
-                component="img"
-                src={Logo}
-                alt="Fast Fuel Logo"
-                sx={{ height: { xs: 62, md: 70 }, width: "auto", objectFit: "contain" }}
-              />
+    function handleExitCheckout() {
+        confirmAlert({
+            title: "Almost there!",
+            message:
+                "You are so close to finishing your order. Are you sure you want to exit?",
+            confirmText: "Yes, exit",
+            cancelText: "No, stay",
+            onConfirm: () => navigate("/"),
+        });
+    }
 
-              <Typography
-                sx={{
-                  color: "#e65100",
-                  fontWeight: 900,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.14em",
-                  fontSize: { xs: "0.85rem", sm: "0.95rem", md: "1.25rem" },
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Checkout
-              </Typography>
-            </Box>
+    return (
+        <>
+            <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
+                <Box sx={{ width: "100%" }}>
+                    <Toolbar disableGutters sx={{ minHeight: 80, px: { xs: 1, md: 2 } }}>
+                        <Box
+                            component="a"
+                            href="#"
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                ml: { xs: -1, md: -2 },
+                            }}
+                        >
+                            <Box
+                                component="img"
+                                src={Logo}
+                                alt="Fast Fuel Logo"
+                                sx={{
+                                    height: { xs: 62, md: 70 },
+                                    width: "auto",
+                                    objectFit: "contain",
+                                    transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" },
+                                    transformOrigin: "left center",
+                                }}
+                            />
+                        </Box>
 
-            <Box sx={{ flexGrow: 1 }} />
+                        <Box sx={{ flexGrow: 1 }} />
 
-            <Button
-              variant="contained"
-              onClick={handleExitCheckout}
-              startIcon={<ExitToAppIcon />}
-              sx={{
-                height: { xs: 34, md: 40 },
-                borderRadius: 2,
-                backgroundColor: "#e65100",
-                color: "#ffe0c7",
-                fontWeight: 800,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
-                "&:hover": { backgroundColor: "#b33f00" },
-                px: { xs: 1.2, md: 2.2 },
-              }}
-            >
-              Exit Checkout
-            </Button>
-          </Toolbar>
-        </Box>
-      </AppBar>
+                        <Button
+                            variant="contained"
+                            onClick={handleExitCheckout}
+                            startIcon={<ExitToAppIcon />}
+                            sx={{
+                                height: { xs: 34, md: 40 },
+                                borderRadius: 2,
+                                backgroundColor: "#e65100",
+                                color: "#ffe0c7",
+                                fontWeight: 800,
+                                letterSpacing: "0.06em",
+                                textTransform: "uppercase",
+                                boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
+                                "&:hover": { backgroundColor: "#b33f00" },
+                                px: { xs: 1.2, md: 2.2 },
+                            }}
+                        >
+                            Exit Checkout
+                        </Button>
+                    </Toolbar>
+                </Box>
+            </AppBar>
 
-      {/* render once */}
-      {AlertUI}
-      {ConfirmUI}
-    </>
-  );
+            {AlertUI}
+            {ConfirmUI}
+        </>
+    );
 }
