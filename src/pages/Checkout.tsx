@@ -36,8 +36,10 @@ export default function Checkout() {
     const [address, setAddress] = useState({
         street: "",
         city: "",
+        apt: "",
         state: "",
         zip: "",
+        country: "USA",
     });
 
 
@@ -196,6 +198,54 @@ export default function Checkout() {
                                 </Stack>
                             </Box>
 
+                            <Box sx={{ mb: 2.5 }}>
+                                <Typography
+                                    variant="subtitle1"
+                                    align="center"
+                                    sx={{
+                                        textTransform: "uppercase",
+                                        letterSpacing: "0.16em",
+                                        mb: 1.4,
+                                        fontWeight: 700,
+                                        position: "relative",
+                                        "&::after": {
+                                            content: '""',
+                                            display: "block",
+                                            width: 52,
+                                            height: 3,
+                                            borderRadius: 999,
+                                            bgcolor: "#0d47a1",
+                                            mx: "auto",
+                                            mt: 0.8,
+                                        },
+                                    }}
+                                >
+                                   Your Info
+                                </Typography>
+
+                                <Stack spacing={1.2}>
+
+                                    <TextField
+                                        size="small"
+                                        label="Full Name"
+                                        placeholder="Enter your full name"
+                                        fullWidth
+                                        variant="outlined"
+
+                                        sx={tfBlueLabelSx}
+                                    />
+                                    <TextField
+                                        size="small"
+                                        label="Email"
+                                        placeholder="Enter your email"
+                                        type="email"
+                                        fullWidth
+                                        variant="outlined"
+                                        sx={tfBlueLabelSx}
+                                    />
+                                </Stack>
+                            </Box>
+
                             {/* Delivery */}
                             <Box sx={{ mb: 2.5 }}>
                                 <Typography
@@ -223,77 +273,87 @@ export default function Checkout() {
                                 </Typography>
 
                                 <Stack spacing={1.2}>
-                                    <TextField
-                                        size="small"
-                                        label="Full Name"
-                                        placeholder="Enter your full name"
-                                        fullWidth
-                                        variant="outlined"
 
-                                        sx={tfBlueLabelSx}
-                                    />
-                                    <TextField
-                                        size="small"
-                                        label="Email"
-                                        placeholder="Enter your email"
-                                        type="email"
-                                        fullWidth
-                                        variant="outlined"
-                                        sx={tfBlueLabelSx}
-                                    />
 
                                     <AddressAutocomplete
                                         sx={tfBlueLabelSx}
                                         onInput={(v) => {
                                             if (v === "") {
-                                                setAddress((prev) => ({ ...prev, city: "", state: "", zip: "" }));
+                                                setAddress((prev) => ({
+                                                    ...prev,
+                                                    city: "",
+                                                    state: "",
+                                                    zip: "",
+                                                    // opcional: também limpar apt/country quando limpar street
+                                                    apt: "",
+                                                    country: "USA",
+                                                }));
                                             }
                                         }}
                                         onSelect={(addr) =>
-                                            setAddress({
+                                            setAddress((prev) => ({
+                                                ...prev,
                                                 street: addr.street,
                                                 city: addr.city,
                                                 state: addr.state,
                                                 zip: addr.zip,
-                                            })
+                                            }))
                                         }
                                     />
 
-
-                                    <Box sx={{ display: "flex", gap: 1.2 }} >
-
+                                    {/* City + Apt/Suite */}
+                                    <Stack direction="row" spacing={1.2}>
                                         <TextField
                                             size="small"
                                             label="City"
-                                            placeholder="City"
                                             fullWidth
                                             variant="outlined"
                                             value={address.city}
                                             onChange={(e) => setAddress((prev) => ({ ...prev, city: e.target.value }))}
-                                            sx={[tfBlueLabelSx, { flex: 4 }]}
+                                            sx={[tfBlueLabelSx, { flex: 6 }]}
                                         />
 
                                         <TextField
                                             size="small"
+                                            label="Apt / Suite"
+                                            variant="outlined"
+                                            value={address.apt}
+                                            onChange={(e) => setAddress((prev) => ({ ...prev, apt: e.target.value }))}
+                                            sx={[tfBlueLabelSx, { flex: 4 }]}
+                                        />
+                                    </Stack>
+
+                                    {/* State + Zip + Country */}
+                                    <Stack direction="row" spacing={1.2}>
+                                        <TextField
+                                            size="small"
                                             label="State"
-                                            placeholder="CA"
                                             variant="outlined"
                                             value={address.state}
                                             onChange={(e) => setAddress((prev) => ({ ...prev, state: e.target.value }))}
-                                            sx={[tfBlueLabelSx, { flex: 2 }]}
+                                            sx={[tfBlueLabelSx, { flex: 3 }]}
                                         />
 
                                         <TextField
                                             size="small"
                                             label="Zipcode"
-                                            placeholder="00000"
                                             variant="outlined"
                                             value={address.zip}
                                             onChange={(e) => setAddress((prev) => ({ ...prev, zip: e.target.value }))}
-                                            sx={[tfBlueLabelSx, { flex: 2 }]}
+                                            sx={[tfBlueLabelSx, { flex: 3 }]}
                                         />
 
-                                    </Box>
+                                        <TextField
+                                            size="small"
+                                            label="Country"
+                                            placeholder="USA"
+                                            variant="outlined"
+                                            value={address.country}
+                                            onChange={(e) => setAddress((prev) => ({ ...prev, country: e.target.value }))}
+                                            sx={[tfBlueLabelSx, { flex: 4 }]}
+                                        />
+                                    </Stack>
+
                                     <Typography
                                         align="center"
                                         sx={{
