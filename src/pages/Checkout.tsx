@@ -79,7 +79,7 @@ export default function Checkout() {
                             py: 3.5,
                             maxWidth: 500,
                             mx: "auto",
-                            //  espaço pro sticky não cobrir o fim do conteúdo
+                            // espaço pro sticky não cobrir o fim do conteúdo
                             pb: 2,
                         }}
                     >
@@ -145,14 +145,14 @@ export default function Checkout() {
                         </Box>
 
                         {/* Contact */}
-                        <Box sx={{ mb: 2.5 }}>
+                        <Box sx={{ mb: 3 }}>
                             <Typography
                                 variant="subtitle1"
                                 align="center"
                                 sx={{
                                     textTransform: "uppercase",
                                     letterSpacing: "0.16em",
-                                    mb: 1.4,
+                                    mb: 2,
                                     fontWeight: 700,
                                     position: "relative",
                                     "&::after": {
@@ -167,10 +167,10 @@ export default function Checkout() {
                                     },
                                 }}
                             >
-                                Contact Information
+                                Contact Info
                             </Typography>
 
-                            <Stack spacing={1.2}>
+                            <Stack spacing={1.6}>
                                 <TextField
                                     size="small"
                                     label="Full Name*"
@@ -190,14 +190,14 @@ export default function Checkout() {
                         </Box>
 
                         {/* Delivery */}
-                        <Box sx={{ mb: 2.5 }}>
+                        <Box sx={{ mb: 3 }}>
                             <Typography
                                 variant="subtitle1"
                                 align="center"
                                 sx={{
                                     textTransform: "uppercase",
                                     letterSpacing: "0.16em",
-                                    mb: 1.4,
+                                    mb: 2,
                                     fontWeight: 700,
                                     position: "relative",
                                     "&::after": {
@@ -215,7 +215,7 @@ export default function Checkout() {
                                 Delivery
                             </Typography>
 
-                            <Stack spacing={1.2}>
+                            <Stack spacing={1.6}>
                                 <AddressLookup
                                     sx={tfBlueLabelSx}
                                     onInput={(v) => {
@@ -243,7 +243,7 @@ export default function Checkout() {
                                 />
 
                                 {/* City + Apt */}
-                                <Stack direction="row" spacing={1.2}>
+                                <Stack direction="row" spacing={1.6}>
                                     <TextField
                                         size="small"
                                         label="City*"
@@ -269,7 +269,7 @@ export default function Checkout() {
                                 </Stack>
 
                                 {/* State + Zip + Country */}
-                                <Stack direction="row" spacing={1.2}>
+                                <Stack direction="row" spacing={1.6}>
                                     <TextField
                                         size="small"
                                         label="State*"
@@ -318,14 +318,14 @@ export default function Checkout() {
                         </Box>
 
                         {/* Payment */}
-                        <Box sx={{ mb: 1 }}>
+                        <Box sx={{ mb: 1.5 }}>
                             <Typography
                                 variant="subtitle1"
                                 align="center"
                                 sx={{
                                     textTransform: "uppercase",
                                     letterSpacing: "0.16em",
-                                    mb: 1.4,
+                                    mb: 2,
                                     fontWeight: 700,
                                     position: "relative",
                                     "&::after": {
@@ -343,7 +343,7 @@ export default function Checkout() {
                                 Payment
                             </Typography>
 
-                            <Stack spacing={1.2}>
+                            <Stack spacing={1.6}>
                                 <TextField
                                     size="small"
                                     label="Name on Card*"
@@ -370,7 +370,7 @@ export default function Checkout() {
                                     InputProps={{ readOnly: true }}
                                 />
 
-                                <Stack direction="row" spacing={1.2}>
+                                <Stack direction="row" spacing={1.6}>
                                     <TextField
                                         size="small"
                                         label="Valid Through*"
@@ -443,9 +443,7 @@ export default function Checkout() {
                                 >
                                     Total
                                 </Typography>
-                                <Typography
-                                    sx={{ fontWeight: 800, color: "#0d47a1", fontSize: 18 }}
-                                >
+                                <Typography sx={{ fontWeight: 800, color: "#0d47a1", fontSize: 18 }}>
                                     {totalLabel}
                                 </Typography>
                             </Box>
@@ -469,15 +467,14 @@ export default function Checkout() {
                                         boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
                                     },
                                 }}
-                                onClick={() =>
-                                    alert(`Demo: payment processed for ${totalLabel}`)
-                                }
+                                onClick={() => alert(`Demo: payment processed for ${totalLabel}`)}
                             >
                                 Pay {totalLabel}
                             </Button>
                         </Stack>
                     </Box>
                 </Paper>
+
             </Box>
 
             <Footer fixed={false} />

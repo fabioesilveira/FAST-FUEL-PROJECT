@@ -300,8 +300,6 @@ export default function Burguers() {
       <h2 className='h2-products-background'>BURGUERS</h2>
       <Container className="margin-top" fixed>
 
-
-
         <Box
           sx={{
             display: { xs: "flex", sm: "flex", md: "none" },

@@ -44,14 +44,13 @@ const Search = styled("div")(({ theme }) => ({
   borderRadius: 10,
 
   backgroundColor: alpha("#e65100", 0.08),
-  border: "2px solid rgba(230, 81, 0, 0.55)",
+  border: "2px solid rgba(230, 81, 0, 0.85)",
 
   transition: "all .18s ease",
 
   "&:hover": {
     backgroundColor: alpha("#e65100", 0.12),
     borderColor: "rgba(230, 81, 0, 0.85)",
-    boxShadow: "0 4px 16px rgba(230, 81, 0, 0.28)",
   },
 
   "&:focus-within": {
@@ -277,7 +276,7 @@ function Navbar({ onSearch }: NavbarProps) {
                     title: "Checkout",
                     message: "You’re not signed in. Continue as guest or sign in?",
                     confirmText: "Continue as guest",
-                    cancelText: "Sign in",
+                    cancelText: "Sign in / Sign up",
                     onConfirm: () => navigate("/checkout?guest=1"),
                     onCancel: () => navigate("/sign-in"),
                     onDismiss: () => {

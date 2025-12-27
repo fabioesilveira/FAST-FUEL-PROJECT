@@ -45,17 +45,24 @@ export default function AppConfirm({
                 },
             }}
         >
-            <DialogTitle sx={{ fontWeight: 900, color: "#e65100" }}>
+            <DialogTitle sx={{ fontWeight: 900, color: "#e65100", textAlign: "center", pt: 3 }}>
                 {title}
             </DialogTitle>
 
             <DialogContent>
-                <Typography sx={{ fontWeight: 700, color: "#1f1f1f", lineHeight: 1.35 }}>
+                <Typography sx={{ fontWeight: 700, color: "#1f1f1f", lineHeight: 1.35, textAlign: "center" }}>
                     {message}
                 </Typography>
             </DialogContent>
 
-            <DialogActions sx={{ p: 2, pt: 0, gap: 1 }}>
+            <DialogActions
+                sx={{
+                    p: 3.5,
+                    pt: 0,
+                    gap: 1.5,
+                    justifyContent: "center"
+                }}
+            >
                 <Button
                     onClick={onCancel}
                     variant="outlined"

@@ -43,25 +43,27 @@ function ProductCard({
   product,
   onAdd,
   imgStyle,
+  isMobile = false,
 }: {
   product: Meal;
   onAdd: (p: Meal) => void;
   imgStyle?: React.CSSProperties;
+  isMobile?: boolean;
 }) {
   const title = getNameWithKcal(product.name);
 
   return (
     <Box
       sx={{
-        width: 300,
+        width: isMobile ? 260 : 300,
         borderRadius: "13px",
         border: "2px solid #e65100",
         backgroundColor: "#fff3e0",
         boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
-        p: 2.5,
+        p: isMobile ? 2 : 2.5,
         display: "flex",
         flexDirection: "column",
-        gap: 1.6,
+        gap: isMobile ? 1.2 : 1.6,
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
         "&:hover": {
           transform: "translateY(-5px)",
@@ -73,7 +75,7 @@ function ProductCard({
       <Box
         sx={{
           width: "100%",
-          height: 170,
+          height: isMobile ? 150 : 170,
           backgroundColor: "#fff",
           borderRadius: "9px",
           border: "2px solid #e65100",
@@ -102,13 +104,13 @@ function ProductCard({
           width: "100%",
           backgroundColor: "#ffe0c7",
           borderRadius: "9px",
-          px: 2,
-          py: 1.2,
+          px: isMobile ? 1.5 : 2,
+          py: isMobile ? 0.9 : 1.2,
           boxShadow: 2,
           textAlign: "center",
         }}
       >
-        <Typography sx={{ fontSize: "0.98rem", fontWeight: 800, color: "#e65100" }}>
+        <Typography sx={{ fontSize: isMobile ? "0.92rem" : "0.98rem", fontWeight: 800, color: "#e65100" }}>
           {title}
         </Typography>
       </Box>
@@ -119,13 +121,13 @@ function ProductCard({
           width: "100%",
           backgroundColor: "#ffe0c7",
           borderRadius: "9px",
-          px: 2,
-          py: 1.1,
+          px: isMobile ? 1.5 : 2,
+          py: isMobile ? 0.85 : 1.1,
           boxShadow: 2,
           textAlign: "center",
         }}
       >
-        <Typography sx={{ fontSize: "0.98rem", fontWeight: 900, color: "#e65100" }}>
+        <Typography sx={{ fontSize: isMobile ? "0.92rem" : "0.98rem", fontWeight: 900, color: "#e65100" }}>
           ${Number(product.price).toFixed(2)}
         </Typography>
       </Box>
@@ -136,29 +138,30 @@ function ProductCard({
           width: "100%",
           backgroundColor: "#ffe0c7",
           borderRadius: "10px",
-          px: 2,
-          py: 1.5,
+          px: isMobile ? 1.5 : 2,
+          py: isMobile ? 1.1 : 1.5,
           boxShadow: 2,
           textAlign: "center",
         }}
       >
-        <Typography sx={{ fontSize: "0.95rem", fontWeight: 800, color: "#e65100" }}>
+        <Typography sx={{ fontSize: isMobile ? "0.9rem" : "0.95rem", fontWeight: 800, color: "#e65100" }}>
           {product.description}
         </Typography>
       </Box>
 
-      {/* ADD TO CART dentro do card */}
+      {/* Button */}
       <Button
         onClick={() => onAdd(product)}
         variant="contained"
         sx={{
           mt: 0.5,
-          height: 42,
+          height: isMobile ? 38 : 42,
           borderRadius: 2,
           backgroundColor: "#e65100",
           "&:hover": { backgroundColor: "#bf360c" },
           color: "#ffe0c7",
           fontWeight: 900,
+          fontSize: isMobile ? "0.85rem" : "0.95rem",
         }}
       >
         ADD TO CART
@@ -235,8 +238,8 @@ export default function Beverages() {
   }
 
   const handleNavigate = (category: string) => {
-  navigate(`/${category.toLowerCase()}`);
-};
+    navigate(`/${category.toLowerCase()}`);
+  };
 
   const imageStyles: { [id: string]: React.CSSProperties } = {
     "5": { width: "180px", height: "140px", marginTop: "60px" },  // Coke
@@ -252,8 +255,8 @@ export default function Beverages() {
     "6": { width: "180px", height: "145px" },
     "7": { width: "168px", height: "118px" },
     "8": { width: "140px", height: "102px" },
-    "9": { width: "190px", height: "180px" },  
-    "10": { width: "145px", height: "133px" }, 
+    "9": { width: "190px", height: "180px" },
+    "10": { width: "145px", height: "133px" },
   };
 
   const imageStylesDesktop: Record<string, React.CSSProperties> = {
@@ -261,8 +264,8 @@ export default function Beverages() {
     "6": { width: "180px", height: "145px" },
     "7": { width: "168px", height: "118px" },
     "8": { width: "140px", height: "102px" },
-    "9": { width: "190px", height: "180px" },  
-    "10": { width: "145px", height: "133px" }, 
+    "9": { width: "190px", height: "180px" },
+    "10": { width: "145px", height: "133px" },
   };
 
   const mobileTabletGrid = (
@@ -270,13 +273,16 @@ export default function Beverages() {
       sx={{
         display: "grid",
         justifyContent: "center",
-        gap: 3,
+        justifyItems: "center",
+        gap: { xs: 3, sm: 3 },
         gridTemplateColumns: {
-          xs: "repeat(1, 300px)",
+          xs: "1fr",
           sm: "repeat(2, 300px)",
         },
+        maxWidth: 360,
+        mx: "auto",
         mt: 4.5,
-        mb: 10,
+        mb: 12,
       }}
     >
       {data.map((product) => (
@@ -284,6 +290,7 @@ export default function Beverages() {
           key={product.id}
           product={product}
           onAdd={handleOrder}
+          isMobile={isMobile}
           imgStyle={
             isMobileTablet
               ? (imageStylesMobile[product.id] ?? {})
@@ -310,60 +317,77 @@ export default function Beverages() {
           sx={{
             display: { xs: "flex", sm: "flex", md: "none" },
             justifyContent: "center",
-            gap: 3,      // diminui o espaço horizontal
-            mt: -5,      // puxa o grupo para cima
-            mb: -2,       // diminui o espaço antes dos cards
+            gap: 3,
+            mt: -5,
+            mb: -2,
           }}
         >
           {/* BACK HOME – mobile */}
           <Button
             variant="contained"
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             sx={{
               width: { xs: 72, sm: 80 },
               height: 42,
-              marginTop: -5.5,
-
+              mt: -5.5,
+              minWidth: 0,
               borderRadius: 2,
-              backgroundColor: '#e65100',
+
+              backgroundColor: "#ffe0c7",
+              border: "2px solid #0d47a1",
+              color: "#0d47a1",
+              boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+
+              "&:hover": {
+                backgroundColor: "#ffd4a3",
+                boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
+              },
+
+              "&:active": {
+                backgroundColor: "#ffcc8a",
+                boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
+                transform: "translateY(1px)",
+              },
             }}
           >
-            <HomeIcon
-              sx={{
-                fontSize: 29,
-                color: '#ffe0c7',
-              }}
-            />
+            <HomeIcon sx={{ fontSize: 29, color: "#0d47a1" }} />
           </Button>
 
           {/* CART – mobile */}
           <Button
             variant="contained"
-            onClick={() => navigate('/checkout')}
+            onClick={() => navigate("/checkout")}
             sx={{
               width: { xs: 72, sm: 80 },
               height: 42,
+              mt: -5.5,
+              minWidth: 0,
               borderRadius: 2,
-              marginTop: -5.5,
 
-              backgroundColor: '#e65100',
+              backgroundColor: "#ffe0c7",
+              border: "2px solid #0d47a1",
+              color: "#0d47a1",
+              boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+
+              "&:hover": {
+                backgroundColor: "#ffd4a3",
+                boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
+              },
+
+              "&:active": {
+                backgroundColor: "#ffcc8a",
+                boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
+                transform: "translateY(1px)",
+              },
             }}
           >
-            <Badge
-              badgeContent={totalItems}
-              color="primary"
-              overlap="circular"
-              showZero={false}
-            >
-              <ShoppingCartIcon
-                sx={{
-                  fontSize: 29,
-                  color: '#ffe0c7',
-                }}
-              />
+            <Badge badgeContent={totalItems} color="primary" overlap="circular" showZero={false}>
+              <ShoppingCartIcon sx={{ fontSize: 29, color: "#0d47a1" }} />
             </Badge>
           </Button>
         </Box>
+
+
 
         {/* DESKTOP: layout antigo com .nav-products-page */}
         <div className="nav-products-page">
@@ -376,13 +400,32 @@ export default function Beverages() {
               width: 85,
               height: 50,
               borderRadius: 2,
-              backgroundColor: '#e65100'
+
+              border: "2px solid #0d47a1",
+              color: "#0d47a1",
+              bgcolor: "rgba(230, 81, 0, 0.22)",
+              boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+
+              "&:hover": {
+                bgcolor: "rgba(230, 81, 0, 0.22)",
+                borderColor: "#0d47a1",
+                color: "#0d47a1",
+                boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
+              },
+
+              "&:active": {
+                bgcolor: "rgba(230, 81, 0, 0.28)",
+                boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
+                transform: "translateY(1px)",
+              },
+
             }}
           >
-            <HomeIcon sx={{ fontSize: 36, color: '#ffe0c7' }} />
+            <HomeIcon sx={{ fontSize: 36, color: "#0d47a1" }} />
           </Button>
 
           {/* BURGUERS (ATUAL) */}
+
           <Button
             variant="contained"
             onClick={() => navigate('/burguers')}
@@ -390,11 +433,14 @@ export default function Beverages() {
               width: { xs: 75, sm: 80, md: 85 },
               height: { xs: 42, sm: 45, md: 50 },
               borderRadius: 2,
-              backgroundColor: '#ffe0c7'
+              backgroundColor: '#ffe0c7',
+              border: "2px solid #f5c16c", // creme mais forte
+              boxSizing: "border-box",
             }}
           >
-            <LunchDiningIcon sx={{ fontSize: { xs: 31, sm: 34, md: 37 }, color: '#eb631aff' }} />
+            <LunchDiningIcon sx={{ fontSize: { xs: 32, sm: 34, md: 37 }, color: '#eb631aff' }} />
           </Button>
+
 
           {/* SIDES */}
           <Button
@@ -404,7 +450,9 @@ export default function Beverages() {
               width: { xs: 75, sm: 80, md: 85 },
               height: { xs: 42, sm: 45, md: 50 },
               borderRadius: 2,
-              backgroundColor: '#ffe0c7'
+              backgroundColor: '#ffe0c7',
+              border: "2px solid #f5c16c",
+              boxSizing: "border-box",
             }}
           >
             <Box
@@ -413,10 +461,11 @@ export default function Beverages() {
               alt="Drink icon"
               sx={{
                 width: { xs: 43, sm: 42, md: 44 },
-                height: { xs: 37, sm: 39, md: 46 },
+                height: { xs: 37, sm: 39, md: 44 },
                 objectFit: "contain",
                 transition: "transform 0.2s ease",
                 display: "block",
+
               }}
             />
           </Button>
@@ -426,19 +475,18 @@ export default function Beverages() {
             variant="contained"
             disabled
             sx={{
-              width: { xs: 77, sm: 80, md: 85 },
-              height: { xs: 42, sm: 45, md: 56 },
+              width: { xs: 75, sm: 80, md: 85 },
+              height: { xs: 42, sm: 45, md: 55 },
               borderRadius: 2,
-              backgroundColor: "#ffe0c7",
-
-              padding: 0,              // ESSENCIAL
-              minWidth: 0,             // evita trava do MUI
-
-              "&.Mui-disabled": {
-                backgroundColor: "#ffe0c7",
-                boxShadow:
-                  "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
+              backgroundColor: '#ffe0c7',
+              border: "2px solid #f5c16c",
+              boxSizing: "border-box",
+              '&.Mui-disabled': {
+                backgroundColor: '#ffe0c7',
+                boxShadow: "0px 6px 14px rgba(0,0,0,0.45), 0px 10px 24px rgba(0,0,0,0.35)",
                 opacity: 1,
+                border: "2px solid #f5c16c",
+                boxSizing: "border-box",
               },
             }}
           >
@@ -464,7 +512,9 @@ export default function Beverages() {
               width: { xs: 75, sm: 80, md: 85 },
               height: { xs: 42, sm: 45, md: 50 },
               borderRadius: 2,
-              backgroundColor: '#ffe0c7'
+              backgroundColor: '#ffe0c7',
+              border: "2px solid #f5c16c",
+              boxSizing: "border-box",
             }}
           >
             <CookieIcon sx={{ fontSize: { xs: 30, sm: 32, md: 35 }, color: '#f1671cff' }} />
@@ -479,7 +529,23 @@ export default function Beverages() {
               width: 85,
               height: 48,
               borderRadius: 2,
-              backgroundColor: '#e65100'
+              border: "2px solid #0d47a1",
+              color: "#0d47a1",
+              bgcolor: "rgba(230, 81, 0, 0.22)",
+              boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+
+              "&:hover": {
+                bgcolor: "rgba(230, 81, 0, 0.22)",
+                borderColor: "#0d47a1",
+                color: "#0d47a1",
+                boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
+              },
+
+              "&:active": {
+                bgcolor: "rgba(230, 81, 0, 0.28)",
+                boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
+                transform: "translateY(1px)",
+              },
             }}
           >
             <Badge
@@ -488,7 +554,7 @@ export default function Beverages() {
               overlap="circular"
               showZero={false}
             >
-              <ShoppingCartIcon sx={{ fontSize: 36, color: '#ffe0c7' }} />
+              <ShoppingCartIcon sx={{ fontSize: 36, color: "#0d47a1" }} />
             </Badge>
           </Button>
         </div>
