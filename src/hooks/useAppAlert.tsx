@@ -15,12 +15,13 @@ type ConfirmConfig = {
   confirmText?: string;
   cancelText?: string;
   onConfirm: () => void;
+  onCancel?: () => void; 
 };
 
 export function useAppAlert(
   defaultPosition: AlertPosition = { vertical: "bottom", horizontal: "center" }
 ) {
-  // SIMPLE ALERT (old behavior)
+  // SIMPLE ALERT
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState<AlertColor>("info");
@@ -48,13 +49,14 @@ export function useAppAlert(
     [open, message, severity, defaultPosition]
   );
 
-  // CONFIRM (new, only when you need Yes/No)
+  // CONFIRM
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmTitle, setConfirmTitle] = useState<string>("Confirm");
   const [confirmMessage, setConfirmMessage] = useState<string>("");
   const [confirmYes, setConfirmYes] = useState<string>("Yes");
   const [confirmNo, setConfirmNo] = useState<string>("No");
   const [confirmAction, setConfirmAction] = useState<(() => void) | null>(null);
+  const [cancelAction, setCancelAction] = useState<(() => void) | null>(null); 
 
   function confirmAlert(config: ConfirmConfig) {
     setConfirmTitle(config.title ?? "Confirm");
@@ -62,16 +64,23 @@ export function useAppAlert(
     setConfirmYes(config.confirmText ?? "Yes");
     setConfirmNo(config.cancelText ?? "No");
     setConfirmAction(() => config.onConfirm);
+    setCancelAction(() => config.onCancel ?? null); 
     setConfirmOpen(true);
   }
 
   function closeConfirm() {
     setConfirmOpen(false);
     setConfirmAction(null);
+    setCancelAction(null); 
   }
 
   function handleConfirmYes() {
     confirmAction?.();
+    closeConfirm();
+  }
+
+  function handleConfirmNo() {
+    cancelAction?.(); // RUN cancel action
     closeConfirm();
   }
 
@@ -84,10 +93,10 @@ export function useAppAlert(
         confirmText={confirmYes}
         cancelText={confirmNo}
         onConfirm={handleConfirmYes}
-        onCancel={closeConfirm}
+        onCancel={handleConfirmNo} // USE custom cancel
       />
     ),
-    [confirmOpen, confirmTitle, confirmMessage, confirmYes, confirmNo, confirmAction]
+    [confirmOpen, confirmTitle, confirmMessage, confirmYes, confirmNo, confirmAction, cancelAction]
   );
 
   return { showAlert, closeAlert, AlertUI, confirmAlert, ConfirmUI };

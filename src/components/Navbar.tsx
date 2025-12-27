@@ -278,8 +278,9 @@ function Navbar({ onSearch }: NavbarProps) {
                     confirmText: "Continue as guest",
                     cancelText: "Sign in",
                     onConfirm: () => navigate("/checkout?guest=1"),
+                    onCancel: () => navigate("/sign-in"), 
                   });
-                  
+
                 }}
                 sx={{
                   width: { xs: 50, md: 70 },
@@ -345,66 +346,46 @@ function Navbar({ onSearch }: NavbarProps) {
                     width: 210,
                   }}
                 >
-                  {dropdownItemsChange.map(
-                    ({ label, icon: Icon, path, requiresAuth, action }) => {
-                      const isAction = typeof action === "function";
+                  {dropdownItemsChange.map((item) => {
+                    const { label, icon: Icon, path, requiresAuth } = item as any;
+                    const action = (item as any).action as undefined | (() => void);
+                    const isAction = Boolean(action);
 
+                    const commonSx = {
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-start",
+                      gap: 1.2,
+                      width: "100%",
+                      px: 1.5,
+                      py: 0.8,
+                      borderRadius: 1.5,
+                      textTransform: "none",
+                      border: "2px solid #0d47a1",
+                      color: "#0d47a1",
+                      fontWeight: 600,
+                      bgcolor: "rgba(230, 81, 0, 0.14)",
+                      boxShadow: "0 2px 6px rgba(13, 71, 161, 0.18)",
+                      "&:hover": {
+                        bgcolor: "rgba(230, 81, 0, 0.22)",
+                        boxShadow: "0 4px 10px rgba(13, 71, 161, 0.28)",
+                      },
+                      "&:active": {
+                        bgcolor: "rgba(230, 81, 0, 0.28)",
+                        transform: "translateY(1px)",
+                      },
+                    } as const;
+
+                    // ACTION (Signout)
+                    if (isAction) {
                       return (
                         <Button
                           key={label}
-                          component={isAction ? "button" : Link}
-                          to={isAction ? undefined : (path as any)}
-                          onClick={(e) => {
-                            const isLogged = Boolean(
-                              localStorage.getItem("idUser")
-                            );
-
-                            if (requiresAuth && !isLogged) {
-                              e.preventDefault();
-                              showAlert(
-                                "Please sign in to delete your account",
-                                "warning"
-                              );
-                              setShown(false);
-                              return;
-                            }
-
-                            if (isAction) {
-                              action();
-                              return;
-                            }
-
+                          onClick={() => {
+                            action?.();
                             setShown(false);
                           }}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "flex-start",
-                            gap: 1.2,
-                            width: "100%",
-                            px: 1.5,
-                            py: 0.8,
-
-                            borderRadius: 1.5,
-                            textTransform: "none",
-
-                            border: "2px solid #0d47a1",
-                            color: "#0d47a1",
-                            fontWeight: 600,
-
-                            bgcolor: "rgba(230, 81, 0, 0.14)",
-                            boxShadow: "0 2px 6px rgba(13, 71, 161, 0.18)",
-
-                            "&:hover": {
-                              bgcolor: "rgba(230, 81, 0, 0.22)",
-                              boxShadow: "0 4px 10px rgba(13, 71, 161, 0.28)",
-                            },
-
-                            "&:active": {
-                              bgcolor: "rgba(230, 81, 0, 0.28)",
-                              transform: "translateY(1px)",
-                            },
-                          }}
+                          sx={commonSx}
                         >
                           <Box sx={{ width: 24, display: "flex" }}>
                             <Icon sx={{ color: "#e85f10" }} />
@@ -413,7 +394,33 @@ function Navbar({ onSearch }: NavbarProps) {
                         </Button>
                       );
                     }
-                  )}
+
+                    return (
+                      <Button
+                        key={label}
+                        component={Link}
+                        to={path}
+                        onClick={(e) => {
+                          const isLogged = Boolean(localStorage.getItem("idUser"));
+
+                          if (requiresAuth && !isLogged) {
+                            e.preventDefault();
+                            showAlert("Please sign in to delete your account", "warning");
+                            setShown(false);
+                            return;
+                          }
+
+                          setShown(false);
+                        }}
+                        sx={commonSx}
+                      >
+                        <Box sx={{ width: 24, display: "flex" }}>
+                          <Icon sx={{ color: "#e85f10" }} />
+                        </Box>
+                        {label}
+                      </Button>
+                    );
+                  })}
                 </Box>
               )}
             </Box>
@@ -422,6 +429,7 @@ function Navbar({ onSearch }: NavbarProps) {
       </AppBar>
     </>
   );
+
 }
 
 export default Navbar;
