@@ -43,20 +43,21 @@ const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: 10,
 
-  backgroundColor: alpha("#0d47a1", 0.1),
-  border: "2px solid rgba(13, 71, 161, 0.55)",
-  boxShadow: "0 2px 10px rgba(13, 71, 161, 0.10)",
+  backgroundColor: alpha("#e65100", 0.08),
+  border: "2px solid rgba(230, 81, 0, 0.55)",
 
   transition: "all .18s ease",
+
   "&:hover": {
-    backgroundColor: alpha("#0d47a1", 0.14),
-    borderColor: "rgba(13, 71, 161, 0.85)",
-    boxShadow: "0 4px 16px rgba(13, 71, 161, 0.18)",
+    backgroundColor: alpha("#e65100", 0.12),
+    borderColor: "rgba(230, 81, 0, 0.85)",
+    boxShadow: "0 4px 16px rgba(230, 81, 0, 0.28)",
   },
+
   "&:focus-within": {
-    backgroundColor: alpha("#0d47a1", 0.12),
-    borderColor: "#0d47a1",
-    boxShadow: "0 0 0 4px rgba(13, 71, 161, 0.18)",
+    backgroundColor: alpha("#e65100", 0.10),
+    borderColor: "#e65100",
+    boxShadow: "0 0 0 4px rgba(230, 81, 0, 0.32)",
   },
 
   marginRight: theme.spacing(2),
@@ -278,7 +279,9 @@ function Navbar({ onSearch }: NavbarProps) {
                     confirmText: "Continue as guest",
                     cancelText: "Sign in",
                     onConfirm: () => navigate("/checkout?guest=1"),
-                    onCancel: () => navigate("/sign-in"), 
+                    onCancel: () => navigate("/sign-in"),
+                    onDismiss: () => {
+                    },
                   });
 
                 }}

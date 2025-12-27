@@ -24,11 +24,16 @@ export default function NavbarCheckout() {
             confirmText: "Yes, exit",
             cancelText: "No, stay",
             onConfirm: () => navigate("/"),
+            onCancel: () => { },     // ficar na página
+            onDismiss: () => { },    // clique fora 
         });
     }
 
     return (
         <>
+            {AlertUI}
+            {ConfirmUI}
+            
             <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
                 <Box sx={{ width: "100%" }}>
                     <Toolbar disableGutters sx={{ minHeight: 80, px: { xs: 1, md: 2 } }}>
@@ -79,9 +84,6 @@ export default function NavbarCheckout() {
                     </Toolbar>
                 </Box>
             </AppBar>
-
-            {AlertUI}
-            {ConfirmUI}
         </>
     );
 }

@@ -1,4 +1,3 @@
-// src/hooks/useAppAlert.tsx
 import { useMemo, useState } from "react";
 import type { AlertColor } from "@mui/material/Alert";
 import AppAlert from "../components/AppAlert";
@@ -14,14 +13,15 @@ type ConfirmConfig = {
   message: string;
   confirmText?: string;
   cancelText?: string;
-  onConfirm: () => void;
-  onCancel?: () => void; 
+  onConfirm: () => void; // continuar como guest
+  onCancel: () => void;
+  onDismiss?: () => void; // clique fora 
 };
 
 export function useAppAlert(
   defaultPosition: AlertPosition = { vertical: "bottom", horizontal: "center" }
 ) {
-  // SIMPLE ALERT
+
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState<AlertColor>("info");
@@ -49,39 +49,49 @@ export function useAppAlert(
     [open, message, severity, defaultPosition]
   );
 
-  // CONFIRM
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [confirmTitle, setConfirmTitle] = useState<string>("Confirm");
-  const [confirmMessage, setConfirmMessage] = useState<string>("");
-  const [confirmYes, setConfirmYes] = useState<string>("Yes");
-  const [confirmNo, setConfirmNo] = useState<string>("No");
+  const [confirmTitle, setConfirmTitle] = useState("Confirm");
+  const [confirmMessage, setConfirmMessage] = useState("");
+  const [confirmYes, setConfirmYes] = useState("Yes");
+  const [confirmNo, setConfirmNo] = useState("No");
+
   const [confirmAction, setConfirmAction] = useState<(() => void) | null>(null);
-  const [cancelAction, setCancelAction] = useState<(() => void) | null>(null); 
+  const [cancelAction, setCancelAction] = useState<(() => void) | null>(null);
+  const [dismissAction, setDismissAction] = useState<(() => void) | null>(null);
 
   function confirmAlert(config: ConfirmConfig) {
     setConfirmTitle(config.title ?? "Confirm");
     setConfirmMessage(config.message);
     setConfirmYes(config.confirmText ?? "Yes");
     setConfirmNo(config.cancelText ?? "No");
+
     setConfirmAction(() => config.onConfirm);
-    setCancelAction(() => config.onCancel ?? null); 
+    setCancelAction(() => config.onCancel);
+    setDismissAction(() => config.onDismiss ?? null);
+
     setConfirmOpen(true);
   }
 
-  function closeConfirm() {
+  function closeConfirmOnly() {
     setConfirmOpen(false);
     setConfirmAction(null);
-    setCancelAction(null); 
+    setCancelAction(null);
+    setDismissAction(null);
   }
 
   function handleConfirmYes() {
     confirmAction?.();
-    closeConfirm();
+    closeConfirmOnly();
   }
 
   function handleConfirmNo() {
-    cancelAction?.(); // RUN cancel action
-    closeConfirm();
+    cancelAction?.();
+    closeConfirmOnly();
+  }
+
+  function handleDismiss() {
+    dismissAction?.();
+    closeConfirmOnly();
   }
 
   const ConfirmUI = useMemo(
@@ -93,10 +103,20 @@ export function useAppAlert(
         confirmText={confirmYes}
         cancelText={confirmNo}
         onConfirm={handleConfirmYes}
-        onCancel={handleConfirmNo} // USE custom cancel
+        onCancel={handleConfirmNo}
+        onDismiss={handleDismiss}
       />
     ),
-    [confirmOpen, confirmTitle, confirmMessage, confirmYes, confirmNo, confirmAction, cancelAction]
+    [
+      confirmOpen,
+      confirmTitle,
+      confirmMessage,
+      confirmYes,
+      confirmNo,
+      confirmAction,
+      cancelAction,
+      dismissAction,
+    ]
   );
 
   return { showAlert, closeAlert, AlertUI, confirmAlert, ConfirmUI };
