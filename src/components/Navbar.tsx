@@ -1,83 +1,101 @@
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
-import { styled, alpha } from '@mui/material/styles';
-import Logo from '../assets/fast-fuel.png';
-import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState, useRef } from 'react';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import Badge, { badgeClasses } from '@mui/material/Badge';
-import IconButton from '@mui/material/IconButton';
-import { useAppContext } from '../context/context';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import NoAccountsIcon from '@mui/icons-material/NoAccounts';
-import HistoryIcon from '@mui/icons-material/History';
-import EmailIcon from '@mui/icons-material/Email';
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Button from "@mui/material/Button";
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
+import { styled, alpha } from "@mui/material/styles";
+import Logo from "../assets/fast-fuel.png";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import Badge, { badgeClasses } from "@mui/material/Badge";
+import IconButton from "@mui/material/IconButton";
+import { useAppContext } from "../context/context";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import NoAccountsIcon from "@mui/icons-material/NoAccounts";
+import HistoryIcon from "@mui/icons-material/History";
+import EmailIcon from "@mui/icons-material/Email";
 import { useAppAlert } from "../hooks/useAppAlert";
 
-const dropdownItems = [
-  { label: 'Signin / Signup', icon: AccountCircleIcon, path: '/sign-in' },
-  { label: 'My Orders', icon: HistoryIcon, path: '/history' },
-  { label: 'Contact Us', icon: EmailIcon, path: '/contact-us' },
+type DropdownItem = {
+  label: string;
+  icon: any;
+  path?: string;
+  requiresAuth?: boolean;
+  action?: () => void; // for Signout
+};
+
+const dropdownItems: DropdownItem[] = [
+  { label: "Signin / Signup", icon: AccountCircleIcon, path: "/sign-in" },
+  { label: "My Orders", icon: HistoryIcon, path: "/history" },
+  { label: "Contact Us", icon: EmailIcon, path: "/contact-us" },
   {
-    label: 'Delete Account',
+    label: "Delete Account",
     icon: NoAccountsIcon,
-    path: '/deleteaccount',
-    requiresAuth: true, // importante
+    path: "/deleteaccount",
+    requiresAuth: true,
   },
 ];
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: 10,
 
-  backgroundColor: alpha('#0d47a1', 0.08),
+  backgroundColor: alpha("#0d47a1", 0.1),
+  border: "2px solid rgba(13, 71, 161, 0.55)",
+  boxShadow: "0 2px 10px rgba(13, 71, 161, 0.10)",
 
-  border: '2px solid rgba(13, 71, 161, 0.45)',
-
-  '&:hover': {
-    backgroundColor: alpha('#0d47a1', 0.15),
-    borderColor: '#0d47a1',
+  transition: "all .18s ease",
+  "&:hover": {
+    backgroundColor: alpha("#0d47a1", 0.14),
+    borderColor: "rgba(13, 71, 161, 0.85)",
+    boxShadow: "0 4px 16px rgba(13, 71, 161, 0.18)",
+  },
+  "&:focus-within": {
+    backgroundColor: alpha("#0d47a1", 0.12),
+    borderColor: "#0d47a1",
+    boxShadow: "0 0 0 4px rgba(13, 71, 161, 0.18)",
   },
 
   marginRight: theme.spacing(2),
   marginLeft: theme.spacing(2),
-  width: '100%',
-  maxWidth: 300,
-  display: 'flex',
-  alignItems: 'center',
-  cursor: 'text',
-}));
-
-
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#e65100',
-  pointerEvents: 'none',
+  width: "100%",
+  maxWidth: 320,
+  display: "flex",
+  alignItems: "center",
+  cursor: "text",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: '#e65100',
-  width: '100%',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
+  color: "#0d47a1",
+  width: "100%",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1.1, 1, 1.1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    width: '100%',
-    fontSize: '0.9rem',
+    width: "100%",
+    fontSize: "0.95rem",
+    fontWeight: 600,
+  },
+  "& .MuiInputBase-input::placeholder": {
+    color: "rgba(13, 71, 161, 0.75)",
+    opacity: 1,
+    fontWeight: 600,
   },
 }));
 
-// Blue badge only
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "#0d47a1",
+  pointerEvents: "none",
+}));
+
 const CartBadge = styled(Badge)`
   & .${badgeClasses.badge} {
     top: -12px;
@@ -96,22 +114,29 @@ function Navbar({ onSearch }: NavbarProps) {
   const { order } = useAppContext();
 
   const [shown, setShown] = useState(false);
-  const [dropdownItemsChange, setDropDownChange] = useState(dropdownItems);
+  const [dropdownItemsChange, setDropDownChange] =
+    useState<DropdownItem[]>(dropdownItems);
   const [badgeQuantity, setBadgeQuantity] = useState(0);
 
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  const handleClickSignout = () => {
-    localStorage.clear();
-  };
-
-  const { showAlert, AlertUI } = useAppAlert({
+  const { showAlert, AlertUI, confirmAlert, ConfirmUI } = useAppAlert({
     vertical: "top",
     horizontal: "center",
   });
 
+  //  Signout action (now actually used)
+  const handleClickSignout = () => {
+    localStorage.clear();
+    setShown(false);
+    showAlert("Signed out successfully", "success");
+    setDropDownChange(dropdownItems); // back to default menu
+    navigate("/sign-in");
+  };
+
   useEffect(() => {
+    // if logged: swap menu
     if (localStorage.getItem("idUser")) {
       setShown(false);
 
@@ -119,7 +144,7 @@ function Navbar({ onSearch }: NavbarProps) {
         {
           label: "Signout",
           icon: AccountCircleIcon,
-          path: "/sign-in",
+          action: handleClickSignout, // action instead of Link
         },
         {
           label: "My Orders",
@@ -138,18 +163,20 @@ function Navbar({ onSearch }: NavbarProps) {
           requiresAuth: true,
         },
       ]);
+    } else {
+      // if not logged: ensure default menu
+      setDropDownChange(dropdownItems);
     }
 
     setBadgeQuantity(order.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [order]);
-
 
   useEffect(() => {
     const qtdTotal = order.reduce((acc, element) => acc + element.quantidade, 0);
     setBadgeQuantity(qtdTotal);
   }, [order]);
 
-  // close dropdown if clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -157,18 +184,15 @@ function Navbar({ onSearch }: NavbarProps) {
       }
     }
 
-    if (shown) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
+    if (shown) document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [shown]);
 
   return (
     <>
       {AlertUI}
+      {ConfirmUI}
 
       <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
         <Box sx={{ width: "100%" }}>
@@ -240,7 +264,23 @@ function Navbar({ onSearch }: NavbarProps) {
             >
               {/* Cart */}
               <IconButton
-                onClick={() => navigate("/checkout")}
+                onClick={() => {
+                  const isLogged = Boolean(localStorage.getItem("idUser"));
+
+                  if (isLogged) {
+                    navigate("/checkout");
+                    return;
+                  }
+
+                  confirmAlert({
+                    title: "Checkout",
+                    message: "You’re not signed in. Continue as guest or sign in?",
+                    confirmText: "Continue as guest",
+                    cancelText: "Sign in",
+                    onConfirm: () => navigate("/checkout?guest=1"),
+                  });
+                  
+                }}
                 sx={{
                   width: { xs: 50, md: 70 },
                   height: { xs: 34, md: 40 },
@@ -305,60 +345,75 @@ function Navbar({ onSearch }: NavbarProps) {
                     width: 210,
                   }}
                 >
-                  {dropdownItemsChange.map(({ label, icon: Icon, path, requiresAuth }) => (
-                    <Button
-                      key={label}
-                      component={Link}
-                      to={path}
-                      onClick={(e) => {
-                        const isLogged = Boolean(localStorage.getItem("idUser"));
+                  {dropdownItemsChange.map(
+                    ({ label, icon: Icon, path, requiresAuth, action }) => {
+                      const isAction = typeof action === "function";
 
-                        if (requiresAuth && !isLogged) {
-                          e.preventDefault(); // impede navegação
-                          showAlert("Please sign in to delete your account", "warning");
-                          setShown(false); // opcional: fecha o menu
-                          return;
-                        }
+                      return (
+                        <Button
+                          key={label}
+                          component={isAction ? "button" : Link}
+                          to={isAction ? undefined : (path as any)}
+                          onClick={(e) => {
+                            const isLogged = Boolean(
+                              localStorage.getItem("idUser")
+                            );
 
-                        // opcional: fecha o menu ao clicar em qualquer item
-                        setShown(false);
-                      }}
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "flex-start",
-                        gap: 1.2,
-                        width: "100%",
-                        px: 1.5,
-                        py: 0.8,
+                            if (requiresAuth && !isLogged) {
+                              e.preventDefault();
+                              showAlert(
+                                "Please sign in to delete your account",
+                                "warning"
+                              );
+                              setShown(false);
+                              return;
+                            }
 
-                        borderRadius: 1.5,
-                        textTransform: "none",
+                            if (isAction) {
+                              action();
+                              return;
+                            }
 
-                        border: "2px solid #0d47a1",
-                        color: "#0d47a1",
-                        fontWeight: 600,
+                            setShown(false);
+                          }}
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "flex-start",
+                            gap: 1.2,
+                            width: "100%",
+                            px: 1.5,
+                            py: 0.8,
 
-                        bgcolor: "rgba(230, 81, 0, 0.14)",
-                        boxShadow: "0 2px 6px rgba(13, 71, 161, 0.18)",
+                            borderRadius: 1.5,
+                            textTransform: "none",
 
-                        "&:hover": {
-                          bgcolor: "rgba(230, 81, 0, 0.22)",
-                          boxShadow: "0 4px 10px rgba(13, 71, 161, 0.28)",
-                        },
+                            border: "2px solid #0d47a1",
+                            color: "#0d47a1",
+                            fontWeight: 600,
 
-                        "&:active": {
-                          bgcolor: "rgba(230, 81, 0, 0.28)",
-                          transform: "translateY(1px)",
-                        },
-                      }}
-                    >
-                      <Box sx={{ width: 24, display: "flex" }}>
-                        <Icon sx={{ color: "#e85f10" }} />
-                      </Box>
-                      {label}
-                    </Button>
-                  ))}
+                            bgcolor: "rgba(230, 81, 0, 0.14)",
+                            boxShadow: "0 2px 6px rgba(13, 71, 161, 0.18)",
+
+                            "&:hover": {
+                              bgcolor: "rgba(230, 81, 0, 0.22)",
+                              boxShadow: "0 4px 10px rgba(13, 71, 161, 0.28)",
+                            },
+
+                            "&:active": {
+                              bgcolor: "rgba(230, 81, 0, 0.28)",
+                              transform: "translateY(1px)",
+                            },
+                          }}
+                        >
+                          <Box sx={{ width: 24, display: "flex" }}>
+                            <Icon sx={{ color: "#e85f10" }} />
+                          </Box>
+                          {label}
+                        </Button>
+                      );
+                    }
+                  )}
                 </Box>
               )}
             </Box>
@@ -367,7 +422,6 @@ function Navbar({ onSearch }: NavbarProps) {
       </AppBar>
     </>
   );
-
 }
 
 export default Navbar;
