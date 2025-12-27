@@ -1,17 +1,21 @@
-import React from "react";
-import { useState } from "react";
-import { Box, Paper, Typography, TextField, Button, Stack, Chip } from "@mui/material";
+import React, { useState } from "react";
+import {
+    Box,
+    Paper,
+    Typography,
+    TextField,
+    Button,
+    Stack,
+    Chip,
+} from "@mui/material";
 import AddressLookup from "../components/AddressLookup";
 import Footer from "../components/Footer";
 import NavbarCheckout from "../components/NavBarCheckout";
 
-
-
 export default function Checkout() {
-
-
     const NAV_H = 80;
 
+    // demo
     const total = 580;
 
     const totalLabel = new Intl.NumberFormat("en-US", {
@@ -20,24 +24,12 @@ export default function Checkout() {
     }).format(total);
 
     const tfBlueLabelSx = {
-        "& label": {
-            color: "#0d47a1",
-            // fontWeight: 700,
-        },
-        "& label.Mui-focused": {
-            color: "#0d47a1",
-        },
+        "& label": { color: "#0d47a1" },
+        "& label.Mui-focused": { color: "#0d47a1" },
         "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-                borderColor: "#0d47a1",
-            },
-            "&:hover fieldset": {
-                borderColor: "#123b7a",
-            },
-            "&.Mui-focused fieldset": {
-                borderColor: "#0d47a1",
-                borderWidth: 2,
-            },
+            "& fieldset": { borderColor: "#0d47a1" },
+            "&:hover fieldset": { borderColor: "#123b7a" },
+            "&.Mui-focused fieldset": { borderColor: "#0d47a1", borderWidth: 2 },
         },
     };
 
@@ -73,18 +65,24 @@ export default function Checkout() {
                         width: "100%",
                         maxWidth: 540,
                         borderRadius: 3,
+                        mb: 1,
                         border: "1.5px solid rgba(230, 81, 0, 0.35)",
                         bgcolor: "background.paper",
                         boxShadow:
                             "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
-
-                        // ✅ REMOVE isso:
-                        // maxHeight: ...
-                        // overflowY: "auto"
                     }}
                 >
-                    <Box sx={{ px: 5, py: 3.5, maxWidth: 500, mx: "auto" }}>
-                        {/* ...todo seu conteúdo do checkout aqui dentro... */}
+                    {/* CONTENT (com padding) */}
+                    <Box
+                        sx={{
+                            px: 5,
+                            py: 3.5,
+                            maxWidth: 500,
+                            mx: "auto",
+                            //  espaço pro sticky não cobrir o fim do conteúdo
+                            pb: 2,
+                        }}
+                    >
                         {/* Title */}
                         <Typography
                             variant="h4"
@@ -131,15 +129,22 @@ export default function Checkout() {
 
                                 <Box>
                                     <Typography variant="body2">
-                                        Quantity: <Box component="span" sx={{ fontWeight: 600 }}>2</Box>
+                                        Quantity:{" "}
+                                        <Box component="span" sx={{ fontWeight: 600 }}>
+                                            2
+                                        </Box>
                                     </Typography>
                                     <Typography variant="body2">
-                                        Total Price: <Box component="span" sx={{ fontWeight: 600 }}>$580.00</Box>
+                                        Total Price:{" "}
+                                        <Box component="span" sx={{ fontWeight: 600 }}>
+                                            $580.00
+                                        </Box>
                                     </Typography>
                                 </Box>
                             </Stack>
                         </Box>
 
+                        {/* Contact */}
                         <Box sx={{ mb: 2.5 }}>
                             <Typography
                                 variant="subtitle1"
@@ -166,13 +171,11 @@ export default function Checkout() {
                             </Typography>
 
                             <Stack spacing={1.2}>
-
                                 <TextField
                                     size="small"
                                     label="Full Name*"
                                     fullWidth
                                     variant="outlined"
-
                                     sx={tfBlueLabelSx}
                                 />
                                 <TextField
@@ -213,7 +216,6 @@ export default function Checkout() {
                             </Typography>
 
                             <Stack spacing={1.2}>
-
                                 <AddressLookup
                                     sx={tfBlueLabelSx}
                                     onInput={(v) => {
@@ -240,8 +242,7 @@ export default function Checkout() {
                                     }
                                 />
 
-
-                                {/* City + Apt/Suite */}
+                                {/* City + Apt */}
                                 <Stack direction="row" spacing={1.2}>
                                     <TextField
                                         size="small"
@@ -249,7 +250,9 @@ export default function Checkout() {
                                         fullWidth
                                         variant="outlined"
                                         value={address.city}
-                                        onChange={(e) => setAddress((prev) => ({ ...prev, city: e.target.value }))}
+                                        onChange={(e) =>
+                                            setAddress((prev) => ({ ...prev, city: e.target.value }))
+                                        }
                                         sx={[tfBlueLabelSx, { flex: 6 }]}
                                     />
 
@@ -258,7 +261,9 @@ export default function Checkout() {
                                         label="Apt / Suite"
                                         variant="outlined"
                                         value={address.apt}
-                                        onChange={(e) => setAddress((prev) => ({ ...prev, apt: e.target.value }))}
+                                        onChange={(e) =>
+                                            setAddress((prev) => ({ ...prev, apt: e.target.value }))
+                                        }
                                         sx={[tfBlueLabelSx, { flex: 4 }]}
                                     />
                                 </Stack>
@@ -270,7 +275,9 @@ export default function Checkout() {
                                         label="State*"
                                         variant="outlined"
                                         value={address.state}
-                                        onChange={(e) => setAddress((prev) => ({ ...prev, state: e.target.value }))}
+                                        onChange={(e) =>
+                                            setAddress((prev) => ({ ...prev, state: e.target.value }))
+                                        }
                                         sx={[tfBlueLabelSx, { flex: 3 }]}
                                     />
 
@@ -279,7 +286,9 @@ export default function Checkout() {
                                         label="Zipcode*"
                                         variant="outlined"
                                         value={address.zip}
-                                        onChange={(e) => setAddress((prev) => ({ ...prev, zip: e.target.value }))}
+                                        onChange={(e) =>
+                                            setAddress((prev) => ({ ...prev, zip: e.target.value }))
+                                        }
                                         sx={[tfBlueLabelSx, { flex: 3 }]}
                                     />
 
@@ -289,18 +298,19 @@ export default function Checkout() {
                                         placeholder="USA"
                                         variant="outlined"
                                         value={address.country}
-                                        onChange={(e) => setAddress((prev) => ({ ...prev, country: e.target.value }))}
+                                        onChange={(e) =>
+                                            setAddress((prev) => ({
+                                                ...prev,
+                                                country: e.target.value,
+                                            }))
+                                        }
                                         sx={[tfBlueLabelSx, { flex: 4 }]}
                                     />
                                 </Stack>
 
                                 <Typography
                                     align="center"
-                                    sx={{
-                                        mt: 0.6,
-                                        fontSize: "0.75rem",
-                                        color: "text.secondary",
-                                    }}
+                                    sx={{ mt: 0.6, fontSize: "0.75rem", color: "text.secondary" }}
                                 >
                                     Demo only — use any valid address (it doesn’t need to be yours).
                                 </Typography>
@@ -309,8 +319,6 @@ export default function Checkout() {
 
                         {/* Payment */}
                         <Box sx={{ mb: 1 }}>
-
-
                             <Typography
                                 variant="subtitle1"
                                 align="center"
@@ -344,11 +352,7 @@ export default function Checkout() {
                                     variant="outlined"
                                     sx={[
                                         tfBlueLabelSx,
-                                        {
-                                            "& .MuiOutlinedInput-root": {
-                                                bgcolor: "rgba(13, 71, 161, 0.06)",
-                                            },
-                                        },
+                                        { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
                                     ]}
                                     InputProps={{ readOnly: true }}
                                 />
@@ -361,11 +365,7 @@ export default function Checkout() {
                                     variant="outlined"
                                     sx={[
                                         tfBlueLabelSx,
-                                        {
-                                            "& .MuiOutlinedInput-root": {
-                                                bgcolor: "rgba(13, 71, 161, 0.06)",
-                                            },
-                                        },
+                                        { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
                                     ]}
                                     InputProps={{ readOnly: true }}
                                 />
@@ -402,73 +402,80 @@ export default function Checkout() {
 
                                 <Typography
                                     align="center"
-                                    sx={{
-                                        mt: 0.5,
-                                        fontSize: "0.75rem",
-                                        color: "text.secondary",
-                                    }}
+                                    sx={{ mt: 0.5, fontSize: "0.75rem", color: "text.secondary" }}
                                 >
                                     This is a portfolio demo — no real payment is processed.
                                 </Typography>
                             </Stack>
                         </Box>
+                    </Box>
 
+                    {/* ✅ STICKY TOTAL BAR (mobile + desktop) */}
+                    <Box
+                        sx={{
+                            position: "sticky",
+                            bottom: 0,
+                            px: { xs: 2, sm: 3 },
+                            py: 1.5,
+                            bgcolor: "#fff4e1",
+                            borderTop: "1px solid rgba(13, 71, 161, 0.18)",
+                            boxShadow: "0 -10px 18px rgba(0,0,0,0.08)",
+                            zIndex: 10,
 
-                        {/* Button */}
-                        <Box
-                            sx={{
-                                position: "sticky",
-                                bottom: 0,
-                                mt: 2,
-                                pt: 1.5,
-                                pb: 1.5,
-                                px: 2,
-                                mx: { xs: -5, sm: -7.2, md: -7.2 }, // compensar o padding do conteúdo (pq você usa px: 5 no Box interno)
-                                bgcolor: "#fff4e1",
-                                borderTop: "1px solid rgba(13, 71, 161, 0.18)",
-                                boxShadow: "0 -10px 18px rgba(0,0,0,0.08)",
-                                display: { xs: "block", md: "block" }, // ✅ sticky só no mobile
-                                zIndex: 10,
-                            }}
+                            borderBottomLeftRadius: 12,
+                            borderBottomRightRadius: 12,
+                        }}
+                    >
+                        <Stack
+                            direction="row"
+                            alignItems="center"
+                            justifyContent="space-between"
+                            spacing={2}
                         >
-                            <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
-                                <Box>
-                                    <Typography sx={{ fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", color: "#0d47a1" }}>
-                                        Total
-                                    </Typography>
-                                    <Typography sx={{ fontWeight: 800, color: "#0d47a1", fontSize: 18 }}>
-                                        {totalLabel}
-                                    </Typography>
-                                </Box>
-
-                                <Button
-                                    variant="outlined"
+                            <Box>
+                                <Typography
                                     sx={{
-                                        borderRadius: 2,
+                                        fontSize: 12,
+                                        letterSpacing: "0.12em",
                                         textTransform: "uppercase",
-                                        border: "2px solid #0d47a1",
                                         color: "#0d47a1",
-                                        letterSpacing: "0.14em",
-                                        fontWeight: 800,
-                                        bgcolor: "rgba(230, 81, 0, 0.16)",
-                                        px: 2.5,
-                                        py: 1,
-                                        whiteSpace: "nowrap",
-                                        boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
-                                        "&:hover": {
-                                            bgcolor: "rgba(230, 81, 0, 0.22)",
-                                            boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
-                                        },
-                                    }}
-                                    onClick={() => {
-                                        // por enquanto só simula
-                                        alert(`Demo: payment processed for ${totalLabel}`);
                                     }}
                                 >
-                                    Pay {totalLabel}
-                                </Button>
-                            </Stack>
-                        </Box>
+                                    Total
+                                </Typography>
+                                <Typography
+                                    sx={{ fontWeight: 800, color: "#0d47a1", fontSize: 18 }}
+                                >
+                                    {totalLabel}
+                                </Typography>
+                            </Box>
+
+                            <Button
+                                variant="outlined"
+                                sx={{
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    border: "2px solid #0d47a1",
+                                    color: "#0d47a1",
+                                    letterSpacing: "0.14em",
+                                    fontWeight: 800,
+                                    bgcolor: "rgba(230, 81, 0, 0.16)",
+                                    px: 2.5,
+                                    py: 1,
+                                    whiteSpace: "nowrap",
+                                    boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+                                    "&:hover": {
+                                        bgcolor: "rgba(230, 81, 0, 0.22)",
+                                        boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
+                                    },
+                                }}
+                                onClick={() =>
+                                    alert(`Demo: payment processed for ${totalLabel}`)
+                                }
+                            >
+                                Pay {totalLabel}
+                            </Button>
+                        </Stack>
                     </Box>
                 </Paper>
             </Box>
@@ -476,6 +483,4 @@ export default function Checkout() {
             <Footer fixed={false} />
         </Box>
     );
-
-
 }
