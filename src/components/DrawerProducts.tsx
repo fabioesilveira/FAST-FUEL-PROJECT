@@ -21,23 +21,17 @@ import EmailIcon from "@mui/icons-material/Email";
 
 const drawerWidth = 240;
 
-// 🎨 identidade
 const BLUE = "#0d47a1";
 const ORANGE = "#e85f10";
-const ORANGE_SOFT = "rgba(230,81,0,.18)";
 const ORANGE_SOFT_HOVER = "rgba(230,81,0,.22)";
 
-const items = [
-  { label: "SIGNIN / SIGNUP", icon: AccountCircleIcon, path: "/sign-in" },
-  { label: "MY ORDERS", icon: HistoryIcon, path: "/history" },
-  { label: "CONTACT US", icon: EmailIcon, path: "/contact-us" },
-  {
-    label: "DELETE ACCOUNT",
-    icon: NoAccountsIcon,
-    path: "/deleteaccount",
-    requiresAuth: true,
-  },
-];
+type DrawerItem = {
+  label: string;
+  icon: any;
+  path?: string;
+  requiresAuth?: boolean;
+  action?: () => void; // pra Signout
+};
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -91,15 +85,47 @@ export default function DrawerProducts() {
 
   const handleToggle = () => setOpen((prev) => !prev);
 
-  const handleNavigate = (path: string, requiresAuth?: boolean) => {
-    const isLogged = Boolean(localStorage.getItem("idUser"));
+  const isLogged = Boolean(localStorage.getItem("idUser"));
 
-    if (requiresAuth && !isLogged) {
+  const handleSignout = () => {
+    localStorage.clear(); // ou removeItem das chaves específicas
+    showAlert("Signed out successfully", "success");
+    navigate("/sign-in");
+  };
+
+  // items dinâmico (signin vira signout)
+  const items: DrawerItem[] = React.useMemo(
+    () => [
+      isLogged
+        ? { label: "SIGN OUT", icon: AccountCircleIcon, action: handleSignout }
+        : { label: "SIGNIN / SIGNUP", icon: AccountCircleIcon, path: "/sign-in" },
+
+      { label: "MY ORDERS", icon: HistoryIcon, path: "/history" },
+      { label: "CONTACT US", icon: EmailIcon, path: "/contact-us" },
+      {
+        label: "DELETE ACCOUNT",
+        icon: NoAccountsIcon,
+        path: "/deleteaccount",
+        requiresAuth: true,
+      },
+    ],
+    [isLogged]
+  );
+
+  const handleItemClick = (item: DrawerItem) => {
+    const logged = Boolean(localStorage.getItem("idUser"));
+
+    if (item.requiresAuth && !logged) {
       showAlert("Please sign in to delete your account", "warning");
       return;
     }
 
-    navigate(path);
+    if (item.action) {
+      item.action();
+      return;
+    }
+
+    if (item.path) navigate(item.path);
   };
 
   return (
@@ -138,10 +164,10 @@ export default function DrawerProducts() {
 
         {/* Menu */}
         <List sx={{ px: 1 }}>
-          {items.map(({ label, icon: IconComp, path, requiresAuth }) => (
+          {items.map(({ label, icon: IconComp, requiresAuth, path, action }) => (
             <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.5 }}>
               <ListItemButton
-                onClick={() => handleNavigate(path, requiresAuth)}
+                onClick={() => handleItemClick({ label, icon: IconComp, requiresAuth, path, action })}
                 sx={[
                   {
                     minHeight: 56,
@@ -211,3 +237,4 @@ export default function DrawerProducts() {
     </>
   );
 }
+
