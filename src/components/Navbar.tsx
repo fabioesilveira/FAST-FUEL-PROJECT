@@ -127,13 +127,17 @@ function Navbar({ onSearch }: NavbarProps) {
   });
 
   //  Signout action (now actually used)
-  const handleClickSignout = () => {
-    localStorage.clear();
-    setShown(false);
-    showAlert("Signed out successfully", "success");
-    setDropDownChange(dropdownItems); // back to default menu
+ const handleClickSignout = () => {
+  localStorage.clear();
+  setShown(false);
+
+  showAlert("Signed out successfully", "success");
+  setDropDownChange(dropdownItems);
+
+  setTimeout(() => {
     navigate("/sign-in");
-  };
+  }, 2000);
+};
 
   useEffect(() => {
     // if logged: swap menu

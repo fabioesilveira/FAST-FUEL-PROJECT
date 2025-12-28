@@ -88,9 +88,12 @@ export default function DrawerProducts() {
   const isLogged = Boolean(localStorage.getItem("idUser"));
 
   const handleSignout = () => {
-    localStorage.clear(); // ou removeItem das chaves específicas
+    localStorage.clear();
     showAlert("Signed out successfully", "success");
-    navigate("/sign-in");
+
+    setTimeout(() => {
+      navigate("/sign-in");
+    }, 2000);
   };
 
   // items dinâmico (signin vira signout)
