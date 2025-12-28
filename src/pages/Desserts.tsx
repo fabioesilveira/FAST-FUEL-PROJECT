@@ -390,20 +390,18 @@ export default function Desserts() {
                             height: 50,
                             borderRadius: 2,
 
+                            backgroundColor: "#ffe0c7",
                             border: "2px solid #0d47a1",
                             color: "#0d47a1",
-                            bgcolor: "rgba(230, 81, 0, 0.22)",
                             boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
 
                             "&:hover": {
-                                bgcolor: "rgba(230, 81, 0, 0.22)",
-                                borderColor: "#0d47a1",
-                                color: "#0d47a1",
+                                backgroundColor: "#ffd4a3",
                                 boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
                             },
 
                             "&:active": {
-                                bgcolor: "rgba(230, 81, 0, 0.28)",
+                                backgroundColor: "#ffcc8a",
                                 boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
                                 transform: "translateY(1px)",
                             },
@@ -519,20 +517,18 @@ export default function Desserts() {
                             width: 85,
                             height: 48,
                             borderRadius: 2,
+                            backgroundColor: "#ffe0c7",
                             border: "2px solid #0d47a1",
                             color: "#0d47a1",
-                            bgcolor: "rgba(230, 81, 0, 0.22)",
                             boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
 
                             "&:hover": {
-                                bgcolor: "rgba(230, 81, 0, 0.22)",
-                                borderColor: "#0d47a1",
-                                color: "#0d47a1",
+                                backgroundColor: "#ffd4a3",
                                 boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
                             },
 
                             "&:active": {
-                                bgcolor: "rgba(230, 81, 0, 0.28)",
+                                backgroundColor: "#ffcc8a",
                                 boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
                                 transform: "translateY(1px)",
                             },
