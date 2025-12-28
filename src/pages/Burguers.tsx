@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import HomeIcon from '@mui/icons-material/Home';
+import { useAppAlert } from "../hooks/useAppAlert";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -174,6 +175,11 @@ import NavFooterProducts from '../components/NavFooterProducts';
 export default function Burguers() {
   const [data, setData] = useState<Meal[]>([]);
 
+  const { confirmAlert, ConfirmUI } = useAppAlert({
+    vertical: "top",
+    horizontal: "center",
+  });
+
   // global cart from context
   const { order, setOrder } = useAppContext();
 
@@ -293,7 +299,10 @@ export default function Burguers() {
 
   return (
     <>
+
       <NavbarProducts />
+
+      {ConfirmUI}
 
       {!isMobile && <DrawerProducts />}
 
@@ -343,7 +352,24 @@ export default function Burguers() {
           {/* CART – mobile */}
           <Button
             variant="contained"
-            onClick={() => navigate("/checkout")}
+            onClick={() => {
+              const isLogged = Boolean(localStorage.getItem("idUser"));
+
+              if (isLogged) {
+                navigate("/checkout");
+                return;
+              }
+
+              confirmAlert({
+                title: "Checkout",
+                message: "You’re not signed in. Continue as guest or sign in?",
+                confirmText: "Continue as guest",
+                cancelText: "Sign in / Sign up",
+                onConfirm: () => navigate("/checkout?guest=1"),
+                onCancel: () => navigate("/sign-in"),
+                onDismiss: () => { },
+              });
+            }}
             sx={{
               width: { xs: 72, sm: 80 },
               height: 42,
@@ -504,7 +530,24 @@ export default function Burguers() {
           {/* CART – só desktop */}
           <Button
             variant="contained"
-            onClick={() => navigate('/checkout')}
+            onClick={() => {
+              const isLogged = Boolean(localStorage.getItem("idUser"));
+
+              if (isLogged) {
+                navigate("/checkout");
+                return;
+              }
+
+              confirmAlert({
+                title: "Checkout",
+                message: "You’re not signed in. Continue as guest or sign in?",
+                confirmText: "Continue as guest",
+                cancelText: "Sign in / Sign up",
+                onConfirm: () => navigate("/checkout?guest=1"),
+                onCancel: () => navigate("/sign-in"),
+                onDismiss: () => { },
+              });
+            }}
             sx={{
               display: { xs: "none", sm: "none", md: "inline-flex" },
               width: 85,

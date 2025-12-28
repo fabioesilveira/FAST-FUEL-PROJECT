@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import HomeIcon from '@mui/icons-material/Home';
+import { useAppAlert } from "../hooks/useAppAlert";
 
 
 const getNameWithKcal = (name: string) => name.trim();
@@ -182,6 +183,11 @@ export default function Sides() {
 
   const navigate = useNavigate();
 
+  const { confirmAlert, ConfirmUI } = useAppAlert({
+    vertical: "top",
+    horizontal: "center",
+  });
+
 
   const theme = useTheme();
   const isMobileTablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -300,6 +306,8 @@ export default function Sides() {
     <>
       <NavbarProducts />
 
+      {ConfirmUI}
+
       {!isMobile && <DrawerProducts />}
 
       <h2 className='h2-products-background'>SIDES</h2>
@@ -351,7 +359,24 @@ export default function Sides() {
           {/* CART – mobile */}
           <Button
             variant="contained" //  NÃO outlined
-            onClick={() => navigate("/checkout")}
+            onClick={() => {
+              const isLogged = Boolean(localStorage.getItem("idUser"));
+
+              if (isLogged) {
+                navigate("/checkout");
+                return;
+              }
+
+              confirmAlert({
+                title: "Checkout",
+                message: "You’re not signed in. Continue as guest or sign in?",
+                confirmText: "Continue as guest",
+                cancelText: "Sign in / Sign up",
+                onConfirm: () => navigate("/checkout?guest=1"),
+                onCancel: () => navigate("/sign-in"),
+                onDismiss: () => { },
+              });
+            }}
             sx={{
               width: { xs: 72, sm: 80 },
               height: 42,
@@ -511,10 +536,27 @@ export default function Sides() {
             <CookieIcon sx={{ fontSize: { xs: 30, sm: 32, md: 35 }, color: '#f1671cff' }} />
           </Button>
 
-          {/* CART – só desktop */}
+          {/* CART – desktop */}
           <Button
             variant="contained"
-            onClick={() => navigate('/checkout')}
+            onClick={() => {
+              const isLogged = Boolean(localStorage.getItem("idUser"));
+
+              if (isLogged) {
+                navigate("/checkout");
+                return;
+              }
+
+              confirmAlert({
+                title: "Checkout",
+                message: "You’re not signed in. Continue as guest or sign in?",
+                confirmText: "Continue as guest",
+                cancelText: "Sign in / Sign up",
+                onConfirm: () => navigate("/checkout?guest=1"),
+                onCancel: () => navigate("/sign-in"),
+                onDismiss: () => { },
+              });
+            }}
             sx={{
               display: { xs: "none", sm: "none", md: "inline-flex" },
               width: 85,

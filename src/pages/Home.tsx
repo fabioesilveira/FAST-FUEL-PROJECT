@@ -6,10 +6,10 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import Chat from '../assets/ChatGPT2.png';
+import Chat from '../assets/Fast-Fuel-RestO.png';
 import Chat4 from '../assets/Fuel-Up.png'
-import Chat5 from '../assets/Fuel.png'
-import Chat6 from '../assets/Restaurant.png'
+import Chat5 from '../assets/fastFuel-employees.png'
+import Chat6 from '../assets/girl-fastFuel.png'
 import Carousel from 'react-bootstrap/Carousel';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useNavigate } from 'react-router-dom';
