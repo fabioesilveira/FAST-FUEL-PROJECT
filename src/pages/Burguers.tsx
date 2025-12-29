@@ -505,8 +505,9 @@ export default function Burguers() {
                 width: { xs: 45, sm: 42, md: 45 },
                 height: { xs: 38, sm: 39, md: 43 },
                 objectFit: "contain",
-                transition: "transform 0.2s ease",
                 display: "block",
+                transform: "translateY(-1.7px) scaleX(1.05) scaleY(1.05)",
+                transition: "transform 0.2s ease",
               }}
             />
           </Button>
@@ -524,7 +525,7 @@ export default function Burguers() {
               boxSizing: "border-box",
             }}
           >
-            <CookieIcon sx={{ fontSize: { xs: 30, sm: 32, md: 35 }, color: '#f1671cff' }} />
+            <CookieIcon sx={{ fontSize: { xs: 30, sm: 32, md: 34 }, color: '#f1671cff' }} />
           </Button>
 
           {/* CART – só desktop */}

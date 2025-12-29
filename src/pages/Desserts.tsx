@@ -183,7 +183,7 @@ export default function Desserts() {
     const { confirmAlert, ConfirmUI } = useAppAlert({
         vertical: "top",
         horizontal: "center",
-      });
+    });
 
     const theme = useTheme();
     const isMobileTablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -502,8 +502,9 @@ export default function Desserts() {
                                 width: { xs: 45, sm: 42, md: 45 },
                                 height: { xs: 38, sm: 39, md: 43 },
                                 objectFit: "contain",
-                                transition: "transform 0.2s ease",
                                 display: "block",
+                                transform: "translateY(-1.7px) scaleX(1.05) scaleY(1.05)",
+                                transition: "transform 0.2s ease",
                             }}
                         />
                     </Button>
@@ -529,7 +530,7 @@ export default function Desserts() {
                             },
                         }}
                     >
-                        <CookieIcon sx={{ fontSize: { xs: 32, sm: 34, md: 37 }, color: '#f1671cff' }} />
+                        <CookieIcon sx={{ fontSize: { xs: 32, sm: 34, md: 38 }, color: '#f1671cff' }} />
                     </Button>
 
                     {/* CART – desktop */}

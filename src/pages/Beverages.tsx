@@ -184,10 +184,10 @@ export default function Beverages() {
   const isDesktop = useMediaQuery(theme.breakpoints.up("lg")); // md+ = desktop
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-   const { showAlert, AlertUI, confirmAlert, ConfirmUI } = useAppAlert({
-      vertical: "top",
-      horizontal: "center",
-    });
+  const { showAlert, AlertUI, confirmAlert, ConfirmUI } = useAppAlert({
+    vertical: "top",
+    horizontal: "center",
+  });
 
   // total items for the badge
   const totalItems = order.reduce(
@@ -517,11 +517,12 @@ export default function Beverages() {
               src={SodaIcon}
               alt="Drink icon"
               sx={{
-                width: { xs: 45, sm: 42, md: 50 },
-                height: { xs: 40, sm: 42, md: 47 },
+                width: { xs: 45, sm: 42, md: 45 },
+                height: { xs: 38, sm: 39, md: 43 },
                 objectFit: "contain",
-                transition: "transform 0.2s ease",
                 display: "block",
+                transform: "translateY(-1.7px) scaleX(1.10) scaleY(1.15)",
+                transition: "transform 0.2s ease",
               }}
             />
           </Button>
@@ -539,7 +540,7 @@ export default function Beverages() {
               boxSizing: "border-box",
             }}
           >
-            <CookieIcon sx={{ fontSize: { xs: 30, sm: 32, md: 35 }, color: '#f1671cff' }} />
+            <CookieIcon sx={{ fontSize: { xs: 30, sm: 32, md: 34 }, color: '#f1671cff' }} />
           </Button>
 
           {/* CART – só desktop */}
