@@ -19,7 +19,7 @@ import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import HistoryIcon from "@mui/icons-material/History";
 import EmailIcon from "@mui/icons-material/Email";
 
-const drawerWidth = 240;
+const drawerWidth = 260; 
 
 const BLUE = "#0d47a1";
 const ORANGE = "#e85f10";
@@ -74,7 +74,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function DrawerProducts() {
-  const theme = useTheme();
+  useTheme();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
 
@@ -96,7 +96,6 @@ export default function DrawerProducts() {
     }, 2000);
   };
 
-  // items dinâmico (signin vira signout)
   const items: DrawerItem[] = React.useMemo(
     () => [
       isLogged
@@ -154,11 +153,11 @@ export default function DrawerProducts() {
       >
         {/* Toggle */}
         <DrawerHeader>
-          <IconButton onClick={handleToggle}>
+          <IconButton onClick={handleToggle} sx={{ width: 40, height: 40 }}>
             {open ? (
-              <ChevronLeftIcon sx={{ color: BLUE }} />
+              <ChevronLeftIcon sx={{ color: BLUE, fontSize: 26 }} />
             ) : (
-              <ChevronRightIcon sx={{ color: BLUE }} />
+              <ChevronRightIcon sx={{ color: BLUE, fontSize: 26 }} />
             )}
           </IconButton>
         </DrawerHeader>
@@ -168,12 +167,14 @@ export default function DrawerProducts() {
         {/* Menu */}
         <List sx={{ px: 1 }}>
           {items.map(({ label, icon: IconComp, requiresAuth, path, action }) => (
-            <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.5 }}>
+            <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.8 }}>
               <ListItemButton
-                onClick={() => handleItemClick({ label, icon: IconComp, requiresAuth, path, action })}
+                onClick={() =>
+                  handleItemClick({ label, icon: IconComp, requiresAuth, path, action })
+                }
                 sx={[
                   {
-                    minHeight: 56,
+                    minHeight: 62, 
                     px: 2,
                     borderRadius: 1.5,
                     border: "2px solid transparent",
@@ -197,8 +198,8 @@ export default function DrawerProducts() {
                   sx={[
                     {
                       minWidth: 0,
-                      width: 40,
-                      height: 40,
+                      width: 44, 
+                      height: 44, 
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -209,10 +210,10 @@ export default function DrawerProducts() {
                 >
                   <IconComp
                     sx={{
-                      fontSize: 24,
+                      fontSize: 28, 
                       color: ORANGE,
                       transition: "transform .2s ease",
-                      transform: open ? "scale(1.05)" : "scale(1)",
+                      transform: open ? "scale(1.04)" : "scale(1)",
                     }}
                   />
                 </ListItemIcon>
@@ -223,7 +224,7 @@ export default function DrawerProducts() {
                     {
                       "& .MuiTypography-root": {
                         fontWeight: 600,
-                        fontSize: "0.9rem",
+                        fontSize: "0.95rem",
                         letterSpacing: "0.06em",
                         color: BLUE,
                         textTransform: "uppercase",
@@ -240,4 +241,3 @@ export default function DrawerProducts() {
     </>
   );
 }
-
