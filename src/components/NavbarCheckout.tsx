@@ -33,7 +33,7 @@ export default function NavbarCheckout() {
         <>
             {AlertUI}
             {ConfirmUI}
-            
+
             <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
                 <Box sx={{ width: "100%" }}>
                     <Toolbar disableGutters sx={{ minHeight: 80, px: { xs: 1, md: 2 } }}>
@@ -51,7 +51,8 @@ export default function NavbarCheckout() {
                                 src={Logo}
                                 alt="Fast Fuel Logo"
                                 sx={{
-                                    height: { xs: 62, md: 70 },
+                                    height: { xs: 68, md: 70 },
+                                    mt: { xs: 0, sm: 0.2, md: 0.2 },
                                     width: "auto",
                                     objectFit: "contain",
                                     transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" },

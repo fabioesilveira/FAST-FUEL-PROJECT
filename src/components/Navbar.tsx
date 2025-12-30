@@ -127,17 +127,17 @@ function Navbar({ onSearch }: NavbarProps) {
   });
 
   //  Signout action (now actually used)
- const handleClickSignout = () => {
-  localStorage.clear();
-  setShown(false);
+  const handleClickSignout = () => {
+    localStorage.clear();
+    setShown(false);
 
-  showAlert("Signed out successfully", "success");
-  setDropDownChange(dropdownItems);
+    showAlert("Signed out successfully", "success");
+    setDropDownChange(dropdownItems);
 
-  setTimeout(() => {
-    navigate("/sign-in");
-  }, 2000);
-};
+    setTimeout(() => {
+      navigate("/sign-in");
+    }, 2000);
+  };
 
   useEffect(() => {
     // if logged: swap menu
@@ -223,7 +223,8 @@ function Navbar({ onSearch }: NavbarProps) {
                 src={Logo}
                 alt="Fast Fuel Logo"
                 sx={{
-                  height: { xs: 62, md: 70 },
+                  height: { xs: 68, md: 70 },
+                  mt: { xs: 0, sm: 0.2, md: 0.2 },
                   width: "auto",
                   objectFit: "contain",
                   transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" },
@@ -289,8 +290,8 @@ function Navbar({ onSearch }: NavbarProps) {
 
                 }}
                 sx={{
-                  width: { xs: 50, md: 70 },
-                  height: { xs: 34, md: 40 },
+                  width: { xs: 62, md: 75 },
+                  height: { xs: 42, md: 42 },
                   borderRadius: 2,
                   backgroundColor: "#e65100",
                   "&:hover": { backgroundColor: "#b33f00" },
@@ -299,7 +300,7 @@ function Navbar({ onSearch }: NavbarProps) {
               >
                 <ShoppingCartIcon
                   sx={{
-                    fontSize: { xs: 24, md: 28 },
+                    fontSize: { xs: 28, md: 32 },
                     color: "#ffe0c7",
                   }}
                 />
@@ -316,8 +317,8 @@ function Navbar({ onSearch }: NavbarProps) {
                 variant="contained"
                 onClick={() => setShown((prev) => !prev)}
                 sx={{
-                  width: { xs: 50, md: 68 },
-                  height: { xs: 34, md: 40 },
+                  width: { xs: 60, md: 73 },
+                  height: { xs: 42, md: 42 },
                   minWidth: "unset",
                   borderRadius: 2,
                   backgroundColor: "#e65100",
@@ -327,7 +328,7 @@ function Navbar({ onSearch }: NavbarProps) {
               >
                 <ManageAccountsIcon
                   sx={{
-                    fontSize: { xs: 27, md: 32 },
+                    fontSize: { xs: 30, md: 36 },
                     color: "#ffe0c7",
                   }}
                 />
