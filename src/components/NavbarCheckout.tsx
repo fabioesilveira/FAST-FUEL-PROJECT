@@ -43,7 +43,7 @@ export default function NavbarCheckout() {
                             sx={{
                                 display: "flex",
                                 alignItems: "center",
-                                ml: { xs: -1, md: -2 },
+                                ml: { xs: -1.5, md: -2.8 },
                             }}
                         >
                             <Box
@@ -51,7 +51,7 @@ export default function NavbarCheckout() {
                                 src={Logo}
                                 alt="Fast Fuel Logo"
                                 sx={{
-                                    height: { xs: 68, md: 70 },
+                                    height: { xs: 72, md: 76 },
                                     mt: { xs: 0, sm: 0.2, md: 0.2 },
                                     width: "auto",
                                     objectFit: "contain",

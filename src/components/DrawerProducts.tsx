@@ -153,7 +153,7 @@ export default function DrawerProducts() {
       >
         {/* Toggle */}
         <DrawerHeader>
-          <IconButton onClick={handleToggle} sx={{ width: 40, height: 40 }}>
+          <IconButton onClick={handleToggle} sx={{ width: 40, height: 40, mr: 0.5, pt: 1.5 }}>
             {open ? (
               <ChevronLeftIcon sx={{ color: BLUE, fontSize: 26 }} />
             ) : (
@@ -165,7 +165,7 @@ export default function DrawerProducts() {
         <Divider sx={{ backgroundColor: "rgba(13,71,161,.35)" }} />
 
         {/* Menu */}
-        <List sx={{ px: 1 }}>
+        <List sx={{ px: 1, pt: 2, pb:2 }}>
           {items.map(({ label, icon: IconComp, requiresAuth, path, action }) => (
             <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.8 }}>
               <ListItemButton

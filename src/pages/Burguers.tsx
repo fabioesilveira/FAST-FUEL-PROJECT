@@ -323,8 +323,8 @@ export default function Burguers() {
             variant="contained"
             onClick={() => navigate("/")}
             sx={{
-              width: { xs: 72, sm: 80 },
-              height: 42,
+              width: { xs: 80, sm: 80 },
+              height: 44,
               mt: -5.5,
               minWidth: 0,
               borderRadius: 2,
@@ -346,7 +346,7 @@ export default function Burguers() {
               },
             }}
           >
-            <HomeIcon sx={{ fontSize: 29, color: "#0d47a1" }} />
+            <HomeIcon sx={{ fontSize: 34, color: "#0d47a1" }} />
           </Button>
 
           {/* CART – mobile */}
@@ -371,8 +371,8 @@ export default function Burguers() {
               });
             }}
             sx={{
-              width: { xs: 72, sm: 80 },
-              height: 42,
+              width: { xs: 80, sm: 80 },
+              height: 44,
               mt: -5.5,
               minWidth: 0,
               borderRadius: 2,
@@ -395,7 +395,7 @@ export default function Burguers() {
             }}
           >
             <Badge badgeContent={totalItems} color="primary" overlap="circular" showZero={false}>
-              <ShoppingCartIcon sx={{ fontSize: 29, color: "#0d47a1" }} />
+              <ShoppingCartIcon sx={{ fontSize: 34, color: "#0d47a1" }} />
             </Badge>
           </Button>
         </Box>
@@ -410,7 +410,7 @@ export default function Burguers() {
             onClick={() => navigate('/')}
             sx={{
               display: { xs: "none", sm: "none", md: "inline-flex" },
-              width: 85,
+              width: 90,
               height: 50,
               borderRadius: 2,
 
@@ -432,7 +432,7 @@ export default function Burguers() {
 
             }}
           >
-            <HomeIcon sx={{ fontSize: 36, color: "#0d47a1" }} />
+            <HomeIcon sx={{ fontSize: 40, color: "#0d47a1" }} />
           </Button>
 
           {/* BURGUERS (ATUAL) */}
@@ -440,8 +440,8 @@ export default function Burguers() {
             variant="contained"
             disabled
             sx={{
-              width: { xs: 75, sm: 80, md: 85 },
-              height: { xs: 42, sm: 45, md: 55 },
+              width: { xs: 80, sm: 80, md: 85 },
+              height: { xs: 45, sm: 45, md: 50 },
               borderRadius: 2,
               backgroundColor: '#ffe0c7',
               '&.Mui-disabled': {
@@ -461,8 +461,8 @@ export default function Burguers() {
             variant="contained"
             onClick={() => navigate('/sides')}
             sx={{
-              width: { xs: 75, sm: 80, md: 85 },
-              height: { xs: 42, sm: 45, md: 50 },
+              width: { xs: 80, sm: 80, md: 85 },
+              height: { xs: 45, sm: 45, md: 50 },
               borderRadius: 2,
               backgroundColor: '#ffe0c7',
               border: "2px solid #f5c16c",
@@ -474,8 +474,8 @@ export default function Burguers() {
               src={FriesIcon}
               alt="Drink icon"
               sx={{
-                width: { xs: 43, sm: 42, md: 44 },
-                height: { xs: 37, sm: 39, md: 44 },
+                width: { xs: 45, sm: 42, md: 44 },
+                height: { xs: 39, sm: 39, md: 44 },
                 objectFit: "contain",
                 transition: "transform 0.2s ease",
                 display: "block",
@@ -489,8 +489,8 @@ export default function Burguers() {
             variant="contained"
             onClick={() => navigate('/beverages')}
             sx={{
-              width: { xs: 75, sm: 80, md: 85 },
-              height: { xs: 42, sm: 45, md: 50 },
+              width: { xs: 80, sm: 80, md: 85 },
+              height: { xs: 45, sm: 45, md: 50 },
               borderRadius: 2,
               backgroundColor: '#ffe0c7',
               border: "2px solid #f5c16c",
@@ -506,7 +506,7 @@ export default function Burguers() {
                 height: { xs: 38, sm: 39, md: 43 },
                 objectFit: "contain",
                 display: "block",
-                transform: "translateY(-1.7px) scaleX(1.05) scaleY(1.05)",
+                transform: "translateY(-1.8px) scaleX(1.05) scaleY(1.05)",
                 transition: "transform 0.2s ease",
               }}
             />
@@ -517,15 +517,15 @@ export default function Burguers() {
             variant="contained"
             onClick={() => navigate('/desserts')}
             sx={{
-              width: { xs: 75, sm: 80, md: 85 },
-              height: { xs: 42, sm: 45, md: 50 },
+              width: { xs: 80, sm: 80, md: 85 },
+              height: { xs: 45, sm: 45, md: 50 },
               borderRadius: 2,
               backgroundColor: '#ffe0c7',
               border: "2px solid #f5c16c",
               boxSizing: "border-box",
             }}
           >
-            <CookieIcon sx={{ fontSize: { xs: 30, sm: 32, md: 34 }, color: '#f1671cff' }} />
+            <CookieIcon sx={{ fontSize: { xs: 32, sm: 32, md: 34 }, color: '#f1671cff' }} />
           </Button>
 
           {/* CART – só desktop */}
@@ -551,8 +551,8 @@ export default function Burguers() {
             }}
             sx={{
               display: { xs: "none", sm: "none", md: "inline-flex" },
-              width: 85,
-              height: 48,
+              width: 90,
+              height: 50,
               borderRadius: 2,
               backgroundColor: "#ffe0c7",
               border: "2px solid #0d47a1",
@@ -577,7 +577,7 @@ export default function Burguers() {
               overlap="circular"
               showZero={false}
             >
-              <ShoppingCartIcon sx={{ fontSize: 36, color: "#0d47a1" }} />
+              <ShoppingCartIcon sx={{ fontSize: 39, color: "#0d47a1" }} />
             </Badge>
           </Button>
         </div>

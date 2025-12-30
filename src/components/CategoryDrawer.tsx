@@ -106,7 +106,7 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
         >
             {/* TOGGLE */}
             <DrawerHeader>
-                <IconButton onClick={() => setOpen((p) => !p)}>
+                <IconButton onClick={() => setOpen((p) => !p)} sx={{ width: 40, height: 40, mr: 0.5, pt: 1.5 }}>
                     {open ? <ChevronLeftIcon sx={{ color: BLUE, fontSize: 26 }} /> : <ChevronRightIcon sx={{ color: BLUE, fontSize: 26 }} />}
                 </IconButton>
             </DrawerHeader>
@@ -114,7 +114,7 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
             <Divider sx={{ backgroundColor: "rgba(13,71,161,.35)" }} />
 
             {/* MENU */}
-            <List sx={{ px: 1 }}>
+            <List sx={{ px: 1, pt: 2, pb: 2 }}>
                 {categories.map((item, index) => (
                     <React.Fragment key={item.label}>
                         {/* NORMAL ITEMS */}

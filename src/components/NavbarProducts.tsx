@@ -7,14 +7,12 @@ function NavbarProducts() {
     return (
         <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
             <Toolbar
-                disableGutters
                 sx={{
                     minHeight: 80,
-                    pl: { xs: 2, md: 0 },   // desktop colado na margem
-                    pr: { xs: 2, md: 4 },   // espaço só do lado direito no desktop
-                    display: "flex",
-                    alignItems: "center",
                     justifyContent: { xs: "center", md: "flex-start" },
+                    alignItems: "center",
+                    px: { xs: 2, md: 2 },
+                    pr: { xs: 2, md: 4 },
                 }}
             >
                 <Box
@@ -23,6 +21,7 @@ function NavbarProducts() {
                     sx={{
                         display: "flex",
                         alignItems: "center",
+                        ml: { xs: 0, md: -2.8 },
                     }}
                 >
                     <Box
@@ -30,12 +29,12 @@ function NavbarProducts() {
                         src={Logo}
                         alt="Fast Fuel Logo"
                         sx={{
-                            height: { xs: 68, md: 70 },
-                            mt: { xs: 0, sm: 0.2, md: 0.2 },
+                            height: { xs: 74, md: 76 },
+                            mt: { xs: 0.2, md: 0.2 },
                             width: "auto",
                             objectFit: "contain",
-                            transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" }, // estica no desktop
-                            transformOrigin: "left center", // estica puxando da esquerda
+                            transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" },
+                            transformOrigin: "left center",
                         }}
                     />
                 </Box>
