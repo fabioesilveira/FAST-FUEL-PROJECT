@@ -703,7 +703,14 @@ export default function Home() {
 
             </Container>
 
-            {isMobile ? <NavFooter onNavigate={handleDrawerNavigate} /> : <Footer />}
+            {isMobile ? (
+                <NavFooter
+                    onNavigate={handleDrawerNavigate}
+                    onFastThruClick={() => setShowDriveThru(true)}
+                />
+            ) : (
+                <Footer />
+            )}
         </Box >
     );
 }

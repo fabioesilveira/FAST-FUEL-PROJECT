@@ -13,103 +13,148 @@ import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import CookieIcon from "@mui/icons-material/Cookie";
 
 type NavFooterProps = {
-  onNavigate: (category: string) => void;
+    onNavigate: (category: string) => void;
+    onFastThruClick?: () => void;
 };
 
 const BLUE = "#0d47a1";
 const ORANGE = "#e85f10";
 const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
 
-export default function NavFooter({ onNavigate }: NavFooterProps) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProps) {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  if (!isMobile) return null;
+    if (!isMobile) return null;
 
-  const categories = [
-    { label: "BURGUERS", type: "mui", Icon: LunchDiningIcon },
-    { label: "SIDES", type: "img", src: FriesIcon },
-    { label: "BEVERAGES", type: "img", src: SodaIcon },
-    { label: "DESSERTS", type: "mui", Icon: CookieIcon },
-  ] as const;
+    const items = [
+        { label: "BURGUERS", type: "mui", Icon: LunchDiningIcon, onClick: () => onNavigate("BURGUERS") },
+        { label: "SIDES", type: "img", src: FriesIcon, onClick: () => onNavigate("SIDES") },
+        { label: "FAST_THRU", type: "fast", onClick: () => onFastThruClick?.() },
+        { label: "BEVERAGES", type: "img", src: SodaIcon, onClick: () => onNavigate("BEVERAGES") },
+        { label: "DESSERTS", type: "mui", Icon: CookieIcon, onClick: () => onNavigate("DESSERTS") },
+    ] as const;
 
-  return (
-    <Paper
-      elevation={0}
-      sx={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: 78,
-        zIndex: 1300,
-        backgroundColor: "#fff3e0",
-        borderTop: "2px solid rgba(13, 71, 161, 0.25)",
-        boxShadow: "0 -6px 18px rgba(13,71,161,.18)",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      <Box
-        sx={{
-          width: "100%",
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          alignItems: "center",
-          justifyItems: "center",
-          px: 1,
-        }}
-      >
-        {categories.map((c) => (
-          <IconButton
-            key={c.label}
-            onClick={() => onNavigate(c.label)}
+    return (
+        <Paper
+            elevation={0}
             sx={{
-              width: 56,
-              height: 56,
-              borderRadius: 2,
-              border: "2px solid transparent",
-              color: ORANGE,
-              backgroundColor: "transparent",
-              transition: "all 0.18s ease",
-
-              "&:hover": {
-                backgroundColor: ORANGE_SOFT,
-                borderColor: BLUE,
-                transform: "translateY(-2px)",
-              },
-
-              "&:active": {
-                transform: "translateY(0)",
-                backgroundColor: "rgba(230,81,0,.28)",
-              },
+                position: "fixed",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: 86, // ✅ um pouco mais alto pra caber ícones maiores
+                zIndex: 1300,
+                backgroundColor: "#fff3e0",
+                borderTop: "2px solid rgba(13, 71, 161, 0.25)",
+                boxShadow: "0 -6px 18px rgba(13,71,161,.18)",
+                display: "flex",
+                alignItems: "center",
             }}
-          >
-           {c.type === "img" ? (
-  <img
-    src={c.src}
-    alt={c.label}
-    style={{
-      width: c.label === "BEVERAGES" ? 34.5 : 32,
-      height: c.label === "BEVERAGES" ? 34.5 : 32,
-      objectFit: "contain",
+        >
+            <Box
+                sx={{
+                    width: "100%",
+                    display: "grid",
+                    gridTemplateColumns: "repeat(5, 1fr)",
+                    alignItems: "center",
+                    justifyItems: "center",
+                    px: 1,
+                }}
+            >
+                {items.map((c) => {
+                    const isFast = c.type === "fast";
 
-      // 🔥 sobe só o BEVERAGES
-      transform: c.label === "BEVERAGES" ? "translateY(-3px)" : "none",
-    }}
-  />
-) : (
-  <c.Icon
-    sx={{
-      fontSize: 26,
-      color: ORANGE,
-    }}
-  />
-)}
+                    return (
+                        <IconButton
+                            key={c.label}
+                            onClick={c.onClick}
+                            sx={{
+                                width: isFast ? 70 : 62,  // ✅ maior
+                                height: isFast ? 70 : 62, // ✅ maior
+                                borderRadius: 2,
+                                border: "2px solid transparent",
+                                backgroundColor: "transparent",
+                                transition: "all 0.18s ease",
 
-          </IconButton>
-        ))}
-      </Box>
-    </Paper>
-  );
+                                "&:hover": {
+                                    backgroundColor: ORANGE_SOFT,
+                                    borderColor: isFast ? "transparent" : BLUE,
+                                    transform: "translateY(-2px)",
+                                },
+
+                                "&:active": {
+                                    transform: "translateY(0)",
+                                    backgroundColor: "rgba(230,81,0,.28)",
+                                },
+                            }}
+                        >
+                            {c.type === "img" ? (
+                                <img
+                                    src={c.src}
+                                    alt={c.label}
+                                    style={{
+                                        width: c.label === "BEVERAGES" ? 42 : 38,  // ✅ maior
+                                        height: c.label === "BEVERAGES" ? 42 : 38, // ✅ maior
+                                        objectFit: "contain",
+
+                                        // ✅ mantém BEVERAGES mais “elevado”
+                                        transform: c.label === "BEVERAGES" ? "translateY(-3px)" : "none",
+                                    }}
+                                />
+                            ) : c.type === "mui" ? (
+                                <c.Icon
+                                    sx={{
+                                        fontSize: 32, // ✅ maior
+                                        color: ORANGE,
+                                    }}
+                                />
+                            ) : (
+                                // ✅ FAST THRU maior
+                                <Box
+                                    sx={{
+                                        width: 54,
+                                        height: 54,
+                                        borderRadius: 2,
+
+
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            fontFamily: '"Big Shoulders Inline", sans-serif',
+                                            fontSize: 23,
+                                            fontWeight: 900,
+                                            color: "#e65100",
+                                            lineHeight: 0.9,
+                                            letterSpacing: "0.08em",
+                                        }}
+                                    >
+                                        FAST
+                                    </Box>
+                                    <Box
+                                        sx={{
+                                            fontFamily: '"Big Shoulders Inline", sans-serif',
+                                            fontSize: 23,
+                                            fontWeight: 900,
+                                            color: "#e65100",
+                                            lineHeight: 0.9,
+                                            letterSpacing: "0.08em",
+                                        }}
+                                    >
+                                        THRU
+                                    </Box>
+                                </Box>
+                            )}
+                        </IconButton>
+                    );
+                })}
+            </Box>
+        </Paper>
+    );
 }
