@@ -526,7 +526,8 @@ body {
   letter-spacing: 0.2em;
   text-transform: uppercase;
 
-  color: rgba(13, 71, 161, 0.22); /* 🔵 azul */
+  color: rgba(13, 71, 161, 0.22);
+  /* 🔵 azul */
 
   font-style: italic;
   pointer-events: none;
@@ -665,7 +666,8 @@ body {
 
 /* BOTÃO */
 .drive-thru-box {
-  background-color: #e65100; /* laranja Fast Fuel */
+  background-color: #e65100;
+  /* laranja Fast Fuel */
   padding: 10px 18px;
   border-radius: 16px;
   border: none;
@@ -685,17 +687,18 @@ body {
 .drive-small {
   display: block;
   font-family: "Faster One", system-ui;
-  color: #ffe0c7; 
+  color: #ffe0c7;
   opacity: 0.95;
-  font-size: 20px;          
-  letter-spacing: 0.12em;  /* dá mais presença */
+  font-size: 20px;
+  letter-spacing: 0.12em;
+  /* dá mais presença */
 }
 
 .drive-big {
   display: block;
   font-family: "Faster One", system-ui;
   font-size: 26px;
-  color: #ffe0c7; 
+  color: #ffe0c7;
 }
 
 
@@ -767,7 +770,8 @@ body {
     0 3px 8px rgba(0, 0, 0, 0.28),
     0 6px 14px rgba(0, 0, 0, 0.20) !important;
 
-  filter: saturate(0.85); /* opcional: dá sensação de off */
+  filter: saturate(0.85);
+  /* opcional: dá sensação de off */
 }
 
 .total {
@@ -852,9 +856,11 @@ body {
 }
 
 .h2-driveMode-desk {
-  font-size: 0.80rem;              /* pequeno */
+  font-size: 0.80rem;
+  /* pequeno */
   font-weight: 600;
-  color: #1e5bb8;                  /* azul badge */
+  color: #1e5bb8;
+  /* azul badge */
   line-height: 1.4;
   letter-spacing: 0.04em;
   text-align: center;
@@ -886,3 +892,39 @@ body {
   opacity: 0.45;
 }
 
+.drive-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #ffe0c7; /* creme Fast Fuel */
+  border: 2px solid #e65100;
+  border-radius: 12px;
+
+  transition: all 0.2s ease;
+}
+
+.drive-btn.closed {
+  width: 42px;
+  height: 42px;
+}
+
+.drive-btn.open {
+  width: 46px;
+  height: 46px;
+}
+
+.drive-text {
+  font-family: "Big Shoulders Inline", sans-serif;
+  color: #e65100;
+  font-size: 14px;
+
+  line-height: 0.95;   /* 🔑 aproxima DRIVE e THRU */
+  margin: -1px 0;
+  letter-spacing: 0.08em;
+
+  text-shadow:
+    0 0 3px rgba(230, 81, 0, 0.5),
+    0 0 6px rgba(230, 81, 0, 0.35);
+}

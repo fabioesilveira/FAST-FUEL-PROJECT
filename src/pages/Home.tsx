@@ -496,23 +496,16 @@ export default function Home() {
             <Navbar onSearch={handleSearchInput} />
             <CssBaseline />
 
-            {!isMobile && <CategoryDrawer onNavigate={handleDrawerNavigate} />}
+
+            {!isMobile && <CategoryDrawer onNavigate={handleDrawerNavigate}
+                onDriveThruClick={() => {
+                    setShowDriveThru(true);
+                    // opcional: scroll suave até o menu quick add
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+            />}
 
             <Container className="margin-top" fixed sx={{ flexGrow: 2 }}>
-                <div className="div-h2-drive-thru">
-                    <button
-                        className={`drive-thru-box ${showDriveThru ? "drive-thru-static" : ""}`}
-                        type="button"
-                        disabled={showDriveThru}
-                        onClick={() => setShowDriveThru(true)}
-                    >
-                        {!showDriveThru && (
-                            <span className="drive-small">QUICK ADD</span>
-                        )}
-
-                        <span className="drive-big">DRIVE THRU</span>
-                    </button>
-                </div>
 
                 <Box
                     sx={{
