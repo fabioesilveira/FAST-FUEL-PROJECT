@@ -43,19 +43,30 @@ export default function AppAlert({
         sx={{
           borderRadius: "16px",
           fontWeight: 800,
-          border: "2px solid #e65100",
-          boxShadow: "0 10px 22px rgba(230, 81, 0, 0.25)",
-          backgroundColor: "#fff3e0",
-          color: "#1f1f1f",
-          "& .MuiAlert-icon": { color: "#e65100" },
+          border: "1.5px solid rgba(0,0,0,0.14)",
+          boxShadow: "0 16px 34px rgba(0,0,0,0.18)",
+          color: "#111111",
 
-          "& .MuiAlert-action": { color: "#0d47a1" },
+          // base neutral fill
+          backgroundColor: "#ffffff",
 
-          //  “success/error/warning/info”
-          "&.MuiAlert-filledSuccess": { backgroundColor: "#e8f5e9" },
-          "&.MuiAlert-filledError": { backgroundColor: "#ffebee" },
-          "&.MuiAlert-filledWarning": { backgroundColor: "#fff8e1" },
-          "&.MuiAlert-filledInfo": { backgroundColor: "#e3f2fd" },
+          // icon + close button neutral
+          "& .MuiAlert-icon": { color: "rgba(0,0,0,0.55)" },
+          "& .MuiAlert-action": { color: "rgba(0,0,0,0.55)" },
+
+          // subtle neutral tints per severity (still monochrome)
+          "&.MuiAlert-filledSuccess": {
+            backgroundColor: "#f5f5f5",
+          },
+          "&.MuiAlert-filledError": {
+            backgroundColor: "#f3f3f3",
+          },
+          "&.MuiAlert-filledWarning": {
+            backgroundColor: "#f6f6f6",
+          },
+          "&.MuiAlert-filledInfo": {
+            backgroundColor: "#f4f4f4",
+          },
         }}
       >
         {message}

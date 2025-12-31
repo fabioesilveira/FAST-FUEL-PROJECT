@@ -39,28 +39,45 @@ export default function AppConfirm({
             PaperProps={{
                 sx: {
                     borderRadius: "18px",
-                    border: "2px solid #e65100",
-                    boxShadow: "0 14px 30px rgba(230, 81, 0, 0.25)",
-                    backgroundColor: "#fff3e0",
+                    border: "1.5px solid rgba(0,0,0,0.14)",
+                    boxShadow: "0 18px 40px rgba(0,0,0,0.18)",
+                    backgroundColor: "#ffffff",
+                    pb: 1.5
                 },
             }}
         >
-            <DialogTitle sx={{ fontWeight: 900, color: "#e65100", textAlign: "center", pt: 3 }}>
+            <DialogTitle
+                sx={{
+                    fontWeight: 900,
+                    color: "#111111",
+                    textAlign: "center",
+                    pt: 3,
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                }}
+            >
                 {title}
             </DialogTitle>
 
-            <DialogContent>
-                <Typography sx={{ fontWeight: 700, color: "#1f1f1f", lineHeight: 1.35, textAlign: "center" }}>
+            <DialogContent sx={{ pt: 1, pb: 1.5 }}>
+                <Typography
+                    sx={{
+                        fontWeight: 600,
+                        color: "#2b2b2b",
+                        lineHeight: 1.45,
+                        textAlign: "center",
+                    }}
+                >
                     {message}
                 </Typography>
             </DialogContent>
 
             <DialogActions
                 sx={{
-                    p: 3.5,
-                    pt: 0,
-                    gap: 1.5,
-                    justifyContent: "center"
+                    p: 2,
+                    pt: 1,
+                    gap: 1.3,
+                    justifyContent: "center",
                 }}
             >
                 <Button
@@ -68,11 +85,15 @@ export default function AppConfirm({
                     variant="outlined"
                     sx={{
                         borderRadius: "10px",
-                        border: "2px solid #e65100",
-                        color: "#e65100",
-                        fontWeight: 900,
+                        border: "1.8px solid rgba(0,0,0,0.28)",
+                        color: "#1f1f1f",
+                        fontWeight: 800,
                         textTransform: "none",
-                        "&:hover": { borderColor: "#b33f00", color: "#b33f00" },
+                        px: 2.2,
+                        "&:hover": {
+                            borderColor: "rgba(0,0,0,0.45)",
+                            backgroundColor: "rgba(0,0,0,0.04)",
+                        },
                     }}
                 >
                     {cancelText}
@@ -83,15 +104,27 @@ export default function AppConfirm({
                     variant="contained"
                     sx={{
                         borderRadius: "10px",
-                        backgroundColor: "#e65100",
-                        color: "#ffe0c7",
                         fontWeight: 900,
                         textTransform: "none",
-                        "&:hover": { backgroundColor: "#b33f00" },
+                        px: 2.4,
+                        color: "#ffffff",
+
+                        backgroundColor: "#4a4a4a",
+
+                        "&:hover": {
+                            backgroundColor: "#3a3a3a",
+
+                        },
+
+                        "&:active": {
+                            transform: "translateY(1px)",
+                            boxShadow: "0 6px 14px rgba(0,0,0,0.18)",
+                        },
                     }}
                 >
                     {confirmText}
                 </Button>
+
             </DialogActions>
         </Dialog>
     );

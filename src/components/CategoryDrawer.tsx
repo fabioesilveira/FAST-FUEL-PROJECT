@@ -158,7 +158,7 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
                                             }}
                                         />
                                     ) : (
-                                        <item.Icon sx={{ fontSize: 30, color: ORANGE }} />
+                                        <item.Icon sx={{ fontSize: 30.5, color: ORANGE }} />
                                     )}
                                 </ListItemIcon>
 
