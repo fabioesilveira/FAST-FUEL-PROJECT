@@ -268,7 +268,8 @@ function Navbar({ onSearch }: NavbarProps) {
               }}
             >
               {/* Cart */}
-              <IconButton
+              <Button
+                variant="contained"
                 onClick={() => {
                   const isLogged = Boolean(localStorage.getItem("idUser"));
 
@@ -290,12 +291,13 @@ function Navbar({ onSearch }: NavbarProps) {
 
                 }}
                 sx={{
-                  width: { xs: 62, md: 75 },
+                  width: { xs: 60, md: 73 },
                   height: { xs: 42, md: 42 },
+                  minWidth: "unset",
                   borderRadius: 2,
                   backgroundColor: "#e65100",
                   "&:hover": { backgroundColor: "#b33f00" },
-                  boxShadow: "0px 3px 14px rgba(0,0,0,0.25)",
+                  padding: 0,
                 }}
               >
                 <ShoppingCartIcon
@@ -310,7 +312,7 @@ function Navbar({ onSearch }: NavbarProps) {
                   overlap="circular"
                   sx={{ pointerEvents: "none" }}
                 />
-              </IconButton>
+              </Button>
 
               {/* Manage Button */}
               <Button

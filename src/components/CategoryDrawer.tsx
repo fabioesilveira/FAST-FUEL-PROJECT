@@ -57,9 +57,9 @@ const closedMixin = (theme: Theme): CSSObject => ({
         duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: "hidden",
-    width: `calc(${theme.spacing(7)} + 1px)`,
+    width: `calc(${theme.spacing(7.5)} + 1px)`,
     [theme.breakpoints.up("sm")]: {
-        width: `calc(${theme.spacing(8)} + 1px)`,
+        width: `calc(${theme.spacing(8.5)} + 1px)`,
     },
 });
 
@@ -106,7 +106,7 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
         >
             {/* TOGGLE */}
             <DrawerHeader>
-                <IconButton onClick={() => setOpen((p) => !p)} sx={{ width: 40, height: 40, mr: 0.5, pt: 1.5 }}>
+                <IconButton onClick={() => setOpen((p) => !p)} sx={{ width: 40, height: 40, mr: 0.7, pt: 1.5 }}>
                     {open ? <ChevronLeftIcon sx={{ color: BLUE, fontSize: 26 }} /> : <ChevronRightIcon sx={{ color: BLUE, fontSize: 26 }} />}
                 </IconButton>
             </DrawerHeader>

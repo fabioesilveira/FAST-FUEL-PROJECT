@@ -69,19 +69,21 @@ const getNameWithKcal = (name: string) => name.trim();
 
 function ProductCard({ product }: { product: Meal }) {
     const title = getNameWithKcal(product.name);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
         <Box
             sx={{
-                width: 300,
+                width: isMobile ? 260 : 300,
                 borderRadius: "13px",
                 border: "2px solid #e65100",
                 backgroundColor: "#fff3e0",
                 boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
-                p: 2.5,
+                p: isMobile ? 2 : 2.5,
                 display: "flex",
                 flexDirection: "column",
-                gap: 1.6,
+                gap: isMobile ? 1.2 : 1.6,
                 transition: "transform 0.2s ease, box-shadow 0.2s ease",
                 "&:hover": {
                     transform: "translateY(-5px)",
@@ -93,7 +95,7 @@ function ProductCard({ product }: { product: Meal }) {
             <Box
                 sx={{
                     width: "100%",
-                    height: 170,
+                    height: isMobile ? 150 : 170,
                     backgroundColor: "#fff",
                     borderRadius: "9px",
                     border: "2px solid #e65100",
@@ -110,6 +112,7 @@ function ProductCard({ product }: { product: Meal }) {
                         maxWidth: "100%",
                         maxHeight: "100%",
                         objectFit: "contain",
+                        display: "block",
                     }}
                 />
             </Box>
@@ -120,19 +123,13 @@ function ProductCard({ product }: { product: Meal }) {
                     width: "100%",
                     backgroundColor: "#ffe0c7",
                     borderRadius: "9px",
-                    px: 2,
-                    py: 1.2,
+                    px: isMobile ? 1.5 : 2,
+                    py: isMobile ? 0.9 : 1.2,
                     boxShadow: 2,
                     textAlign: "center",
                 }}
             >
-                <Typography
-                    sx={{
-                        fontSize: "0.98rem",
-                        fontWeight: 800,
-                        color: "#e65100",
-                    }}
-                >
+                <Typography sx={{ fontSize: isMobile ? "0.92rem" : "0.98rem", fontWeight: 800, color: "#e65100" }}>
                     {title}
                 </Typography>
             </Box>
@@ -143,25 +140,20 @@ function ProductCard({ product }: { product: Meal }) {
                     width: "100%",
                     backgroundColor: "#ffe0c7",
                     borderRadius: "10px",
-                    px: 2,
-                    py: 1.5,
+                    px: isMobile ? 1.5 : 2,
+                    py: isMobile ? 1.1 : 1.5,
                     boxShadow: 2,
                     textAlign: "center",
                 }}
             >
-                <Typography
-                    sx={{
-                        fontSize: "0.95rem",
-                        fontWeight: 800,
-                        color: "#e65100",
-                    }}
-                >
+                <Typography sx={{ fontSize: isMobile ? "0.9rem" : "0.95rem", fontWeight: 800, color: "#e65100" }}>
                     {product.description}
                 </Typography>
             </Box>
         </Box>
     );
 }
+
 
 function MiniCard({
     id,
@@ -537,7 +529,7 @@ export default function Home() {
                             gap: 4,
                             mb: 4,
                             gridTemplateColumns: {
-                                xs: "repeat(1, 300px)",
+                                xs: "repeat(1, 260px)",
                                 sm: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
                                 md: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(3, 300px)",
                             },
