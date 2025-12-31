@@ -525,7 +525,7 @@ export default function Burguers() {
               boxSizing: "border-box",
             }}
           >
-            <CookieIcon sx={{ fontSize: { xs: 32, sm: 32, md: 34 }, color: '#f1671cff' }} />
+            <CookieIcon sx={{ fontSize: { xs: 31, sm: 32, md: 34 }, color: '#f1671cff' }} />
           </Button>
 
           {/* CART – só desktop */}

@@ -482,8 +482,8 @@ export default function Beverages() {
               src={FriesIcon}
               alt="Drink icon"
               sx={{
-                width: { xs: 43, sm: 42, md: 44 },
-                height: { xs: 37, sm: 39, md: 44 },
+                width: { xs: 45, sm: 42, md: 44 },
+                height: { xs: 39, sm: 39, md: 44 },
                 objectFit: "contain",
                 transition: "transform 0.2s ease",
                 display: "block",
@@ -521,7 +521,7 @@ export default function Beverages() {
                 height: { xs: 38, sm: 39, md: 43 },
                 objectFit: "contain",
                 display: "block",
-                transform: "translateY(-1.7px) scaleX(1.10) scaleY(1.15)",
+                transform: "translateY(-1.9px) scaleX(1.13) scaleY(1.13)",
                 transition: "transform 0.2s ease",
               }}
             />
@@ -540,7 +540,7 @@ export default function Beverages() {
               boxSizing: "border-box",
             }}
           >
-            <CookieIcon sx={{ fontSize: { xs: 30, sm: 32, md: 34 }, color: '#f1671cff' }} />
+            <CookieIcon sx={{ fontSize: { xs: 31, sm: 32, md: 34 }, color: '#f1671cff' }} />
           </Button>
 
           {/* CART – só desktop */}
