@@ -323,8 +323,8 @@ export default function Desserts() {
                         variant="contained"
                         onClick={() => navigate("/")}
                         sx={{
-                            width: { xs: 72, sm: 80 },
-                            height: 42,
+                            width: { xs: 80, sm: 80 },
+                            height: 44,
                             mt: -5.5,
                             minWidth: 0,
                             borderRadius: 2,
@@ -346,7 +346,7 @@ export default function Desserts() {
                             },
                         }}
                     >
-                        <HomeIcon sx={{ fontSize: 29, color: "#0d47a1" }} />
+                        <HomeIcon sx={{ fontSize: 34, color: "#0d47a1" }} />
                     </Button>
 
                     {/* CART – mobile */}
@@ -371,8 +371,8 @@ export default function Desserts() {
                             });
                         }}
                         sx={{
-                            width: { xs: 72, sm: 80 },
-                            height: 42,
+                            width: { xs: 80, sm: 80 },
+                            height: 44,
                             mt: -5.5,
                             minWidth: 0,
                             borderRadius: 2,
@@ -395,7 +395,7 @@ export default function Desserts() {
                         }}
                     >
                         <Badge badgeContent={totalItems} color="primary" overlap="circular" showZero={false}>
-                            <ShoppingCartIcon sx={{ fontSize: 29, color: "#0d47a1" }} />
+                            <ShoppingCartIcon sx={{ fontSize: 34, color: "#0d47a1" }} />
                         </Badge>
                     </Button>
                 </Box>
@@ -410,7 +410,7 @@ export default function Desserts() {
                         onClick={() => navigate('/')}
                         sx={{
                             display: { xs: "none", sm: "none", md: "inline-flex" },
-                            width: 85,
+                            width: 90,
                             height: 50,
                             borderRadius: 2,
 
@@ -432,7 +432,7 @@ export default function Desserts() {
 
                         }}
                     >
-                        <HomeIcon sx={{ fontSize: 36, color: "#0d47a1" }} />
+                        <HomeIcon sx={{ fontSize: 40, color: "#0d47a1" }} />
                     </Button>
 
                     {/* BURGUERS (ATUAL) */}
@@ -441,15 +441,15 @@ export default function Desserts() {
                         variant="contained"
                         onClick={() => navigate('/burguers')}
                         sx={{
-                            width: { xs: 75, sm: 80, md: 85 },
-                            height: { xs: 42, sm: 45, md: 50 },
+                            width: { xs: 80, sm: 80, md: 85 },
+                            height: { xs: 45, sm: 45, md: 50 },
                             borderRadius: 2,
                             backgroundColor: '#ffe0c7',
                             border: "2px solid #f5c16c", // creme mais forte
                             boxSizing: "border-box",
                         }}
                     >
-                        <LunchDiningIcon sx={{ fontSize: { xs: 32, sm: 34, md: 39 }, color: '#eb631aff' }} />
+                        <LunchDiningIcon sx={{ fontSize: { xs: 32, sm: 34, md: 37 }, color: '#eb631aff' }} />
                     </Button>
 
 
@@ -458,8 +458,8 @@ export default function Desserts() {
                         variant="contained"
                         onClick={() => navigate('/sides')}
                         sx={{
-                            width: { xs: 75, sm: 80, md: 85 },
-                            height: { xs: 42, sm: 45, md: 50 },
+                            width: { xs: 80, sm: 80, md: 85 },
+                            height: { xs: 45, sm: 45, md: 50 },
                             borderRadius: 2,
                             backgroundColor: '#ffe0c7',
                             border: "2px solid #f5c16c",
@@ -471,8 +471,8 @@ export default function Desserts() {
                             src={FriesIcon}
                             alt="Drink icon"
                             sx={{
-                                width: { xs: 43, sm: 42, md: 44 },
-                                height: { xs: 37, sm: 39, md: 44 },
+                                width: { xs: 45, sm: 42, md: 44 },
+                                height: { xs: 39, sm: 39, md: 44 },
                                 objectFit: "contain",
                                 transition: "transform 0.2s ease",
                                 display: "block",
@@ -486,8 +486,8 @@ export default function Desserts() {
                         variant="contained"
                         onClick={() => navigate('/beverages')}
                         sx={{
-                            width: { xs: 75, sm: 80, md: 85 },
-                            height: { xs: 42, sm: 45, md: 50 },
+                            width: { xs: 80, sm: 80, md: 85 },
+                            height: { xs: 45, sm: 45, md: 50 },
                             borderRadius: 2,
                             backgroundColor: '#ffe0c7',
                             border: "2px solid #f5c16c", // creme mais forte
@@ -515,8 +515,8 @@ export default function Desserts() {
                         variant="contained"
                         disabled
                         sx={{
-                            width: { xs: 75, sm: 80, md: 85 },
-                            height: { xs: 42, sm: 45, md: 55 },
+                            width: { xs: 80, sm: 80, md: 85 },
+                            height: { xs: 45, sm: 45, md: 50 },
                             borderRadius: 2,
                             backgroundColor: '#ffe0c7',
                             border: "2px solid #f5c16c",
@@ -530,7 +530,7 @@ export default function Desserts() {
                             },
                         }}
                     >
-                        <CookieIcon sx={{ fontSize: { xs: 32, sm: 34, md: 38 }, color: '#f1671cff' }} />
+                        <CookieIcon sx={{ fontSize: { xs: 32.5, sm: 34, md: 38 }, color: '#f1671cff' }} />
                     </Button>
 
                     {/* CART – desktop */}
@@ -556,8 +556,8 @@ export default function Desserts() {
                         }}
                         sx={{
                             display: { xs: "none", sm: "none", md: "inline-flex" },
-                            width: 85,
-                            height: 48,
+                            width: 90,
+                            height: 50,
                             borderRadius: 2,
                             backgroundColor: "#ffe0c7",
                             border: "2px solid #0d47a1",
@@ -582,7 +582,7 @@ export default function Desserts() {
                             overlap="circular"
                             showZero={false}
                         >
-                            <ShoppingCartIcon sx={{ fontSize: 36, color: "#0d47a1" }} />
+                            <ShoppingCartIcon sx={{ fontSize: 39, color: "#0d47a1" }} />
                         </Badge>
                     </Button>
                 </div>
