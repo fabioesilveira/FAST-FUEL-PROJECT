@@ -521,7 +521,7 @@ body {
 
 .h2-products-background {
   font-family: "Faster One", system-ui;
-  font-size: 50px;
+  font-size: 49px;
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -544,7 +544,7 @@ body {
 /* Tablet */
 @media (max-width: 900px) {
   .h2-products-background {
-    font-size: 48px;
+    font-size: 46px;
     letter-spacing: 0.15em;
     text-align: center;
     margin-top: 100px;
@@ -556,13 +556,12 @@ body {
 /* Mobile */
 @media (max-width: 600px) {
   .h2-products-background {
-    font-size: 48px;
+    font-size: 46px;
     letter-spacing: 0.12em;
     margin-top: 110px;
     margin-bottom: 110px;
   }
 }
-
 
 
 /* Tablet */
