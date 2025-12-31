@@ -150,7 +150,6 @@ export default function SignUp() {
                         backgroundSize: "100% 40px",
                         backgroundRepeat: "repeat-y",
                         backgroundAttachment: "fixed",
-                        borderLeft: "3px solid #e65100",
                     }}
                 />
 
@@ -386,7 +385,7 @@ export default function SignUp() {
                                         },
                                     }}
                                 />
-                                
+
                                 <TextField
                                     label="Confirm Password*"
                                     variant="outlined"

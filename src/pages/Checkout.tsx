@@ -57,8 +57,32 @@ export default function Checkout() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "flex-start",
+                    backgroundImage: `
+      linear-gradient(
+        to right,
+        rgba(255,255,255,1) 0%,
+        rgba(255,255,255,0.92) 12%,
+        rgba(255,255,255,0.55) 28%,
+        rgba(255,255,255,0.55) 72%,
+        rgba(255,255,255,0.92) 88%,
+        rgba(255,255,255,1) 100%
+      ),
+      repeating-linear-gradient(
+        to right,
+        rgba(255, 167, 38, 0.14),
+        rgba(255, 167, 38, 0.14) 18px,
+        transparent 18px,
+        transparent 40px
+      )
+    `,
+                    backgroundSize: "100% 100%, 100% 40px",
+                    backgroundRepeat: "no-repeat, repeat-y",
+                    backgroundAttachment: "fixed, fixed",
                 }}
             >
+
+
+
                 <Paper
                     elevation={0}
                     sx={{
@@ -66,10 +90,10 @@ export default function Checkout() {
                         maxWidth: 540,
                         borderRadius: 3,
                         mb: 1,
-                        border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                        border: "2px solid rgba(13, 71, 161, 0.35)", // azul
                         bgcolor: "background.paper",
                         boxShadow:
-                            "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
+                            "0 4px 14px rgba(13, 71, 161, 0.25), 0 8px 24px rgba(13, 71, 161, 0.18)",
                     }}
                 >
                     {/* CONTENT (com padding) */}
@@ -410,18 +434,19 @@ export default function Checkout() {
                         </Box>
                     </Box>
 
-                    {/* ✅ STICKY TOTAL BAR (mobile + desktop) */}
+                    {/* STICKY TOTAL BAR (mobile + desktop) */}
                     <Box
                         sx={{
                             position: "sticky",
                             bottom: 0,
                             px: { xs: 2, sm: 3 },
                             py: 1.5,
-                            bgcolor: "#fff4e1",
-                            borderTop: "1px solid rgba(13, 71, 161, 0.18)",
-                            boxShadow: "0 -10px 18px rgba(0,0,0,0.08)",
-                            zIndex: 10,
 
+                            bgcolor: "white",
+                            borderTop: "2px solid rgba(13, 71, 161, 0.25)",
+
+
+                            zIndex: 10,
                             borderBottomLeftRadius: 12,
                             borderBottomRightRadius: 12,
                         }}
@@ -454,17 +479,19 @@ export default function Checkout() {
                                     borderRadius: 2,
                                     textTransform: "uppercase",
                                     border: "2px solid #0d47a1",
-                                    color: "#0d47a1",
+                                    color: "#ffffff",
                                     letterSpacing: "0.14em",
                                     fontWeight: 800,
-                                    bgcolor: "rgba(230, 81, 0, 0.16)",
+
+                                    bgcolor: "#1e5bb8", // azul principal
                                     px: 2.5,
                                     py: 1,
                                     whiteSpace: "nowrap",
-                                    boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+
+
+
                                     "&:hover": {
-                                        bgcolor: "rgba(230, 81, 0, 0.22)",
-                                        boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
+                                        bgcolor: "#164a99",
                                     },
                                 }}
                                 onClick={() => alert(`Demo: payment processed for ${totalLabel}`)}
