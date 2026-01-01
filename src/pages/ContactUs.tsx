@@ -213,12 +213,14 @@ export default function ContactUs() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    mb: 3,
+                                    fontSize: "2.3rem",
                                     letterSpacing: "0.12em",
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
+                                    mb: 4,
+                                    mt: { xs: 1.5, sm: 1, md: 0 },
                                 }}
                             >
                                 Contact Us
@@ -254,7 +256,6 @@ export default function ContactUs() {
                                             color: "#0d47a1",
                                         },
                                         "& .MuiOutlinedInput-root": {
-                                            color: "#0d47a1",
                                             "& fieldset": {
                                                 borderColor: "#0d47a1",
                                             },
@@ -287,7 +288,6 @@ export default function ContactUs() {
                                             color: "#0d47a1",
                                         },
                                         "& .MuiOutlinedInput-root": {
-                                            color: "#0d47a1",
                                             "& fieldset": {
                                                 borderColor: "#0d47a1",
                                             },
@@ -323,7 +323,6 @@ export default function ContactUs() {
                                                 color: "#0d47a1",
                                             },
                                             "& .MuiOutlinedInput-root": {
-                                                color: "#0d47a1",
                                                 "& fieldset": {
                                                     borderColor: "#0d47a1",
                                                 },
@@ -355,7 +354,6 @@ export default function ContactUs() {
                                                 color: "#0d47a1",
                                             },
                                             "& .MuiOutlinedInput-root": {
-                                                color: "#0d47a1",
                                                 "& fieldset": {
                                                     borderColor: "#0d47a1",
                                                 },
@@ -390,7 +388,6 @@ export default function ContactUs() {
                                             color: "#0d47a1",
                                         },
                                         "& .MuiOutlinedInput-root": {
-                                            color: "#0d47a1",
                                             "& fieldset": {
                                                 borderColor: "#0d47a1",
                                             },
@@ -438,7 +435,6 @@ export default function ContactUs() {
                                                 color: "#0d47a1",
                                             },
                                             "& .MuiOutlinedInput-root": {
-                                                color: "#0d47a1",
                                                 "& fieldset": {
                                                     borderColor: "#0d47a1",
                                                 },
@@ -466,20 +462,15 @@ export default function ContactUs() {
                                         textTransform: "uppercase",
 
                                         border: "2px solid #0d47a1",
-                                        color: "#0d47a1",
+                                        color: "#ffffff",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
 
-                                        bgcolor: "rgba(230, 81, 0, 0.14)",
+                                        bgcolor: "#1e5bb8",
 
                                         boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
 
-                                        "&:hover": {
-                                            bgcolor: "rgba(230, 81, 0, 0.22)",
-                                            borderColor: "#0d47a1",
-                                            color: "#0d47a1",
-                                            boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
-                                        },
+                                        "&:hover": { bgcolor: "#164a99" },
 
                                         "&:active": {
                                             bgcolor: "rgba(230, 81, 0, 0.28)",
@@ -498,6 +489,7 @@ export default function ContactUs() {
                                     onClick={() => navigate("/")}
                                     sx={{
                                         mt: { sm: 0.5, md: 1 },
+                                        mb: { xs: 2, md: -0.5 },
                                         height: 42,
                                         borderRadius: 2,
                                         textTransform: "uppercase",
