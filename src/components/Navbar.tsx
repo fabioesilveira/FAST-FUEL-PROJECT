@@ -128,7 +128,12 @@ function Navbar({ onSearch }: NavbarProps) {
 
   //  Signout action (now actually used)
   const handleClickSignout = () => {
-    localStorage.clear();
+    localStorage.removeItem("idUser");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userType");
+    localStorage.removeItem("emailUser");
+    localStorage.removeItem("authUser");
+
     setShown(false);
 
     showAlert("Signed out successfully", "success");
@@ -138,6 +143,7 @@ function Navbar({ onSearch }: NavbarProps) {
       navigate("/sign-in");
     }, 2000);
   };
+
 
   useEffect(() => {
     // if logged: swap menu

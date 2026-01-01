@@ -26,10 +26,30 @@ export default function SignIn() {
 
 
     useEffect(() => {
-        if (localStorage.getItem("idUser")) {
-            navigate("/");
+        const id = localStorage.getItem("idUser");
+        const type = localStorage.getItem("userType");
+
+        let authType: string | null = null;
+        let authId: string | null = null;
+
+        const raw = localStorage.getItem("authUser");
+        if (raw) {
+            try {
+                const u = JSON.parse(raw);
+                authId = u?.id ? String(u.id) : null;
+                authType = u?.type ?? null;
+            } catch { }
+        }
+
+        const finalId = id || authId;
+        const finalType = type || authType;
+        const finalTypeSafe = finalType ?? "normal";
+
+        if (finalId) {
+            navigate(finalTypeSafe === "admin" ? "/admin" : "/");
         }
     }, [navigate]);
+
 
     async function handleClick() {
         if (!signUp.email || !signUp.password) {
@@ -49,6 +69,16 @@ export default function SignIn() {
             localStorage.setItem("userName", res.data.userName || signUp.email);
             localStorage.setItem("userType", res.data.type);
             localStorage.setItem("emailUser", res.data.email);
+
+            localStorage.setItem(
+                "authUser",
+                JSON.stringify({
+                    id: res.data.id,
+                    userName: res.data.userName || signUp.email,
+                    email: res.data.email,
+                    type: res.data.type,
+                })
+            );
 
             // opcional: dar feedback antes de navegar
             showAlert("Login successful!", "success");
@@ -303,11 +333,11 @@ export default function SignIn() {
                                         textTransform: "uppercase",
 
                                         border: "2px solid #0d47a1",
-                                        color: "#0d47a1",
+                                        color: "#ffffff",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
 
-                                        bgcolor: "rgba(230, 81, 0, 0.14)",
+                                        bgcolor: "#1e5bb8",
 
                                         boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
 
@@ -352,11 +382,11 @@ export default function SignIn() {
                                         textTransform: "uppercase",
 
                                         border: "2px solid #0d47a1",
-                                        color: "#0d47a1",
+                                        color: "#ffffff",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
 
-                                        bgcolor: "rgba(230, 81, 0, 0.14)",
+                                        bgcolor: "#1e5bb8",
 
                                         boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
 
@@ -381,7 +411,15 @@ export default function SignIn() {
                                     fullWidth
                                     size="large"
                                     variant="outlined"
-                                    onClick={() => navigate("/")}
+                                    onClick={() => {
+                                        localStorage.removeItem("idUser");
+                                        localStorage.removeItem("userName");
+                                        localStorage.removeItem("userType");
+                                        localStorage.removeItem("emailUser");
+                                        localStorage.removeItem("authUser");
+                                        navigate("/");
+                                    }}
+
                                     sx={{
                                         mt: 1,
                                         height: 42,
