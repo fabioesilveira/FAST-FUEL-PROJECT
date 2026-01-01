@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
-import { useMediaQuery } from "@mui/material";
 import { useAppAlert } from "../hooks/useAppAlert";
 import {
     Box,
@@ -37,13 +36,23 @@ export default function SignUp() {
         horizontal: "center",
     });
 
-    const isMobile = useMediaQuery("(max-width:900px)");
-
     useEffect(() => {
-        if (localStorage.getItem("idUser")) {
+        const id = localStorage.getItem("idUser");
+        const raw = localStorage.getItem("authUser");
+
+        let authId: string | null = null;
+        if (raw) {
+            try {
+                const u = JSON.parse(raw);
+                authId = u?.id ? String(u.id) : null;
+            } catch { }
+        }
+
+        if (id || authId) {
             navigate("/");
         }
     }, [navigate]);
+
 
     function handleChange({ target }: any) {
         const { name, value } = target;
@@ -97,13 +106,30 @@ export default function SignUp() {
         }
 
         try {
-            const res = await axios.post(
-                "http://localhost:3000/users/register",
-                signUp
-            );
+            const payload = {
+                fullName: signUp.name,
+                phone: signUp.number,
+                email: signUp.email,
+                password: signUp.password,
+            };
 
-            localStorage.setItem("idUser", res.data.id);
-            localStorage.setItem("userName", res.data.fullName);
+            const res = await axios.post("http://localhost:3000/users/register", payload);
+
+            // salva igual ao SignIn
+            localStorage.setItem("idUser", String(res.data.id));
+            localStorage.setItem("userName", res.data.userName || signUp.name);
+            localStorage.setItem("userType", res.data.type || "normal");
+            localStorage.setItem("emailUser", res.data.email || signUp.email);
+
+            localStorage.setItem(
+                "authUser",
+                JSON.stringify({
+                    id: res.data.id,
+                    userName: res.data.userName || signUp.name,
+                    email: res.data.email || signUp.email,
+                    type: res.data.type || "normal",
+                })
+            );
 
             showAlert("Account created successfully!", "success");
 
