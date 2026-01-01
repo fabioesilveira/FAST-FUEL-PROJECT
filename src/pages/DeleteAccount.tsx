@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Box,
     Paper,
@@ -6,7 +6,6 @@ import {
     TextField,
     Button,
 } from "@mui/material";
-import { useMediaQuery } from "@mui/material";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -28,12 +27,24 @@ export default function DeleteAccount() {
 
 
     const navigate = useNavigate();
-    const isMobile = useMediaQuery("(max-width:900px)");
 
     const { showAlert, AlertUI } = useAppAlert({
         vertical: "top",
         horizontal: "center",
     });
+
+    useEffect(() => {
+        const raw = localStorage.getItem("authUser");
+        if (!raw) return;
+
+        try {
+            const u = JSON.parse(raw);
+            setDeleteACC((prev) => ({
+                ...prev,
+                email: prev.email || u.email || "",
+            }));
+        } catch { }
+    }, []);
 
 
     async function handleDelete() {
@@ -68,8 +79,20 @@ export default function DeleteAccount() {
             }
 
             // backend confirmou → limpar sessão
+            localStorage.removeItem("authUser");
+
+            // (legado / compatibilidade)
             localStorage.removeItem("idUser");
             localStorage.removeItem("userName");
+            localStorage.removeItem("emailUser");
+            localStorage.removeItem("userType");
+            localStorage.removeItem("user");
+
+            // carrinho / checkout
+            localStorage.removeItem("lsOrder");
+            localStorage.removeItem("lastOrderCode");
+            localStorage.removeItem("lastOrderEmail");
+
 
             showAlert("Account deleted successfully.", "success");
 
@@ -243,6 +266,7 @@ export default function DeleteAccount() {
                                     name="email"
                                     value={deleteACC.email}
                                     onChange={handleChange}
+                                    InputProps={{ readOnly: true }}
                                 />
 
                                 <TextField
