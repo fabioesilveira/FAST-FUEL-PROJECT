@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useMediaQuery } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useAppAlert } from "../hooks/useAppAlert";
 import {
     Box,
@@ -40,8 +39,20 @@ export default function ContactUs() {
         horizontal: "center",
     });
 
+    useEffect(() => {
+        const raw = localStorage.getItem("authUser");
+        if (!raw) return;
 
-    const isMobile = useMediaQuery("(max-width:900px)");
+        try {
+            const u = JSON.parse(raw);
+            setContactForm((prev) => ({
+                ...prev,
+                name: prev.name || u.userName || u.fullName || "",
+                email: prev.email || u.email || "",
+            }));
+        } catch { }
+    }, []);
+
 
     async function handleClick() {
         if (
@@ -65,14 +76,14 @@ export default function ContactUs() {
             showAlert("Message sent successfully!", "success");
 
             // limpar o form
-            setContactForm({
-                name: "",
-                email: "",
+            setContactForm((prev) => ({
+                name: prev.name,
+                email: prev.email,
                 orderNumber: 0,
                 phone: "",
                 subject: "",
                 message: "",
-            });
+            }));
         } catch (error) {
             console.error("error to send the data", error);
             showAlert("Failed to send the message. Please try again.", "error");
@@ -419,27 +430,27 @@ export default function ContactUs() {
                                         rows={5}
                                         inputProps={{ maxLength: 300 }}
                                         sx={{
-                                        "& label": {
-                                            color: "#0d47a1",
-                                            fontWeight: 600,
-                                        },
-                                        "& label.Mui-focused": {
-                                            color: "#0d47a1",
-                                        },
-                                        "& .MuiOutlinedInput-root": {
-                                            color: "#0d47a1",
-                                            "& fieldset": {
-                                                borderColor: "#0d47a1",
+                                            "& label": {
+                                                color: "#0d47a1",
+                                                fontWeight: 600,
                                             },
-                                            "&:hover fieldset": {
-                                                borderColor: "#123b7a",
+                                            "& label.Mui-focused": {
+                                                color: "#0d47a1",
                                             },
-                                            "&.Mui-focused fieldset": {
-                                                borderColor: "#0d47a1",
-                                                borderWidth: 2,
+                                            "& .MuiOutlinedInput-root": {
+                                                color: "#0d47a1",
+                                                "& fieldset": {
+                                                    borderColor: "#0d47a1",
+                                                },
+                                                "&:hover fieldset": {
+                                                    borderColor: "#123b7a",
+                                                },
+                                                "&.Mui-focused fieldset": {
+                                                    borderColor: "#0d47a1",
+                                                    borderWidth: 2,
+                                                },
                                             },
-                                        },
-                                    }}
+                                        }}
                                     />
                                 </Box>
 
