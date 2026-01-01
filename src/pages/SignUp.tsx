@@ -246,13 +246,14 @@ export default function SignUp() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    mb: 1.5,
-                                    mt: 0.5,
+                                    fontSize: "2.5rem",
                                     letterSpacing: "0.12em",
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
+                                    mb: 2,
+                                    mt: { xs: 1.5, sm: 1, md: 0 },
                                 }}
                             >
                                 Sign Up
@@ -300,12 +301,11 @@ export default function SignUp() {
                                             color: "#0d47a1",
                                         },
                                         "& .MuiOutlinedInput-root": {
-                                            color: "#0d47a1",
                                             "& fieldset": {
-                                                borderColor: "rgba(13, 71, 161, 0.65)",
+                                                borderColor: "#0d47a1",
                                             },
                                             "&:hover fieldset": {
-                                                borderColor: "#0d47a1",
+                                                borderColor: "#123b7a",
                                             },
                                             "&.Mui-focused fieldset": {
                                                 borderColor: "#0d47a1",
@@ -332,12 +332,11 @@ export default function SignUp() {
                                             color: "#0d47a1",
                                         },
                                         "& .MuiOutlinedInput-root": {
-                                            color: "#0d47a1",
                                             "& fieldset": {
-                                                borderColor: "rgba(13, 71, 161, 0.65)",
+                                                borderColor: "#0d47a1",
                                             },
                                             "&:hover fieldset": {
-                                                borderColor: "#0d47a1",
+                                                borderColor: "#123b7a",
                                             },
                                             "&.Mui-focused fieldset": {
                                                 borderColor: "#0d47a1",
@@ -364,12 +363,11 @@ export default function SignUp() {
                                             color: "#0d47a1",
                                         },
                                         "& .MuiOutlinedInput-root": {
-                                            color: "#0d47a1",
                                             "& fieldset": {
-                                                borderColor: "rgba(13, 71, 161, 0.65)",
+                                                borderColor: "#0d47a1",
                                             },
                                             "&:hover fieldset": {
-                                                borderColor: "#0d47a1",
+                                                borderColor: "#123b7a",
                                             },
                                             "&.Mui-focused fieldset": {
                                                 borderColor: "#0d47a1",
@@ -397,12 +395,11 @@ export default function SignUp() {
                                             color: "#0d47a1",
                                         },
                                         "& .MuiOutlinedInput-root": {
-                                            color: "#0d47a1",
                                             "& fieldset": {
-                                                borderColor: "rgba(13, 71, 161, 0.65)",
+                                                borderColor: "#0d47a1",
                                             },
                                             "&:hover fieldset": {
-                                                borderColor: "#0d47a1",
+                                                borderColor: "#123b7a",
                                             },
                                             "&.Mui-focused fieldset": {
                                                 borderColor: "#0d47a1",
@@ -430,12 +427,11 @@ export default function SignUp() {
                                             color: "#0d47a1",
                                         },
                                         "& .MuiOutlinedInput-root": {
-                                            color: "#0d47a1",
                                             "& fieldset": {
-                                                borderColor: "rgba(13, 71, 161, 0.65)",
+                                                borderColor: "#0d47a1",
                                             },
                                             "&:hover fieldset": {
-                                                borderColor: "#0d47a1",
+                                                borderColor: "#123b7a",
                                             },
                                             "&.Mui-focused fieldset": {
                                                 borderColor: "#0d47a1",
@@ -457,20 +453,15 @@ export default function SignUp() {
                                         textTransform: "uppercase",
 
                                         border: "2px solid #0d47a1",
-                                        color: "#0d47a1",
+                                        color: "#ffffff",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
 
-                                        bgcolor: "rgba(230, 81, 0, 0.14)",
+                                        bgcolor: "#1e5bb8",
 
                                         boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
 
-                                        "&:hover": {
-                                            bgcolor: "rgba(230, 81, 0, 0.22)",
-                                            borderColor: "#0d47a1",
-                                            color: "#0d47a1",
-                                            boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
-                                        },
+                                        "&:hover": { bgcolor: "#164a99" },
 
                                         "&:active": {
                                             bgcolor: "rgba(230, 81, 0, 0.28)",
@@ -502,25 +493,22 @@ export default function SignUp() {
                                     fullWidth
                                     onClick={() => navigate("/")}
                                     sx={{
+                                        mb: { xs: 2, md: -0.7 },
+                                        height: 42,
                                         borderRadius: 2,
                                         textTransform: "uppercase",
-
                                         border: "2px solid #0d47a1",
                                         color: "#0d47a1",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
-
                                         bgcolor: "rgba(230, 81, 0, 0.14)",
-
                                         boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
-
                                         "&:hover": {
                                             bgcolor: "rgba(230, 81, 0, 0.22)",
                                             borderColor: "#0d47a1",
                                             color: "#0d47a1",
                                             boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
                                         },
-
                                         "&:active": {
                                             bgcolor: "rgba(230, 81, 0, 0.28)",
                                             boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
