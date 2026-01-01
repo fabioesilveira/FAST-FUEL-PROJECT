@@ -12,23 +12,25 @@ import DeleteAccount from "./pages/DeleteAccount";
 import ContactUs from "./pages/ContactUs";
 import Orders from "./pages/Orders";
 import AdminMessages from "./pages/admin/AdminMessages";
+import AdminOrders from "./pages/admin/AdminOrders";
 
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />}/>
-      <Route path="/sign-in" element={<SignIn />}/>
-      <Route path="/sign-up" element={<SignUp />}/>
-      <Route path="/burguers" element={<Burguers />}/>
-      <Route path="/sides" element={<Sides />}/>
-      <Route path="/desserts" element={<Desserts />}/>
-      <Route path="/beverages" element={<Beverages />}/>
-      <Route path="/checkout" element={<Checkout />}/>
-      <Route path="/deleteaccount" element={<DeleteAccount/>}/>
-      <Route path="/contact-us" element={<ContactUs />}/>
-      <Route path="/orders" element={<Orders />}/>
-      <Route path="/admin/messages" element={<AdminMessages/>}/>
+      <Route path="/" element={<Home />} />
+      <Route path="/sign-in" element={<SignIn />} />
+      <Route path="/sign-up" element={<SignUp />} />
+      <Route path="/burguers" element={<Burguers />} />
+      <Route path="/sides" element={<Sides />} />
+      <Route path="/desserts" element={<Desserts />} />
+      <Route path="/beverages" element={<Beverages />} />
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/deleteaccount" element={<DeleteAccount />} />
+      <Route path="/contact-us" element={<ContactUs />} />
+      <Route path="/orders" element={<Orders />} />
+      <Route path="/admin/messages" element={<AdminMessages />} />
+      <Route path="/admin/orders" element={<AdminOrders />} />
     </Routes>
-  ) 
+  )
 }

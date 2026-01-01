@@ -442,7 +442,7 @@ export default function Checkout() {
                             px: { xs: 2, sm: 3 },
                             py: 1.5,
 
-                            bgcolor: "white",
+                            backgroundColor: "#ffe0c7",
                             borderTop: "2px solid rgba(13, 71, 161, 0.25)",
 
 

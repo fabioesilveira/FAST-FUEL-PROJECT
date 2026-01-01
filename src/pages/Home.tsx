@@ -22,6 +22,8 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ButtonBase from "@mui/material/ButtonBase";
 import MobileStackCarousel from "../components/MobileStackCarousel";
+import PromoBannerCarousel from "../components/PromoBannerCarousel";
+
 
 
 const cleanProductName = (name: string) => name.split("/")[0].trim();
@@ -499,26 +501,10 @@ export default function Home() {
 
             <Container className="margin-top" fixed sx={{ flexGrow: 2 }}>
 
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        mb: { xs: 1, md: 2 },
-                        mt: { xs: -1, md: -1.5 },
-                        px: { xs: 1.5, md: 0 }, // evita quebrar em telas pequenas
-                    }}
-                >
-                    <h1
-                        className="h1-home"
-                        style={{
-                            color: shouldUseCreamTitle ? "#ffe0c7" : "#0d47a1",
-                            transition: "color 0.3s ease",
-                            textShadow: titleShadow,
-                        }}
-                    >
-                        Fuel Up Fast. Taste That Lasts.
-                    </h1>
+                <Box sx={{ mb: { xs: 1.2, md: 2 }, mt: { xs: -1, md: -1.5 } }}>
+                    <PromoBannerCarousel />
                 </Box>
+
 
                 {search.trim() && (
                     <Box
