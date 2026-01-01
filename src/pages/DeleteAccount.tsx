@@ -228,6 +228,7 @@ export default function DeleteAccount() {
                                     color: "#b71c1c",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(183, 28, 28, 0.25)",
+                                    mt: { xs: 0.8, sm: 1, md: 0 },
                                 }}
                             >
                                 Delete Account
@@ -267,6 +268,12 @@ export default function DeleteAccount() {
                                     value={deleteACC.email}
                                     onChange={handleChange}
                                     InputProps={{ readOnly: true }}
+                                    sx={{
+                                        "& .MuiOutlinedInput-input": {
+                                            color: "#000",
+                                            WebkitTextFillColor: "#000",
+                                        },
+                                    }}
                                 />
 
                                 <TextField
@@ -279,6 +286,12 @@ export default function DeleteAccount() {
                                     name="password"
                                     value={deleteACC.password}
                                     onChange={handleChange}
+                                    sx={{
+                                        "& .MuiOutlinedInput-input": {
+                                            color: "#000",
+                                            WebkitTextFillColor: "#000",
+                                        },
+                                    }}
                                 />
 
                                 <TextField
@@ -291,6 +304,12 @@ export default function DeleteAccount() {
                                     name="confirmPassword"
                                     value={deleteACC.confirmPassword}
                                     onChange={handleChange}
+                                    sx={{
+                                        "& .MuiOutlinedInput-input": {
+                                            color: "#000",
+                                            WebkitTextFillColor: "#000",
+                                        },
+                                    }}
                                 />
 
 
@@ -308,11 +327,11 @@ export default function DeleteAccount() {
                                         color: "#fff",
                                         letterSpacing: "0.16em",
                                         fontWeight: 700,
-                                        boxShadow: "0 8px 18px rgba(0,0,0,0.35)",
+
                                         "&:hover": {
                                             bgcolor: "#ffebee",
                                             color: "#b71c1c",
-                                            boxShadow: "0 10px 22px rgba(0,0,0,0.45)",
+
                                         },
                                         "&:active": {
                                             bgcolor: "#ffebee",
@@ -330,6 +349,7 @@ export default function DeleteAccount() {
                                     fullWidth
                                     onClick={() => navigate("/")}
                                     sx={{
+                                        mb: { md: -0.8 },
                                         mt: { sm: 0.5, md: 1 },
                                         height: 42,
                                         borderRadius: 2,
@@ -348,7 +368,7 @@ export default function DeleteAccount() {
                                             bgcolor: "rgba(230, 81, 0, 0.22)",
                                             borderColor: "#0d47a1",
                                             color: "#0d47a1",
-                                            boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
+
                                         },
 
                                         "&:active": {
