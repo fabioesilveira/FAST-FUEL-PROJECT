@@ -47,11 +47,13 @@ export default function SignIn() {
 
             localStorage.setItem("idUser", String(res.data.id));
             localStorage.setItem("userName", res.data.userName || signUp.email);
+            localStorage.setItem("userType", res.data.type);
+            localStorage.setItem("emailUser", res.data.email);
 
             // opcional: dar feedback antes de navegar
             showAlert("Login successful!", "success");
 
-            if (res.data.type === "admin" || signUp.email === "johnd") {
+            if (res.data.type === "admin") {
                 navigate("/admin");
             } else {
                 navigate("/");
