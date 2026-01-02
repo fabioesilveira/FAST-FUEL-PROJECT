@@ -368,7 +368,11 @@ export default function TrackOrderGuest() {
                             </Stack>
                         </Box>
 
-                        <Divider sx={{ borderColor: "rgba(0, 0, 0, 0.26)" }} />
+                        <Divider
+                            sx={{
+                                borderColor: "rgba(0, 0, 0, 0.45)",
+                            }}
+                        />
 
                         {/* CONTENT AREA */}
                         <Box

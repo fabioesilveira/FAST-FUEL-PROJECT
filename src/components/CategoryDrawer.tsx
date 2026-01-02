@@ -63,12 +63,13 @@ const closedMixin = (theme: Theme): CSSObject => ({
     },
 });
 
-const DrawerHeader = styled("div")(({ theme }) => ({
+const DrawerHeader = styled("div")(() => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
+    paddingTop: 6,
+    minHeight: 68,
+    paddingRight: 10,
 }));
 
 const Drawer = styled(MuiDrawer, {
@@ -106,8 +107,22 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
         >
             {/* TOGGLE */}
             <DrawerHeader>
-                <IconButton onClick={() => setOpen((p) => !p)} sx={{ width: 40, height: 40, mr: 0.7, pt: 1.5 }}>
-                    {open ? <ChevronLeftIcon sx={{ color: BLUE, fontSize: 26 }} /> : <ChevronRightIcon sx={{ color: BLUE, fontSize: 26 }} />}
+                <IconButton
+                    onClick={() => setOpen((p) => !p)}
+                    sx={{
+                        width: 48,          
+                        height: 48,           
+                        p: 0,                 
+                        display: "grid",
+                        placeItems: "center",
+                        borderRadius: 2,     
+                    }}
+                >
+                    {open ? (
+                        <ChevronLeftIcon sx={{ color: BLUE, fontSize: 26 }} />
+                    ) : (
+                        <ChevronRightIcon sx={{ color: BLUE, fontSize: 26 }} />
+                    )}
                 </IconButton>
             </DrawerHeader>
 

@@ -19,7 +19,7 @@ import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import HistoryIcon from "@mui/icons-material/History";
 import EmailIcon from "@mui/icons-material/Email";
 
-const drawerWidth = 260; 
+const drawerWidth = 260;
 
 const BLUE = "#0d47a1";
 const ORANGE = "#e85f10";
@@ -54,12 +54,13 @@ const closedMixin = (theme: Theme): CSSObject => ({
   },
 });
 
-const DrawerHeader = styled("div")(({ theme }) => ({
+const DrawerHeader = styled("div")(() => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  ...theme.mixins.toolbar,
+  paddingTop: 6,
+  minHeight: 68,
+  paddingRight: 10,
 }));
 
 const Drawer = styled(MuiDrawer, {
@@ -82,8 +83,6 @@ export default function DrawerProducts() {
     vertical: "top",
     horizontal: "center",
   });
-
-  const handleToggle = () => setOpen((prev) => !prev);
 
   const isLogged = Boolean(localStorage.getItem("idUser"));
 
@@ -153,7 +152,17 @@ export default function DrawerProducts() {
       >
         {/* Toggle */}
         <DrawerHeader>
-          <IconButton onClick={handleToggle} sx={{ width: 40, height: 40, mr: 0.7, pt: 1.5 }}>
+          <IconButton
+            onClick={() => setOpen((p) => !p)}
+            sx={{
+              width: 48,
+              height: 48,
+              p: 0,
+              display: "grid",
+              placeItems: "center",
+              borderRadius: 2,
+            }}
+          >
             {open ? (
               <ChevronLeftIcon sx={{ color: BLUE, fontSize: 26 }} />
             ) : (
@@ -161,11 +170,10 @@ export default function DrawerProducts() {
             )}
           </IconButton>
         </DrawerHeader>
-
         <Divider sx={{ backgroundColor: "rgba(13,71,161,.35)" }} />
 
         {/* Menu */}
-        <List sx={{ px: 1, pt: 2, pb:2 }}>
+        <List sx={{ px: 1, pt: 2, pb: 2 }}>
           {items.map(({ label, icon: IconComp, requiresAuth, path, action }) => (
             <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.8 }}>
               <ListItemButton
@@ -174,7 +182,7 @@ export default function DrawerProducts() {
                 }
                 sx={[
                   {
-                    minHeight: 62, 
+                    minHeight: 62,
                     px: 2,
                     borderRadius: 1.5,
                     border: "2px solid transparent",
@@ -198,8 +206,8 @@ export default function DrawerProducts() {
                   sx={[
                     {
                       minWidth: 0,
-                      width: 44, 
-                      height: 44, 
+                      width: 44,
+                      height: 44,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -210,7 +218,7 @@ export default function DrawerProducts() {
                 >
                   <IconComp
                     sx={{
-                      fontSize: 28, 
+                      fontSize: 28,
                       color: ORANGE,
                       transition: "transform .2s ease",
                       transform: open ? "scale(1.04)" : "scale(1)",
