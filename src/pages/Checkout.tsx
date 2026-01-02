@@ -14,6 +14,10 @@ import AddressLookup from "../components/AddressLookup";
 import Footer from "../components/Footer";
 import NavbarCheckout from "../components/NavBarCheckout";
 import { useAppContext } from "../context/context";
+import { useAppAlert } from "../hooks/useAppAlert";
+import HistoryIcon from "@mui/icons-material/History";
+import HomeIcon from "@mui/icons-material/Home";
+import LunchDiningIcon from "@mui/icons-material/LunchDining";
 
 type LoggedUser = {
     id: number;
@@ -41,13 +45,30 @@ export default function Checkout() {
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext();
 
+    const { showAlert, AlertUI, ConfirmUI } = useAppAlert({
+        vertical: "top",
+        horizontal: "center",
+    });
+
     const paperRef = useRef<HTMLDivElement | null>(null);
     const stickyRef = useRef<HTMLDivElement | null>(null);
     const [isDockedToPaperBottom, setIsDockedToPaperBottom] = useState(false);
 
+    //controle de telas do checkout (form / processing / confirmed)
+    const [screen, setScreen] = useState<"form" | "processing" | "confirmed">("form");
+    const [orderCode, setOrderCode] = useState<string>("");
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const view = params.get("view");
+
+        if (view === "form" || view === "processing" || view === "confirmed") {
+            setScreen(view);
+        }
+    }, []);
+
     // logged user (fallback completo)
     const loggedUser: LoggedUser | null = useMemo(() => {
-        // 1) nova chave principal
         const rawAuth = localStorage.getItem("authUser");
         if (rawAuth) {
             try {
@@ -56,7 +77,6 @@ export default function Checkout() {
             } catch { }
         }
 
-        // 2) fallback legado: chaves separadas
         const idUser = localStorage.getItem("idUser");
         if (idUser) {
             return {
@@ -67,7 +87,6 @@ export default function Checkout() {
             };
         }
 
-        // 3) fallback extra (se você tiver "user" antigo)
         const rawUser = localStorage.getItem("user");
         if (rawUser) {
             try {
@@ -85,8 +104,6 @@ export default function Checkout() {
 
             const paperRect = paperRef.current.getBoundingClientRect();
             const barRect = stickyRef.current.getBoundingClientRect();
-
-            // quando o bottom da bar estiver praticamente igual ao bottom do paper => "dockado"
             const docked = Math.abs(barRect.bottom - paperRect.bottom) <= 2;
             setIsDockedToPaperBottom(docked);
         }
@@ -129,6 +146,7 @@ export default function Checkout() {
     // UX/state
     const [submitting, setSubmitting] = useState(false);
 
+
     // Pre-fill se logado
     useEffect(() => {
         if (!isLogged) return;
@@ -147,7 +165,6 @@ export default function Checkout() {
         setFullName(name);
         setEmail(mail);
     }, [isLogged, loggedUser]);
-
 
     // --- totals + discount ---
     const { subtotal, discount, total, totalItems } = useMemo(() => {
@@ -220,14 +237,10 @@ export default function Checkout() {
     function validate() {
         if (!order || order.length === 0) return "Your cart is empty.";
 
-        // logged pode pular nome/email se já veio preenchido
         if (!fullName.trim()) return "Please enter your full name.";
         if (!email.trim()) return "Please enter your email.";
-
-        // validação simples
         if (!email.includes("@")) return "Please enter a valid email.";
 
-        // address mínimo
         if (!address.city.trim()) return "Please fill your city.";
         if (!address.state.trim()) return "Please fill your state.";
         if (!address.zip.trim()) return "Please fill your zipcode.";
@@ -236,14 +249,31 @@ export default function Checkout() {
         return null;
     }
 
+    function cleanProductName(name: string) {
+        return String(name || "").split("/")[0].trim();
+    }
+
+    const addressLine = useMemo(() => {
+        const parts = [
+            address.street?.trim(),
+            address.apt?.trim() ? `Apt ${address.apt.trim()}` : "",
+            address.city?.trim(),
+            address.state?.trim(),
+            address.zip?.trim(),
+            address.country?.trim(),
+        ].filter(Boolean);
+        return parts.join(", ");
+    }, [address]);
+
     async function handlePay() {
         const err = validate();
         if (err) {
-            alert(err);
+            showAlert(err, "warning");
             return;
         }
 
         setSubmitting(true);
+        setScreen("processing");
 
         try {
             const itemsSnapshot = normalizeCartSnapshot(order as CartItem[]);
@@ -258,7 +288,6 @@ export default function Checkout() {
                 total,
             };
 
-
             const res = await axios.post(API, payload);
             const { order_code } = res.data;
 
@@ -266,547 +295,797 @@ export default function Checkout() {
             localStorage.setItem("lastOrderCode", String(order_code));
             localStorage.setItem("lastOrderEmail", email.trim());
 
+            setOrderCode(String(order_code));
+
             // limpar o carrinho
             setOrder([]);
             localStorage.removeItem("lsOrder");
 
-            alert(`Order placed! Your order code is ${order_code}`);
+            // simulacao do pagamento com timer
+            await new Promise((r) => setTimeout(r, 5000));
 
-            //****decidir a pagina de confirmacao de pedido 
-
-            navigate("/");
+            setScreen("confirmed");
+            showAlert("Payment processed successfully.", "success");
         } catch (e: any) {
             console.error(e);
-            alert(e?.response?.data?.msg || "Failed to place order");
+            setScreen("form");
+            showAlert(e?.response?.data?.msg || "Failed to place order", "error");
         } finally {
             setSubmitting(false);
         }
     }
 
-    function cleanProductName(name: string) {
-        return String(name || "").split("/")[0].trim();
-    }
-
-    return (
-        <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
-            <NavbarCheckout />
-
-            {/* MAIN */}
+    function ProcessingScreen() {
+        return (
             <Box
-                component="main"
                 sx={{
                     flex: 1,
-                    pt: `${NAV_H + 16}px`,
-                    pb: 2,
-                    px: 2,
+                    px: 3,
+                    pt: { xs: 10, md: 12 },
+                    pb: 6,
+                    maxWidth: 500,
+                    mx: "auto",
                     display: "flex",
-                    justifyContent: "center",
-                    alignItems: "flex-start",
-                    backgroundImage: `
-            linear-gradient(
-              to right,
-              rgba(255,255,255,1) 0%,
-              rgba(255,255,255,0.92) 12%,
-              rgba(255,255,255,0.55) 28%,
-              rgba(255,255,255,0.55) 72%,
-              rgba(255,255,255,0.92) 88%,
-              rgba(255,255,255,1) 100%
-            ),
-            repeating-linear-gradient(
-              to right,
-              rgba(255, 167, 38, 0.14),
-              rgba(255, 167, 38, 0.14) 18px,
-              transparent 18px,
-              transparent 40px
-            )
-          `,
-                    backgroundSize: "100% 100%, 100% 40px",
-                    backgroundRepeat: "no-repeat, repeat-y",
-                    backgroundAttachment: "fixed, fixed",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    textAlign: "center",
+                    gap: 2,
                 }}
             >
-                <Paper
-                    elevation={0}
-                    ref={paperRef}
+                <Typography
                     sx={{
-                        width: "100%",
-                        maxWidth: 540,
-                        borderRadius: 3,
-                        mb: 1,
-                        border: "2px solid rgba(13, 71, 161, 0.35)",
-                        bgcolor: "background.paper",
-                        boxShadow:
-                            "0 4px 14px rgba(13, 71, 161, 0.25), 0 8px 24px rgba(13, 71, 161, 0.18)",
+                        color: "#0d47a1",
+                        fontWeight: 900,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.14em",
+                        fontSize: { xs: "1.05rem", md: "1.60rem" },
                     }}
                 >
-                    {/* CONTENT */}
-                    <Box
+                    Processing your payment
+                </Typography>
+
+                <Typography
+                    sx={{
+                        maxWidth: 520,
+                        color: "text.secondary",
+                        fontSize: "0.95rem",
+                        lineHeight: 1.65,
+                    }}
+                >
+                    Please don’t refresh or close this page.
+                </Typography>
+
+                <Box
+                    sx={{
+                        mt: 1.5,
+                        width: 64,
+                        height: 64,
+                        display: "grid",
+                        placeItems: "center",
+                        "@keyframes ffSpinPulse": {
+                            "0%": { transform: "rotate(0deg) scale(1)" },
+                            "35%": { transform: "rotate(140deg) scale(1.12)" },
+                            "55%": { transform: "rotate(210deg) scale(0.98)" },
+                            "100%": { transform: "rotate(360deg) scale(1)" },
+                        },
+                    }}
+                >
+                    <LunchDiningIcon
                         sx={{
-                            px: 5,
-                            py: 3.5,
-                            maxWidth: 500,
-                            mx: "auto",
-                            pb: 2,
+                            fontSize: 50,
+                            color: "#e65100",
+                            animation: "ffSpinPulse 1.7s ease-in-out infinite",
+                            transformOrigin: "center",
+                        }}
+                    />
+                </Box>
+
+                <Typography
+                    sx={{
+                        mt: 1,
+                        fontSize: "0.75rem",
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase",
+                        color: "rgba(13, 71, 161, 0.7)",
+                        fontWeight: 800,
+                    }}
+                >
+                    Secure checkout simulation
+                </Typography>
+            </Box>
+        );
+    }
+
+
+    function ConfirmedScreen() {
+        const firstName = (fullName || "there").trim().split(" ")[0];
+
+        return (
+            <Box
+                sx={{
+                    flex: 1,
+                    px: 5,
+                    pt: { xs: 7, md: 8 },
+                    pb: 6,
+                    maxWidth: 500,
+                    mx: "auto",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    textAlign: "center",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                }}
+            >
+                <Typography
+                    sx={{
+                        color: "#0d47a1",
+                        fontWeight: 900,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.14em",
+                        fontSize: { xs: "1.05rem", md: "1.90rem" },
+                        textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
+                    }}
+                >
+                    Order confirmed
+                </Typography>
+
+                <Typography
+                    sx={{
+                        maxWidth: 520,
+                        color: "text.secondary",
+                        fontSize: "0.98rem",
+                        lineHeight: 1.7,
+                    }}
+                >
+                    Hi <b>{firstName}</b>. Your order has been confirmed and is waiting for the
+                    store to accept and start preparing it.
+                </Typography>
+
+                <Typography
+                    sx={{
+                        maxWidth: 520,
+                        color: "text.secondary",
+                        fontSize: "0.92rem",
+                        lineHeight: 1.7,
+                    }}
+                >
+                    It will be delivered to: <b>{addressLine || "the address you entered"}</b>.
+                    <br />
+                    Average wait time: <b>30 minutes</b>.
+                </Typography>
+
+                <Box
+                    sx={{
+                        mt: 1,
+                        p: 1.6,
+                        borderRadius: 2,
+                        border: "1px solid rgba(13, 71, 161, 0.22)",
+                        bgcolor: "rgba(255,255,255,0.75)",
+                        width: "100%",
+                    }}
+                >
+                    <Typography sx={{ fontWeight: 900, color: "#0d47a1", mb: 0.6 }}>
+                        Your Order Number
+                    </Typography>
+
+                    <Typography
+                        sx={{
+                            fontWeight: 900,
+                            color: "#e65100",
+                            letterSpacing: "0.14em",
+                            fontSize: "1.1rem",
                         }}
                     >
-                        {/* Title */}
-                        <Typography
-                            variant="h4"
-                            align="center"
-                            sx={{
-                                mb: 2.5,
-                                mt: 1,
-                                fontSize: "2.3rem",
-                                letterSpacing: "0.12em",
-                                textTransform: "uppercase",
-                                color: "#0d47a1",
-                                fontWeight: 700,
-                                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                            }}
-                        >
-                            Checkout
-                        </Typography>
+                        {orderCode || "-"}
+                    </Typography>
 
-                        {/* Order summary */}
-                        <Box sx={{ mb: 3 }}>
+                    <Typography
+                        sx={{
+                            mt: 1,
+                            fontSize: "0.82rem",
+                            color: "text.secondary",
+                            lineHeight: 1.6,
+                        }}
+                    >
+                        Please save your <b>Order Number</b> to check status on the Orders page.
+                        {isLogged ? (
+                            <> Since you’re logged in, it’s saved in your account too.</>
+                        ) : (
+                            <> As a guest, you’ll need it (and your email) to track your order.</>
+                        )}
+                    </Typography>
+                </Box>
 
-                            <Chip
-                                label="Order Summary"
-                                size="small"
-                                sx={{
-                                    mb: 3,
-                                    fontSize: "0.7rem",
-                                    letterSpacing: "0.1em",
-                                    textTransform: "uppercase",
-                                    bgcolor: "#0d47a1",
-                                    color: "#fff",
-                                }}
-                            />
+                <Stack direction={{ xs: "column", sm: "row" }} spacing={1.2} sx={{ mt: 1.2 }}>
+                    <Button
+                        variant="outlined"
+                        startIcon={<HomeIcon />}
+                        onClick={() => navigate("/")}
+                        sx={{
+                            height: { xs: 40, md: 45 },
+                            width: { xs: 140, md: 160 },
+                            borderRadius: 2,
+                            textTransform: "uppercase",
+                            border: "2px solid #0d47a1",
+                            color: "#0d47a1",
+                            letterSpacing: "0.12em",
+                            fontWeight: 900,
+                            px: { xs: 1.7, md: 2.2 },
+                            "&:hover": { borderColor: "#123b7a", color: "#123b7a" },
+                            whiteSpace: "nowrap",
+                        }}
+                    >
+                        Home
+                    </Button>
+
+                    <Button
+                        variant="contained"
+                        startIcon={<HistoryIcon />}
+                        onClick={() => navigate("/orders")}
+                        sx={{
+                            height: { xs: 40, md: 45 },
+                            width: { xs: 140, md: 160 },
+                            borderRadius: 2,
+                            backgroundColor: "#e65100",
+                            color: "#ffe0c7",
+                            fontWeight: 800,
+                            letterSpacing: "0.06em",
+                            textTransform: "uppercase",
+                            boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
+                            "&:hover": { backgroundColor: "#b33f00" },
+                            px: { xs: 1.7, md: 2.2 },
+                            whiteSpace: "nowrap",
+                        }}
+                    >
+                        Orders
+                    </Button>
+                </Stack>
+            </Box>
+        );
+    }
 
 
-                            {order.length === 0 ? (
-                                <Typography sx={{ fontWeight: 700, color: "text.secondary" }}>
-                                    Your cart is empty.
-                                </Typography>
-                            ) : (
-                                <Stack spacing={1.2}>
-                                    {/* list items */}
-                                    {(order as CartItem[]).map((it) => {
-                                        const qty = it.quantidade ?? 1;
-                                        return (
-                                            <Stack
-                                                key={it.id}
-                                                direction="row"
-                                                spacing={1.5}
-                                                alignItems="center"
-                                                sx={{
-                                                    p: 1.2,
-                                                    borderRadius: 2,
-                                                    border: "1px solid rgba(13, 71, 161, 0.18)",
-                                                    bgcolor: "rgba(255, 224, 199, 0.45)",
-                                                }}
-                                            >
-                                                <Box
-                                                    component="img"
-                                                    src={it.image}
-                                                    alt={it.name}
-                                                    sx={{
-                                                        width: 54,
-                                                        height: 54,
-                                                        objectFit: "contain",
-                                                        backgroundColor: "#fff",
-                                                        borderRadius: 1.5,
-                                                        border: "1px solid rgba(13, 71, 161, 0.18)",
-                                                        p: 0.6,
-                                                    }}
-                                                />
-                                                <Box sx={{ flex: 1 }}>
-                                                    <Typography sx={{ fontWeight: 800, color: "#0d47a1" }}>
-                                                        {cleanProductName(it.name)}
+    return (
+        <>
+            {AlertUI}
+            {ConfirmUI}
+
+            <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
+                <NavbarCheckout />
+
+                {/* MAIN */}
+                <Box
+                    component="main"
+                    sx={{
+                        flex: 1,
+                        pt: `${NAV_H + 21}px`,
+                        pb: 2,
+                        px: 2,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "flex-start",
+                        backgroundImage: `
+              linear-gradient(
+                to right,
+                rgba(255,255,255,1) 0%,
+                rgba(255,255,255,0.92) 12%,
+                rgba(255,255,255,0.55) 28%,
+                rgba(255,255,255,0.55) 72%,
+                rgba(255,255,255,0.92) 88%,
+                rgba(255,255,255,1) 100%
+              ),
+              repeating-linear-gradient(
+                to right,
+                rgba(255, 167, 38, 0.14),
+                rgba(255, 167, 38, 0.14) 18px,
+                transparent 18px,
+                transparent 40px
+              )
+            `,
+                        backgroundSize: "100% 100%, 100% 40px",
+                        backgroundRepeat: "no-repeat, repeat-y",
+                        backgroundAttachment: "fixed, fixed",
+                    }}
+                >
+
+                    <Paper
+                        elevation={0}
+                        ref={paperRef}
+                        sx={{
+                            width: "100%",
+                            maxWidth: 540,
+                            borderRadius: 3,
+                            mb: 1,
+                            border: "2px solid rgba(13, 71, 161, 0.35)",
+                            bgcolor: "background.paper",
+                            boxShadow:
+                                "0 4px 14px rgba(13, 71, 161, 0.25), 0 8px 24px rgba(13, 71, 161, 0.18)",
+                            overflow: "hidden",
+
+                            height: { xs: "calc(100dvh - 160px)", md: "calc(100vh - 180px)" },
+                            maxHeight: 760,
+                            display: "flex",
+                            flexDirection: "column",
+
+                            ...(screen === "form"
+                                ? {
+                                    overflowY: "auto",
+                                }
+                                : {}),
+                        }}
+                    >
+                        {/* CHECKOUT PROCESSING AND CONFIRMED) */}
+                        {screen === "processing" ? (
+                            <ProcessingScreen />
+                        ) : screen === "confirmed" ? (
+                            <ConfirmedScreen />
+                        ) : (
+                            <>
+                                {/* CHECKOUT ORIGINAL) */}
+                                <Box
+                                    sx={{
+                                        px: 5,
+                                        py: 3.5,
+                                        maxWidth: 500,
+                                        mx: "auto",
+                                        pb: 2,
+                                    }}
+                                >
+                                    {/* Title */}
+                                    <Typography
+                                        variant="h4"
+                                        align="center"
+                                        sx={{
+                                            mb: 2.5,
+                                            mt: 1,
+                                            fontSize: "2.3rem",
+                                            letterSpacing: "0.12em",
+                                            textTransform: "uppercase",
+                                            color: "#0d47a1",
+                                            fontWeight: 700,
+                                            textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
+                                        }}
+                                    >
+                                        Checkout
+                                    </Typography>
+
+                                    {/* Order summary */}
+                                    <Box sx={{ mb: 3 }}>
+                                        <Chip
+                                            label="Order Summary"
+                                            size="small"
+                                            sx={{
+                                                mb: 3,
+                                                fontSize: "0.7rem",
+                                                letterSpacing: "0.1em",
+                                                textTransform: "uppercase",
+                                                bgcolor: "#0d47a1",
+                                                color: "#fff",
+                                            }}
+                                        />
+
+                                        {order.length === 0 ? (
+                                            <Typography sx={{ fontWeight: 700, color: "text.secondary" }}>
+                                                Your cart is empty.
+                                            </Typography>
+                                        ) : (
+                                            <Stack spacing={1.2}>
+                                                {(order as CartItem[]).map((it) => {
+                                                    const qty = it.quantidade ?? 1;
+                                                    return (
+                                                        <Stack
+                                                            key={it.id}
+                                                            direction="row"
+                                                            spacing={1.5}
+                                                            alignItems="center"
+                                                            sx={{
+                                                                p: 1.2,
+                                                                borderRadius: 2,
+                                                                border: "1px solid rgba(13, 71, 161, 0.18)",
+                                                                bgcolor: "rgba(255, 224, 199, 0.45)",
+                                                            }}
+                                                        >
+                                                            <Box
+                                                                component="img"
+                                                                src={it.image}
+                                                                alt={it.name}
+                                                                sx={{
+                                                                    width: 54,
+                                                                    height: 54,
+                                                                    objectFit: "contain",
+                                                                    backgroundColor: "#fff",
+                                                                    borderRadius: 1.5,
+                                                                    border: "1px solid rgba(13, 71, 161, 0.18)",
+                                                                    p: 0.6,
+                                                                }}
+                                                            />
+                                                            <Box sx={{ flex: 1 }}>
+                                                                <Typography sx={{ fontWeight: 800, color: "#0d47a1" }}>
+                                                                    {cleanProductName(it.name)}
+                                                                </Typography>
+                                                                <Typography sx={{ fontSize: "0.85rem", color: "text.secondary" }}>
+                                                                    Qty: <b>{qty}</b> • ${Number(it.price).toFixed(2)}
+                                                                </Typography>
+                                                            </Box>
+                                                        </Stack>
+                                                    );
+                                                })}
+
+                                                <Box sx={{ mt: 0.6 }}>
+                                                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
+                                                        Items: {totalItems}
                                                     </Typography>
-                                                    <Typography sx={{ fontSize: "0.85rem", color: "text.secondary" }}>
-                                                        Qty: <b>{qty}</b> • ${Number(it.price).toFixed(2)}
+                                                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
+                                                        Subtotal: {subtotalLabel}
+                                                    </Typography>
+                                                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
+                                                        Discount:{" "}
+                                                        {discount > 0 ? (
+                                                            <span>-{discountLabel}</span>
+                                                        ) : (
+                                                            <span style={{ color: "rgba(0,0,0,0.55)" }}>$0.00</span>
+                                                        )}
                                                     </Typography>
                                                 </Box>
                                             </Stack>
-                                        );
-                                    })}
-
-                                    {/* totals */}
-                                    <Box sx={{ mt: 0.6 }}>
-                                        <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
-                                            Items: {totalItems}
-                                        </Typography>
-                                        <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
-                                            Subtotal: {subtotalLabel}
-                                        </Typography>
-                                        <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
-                                            Discount:{" "}
-                                            {discount > 0 ? (
-                                                <span>-{discountLabel}</span>
-                                            ) : (
-                                                <span style={{ color: "rgba(0,0,0,0.55)" }}>$0.00</span>
-                                            )}
-                                        </Typography>
+                                        )}
                                     </Box>
-                                </Stack>
-                            )}
-                        </Box>
 
-                        {/* Contact */}
-                        <Box sx={{ mb: 3 }}>
-                            <Typography
-                                variant="subtitle1"
-                                align="center"
-                                sx={{
-                                    textTransform: "uppercase",
-                                    letterSpacing: "0.16em",
-                                    mb: 2,
-                                    fontWeight: 700,
-                                    position: "relative",
-                                    "&::after": {
-                                        content: '""',
-                                        display: "block",
-                                        width: 52,
-                                        height: 3,
-                                        borderRadius: 999,
-                                        bgcolor: "#0d47a1",
-                                        mx: "auto",
-                                        mt: 0.8,
-                                    },
-                                }}
-                            >
-                                Contact Info
-                            </Typography>
+                                    {/* Contact */}
+                                    <Box sx={{ mb: 3 }}>
+                                        <Typography
+                                            variant="subtitle1"
+                                            align="center"
+                                            sx={{
+                                                textTransform: "uppercase",
+                                                letterSpacing: "0.16em",
+                                                mb: 2,
+                                                fontWeight: 700,
+                                                position: "relative",
+                                                "&::after": {
+                                                    content: '""',
+                                                    display: "block",
+                                                    width: 52,
+                                                    height: 3,
+                                                    borderRadius: 999,
+                                                    bgcolor: "#0d47a1",
+                                                    mx: "auto",
+                                                    mt: 0.8,
+                                                },
+                                            }}
+                                        >
+                                            Contact Info
+                                        </Typography>
 
-                            <Stack spacing={1.6}>
-                                <TextField
-                                    size="small"
-                                    label="Full Name*"
-                                    fullWidth
-                                    variant="outlined"
-                                    sx={tfBlueLabelSx}
-                                    value={fullName}
-                                    onChange={(e) => setFullName(e.target.value)}
-                                    InputProps={{ readOnly: isLogged }}
-                                />
-                                <TextField
-                                    size="small"
-                                    label="Email*"
-                                    type="email"
-                                    fullWidth
-                                    variant="outlined"
-                                    sx={tfBlueLabelSx}
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    InputProps={{ readOnly: isLogged }}
-                                />
-                            </Stack>
+                                        <Stack spacing={1.6}>
+                                            <TextField
+                                                size="small"
+                                                label="Full Name*"
+                                                fullWidth
+                                                variant="outlined"
+                                                sx={tfBlueLabelSx}
+                                                value={fullName}
+                                                onChange={(e) => setFullName(e.target.value)}
+                                                InputProps={{ readOnly: isLogged }}
+                                            />
+                                            <TextField
+                                                size="small"
+                                                label="Email*"
+                                                type="email"
+                                                fullWidth
+                                                variant="outlined"
+                                                sx={tfBlueLabelSx}
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                InputProps={{ readOnly: isLogged }}
+                                            />
+                                        </Stack>
 
-                            {!isLogged && (
-                                <Typography
-                                    align="center"
-                                    sx={{ mt: 1.4, fontSize: "0.75rem", color: "text.secondary" }}
-                                >
-                                    Guest checkout: keep your <b>Order Code</b> to track your order later.
-                                </Typography>
-                            )}
-                        </Box>
+                                        {!isLogged && (
+                                            <Typography
+                                                align="center"
+                                                sx={{ mt: 1.4, fontSize: "0.75rem", color: "text.secondary" }}
+                                            >
+                                                Guest checkout: keep your <b>Order Code</b> to track your order later.
+                                            </Typography>
+                                        )}
+                                    </Box>
 
-                        {/* Delivery */}
-                        <Box sx={{ mb: 3 }}>
-                            <Typography
-                                variant="subtitle1"
-                                align="center"
-                                sx={{
-                                    textTransform: "uppercase",
-                                    letterSpacing: "0.16em",
-                                    mb: 2,
-                                    fontWeight: 700,
-                                    position: "relative",
-                                    "&::after": {
-                                        content: '""',
-                                        display: "block",
-                                        width: 52,
-                                        height: 3,
-                                        borderRadius: 999,
-                                        bgcolor: "#0d47a1",
-                                        mx: "auto",
-                                        mt: 0.8,
-                                    },
-                                }}
-                            >
-                                Delivery
-                            </Typography>
+                                    {/* Delivery */}
+                                    <Box sx={{ mb: 3 }}>
+                                        <Typography
+                                            variant="subtitle1"
+                                            align="center"
+                                            sx={{
+                                                textTransform: "uppercase",
+                                                letterSpacing: "0.16em",
+                                                mb: 2,
+                                                fontWeight: 700,
+                                                position: "relative",
+                                                "&::after": {
+                                                    content: '""',
+                                                    display: "block",
+                                                    width: 52,
+                                                    height: 3,
+                                                    borderRadius: 999,
+                                                    bgcolor: "#0d47a1",
+                                                    mx: "auto",
+                                                    mt: 0.8,
+                                                },
+                                            }}
+                                        >
+                                            Delivery
+                                        </Typography>
 
-                            <Stack spacing={1.6}>
-                                <AddressLookup
-                                    sx={tfBlueLabelSx}
-                                    onInput={(v) => {
-                                        if (!v.trim()) {
-                                            setAddress((prev) => ({
-                                                ...prev,
-                                                street: "",
-                                                city: "",
-                                                apt: "",
-                                                state: "",
-                                                zip: "",
-                                                country: "USA",
-                                            }));
-                                        }
-                                    }}
-                                    onSelect={(addr) =>
-                                        setAddress((prev) => ({
-                                            ...prev,
-                                            street: addr.street.split(",")[0].trim(),
-                                            city: addr.city,
-                                            state: addr.state,
-                                            zip: addr.zip,
-                                        }))
-                                    }
-                                />
+                                        <Stack spacing={1.6}>
+                                            <AddressLookup
+                                                sx={tfBlueLabelSx}
+                                                onInput={(v) => {
+                                                    if (!v.trim()) {
+                                                        setAddress((prev) => ({
+                                                            ...prev,
+                                                            street: "",
+                                                            city: "",
+                                                            apt: "",
+                                                            state: "",
+                                                            zip: "",
+                                                            country: "USA",
+                                                        }));
+                                                    }
+                                                }}
+                                                onSelect={(addr) =>
+                                                    setAddress((prev) => ({
+                                                        ...prev,
+                                                        street: addr.street.split(",")[0].trim(),
+                                                        city: addr.city,
+                                                        state: addr.state,
+                                                        zip: addr.zip,
+                                                    }))
+                                                }
+                                            />
 
-                                <Stack direction="row" spacing={1.6}>
-                                    <TextField
-                                        size="small"
-                                        label="City*"
-                                        fullWidth
-                                        variant="outlined"
-                                        value={address.city}
-                                        onChange={(e) =>
-                                            setAddress((prev) => ({ ...prev, city: e.target.value }))
-                                        }
-                                        sx={[tfBlueLabelSx, { flex: 6 }]}
-                                    />
+                                            <Stack direction="row" spacing={1.6}>
+                                                <TextField
+                                                    size="small"
+                                                    label="City*"
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    value={address.city}
+                                                    onChange={(e) =>
+                                                        setAddress((prev) => ({ ...prev, city: e.target.value }))
+                                                    }
+                                                    sx={[tfBlueLabelSx, { flex: 6 }]}
+                                                />
 
-                                    <TextField
-                                        size="small"
-                                        label="Apt / Suite"
-                                        variant="outlined"
-                                        value={address.apt}
-                                        onChange={(e) =>
-                                            setAddress((prev) => ({ ...prev, apt: e.target.value }))
-                                        }
-                                        sx={[tfBlueLabelSx, { flex: 4 }]}
-                                    />
-                                </Stack>
+                                                <TextField
+                                                    size="small"
+                                                    label="Apt / Suite"
+                                                    variant="outlined"
+                                                    value={address.apt}
+                                                    onChange={(e) =>
+                                                        setAddress((prev) => ({ ...prev, apt: e.target.value }))
+                                                    }
+                                                    sx={[tfBlueLabelSx, { flex: 4 }]}
+                                                />
+                                            </Stack>
 
-                                <Stack direction="row" spacing={1.6}>
-                                    <TextField
-                                        size="small"
-                                        label="State*"
-                                        variant="outlined"
-                                        value={address.state}
-                                        onChange={(e) =>
-                                            setAddress((prev) => ({ ...prev, state: e.target.value }))
-                                        }
-                                        sx={[tfBlueLabelSx, { flex: 3 }]}
-                                    />
+                                            <Stack direction="row" spacing={1.6}>
+                                                <TextField
+                                                    size="small"
+                                                    label="State*"
+                                                    variant="outlined"
+                                                    value={address.state}
+                                                    onChange={(e) =>
+                                                        setAddress((prev) => ({ ...prev, state: e.target.value }))
+                                                    }
+                                                    sx={[tfBlueLabelSx, { flex: 3 }]}
+                                                />
 
-                                    <TextField
-                                        size="small"
-                                        label="Zipcode*"
-                                        variant="outlined"
-                                        value={address.zip}
-                                        onChange={(e) =>
-                                            setAddress((prev) => ({ ...prev, zip: e.target.value }))
-                                        }
-                                        sx={[tfBlueLabelSx, { flex: 3 }]}
-                                    />
+                                                <TextField
+                                                    size="small"
+                                                    label="Zipcode*"
+                                                    variant="outlined"
+                                                    value={address.zip}
+                                                    onChange={(e) =>
+                                                        setAddress((prev) => ({ ...prev, zip: e.target.value }))
+                                                    }
+                                                    sx={[tfBlueLabelSx, { flex: 3 }]}
+                                                />
 
-                                    <TextField
-                                        size="small"
-                                        label="Country*"
-                                        placeholder="USA"
-                                        variant="outlined"
-                                        value={address.country}
-                                        onChange={(e) =>
-                                            setAddress((prev) => ({
-                                                ...prev,
-                                                country: e.target.value,
-                                            }))
-                                        }
-                                        sx={[tfBlueLabelSx, { flex: 4 }]}
-                                    />
-                                </Stack>
+                                                <TextField
+                                                    size="small"
+                                                    label="Country*"
+                                                    placeholder="USA"
+                                                    variant="outlined"
+                                                    value={address.country}
+                                                    onChange={(e) =>
+                                                        setAddress((prev) => ({
+                                                            ...prev,
+                                                            country: e.target.value,
+                                                        }))
+                                                    }
+                                                    sx={[tfBlueLabelSx, { flex: 4 }]}
+                                                />
+                                            </Stack>
 
-                                <Typography
-                                    align="center"
-                                    sx={{ mt: 0.6, fontSize: "0.75rem", color: "text.secondary" }}
-                                >
-                                    Demo only — use any valid address (it doesn’t need to be yours).
-                                </Typography>
-                            </Stack>
-                        </Box>
+                                            <Typography
+                                                align="center"
+                                                sx={{ mt: 0.6, fontSize: "0.75rem", color: "text.secondary" }}
+                                            >
+                                                Demo only — use any valid address (it doesn’t need to be yours).
+                                            </Typography>
+                                        </Stack>
+                                    </Box>
 
-                        {/* Payment */}
-                        <Box sx={{ mb: 1.5 }}>
-                            <Typography
-                                variant="subtitle1"
-                                align="center"
-                                sx={{
-                                    textTransform: "uppercase",
-                                    letterSpacing: "0.16em",
-                                    mb: 2,
-                                    fontWeight: 700,
-                                    position: "relative",
-                                    "&::after": {
-                                        content: '""',
-                                        display: "block",
-                                        width: 52,
-                                        height: 3,
-                                        borderRadius: 999,
-                                        bgcolor: "#0d47a1",
-                                        mx: "auto",
-                                        mt: 0.8,
-                                    },
-                                }}
-                            >
-                                Payment
-                            </Typography>
+                                    {/* Payment */}
+                                    <Box sx={{ mb: 1.5 }}>
+                                        <Typography
+                                            variant="subtitle1"
+                                            align="center"
+                                            sx={{
+                                                textTransform: "uppercase",
+                                                letterSpacing: "0.16em",
+                                                mb: 2,
+                                                fontWeight: 700,
+                                                position: "relative",
+                                                "&::after": {
+                                                    content: '""',
+                                                    display: "block",
+                                                    width: 52,
+                                                    height: 3,
+                                                    borderRadius: 999,
+                                                    bgcolor: "#0d47a1",
+                                                    mx: "auto",
+                                                    mt: 0.8,
+                                                },
+                                            }}
+                                        >
+                                            Payment
+                                        </Typography>
 
-                            <Stack spacing={1.6}>
-                                <TextField
-                                    size="small"
-                                    label="Name on Card*"
-                                    value="Fast Fuel Payment Simulation"
-                                    fullWidth
-                                    variant="outlined"
-                                    sx={[
-                                        tfBlueLabelSx,
-                                        { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
-                                    ]}
-                                    InputProps={{ readOnly: true }}
-                                />
+                                        <Stack spacing={1.6}>
+                                            <TextField
+                                                size="small"
+                                                label="Name on Card*"
+                                                value="Fast Fuel Payment Simulation"
+                                                fullWidth
+                                                variant="outlined"
+                                                sx={[
+                                                    tfBlueLabelSx,
+                                                    { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                                ]}
+                                                InputProps={{ readOnly: true }}
+                                            />
 
-                                <TextField
-                                    size="small"
-                                    label="Card Number*"
-                                    value="4242 4242 4242 4242"
-                                    fullWidth
-                                    variant="outlined"
-                                    sx={[
-                                        tfBlueLabelSx,
-                                        { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
-                                    ]}
-                                    InputProps={{ readOnly: true }}
-                                />
+                                            <TextField
+                                                size="small"
+                                                label="Card Number*"
+                                                value="4242 4242 4242 4242"
+                                                fullWidth
+                                                variant="outlined"
+                                                sx={[
+                                                    tfBlueLabelSx,
+                                                    { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                                ]}
+                                                InputProps={{ readOnly: true }}
+                                            />
 
-                                <Stack direction="row" spacing={1.6}>
-                                    <TextField
-                                        size="small"
-                                        label="Valid Through*"
-                                        value="12/30"
-                                        fullWidth
-                                        variant="outlined"
-                                        sx={[
-                                            tfBlueLabelSx,
-                                            { flex: 7 },
-                                            { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
-                                        ]}
-                                        InputProps={{ readOnly: true }}
-                                    />
+                                            <Stack direction="row" spacing={1.6}>
+                                                <TextField
+                                                    size="small"
+                                                    label="Valid Through*"
+                                                    value="12/30"
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    sx={[
+                                                        tfBlueLabelSx,
+                                                        { flex: 7 },
+                                                        { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                                    ]}
+                                                    InputProps={{ readOnly: true }}
+                                                />
 
-                                    <TextField
-                                        size="small"
-                                        label="CVV*"
-                                        value="123"
-                                        fullWidth
-                                        variant="outlined"
-                                        sx={[
-                                            tfBlueLabelSx,
-                                            { flex: 5 },
-                                            { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
-                                        ]}
-                                        InputProps={{ readOnly: true }}
-                                    />
-                                </Stack>
+                                                <TextField
+                                                    size="small"
+                                                    label="CVV*"
+                                                    value="123"
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    sx={[
+                                                        tfBlueLabelSx,
+                                                        { flex: 5 },
+                                                        { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                                    ]}
+                                                    InputProps={{ readOnly: true }}
+                                                />
+                                            </Stack>
 
-                                <Typography
-                                    align="center"
-                                    sx={{ mt: 0.5, fontSize: "0.75rem", color: "text.secondary" }}
-                                >
-                                    This is a portfolio demo — no real payment is processed.
-                                </Typography>
-                            </Stack>
-                        </Box>
-                    </Box>
+                                            <Typography
+                                                align="center"
+                                                sx={{ mt: 0.5, fontSize: "0.75rem", color: "text.secondary" }}
+                                            >
+                                                This is a portfolio demo — no real payment is processed.
+                                            </Typography>
+                                        </Stack>
+                                    </Box>
+                                </Box>
 
-                    {/* STICKY TOTAL BAR */}
-                    <Box
-                        ref={stickyRef}
-                        sx={{
-                            position: "sticky",
-                            bottom: 0,
-                            px: { xs: 2, sm: 3 },
-                            py: 1.5,
-                            zIndex: 10,
-
-                            backgroundColor: "#ffe0c7",
-
-                            borderTop: isDockedToPaperBottom
-                                ? "2px solid rgba(13, 71, 161, 0.25)"
-                                : "none",
-
-                            borderBottomLeftRadius: isDockedToPaperBottom ? 12 : 0,
-                            borderBottomRightRadius: isDockedToPaperBottom ? 12 : 0,
-
-                            boxShadow: "none",
-                        }}
-                    >
-                        <Stack
-                            direction="row"
-                            alignItems="center"
-                            justifyContent="space-between"
-                            spacing={2}
-                        >
-                            <Box>
-                                <Typography
+                                {/* STICKY TOTAL BAR */}
+                                <Box
+                                    ref={stickyRef}
                                     sx={{
-                                        fontSize: 12,
-                                        letterSpacing: "0.12em",
-                                        textTransform: "uppercase",
-                                        color: "#0d47a1",
+                                        position: "sticky",
+                                        bottom: 0,
+                                        px: { xs: 2, sm: 3 },
+                                        py: 1.5,
+                                        zIndex: 10,
+                                        backgroundColor: "#ffe0c7",
+                                        borderTop: isDockedToPaperBottom
+                                            ? "2px solid rgba(13, 71, 161, 0.25)"
+                                            : "none",
+                                        borderBottomLeftRadius: isDockedToPaperBottom ? 12 : 0,
+                                        borderBottomRightRadius: isDockedToPaperBottom ? 12 : 0,
+                                        boxShadow: "none",
                                     }}
                                 >
-                                    Total
-                                </Typography>
-                                <Typography sx={{ fontWeight: 800, color: "#0d47a1", fontSize: 18 }}>
-                                    {totalLabel}
-                                </Typography>
-                            </Box>
+                                    <Stack
+                                        direction="row"
+                                        alignItems="center"
+                                        justifyContent="space-between"
+                                        spacing={2}
+                                    >
+                                        <Box>
+                                            <Typography
+                                                sx={{
+                                                    fontSize: 12,
+                                                    letterSpacing: "0.12em",
+                                                    textTransform: "uppercase",
+                                                    color: "#0d47a1",
+                                                }}
+                                            >
+                                                Total
+                                            </Typography>
+                                            <Typography sx={{ fontWeight: 800, color: "#0d47a1", fontSize: 18 }}>
+                                                {totalLabel}
+                                            </Typography>
+                                        </Box>
 
-                            <Button
-                                variant="outlined"
-                                disabled={submitting || order.length === 0}
-                                sx={{
-                                    borderRadius: 2,
-                                    textTransform: "uppercase",
-                                    border: "2px solid #0d47a1",
-                                    color: "#ffffff",
-                                    letterSpacing: "0.14em",
-                                    fontWeight: 800,
-                                    bgcolor: "#1e5bb8",
-                                    px: 2.5,
-                                    py: 1,
-                                    whiteSpace: "nowrap",
-                                    "&:hover": { bgcolor: "#164a99" },
-                                    "&.Mui-disabled": {
-                                        bgcolor: "rgba(30, 91, 184, 0.35)",
-                                        color: "rgba(255,255,255,0.75)",
-                                        borderColor: "rgba(13, 71, 161, 0.35)",
-                                    },
-                                }}
-                                onClick={handlePay}
-                            >
-                                {submitting ? "Processing..." : `Pay ${totalLabel}`}
-                            </Button>
-                        </Stack>
-                    </Box>
-                </Paper>
+                                        <Button
+                                            variant="outlined"
+                                            disabled={submitting || order.length === 0}
+                                            sx={{
+                                                borderRadius: 2,
+                                                textTransform: "uppercase",
+                                                border: "2px solid #0d47a1",
+                                                color: "#ffffff",
+                                                letterSpacing: "0.14em",
+                                                fontWeight: 800,
+                                                bgcolor: "#1e5bb8",
+                                                px: 2.5,
+                                                py: 1,
+                                                whiteSpace: "nowrap",
+                                                "&:hover": { bgcolor: "#164a99" },
+                                                "&.Mui-disabled": {
+                                                    bgcolor: "rgba(30, 91, 184, 0.35)",
+                                                    color: "rgba(255,255,255,0.75)",
+                                                    borderColor: "rgba(13, 71, 161, 0.35)",
+                                                },
+                                            }}
+                                            onClick={handlePay}
+                                        >
+                                            {submitting ? "Processing..." : `Pay ${totalLabel}`}
+                                        </Button>
+                                    </Stack>
+                                </Box>
+                            </>
+                        )}
+                    </Paper>
+                </Box>
+
+                <Footer />
             </Box>
-
-            <Footer fixed={false} />
-        </Box>
+        </>
     );
 }
