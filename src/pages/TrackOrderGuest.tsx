@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 import Footer from "../components/Footer";
 import NavbarOrders from "../components/NavbarOrders";
+import { useNavigate } from "react-router-dom";
+import { useAppAlert } from "../hooks/useAppAlert";
 
 type Sale = {
     id: number;
@@ -64,6 +66,13 @@ export default function TrackOrderGuest() {
     const [loading, setLoading] = useState(false);
 
     const [hasSearched, setHasSearched] = useState(false);
+
+    const navigate = useNavigate();
+
+    const { showAlert, AlertUI, ConfirmUI, confirmAlert } = useAppAlert({
+        vertical: "top",
+        horizontal: "center",
+    });
 
     const tfBlueLabelSx = {
         "& label": { color: "#0d47a1" },
@@ -212,20 +221,41 @@ export default function TrackOrderGuest() {
         );
     }
 
-    async function confirmReceived(id: number) {
+    async function confirmReceived(o: Sale) {
         try {
-            await axios.patch(`${API}/${id}/confirm-received`);
+            await axios.patch(`${API}/${o.id}/confirm-received`, {
+                order_code: o.order_code,
+                email: o.customer_email,
+            });
+
+            showAlert("Thanks! Marked as received.", "success");
             await fetchOrders();
         } catch (e) {
             console.error(e);
-            alert("Failed to confirm receipt");
+            showAlert("Failed to confirm receipt", "error");
         }
+    }
+
+    function handleNotReceivedYet() {
+        confirmAlert({
+            title: "No problem!",
+            message:
+                "Please send us a message about your order. In the meantime, if you receive it later, you can come back here and mark it as received. We’ll get it on our end. Thanks!",
+            confirmText: "Contact us",
+            cancelText: "Close",
+            onConfirm: () => navigate("/contact-us"),
+            onCancel: () => { },
+            onDismiss: () => { },
+        });
     }
 
     const canSearch = Boolean(orderCodeFilter.trim() && emailFilter.trim());
 
     return (
         <>
+
+            {AlertUI}
+            {ConfirmUI}
             <NavbarOrders />
 
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -498,22 +528,75 @@ export default function TrackOrderGuest() {
                                                                 {statusChip(o.status)}
 
                                                                 {canConfirm && (
-                                                                    <Button
-                                                                        variant="contained"
-                                                                        onClick={() => confirmReceived(o.id)}
+                                                                    <Box
                                                                         sx={{
+                                                                            mt: 1,
+                                                                            p: 1.5,
                                                                             borderRadius: 2,
-                                                                            bgcolor: "#1e5bb8",
-                                                                            color: "#fff",
-                                                                            fontWeight: 900,
-                                                                            textTransform: "uppercase",
-                                                                            letterSpacing: "0.10em",
-                                                                            "&:hover": { bgcolor: "#164a96" },
+                                                                            border: "1px solid rgba(13, 71, 161, 0.22)",
+                                                                            bgcolor: "rgba(255,255,255,0.75)",
                                                                         }}
                                                                     >
-                                                                        Confirm received
-                                                                    </Button>
+                                                                        <Stack
+                                                                            direction={{ xs: "column", md: "row" }}
+                                                                            alignItems={{ xs: "stretch", md: "center" }}
+                                                                            justifyContent="space-between"
+                                                                            gap={1.2}
+                                                                        >
+                                                                            <Typography
+                                                                                sx={{
+                                                                                    fontWeight: 900,
+                                                                                    color: "#0d47a1",
+                                                                                    textAlign: { xs: "center", md: "left" },
+                                                                                }}
+                                                                            >
+                                                                                Did you receive your order?
+                                                                            </Typography>
+
+                                                                            <Stack
+                                                                                direction="row"
+                                                                                spacing={1}
+                                                                                justifyContent={{ xs: "center", md: "flex-end" }}
+                                                                                sx={{ flexShrink: 0 }}
+                                                                            >
+                                                                                <Button
+                                                                                    variant="contained"
+                                                                                    onClick={() => confirmReceived(o)}
+                                                                                    sx={{
+                                                                                        borderRadius: 2,
+                                                                                        bgcolor: "#1e5bb8",
+                                                                                        color: "#fff",
+                                                                                        fontWeight: 900,
+                                                                                        textTransform: "uppercase",
+                                                                                        letterSpacing: "0.10em",
+                                                                                        "&:hover": { bgcolor: "#164a96" },
+                                                                                        minWidth: 92,
+                                                                                    }}
+                                                                                >
+                                                                                    Yes
+                                                                                </Button>
+
+                                                                                <Button
+                                                                                    variant="outlined"
+                                                                                    onClick={handleNotReceivedYet}
+                                                                                    sx={{
+                                                                                        borderRadius: 2,
+                                                                                        border: "2px solid #0d47a1",
+                                                                                        color: "#0d47a1",
+                                                                                        fontWeight: 900,
+                                                                                        textTransform: "uppercase",
+                                                                                        letterSpacing: "0.10em",
+                                                                                        "&:hover": { borderColor: "#123b7a", color: "#123b7a" },
+                                                                                        minWidth: 92,
+                                                                                    }}
+                                                                                >
+                                                                                    No
+                                                                                </Button>
+                                                                            </Stack>
+                                                                        </Stack>
+                                                                    </Box>
                                                                 )}
+
                                                             </Stack>
                                                         </Stack>
 
