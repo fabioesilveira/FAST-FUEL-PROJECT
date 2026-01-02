@@ -10,10 +10,11 @@ import Sides from "./pages/Sides";
 import Checkout from "./pages/Checkout";
 import DeleteAccount from "./pages/DeleteAccount";
 import ContactUs from "./pages/ContactUs";
-import Orders from "./pages/Orders";
 import AdminMessages from "./pages/admin/AdminMessages";
 import AdminOrders from "./pages/admin/AdminOrders";
-
+import OrdersLogged from "./pages/OrdersLogged";
+import TrackOrderGuest from "./pages/TrackOrderGuest";
+import OrdersPage from "./pages/OrdersPage";
 
 export default function App() {
   return (
@@ -28,9 +29,11 @@ export default function App() {
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/deleteaccount" element={<DeleteAccount />} />
       <Route path="/contact-us" element={<ContactUs />} />
-      <Route path="/orders" element={<Orders />} />
       <Route path="/admin/messages" element={<AdminMessages />} />
       <Route path="/admin/orders" element={<AdminOrders />} />
+      <Route path="/orders" element={<OrdersPage />} />
+      <Route path="/OrdersLogged" element={<OrdersLogged />} />
+      <Route path="/TrackOrderGuest" element={<TrackOrderGuest />} />
     </Routes>
   )
 }

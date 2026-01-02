@@ -29,7 +29,7 @@ type DropdownItem = {
 
 const dropdownItems: DropdownItem[] = [
   { label: "Signin / Signup", icon: AccountCircleIcon, path: "/sign-in" },
-  { label: "My Orders", icon: HistoryIcon, path: "/history" },
+  { label: "My Orders", icon: HistoryIcon, path: "/orders" },
   { label: "Contact Us", icon: EmailIcon, path: "/contact-us" },
   {
     label: "Delete Account",
@@ -159,7 +159,7 @@ function Navbar({ onSearch }: NavbarProps) {
         {
           label: "My Orders",
           icon: HistoryIcon,
-          path: "/history",
+          path: "/orders",
         },
         {
           label: "Contact Us",
