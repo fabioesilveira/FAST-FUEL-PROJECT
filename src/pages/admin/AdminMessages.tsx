@@ -67,7 +67,7 @@ export default function AdminMessages() {
     }
 
     useEffect(() => {
-        if (activeKey === "contact") return; // disabled, but extra safety
+        if (activeKey === "contact") return; 
         fetchMessages();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [queryUrl, activeKey]);
@@ -76,12 +76,8 @@ export default function AdminMessages() {
         try {
             await axios.patch(`${API}/${id}/reply`);
 
-            // remove from current list right away
             setItems((prev) => prev.filter((m) => m.id !== id));
 
-            // OPTION A (recommended): stay in Received
-            // OPTION B: jump to Answered automatically:
-            // setActiveKey("answered");
         } catch (e) {
             console.error(e);
             alert("Failed to mark as answered");
@@ -99,7 +95,6 @@ export default function AdminMessages() {
                     flexDirection: "column",
                 }}
             >
-                {/* MAIN (entre navbar e footer) */}
                 <Box
                     component="main"
                     sx={{
@@ -107,11 +102,7 @@ export default function AdminMessages() {
                         display: "flex",
                         justifyContent: "center",
                         px: 2,
-
-                        // espaço pro AppBar fixo + respiro
                         pt: { xs: "110px", md: "120px" },
-
-                        // respiro antes do footer
                         pb: 4,
                     }}
                 >
@@ -125,7 +116,6 @@ export default function AdminMessages() {
                             bgcolor: "background.paper",
                             p: { xs: 2.5, md: 4 },
 
-                            // ✅ altura fixa + scroll interno na lista
                             height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
                             maxHeight: 720,
 
@@ -142,6 +132,7 @@ export default function AdminMessages() {
                             align="center"
                             sx={{
                                 letterSpacing: "0.14em",
+                                fontSize: "2.3rem",
                                 textTransform: "uppercase",
                                 color: "#0d47a1",
                                 fontWeight: 800,
