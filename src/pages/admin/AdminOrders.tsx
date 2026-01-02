@@ -68,6 +68,16 @@ export default function AdminOrders() {
     const [items, setItems] = useState<Sale[]>([]);
     const [loading, setLoading] = useState(false);
 
+    const tfBlueLabelSx = {
+        "& label": { color: "#0d47a1" },
+        "& label.Mui-focused": { color: "#0d47a1" },
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": { borderColor: "#0d47a1" },
+            "&:hover fieldset": { borderColor: "#123b7a" },
+            "&.Mui-focused fieldset": { borderColor: "#0d47a1", borderWidth: 2 },
+        },
+    };
+
     // debounce pros inputs
     useEffect(() => {
         const t = setTimeout(() => {
@@ -229,11 +239,13 @@ export default function AdminOrders() {
                             variant="h4"
                             align="center"
                             sx={{
+                                fontSize: "2.3rem",
                                 letterSpacing: "0.14em",
                                 textTransform: "uppercase",
                                 color: "#0d47a1",
                                 fontWeight: 800,
                                 textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
+                                mt: { xs: 1, sm: 1, md: 0 },
                             }}
                         >
                             Orders
@@ -282,7 +294,7 @@ export default function AdminOrders() {
                                         setOrderCodeFilter(e.target.value.replace(/\D/g, ""))
                                     }
                                     inputProps={{ maxLength: 6, inputMode: "numeric" }}
-                                    sx={{ width: { xs: "100%", sm: 240 } }}
+                                    sx={[tfBlueLabelSx, { width: { xs: "100%", sm: 240 } }]}
                                 />
 
                                 <TextField
@@ -290,7 +302,7 @@ export default function AdminOrders() {
                                     label="Filter by email"
                                     value={emailFilter}
                                     onChange={(e) => setEmailFilter(e.target.value)}
-                                    sx={{ width: { xs: "100%", sm: 300 } }}
+                                    sx={[tfBlueLabelSx, { width: { xs: "100%", sm: 240 } }]}
                                 />
                             </Stack>
                         </Stack>
@@ -319,6 +331,18 @@ export default function AdminOrders() {
                                                     0
                                                 )
                                                 : 0;
+                                        const list = Array.isArray(cart) ? cart : [];
+
+                                        const lines = list.map((it: any, idx: number) => {
+                                            const rawName = String(it?.name ?? it?.product_name ?? it?.title ?? "Item");
+
+                                            return {
+                                                key: `${o.id}-${idx}`,
+                                                name: rawName.split("/")[0].trim(),
+                                                qty: Number(it?.quantity ?? it?.quantidade ?? it?.qty ?? 1),
+                                            };
+                                        });
+
 
                                         return (
                                             <Paper
@@ -409,6 +433,19 @@ export default function AdminOrders() {
                                                             ? ` (Discount: -$${Number(o.discount).toFixed(2)})`
                                                             : ""}
                                                     </Typography>
+
+                                                    {lines.length > 0 && (
+                                                        <Box sx={{ mt: 1 }}>
+                                                            {lines.map((p) => (
+                                                                <Typography
+                                                                    key={p.key}
+                                                                    sx={{ fontSize: "0.9rem", color: "#333", lineHeight: 1.35 }}
+                                                                >
+                                                                    • {p.name} <b>x{p.qty}</b>
+                                                                </Typography>
+                                                            ))}
+                                                        </Box>
+                                                    )}
                                                 </Stack>
                                             </Paper>
                                         );
