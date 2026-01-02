@@ -60,11 +60,10 @@ export default function TrackOrderGuest() {
     const [orderCodeFilter, setOrderCodeFilter] = useState("");
     const [emailFilter, setEmailFilter] = useState("");
 
-    const [debouncedOrderCode, setDebouncedOrderCode] = useState("");
-    const [debouncedEmail, setDebouncedEmail] = useState("");
-
     const [items, setItems] = useState<Sale[]>([]);
     const [loading, setLoading] = useState(false);
+
+    const [hasSearched, setHasSearched] = useState(false);
 
     const tfBlueLabelSx = {
         "& label": { color: "#0d47a1" },
@@ -76,7 +75,13 @@ export default function TrackOrderGuest() {
         },
     };
 
-    // opcional: preencher com lastOrderCode/lastOrderEmail
+    function handleReset() {
+        setEmailFilter("");
+        setOrderCodeFilter("");
+        setItems([]);
+        setHasSearched(false);
+    }
+
     useEffect(() => {
         const lastCode = localStorage.getItem("lastOrderCode") || "";
         const lastEmail = localStorage.getItem("lastOrderEmail") || "";
@@ -85,17 +90,13 @@ export default function TrackOrderGuest() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // debounce
-    useEffect(() => {
-        const t = setTimeout(() => {
-            setDebouncedOrderCode(orderCodeFilter.trim());
-            setDebouncedEmail(emailFilter.trim());
-        }, 400);
-        return () => clearTimeout(t);
-    }, [orderCodeFilter, emailFilter]);
-
     async function fetchOrders() {
-        if (!debouncedOrderCode || !debouncedEmail) {
+        const code = orderCodeFilter.trim();
+        const email = emailFilter.trim();
+
+        setHasSearched(true);
+
+        if (!code || !email) {
             setItems([]);
             return;
         }
@@ -103,8 +104,8 @@ export default function TrackOrderGuest() {
         setLoading(true);
         try {
             const params = new URLSearchParams();
-            params.set("order_code", debouncedOrderCode);
-            params.set("email", debouncedEmail);
+            params.set("order_code", code);
+            params.set("email", email);
 
             const res = await axios.get<Sale[]>(`${API}?${params.toString()}`);
 
@@ -119,11 +120,6 @@ export default function TrackOrderGuest() {
             setLoading(false);
         }
     }
-
-    useEffect(() => {
-        fetchOrders();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [debouncedOrderCode, debouncedEmail]);
 
     function statusChip(status: Sale["status"]) {
         if (status === "received") {
@@ -204,8 +200,7 @@ export default function TrackOrderGuest() {
                             letterSpacing: "0.08em",
                             textTransform: "uppercase",
                             fontWeight: 800,
-                            bgcolor:
-                                i <= idx ? "rgba(13, 71, 161, 0.10)" : "rgba(0,0,0,0.06)",
+                            bgcolor: i <= idx ? "rgba(13, 71, 161, 0.10)" : "rgba(0,0,0,0.06)",
                             color: i <= idx ? "#0d47a1" : "rgba(0,0,0,0.45)",
                             border: "1px solid",
                             borderColor:
@@ -226,6 +221,8 @@ export default function TrackOrderGuest() {
             alert("Failed to confirm receipt");
         }
     }
+
+    const canSearch = Boolean(orderCodeFilter.trim() && emailFilter.trim());
 
     return (
         <>
@@ -252,10 +249,8 @@ export default function TrackOrderGuest() {
                             border: "1.5px solid rgba(230, 81, 0, 0.35)",
                             bgcolor: "background.paper",
                             p: { xs: 2.5, md: 4 },
-
                             height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
                             maxHeight: 720,
-
                             boxShadow:
                                 "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
                             display: "flex",
@@ -304,49 +299,97 @@ export default function TrackOrderGuest() {
                             >
                                 <TextField
                                     size="small"
-                                    label="Email"
+                                    label="Email*"
                                     value={emailFilter}
-                                    onChange={(e) => setEmailFilter(e.target.value)}
+                                    onChange={(e) => {
+                                        setEmailFilter(e.target.value);
+                                        setHasSearched(false);
+                                        setItems([]);
+                                    }}
                                     sx={[tfBlueLabelSx, { width: { xs: "100%", sm: 260 } }]}
                                 />
 
                                 <TextField
                                     size="small"
-                                    label="Order Number"
+                                    label="Order Number*"
                                     value={orderCodeFilter}
-                                    onChange={(e) =>
-                                        setOrderCodeFilter(e.target.value.replace(/\D/g, ""))
-                                    }
+                                    onChange={(e) => {
+                                        setOrderCodeFilter(e.target.value.replace(/\D/g, ""));
+                                        setHasSearched(false);
+                                        setItems([]);
+                                    }}
                                     inputProps={{ maxLength: 6, inputMode: "numeric" }}
                                     sx={[tfBlueLabelSx, { width: { xs: "100%", sm: 200 } }]}
                                 />
+
+                                <Button
+                                    variant="contained"
+                                    disabled={!canSearch || loading}
+                                    onClick={fetchOrders}
+                                    sx={{
+                                        borderRadius: 2,
+                                        bgcolor: "#1e5bb8",
+                                        color: "#fff",
+                                        fontWeight: 900,
+                                        textTransform: "uppercase",
+                                        letterSpacing: "0.10em",
+                                        height: 40,
+                                        px: 3,
+                                        "&:hover": { bgcolor: "#164a96" },
+                                        alignSelf: { xs: "stretch", sm: "center" },
+                                    }}
+                                >
+                                    Search
+                                </Button>
+
+                                <Button
+                                    variant="outlined"
+                                    onClick={handleReset}
+                                    disabled={loading}
+                                    sx={{
+                                        display: { xs: "none", sm: "inline-flex" },
+                                        borderRadius: 2,
+                                        borderColor: "rgba(0,0,0,0.35)",
+                                        color: "rgba(0,0,0,0.70)",
+                                        fontWeight: 900,
+                                        textTransform: "uppercase",
+                                        letterSpacing: "0.10em",
+                                        height: 40,
+                                        px: 3,
+                                        "&:hover": {
+                                            borderColor: "rgba(0,0,0,0.55)",
+                                            bgcolor: "rgba(0,0,0,0.04)",
+                                        },
+                                        alignSelf: { xs: "stretch", sm: "center" },
+                                    }}
+                                >
+                                    Reset
+                                </Button>
                             </Stack>
                         </Box>
 
-                        <Divider
-                            sx={{
-                                borderColor: "rgba(0, 0, 0, 0.26)",
-                            }}
-                        />
+                        <Divider sx={{ borderColor: "rgba(0, 0, 0, 0.26)" }} />
 
+                        {/* CONTENT AREA */}
                         <Box
                             sx={{
                                 flex: 1,
                                 pr: 0.5,
                                 display: "flex",
                                 flexDirection: "column",
-                                minHeight: 0, // scroll
+                                minHeight: 0,
                             }}
                         >
-                            {!debouncedOrderCode || !debouncedEmail ? (
+                            {!hasSearched ? (
                                 <Box
                                     sx={{
                                         flex: 1,
                                         display: "flex",
-                                        alignItems: "center", 
-                                        justifyContent: "center", 
+                                        alignItems: "center",
+                                        justifyContent: "center",
                                         px: 3,
                                         textAlign: "center",
+                                        pb: { xs: 6, md: 10 },
                                     }}
                                 >
                                     <Typography
@@ -355,9 +398,7 @@ export default function TrackOrderGuest() {
                                             color: "text.secondary",
                                             fontSize: "0.95rem",
                                             lineHeight: 1.65,
-                                            transform: "translateY(-60px)",
                                             textAlign: "center",
-
                                             whiteSpace: { xs: "normal", sm: "nowrap" },
                                         }}
                                     >
@@ -382,15 +423,21 @@ export default function TrackOrderGuest() {
                                     sx={{
                                         flex: 1,
                                         display: "flex",
+                                        flexDirection: "column",
                                         alignItems: "center",
                                         justifyContent: "center",
                                         textAlign: "center",
                                         px: 3,
-
+                                        gap: 2,
+                                        pb: { xs: 6, md: 10 },
                                     }}
                                 >
                                     <Typography sx={{ color: "text.secondary" }}>
-                                        No orders found for this code + email.
+                                        No orders were found for this email and order number.
+                                    </Typography>
+
+                                    <Typography sx={{ color: "text.secondary" }}>
+                                        Please make sure the information is correct and try again.
                                     </Typography>
                                 </Box>
                             ) : (
@@ -407,13 +454,12 @@ export default function TrackOrderGuest() {
                                                 return {
                                                     key: `${o.id}-${idx}`,
                                                     name: cleanProductName(rawName),
-                                                    qty: Number(
-                                                        it?.quantity ?? it?.quantidade ?? it?.qty ?? 1
-                                                    ),
+                                                    qty: Number(it?.quantity ?? it?.quantidade ?? it?.qty ?? 1),
                                                 };
                                             });
 
-                                            const canConfirm = o.status === "sent" && !o.received_confirmed_at;
+                                            const canConfirm =
+                                                o.status === "sent" && !o.received_confirmed_at;
 
                                             return (
                                                 <Paper

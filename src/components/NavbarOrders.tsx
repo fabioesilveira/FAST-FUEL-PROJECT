@@ -34,6 +34,7 @@ export default function NavbarOrders() {
                                 alt="Fast Fuel Logo"
                                 sx={{
                                     height: { xs: 72, md: 76 },
+                                    mt: { xs: 0, sm: 0.2, md: 0.2 },
                                     width: "auto",
                                     objectFit: "contain",
                                     transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" },

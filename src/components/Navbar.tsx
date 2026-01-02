@@ -308,7 +308,7 @@ function Navbar({ onSearch }: NavbarProps) {
               >
                 <ShoppingCartIcon
                   sx={{
-                    fontSize: { xs: 28, md: 32 },
+                    fontSize: { xs: 28, md: 31 },
                     color: "#ffe0c7",
                   }}
                 />
@@ -325,7 +325,7 @@ function Navbar({ onSearch }: NavbarProps) {
                 variant="contained"
                 onClick={() => setShown((prev) => !prev)}
                 sx={{
-                  width: { xs: 60, md: 73 },
+                  width: { xs: 58, md: 71 },
                   height: { xs: 42, md: 42 },
                   minWidth: "unset",
                   borderRadius: 2,
@@ -336,7 +336,7 @@ function Navbar({ onSearch }: NavbarProps) {
               >
                 <ManageAccountsIcon
                   sx={{
-                    fontSize: { xs: 30, md: 36 },
+                    fontSize: { xs: 30, md: 34.5 },
                     color: "#ffe0c7",
                   }}
                 />
