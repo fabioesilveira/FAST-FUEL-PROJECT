@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
     Box,
     Paper,
@@ -41,6 +41,10 @@ export default function Checkout() {
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext();
 
+    const paperRef = useRef<HTMLDivElement | null>(null);
+    const stickyRef = useRef<HTMLDivElement | null>(null);
+    const [isDockedToPaperBottom, setIsDockedToPaperBottom] = useState(false);
+
     // logged user (fallback completo)
     const loggedUser: LoggedUser | null = useMemo(() => {
         // 1) nova chave principal
@@ -73,6 +77,28 @@ export default function Checkout() {
         }
 
         return null;
+    }, []);
+
+    useEffect(() => {
+        function checkDocked() {
+            if (!paperRef.current || !stickyRef.current) return;
+
+            const paperRect = paperRef.current.getBoundingClientRect();
+            const barRect = stickyRef.current.getBoundingClientRect();
+
+            // quando o bottom da bar estiver praticamente igual ao bottom do paper => "dockado"
+            const docked = Math.abs(barRect.bottom - paperRect.bottom) <= 2;
+            setIsDockedToPaperBottom(docked);
+        }
+
+        checkDocked();
+        window.addEventListener("scroll", checkDocked, { passive: true });
+        window.addEventListener("resize", checkDocked);
+
+        return () => {
+            window.removeEventListener("scroll", checkDocked);
+            window.removeEventListener("resize", checkDocked);
+        };
     }, []);
 
     const isLogged = Number.isFinite(Number(loggedUser?.id)) && Number(loggedUser?.id) > 0;
@@ -257,6 +283,10 @@ export default function Checkout() {
         }
     }
 
+    function cleanProductName(name: string) {
+        return String(name || "").split("/")[0].trim();
+    }
+
     return (
         <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
             <NavbarCheckout />
@@ -297,6 +327,7 @@ export default function Checkout() {
             >
                 <Paper
                     elevation={0}
+                    ref={paperRef}
                     sx={{
                         width: "100%",
                         maxWidth: 540,
@@ -325,6 +356,7 @@ export default function Checkout() {
                             sx={{
                                 mb: 2.5,
                                 mt: 1,
+                                fontSize: "2.3rem",
                                 letterSpacing: "0.12em",
                                 textTransform: "uppercase",
                                 color: "#0d47a1",
@@ -337,11 +369,12 @@ export default function Checkout() {
 
                         {/* Order summary */}
                         <Box sx={{ mb: 3 }}>
+
                             <Chip
                                 label="Order Summary"
                                 size="small"
                                 sx={{
-                                    mb: 1.5,
+                                    mb: 3,
                                     fontSize: "0.7rem",
                                     letterSpacing: "0.1em",
                                     textTransform: "uppercase",
@@ -349,6 +382,7 @@ export default function Checkout() {
                                     color: "#fff",
                                 }}
                             />
+
 
                             {order.length === 0 ? (
                                 <Typography sx={{ fontWeight: 700, color: "text.secondary" }}>
@@ -388,7 +422,7 @@ export default function Checkout() {
                                                 />
                                                 <Box sx={{ flex: 1 }}>
                                                     <Typography sx={{ fontWeight: 800, color: "#0d47a1" }}>
-                                                        {it.name}
+                                                        {cleanProductName(it.name)}
                                                     </Typography>
                                                     <Typography sx={{ fontSize: "0.85rem", color: "text.secondary" }}>
                                                         Qty: <b>{qty}</b> • ${Number(it.price).toFixed(2)}
@@ -472,7 +506,7 @@ export default function Checkout() {
                             {!isLogged && (
                                 <Typography
                                     align="center"
-                                    sx={{ mt: 0.9, fontSize: "0.75rem", color: "text.secondary" }}
+                                    sx={{ mt: 1.4, fontSize: "0.75rem", color: "text.secondary" }}
                                 >
                                     Guest checkout: keep your <b>Order Code</b> to track your order later.
                                 </Typography>
@@ -700,16 +734,24 @@ export default function Checkout() {
 
                     {/* STICKY TOTAL BAR */}
                     <Box
+                        ref={stickyRef}
                         sx={{
                             position: "sticky",
                             bottom: 0,
                             px: { xs: 2, sm: 3 },
                             py: 1.5,
-                            backgroundColor: "#ffe0c7",
-                            borderTop: "2px solid rgba(13, 71, 161, 0.25)",
                             zIndex: 10,
-                            borderBottomLeftRadius: 12,
-                            borderBottomRightRadius: 12,
+
+                            backgroundColor: "#ffe0c7",
+
+                            borderTop: isDockedToPaperBottom
+                                ? "2px solid rgba(13, 71, 161, 0.25)"
+                                : "none",
+
+                            borderBottomLeftRadius: isDockedToPaperBottom ? 12 : 0,
+                            borderBottomRightRadius: isDockedToPaperBottom ? 12 : 0,
+
+                            boxShadow: "none",
                         }}
                     >
                         <Stack

@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom";
 
 import Logo from "../assets/fast-fuel.png";
 import { useAppAlert } from "../hooks/useAppAlert";
+import { useAppContext } from "../context/context";
 
 export default function NavbarCheckout() {
     const navigate = useNavigate();
+    const { order } = useAppContext(); 
 
     const { confirmAlert, AlertUI, ConfirmUI } = useAppAlert({
         vertical: "top",
@@ -17,6 +19,12 @@ export default function NavbarCheckout() {
     });
 
     function handleExitCheckout() {
+       
+        if (!order || order.length === 0) {
+            navigate("/");
+            return;
+        }
+
         confirmAlert({
             title: "Almost there!",
             message:
@@ -24,8 +32,8 @@ export default function NavbarCheckout() {
             confirmText: "Yes, exit",
             cancelText: "No, stay",
             onConfirm: () => navigate("/"),
-            onCancel: () => { },     // ficar na página
-            onDismiss: () => { },    // clique fora 
+            onCancel: () => {},
+            onDismiss: () => {},
         });
     }
 
@@ -38,8 +46,6 @@ export default function NavbarCheckout() {
                 <Box sx={{ width: "100%" }}>
                     <Toolbar disableGutters sx={{ minHeight: 80, px: { xs: 1, md: 2 } }}>
                         <Box
-                            component="a"
-                            href="#"
                             sx={{
                                 display: "flex",
                                 alignItems: "center",
@@ -52,7 +58,6 @@ export default function NavbarCheckout() {
                                 alt="Fast Fuel Logo"
                                 sx={{
                                     height: { xs: 72, md: 76 },
-                                    mt: { xs: 0, sm: 0.2, md: 0.2 },
                                     width: "auto",
                                     objectFit: "contain",
                                     transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" },
@@ -78,7 +83,7 @@ export default function NavbarCheckout() {
                                 boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
                                 "&:hover": { backgroundColor: "#b33f00" },
                                 px: { xs: 1.7, md: 2.2 },
-                                mr: 1
+                                mr: 1,
                             }}
                         >
                             Exit Checkout
