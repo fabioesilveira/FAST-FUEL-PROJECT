@@ -507,13 +507,14 @@ export default function TrackOrderGuest() {
                                                     }}
                                                 >
                                                     <Stack spacing={1}>
+                                                        {/* TOPO: Order + nome/email + chip desktop */}
                                                         <Stack
                                                             direction={{ xs: "column", sm: "row" }}
                                                             justifyContent="space-between"
                                                             alignItems={{ xs: "flex-start", sm: "center" }}
                                                             gap={1}
                                                         >
-                                                            <Box>
+                                                            <Box sx={{ ml: { xs: 0.2 } }}>
                                                                 <Typography sx={{ fontWeight: 900, color: "#e65100" }}>
                                                                     Order {o.order_code}
                                                                 </Typography>
@@ -524,81 +525,99 @@ export default function TrackOrderGuest() {
                                                                 </Typography>
                                                             </Box>
 
-                                                            <Stack direction="row" spacing={1} alignItems="center">
+                                                            <Box sx={{ display: { xs: "none", sm: "block" } }}>
                                                                 {statusChip(o.status)}
+                                                            </Box>
+                                                        </Stack>
 
-                                                                {canConfirm && (
-                                                                    <Box
+                                                        {canConfirm && (
+                                                            <Box
+                                                                sx={{
+                                                                    mt: { xs: 0.6, sm: 0.8 }, 
+                                                                    width: { xs: "100%", md: "auto" },
+                                                                    maxWidth: 370,
+                                                                    p: 1.6,
+                                                                    borderRadius: 2,
+                                                                    border: "1px solid rgba(13, 71, 161, 0.22)",
+                                                                    bgcolor: "rgba(255,255,255,0.75)",
+                                                                }}
+                                                            >
+                                                                <Stack
+                                                                    direction={{ xs: "column", md: "row" }}
+                                                                    alignItems={{ xs: "stretch", md: "center" }}
+                                                                    justifyContent="space-between"
+                                                                    gap={1.2}
+                                                                >
+                                                                    <Typography
                                                                         sx={{
-                                                                            mt: 1,
-                                                                            p: 1.5,
-                                                                            borderRadius: 2,
-                                                                            border: "1px solid rgba(13, 71, 161, 0.22)",
-                                                                            bgcolor: "rgba(255,255,255,0.75)",
+                                                                            fontWeight: 900,
+                                                                            color: "#0d47a1",
+                                                                            fontSize: { xs: "0.88rem", md: "0.97rem" },
+                                                                            lineHeight: 1.2,
+                                                                            textAlign: { xs: "center", md: "left" },
                                                                         }}
                                                                     >
-                                                                        <Stack
-                                                                            direction={{ xs: "column", md: "row" }}
-                                                                            alignItems={{ xs: "stretch", md: "center" }}
-                                                                            justifyContent="space-between"
-                                                                            gap={1.2}
+                                                                        Did you receive your order?
+                                                                    </Typography>
+
+                                                                    <Stack
+                                                                        direction="row"
+                                                                        spacing={1}
+                                                                        justifyContent={{ xs: "center", md: "flex-end" }}
+                                                                        sx={{ flexShrink: 0 }}
+                                                                    >
+                                                                        <Button
+                                                                            variant="contained"
+                                                                            size="small"
+                                                                            onClick={() => confirmReceived(o)}
+                                                                            sx={{
+                                                                                borderRadius: 2,
+                                                                                bgcolor: "#1e5bb8",
+                                                                                color: "#fff",
+                                                                                fontWeight: 900,
+                                                                                textTransform: "uppercase",
+                                                                                letterSpacing: "0.08em",
+                                                                                fontSize: { xs: "0.65rem", md: "0.7rem" },
+                                                                                px: { xs: 1.4, md: 1.6 },
+                                                                                minWidth: 64, 
+                                                                                height: 28,                   
+
+                                                                                "&:hover": { bgcolor: "#164a96" },
+                                                                            }}
                                                                         >
-                                                                            <Typography
-                                                                                sx={{
-                                                                                    fontWeight: 900,
-                                                                                    color: "#0d47a1",
-                                                                                    textAlign: { xs: "center", md: "left" },
-                                                                                }}
-                                                                            >
-                                                                                Did you receive your order?
-                                                                            </Typography>
+                                                                            Yes
+                                                                        </Button>
 
-                                                                            <Stack
-                                                                                direction="row"
-                                                                                spacing={1}
-                                                                                justifyContent={{ xs: "center", md: "flex-end" }}
-                                                                                sx={{ flexShrink: 0 }}
-                                                                            >
-                                                                                <Button
-                                                                                    variant="contained"
-                                                                                    onClick={() => confirmReceived(o)}
-                                                                                    sx={{
-                                                                                        borderRadius: 2,
-                                                                                        bgcolor: "#1e5bb8",
-                                                                                        color: "#fff",
-                                                                                        fontWeight: 900,
-                                                                                        textTransform: "uppercase",
-                                                                                        letterSpacing: "0.10em",
-                                                                                        "&:hover": { bgcolor: "#164a96" },
-                                                                                        minWidth: 92,
-                                                                                    }}
-                                                                                >
-                                                                                    Yes
-                                                                                </Button>
+                                                                        <Button
+                                                                            variant="outlined"
+                                                                            size="small"
+                                                                            onClick={handleNotReceivedYet}
+                                                                            sx={{
+                                                                                borderRadius: 2,
+                                                                                border: "1.5px solid #0d47a1",
+                                                                                color: "#0d47a1",
+                                                                                fontWeight: 900,
+                                                                                textTransform: "uppercase",
+                                                                                letterSpacing: "0.08em",
 
-                                                                                <Button
-                                                                                    variant="outlined"
-                                                                                    onClick={handleNotReceivedYet}
-                                                                                    sx={{
-                                                                                        borderRadius: 2,
-                                                                                        border: "2px solid #0d47a1",
-                                                                                        color: "#0d47a1",
-                                                                                        fontWeight: 900,
-                                                                                        textTransform: "uppercase",
-                                                                                        letterSpacing: "0.10em",
-                                                                                        "&:hover": { borderColor: "#123b7a", color: "#123b7a" },
-                                                                                        minWidth: 92,
-                                                                                    }}
-                                                                                >
-                                                                                    No
-                                                                                </Button>
-                                                                            </Stack>
-                                                                        </Stack>
-                                                                    </Box>
-                                                                )}
+                                                                                fontSize: { xs: "0.65rem", md: "0.7rem" },
+                                                                                px: { xs: 1.4, md: 1.6 },
+                                                                                minWidth: 64,
+                                                                                height: 28,
 
-                                                            </Stack>
-                                                        </Stack>
+                                                                                "&:hover": {
+                                                                                    borderColor: "#123b7a",
+                                                                                    color: "#123b7a",
+                                                                                },
+                                                                            }}
+                                                                        >
+                                                                            No
+                                                                        </Button>
+
+                                                                    </Stack>
+                                                                </Stack>
+                                                            </Box>
+                                                        )}
 
                                                         {progressLabel(o.status)}
 
@@ -606,16 +625,12 @@ export default function TrackOrderGuest() {
                                                             Created: {formatDate(o.created_at)}
                                                             {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
                                                             {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
-                                                            {o.received_confirmed_at
-                                                                ? ` • Received: ${formatDate(o.received_confirmed_at)}`
-                                                                : ""}
+                                                            {o.received_confirmed_at ? ` • Received: ${formatDate(o.received_confirmed_at)}` : ""}
                                                         </Typography>
 
                                                         <Typography sx={{ fontWeight: 900, color: "#333" }}>
                                                             Total: ${Number(o.total).toFixed(2)}
-                                                            {Number(o.discount) > 0
-                                                                ? ` (Discount: -$${Number(o.discount).toFixed(2)})`
-                                                                : ""}
+                                                            {Number(o.discount) > 0 ? ` (Discount: -$${Number(o.discount).toFixed(2)})` : ""}
                                                         </Typography>
 
                                                         {lines.length > 0 && (
@@ -623,11 +638,7 @@ export default function TrackOrderGuest() {
                                                                 {lines.map((p) => (
                                                                     <Typography
                                                                         key={p.key}
-                                                                        sx={{
-                                                                            fontSize: "0.9rem",
-                                                                            color: "#333",
-                                                                            lineHeight: 1.35,
-                                                                        }}
+                                                                        sx={{ fontSize: "0.9rem", color: "#333", lineHeight: 1.35 }}
                                                                     >
                                                                         • {p.name} <b>x{p.qty}</b>
                                                                     </Typography>
@@ -636,6 +647,7 @@ export default function TrackOrderGuest() {
                                                         )}
                                                     </Stack>
                                                 </Paper>
+
                                             );
                                         })}
                                     </Stack>
