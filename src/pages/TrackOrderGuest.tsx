@@ -251,6 +251,19 @@ export default function TrackOrderGuest() {
 
     const canSearch = Boolean(orderCodeFilter.trim() && emailFilter.trim());
 
+    useEffect(() => {
+        if (!hasSearched) return;
+        if (!canSearch) return;
+
+        const id = setInterval(() => {
+            fetchOrders();
+        }, 8000); // 8s (ajusta como quiser)
+
+        return () => clearInterval(id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [hasSearched, canSearch]);
+
+
     return (
         <>
 
@@ -533,7 +546,7 @@ export default function TrackOrderGuest() {
                                                         {canConfirm && (
                                                             <Box
                                                                 sx={{
-                                                                    mt: { xs: 0.6, sm: 0.8 }, 
+                                                                    mt: { xs: 0.6, sm: 0.8 },
                                                                     width: { xs: "100%", md: "auto" },
                                                                     maxWidth: 370,
                                                                     p: 1.6,
@@ -579,8 +592,8 @@ export default function TrackOrderGuest() {
                                                                                 letterSpacing: "0.08em",
                                                                                 fontSize: { xs: "0.65rem", md: "0.7rem" },
                                                                                 px: { xs: 1.4, md: 1.6 },
-                                                                                minWidth: 64, 
-                                                                                height: 28,                   
+                                                                                minWidth: 64,
+                                                                                height: 28,
 
                                                                                 "&:hover": { bgcolor: "#164a96" },
                                                                             }}

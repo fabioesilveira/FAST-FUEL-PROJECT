@@ -331,6 +331,18 @@ export default function OrdersLogged() {
         );
     }
 
+    useEffect(() => {
+        if (!isLogged) return;
+
+        const id = setInterval(() => {
+            fetchUserOrders();
+        }, 5000);
+
+        return () => clearInterval(id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLogged, activeKey, debouncedOrderCode]);
+
+
     return (
         <>
             {AlertUI}
