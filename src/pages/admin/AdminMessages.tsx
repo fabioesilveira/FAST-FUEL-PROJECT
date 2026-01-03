@@ -67,7 +67,7 @@ export default function AdminMessages() {
     }
 
     useEffect(() => {
-        if (activeKey === "contact") return; 
+        if (activeKey === "contact") return;
         fetchMessages();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [queryUrl, activeKey]);
@@ -83,6 +83,19 @@ export default function AdminMessages() {
             alert("Failed to mark as answered");
         }
     }
+
+    useEffect(() => {
+        if (activeKey === "contact") return;
+
+        fetchMessages(); 
+
+        const interval = setInterval(() => {
+            fetchMessages();
+        }, 8000); 
+
+        return () => clearInterval(interval);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [queryUrl, activeKey]);
 
     return (
         <>

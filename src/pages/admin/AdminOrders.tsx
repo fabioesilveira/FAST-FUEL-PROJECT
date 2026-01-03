@@ -130,10 +130,20 @@ export default function AdminOrders() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeKey, debouncedOrderCode, debouncedEmail]);
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+
+            if (!loading) fetchOrders();
+        }, 8000); // 
+
+        return () => clearInterval(interval);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeKey, debouncedOrderCode, debouncedEmail, loading]);
+
     async function updateStatus(id: number, status: "in_progress" | "sent") {
         try {
             await axios.patch(`${API}/${id}/status`, { status });
-            await fetchOrders(); // recarrega (melhor que só remover)
+            await fetchOrders();
         } catch (e) {
             console.error(e);
             alert("Failed to update order status");
