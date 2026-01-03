@@ -27,7 +27,7 @@ export default function PromoBannerCarousel({
                 borderLeft: "1px solid rgba(13, 71, 161, 0.18)",
                 borderTop: "1px solid rgba(13, 71, 161, 0.18)",
                 borderBottom: "1px solid rgba(13, 71, 161, 0.18)",
-                borderRadius: "8px",
+                borderRadius: { xs: 0, md: "8px" },
                 mt: { xs: 0.8, md: 0.5 }, // 👈 distância do Navbar
                 mb: -0.5
             }}

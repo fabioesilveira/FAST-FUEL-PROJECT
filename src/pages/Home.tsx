@@ -479,7 +479,7 @@ export default function Home() {
             {/* MOBILE FULL WIDTH: banner + carousel fora do Container */}
             {isMobile && (
                 <>
-                    <Box sx={{ px: 0, mt: 1 }}>
+                    <Box sx={{ px: 0, mt: "92px" }}>
                         <PromoBannerCarousel />
                     </Box>
 
@@ -527,6 +527,7 @@ export default function Home() {
                         ))}
                     </Box>
                 )}
+                
 
                 {shouldShowCarousel && !isMobile && (
                     <div
@@ -596,13 +597,13 @@ export default function Home() {
                                     variant="contained"
                                     onClick={handleClearCart}
                                     sx={{
-                                        minWidth: { xs: 30, sm: 45 },   //deixa mexer no tamanho dos botoes
+                                        minWidth: { xs: 30, sm: 45 },   
                                         width: { xs: 45, sm: 45, md: 57 },
                                         height: { xs: 30, md: 35 },
                                         borderRadius: 2,
                                         backgroundColor: "#e65100",
                                         "&:hover": { backgroundColor: "#b33f00" },
-                                        p: 0, // remove padding extra
+                                        p: 0, 
                                     }}
                                 >
                                     <DeleteForeverIcon
