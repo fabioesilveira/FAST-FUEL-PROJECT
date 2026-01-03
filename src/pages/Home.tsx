@@ -476,11 +476,35 @@ export default function Home() {
                 }}
             />}
 
+            {/* MOBILE FULL WIDTH: banner + carousel fora do Container */}
+            {isMobile && (
+                <>
+                    <Box sx={{ px: 0, mt: 1 }}>
+                        <PromoBannerCarousel />
+                    </Box>
+
+                    {shouldShowCarousel && (
+                        <Box sx={{ px: 0, mt: 1.2 }}>
+                            <MobileStackCarousel
+                                slides={mobileSlides}
+                                height={255}
+                                gap={14}
+                                interval={4200}
+                                animationMs={780}
+                            />
+                        </Box>
+                    )}
+                </>
+            )}
+
             <Container className="margin-top" fixed sx={{ flexGrow: 2 }}>
 
-                <Box sx={{ mb: { xs: 1.2, md: 2 }, mt: { xs: -1, md: -1.5 } }}>
-                    <PromoBannerCarousel />
-                </Box>
+                {/* DESKTOP: banner dentro do Container */}
+                {!isMobile && (
+                    <Box sx={{ mb: 2, mt: -1.5 }}>
+                        <PromoBannerCarousel />
+                    </Box>
+                )}
 
 
                 {search.trim() && (
@@ -504,49 +528,36 @@ export default function Home() {
                     </Box>
                 )}
 
-                {shouldShowCarousel && (
-                    <>
-                        {!isMobile ? (
-                            // DESKTOP → carousel normal
-                            <div
-                                className="div-carousel"
-                                style={{
-                                    width: "100%",
-                                    maxWidth: "1200px",
-                                    margin: "0 auto",
-                                    borderRadius: "16px",
-                                    overflow: "hidden",
-                                    boxShadow: "0 8px 24px rgba(230, 81, 0, 0.25)",
-                                    aspectRatio: "16 / 9.7",
-                                }}
-                            >
-                                <Carousel indicators={false} style={{ height: "100%" }}>
-                                    <Carousel.Item>
-                                        <img src={Chat} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                                    </Carousel.Item>
-                                    <Carousel.Item>
-                                        <img src={Chat6} style={{ width: "100%", height: "100%", objectFit: "contain", background: "#fff3e0" }} />
-                                    </Carousel.Item>
-                                    <Carousel.Item>
-                                        <img src={Chat5} style={{ width: "100%", height: "100%", objectFit: "contain", background: "#fff3e0" }} />
-                                    </Carousel.Item>
-                                    <Carousel.Item>
-                                        <img src={Chat4} style={{ width: "100%", height: "100%", objectFit: "contain", background: "#fff3e0" }} />
-                                    </Carousel.Item>
-                                </Carousel>
-                            </div>
-                        ) : (
-                            // MOBILE → stacked carousel
-                            <MobileStackCarousel
-                                slides={mobileSlides}
-                                height={255}
-                                gap={14}
-                                interval={4200}
-                                animationMs={780}
-                            />
-                        )}
-                    </>
+                {shouldShowCarousel && !isMobile && (
+                    <div
+                        className="div-carousel"
+                        style={{
+                            width: "100%",
+                            maxWidth: "1200px",
+                            margin: "0 auto",
+                            borderRadius: "16px",
+                            overflow: "hidden",
+                            boxShadow: "0 8px 24px rgba(230, 81, 0, 0.25)",
+                            aspectRatio: "16 / 9.7",
+                        }}
+                    >
+                        <Carousel indicators={false} style={{ height: "100%" }}>
+                            <Carousel.Item>
+                                <img src={Chat} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img src={Chat6} style={{ width: "100%", height: "100%", objectFit: "contain", background: "#fff3e0" }} />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img src={Chat5} style={{ width: "100%", height: "100%", objectFit: "contain", background: "#fff3e0" }} />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img src={Chat4} style={{ width: "100%", height: "100%", objectFit: "contain", background: "#fff3e0" }} />
+                            </Carousel.Item>
+                        </Carousel>
+                    </div>
                 )}
+
 
                 {shouldShowOrderPreview && (
                     <>

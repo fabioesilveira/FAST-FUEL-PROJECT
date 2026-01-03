@@ -3,117 +3,119 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 type BannerItem = {
-  title: string;
-  subtitle?: string;
+    title: string;
+    subtitle?: string;
 };
 
 type PromoBannerCarouselProps = {
-  items?: BannerItem[];
-  interval?: number;
+    items?: BannerItem[];
+    interval?: number;
 };
 
 export default function PromoBannerCarousel({
-  items = defaultItems,
-  interval = 4200,
+    items = defaultItems,
+    interval = 4200,
 }: PromoBannerCarouselProps) {
-  return (
-    <Box
-      sx={{
-        width: "100%",
-        overflow: "hidden",
+    return (
+        <Box
+            sx={{
+                width: "100%",
+                overflow: "hidden",
 
-        // fundo laranja claro
-        backgroundColor: "#ffe0c7",
-
-        borderTop: "1px solid rgba(13, 71, 161, 0.18)",
-        borderBottom: "1px solid rgba(13, 71, 161, 0.18)",
-      }}
-    >
-      <Carousel
-        controls={false}
-        indicators={false}
-        interval={interval}
-        pause={false}
-        touch
-        fade
-      >
-        {items.map((b, idx) => (
-          <Carousel.Item key={idx}>
-            <Box
-              sx={{
-                height: { xs: 52, sm: 60, md: 70 },
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                px: { xs: 1.5, sm: 2.5, md: 4 },
-                textAlign: "center",
-
-                // fade sutil nas laterais
-                backgroundImage: `
-                  linear-gradient(
-                    to right,
-                    rgba(255,224,199,1) 0%,
-                    rgba(255,224,199,0.75) 15%,
-                    rgba(255,224,199,0.75) 85%,
-                    rgba(255,224,199,1) 100%
-                  )
-                `,
-              }}
+                background: "linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)",
+                borderRight: "1px solid rgba(13, 71, 161, 0.18)",
+                borderLeft: "1px solid rgba(13, 71, 161, 0.18)",
+                borderTop: "1px solid rgba(13, 71, 161, 0.18)",
+                borderBottom: "1px solid rgba(13, 71, 161, 0.18)",
+                borderRadius: "8px",
+                mt: { xs: 0.8, md: 0.5 }, // 👈 distância do Navbar
+                mb: -0.5
+            }}
+        >
+            <Carousel
+                controls={false}
+                indicators={false}
+                interval={interval}
+                pause={false}
+                touch
+                fade
             >
-              <Typography
-                sx={{
-                  fontFamily: "Faster One",
-                  fontSize: { xs: "18px", sm: "22px", md: "26px" },
-                  fontWeight: 400,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "#0d47a1",
+                {items.map((b, idx) => (
+                    <Carousel.Item key={idx}>
+                        <Box
+                            sx={{
+                                minHeight: { xs: 85, md: 87 },
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                textAlign: "center",
+                                px: { xs: 2, md: 4 },
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    maxWidth: 1200,
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                }}
+                            >
+                                <Typography
+                                    className="racing-sans-one-regular"
+                                    sx={{
+                                        width: "88%",
+                                        mx: "auto",
+                                        fontSize: { xs: "1.3rem", sm: "1.9rem", md: "2.5rem" },
+                                        lineHeight: 0.7,
+                                        letterSpacing: "0.08em",
+                                        textTransform: "uppercase",
+                                        color: "#0d47a1",
+                                        textShadow: `
+                      1px 1px 0 #ffe0c7,
+                      2px 2px 0 rgba(230, 81, 0, 0.35)
+                    `,
+                                    }}
+                                >
+                                    {b.title}
+                                </Typography>
 
-                  // 🔥 exatamente o mesmo shadow do Checkout
-                  textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                  lineHeight: 1.05,
-                }}
-              >
-                {b.title}
-              </Typography>
-
-              {b.subtitle && (
-                <Typography
-                  sx={{
-                    mt: 0.4,
-                    fontSize: { xs: "11px", sm: "12px", md: "13px" },
-                    fontWeight: 800,
-                    letterSpacing: "0.14em",
-                    textTransform: "uppercase",
-                  color: "#0d47a1",
-                    textShadow: "1px 1px 0 rgba(230, 81, 0, 0.18)",
-                    lineHeight: 1.1,
-                  }}
-                >
-                  {b.subtitle}
-                </Typography>
-              )}
-            </Box>
-          </Carousel.Item>
-        ))}
-      </Carousel>
-    </Box>
-  );
+                                {b.subtitle && (
+                                    <Typography
+                                        sx={{
+                                            mt: 0.8,
+                                            fontSize: { xs: "0.8rem", sm: "0.95rem", md: "1.05rem" },
+                                            fontWeight: 800,
+                                            letterSpacing: "0.12em",
+                                            textTransform: "uppercase",
+                                            color: "rgba(13, 71, 161, 0.85)",
+                                        }}
+                                    >
+                                        {b.subtitle}
+                                    </Typography>
+                                )}
+                            </Box>
+                        </Box>
+                    </Carousel.Item>
+                ))}
+            </Carousel>
+        </Box>
+    );
 }
 
 const defaultItems: BannerItem[] = [
-  { title: "Fuel Up Fast. Taste That Lasts." },
-  {
-    title: "Combo Promo",
-    subtitle: "Any sandwich + any side + any beverage • $2 off at total",
-  },
-  {
-    title: "Have your order ready?",
-    subtitle: "Try Fast Thru mode for a quick checkout",
-  },
-  {
-    title: "Treat yourself",
-    subtitle: "Try our delicious desserts today",
-  },
+    { title: "Fuel Up Fast. Taste That Lasts." },
+    {
+        title: "Combo Promo",
+        subtitle: "Any sandwich + any side + any beverage • $2 off applied at total",
+    },
+    {
+        title: "Have your order ready?",
+        subtitle: "Try Fast Thru mode for a quick checkout",
+    },
+    {
+        title: "Treat yourself today",
+        subtitle: "Try our delicious desserts",
+    },
 ];

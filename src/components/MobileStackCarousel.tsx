@@ -22,7 +22,7 @@ type Props = {
 export default function MobileStackCarousel({
   slides,
   interval = 3800,
-  height = 230,
+  height = 210,
   gap = 16,
   radius = 16,
   shadow = "0 10px 26px rgba(0,0,0,0.16)",
