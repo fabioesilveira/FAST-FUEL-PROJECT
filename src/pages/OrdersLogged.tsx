@@ -482,13 +482,14 @@ export default function OrdersLogged() {
                                                 }}
                                             >
                                                 <Stack spacing={1}>
+                                                    {/* TOPO */}
                                                     <Stack
                                                         direction={{ xs: "column", sm: "row" }}
                                                         justifyContent="space-between"
                                                         alignItems={{ xs: "flex-start", sm: "center" }}
                                                         gap={1}
                                                     >
-                                                        <Box>
+                                                        <Box sx={{ ml: { xs: 0.2 } }}>
                                                             <Typography sx={{ fontWeight: 900, color: "#e65100" }}>
                                                                 Order {o.order_code}
                                                             </Typography>
@@ -499,45 +500,19 @@ export default function OrdersLogged() {
                                                             </Typography>
                                                         </Box>
 
-                                                        <Stack direction="row" spacing={1} alignItems="center">
+                                                        <Box sx={{ display: { xs: "none", sm: "block" } }}>
                                                             {userStatusChip(o.status)}
-                                                        </Stack>
-                                                    </Stack>
-
-                                                    <Typography sx={{ color: "text.secondary", fontSize: "0.82rem" }}>
-                                                        Created: {formatDate(o.created_at)}
-                                                        {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
-                                                        {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
-                                                        {o.received_confirmed_at
-                                                            ? ` • Received: ${formatDate(o.received_confirmed_at)}`
-                                                            : ""}
-                                                    </Typography>
-
-                                                    <Typography sx={{ fontWeight: 900, color: "#333" }}>
-                                                        Total: ${Number(o.total).toFixed(2)}
-                                                        {Number(o.discount) > 0
-                                                            ? ` (Discount: -$${Number(o.discount).toFixed(2)})`
-                                                            : ""}
-                                                    </Typography>
-
-                                                    {lines.length > 0 && (
-                                                        <Box sx={{ mt: 0.5 }}>
-                                                            {lines.map((p) => (
-                                                                <Typography
-                                                                    key={p.key}
-                                                                    sx={{ fontSize: "0.9rem", color: "#333", lineHeight: 1.35 }}
-                                                                >
-                                                                    • {p.name} <b>x{p.qty}</b>
-                                                                </Typography>
-                                                            ))}
                                                         </Box>
-                                                    )}
+                                                    </Stack>
 
                                                     {showReceivedPrompt && (
                                                         <Box
                                                             sx={{
-                                                                mt: 1,
-                                                                p: 1.5,
+                                                                mt: { xs: 0.7, sm: 0.9 },
+                                                                mb: 0.8, // respiro antes do conteúdo abaixo
+                                                                width: { xs: "100%", md: "auto" },
+                                                                maxWidth: { xs: "100%", md: 370 },
+                                                                p: 1.4,
                                                                 borderRadius: 2,
                                                                 border: "1px solid rgba(13, 71, 161, 0.22)",
                                                                 bgcolor: "rgba(255,255,255,0.75)",
@@ -547,13 +522,14 @@ export default function OrdersLogged() {
                                                                 direction={{ xs: "column", md: "row" }}
                                                                 alignItems={{ xs: "stretch", md: "center" }}
                                                                 justifyContent="space-between"
-                                                                gap={1.2}
+                                                                gap={1.1}
                                                             >
                                                                 <Typography
                                                                     sx={{
                                                                         fontWeight: 900,
                                                                         color: "#0d47a1",
-                                                                        m: 0,
+                                                                        fontSize: { xs: "0.88rem", md: "0.97rem" },
+                                                                        lineHeight: 1.2,
                                                                         textAlign: { xs: "center", md: "left" },
                                                                     }}
                                                                 >
@@ -568,6 +544,7 @@ export default function OrdersLogged() {
                                                                 >
                                                                     <Button
                                                                         variant="contained"
+                                                                        size="small"
                                                                         onClick={() => confirmReceived(o)}
                                                                         sx={{
                                                                             borderRadius: 2,
@@ -575,9 +552,12 @@ export default function OrdersLogged() {
                                                                             color: "#fff",
                                                                             fontWeight: 900,
                                                                             textTransform: "uppercase",
-                                                                            letterSpacing: "0.10em",
+                                                                            letterSpacing: "0.08em",
+                                                                            fontSize: { xs: "0.65rem", md: "0.7rem" },
+                                                                            px: { xs: 1.4, md: 1.6 },
+                                                                            minWidth: 64,
+                                                                            height: 28,
                                                                             "&:hover": { bgcolor: "#164a96" },
-                                                                            minWidth: 92,
                                                                         }}
                                                                     >
                                                                         Yes
@@ -585,16 +565,20 @@ export default function OrdersLogged() {
 
                                                                     <Button
                                                                         variant="outlined"
+                                                                        size="small"
                                                                         onClick={handleNotReceivedYet}
                                                                         sx={{
                                                                             borderRadius: 2,
-                                                                            border: "2px solid #0d47a1",
+                                                                            border: "1.5px solid #0d47a1",
                                                                             color: "#0d47a1",
                                                                             fontWeight: 900,
                                                                             textTransform: "uppercase",
-                                                                            letterSpacing: "0.10em",
+                                                                            letterSpacing: "0.08em",
+                                                                            fontSize: { xs: "0.65rem", md: "0.7rem" },
+                                                                            px: { xs: 1.4, md: 1.6 },
+                                                                            minWidth: 64,
+                                                                            height: 28,
                                                                             "&:hover": { borderColor: "#123b7a", color: "#123b7a" },
-                                                                            minWidth: 92,
                                                                         }}
                                                                     >
                                                                         No
@@ -604,7 +588,34 @@ export default function OrdersLogged() {
                                                         </Box>
                                                     )}
 
+                                                    {/* INFO */}
+                                                    <Typography sx={{ color: "text.secondary", fontSize: "0.82rem" }}>
+                                                        Created: {formatDate(o.created_at)}
+                                                        {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
+                                                        {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
+                                                        {o.received_confirmed_at ? ` • Received: ${formatDate(o.received_confirmed_at)}` : ""}
+                                                    </Typography>
+
+                                                    <Typography sx={{ fontWeight: 900, color: "#333" }}>
+                                                        Total: ${Number(o.total).toFixed(2)}
+                                                        {Number(o.discount) > 0 ? ` (Discount: -$${Number(o.discount).toFixed(2)})` : ""}
+                                                    </Typography>
+
+                                                    {/* ITEMS */}
+                                                    {lines.length > 0 && (
+                                                        <Box sx={{ mt: 0.5 }}>
+                                                            {lines.map((p) => (
+                                                                <Typography
+                                                                    key={p.key}
+                                                                    sx={{ fontSize: "0.9rem", color: "#333", lineHeight: 1.35 }}
+                                                                >
+                                                                    • {p.name} <b>x{p.qty}</b>
+                                                                </Typography>
+                                                            ))}
+                                                        </Box>
+                                                    )}
                                                 </Stack>
+
                                             </Paper>
                                         );
                                     })}
