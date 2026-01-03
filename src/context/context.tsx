@@ -8,11 +8,11 @@ import {
 export type Meal = {
   id: string;
   name: string;
-  category: string;      // 'sandwiches' | 'beverages' | 'sides' | 'desserts'
+  category: string;     
   description: string;
   image: string;
   price: number;
-  quantidade: number;   // optional – only exists in cart
+  quantidade: number;   
 };
 
 

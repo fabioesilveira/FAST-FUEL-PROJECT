@@ -23,7 +23,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import ButtonBase from "@mui/material/ButtonBase";
 import MobileStackCarousel from "../components/MobileStackCarousel";
 import PromoBannerCarousel from "../components/PromoBannerCarousel";
-
+import FloatingContact from '../components/FloatingContact';
 
 
 const cleanProductName = (name: string) => name.split("/")[0].trim();
@@ -156,7 +156,6 @@ function ProductCard({ product }: { product: Meal }) {
     );
 }
 
-
 function MiniCard({
     id,
     image,
@@ -220,7 +219,6 @@ function MiniCard({
                     </Box>
                 )}
 
-                {/* CARD (exatamente seu estilo) */}
                 <Box
                     sx={{
                         width: "100%",
@@ -304,10 +302,12 @@ function MiniCard({
     );
 }
 
+//Inicio do componente HOME
+
 export default function Home() {
+
     const [search, setSearch] = useState("");
     const [checkout, setCheckout] = useState(0);
-    const [username, setUserName] = useState<string | null>("");
     const [data, setData] = useState<Meal[]>([]);
     const [showDriveThru, setShowDriveThru] = useState(false);
 
@@ -340,18 +340,11 @@ export default function Home() {
     const driveModeActive = showDriveThru || search.trim().length > 0 || totalItems > 0;
 
 
-    const shouldUseCreamTitle =
-        search.length > 0 || totalItems > 0 || showDriveThru;
-
     const shouldShowCarousel =
         !driveModeActive && search.trim().length === 0 && totalItems === 0;
 
     const shouldShowOrderPreview = driveModeActive;
 
-    // tenario removendo o shadow de quando o h1 muda pra cream cor
-    const titleShadow = shouldUseCreamTitle
-        ? "none"
-        : "0px 0px 4px rgba(230, 81, 0, 0.30)";
 
 
     // Init: fetch products + hydrate order from localStorage
@@ -367,7 +360,7 @@ export default function Home() {
                 console.error("Erro ao buscar /products:", err);
             }
 
-            // hidratar carrinho do localStorage (se você já tinha isso)
+            // hidratar carrinho do localStorage 
             const raw = localStorage.getItem("lsOrder");
             if (raw) {
                 try {
@@ -429,7 +422,7 @@ export default function Home() {
         setShowDriveThru(false);
     }
 
-    // Discount: any 1 sandwich + 1 side + 1 beverage = $2 off, unlimited combos
+    // Discount: any 1 sandwich + 1 side + 1 beverage = $2 off
     useEffect(() => {
         let burgerCount = 0;
         let sideCount = 0;
@@ -461,23 +454,6 @@ export default function Home() {
         setCheckout(total < 0 ? 0 : total);
     }, [order]);
 
-    async function handleCheckout() {
-        const url = "https://67b5223ba9acbdb38ed16600.mockapi.io/api/v1/checkout";
-        const idPedido = Math.floor(Math.random() * 11);
-
-        for (const element of order) {
-            const data = {
-                id_pedido: `${idPedido}${username}`,
-                quantidade: element.quantidade,
-                nome: element.name,
-                preco: element.price,
-                status: false,
-                checkout: checkout,
-            };
-            const req = await axios.post(url, data);
-            console.log(req);
-        }
-    }
 
     return (
         <Box
@@ -578,10 +554,10 @@ export default function Home() {
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center", // conjunto centralizado
-                                gap: { xs: 1.5, md: 2 },  // gap controlado (sem gigante)
+                                gap: { xs: 1.5, md: 2 },  // gap controlado
                                 mb: { xs: 4, md: 6 },
                                 mt: { xs: 1, md: 4 },
-                                flexWrap: "wrap", // quebra bonito no mobile
+                                flexWrap: "wrap",
                             }}
                         >
                             {/* TOTAL */}
@@ -601,7 +577,7 @@ export default function Home() {
                             <Box
                                 sx={{
                                     display: "flex",
-                                    gap: 1.2, // botões mais juntinhos
+                                    gap: 1.2,
                                 }}
                             >
                                 <Button
@@ -680,6 +656,8 @@ export default function Home() {
                 )}
 
             </Container>
+
+            <FloatingContact />
 
             {isMobile ? (
                 <NavFooter
