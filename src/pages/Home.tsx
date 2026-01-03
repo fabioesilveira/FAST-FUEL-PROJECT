@@ -24,6 +24,7 @@ import ButtonBase from "@mui/material/ButtonBase";
 import MobileStackCarousel from "../components/MobileStackCarousel";
 import PromoBannerCarousel from "../components/PromoBannerCarousel";
 import FloatingContact from '../components/FloatingContact';
+import FloatingContactMobile from '../components/FloatingContactMobile';
 
 
 const cleanProductName = (name: string) => name.split("/")[0].trim();
@@ -657,7 +658,7 @@ export default function Home() {
 
             </Container>
 
-            <FloatingContact />
+            {isMobile ? <FloatingContactMobile /> : <FloatingContact />}
 
             {isMobile ? (
                 <NavFooter

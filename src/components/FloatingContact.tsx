@@ -1,64 +1,80 @@
-import { styled, alpha } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import { Box, Typography } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 
 const FloatingWrapper = styled(Box)(({ theme }) => ({
-  position: "fixed",
-  right: 20,
-  bottom: 250, 
-  zIndex: 1300,
+    position: "fixed",
+    right: 0,
+    bottom: 170,
+    zIndex: 1300,
 
-  display: "flex",
-  alignItems: "center",
-  gap: 10,
 
-  padding: "10px 16px",
-  borderRadius: 999,
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
 
-  backgroundColor: alpha("#e65100", 0.08),
-  border: "2px solid rgba(230, 81, 0, 0.85)",
+    padding: "10px 16px 10px 14px",
+    
+    borderTopLeftRadius: 999,
+    borderBottomLeftRadius: 999,
 
-  cursor: "pointer",
-  boxShadow: "0 8px 22px rgba(0,0,0,0.25)",
-  transition: "all .2s ease",
+    backgroundColor: "#ffe0c7",
 
-  "&:hover": {
-    backgroundColor: alpha("#e65100", 0.14),
-    transform: "translateY(-2px)",
-  },
+    borderTop: "3px solid rgba(230, 81, 0, 0.85)",
+    borderBottom: "3px solid rgba(230, 81, 0, 0.85)",
+    borderLeft: "3px solid rgba(230, 81, 0, 0.85)",
+    borderRight: "none",
 
-  "&:active": {
-    transform: "translateY(0)",
-  },
+    cursor: "pointer",
+    boxShadow: "0 8px 22px rgba(0,0,0,0.25)",
+    transition: "all .22s ease",
 
-  // opcional: esconder no mobile
-  [theme.breakpoints.down("sm")]: {
-    display: "none",
-  },
+    "&:hover": {
+        backgroundColor: "rgba(230, 81, 0, 0.12)",
+        borderTop: "3px solid rgba(230, 81, 0, 0.45)",
+        borderBottom: "3px solid rgba(230, 81, 0, 0.45)",
+        borderLeft: "3px solid rgba(230, 81, 0, 0.45)",
+
+        borderTopLeftRadius: 8,
+        borderBottomLeftRadius: 8,
+
+        paddingLeft: "22px",
+
+        transform: "translateY(-2px)",
+        boxShadow: "0 10px 26px rgba(0,0,0,0.18)",
+    },
+
+    "&:active": {
+        transform: "translateY(0)",
+    },
+
+    [theme.breakpoints.down("sm")]: {
+        display: "none",
+    },
 }));
 
-export default function FloatingContact() {
-  return (
-    <FloatingWrapper
-      onClick={() => {
-        // pode abrir modal, navegar ou scrollar
-        window.location.href = "/contact-us";
-      }}
-    >
-      <EmailIcon sx={{ color: "#e65100", fontSize: 20 }} />
 
-      <Typography
-        sx={{
-          fontWeight: 700,
-          fontSize: "0.85rem",
-          color: "#0d47a1",
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
-          whiteSpace: "nowrap",
-        }}
-      >
-        Contact us
-      </Typography>
-    </FloatingWrapper>
-  );
+export default function FloatingContact() {
+    return (
+        <FloatingWrapper
+            onClick={() => {
+                window.location.href = "/contact-us";
+            }}
+        >
+            <EmailIcon sx={{ color: "#e65100", fontSize: 30 }} />
+
+            <Typography
+                sx={{
+                    fontWeight: 700,
+                    fontSize: "1.10rem",
+                    color: "#0d47a1",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    whiteSpace: "nowrap",
+                }}
+            >
+                Contact us
+            </Typography>
+        </FloatingWrapper>
+    );
 }
