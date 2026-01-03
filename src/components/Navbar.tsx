@@ -11,7 +11,6 @@ import { useEffect, useState, useRef } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Badge, { badgeClasses } from "@mui/material/Badge";
-import IconButton from "@mui/material/IconButton";
 import { useAppContext } from "../context/context";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
@@ -143,7 +142,6 @@ function Navbar({ onSearch }: NavbarProps) {
       navigate("/sign-in");
     }, 2000);
   };
-
 
   useEffect(() => {
     // if logged: swap menu
@@ -278,6 +276,12 @@ function Navbar({ onSearch }: NavbarProps) {
                 variant="contained"
                 onClick={() => {
                   const isLogged = Boolean(localStorage.getItem("idUser"));
+                  const cartHasItems = badgeQuantity > 0;
+
+                  if (!cartHasItems) {
+                    navigate("/checkout"); 
+                    return;
+                  }
 
                   if (isLogged) {
                     navigate("/checkout");
@@ -291,11 +295,10 @@ function Navbar({ onSearch }: NavbarProps) {
                     cancelText: "Sign in / Sign up",
                     onConfirm: () => navigate("/checkout?guest=1"),
                     onCancel: () => navigate("/sign-in"),
-                    onDismiss: () => {
-                    },
+                    onDismiss: () => { },
                   });
-
                 }}
+
                 sx={{
                   width: { xs: 60, md: 73 },
                   height: { xs: 42, md: 42 },
