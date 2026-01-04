@@ -68,8 +68,8 @@ export default function PromoBannerCarousel({
                 width: "100%",
                 overflow: "hidden",
                 background: "linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)",
-                borderRight: "2px solid rgba(13, 71, 161, 0.32)",
-                borderLeft: "2px solid rgba(13, 71, 161, 0.18)",
+                borderRight: { xs: 0, md: "2px solid rgba(13, 71, 161, 0.32)" },
+                borderLeft: { xs: 0, md: "2px solid rgba(13, 71, 161, 0.18)" },
                 borderTop: "2px solid rgba(13, 71, 161, 0.18)",
                 borderBottom: "2px solid rgba(13, 71, 161, 0.18)",
                 borderRadius: 0,
@@ -93,7 +93,6 @@ export default function PromoBannerCarousel({
                     alignItems: "center",
                     justifyContent: "center",
 
-                    // ✅ fade + micro-motion (no "fighting", feels premium)
                     opacity: visible ? 1 : 0,
                     transform: visible ? "translateY(0px)" : "translateY(6px)",
                     filter: visible ? "blur(0px)" : "blur(0.6px)",

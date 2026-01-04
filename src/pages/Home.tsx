@@ -498,7 +498,7 @@ export default function Home() {
             )}
 
             {/* MOBILE FULL WIDTH: banner + carousel fora do Container */}
-            {isMobile && (
+            {isMobile && !driveModeActive && (
                 <>
                     <Box sx={{ width: "100%" }}>
                         <PromoBannerCarousel />
@@ -522,24 +522,20 @@ export default function Home() {
                 fixed
                 sx={{
                     flexGrow: 2,
-
-                
                     mt: { xs: 0, md: "100px" },
                     mb: { xs: "110px", md: "60px" },
                 }}
             >
                 {/* DESKTOP: banner dentro do Container */}
-                {!isMobile && (
+                {!isMobile && !driveModeActive && (
                     <Box sx={{ mb: 2, mt: -1.5 }}>
                         <PromoBannerCarousel />
                     </Box>
                 )}
 
                 {/* DESKTOP */}
-                {shouldShowCarousel && !isMobile && (
-                    <HeroCarousel aspectRatio="16 / 9.7">
-                        {desktopCarouselSlides}
-                    </HeroCarousel>
+                {shouldShowCarousel && !isMobile && !driveModeActive && (
+                    <HeroCarousel aspectRatio="16 / 9.7">{desktopCarouselSlides}</HeroCarousel>
                 )}
 
                 {search.trim() && (
@@ -577,8 +573,8 @@ export default function Home() {
                                 alignItems: "center",
                                 justifyContent: "center",
                                 gap: { xs: 1.5, md: 2 },
-                                mb: { xs: 4, md: 6 },
-                                mt: { xs: 1, md: 4 },
+                                mb: { xs: 5, md: 6 },
+                                mt: { xs: 4, sm: 15, md: 2 },
                                 flexWrap: "wrap",
                             }}
                         >
@@ -587,7 +583,6 @@ export default function Home() {
                                 className="total"
                                 style={{
                                     margin: 0,
-                                    fontSize: "clamp(30px, 3.2vw, 40px)",
                                     lineHeight: 1,
                                     whiteSpace: "nowrap",
                                 }}
@@ -602,8 +597,8 @@ export default function Home() {
                                     onClick={handleClearCart}
                                     sx={{
                                         minWidth: { xs: 30, sm: 45 },
-                                        width: { xs: 45, sm: 45, md: 57 },
-                                        height: { xs: 30, md: 35 },
+                                        width: { xs: 55, sm: 45, md: 75 },
+                                        height: { xs: 32, md: 44 },
                                         borderRadius: 2,
                                         backgroundColor: "#e65100",
                                         "&:hover": { backgroundColor: "#b33f00" },
@@ -611,7 +606,7 @@ export default function Home() {
                                     }}
                                 >
                                     <DeleteForeverIcon
-                                        sx={{ fontSize: { xs: 21, md: 28 }, color: "#ffe0c7" }}
+                                        sx={{ fontSize: { xs: 28, md: 36 }, color: "#ffe0c7" }}
                                     />
                                 </Button>
                             </Box>
@@ -620,23 +615,30 @@ export default function Home() {
                 )}
 
                 {driveModeActive && (
-                    <Box sx={{ mb: { xs: 5, md: 2 } }}>
+                    <Box sx={{ mb: { xs: 1.5, md: 2 } }}>
                         <Typography
                             align="center"
                             sx={{
-                                mb: 1,
+                                mb: { xs: 2.5, md: 1 },
                                 mt: { xs: -2, md: -3 },
-                                letterSpacing: "0.16em",
+
+                                fontFamily: "Titan One",
+                                fontSize: { xs: "30px", md: "37px" },
+                                fontWeight: 400,
+
+                                letterSpacing: "0.14em",
                                 textTransform: "uppercase",
-                                color: "#e65100",
-                                fontFamily: "Faster One",
-                                fontSize: { xs: "21px", md: "35px" },
-                                fontWeight: "400",
-                                textShadow: "0px 0px 4px rgba(230, 81, 0, 0.2)",
+
+                                color: "#ff8a4c",
+                                textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+
+                                fontStyle: "normal",
+                                opacity: 0.95,
                             }}
                         >
-                            Quick add Menu:
+                            Quick add menu
                         </Typography>
+
 
                         <h2 className="h2-driveMode-desk">
                             *COMBO PROMO: Burger + Side + Beverage = $2 OFF. Discount applied at
@@ -684,5 +686,6 @@ export default function Home() {
             )}
         </Box>
     );
+
 
 }
