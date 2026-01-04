@@ -473,13 +473,12 @@ export default function Home() {
         ),
     ];
 
-
     return (
         <Box
             sx={{
-                minHeight: '100vh',
-                display: 'flex',
-                flexDirection: 'column',
+                minHeight: "100vh",
+                display: "flex",
+                flexDirection: "column",
             }}
         >
             <Navbar onSearch={handleSearchInput} />
@@ -519,7 +518,16 @@ export default function Home() {
                 </>
             )}
 
-            <Container className="margin-top" fixed sx={{ flexGrow: 2 }}>
+            <Container
+                fixed
+                sx={{
+                    flexGrow: 2,
+
+                
+                    mt: { xs: 0, md: "100px" },
+                    mb: { xs: "110px", md: "60px" },
+                }}
+            >
                 {/* DESKTOP: banner dentro do Container */}
                 {!isMobile && (
                     <Box sx={{ mb: 2, mt: -1.5 }}>
@@ -544,8 +552,14 @@ export default function Home() {
                             mb: 4,
                             gridTemplateColumns: {
                                 xs: "repeat(1, 260px)",
-                                sm: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
-                                md: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(3, 300px)",
+                                sm:
+                                    filteredData.length === 1
+                                        ? "repeat(1, 300px)"
+                                        : "repeat(2, 300px)",
+                                md:
+                                    filteredData.length === 1
+                                        ? "repeat(1, 300px)"
+                                        : "repeat(3, 300px)",
                             },
                         }}
                     >
@@ -618,16 +632,16 @@ export default function Home() {
                                 fontFamily: "Faster One",
                                 fontSize: { xs: "21px", md: "35px" },
                                 fontWeight: "400",
-                                textShadow: "0px 0px 4px rgba(230, 81, 0, 0.20)",
+                                textShadow: "0px 0px 4px rgba(230, 81, 0, 0.2)",
                             }}
                         >
                             Quick add Menu:
                         </Typography>
 
-                        <h2 className='h2-driveMode-desk'>
-                            *COMBO PROMO: Burger + Side + Beverage = $2 OFF.
-                            Discount applied at checkout.
-                            Search by name or visit the Products page for full descriptions.
+                        <h2 className="h2-driveMode-desk">
+                            *COMBO PROMO: Burger + Side + Beverage = $2 OFF. Discount applied at
+                            checkout. Search by name or visit the Products page for full
+                            descriptions.
                         </h2>
 
                         <Box
@@ -670,4 +684,5 @@ export default function Home() {
             )}
         </Box>
     );
+
 }

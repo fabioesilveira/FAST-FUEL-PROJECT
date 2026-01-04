@@ -32,7 +32,7 @@ export default function MobileStackCarousel({
   const count = safeSlides.length;
 
   const step = height + gap;
-  const frameHeight = height * 2 + gap;
+  const frameHeight = height * 2 + gap ;
   const easing = "cubic-bezier(0.22, 1, 0.36, 1)";
 
   const [idx, setIdx] = useState(0);
