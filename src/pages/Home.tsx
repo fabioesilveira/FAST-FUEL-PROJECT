@@ -474,7 +474,6 @@ export default function Home() {
     ];
 
 
-
     return (
         <Box
             sx={{
@@ -484,9 +483,9 @@ export default function Home() {
             }}
         >
             <Navbar onSearch={handleSearchInput} />
+
             <CssBaseline />
 
-            {/* ✅ SPACER para não esconder atrás do Navbar FIXO no mobile */}
             {isMobile && <Box sx={{ height: 92 }} />}
 
             {!isMobile && (
@@ -507,7 +506,7 @@ export default function Home() {
                     </Box>
 
                     {shouldShowCarousel && (
-                        <Box sx={{ mt: 1.2 }}>
+                        <Box sx={{ mt: 2.5 }}>
                             <MobileStackCarousel
                                 slides={mobileSlides}
                                 height={295}
@@ -528,7 +527,7 @@ export default function Home() {
                     </Box>
                 )}
 
-                {/* ✅ DESKTOP: HeroCarousel só UMA vez */}
+                {/* DESKTOP */}
                 {shouldShowCarousel && !isMobile && (
                     <HeroCarousel aspectRatio="16 / 9.7">
                         {desktopCarouselSlides}

@@ -30,13 +30,11 @@ export default function HeroCarousel({
           height: "100%",
         },
 
-        // 🔥 remove radius de inner/item também (muito comum o CSS global bater aqui)
         "& .carousel-inner, & .carousel-item, & .carousel-item.active": {
           borderRadius: { xs: "0px !important", md: `${radius}px` },
           overflow: "hidden",
         },
 
-        // 🔥 imagem SEMPRE quadrada no mobile
         "& .carousel-item img": {
           width: "100%",
           height: "100%",

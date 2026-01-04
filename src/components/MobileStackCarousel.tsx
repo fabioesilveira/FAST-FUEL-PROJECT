@@ -24,96 +24,116 @@ export default function MobileStackCarousel({
   interval = 3800,
   height = 450,
   gap = 16,
-  radius = 0, // ✅ default agora é 0 (quadrado no mobile)
+  radius = 0,
   shadow = "0 10px 26px rgba(0,0,0,0.16)",
   animationMs = 720,
 }: Props) {
   const safeSlides = useMemo(() => slides.filter(Boolean), [slides]);
   const count = safeSlides.length;
 
-  const [idx, setIdx] = useState(0);
-  const [animating, setAnimating] = useState(false);
-
-  const timerRef = useRef<number | null>(null);
-  const animRef = useRef<number | null>(null);
-
-  // se slides mudar, reseta o índice
-  useEffect(() => {
-    setIdx(0);
-  }, [count]);
-
   const step = height + gap;
   const frameHeight = height * 2 + gap;
-
-  // iOS-like smooth
   const easing = "cubic-bezier(0.22, 1, 0.36, 1)";
 
-  // Sempre 3 items para o loop:
-  // [A(top), B(bottom), C(nextBottom)]
+  const [idx, setIdx] = useState(0);
+
+  // começa pré-posicionado pra não aparecer branco em cima
+  const [offset, setOffset] = useState<number>(() => (count >= 2 ? -step : 0));
+  const [enableTransition, setEnableTransition] = useState(false);
+
+  const timerRef = useRef<number | null>(null);
+  const isAnimatingRef = useRef(false);
+
+  // quando slides mudam
+  useEffect(() => {
+    setIdx(0);
+    setEnableTransition(false);
+    setOffset(count >= 2 ? -step : 0);
+    isAnimatingRef.current = false;
+  }, [count, step]);
+
+  // Renderiza 3 itens:
+  // [PREV, TOP, NEXT]
+  // e a viewport começa em translateY(-step) mostrando TOP + NEXT.
+  const prev = count > 1 ? safeSlides[(idx - 1 + count) % count] : safeSlides[idx % count];
   const top = count > 0 ? safeSlides[idx % count] : undefined;
-  const bottom = count > 1 ? safeSlides[(idx + 1) % count] : top;
-  const nextBottom = count > 2 ? safeSlides[(idx + 2) % count] : bottom;
+  const next = count > 1 ? safeSlides[(idx + 1) % count] : top;
 
   const tick = () => {
     if (count < 2) return;
+    if (isAnimatingRef.current) return;
 
-    setAnimating(true);
+    isAnimatingRef.current = true;
+    setEnableTransition(true);
 
-    animRef.current = window.setTimeout(() => {
-      setIdx((prev) => (prev + 1) % count);
-      setAnimating(false);
-    }, animationMs);
+    // anima “descendo”: de -step para 0
+    setOffset(0);
+  };
+
+  const handleTransitionEnd = () => {
+    if (!isAnimatingRef.current) return;
+
+    // após descer, quem virou TOP visualmente foi o PREV
+    setIdx((prevIdx) => (prevIdx - 1 + count) % count);
+
+    // reset invisível (sem jump)
+    setEnableTransition(false);
+
+    requestAnimationFrame(() => {
+      setOffset(-step); // volta pro “pré-posicionado”
+      requestAnimationFrame(() => {
+        isAnimatingRef.current = false;
+      });
+    });
   };
 
   useEffect(() => {
     if (count < 2) return;
 
     timerRef.current = window.setInterval(tick, interval);
-
     return () => {
       if (timerRef.current) window.clearInterval(timerRef.current);
-      if (animRef.current) window.clearTimeout(animRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [interval, count, animationMs]);
+  }, [interval, count]);
 
   if (!top) return null;
 
   return (
     <Box sx={{ width: "100%", maxWidth: 520, mx: "auto" }}>
-      {/* FRAME fixo */}
       <Box
         sx={{
           position: "relative",
           height: frameHeight,
           overflow: "hidden",
-          borderRadius: `${radius}px`, // ✅ agora vai ser 0
+          borderRadius: `${radius}px`,
         }}
       >
-        {/* CONTENT: só ele se move, pra baixo, 1 passo */}
         <Box
+          onTransitionEnd={handleTransitionEnd}
           sx={{
             position: "absolute",
             left: 0,
             right: 0,
             top: 0,
 
-            // hamster pra tras: desce 1 card
-            transform: animating ? `translateY(-${step}px)` : "translateY(0px)",
-            transition: animating ? `transform ${animationMs}ms ${easing}` : "none",
+            transform: `translateY(${offset}px)`,
+            transition: enableTransition
+              ? `transform ${animationMs}ms ${easing}`
+              : "none",
             willChange: "transform",
           }}
         >
-          {/* TOP (vai descer e virar bottom) */}
+          {/* PREV (fica acima, entra descendo) */}
+          <SlideCard slide={prev} height={height} radius={radius} shadow={shadow} />
+          <Box sx={{ height: gap }} />
+
+          {/* TOP */}
           <SlideCard slide={top} height={height} radius={radius} shadow={shadow} />
           <Box sx={{ height: gap }} />
 
-          {/* BOTTOM (vai descer e sumir) */}
-          <SlideCard slide={bottom!} height={height} radius={radius} shadow={shadow} />
-          <Box sx={{ height: gap }} />
-
-          {/* NEXT (entra por cima e vira TOP) */}
-          <SlideCard slide={nextBottom!} height={height} radius={radius} shadow={shadow} />
+          {/* NEXT */}
+          <SlideCard slide={next!} height={height} radius={radius} shadow={shadow} />
         </Box>
       </Box>
     </Box>
@@ -135,7 +155,7 @@ function SlideCard({
     <Box
       sx={{
         height,
-        borderRadius: `${radius}px`, // ✅ agora vai ser 0
+        borderRadius: `${radius}px`,
         overflow: "hidden",
         boxShadow: shadow,
         bgcolor: slide.bg ?? "transparent",
@@ -153,7 +173,7 @@ function SlideCard({
           objectFit: slide.fit ?? "cover",
           display: "block",
           transform: "translateZ(0)",
-          borderRadius: "0px", // ✅ extra garantia
+          borderRadius: "0px",
         }}
       />
     </Box>

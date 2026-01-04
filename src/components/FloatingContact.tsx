@@ -15,8 +15,8 @@ const FloatingWrapper = styled(Box)(({ theme }) => ({
 
     padding: "10px 16px 10px 14px",
     
-    borderTopLeftRadius: 999,
-    borderBottomLeftRadius: 999,
+    borderTopLeftRadius: "12px",
+    borderBottomLeftRadius: "12px",
 
     backgroundColor: "#ffe0c7",
 

@@ -23,11 +23,11 @@ export default function PromoBannerCarousel({
                 overflow: "hidden",
 
                 background: "linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)",
-                borderRight: "1px solid rgba(13, 71, 161, 0.18)",
+                borderRight: "1px solid rgba(13, 71, 161, 0.32)", // 👈 levemente mais forte
                 borderLeft: "1px solid rgba(13, 71, 161, 0.18)",
                 borderTop: "1px solid rgba(13, 71, 161, 0.18)",
                 borderBottom: "1px solid rgba(13, 71, 161, 0.18)",
-                borderRadius: { xs: 0, md: "8px" },
+                borderRadius: 0,
                 mt: { xs: 0.8, md: 0.5 }, // 👈 distância do Navbar
                 mb: -0.5
             }}
