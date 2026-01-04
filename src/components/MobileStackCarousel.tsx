@@ -22,9 +22,9 @@ type Props = {
 export default function MobileStackCarousel({
   slides,
   interval = 3800,
-  height = 210,
+  height = 450,
   gap = 16,
-  radius = 16,
+  radius = 0, // ✅ default agora é 0 (quadrado no mobile)
   shadow = "0 10px 26px rgba(0,0,0,0.16)",
   animationMs = 720,
 }: Props) {
@@ -87,7 +87,7 @@ export default function MobileStackCarousel({
           position: "relative",
           height: frameHeight,
           overflow: "hidden",
-          borderRadius: `${radius}px`,
+          borderRadius: `${radius}px`, // ✅ agora vai ser 0
         }}
       >
         {/* CONTENT: só ele se move, pra baixo, 1 passo */}
@@ -135,7 +135,7 @@ function SlideCard({
     <Box
       sx={{
         height,
-        borderRadius: `${radius}px`,
+        borderRadius: `${radius}px`, // ✅ agora vai ser 0
         overflow: "hidden",
         boxShadow: shadow,
         bgcolor: slide.bg ?? "transparent",
@@ -153,6 +153,7 @@ function SlideCard({
           objectFit: slide.fit ?? "cover",
           display: "block",
           transform: "translateZ(0)",
+          borderRadius: "0px", // ✅ extra garantia
         }}
       />
     </Box>

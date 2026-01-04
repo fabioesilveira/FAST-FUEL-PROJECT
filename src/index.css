@@ -145,57 +145,6 @@ body {
   }
 }
 
-.h1-sandwiches {
-  font-family: "Faster One", system-ui;
-  font-weight: 400;
-  color: #e65100;
-  font-size: 3rem;
-  font-style: normal;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  text-shadow: "0px 0px 4px rgba(230, 81, 0, 0.30)"
-}
-
-.div-carousel {
-  border-radius: 16px;
-  overflow: hidden;
-  /* ⭐ MAIN FIX */
-}
-
-.div-carousel .carousel-inner {
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.div-carousel .carousel-item {
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.div-carousel .carousel-item img {
-  border-radius: 16px;
-}
-
-.animated-stripes {
-  background: repeating-linear-gradient(90deg,
-      rgba(255, 255, 255, 0.3) 0px,
-      rgba(255, 243, 224, 0.3) 20px,
-      rgba(255, 224, 199, 0.3) 20px,
-      rgba(255, 255, 255, 0.3) 40px);
-  background-size: 200% 100%;
-  animation: moveStripesReverse 8s linear infinite;
-  border-radius: 20px;
-  border: 3px solid #e65100;
-  padding: 20px;
-  color: #e65100;
-
-  /* center the inner wrapper */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 250px;
-  /* adjust height as needed */
-}
 
 .order-wrapper {
   /* shrink wrapper to content and center it */
@@ -448,12 +397,6 @@ body {
   align-items: center;
 }
 
-.img-signIn {
-  width: 250px;
-  height: 200px;
-  margin-top: 30px;
-}
-
 .signin-wrapper {
   display: flex;
   flex-direction: column;
@@ -467,57 +410,7 @@ body {
   /* space from the top (adjust as needed) */
 }
 
-.checkout-bg {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
 
-/* Topo 3/4 com stripes */
-.checkout-top {
-  flex: 3;
-  background-image: repeating-linear-gradient(to right,
-      rgba(255, 244, 225, 0.4),
-      rgba(255, 244, 225, 0.4) 20px,
-      transparent 20px,
-      transparent 40px);
-  background-size: 100% 40px;
-  background-repeat: repeat-y;
-  background-attachment: fixed;
-}
-
-/* Parte inferior 1/4 com creme + logo */
-.checkout-bottom {
-  flex: 1;
-  background: #ffe0c7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Logo */
-.checkout-logo {
-  width: 120px;
-  height: auto;
-  opacity: 0.95;
-}
-
-/* Coloca o card acima do fundo */
-.checkout-content {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  min-height: 100vh;
-
-  /* Flex center */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
 
 .h2-products-background {
   font-family: "Faster One", system-ui;
@@ -669,68 +562,6 @@ body {
 
 }
 
-.h1-home {
-  margin: 0;
-  text-align: center;
-  font-family: "Faster One", system-ui;
-  font-weight: 400;
-
-  /* Desktop base */
-  font-size: 38px;
-  line-height: 1.15;
-  letter-spacing: 0.06em;
-
-  /* deixa quebrar naturalmente */
-  white-space: normal;
-}
-
-/* TABLET */
-@media (max-width: 900px) {
-  .h1-home {
-    font-size: 30px;
-    letter-spacing: 0.05em;
-    margin-bottom: 15px;
-  }
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
-  .h1-home {
-    font-size: 24px;
-    letter-spacing: 0.04em;
-    line-height: 1.2;
-    margin-bottom: 15px;
-  }
-}
-
-/* ESCONDE TOTALMENTE AS SETAS VISUAIS */
-.carousel-control-prev,
-.carousel-control-next {
-  opacity: 0 !important;
-  width: 22%;
-}
-
-/* remove ícone interno (a seta em si) */
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  display: none !important;
-}
-
-/* garante que NÃO volte em hover / focus / active */
-.carousel-control-prev:hover,
-.carousel-control-next:hover,
-.carousel-control-prev:focus,
-.carousel-control-next:focus,
-.carousel-control-prev:active,
-.carousel-control-next:active {
-  opacity: 0 !important;
-}
-
-/* remove fundo cinza que às vezes aparece */
-.carousel-control-prev,
-.carousel-control-next {
-  background: transparent !important;
-}
 
 .h2-driveMode-desk {
   font-size: 0.80rem;

@@ -25,7 +25,7 @@ import MobileStackCarousel from "../components/MobileStackCarousel";
 import PromoBannerCarousel from "../components/PromoBannerCarousel";
 import FloatingContact from '../components/FloatingContact';
 import FloatingContactMobile from '../components/FloatingContactMobile';
-
+import HeroCarousel from '../components/HeroCarousel';
 
 const cleanProductName = (name: string) => name.split("/")[0].trim();
 
@@ -56,7 +56,6 @@ const mobileSlides = [
     { id: "team", src: Chat4, alt: "Fast Fuel Team" },
     { id: "team", src: Chat6, alt: "Fast Fuel Team" },
 ];
-
 
 type MiniActionCardProps = {
     id: string;
@@ -165,7 +164,6 @@ function MiniCard({
     onClick,
     count = 0,
 }: MiniActionCardProps) {
-
     const imageStylesOrder: { [id: string]: React.CSSProperties } = {
         "1": { width: "60px", height: "52px" },
         "2": { width: "90px", height: "77px" },
@@ -304,9 +302,7 @@ function MiniCard({
 }
 
 //Inicio do componente HOME
-
 export default function Home() {
-
     const [search, setSearch] = useState("");
     const [checkout, setCheckout] = useState(0);
     const [data, setData] = useState<Meal[]>([]);
@@ -318,7 +314,6 @@ export default function Home() {
     const filteredData = data.filter(item =>
         item.name.toLowerCase().includes(search.toLowerCase())
     );
-
 
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext();
@@ -340,13 +335,10 @@ export default function Home() {
 
     const driveModeActive = showDriveThru || search.trim().length > 0 || totalItems > 0;
 
-
     const shouldShowCarousel =
         !driveModeActive && search.trim().length === 0 && totalItems === 0;
 
     const shouldShowOrderPreview = driveModeActive;
-
-
 
     // Init: fetch products + hydrate order from localStorage
     useEffect(() => {
@@ -361,7 +353,7 @@ export default function Home() {
                 console.error("Erro ao buscar /products:", err);
             }
 
-            // hidratar carrinho do localStorage 
+            // hidratar carrinho do localStorage
             const raw = localStorage.getItem("lsOrder");
             if (raw) {
                 try {
@@ -375,7 +367,6 @@ export default function Home() {
 
         init();
     }, [setOrder]);
-
 
     // Save order to localStorage whenever it changes
     useEffect(() => {
@@ -455,6 +446,34 @@ export default function Home() {
         setCheckout(total < 0 ? 0 : total);
     }, [order]);
 
+    const desktopCarouselSlides = [
+        (
+            <Carousel.Item key="slide-1">
+                <img
+                    src={Chat6}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+            </Carousel.Item>
+        ),
+        (
+            <Carousel.Item key="slide-2">
+                <img
+                    src={Chat5}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+            </Carousel.Item>
+        ),
+        (
+            <Carousel.Item key="slide-3">
+                <img
+                    src={Chat4}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+            </Carousel.Item>
+        ),
+    ];
+
+
 
     return (
         <Box
@@ -467,27 +486,31 @@ export default function Home() {
             <Navbar onSearch={handleSearchInput} />
             <CssBaseline />
 
+            {/* ✅ SPACER para não esconder atrás do Navbar FIXO no mobile */}
+            {isMobile && <Box sx={{ height: 92 }} />}
 
-            {!isMobile && <CategoryDrawer onNavigate={handleDrawerNavigate}
-                onDriveThruClick={() => {
-                    setShowDriveThru(true);
-                    // opcional: scroll suave até o menu quick add
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-            />}
+            {!isMobile && (
+                <CategoryDrawer
+                    onNavigate={handleDrawerNavigate}
+                    onDriveThruClick={() => {
+                        setShowDriveThru(true);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                />
+            )}
 
             {/* MOBILE FULL WIDTH: banner + carousel fora do Container */}
             {isMobile && (
                 <>
-                    <Box sx={{ px: 0, mt: "92px" }}>
+                    <Box sx={{ width: "100%" }}>
                         <PromoBannerCarousel />
                     </Box>
 
                     {shouldShowCarousel && (
-                        <Box sx={{ px: 0, mt: 1.2 }}>
+                        <Box sx={{ mt: 1.2 }}>
                             <MobileStackCarousel
                                 slides={mobileSlides}
-                                height={255}
+                                height={295}
                                 gap={14}
                                 interval={4200}
                                 animationMs={780}
@@ -498,7 +521,6 @@ export default function Home() {
             )}
 
             <Container className="margin-top" fixed sx={{ flexGrow: 2 }}>
-
                 {/* DESKTOP: banner dentro do Container */}
                 {!isMobile && (
                     <Box sx={{ mb: 2, mt: -1.5 }}>
@@ -506,6 +528,12 @@ export default function Home() {
                     </Box>
                 )}
 
+                {/* ✅ DESKTOP: HeroCarousel só UMA vez */}
+                {shouldShowCarousel && !isMobile && (
+                    <HeroCarousel aspectRatio="16 / 9.7">
+                        {desktopCarouselSlides}
+                    </HeroCarousel>
+                )}
 
                 {search.trim() && (
                     <Box
@@ -527,38 +555,6 @@ export default function Home() {
                         ))}
                     </Box>
                 )}
-                
-
-                {shouldShowCarousel && !isMobile && (
-                    <div
-                        className="div-carousel"
-                        style={{
-                            width: "100%",
-                            maxWidth: "1200px",
-                            margin: "0 auto",
-                            borderRadius: "16px",
-                            overflow: "hidden",
-                            boxShadow: "0 8px 24px rgba(230, 81, 0, 0.25)",
-                            aspectRatio: "16 / 9.7",
-                        }}
-                    >
-                        <Carousel indicators={false} style={{ height: "100%" }}>
-                            <Carousel.Item>
-                                <img src={Chat} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img src={Chat6} style={{ width: "100%", height: "100%", objectFit: "contain", background: "#fff3e0" }} />
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img src={Chat5} style={{ width: "100%", height: "100%", objectFit: "contain", background: "#fff3e0" }} />
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img src={Chat4} style={{ width: "100%", height: "100%", objectFit: "contain", background: "#fff3e0" }} />
-                            </Carousel.Item>
-                        </Carousel>
-                    </div>
-                )}
-
 
                 {shouldShowOrderPreview && (
                     <>
@@ -566,8 +562,8 @@ export default function Home() {
                             sx={{
                                 display: "flex",
                                 alignItems: "center",
-                                justifyContent: "center", // conjunto centralizado
-                                gap: { xs: 1.5, md: 2 },  // gap controlado
+                                justifyContent: "center",
+                                gap: { xs: 1.5, md: 2 },
                                 mb: { xs: 4, md: 6 },
                                 mt: { xs: 1, md: 4 },
                                 flexWrap: "wrap",
@@ -587,30 +583,24 @@ export default function Home() {
                             </h2>
 
                             {/* BOTÕES */}
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    gap: 1.2,
-                                }}
-                            >
+                            <Box sx={{ display: "flex", gap: 1.2 }}>
                                 <Button
                                     variant="contained"
                                     onClick={handleClearCart}
                                     sx={{
-                                        minWidth: { xs: 30, sm: 45 },   
+                                        minWidth: { xs: 30, sm: 45 },
                                         width: { xs: 45, sm: 45, md: 57 },
                                         height: { xs: 30, md: 35 },
                                         borderRadius: 2,
                                         backgroundColor: "#e65100",
                                         "&:hover": { backgroundColor: "#b33f00" },
-                                        p: 0, 
+                                        p: 0,
                                     }}
                                 >
                                     <DeleteForeverIcon
                                         sx={{ fontSize: { xs: 21, md: 28 }, color: "#ffe0c7" }}
                                     />
                                 </Button>
-
                             </Box>
                         </Box>
                     </>
@@ -667,7 +657,6 @@ export default function Home() {
                         </Box>
                     </Box>
                 )}
-
             </Container>
 
             {isMobile ? <FloatingContactMobile /> : <FloatingContact />}
@@ -680,6 +669,6 @@ export default function Home() {
             ) : (
                 <Footer />
             )}
-        </Box >
+        </Box>
     );
 }
