@@ -24,7 +24,7 @@ const drawerWidth = 270;
 
 const BLUE = "#0d47a1";
 const ORANGE = "#f06612";
-const ORANGE_SOFT_HOVER = "rgba(230,81,0,.18)";
+const ORANGE_SOFT = "rgba(230,81,0,.18)";
 
 type DrawerItem = {
   label: string;
@@ -35,7 +35,7 @@ type DrawerItem = {
 };
 
 type DrawerProductsProps = {
-  onSwitchNav?: () => void; // ✅ novo
+  onSwitchNav?: () => void;
 };
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -94,10 +94,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
   const handleSignout = () => {
     localStorage.clear();
     showAlert("Signed out successfully", "success");
-
-    setTimeout(() => {
-      navigate("/sign-in");
-    }, 2000);
+    setTimeout(() => navigate("/sign-in"), 2000);
   };
 
   const items: DrawerItem[] = React.useMemo(
@@ -155,7 +152,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
           },
         }}
       >
-        {/* Toggle */}
+        {/* TOGGLE */}
         <DrawerHeader>
           <IconButton
             onClick={() => setOpen((p) => !p)}
@@ -175,31 +172,31 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
             )}
           </IconButton>
         </DrawerHeader>
+
         <Divider sx={{ backgroundColor: "rgba(13,71,161,.35)" }} />
 
-        {/* Menu */}
+        {/* MENU */}
         <List sx={{ px: 1, pt: 2, pb: 2 }}>
           {items.map(({ label, icon: IconComp, requiresAuth, path, action }, index) => (
             <React.Fragment key={label}>
-              <ListItem disablePadding sx={{ display: "block", mb: 0.8 }}>
+              {/* NORMAL ITEMS */}
+              <ListItem disablePadding sx={{ display: "block", mb: 0.7 }}>
                 <ListItemButton
                   onClick={() =>
                     handleItemClick({ label, icon: IconComp, requiresAuth, path, action })
                   }
                   sx={[
                     {
-                      minHeight: 62,
-                      px: 2,
+                      minHeight: 62, 
+                      px: 2,         
                       borderRadius: 1.5,
                       border: "2px solid transparent",
                       bgcolor: "transparent",
                       transition: "all .18s ease",
-
                       "&:hover": {
-                        bgcolor: ORANGE_SOFT_HOVER,
+                        bgcolor: ORANGE_SOFT,
                         borderColor: BLUE,
                       },
-
                       "&:active": {
                         bgcolor: "rgba(230,81,0,.28)",
                         transform: "translateY(1px)",
@@ -208,12 +205,13 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                     open ? { justifyContent: "initial" } : { justifyContent: "center" },
                   ]}
                 >
+                  
                   <ListItemIcon
                     sx={[
                       {
                         minWidth: 0,
-                        width: 44,
-                        height: 44,
+                        width: 48,
+                        height: 48,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -222,9 +220,10 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                       open ? { mr: 2 } : { mr: "auto" },
                     ]}
                   >
+                   
                     <IconComp
                       sx={{
-                        fontSize: 28,
+                        fontSize: 30.5,
                         color: ORANGE,
                         transition: "transform .2s ease",
                         transform: open ? "scale(1.04)" : "scale(1)",
@@ -238,8 +237,8 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                       {
                         "& .MuiTypography-root": {
                           fontWeight: 600,
-                          fontSize: "0.95rem",
-                          letterSpacing: "0.06em",
+                          fontSize: ".95rem",
+                          letterSpacing: ".06em",
                           color: BLUE,
                           textTransform: "uppercase",
                         },
@@ -250,20 +249,20 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                 </ListItemButton>
               </ListItem>
 
-              {/* ✅ SWITCH (insere no meio: depois do MY ORDERS = index 1) */}
-              {/* ✅ SWAP (teste: sempre ativo e vai pro HOME por enquanto) */}
+              {/* SWITCH / CATEGORIES (depois do MY ORDERS = index 1) */}
               {index === 1 && (
-                <ListItem disablePadding sx={{ display: "block", mb: 0.8 }}>
+                <ListItem disablePadding sx={{ display: "block", mb: 0.7 }}>
                   <ListItemButton
                     onClick={() => {
-                      // ✅ teste: navegar pro home
-                      navigate("/");
+                      // se você quiser usar onSwitchNav, troca aqui
+                      if (onSwitchNav) onSwitchNav();
+                      else navigate("/");
                       setOpen(false);
                     }}
                     sx={[
                       {
-                        minHeight: 68,
-                        px: 2,
+                        minHeight: 68, 
+                        px: 2,         
                         borderRadius: 1.5,
                         border: "2px solid transparent",
                         bgcolor: "transparent",
@@ -271,14 +270,10 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                         position: "relative",
                         overflow: "visible",
 
-                        // ✅ sem disabled / sem opacity / sem pointerEvents
-                        opacity: 1,
-                        pointerEvents: "auto",
-
                         ...(open
                           ? {
                             "&:hover": {
-                              bgcolor: ORANGE_SOFT_HOVER,
+                              bgcolor: ORANGE_SOFT,
                               borderColor: "transparent",
                             },
                           }
@@ -291,7 +286,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                               left: -6,
                               right: -6,
                               borderRadius: "999px",
-                              backgroundColor: ORANGE_SOFT_HOVER,
+                              backgroundColor: ORANGE_SOFT,
                               opacity: 0,
                               transition: "opacity .15s ease",
                               zIndex: -1,
@@ -306,6 +301,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                       open ? { justifyContent: "initial" } : { justifyContent: "center" },
                     ]}
                   >
+                    
                     <ListItemIcon
                       sx={[
                         {
@@ -315,20 +311,20 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          transition: "transform .2s ease",
                         },
                         open ? { mr: 2 } : { mr: "auto" },
                       ]}
                     >
                       <SwapHorizIcon
                         sx={{
-                          fontSize: 36,              // 👈 mesmo “peso visual” do FAST THRU
+                          fontSize: 35.5, 
                           color: ORANGE,
-                          transform: open ? "scale(1.1)" : "scale(1)",
                           transition: "transform .2s ease",
+                          transform: open ? "scale(1.04)" : "scale(1)",
                         }}
                       />
                     </ListItemIcon>
+
                     <ListItemText
                       primary="CATEGORIES"
                       sx={[
@@ -347,7 +343,6 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                   </ListItemButton>
                 </ListItem>
               )}
-
             </React.Fragment>
           ))}
         </List>
@@ -355,3 +350,4 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
     </>
   );
 }
+
