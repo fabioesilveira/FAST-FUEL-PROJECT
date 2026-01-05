@@ -13,12 +13,18 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useNavigate } from "react-router-dom";
 import { useAppAlert } from "../hooks/useAppAlert";
 
-// ícones
+import FriesIcon from "../assets/frenchFries.png";
+import SodaIcon from "../assets/soda.png";
+
+// ícones account
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import HistoryIcon from "@mui/icons-material/History";
 import EmailIcon from "@mui/icons-material/Email";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import LunchDiningIcon from "@mui/icons-material/LunchDining";
+import CookieIcon from "@mui/icons-material/Cookie";
+import type { SvgIconComponent } from "@mui/icons-material";
 
 const drawerWidth = 270;
 
@@ -31,12 +37,23 @@ type DrawerItem = {
   icon: any;
   path?: string;
   requiresAuth?: boolean;
-  action?: () => void; // pra Signout
+  action?: () => void;
 };
 
 type DrawerProductsProps = {
   onSwitchNav?: () => void;
 };
+
+type CategoryItem =
+  | { label: string; type: "mui"; Icon: SvgIconComponent }
+  | { label: string; type: "img"; src: string; imgW?: number; imgH?: number };
+
+const categories: CategoryItem[] = [
+  { label: "BURGUERS", type: "mui", Icon: LunchDiningIcon },
+  { label: "SIDES", type: "img", src: FriesIcon, imgW: 32, imgH: 32 },
+  { label: "BEVERAGES", type: "img", src: SodaIcon, imgW: 36, imgH: 36 },
+  { label: "DESSERTS", type: "mui", Icon: CookieIcon },
+];
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -79,10 +96,31 @@ const Drawer = styled(MuiDrawer, {
     : { ...closedMixin(theme), "& .MuiDrawer-paper": closedMixin(theme) }),
 }));
 
+function CategoryIcon({ item }: { item: CategoryItem }) {
+  if (item.type === "img") {
+    return (
+      <img
+        src={item.src}
+        alt={item.label}
+        style={{
+          width: (item.imgW ?? 32) + 6,
+          height: (item.imgH ?? 32) + 6,
+          display: "block",
+        }}
+      />
+    );
+  }
+
+  const Icon = item.Icon;
+  return <Icon sx={{ fontSize: 30.5, color: ORANGE }} />;
+}
+
 export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
   useTheme();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
+
+  const [mode, setMode] = React.useState<"categories" | "account">("categories");
 
   const { showAlert, AlertUI } = useAppAlert({
     vertical: "top",
@@ -122,14 +160,49 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
       showAlert("Please sign in to delete your account", "warning");
       return;
     }
-
-    if (item.action) {
-      item.action();
-      return;
-    }
-
+    if (item.action) return item.action();
     if (item.path) navigate(item.path);
   };
+
+  const handleCategoryClick = (label: string) => {
+    navigate(`/${label.toLowerCase()}`);
+    setOpen(false);
+  };
+
+  const toggleMode = () => {
+    setMode((p) => (p === "categories" ? "account" : "categories"));
+    onSwitchNav?.();
+  };
+
+  const buttonSx = {
+    minHeight: 62,
+    px: 2,
+    borderRadius: 1.5,
+    border: "2px solid transparent",
+    bgcolor: "transparent",
+    transition: "all .18s ease",
+    "&:hover": { bgcolor: ORANGE_SOFT, borderColor: BLUE },
+    "&:active": { bgcolor: "rgba(230,81,0,.28)", transform: "translateY(1px)" },
+  } as const;
+
+  const iconBoxSx = {
+    minWidth: 0,
+    width: 48,
+    height: 48,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  } as const;
+
+  const textSx = {
+    "& .MuiTypography-root": {
+      fontWeight: 600,
+      fontSize: ".95rem",
+      letterSpacing: ".06em",
+      color: BLUE,
+      textTransform: "uppercase",
+    },
+  } as const;
 
   return (
     <>
@@ -152,7 +225,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
           },
         }}
       >
-        {/* TOGGLE */}
+        {/* TOGGLE drawer */}
         <DrawerHeader>
           <IconButton
             onClick={() => setOpen((p) => !p)}
@@ -175,179 +248,160 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
 
         <Divider sx={{ backgroundColor: "rgba(13,71,161,.35)" }} />
 
-        {/* MENU */}
         <List sx={{ px: 1, pt: 2, pb: 2 }}>
-          {items.map(({ label, icon: IconComp, requiresAuth, path, action }, index) => (
-            <React.Fragment key={label}>
-              {/* NORMAL ITEMS */}
-              <ListItem disablePadding sx={{ display: "block", mb: 0.7 }}>
-                <ListItemButton
-                  onClick={() =>
-                    handleItemClick({ label, icon: IconComp, requiresAuth, path, action })
-                  }
-                  sx={[
-                    {
-                      minHeight: 62, 
-                      px: 2,         
-                      borderRadius: 1.5,
-                      border: "2px solid transparent",
-                      bgcolor: "transparent",
-                      transition: "all .18s ease",
-                      "&:hover": {
-                        bgcolor: ORANGE_SOFT,
-                        borderColor: BLUE,
-                      },
-                      "&:active": {
-                        bgcolor: "rgba(230,81,0,.28)",
-                        transform: "translateY(1px)",
-                      },
-                    },
-                    open ? { justifyContent: "initial" } : { justifyContent: "center" },
-                  ]}
-                >
-                  
-                  <ListItemIcon
-                    sx={[
-                      {
-                        minWidth: 0,
-                        width: 48,
-                        height: 48,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: ORANGE,
-                      },
-                      open ? { mr: 2 } : { mr: "auto" },
-                    ]}
-                  >
-                   
-                    <IconComp
-                      sx={{
-                        fontSize: 30.5,
-                        color: ORANGE,
-                        transition: "transform .2s ease",
-                        transform: open ? "scale(1.04)" : "scale(1)",
-                      }}
-                    />
-                  </ListItemIcon>
-
-                  <ListItemText
-                    primary={label}
-                    sx={[
-                      {
-                        "& .MuiTypography-root": {
-                          fontWeight: 600,
-                          fontSize: ".95rem",
-                          letterSpacing: ".06em",
-                          color: BLUE,
-                          textTransform: "uppercase",
-                        },
-                      },
-                      open ? { opacity: 1 } : { opacity: 0 },
-                    ]}
-                  />
-                </ListItemButton>
-              </ListItem>
-
-              {/* SWITCH / CATEGORIES (depois do MY ORDERS = index 1) */}
-              {index === 1 && (
-                <ListItem disablePadding sx={{ display: "block", mb: 0.7 }}>
+         
+          {mode === "categories" ? (
+            <>
+              {categories.slice(0, 2).map((cat) => (
+                <ListItem key={cat.label} disablePadding sx={{ display: "block", mb: 0.7 }}>
                   <ListItemButton
-                    onClick={() => {
-                      // se você quiser usar onSwitchNav, troca aqui
-                      if (onSwitchNav) onSwitchNav();
-                      else navigate("/");
-                      setOpen(false);
-                    }}
-                    sx={[
-                      {
-                        minHeight: 68, 
-                        px: 2,         
-                        borderRadius: 1.5,
-                        border: "2px solid transparent",
-                        bgcolor: "transparent",
-                        width: "100%",
-                        position: "relative",
-                        overflow: "visible",
-
-                        ...(open
-                          ? {
-                            "&:hover": {
-                              bgcolor: ORANGE_SOFT,
-                              borderColor: "transparent",
-                            },
-                          }
-                          : {
-                            "&::before": {
-                              content: '""',
-                              position: "absolute",
-                              top: -4,
-                              bottom: -4,
-                              left: -6,
-                              right: -6,
-                              borderRadius: "999px",
-                              backgroundColor: ORANGE_SOFT,
-                              opacity: 0,
-                              transition: "opacity .15s ease",
-                              zIndex: -1,
-                            },
-                            "&:hover::before": { opacity: 1 },
-                            "&:hover": {
-                              bgcolor: "transparent",
-                              borderColor: "transparent",
-                            },
-                          }),
-                      },
-                      open ? { justifyContent: "initial" } : { justifyContent: "center" },
-                    ]}
+                    onClick={() => handleCategoryClick(cat.label)}
+                    sx={[buttonSx, open ? { justifyContent: "initial" } : { justifyContent: "center" }]}
                   >
-                    
-                    <ListItemIcon
-                      sx={[
-                        {
-                          minWidth: 0,
-                          width: 48,
-                          height: 48,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        },
-                        open ? { mr: 2 } : { mr: "auto" },
-                      ]}
-                    >
-                      <SwapHorizIcon
+                    <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
+                      <CategoryIcon item={cat} />
+                    </ListItemIcon>
+                    <ListItemText primary={cat.label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </>
+          ) : (
+            <>
+              {/* account primeiro bloco (2 itens) */}
+              {items.slice(0, 2).map(({ label, icon: IconComp, requiresAuth, path, action }) => (
+                <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.7 }}>
+                  <ListItemButton
+                    onClick={() => handleItemClick({ label, icon: IconComp, requiresAuth, path, action })}
+                    sx={[buttonSx, open ? { justifyContent: "initial" } : { justifyContent: "center" }]}
+                  >
+                    <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
+                      <IconComp
                         sx={{
-                          fontSize: 35.5, 
+                          fontSize: 30.5,
                           color: ORANGE,
                           transition: "transform .2s ease",
                           transform: open ? "scale(1.04)" : "scale(1)",
                         }}
                       />
                     </ListItemIcon>
-
-                    <ListItemText
-                      primary="CATEGORIES"
-                      sx={[
-                        {
-                          "& .MuiTypography-root": {
-                            fontWeight: 800,
-                            fontSize: "1rem",
-                            letterSpacing: ".08em",
-                            color: BLUE,
-                            textTransform: "uppercase",
-                          },
-                        },
-                        open ? { opacity: 1 } : { opacity: 0 },
-                      ]}
-                    />
+                    <ListItemText primary={label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
                   </ListItemButton>
                 </ListItem>
-              )}
-            </React.Fragment>
-          ))}
+              ))}
+            </>
+          )}
+
+
+          <ListItem disablePadding sx={{ display: "block", mb: 0.7 }}>
+            <ListItemButton
+              onClick={toggleMode}
+              sx={[
+                {
+                  minHeight: 68,
+                  px: 2,
+                  borderRadius: 1.5,
+                  border: "2px solid transparent",
+                  bgcolor: "transparent",
+                  width: "100%",
+                  position: "relative",
+                  overflow: "visible",
+                  ...(open
+                    ? {
+                        "&:hover": { bgcolor: ORANGE_SOFT, borderColor: "transparent" },
+                      }
+                    : {
+                        "&::before": {
+                          content: '""',
+                          position: "absolute",
+                          top: -4,
+                          bottom: -4,
+                          left: -6,
+                          right: -6,
+                          borderRadius: "999px",
+                          backgroundColor: ORANGE_SOFT,
+                          opacity: 0,
+                          transition: "opacity .15s ease",
+                          zIndex: -1,
+                        },
+                        "&:hover::before": { opacity: 1 },
+                        "&:hover": { bgcolor: "transparent", borderColor: "transparent" },
+                      }),
+                },
+                open ? { justifyContent: "initial" } : { justifyContent: "center" },
+              ]}
+            >
+              <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
+                <SwapHorizIcon
+                  sx={{
+                    fontSize: 35.5,
+                    color: ORANGE,
+                    transition: "transform .2s ease",
+                    transform: open ? "scale(1.04)" : "scale(1)",
+                  }}
+                />
+              </ListItemIcon>
+
+              <ListItemText
+                primary={mode === "categories" ? "ACCOUNT MENU" : "CATEGORIES"}
+                sx={[
+                  {
+                    "& .MuiTypography-root": {
+                      fontWeight: 800,
+                      fontSize: "1rem",
+                      letterSpacing: ".08em",
+                      color: BLUE,
+                      textTransform: "uppercase",
+                    },
+                  },
+                  open ? { opacity: 1 } : { opacity: 0 },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
+
+          {mode === "categories" ? (
+            <>
+              {categories.slice(2).map((cat) => (
+                <ListItem key={cat.label} disablePadding sx={{ display: "block", mb: 0.7 }}>
+                  <ListItemButton
+                    onClick={() => handleCategoryClick(cat.label)}
+                    sx={[buttonSx, open ? { justifyContent: "initial" } : { justifyContent: "center" }]}
+                  >
+                    <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
+                      <CategoryIcon item={cat} />
+                    </ListItemIcon>
+                    <ListItemText primary={cat.label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </>
+          ) : (
+            <>
+              {items.slice(2).map(({ label, icon: IconComp, requiresAuth, path, action }) => (
+                <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.7 }}>
+                  <ListItemButton
+                    onClick={() => handleItemClick({ label, icon: IconComp, requiresAuth, path, action })}
+                    sx={[buttonSx, open ? { justifyContent: "initial" } : { justifyContent: "center" }]}
+                  >
+                    <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
+                      <IconComp
+                        sx={{
+                          fontSize: 30.5,
+                          color: ORANGE,
+                          transition: "transform .2s ease",
+                          transform: open ? "scale(1.04)" : "scale(1)",
+                        }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary={label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </>
+          )}
         </List>
       </Drawer>
     </>
   );
 }
-
