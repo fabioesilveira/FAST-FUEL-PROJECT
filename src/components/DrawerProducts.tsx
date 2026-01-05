@@ -18,12 +18,13 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import HistoryIcon from "@mui/icons-material/History";
 import EmailIcon from "@mui/icons-material/Email";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 
-const drawerWidth = 260;
+const drawerWidth = 270;
 
 const BLUE = "#0d47a1";
-const ORANGE = "#e85f10";
-const ORANGE_SOFT_HOVER = "rgba(230,81,0,.22)";
+const ORANGE = "#f06612";
+const ORANGE_SOFT_HOVER = "rgba(230,81,0,.18)";
 
 type DrawerItem = {
   label: string;
@@ -31,6 +32,10 @@ type DrawerItem = {
   path?: string;
   requiresAuth?: boolean;
   action?: () => void; // pra Signout
+};
+
+type DrawerProductsProps = {
+  onSwitchNav?: () => void; // ✅ novo
 };
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -74,7 +79,7 @@ const Drawer = styled(MuiDrawer, {
     : { ...closedMixin(theme), "& .MuiDrawer-paper": closedMixin(theme) }),
 }));
 
-export default function DrawerProducts() {
+export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
   useTheme();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
@@ -174,75 +179,176 @@ export default function DrawerProducts() {
 
         {/* Menu */}
         <List sx={{ px: 1, pt: 2, pb: 2 }}>
-          {items.map(({ label, icon: IconComp, requiresAuth, path, action }) => (
-            <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.8 }}>
-              <ListItemButton
-                onClick={() =>
-                  handleItemClick({ label, icon: IconComp, requiresAuth, path, action })
-                }
-                sx={[
-                  {
-                    minHeight: 62,
-                    px: 2,
-                    borderRadius: 1.5,
-                    border: "2px solid transparent",
-                    bgcolor: "transparent",
-                    transition: "all .18s ease",
-
-                    "&:hover": {
-                      bgcolor: ORANGE_SOFT_HOVER,
-                      borderColor: BLUE,
-                    },
-
-                    "&:active": {
-                      bgcolor: "rgba(230,81,0,.28)",
-                      transform: "translateY(1px)",
-                    },
-                  },
-                  open ? { justifyContent: "initial" } : { justifyContent: "center" },
-                ]}
-              >
-                <ListItemIcon
+          {items.map(({ label, icon: IconComp, requiresAuth, path, action }, index) => (
+            <React.Fragment key={label}>
+              <ListItem disablePadding sx={{ display: "block", mb: 0.8 }}>
+                <ListItemButton
+                  onClick={() =>
+                    handleItemClick({ label, icon: IconComp, requiresAuth, path, action })
+                  }
                   sx={[
                     {
-                      minWidth: 0,
-                      width: 44,
-                      height: 44,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: ORANGE,
-                    },
-                    open ? { mr: 2 } : { mr: "auto" },
-                  ]}
-                >
-                  <IconComp
-                    sx={{
-                      fontSize: 28,
-                      color: ORANGE,
-                      transition: "transform .2s ease",
-                      transform: open ? "scale(1.04)" : "scale(1)",
-                    }}
-                  />
-                </ListItemIcon>
+                      minHeight: 62,
+                      px: 2,
+                      borderRadius: 1.5,
+                      border: "2px solid transparent",
+                      bgcolor: "transparent",
+                      transition: "all .18s ease",
 
-                <ListItemText
-                  primary={label}
-                  sx={[
-                    {
-                      "& .MuiTypography-root": {
-                        fontWeight: 600,
-                        fontSize: "0.95rem",
-                        letterSpacing: "0.06em",
-                        color: BLUE,
-                        textTransform: "uppercase",
+                      "&:hover": {
+                        bgcolor: ORANGE_SOFT_HOVER,
+                        borderColor: BLUE,
+                      },
+
+                      "&:active": {
+                        bgcolor: "rgba(230,81,0,.28)",
+                        transform: "translateY(1px)",
                       },
                     },
-                    open ? { opacity: 1 } : { opacity: 0 },
+                    open ? { justifyContent: "initial" } : { justifyContent: "center" },
                   ]}
-                />
-              </ListItemButton>
-            </ListItem>
+                >
+                  <ListItemIcon
+                    sx={[
+                      {
+                        minWidth: 0,
+                        width: 44,
+                        height: 44,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: ORANGE,
+                      },
+                      open ? { mr: 2 } : { mr: "auto" },
+                    ]}
+                  >
+                    <IconComp
+                      sx={{
+                        fontSize: 28,
+                        color: ORANGE,
+                        transition: "transform .2s ease",
+                        transform: open ? "scale(1.04)" : "scale(1)",
+                      }}
+                    />
+                  </ListItemIcon>
+
+                  <ListItemText
+                    primary={label}
+                    sx={[
+                      {
+                        "& .MuiTypography-root": {
+                          fontWeight: 600,
+                          fontSize: "0.95rem",
+                          letterSpacing: "0.06em",
+                          color: BLUE,
+                          textTransform: "uppercase",
+                        },
+                      },
+                      open ? { opacity: 1 } : { opacity: 0 },
+                    ]}
+                  />
+                </ListItemButton>
+              </ListItem>
+
+              {/* ✅ SWITCH (insere no meio: depois do MY ORDERS = index 1) */}
+              {/* ✅ SWAP (teste: sempre ativo e vai pro HOME por enquanto) */}
+              {index === 1 && (
+                <ListItem disablePadding sx={{ display: "block", mb: 0.8 }}>
+                  <ListItemButton
+                    onClick={() => {
+                      // ✅ teste: navegar pro home
+                      navigate("/");
+                      setOpen(false);
+                    }}
+                    sx={[
+                      {
+                        minHeight: 68,
+                        px: 2,
+                        borderRadius: 1.5,
+                        border: "2px solid transparent",
+                        bgcolor: "transparent",
+                        width: "100%",
+                        position: "relative",
+                        overflow: "visible",
+
+                        // ✅ sem disabled / sem opacity / sem pointerEvents
+                        opacity: 1,
+                        pointerEvents: "auto",
+
+                        ...(open
+                          ? {
+                            "&:hover": {
+                              bgcolor: ORANGE_SOFT_HOVER,
+                              borderColor: "transparent",
+                            },
+                          }
+                          : {
+                            "&::before": {
+                              content: '""',
+                              position: "absolute",
+                              top: -4,
+                              bottom: -4,
+                              left: -6,
+                              right: -6,
+                              borderRadius: "999px",
+                              backgroundColor: ORANGE_SOFT_HOVER,
+                              opacity: 0,
+                              transition: "opacity .15s ease",
+                              zIndex: -1,
+                            },
+                            "&:hover::before": { opacity: 1 },
+                            "&:hover": {
+                              bgcolor: "transparent",
+                              borderColor: "transparent",
+                            },
+                          }),
+                      },
+                      open ? { justifyContent: "initial" } : { justifyContent: "center" },
+                    ]}
+                  >
+                    <ListItemIcon
+                      sx={[
+                        {
+                          minWidth: 0,
+                          width: 48,
+                          height: 48,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          transition: "transform .2s ease",
+                        },
+                        open ? { mr: 2 } : { mr: "auto" },
+                      ]}
+                    >
+                      <SwapHorizIcon
+                        sx={{
+                          fontSize: 36,              // 👈 mesmo “peso visual” do FAST THRU
+                          color: ORANGE,
+                          transform: open ? "scale(1.1)" : "scale(1)",
+                          transition: "transform .2s ease",
+                        }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="CATEGORIES"
+                      sx={[
+                        {
+                          "& .MuiTypography-root": {
+                            fontWeight: 800,
+                            fontSize: "1rem",
+                            letterSpacing: ".08em",
+                            color: BLUE,
+                            textTransform: "uppercase",
+                          },
+                        },
+                        open ? { opacity: 1 } : { opacity: 0 },
+                      ]}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              )}
+
+            </React.Fragment>
           ))}
         </List>
       </Drawer>

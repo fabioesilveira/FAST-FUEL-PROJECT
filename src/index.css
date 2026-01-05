@@ -619,20 +619,20 @@ body {
   height: 46px;
 }
 
-.drive-text {
+/* .drive-text {
   font-family: "Big Shoulders Inline", sans-serif;
   color: #e65100;
   font-size: 14px;
 
   line-height: 0.95;
   /* 🔑 aproxima DRIVE e THRU */
-  margin: -1px 0;
+  /* margin: -1px 0;
   letter-spacing: 0.08em;
 
   text-shadow:
     0 0 3px rgba(230, 81, 0, 0.5),
     0 0 6px rgba(230, 81, 0, 0.35);
-}
+} */ */
 
 /* garante que cada tab ocupe 1/3 do espaço */
 .ff-tabs {

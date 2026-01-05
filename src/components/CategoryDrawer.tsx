@@ -110,12 +110,12 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
                 <IconButton
                     onClick={() => setOpen((p) => !p)}
                     sx={{
-                        width: 48,          
-                        height: 48,           
-                        p: 0,                 
+                        width: 48,
+                        height: 48,
+                        p: 0,
                         display: "grid",
                         placeItems: "center",
-                        borderRadius: 2,     
+                        borderRadius: 2,
                     }}
                 >
                     {open ? (

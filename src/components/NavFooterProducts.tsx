@@ -73,7 +73,7 @@ export default function NavFooterProducts() {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    height: 78,
+                    height: 86,
                     zIndex: 1300,
                     backgroundColor: "#fff3e0",
                     borderTop: "2px solid rgba(13, 71, 161, 0.25)",
@@ -120,7 +120,7 @@ export default function NavFooterProducts() {
                             >
                                 <item.Icon
                                     sx={{
-                                        fontSize: 28,
+                                        fontSize: 30,
                                         color: ORANGE,
                                     }}
                                 />

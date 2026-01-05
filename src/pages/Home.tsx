@@ -597,8 +597,8 @@ export default function Home() {
                                     onClick={handleClearCart}
                                     sx={{
                                         minWidth: { xs: 30, sm: 45 },
-                                        width: { xs: 55, sm: 45, md: 75 },
-                                        height: { xs: 32, md: 44 },
+                                        width: { xs: 55, sm: 60, md: 75 },
+                                        height: { xs: 34, sm: 38, md: 44 },
                                         borderRadius: 2,
                                         backgroundColor: "#e65100",
                                         "&:hover": { backgroundColor: "#b33f00" },
