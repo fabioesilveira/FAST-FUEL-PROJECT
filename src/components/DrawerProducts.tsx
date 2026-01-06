@@ -387,7 +387,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                     <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
                       <IconComp
                         sx={{
-                          fontSize: 30.5,
+                          fontSize: 29.5,
                           color: ORANGE,
                           transition: "transform .2s ease",
                           transform: open ? "scale(1.04)" : "scale(1)",

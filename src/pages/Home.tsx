@@ -619,7 +619,7 @@ export default function Home() {
                         <Typography
                             align="center"
                             sx={{
-                                mb: { xs: 2.5, md: 1 },
+                                mb: { xs: 3 , md: 3 },
                                 mt: { xs: -2, md: -3 },
 
                                 fontFamily: "Titan One",

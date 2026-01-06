@@ -115,10 +115,12 @@ function ProductCard({
           width: "100%",
           backgroundColor: "#ffe0c7",
           borderRadius: 2,
+          
           border: "1px solid rgba(230,81,0,0.18)",
           px: useCompactMobile ? 1.6 : 2,
           py: useCompactMobile ? 1.12 : 1.0,
           boxShadow: 2,
+          
           textAlign: "center",
         }}
       >
@@ -153,39 +155,46 @@ function ProductCard({
       )}
 
       {/* DESCRIPTION (fica igual ao mobile também no tablet) */}
-      <Box
-        sx={{
-          width: "100%",
-          backgroundColor: "#ffe0c7",
-          borderRadius: "10px",
-          border: "1px solid rgba(230,81,0,0.18)",
-          boxShadow: 2,
+     <Box
+  sx={{
+    width: "100%",
+    backgroundColor: "#ffe0c7",
+    borderRadius: "10px",
+    border: "1px solid rgba(230,81,0,0.18)",
+    boxShadow: 2,
 
-          px: 1.4,
-          py: 0,
-          minHeight: 132,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: "0.9rem",
-            fontWeight: 400,
-            lineHeight: 1.35,
-            color: "#1f1f1f",
+    px: 2,
+    py: 1.8,
+    minHeight: 150,
 
-            display: "-webkit-box",
-            WebkitLineClamp: 5,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-          }}
-        >
-          {product.description}
-        </Typography>
-      </Box>
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center", // ✅ garante centralização vertical/horizontal
+  }}
+>
+  <Typography
+    sx={{
+      width: "100%",
+      maxWidth: 230,
+      mx: "auto",
+      textAlign: "left",
+
+      fontSize: "0.92rem",
+      fontWeight: 400,
+      lineHeight: 1.55,
+      letterSpacing: "0.01em",
+      color: "rgba(20,20,20,0.88)",
+
+      // ✅ evita "melt-ed" e espaçamentos estranhos
+      hyphens: "none",
+      wordBreak: "normal",
+      overflowWrap: "normal",
+    }}
+  >
+    {product.description}
+  </Typography>
+</Box>
+
 
       {/* ACTION */}
       {useCompactStyle ? (
@@ -572,24 +581,24 @@ export default function Burguers() {
   }
 
   const imageStylesMobile: Record<string, React.CSSProperties> = {
-    "1": { width: "120px", height: "110px" },
-    "2": { width: "240px", height: "230px" },
-    "3": { width: "158px", height: "118px", marginTop: "10px" },
-    "4": { width: "200px", height: "135px" },
+    "1": { width: "105px", height: "105px", marginTop: "5px" },
+    "2": { width: "260px", height: "260px" },
+    "3": { width: "135px", height: "100px", marginTop: "5px" },
+    "4": { width: "170px", height: "120px" },
   };
 
   const imageStylesDesktop: Record<string, React.CSSProperties> = {
-    "1": { width: "130px", height: "120px" },
+    "1": { width: "130px", height: "120px", marginTop: "10px" },
     "2": { width: "210px", height: "200px" },
     "3": { width: "158px", height: "118px", marginTop: "10px" },
-    "4": { width: "200px", height: "135px" },
+    "4": { width: "200px", height: "145px" },
   };
 
   const imageStylesDesktopWide: Record<string, React.CSSProperties> = {
-    "1": { width: "170px", height: "140px", marginTop: "64px" }, // Pit Stop Classic
-    "2": { width: "220px", height: "210px", marginTop: "22px" }, // Turbo Bacon
-    "3": { width: "168px", height: "158px", marginTop: "55px" }, // Double Gear
-    "4": { width: "210px", height: "185px", marginTop: "35px" }, // Fuel Monster
+    "1": { width: "180px", height: "150px", marginTop: "5px" }, // Pit Stop Classic
+    "2": { width: "240px", height: "225px", }, // Turbo Bacon
+    "3": { width: "173px", height: "163px", marginTop: "12px" }, // Double Gear
+    "4": { width: "250px", height: "195px", }, // Fuel Monster
   };
 
 
@@ -648,7 +657,7 @@ export default function Burguers() {
           product={product}
           onAdd={handleOrder}
           onRemove={handleRemove}
-          imgStyle={imageStylesDesktop[product.id]}
+          imgStyle={imageStylesDesktopWide[product.id]}
           flip={index % 2 === 0} // ✅ esquerda = imagem direita
         />
       ))}
