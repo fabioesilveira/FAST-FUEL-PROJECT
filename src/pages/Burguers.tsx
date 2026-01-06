@@ -630,7 +630,7 @@ export default function Burguers() {
         px: { xs: 1, sm: 2 },
         mx: "auto",
         mt: 4,
-        mb: 12,
+        mb: 15,
       }}
     >
       {data.map((product) => (
