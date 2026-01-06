@@ -1,34 +1,20 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Footer from "../components/Footer";
-import { useNavigate } from 'react-router-dom';
 import { useAppContext, type Meal } from '../context/context';
 import NavbarProducts from '../components/NavbarProducts';
 import Typography from '@mui/material/Typography';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useAppAlert } from "../hooks/useAppAlert";
-
+import DrawerProducts from '../components/DrawerProducts';
+import NavFooterProducts from '../components/NavFooterProducts';
+import { DescriptionBox } from '../components/DescriptionBox';
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: (theme.vars ?? theme).palette.text.secondary,
-  ...theme.applyStyles('dark', {
-    backgroundColor: '#1A2027',
-  }),
-}));
 
 const getNameWithKcal = (name: string) => name.trim();
 
@@ -39,7 +25,8 @@ function ProductCard({
   imgStyle,
   isMobile = false,
   isTabletOnly = false,
-  useToggle = false, // ✅ NOVO
+  useToggle = false,
+  qty = 0,
 }: {
   product: Meal;
   onAdd: (p: Meal) => void;
@@ -47,23 +34,22 @@ function ProductCard({
   imgStyle?: React.CSSProperties;
   isMobile?: boolean;
   isTabletOnly?: boolean;
-  useToggle?: boolean; // ✅ NOVO
+  useToggle?: boolean;
+  qty?: number;
 }) {
+
   const title = getNameWithKcal(product.name);
   const price = `$${Number(product.price).toFixed(2)}`;
 
-  // ✅ mantém seu tamanho igual (mobile 100%, tablet/desktop 300)
   const useCompactMobile = isMobile;
 
-  // ✅ SÓ layout: tablet passa a usar layout do mobile
-  // antes: const useCompactStyle = isMobile || isTabletOnly;
-  const useCompactStyle = isMobile || isTabletOnly || useToggle; // ✅ desktop também
+  const useCompactStyle = isMobile || isTabletOnly || useToggle;
 
   return (
     <Box
       sx={{
         width: useCompactMobile ? "100%" : 300,
-
+        position: "relative",
         borderRadius: "13px",
         border: "2px solid #e65100",
         backgroundColor: "#fff3e0",
@@ -81,6 +67,36 @@ function ProductCard({
         },
       }}
     >
+
+      {qty > 0 && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 10,
+            right: 10,
+            width: 35,
+            height: 35,
+            px: 0.9,
+            borderRadius: "999px",
+            bgcolor: "#0d47a1",
+            color: "#fff",
+            boxShadow: "0 6px 14px rgba(13,71,161,0.30)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: 600,
+            fontSize: "0.85rem",
+            letterSpacing: "0.02em",
+            zIndex: 5,
+            userSelect: "none",
+            pointerEvents: "none",
+          }}
+        >
+          {qty}
+        </Box>
+      )}
+
+
       {/* IMAGE */}
       <Box
         sx={{
@@ -109,24 +125,26 @@ function ProductCard({
         />
       </Box>
 
+
       {/* TITLE */}
       <Box
         sx={{
           width: "100%",
           backgroundColor: "#ffe0c7",
           borderRadius: 2,
-          
+
           border: "1px solid rgba(230,81,0,0.18)",
           px: useCompactMobile ? 1.6 : 2,
           py: useCompactMobile ? 1.12 : 1.0,
           boxShadow: 2,
-          
+
           textAlign: "center",
         }}
       >
         <Typography
           sx={{
             fontSize: useCompactMobile ? "0.86rem" : "0.98rem",
+            color: "#0d47a1",
             fontWeight: 800,
             lineHeight: 1.15,
           }}
@@ -135,7 +153,6 @@ function ProductCard({
         </Typography>
       </Box>
 
-      {/* ✅ Preço separado só existe no layout antigo (desktop) */}
       {!useCompactStyle && (
         <Box
           sx={{
@@ -154,164 +171,116 @@ function ProductCard({
         </Box>
       )}
 
-      {/* DESCRIPTION (fica igual ao mobile também no tablet) */}
-     <Box
-  sx={{
-    width: "100%",
-    backgroundColor: "#ffe0c7",
-    borderRadius: "10px",
-    border: "1px solid rgba(230,81,0,0.18)",
-    boxShadow: 2,
 
-    px: 2,
-    py: 1.8,
-    minHeight: 150,
+      {/* DESCRIPTION */}
 
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center", // ✅ garante centralização vertical/horizontal
-  }}
->
-  <Typography
-    sx={{
-      width: "100%",
-      maxWidth: 230,
-      mx: "auto",
-      textAlign: "left",
-
-      fontSize: "0.92rem",
-      fontWeight: 400,
-      lineHeight: 1.55,
-      letterSpacing: "0.01em",
-      color: "rgba(20,20,20,0.88)",
-
-      // ✅ evita "melt-ed" e espaçamentos estranhos
-      hyphens: "none",
-      wordBreak: "normal",
-      overflowWrap: "normal",
-    }}
-  >
-    {product.description}
-  </Typography>
-</Box>
-
+      <DescriptionBox
+        text={product.description}
+        previewLines={2}
+        maxWidth={230}
+      />
 
       {/* ACTION */}
-      {useCompactStyle ? (
-        /* ✅ MOBILE + TABLET: price toggle */
+
+      <Box
+        sx={{
+          mt: 0.5,
+          mb: 0.5,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+
+          borderRadius: 2,
+          px: 1,
+          height: 38,
+          bgcolor: "#fff1e3",
+          border: "1px solid rgba(230,81,0,0.18)",
+          boxShadow: 2,
+        }}
+      >
+        {/* minus */}
         <Box
+          onClick={() => onRemove(product)}
           sx={{
-            mt: 0.5,
-            mb: 0.5,
+            width: 30,
+            height: 30,
+            borderRadius: "50%",
+
+            bgcolor: "transparent",
+            border: "1.5px solid rgba(30,91,184,0.45)",
+            color: "#1e5bb8",
+
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "center",
+            cursor: "pointer",
 
-            borderRadius: 2,
-            px: 1,
-            height: 38,
-            bgcolor: "#fff1e3",
-            border: "1px solid rgba(230,81,0,0.18)",
-            boxShadow: 2,
+            transition: "all 0.15s ease",
+            "&:active": {
+              transform: "scale(0.92)",
+              boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+            },
           }}
         >
-          {/* minus */}
-          <Box
-            onClick={() => onRemove(product)}
-            sx={{
-              width: 30,
-              height: 30,
-              borderRadius: "50%",
-
-              bgcolor: "transparent",
-              border: "1.5px solid rgba(30,91,184,0.45)",
-              color: "#1e5bb8",
-
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-
-              transition: "all 0.15s ease",
-              "&:active": {
-                transform: "scale(0.92)",
-                boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
-              },
-            }}
-          >
-            <RemoveIcon sx={{ fontSize: 20 }} />
-          </Box>
-
-          {/* price */}
-          <Typography
-            sx={{
-              fontWeight: 900,
-              fontSize: "0.9rem",
-              letterSpacing: "0.04em",
-            }}
-          >
-            {price}
-          </Typography>
-
-          {/* plus */}
-          <Box
-            onClick={() => onAdd(product)}
-            sx={{
-              width: 30,
-              height: 30,
-              borderRadius: "50%",
-              bgcolor: "#1e5bb8",
-              color: "#ffffff",
-
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-
-              "&:active": {
-                transform: "scale(0.92)",
-                boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
-              },
-            }}
-          >
-            <AddIcon sx={{ fontSize: 20 }} />
-          </Box>
+          <RemoveIcon sx={{ fontSize: 20 }} />
         </Box>
-      ) : (
-        /* ✅ DESKTOP: botão antigo */
-        <Button
-          onClick={() => onAdd(product)}
-          variant="contained"
+
+        {/* price */}
+        <Typography
           sx={{
-            mt: 0.5,
-            height: 42,
-            borderRadius: 2,
-            backgroundColor: "#e65100",
-            "&:hover": { backgroundColor: "#ff8a4c" },
-            color: "#ffe0c7",
             fontWeight: 900,
-            fontSize: "0.95rem",
+            fontSize: "0.9rem",
+            letterSpacing: "0.04em",
           }}
         >
-          ADD TO CART
-        </Button>
-      )}
+          {price}
+        </Typography>
+
+        {/* plus */}
+        <Box
+          onClick={() => onAdd(product)}
+          sx={{
+            width: 30,
+            height: 30,
+            borderRadius: "50%",
+            bgcolor: "#1e5bb8",
+            color: "#ffffff",
+
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+
+            "&:active": {
+              transform: "scale(0.92)",
+              boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+            },
+          }}
+        >
+          <AddIcon sx={{ fontSize: 20 }} />
+        </Box>
+      </Box>
+
     </Box>
   );
 }
+
+{/* DESKTOP CARD FUNCTION*/ }
 
 function ProductCardDesktopLandscape({
   product,
   onAdd,
   onRemove,
   imgStyle,
-  flip = false, // false = imagem esquerda | true = imagem direita
+  flip = false,
+  qty = 0,
 }: {
   product: Meal;
   onAdd: (p: Meal) => void;
   onRemove: (p: Meal) => void;
   imgStyle?: React.CSSProperties;
   flip?: boolean;
+  qty?: number;
 }) {
   const title = getNameWithKcal(product.name);
   const price = `$${Number(product.price).toFixed(2)}`;
@@ -320,13 +289,14 @@ function ProductCardDesktopLandscape({
     <Box
       sx={{
         width: "100%",
+        position: "relative",
         borderRadius: "13px",
         border: "2px solid #e65100",
         backgroundColor: "#fff3e0",
         boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
         p: 2,
         display: "flex",
-        flexDirection: flip ? "row-reverse" : "row", // ✅ alterna lados
+        flexDirection: flip ? "row-reverse" : "row",
         gap: 2,
         alignItems: "stretch",
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
@@ -336,6 +306,34 @@ function ProductCardDesktopLandscape({
         },
       }}
     >
+      {qty > 0 && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 12,
+            right: 12,
+            minWidth: 35,
+            height: 35,
+            px: 1,
+            borderRadius: "999px",
+            bgcolor: "#0d47a1",
+            color: "#fff",
+
+            boxShadow: "0 6px 14px rgba(13,71,161,0.30)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: 600,
+            fontSize: "0.95rem",
+            zIndex: 5,
+            userSelect: "none",
+            pointerEvents: "none",
+          }}
+        >
+          {qty}
+        </Box>
+      )}
+
       {/* IMAGE */}
       <Box
         sx={{
@@ -364,22 +362,24 @@ function ProductCardDesktopLandscape({
         />
       </Box>
 
-      {/* INFO SIDE (mesmo design do mobile/tablet) */}
-      {/* INFO SIDE (mesmo design do mobile/tablet) */}
+
+      {/* INFO SIDE */}
       <Box
         sx={{
           flex: 1,
-          height: 260,                 // ✅ igual à imagem
+          height: 260,
           display: "flex",
           flexDirection: "column",
-          gap: 1.2,                    // ajusta o respiro
+          gap: 1.2,
         }}
       >
+
         {/* TITLE */}
+
         <Box
           sx={{
             width: "100%",
-            height: 44,                // ✅ mesmo tamanho do toggle
+            height: 52,
             backgroundColor: "#ffe0c7",
             borderRadius: 2,
             border: "1px solid rgba(230,81,0,0.18)",
@@ -391,49 +391,66 @@ function ProductCardDesktopLandscape({
             textAlign: "center",
           }}
         >
-          <Typography sx={{ fontSize: "0.98rem", fontWeight: 800, lineHeight: 1.15 }}>
+          <Typography
+            sx={{
+              color: "#0d47a1",
+              fontWeight: 700,
+              letterSpacing: "0.02em",
+              fontSize: "0.95rem",
+            }}
+          >
             {title}
           </Typography>
         </Box>
+
 
         {/* DESCRIPTION */}
         <Box
           sx={{
             width: "100%",
-            flex: 1,                   // ✅ pega o espaço restante (fica maior)
-            minHeight: 0,              // ✅ importante pra clamp/overflow funcionar
             backgroundColor: "#ffe0c7",
-            borderRadius: "10px",
+            borderRadius: "12px",
             border: "1px solid rgba(230,81,0,0.18)",
             boxShadow: 2,
-            px: 1.6,
+
+            px: 2.5,
+            py: 2.0,
+            minHeight: 162,
+
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            textAlign: "center",
           }}
         >
+
           <Typography
             sx={{
-              fontSize: "0.92rem",
+              width: "100%",
+              maxWidth: 260,
+              mx: "auto",
+
+              textAlign: "left",
+              fontSize: "0.88rem",
               fontWeight: 400,
-              lineHeight: 1.35,
-              color: "#1f1f1f",
-              display: "-webkit-box",
-              WebkitLineClamp: 6,       // ✅ agora dá pra mostrar mais linhas
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
+              lineHeight: 1.6,
+              letterSpacing: "0.01em",
+              color: "rgba(20,20,20,0.88)",
+
+              wordBreak: "normal",
+              overflowWrap: "normal",
+              hyphens: "none",
             }}
           >
             {product.description}
           </Typography>
+
         </Box>
 
         {/* TOGGLE */}
         <Box
           sx={{
             width: "100%",
-            height: 44,                // ✅ igual ao title
+            height: 52,
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -444,6 +461,7 @@ function ProductCardDesktopLandscape({
             boxShadow: 2,
           }}
         >
+
           {/* minus */}
           <Box
             onClick={() => onRemove(product)}
@@ -500,26 +518,18 @@ function ProductCardDesktopLandscape({
   );
 }
 
-
-
-import DrawerProducts from '../components/DrawerProducts';
-import NavFooterProducts from '../components/NavFooterProducts';
+{/* COMPONENT STARTS HERE*/ }
 
 export default function Burguers() {
-  const [data, setData] = useState<Meal[]>([]);
-  const { confirmAlert, ConfirmUI } = useAppAlert({
-    vertical: "top",
-    horizontal: "center",
-  });
 
+  const [data, setData] = useState<Meal[]>([]);
   const { order, setOrder } = useAppContext();
-  const navigate = useNavigate();
 
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // ✅ isso é o tablet-only real (sm até md)
+
   const isTabletOnly = useMediaQuery(theme.breakpoints.between("sm", "lg"));
 
   function handleRemove(product: Meal) {
@@ -580,6 +590,8 @@ export default function Burguers() {
     }
   }
 
+  //IMG ADJUST 
+
   const imageStylesMobile: Record<string, React.CSSProperties> = {
     "1": { width: "105px", height: "105px", marginTop: "5px" },
     "2": { width: "260px", height: "260px" },
@@ -628,10 +640,12 @@ export default function Burguers() {
           onAdd={handleOrder}
           onRemove={handleRemove}
           isMobile={isMobile}
-          isTabletOnly={isTabletOnly} // ✅ aqui
+          isTabletOnly={isTabletOnly}
           imgStyle={isMobile ? imageStylesMobile[product.id] : imageStylesDesktop[product.id]}
+          qty={order.find((p) => p.id === product.id)?.quantidade ?? 0} 
         />
       ))}
+
     </Box>
   );
 
@@ -639,7 +653,7 @@ export default function Burguers() {
     <Box
       sx={{
         display: "grid",
-        gridTemplateColumns: "repeat(2, 560px)", // ✅ 2 por row
+        gridTemplateColumns: "repeat(2, 560px)",
         height: "630px",
         justifyContent: "center",
         columnGap: 4,
@@ -658,19 +672,19 @@ export default function Burguers() {
           onAdd={handleOrder}
           onRemove={handleRemove}
           imgStyle={imageStylesDesktopWide[product.id]}
-          flip={index % 2 === 0} // ✅ esquerda = imagem direita
+          flip={index % 2 === 0}
+          qty={order.find((p) => p.id === product.id)?.quantidade ?? 0}
         />
       ))}
+
     </Box>
   );
-
 
 
   return (
     <>
       <NavbarProducts />
 
-      {ConfirmUI}
 
       {!isMobile && <DrawerProducts />}
 
@@ -679,9 +693,6 @@ export default function Burguers() {
       <Container fixed>
         {isDesktop ? desktopGridLandscape : mobileTabletGrid}
       </Container>
-
-
-
 
 
       <Box sx={{ position: "fixed", bottom: 0, left: 0, width: "100%", zIndex: 2000 }}>
