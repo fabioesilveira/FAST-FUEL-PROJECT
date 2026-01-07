@@ -225,7 +225,7 @@ export default function SignIn() {
                                     variant="h4"
                                     align="center"
                                     sx={{
-                                        fontSize: { xs: "2.15rem", sm: "2.35rem", md: "2.5rem" },
+                                        fontSize: { xs: "2.25rem", sm: "2.35rem", md: "2.5rem" },
                                         letterSpacing: { xs: "0.10em", sm: "0.12em" },
                                         textTransform: "uppercase",
                                         color: "#0d47a1",
@@ -310,7 +310,7 @@ export default function SignIn() {
                                         fontWeight: 700,
                                         bgcolor: "#1e5bb8",
                                         boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
-                                        fontSize: { xs: "0.85rem", sm: "0.85rem", md: "0.95rem" },
+                                        fontSize: { xs: "0.85rem", sm: "0.85rem", md: "0.92rem" },
                                         "&:hover": { bgcolor: "#164a99" },
                                         "&:active": {
                                             bgcolor: "rgba(230, 81, 0, 0.28)",
@@ -345,7 +345,7 @@ export default function SignIn() {
                                         borderRadius: 2,
                                         textTransform: "uppercase",
                                         border: "2px solid #0d47a1",
-                                        fontSize: { xs: "0.80rem", sm: "0.85rem", md: "0.95rem" },
+                                        fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
                                         color: "#ffffff",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
@@ -381,7 +381,7 @@ export default function SignIn() {
                                         borderRadius: 2,
                                         textTransform: "uppercase",
                                         border: "2px solid #0d47a1",
-                                        fontSize: { xs: "0.80rem", sm: "0.85rem", md: "0.95rem" },
+                                        fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
                                         color: "#0d47a1",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,

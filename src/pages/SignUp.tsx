@@ -3,14 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useAppAlert } from "../hooks/useAppAlert";
-import {
-    Box,
-    Paper,
-    Typography,
-    TextField,
-    Button,
-} from "@mui/material";
-import NavbarProducts from "../components/NavbarProducts";
+import { Box, Paper, Typography, TextField, Button } from "@mui/material";
+import NavbarExtra from "../components/NavbarExtra";
 
 type User = {
     name: string;
@@ -53,7 +47,6 @@ export default function SignUp() {
         }
     }, [navigate]);
 
-
     function handleChange({ target }: any) {
         const { name, value } = target;
         setSignUp((prev) => ({
@@ -76,7 +69,6 @@ export default function SignUp() {
     }
 
     async function handleClick() {
-        // validações de registro
         if (!signUp.name || !signUp.email || !signUp.number || !signUp.password || !signUp.confirmPassword) {
             showAlert("Please fill in all fields.", "warning");
             return;
@@ -115,7 +107,6 @@ export default function SignUp() {
 
             const res = await axios.post("http://localhost:3000/users/register", payload);
 
-            // salva igual ao SignIn
             localStorage.setItem("idUser", String(res.data.id));
             localStorage.setItem("userName", res.data.userName || signUp.name);
             localStorage.setItem("userType", res.data.type || "normal");
@@ -132,7 +123,6 @@ export default function SignUp() {
             );
 
             showAlert("Account created successfully!", "success");
-
             navigate("/");
         } catch (error: any) {
             console.error("error to send the data", error);
@@ -147,7 +137,7 @@ export default function SignUp() {
 
     return (
         <>
-            <NavbarProducts />
+            <NavbarExtra />
             {AlertUI}
 
             <Box
@@ -167,12 +157,12 @@ export default function SignUp() {
                         width: 70,
                         flexShrink: 0,
                         backgroundImage: `repeating-linear-gradient(
-                          to right,
-                        rgba(255, 244, 225, 0.4),
-                        rgba(255, 244, 225, 0.4) 20px,
-                         transparent 20px,
-                         transparent 40px
-                           )`,
+              to right,
+              rgba(255, 244, 225, 0.4),
+              rgba(255, 244, 225, 0.4) 20px,
+              transparent 20px,
+              transparent 40px
+            )`,
                         backgroundSize: "100% 40px",
                         backgroundRepeat: "repeat-y",
                         backgroundAttachment: "fixed",
@@ -184,21 +174,21 @@ export default function SignUp() {
                     sx={{
                         flex: 3,
                         backgroundImage: `
-                         linear-gradient(
-                         to left,
-                         #fff4e1 0%,
-                         #fff4e1 25%,
-                         rgba(255, 244, 225, 0.7) 25%,
-                         rgba(255, 244, 225, 0.0) 45%
-                          ),
-                          repeating-linear-gradient(
-                          to right,
-                         rgba(255, 244, 225, 0.4),
-                         rgba(255, 244, 225, 0.4) 20px,
-                           transparent 20px,
-                           transparent 40px
-                          )
-                          `,
+              linear-gradient(
+                to left,
+                #fff4e1 0%,
+                #fff4e1 25%,
+                rgba(255, 244, 225, 0.7) 25%,
+                rgba(255, 244, 225, 0.0) 45%
+              ),
+              repeating-linear-gradient(
+                to right,
+                rgba(255, 244, 225, 0.4),
+                rgba(255, 244, 225, 0.4) 20px,
+                transparent 20px,
+                transparent 40px
+              )
+            `,
                         backgroundSize: "100% 40px, 100% 40px",
                         backgroundRepeat: "repeat-y, repeat-y",
                         backgroundAttachment: "fixed",
@@ -217,8 +207,8 @@ export default function SignUp() {
                         justifyContent: "center",
                         alignItems: "center",
                         px: 2,
-                        pt: { xs: 10, md: 12 }, // espaço navbar
-                        pb: 10,                 // espaço footer
+                        pt: { xs: 10, md: 12 },
+                        pb: 10,
                         boxSizing: "border-box",
                         overflowY: "auto",
                     }}
@@ -241,13 +231,12 @@ export default function SignUp() {
                                 alignItems: "center",
                             }}
                         >
-
                             <Typography
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: "2.5rem",
-                                    letterSpacing: "0.12em",
+                                    fontSize: { xs: "2.25rem", sm: "2.35rem", md: "2.5rem" },
+                                    letterSpacing: { xs: "0.10em", sm: "0.12em" },
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
                                     fontWeight: 700,
@@ -263,9 +252,9 @@ export default function SignUp() {
                                 align="center"
                                 sx={{
                                     mb: 2,
-                                    fontSize: "0.9rem",
+                                    fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
                                     color: "text.secondary",
-                                    fontWeight: "bold"
+                                    fontWeight: "bold",
                                 }}
                             >
                                 Create your Fast Fuel account for a full experience.
@@ -293,20 +282,11 @@ export default function SignUp() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": {
-                                            color: "#0d47a1",
-                                            fontWeight: 600,
-                                        },
-                                        "& label.Mui-focused": {
-                                            color: "#0d47a1",
-                                        },
+                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
-                                            "& fieldset": {
-                                                borderColor: "#0d47a1",
-                                            },
-                                            "&:hover fieldset": {
-                                                borderColor: "#123b7a",
-                                            },
+                                            "& fieldset": { borderColor: "#0d47a1" },
+                                            "&:hover fieldset": { borderColor: "#123b7a" },
                                             "&.Mui-focused fieldset": {
                                                 borderColor: "#0d47a1",
                                                 borderWidth: 2,
@@ -324,20 +304,11 @@ export default function SignUp() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": {
-                                            color: "#0d47a1",
-                                            fontWeight: 600,
-                                        },
-                                        "& label.Mui-focused": {
-                                            color: "#0d47a1",
-                                        },
+                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
-                                            "& fieldset": {
-                                                borderColor: "#0d47a1",
-                                            },
-                                            "&:hover fieldset": {
-                                                borderColor: "#123b7a",
-                                            },
+                                            "& fieldset": { borderColor: "#0d47a1" },
+                                            "&:hover fieldset": { borderColor: "#123b7a" },
                                             "&.Mui-focused fieldset": {
                                                 borderColor: "#0d47a1",
                                                 borderWidth: 2,
@@ -355,20 +326,11 @@ export default function SignUp() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": {
-                                            color: "#0d47a1",
-                                            fontWeight: 600,
-                                        },
-                                        "& label.Mui-focused": {
-                                            color: "#0d47a1",
-                                        },
+                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
-                                            "& fieldset": {
-                                                borderColor: "#0d47a1",
-                                            },
-                                            "&:hover fieldset": {
-                                                borderColor: "#123b7a",
-                                            },
+                                            "& fieldset": { borderColor: "#0d47a1" },
+                                            "&:hover fieldset": { borderColor: "#123b7a" },
                                             "&.Mui-focused fieldset": {
                                                 borderColor: "#0d47a1",
                                                 borderWidth: 2,
@@ -387,20 +349,11 @@ export default function SignUp() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": {
-                                            color: "#0d47a1",
-                                            fontWeight: 600,
-                                        },
-                                        "& label.Mui-focused": {
-                                            color: "#0d47a1",
-                                        },
+                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
-                                            "& fieldset": {
-                                                borderColor: "#0d47a1",
-                                            },
-                                            "&:hover fieldset": {
-                                                borderColor: "#123b7a",
-                                            },
+                                            "& fieldset": { borderColor: "#0d47a1" },
+                                            "&:hover fieldset": { borderColor: "#123b7a" },
                                             "&.Mui-focused fieldset": {
                                                 borderColor: "#0d47a1",
                                                 borderWidth: 2,
@@ -419,20 +372,11 @@ export default function SignUp() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": {
-                                            color: "#0d47a1",
-                                            fontWeight: 600,
-                                        },
-                                        "& label.Mui-focused": {
-                                            color: "#0d47a1",
-                                        },
+                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
-                                            "& fieldset": {
-                                                borderColor: "#0d47a1",
-                                            },
-                                            "&:hover fieldset": {
-                                                borderColor: "#123b7a",
-                                            },
+                                            "& fieldset": { borderColor: "#0d47a1" },
+                                            "&:hover fieldset": { borderColor: "#123b7a" },
                                             "&.Mui-focused fieldset": {
                                                 borderColor: "#0d47a1",
                                                 borderWidth: 2,
@@ -451,18 +395,16 @@ export default function SignUp() {
                                         height: 42,
                                         borderRadius: 2,
                                         textTransform: "uppercase",
-
                                         border: "2px solid #0d47a1",
                                         color: "#ffffff",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
-
                                         bgcolor: "#1e5bb8",
-
                                         boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
 
-                                        "&:hover": { bgcolor: "#164a99" },
+                                        fontSize: { xs: "0.85rem", sm: "0.85rem", md: "0.92rem" },
 
+                                        "&:hover": { bgcolor: "#164a99" },
                                         "&:active": {
                                             bgcolor: "rgba(230, 81, 0, 0.28)",
                                             boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
@@ -478,9 +420,12 @@ export default function SignUp() {
                                     onClick={() => navigate("/sign-in")}
                                     sx={{
                                         mt: 0.5,
-                                        fontSize: "0.85rem",
                                         textTransform: "none",
                                         color: "rgba(180, 63, 0, 1)",
+
+
+                                        fontSize: { xs: "0.78rem", sm: "0.83rem", md: "0.85rem" },
+
                                         "&:hover": {
                                             textDecoration: "underline",
                                         },
@@ -488,6 +433,7 @@ export default function SignUp() {
                                 >
                                     Already have an account? Sign In
                                 </Button>
+
                                 <Button
                                     variant="outlined"
                                     fullWidth
@@ -503,6 +449,10 @@ export default function SignUp() {
                                         fontWeight: 700,
                                         bgcolor: "rgba(230, 81, 0, 0.14)",
                                         boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+
+
+                                        fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
+
                                         "&:hover": {
                                             bgcolor: "rgba(230, 81, 0, 0.22)",
                                             borderColor: "#0d47a1",
@@ -518,7 +468,6 @@ export default function SignUp() {
                                 >
                                     Continue as guest
                                 </Button>
-
                             </Box>
                         </Paper>
                     </Box>
@@ -528,5 +477,4 @@ export default function SignUp() {
             <Footer />
         </>
     );
-
 }
