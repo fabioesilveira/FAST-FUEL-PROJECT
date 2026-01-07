@@ -26,14 +26,15 @@ export default function AppConfirm({
   onCancel,
   onDismiss,
 }: AppConfirmProps) {
-  
+
   const actionButtonSx = {
-    minWidth: 140,              
-    height: 38,               
+    minWidth: { xs: 120, sm: 130, md: 140 },
+    height: { xs: 34, sm: 36, md: 38 },
     borderRadius: "10px",
     fontWeight: 900,
     letterSpacing: "0.08em",
     textTransform: "uppercase",
+    fontSize: { xs: "0.72rem", sm: "0.75rem", md: "0.8rem" },
   };
 
   return (
@@ -48,11 +49,12 @@ export default function AppConfirm({
       fullWidth
       PaperProps={{
         sx: {
-          borderRadius: "18px",
+          borderRadius: { xs: "14px", md: "18px" },
           border: "1.5px solid rgba(0,0,0,0.14)",
           boxShadow: "0 18px 40px rgba(0,0,0,0.18)",
           backgroundColor: "#ffffff",
-          pb: 1.5,
+          pb: { xs: 2, md: 2 },
+          pt: { xs: 1, md: 1 },
         },
       }}
     >
@@ -61,21 +63,23 @@ export default function AppConfirm({
           fontWeight: 900,
           color: "#111111",
           textAlign: "center",
-          pt: 3,
+          pt: { xs: 2.2, md: 3 },
           letterSpacing: "0.06em",
           textTransform: "uppercase",
+          fontSize: { xs: "0.95rem", sm: "1rem", md: "1.05rem" },
         }}
       >
         {title}
       </DialogTitle>
 
-      <DialogContent sx={{ pt: 1, pb: 1.5 }}>
+      <DialogContent sx={{ pt: { xs: 0.5, md: 1 }, pb: { xs: 1, md: 1.5 } }}>
         <Typography
           sx={{
             fontWeight: 600,
             color: "#2b2b2b",
             lineHeight: 1.45,
             textAlign: "center",
+            fontSize: { xs: "0.85rem", sm: "0.88rem", md: "0.95rem" },
           }}
         >
           {message}
@@ -84,9 +88,9 @@ export default function AppConfirm({
 
       <DialogActions
         sx={{
-          p: 2,
+          p: { xs: 1.5, md: 2 },
           pt: 1,
-          gap: 1.3,
+          gap: { xs: 1, md: 1.3 },
           justifyContent: "center",
         }}
       >

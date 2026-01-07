@@ -3,9 +3,9 @@ import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import NavbarProducts from "../components/NavbarProducts";
 import { useAppAlert } from "../hooks/useAppAlert";
 import AppConfirm from "../components/AppConfirm";
+import NavbarExtra from "../components/NavbarExtra";
 
 type User = {
     email: string;
@@ -93,7 +93,7 @@ export default function DeleteAccount() {
 
     return (
         <>
-            <NavbarProducts />
+            <NavbarExtra />
             {AlertUI}
 
             <AppConfirm
