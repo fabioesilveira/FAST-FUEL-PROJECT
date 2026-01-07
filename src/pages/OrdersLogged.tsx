@@ -384,14 +384,14 @@ export default function OrdersLogged() {
                             variant="h4"
                             align="center"
                             sx={{
-                                fontSize: "2.4rem",
-                                letterSpacing: "0.14em",
+                                fontSize: { xs: "2.25rem", sm: "2.35rem", md: "2.5rem" },
+                                letterSpacing: { xs: "0.10em", sm: "0.12em" },
                                 textTransform: "uppercase",
                                 color: "#0d47a1",
-                                fontWeight: 800,
-                                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
-                                mt: { xs: 1, sm: 1, md: 1.5 },
-                                mb: { xs: 1, sm: 1, md: 1.5 },
+                                fontWeight: 700,
+                                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
+                                mb: 4,
+                                mt: { xs: 1.5, sm: 1, md: 0 },
                             }}
                         >
                             Orders

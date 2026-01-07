@@ -1,30 +1,24 @@
 import React, { useEffect, useState } from "react";
-import {
-    Box,
-    Paper,
-    Typography,
-    TextField,
-    Button,
-} from "@mui/material";
+import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import NavbarProducts from "../components/NavbarProducts";
 import { useAppAlert } from "../hooks/useAppAlert";
+import AppConfirm from "../components/AppConfirm";
 
 type User = {
     email: string;
     password: string;
-    confirmPassword: string
+    confirmPassword: string;
 };
 
 export default function DeleteAccount() {
     const [deleteACC, setDeleteACC] = useState<User>({
         email: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "",
     });
-
 
     const navigate = useNavigate();
 
@@ -32,6 +26,8 @@ export default function DeleteAccount() {
         vertical: "top",
         horizontal: "center",
     });
+
+    const [openConfirm, setOpenConfirm] = useState(false);
 
     useEffect(() => {
         const raw = localStorage.getItem("authUser");
@@ -46,7 +42,6 @@ export default function DeleteAccount() {
         } catch { }
     }, []);
 
-
     async function handleDelete() {
         if (!deleteACC.email || !deleteACC.password || !deleteACC.confirmPassword) {
             showAlert("Please fill in all fields.", "warning");
@@ -55,15 +50,6 @@ export default function DeleteAccount() {
 
         if (deleteACC.password !== deleteACC.confirmPassword) {
             showAlert("The passwords entered don’t match. Please try again.", "error");
-            return;
-        }
-
-        const confirmDelete = window.confirm(
-            "Are you sure you want to delete your account?\nThis action cannot be undone."
-        );
-
-        if (!confirmDelete) {
-            showAlert("Account deletion canceled.", "info");
             return;
         }
 
@@ -78,26 +64,20 @@ export default function DeleteAccount() {
                 return;
             }
 
-            // backend confirmou → limpar sessão
+            // limpar sessão
             localStorage.removeItem("authUser");
-
-            // (legado / compatibilidade)
             localStorage.removeItem("idUser");
             localStorage.removeItem("userName");
             localStorage.removeItem("emailUser");
             localStorage.removeItem("userType");
             localStorage.removeItem("user");
-
-            // carrinho / checkout
             localStorage.removeItem("lsOrder");
             localStorage.removeItem("lastOrderCode");
             localStorage.removeItem("lastOrderEmail");
 
-
             showAlert("Account deleted successfully.", "success");
-
             navigate("/sign-in");
-        } catch (error: any) {
+        } catch (error) {
             console.error("error to send the data", error);
             showAlert("Error deleting account. Please try again.", "error");
         }
@@ -114,8 +94,21 @@ export default function DeleteAccount() {
     return (
         <>
             <NavbarProducts />
-
             {AlertUI}
+
+            <AppConfirm
+                open={openConfirm}
+                title="Delete account?"
+                message="Are you sure you want to permanently delete your account? This action cannot be undone."
+                confirmText="Delete"
+                cancelText="Cancel"
+                onCancel={() => setOpenConfirm(false)}
+                onDismiss={() => setOpenConfirm(false)}
+                onConfirm={() => {
+                    setOpenConfirm(false);
+                    handleDelete();
+                }}
+            />
 
             <Box
                 sx={{
@@ -134,12 +127,12 @@ export default function DeleteAccount() {
                         width: 70,
                         flexShrink: 0,
                         backgroundImage: `repeating-linear-gradient(
-                         to right,
-                       rgba(255, 244, 225, 0.4),
-                       rgba(255, 244, 225, 0.4) 20px,
-                         transparent 20px,
-                         transparent 40px
-                          )`,
+              to right,
+              rgba(255, 244, 225, 0.4),
+              rgba(255, 244, 225, 0.4) 20px,
+              transparent 20px,
+              transparent 40px
+            )`,
                         backgroundSize: "100% 40px",
                         backgroundRepeat: "repeat-y",
                         backgroundAttachment: "fixed",
@@ -151,21 +144,21 @@ export default function DeleteAccount() {
                     sx={{
                         flex: 3,
                         backgroundImage: `
-                         linear-gradient(
-                         to left,
-                         #fff4e1 0%,
-                         #fff4e1 25%,
-                         rgba(255, 244, 225, 0.7) 25%,
-                         rgba(255, 244, 225, 0.0) 45%
-                          ),
-                         repeating-linear-gradient(
-                         to right,
-                         rgba(255, 244, 225, 0.4),
-                         rgba(255, 244, 225, 0.4) 20px,
-                           transparent 20px,
-                           transparent 40px
-                            )
-                          `,
+              linear-gradient(
+                to left,
+                #fff4e1 0%,
+                #fff4e1 25%,
+                rgba(255, 244, 225, 0.7) 25%,
+                rgba(255, 244, 225, 0.0) 45%
+              ),
+              repeating-linear-gradient(
+                to right,
+                rgba(255, 244, 225, 0.4),
+                rgba(255, 244, 225, 0.4) 20px,
+                transparent 20px,
+                transparent 40px
+              )
+            `,
                         backgroundSize: "100% 40px, 100% 40px",
                         backgroundRepeat: "repeat-y, repeat-y",
                         backgroundAttachment: "fixed",
@@ -173,31 +166,30 @@ export default function DeleteAccount() {
                 />
 
                 {/* RIGHT SIDE */}
-                <Box
-                    sx={{
-                        flex: 1,
-                        background: "#fff4e1",
-                    }}
-                />
+                <Box sx={{ flex: 1, background: "#fff4e1" }} />
 
                 {/* OVERLAY centralizado */}
                 <Box
                     sx={{
                         position: "absolute",
-                        inset: 0,                 // top/right/bottom/left = 0
+                        inset: 0,
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
                         px: 2,
-
-                        // espaço pra navbar e footer
                         pt: { xs: 10, md: 12 },
                         pb: 10,
                         boxSizing: "border-box",
                         pointerEvents: "none",
                     }}
                 >
-                    <Box sx={{ width: "100%", maxWidth: { xs: 420, sm: 480, md: 520 }, pointerEvents: "auto" }}>
+                    <Box
+                        sx={{
+                            width: "100%",
+                            maxWidth: { xs: 420, sm: 480, md: 520 },
+                            pointerEvents: "auto",
+                        }}
+                    >
                         <Paper
                             elevation={0}
                             sx={{
@@ -215,15 +207,15 @@ export default function DeleteAccount() {
                                 alignItems: "center",
                             }}
                         >
-
-                            {/* Form */}
-
                             <Typography
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    mb: 2,
-                                    letterSpacing: "0.12em",
+                                    mb: 2.5,
+
+                                    fontSize: { xs: "2.10rem", sm: "2.15rem", md: "2.24rem" },
+                                    letterSpacing: { xs: "0.10em", sm: "0.12em" },
+
                                     textTransform: "uppercase",
                                     color: "#b71c1c",
                                     fontWeight: 700,
@@ -234,14 +226,13 @@ export default function DeleteAccount() {
                                 Delete Account
                             </Typography>
 
-                            {/* WARNING TEXT */}
                             <Typography
                                 align="center"
                                 sx={{
                                     mb: 2,
-                                    fontSize: "0.9rem",
+                                    fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
                                     color: "text.secondary",
-                                    fontWeight: "bold"
+                                    fontWeight: "bold",
                                 }}
                             >
                                 This action is permanent and cannot be undone.
@@ -312,13 +303,12 @@ export default function DeleteAccount() {
                                     }}
                                 />
 
-
                                 {/* DELETE BUTTON */}
                                 <Button
                                     fullWidth
                                     size="large"
                                     variant="contained"
-                                    onClick={handleDelete}
+                                    onClick={() => setOpenConfirm(true)}
                                     sx={{
                                         mt: 1,
                                         borderRadius: 2,
@@ -328,10 +318,11 @@ export default function DeleteAccount() {
                                         letterSpacing: "0.16em",
                                         fontWeight: 700,
 
+                                        fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
+
                                         "&:hover": {
                                             bgcolor: "#ffebee",
                                             color: "#b71c1c",
-
                                         },
                                         "&:active": {
                                             bgcolor: "#ffebee",
@@ -354,23 +345,20 @@ export default function DeleteAccount() {
                                         height: 42,
                                         borderRadius: 2,
                                         textTransform: "uppercase",
-
                                         border: "2px solid #0d47a1",
                                         color: "#0d47a1",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
-
                                         bgcolor: "rgba(230, 81, 0, 0.14)",
-
                                         boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+
+                                        fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
 
                                         "&:hover": {
                                             bgcolor: "rgba(230, 81, 0, 0.22)",
                                             borderColor: "#0d47a1",
                                             color: "#0d47a1",
-
                                         },
-
                                         "&:active": {
                                             bgcolor: "rgba(230, 81, 0, 0.28)",
                                             boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
@@ -389,5 +377,4 @@ export default function DeleteAccount() {
             <Footer />
         </>
     );
-
 }
