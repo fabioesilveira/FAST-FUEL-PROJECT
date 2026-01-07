@@ -3,8 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
-import NavbarProducts from "../components/NavbarProducts";
 import { useAppAlert } from "../hooks/useAppAlert";
+import NavbarExtra from "../components/NavbarExtra";
 
 type User = {
     email: string;
@@ -107,7 +107,7 @@ export default function SignIn() {
 
     return (
         <>
-            <NavbarProducts />
+            <NavbarExtra />
             {AlertUI}
 
             <Box
@@ -127,12 +127,12 @@ export default function SignIn() {
                         width: 70,
                         flexShrink: 0,
                         backgroundImage: `repeating-linear-gradient(
-                         to right,
-                       rgba(255, 244, 225, 0.4),
-                       rgba(255, 244, 225, 0.4) 20px,
-                         transparent 20px,
-                         transparent 40px
-                          )`,
+              to right,
+              rgba(255, 244, 225, 0.4),
+              rgba(255, 244, 225, 0.4) 20px,
+              transparent 20px,
+              transparent 40px
+            )`,
                         backgroundSize: "100% 40px",
                         backgroundRepeat: "repeat-y",
                         backgroundAttachment: "fixed",
@@ -144,21 +144,21 @@ export default function SignIn() {
                     sx={{
                         flex: 3,
                         backgroundImage: `
-                         linear-gradient(
-                         to left,
-                         #fff4e1 0%,
-                         #fff4e1 25%,
-                         rgba(255, 244, 225, 0.7) 25%,
-                         rgba(255, 244, 225, 0.0) 45%
-                          ),
-                         repeating-linear-gradient(
-                         to right,
-                         rgba(255, 244, 225, 0.4),
-                         rgba(255, 244, 225, 0.4) 20px,
-                           transparent 20px,
-                           transparent 40px
-                            )
-                          `,
+              linear-gradient(
+                to left,
+                #fff4e1 0%,
+                #fff4e1 25%,
+                rgba(255, 244, 225, 0.7) 25%,
+                rgba(255, 244, 225, 0.0) 45%
+              ),
+              repeating-linear-gradient(
+                to right,
+                rgba(255, 244, 225, 0.4),
+                rgba(255, 244, 225, 0.4) 20px,
+                transparent 20px,
+                transparent 40px
+              )
+            `,
                         backgroundSize: "100% 40px, 100% 40px",
                         backgroundRepeat: "repeat-y, repeat-y",
                         backgroundAttachment: "fixed",
@@ -166,12 +166,7 @@ export default function SignIn() {
                 />
 
                 {/* RIGHT SIDE */}
-                <Box
-                    sx={{
-                        flex: 1,
-                        background: "#fff4e1",
-                    }}
-                />
+                <Box sx={{ flex: 1, background: "#fff4e1" }} />
 
                 {/* OVERLAY centralizado */}
                 <Box
@@ -230,8 +225,8 @@ export default function SignIn() {
                                     variant="h4"
                                     align="center"
                                     sx={{
-                                        fontSize: "2.5rem",
-                                        letterSpacing: "0.12em",
+                                        fontSize: { xs: "2.15rem", sm: "2.35rem", md: "2.5rem" },
+                                        letterSpacing: { xs: "0.10em", sm: "0.12em" },
                                         textTransform: "uppercase",
                                         color: "#0d47a1",
                                         fontWeight: 700,
@@ -246,7 +241,7 @@ export default function SignIn() {
                                 <Typography
                                     align="center"
                                     sx={{
-                                        fontSize: "0.9rem",
+                                        fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
                                         color: "text.secondary",
                                         fontWeight: "bold",
                                     }}
@@ -263,20 +258,11 @@ export default function SignIn() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": {
-                                            color: "#0d47a1",
-                                            fontWeight: 600,
-                                        },
-                                        "& label.Mui-focused": {
-                                            color: "#0d47a1",
-                                        },
+                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
-                                            "& fieldset": {
-                                                borderColor: "#0d47a1",
-                                            },
-                                            "&:hover fieldset": {
-                                                borderColor: "#123b7a",
-                                            },
+                                            "& fieldset": { borderColor: "#0d47a1" },
+                                            "&:hover fieldset": { borderColor: "#123b7a" },
                                             "&.Mui-focused fieldset": {
                                                 borderColor: "#0d47a1",
                                                 borderWidth: 2,
@@ -295,20 +281,11 @@ export default function SignIn() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": {
-                                            color: "#0d47a1",
-                                            fontWeight: 600,
-                                        },
-                                        "& label.Mui-focused": {
-                                            color: "#0d47a1",
-                                        },
+                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
-                                            "& fieldset": {
-                                                borderColor: "#0d47a1",
-                                            },
-                                            "&:hover fieldset": {
-                                                borderColor: "#123b7a",
-                                            },
+                                            "& fieldset": { borderColor: "#0d47a1" },
+                                            "&:hover fieldset": { borderColor: "#123b7a" },
                                             "&.Mui-focused fieldset": {
                                                 borderColor: "#0d47a1",
                                                 borderWidth: 2,
@@ -333,6 +310,7 @@ export default function SignIn() {
                                         fontWeight: 700,
                                         bgcolor: "#1e5bb8",
                                         boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+                                        fontSize: { xs: "0.85rem", sm: "0.85rem", md: "0.95rem" },
                                         "&:hover": { bgcolor: "#164a99" },
                                         "&:active": {
                                             bgcolor: "rgba(230, 81, 0, 0.28)",
@@ -348,7 +326,7 @@ export default function SignIn() {
                                     align="center"
                                     sx={{
                                         mt: 1,
-                                        fontSize: "0.85rem",
+                                        fontSize: { xs: "0.78rem", sm: "0.83rem", md: "0.85rem" },
                                         color: "rgba(180, 63, 0, 1)",
                                         fontWeight: "bold",
                                     }}
@@ -367,6 +345,7 @@ export default function SignIn() {
                                         borderRadius: 2,
                                         textTransform: "uppercase",
                                         border: "2px solid #0d47a1",
+                                        fontSize: { xs: "0.80rem", sm: "0.85rem", md: "0.95rem" },
                                         color: "#ffffff",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
@@ -402,6 +381,7 @@ export default function SignIn() {
                                         borderRadius: 2,
                                         textTransform: "uppercase",
                                         border: "2px solid #0d47a1",
+                                        fontSize: { xs: "0.80rem", sm: "0.85rem", md: "0.95rem" },
                                         color: "#0d47a1",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
