@@ -271,6 +271,30 @@ function Navbar({ onSearch }: NavbarProps) {
                 position: "relative",
               }}
             >
+
+
+              {/* Manage Button */}
+              <Button
+                variant="contained"
+                onClick={() => setShown((prev) => !prev)}
+                sx={{
+                  width: { xs: 58, md: 71 },
+                  height: { xs: 42, md: 42 },
+                  minWidth: "unset",
+                  borderRadius: 2,
+                  backgroundColor: "#e65100",
+                  "&:hover": { backgroundColor: "#b33f00" },
+                  padding: 0,
+                }}
+              >
+                <ManageAccountsIcon
+                  sx={{
+                    fontSize: { xs: 30, md: 34.5 },
+                    color: "#ffe0c7",
+                  }}
+                />
+              </Button>
+
               {/* Cart */}
               <Button
                 variant="contained"
@@ -279,7 +303,7 @@ function Navbar({ onSearch }: NavbarProps) {
                   const cartHasItems = badgeQuantity > 0;
 
                   if (!cartHasItems) {
-                    navigate("/checkout"); 
+                    navigate("/checkout");
                     return;
                   }
 
@@ -320,28 +344,6 @@ function Navbar({ onSearch }: NavbarProps) {
                   badgeContent={badgeQuantity}
                   overlap="circular"
                   sx={{ pointerEvents: "none" }}
-                />
-              </Button>
-
-              {/* Manage Button */}
-              <Button
-                variant="contained"
-                onClick={() => setShown((prev) => !prev)}
-                sx={{
-                  width: { xs: 58, md: 71 },
-                  height: { xs: 42, md: 42 },
-                  minWidth: "unset",
-                  borderRadius: 2,
-                  backgroundColor: "#e65100",
-                  "&:hover": { backgroundColor: "#b33f00" },
-                  padding: 0,
-                }}
-              >
-                <ManageAccountsIcon
-                  sx={{
-                    fontSize: { xs: 30, md: 34.5 },
-                    color: "#ffe0c7",
-                  }}
                 />
               </Button>
 
