@@ -616,24 +616,24 @@ export default function Sides() {
 
 
   const imageStylesMobile: Record<string, React.CSSProperties> = {
-    "11": { width: "125px", height: "120px" },
-    "12": { width: "165px", height: "120px" },
-    "13": { width: "178px", height: "138px" },
-    "14": { width: "170px", height: "115px" },
+    "11": { width: "125px", height: "122px" },
+    "12": { width: "150px", height: "102px" },
+    "13": { width: "150px", height: "110px", marginTop: "8px" },
+    "14": { width: "140px", height: "105px" },
   };
 
   const imageStylesDesktop: Record<string, React.CSSProperties> = {
-    "11": { width: "135px", height: "135px" },
-    "12": { width: "165px", height: "120px" },
-    "13": { width: "178px", height: "138px" },
-    "14": { width: "170px", height: "115px" },
+    "11": { width: "150px", height: "145px" },
+    "12": { width: "170px", height: "130px" },
+    "13": { width: "170px", height: "138px", marginTop: "8px" },
+    "14": { width: "175px", height: "130px" },
   };
 
   const imageStylesDesktopWide: Record<string, React.CSSProperties> = {
-    "11": { width: "220px", height: "190px", marginTop: "5px" }, 
-    "12": { width: "220px", height: "215px", }, 
-    "13": { width: "183px", height: "178px", marginTop: "12px" }, 
-    "14": { width: "230px", height: "176px", }, 
+    "11": { width: "220px", height: "194px", marginTop: "5px" },
+    "12": { width: "220px", height: "215px", },
+    "13": { width: "183px", height: "178px", marginTop: "12px" },
+    "14": { width: "230px", height: "176px", },
   };
 
 
