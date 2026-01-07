@@ -297,6 +297,9 @@ function ProductCardDesktopLandscape({
   const title = getNameWithKcal(product.name);
   const price = `$${Number(product.price).toFixed(2)}`;
 
+  const imgKey = normalizeImageKey(product.image);
+  const imgSrc = imageMap[imgKey] ?? product.image;
+
   return (
     <Box
       sx={{
@@ -364,7 +367,7 @@ function ProductCardDesktopLandscape({
         }}
       >
         <img
-          src={product.image}
+          src={imgSrc}
           alt={product.name}
           style={{
             ...(imgStyle ?? {}),
@@ -613,7 +616,7 @@ export default function Sides() {
 
 
   const imageStylesMobile: Record<string, React.CSSProperties> = {
-    "11": { width: "135px", height: "135px" },
+    "11": { width: "125px", height: "120px" },
     "12": { width: "165px", height: "120px" },
     "13": { width: "178px", height: "138px" },
     "14": { width: "170px", height: "115px" },
@@ -627,10 +630,10 @@ export default function Sides() {
   };
 
   const imageStylesDesktopWide: Record<string, React.CSSProperties> = {
-    "11": { width: "180px", height: "150px", marginTop: "5px" }, // Pit Stop Classic
-    "12": { width: "240px", height: "225px", }, // Turbo Bacon
-    "13": { width: "173px", height: "163px", marginTop: "12px" }, // Double Gear
-    "14": { width: "250px", height: "195px", }, // Fuel Monster
+    "11": { width: "220px", height: "190px", marginTop: "5px" }, 
+    "12": { width: "220px", height: "215px", }, 
+    "13": { width: "183px", height: "178px", marginTop: "12px" }, 
+    "14": { width: "230px", height: "176px", }, 
   };
 
 
