@@ -639,7 +639,7 @@ body {
 
 .h2-products-background {
   font-family: "Racing Sans One", system-ui;
-  font-size: clamp(55px, 6vw, 70px);
+  font-size: clamp(52px, 6vw, 70px);
   font-weight: 900;
   letter-spacing: 0.2em;
   text-transform: uppercase;
