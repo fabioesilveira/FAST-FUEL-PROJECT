@@ -147,13 +147,16 @@ function ProductCard({
           width: "100%",
           backgroundColor: "#ffe0c7",
           borderRadius: 2,
-
           border: "1px solid rgba(230,81,0,0.18)",
           px: useCompactMobile ? 1.6 : 2,
           py: useCompactMobile ? 1.12 : 1.0,
           boxShadow: 2,
-
           textAlign: "center",
+
+          // opcional: deixa o header sempre uniforme
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <Typography
@@ -162,11 +165,18 @@ function ProductCard({
             color: "#0d47a1",
             fontWeight: 800,
             lineHeight: 1.15,
+
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            minHeight: useCompactMobile ? "2.0em" : "2.1em",
           }}
         >
           {title}
         </Typography>
       </Box>
+
 
       {!useCompactStyle && (
         <Box
@@ -616,8 +626,8 @@ export default function Sides() {
 
 
   const imageStylesMobile: Record<string, React.CSSProperties> = {
-    "11": { width: "125px", height: "122px" },
-    "12": { width: "150px", height: "102px" },
+    "11": { width: "125px", height: "121px" },
+    "12": { width: "145px", height: "102px" },
     "13": { width: "150px", height: "110px", marginTop: "8px" },
     "14": { width: "140px", height: "105px" },
   };

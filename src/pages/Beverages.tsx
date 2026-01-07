@@ -162,26 +162,40 @@ function ProductCard({
           width: "100%",
           backgroundColor: "#ffe0c7",
           borderRadius: 2,
-
           border: "1px solid rgba(230,81,0,0.18)",
           px: useCompactMobile ? 1.6 : 2,
           py: useCompactMobile ? 1.12 : 1.0,
           boxShadow: 2,
 
           textAlign: "center",
+
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <Typography
           sx={{
-            fontSize: useCompactMobile ? "0.86rem" : "0.98rem",
+            fontSize: useCompactMobile ? "0.82rem" : "0.98rem",
             color: "#0d47a1",
             fontWeight: 800,
             lineHeight: 1.15,
+
+            ...(useCompactMobile
+              ? {
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                minHeight: "2.3em",
+              }
+              : {}),
           }}
         >
           {title}
         </Typography>
       </Box>
+
 
       {!useCompactStyle && (
         <Box
@@ -652,9 +666,9 @@ export default function Beverages() {
   };
 
   const imageStylesDesktopWide: Record<string, React.CSSProperties> = {
-    "5": { width: "150px", height: "220px", marginTop: "15px" }, // Pit Stop Classic
-    "6": { width: "150px", height: "220px", marginTop: "15px" }, // Turbo Bacon
-    "7": { width: "150px", height: "220px", marginTop: "15px" }, // Double Gear
+    "5": { width: "150px", height: "220px", marginTop: "15px" }, 
+    "6": { width: "150px", height: "220px", marginTop: "15px" }, 
+    "7": { width: "150px", height: "220px", marginTop: "15px" },
     "8": { width: "150px", height: "220px", marginTop: "15px" },
     "9": { width: "150px", height: "220px", marginTop: "15px" },
     "10": { width: "150px", height: "220px", marginTop: "15px" }

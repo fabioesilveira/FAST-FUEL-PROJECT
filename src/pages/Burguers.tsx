@@ -132,26 +132,40 @@ function ProductCard({
           width: "100%",
           backgroundColor: "#ffe0c7",
           borderRadius: 2,
-
           border: "1px solid rgba(230,81,0,0.18)",
           px: useCompactMobile ? 1.6 : 2,
           py: useCompactMobile ? 1.12 : 1.0,
           boxShadow: 2,
 
           textAlign: "center",
+
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <Typography
           sx={{
-            fontSize: useCompactMobile ? "0.86rem" : "0.98rem",
+            fontSize: useCompactMobile ? "0.82rem" : "0.98rem",
             color: "#0d47a1",
             fontWeight: 800,
             lineHeight: 1.15,
+
+            ...(useCompactMobile
+              ? {
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                minHeight: "2.3em",
+              }
+              : {}),
           }}
         >
           {title}
         </Typography>
       </Box>
+
 
       {!useCompactStyle && (
         <Box
@@ -201,7 +215,7 @@ function ProductCard({
         {/* minus */}
         <Box
           onClick={() => onRemove(product)}
-           sx={{
+          sx={{
             width: 30,
             height: 30,
             borderRadius: "50%",
@@ -296,8 +310,8 @@ function ProductCardDesktopLandscape({
         display: "flex",
         flexDirection: flip ? "row-reverse" : "row",
         gap: 2,
-        pb:2.2,
-        pt:2.2,
+        pb: 2.2,
+        pt: 2.2,
         alignItems: "stretch",
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
         "&:hover": {
@@ -446,7 +460,7 @@ function ProductCardDesktopLandscape({
 
         </Box>
 
-           {/* TOGGLE */}
+        {/* TOGGLE */}
         <Box
           sx={{
             width: "100%",
@@ -465,8 +479,8 @@ function ProductCardDesktopLandscape({
           {/* minus */}
           <Box
             onClick={() => onRemove(product)}
-            
-             sx={{
+
+            sx={{
               width: 30,
               height: 30,
               borderRadius: "50%",
