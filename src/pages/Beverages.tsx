@@ -15,8 +15,33 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import DrawerProducts from '../components/DrawerProducts';
 import NavFooterProducts from '../components/NavFooterProducts';
 
+import CokeImg from "../assets/Coke.png";
+import SpriteImg from "../assets/Sprite.png";
+import DrPepperImg from "../assets/Drpepper.png";
+import FantaImg from "../assets/Fanta.png";
+import DietCokeImg from "../assets/Dietcoke.png";
+import LemonadeImg from "../assets/Lemonade.png";
+
+const imageMap: Record<string, string> = {
+  "Coke.png": CokeImg,
+  "Sprite.png": SpriteImg,
+  "Drpepper.png": DrPepperImg,
+  "Fanta.png": FantaImg,
+  "Dietcoke.png": DietCokeImg,
+  "Lemonade.png": LemonadeImg,
+};
+
+// pega só o nome do arquivo (funciona se vier "coke.png" OU "src/assets/coke.png")
+const normalizeImageKey = (value?: string) => {
+  if (!value) return "";
+  return value.split("/").pop() || value;
+};
+
 
 const getNameWithKcal = (name: string) => name.trim();
+
+
+
 
 function ProductCard({
   product,
@@ -44,6 +69,11 @@ function ProductCard({
   const useCompactMobile = isMobile;
 
   const useCompactStyle = isMobile || isTabletOnly || useToggle;
+
+  const imgKey = normalizeImageKey(product.image);
+  const imgSrc = imageMap[imgKey] ?? product.image;
+
+
 
   return (
     <Box
@@ -113,16 +143,16 @@ function ProductCard({
         }}
       >
         <img
-          src={product.image}
+          src={imgSrc}
           alt={product.name}
           style={{
             ...(imgStyle ?? {}),
             maxWidth: "100%",
             maxHeight: "100%",
             objectFit: "contain",
-            display: "block",
           }}
         />
+
       </Box>
 
 
@@ -285,6 +315,10 @@ function ProductCardDesktopLandscape({
   const title = getNameWithKcal(product.name);
   const price = `$${Number(product.price).toFixed(2)}`;
 
+  const imgKey = normalizeImageKey(product.image);
+  const imgSrc = imageMap[imgKey] ?? product.image;
+
+
   return (
     <Box
       sx={{
@@ -349,17 +383,17 @@ function ProductCardDesktopLandscape({
           overflow: "hidden",
         }}
       >
-        <img
-          src={product.image}
-          alt={product.name}
-          style={{
-            ...(imgStyle ?? {}),
-            maxWidth: "100%",
-            maxHeight: "100%",
-            objectFit: "contain",
-            display: "block",
-          }}
-        />
+      <img
+  src={imgSrc}
+  alt={product.name}
+  style={{
+    ...(imgStyle ?? {}),
+    maxWidth: "100%",
+    maxHeight: "100%",
+    objectFit: "contain",
+  }}
+/>
+
       </Box>
 
 

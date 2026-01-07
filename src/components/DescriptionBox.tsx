@@ -1,9 +1,3 @@
-// ✅ Drop-in upgrade: Description accordion (preview + expand/collapse)
-// - Mantém seu visual premium (mesmas cores / bordas / sombras)
-// - Default: mostra 2 linhas (ou 3 se quiser)
-// - Ao expandir: mostra o texto completo com animação suave
-// - Sem quebrar seu grid e sem mexer no resto do card
-
 import * as React from "react";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -11,15 +5,12 @@ import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownR
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 import { Box, Typography } from "@mui/material";
 
-// ... seus imports existentes
-// import Box from "@mui/material/Box";
-// import Typography from "@mui/material/Typography";
 
 type DescriptionBoxProps = {
     text: string;
-    // opcional: controla linhas do preview no modo fechado
+    // controla linhas do preview no modo fechado
     previewLines?: number;
-    // opcional: largura de leitura (premium)
+    // largura de leitura 
     maxWidth?: number;
 };
 
@@ -49,7 +40,7 @@ export function DescriptionBox({
                 gap: 1.2,
             }}
         >
-            {/* 🔼 TOGGLE HEADER (AGORA EM CIMA) */}
+            {/* TOGGLE */}
             <Box
                 sx={{
                     width: "100%",
@@ -69,15 +60,15 @@ export function DescriptionBox({
                         userSelect: "none",
                     }}
                 >
-                    ABOUT THIS BURGUER
+                    DETAILS
                 </Typography>
 
                 <IconButton
                     onClick={() => setOpen((v) => !v)}
                     size="small"
                     sx={{
-                        width: 30,
-                        height: 30,
+                        width: { xs: 27.5, sm: 30 },
+                        height: { xs: 27.5, sm: 30 },
                         borderRadius: 2,
                         border: "1px solid rgba(230,81,0,0.18)",
                         bgcolor: "rgba(255,255,255,0.55)",
