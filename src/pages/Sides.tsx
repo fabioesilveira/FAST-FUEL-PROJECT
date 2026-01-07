@@ -15,6 +15,17 @@ import { DescriptionBox } from '../components/DescriptionBox';
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
+import SaladImg from "../assets/Crispsalad.png"
+
+const imageMap: Record<string, string> = {
+  "Crispsalad.png": SaladImg,
+};
+
+const normalizeImageKey = (value?: string) => {
+  if (!value) return "";
+  return value.split("/").pop() || value;
+};
+
 
 const getNameWithKcal = (name: string) => name.trim();
 
@@ -44,6 +55,9 @@ function ProductCard({
   const useCompactMobile = isMobile;
 
   const useCompactStyle = isMobile || isTabletOnly || useToggle;
+
+  const imgKey = normalizeImageKey(product.image);
+  const imgSrc = imageMap[imgKey] ?? product.image;
 
   return (
     <Box
@@ -113,7 +127,7 @@ function ProductCard({
         }}
       >
         <img
-          src={product.image}
+          src={imgSrc}
           alt={product.name}
           style={{
             ...(imgStyle ?? {}),
@@ -123,6 +137,7 @@ function ProductCard({
             display: "block",
           }}
         />
+
       </Box>
 
 
@@ -205,17 +220,14 @@ function ProductCard({
             width: 30,
             height: 30,
             borderRadius: "50%",
-
-            bgcolor: "transparent",
-            border: "1.5px solid rgba(30,91,184,0.45)",
-            color: "#1e5bb8",
+            bgcolor: "#1e5bb8",
+            color: "#ffffff",
 
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
 
-            transition: "all 0.15s ease",
             "&:active": {
               transform: "scale(0.92)",
               boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
@@ -298,6 +310,8 @@ function ProductCardDesktopLandscape({
         display: "flex",
         flexDirection: flip ? "row-reverse" : "row",
         gap: 2,
+        pb: 2.2,
+        pt: 2.2,
         alignItems: "stretch",
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
         "&:hover": {
@@ -469,14 +483,12 @@ function ProductCardDesktopLandscape({
               width: 30,
               height: 30,
               borderRadius: "50%",
-              bgcolor: "transparent",
-              border: "1.5px solid rgba(30,91,184,0.45)",
-              color: "#1e5bb8",
+              bgcolor: "#1e5bb8",
+              color: "#ffffff",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
-              transition: "all 0.15s ease",
               "&:active": {
                 transform: "scale(0.92)",
                 boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
@@ -533,25 +545,25 @@ export default function Sides() {
 
   const isTabletOnly = useMediaQuery(theme.breakpoints.between("sm", "lg"));
 
-   function handleRemove(product: Meal) {
-      const existing = order.find((p) => p.id === product.id);
-      if (!existing) return;
-  
-      const currentQty = existing.quantidade ?? 0;
-  
-      if (currentQty <= 1) {
-        setOrder(order.filter((p) => p.id !== product.id));
-        return;
-      }
-  
-      setOrder(
-        order.map((p) =>
-          p.id === product.id
-            ? { ...p, quantidade: (p.quantidade ?? 0) - 1 }
-            : p
-        )
-      );
+  function handleRemove(product: Meal) {
+    const existing = order.find((p) => p.id === product.id);
+    if (!existing) return;
+
+    const currentQty = existing.quantidade ?? 0;
+
+    if (currentQty <= 1) {
+      setOrder(order.filter((p) => p.id !== product.id));
+      return;
     }
+
+    setOrder(
+      order.map((p) =>
+        p.id === product.id
+          ? { ...p, quantidade: (p.quantidade ?? 0) - 1 }
+          : p
+      )
+    );
+  }
 
   useEffect(() => {
     async function fetchApi() {

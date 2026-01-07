@@ -201,21 +201,18 @@ function ProductCard({
         {/* minus */}
         <Box
           onClick={() => onRemove(product)}
-          sx={{
+           sx={{
             width: 30,
             height: 30,
             borderRadius: "50%",
-
-            bgcolor: "transparent",
-            border: "1.5px solid rgba(30,91,184,0.45)",
-            color: "#1e5bb8",
+            bgcolor: "#1e5bb8",
+            color: "#ffffff",
 
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
 
-            transition: "all 0.15s ease",
             "&:active": {
               transform: "scale(0.92)",
               boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
@@ -293,11 +290,14 @@ function ProductCardDesktopLandscape({
         borderRadius: "13px",
         border: "2px solid #e65100",
         backgroundColor: "#fff3e0",
+
         boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
         p: 2,
         display: "flex",
         flexDirection: flip ? "row-reverse" : "row",
         gap: 2,
+        pb:2.2,
+        pt:2.2,
         alignItems: "stretch",
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
         "&:hover": {
@@ -446,7 +446,7 @@ function ProductCardDesktopLandscape({
 
         </Box>
 
-        {/* TOGGLE */}
+           {/* TOGGLE */}
         <Box
           sx={{
             width: "100%",
@@ -465,18 +465,17 @@ function ProductCardDesktopLandscape({
           {/* minus */}
           <Box
             onClick={() => onRemove(product)}
-            sx={{
+            
+             sx={{
               width: 30,
               height: 30,
               borderRadius: "50%",
-              bgcolor: "transparent",
-              border: "1.5px solid rgba(30,91,184,0.45)",
-              color: "#1e5bb8",
+              bgcolor: "#1e5bb8",
+              color: "#ffffff",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
-              transition: "all 0.15s ease",
               "&:active": {
                 transform: "scale(0.92)",
                 boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
@@ -486,7 +485,7 @@ function ProductCardDesktopLandscape({
             <RemoveIcon sx={{ fontSize: 20 }} />
           </Box>
 
-          <Typography sx={{ fontWeight: 900, fontSize: "0.9rem", letterSpacing: "0.04em" }}>
+          <Typography sx={{ fontWeight: 900, fontSize: "0.95rem", letterSpacing: "0.04em" }}>
             {price}
           </Typography>
 
@@ -642,7 +641,7 @@ export default function Burguers() {
           isMobile={isMobile}
           isTabletOnly={isTabletOnly}
           imgStyle={isMobile ? imageStylesMobile[product.id] : imageStylesDesktop[product.id]}
-          qty={order.find((p) => p.id === product.id)?.quantidade ?? 0} 
+          qty={order.find((p) => p.id === product.id)?.quantidade ?? 0}
         />
       ))}
 
@@ -688,7 +687,7 @@ export default function Burguers() {
 
       {!isMobile && <DrawerProducts />}
 
-      <h2 className='h2-products-background'>BURGUERS</h2>
+      <h2 className='h2-products-background'>BURGERS</h2>
 
       <Container fixed>
         {isDesktop ? desktopGridLandscape : mobileTabletGrid}

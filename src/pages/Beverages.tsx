@@ -19,7 +19,7 @@ import CokeImg from "../assets/Coke.png";
 import SpriteImg from "../assets/Sprite.png";
 import DrPepperImg from "../assets/Drpepper.png";
 import FantaImg from "../assets/Fanta.png";
-import DietCokeImg from "../assets/Dietcoke.png";
+import DietCokeImg from "../assets/Dietacoke.png";
 import LemonadeImg from "../assets/Lemonade.png";
 
 const imageMap: Record<string, string> = {
@@ -235,17 +235,14 @@ function ProductCard({
             width: 30,
             height: 30,
             borderRadius: "50%",
-
-            bgcolor: "transparent",
-            border: "1.5px solid rgba(30,91,184,0.45)",
-            color: "#1e5bb8",
+            bgcolor: "#1e5bb8",
+            color: "#ffffff",
 
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
 
-            transition: "all 0.15s ease",
             "&:active": {
               transform: "scale(0.92)",
               boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
@@ -332,6 +329,8 @@ function ProductCardDesktopLandscape({
         display: "flex",
         flexDirection: flip ? "row-reverse" : "row",
         gap: 2,
+        pb: 2.2,
+        pt: 2.2,
         alignItems: "stretch",
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
         "&:hover": {
@@ -383,16 +382,16 @@ function ProductCardDesktopLandscape({
           overflow: "hidden",
         }}
       >
-      <img
-  src={imgSrc}
-  alt={product.name}
-  style={{
-    ...(imgStyle ?? {}),
-    maxWidth: "100%",
-    maxHeight: "100%",
-    objectFit: "contain",
-  }}
-/>
+        <img
+          src={imgSrc}
+          alt={product.name}
+          style={{
+            ...(imgStyle ?? {}),
+            maxWidth: "100%",
+            maxHeight: "100%",
+            objectFit: "contain",
+          }}
+        />
 
       </Box>
 
@@ -499,18 +498,17 @@ function ProductCardDesktopLandscape({
           {/* minus */}
           <Box
             onClick={() => onRemove(product)}
+
             sx={{
               width: 30,
               height: 30,
               borderRadius: "50%",
-              bgcolor: "transparent",
-              border: "1.5px solid rgba(30,91,184,0.45)",
-              color: "#1e5bb8",
+              bgcolor: "#1e5bb8",
+              color: "#ffffff",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
-              transition: "all 0.15s ease",
               "&:active": {
                 transform: "scale(0.92)",
                 boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
@@ -520,7 +518,7 @@ function ProductCardDesktopLandscape({
             <RemoveIcon sx={{ fontSize: 20 }} />
           </Box>
 
-          <Typography sx={{ fontWeight: 900, fontSize: "0.9rem", letterSpacing: "0.04em" }}>
+          <Typography sx={{ fontWeight: 900, fontSize: "0.95rem", letterSpacing: "0.04em" }}>
             {price}
           </Typography>
 
@@ -636,30 +634,30 @@ export default function Beverages() {
   }
 
   const imageStylesMobile: Record<string, React.CSSProperties> = {
-    "5": { width: "140px", height: "150px" },
-    "6": { width: "180px", height: "145px" },
-    "7": { width: "168px", height: "118px" },
-    "8": { width: "140px", height: "102px" },
-    "9": { width: "190px", height: "180px" },
-    "10": { width: "145px", height: "133px" },
+    "5": { width: "140px", height: "145px", marginTop: "10px" },
+    "6": { width: "140px", height: "145px", marginTop: "10px" },
+    "7": { width: "140px", height: "145px", marginTop: "10px" },
+    "8": { width: "140px", height: "145px", marginTop: "10px" },
+    "9": { width: "140px", height: "145px", marginTop: "10px" },
+    "10": { width: "140px", height: "145px", marginTop: "10px" }
   };
 
   const imageStylesDesktop: Record<string, React.CSSProperties> = {
-    "5": { width: "140px", height: "150px" },
-    "6": { width: "180px", height: "145px" },
-    "7": { width: "168px", height: "118px" },
-    "8": { width: "140px", height: "102px" },
-    "9": { width: "190px", height: "180px" },
-    "10": { width: "145px", height: "133px" },
+    "5": { width: "140px", height: "150px", marginTop: "10px" },
+    "6": { width: "140px", height: "150px", marginTop: "10px" },
+    "7": { width: "140px", height: "150px", marginTop: "10px" },
+    "8": { width: "140px", height: "150px", marginTop: "10px" },
+    "9": { width: "140px", height: "150px", marginTop: "10px" },
+    "10": { width: "140px", height: "150px", marginTop: "10px" }
   };
 
   const imageStylesDesktopWide: Record<string, React.CSSProperties> = {
-    "5": { width: "180px", height: "150px", marginTop: "5px" }, // Pit Stop Classic
-    "6": { width: "240px", height: "225px", }, // Turbo Bacon
-    "7": { width: "173px", height: "163px", marginTop: "12px" }, // Double Gear
-    "8": { width: "250px", height: "195px", }, // Fuel Monster
-    "9": { width: "250px", height: "195px", }, // Fuel Monster
-    "10": { width: "250px", height: "195px", }, // Fuel Monster
+    "5": { width: "150px", height: "220px", marginTop: "15px" }, // Pit Stop Classic
+    "6": { width: "150px", height: "220px", marginTop: "15px" }, // Turbo Bacon
+    "7": { width: "150px", height: "220px", marginTop: "15px" }, // Double Gear
+    "8": { width: "150px", height: "220px", marginTop: "15px" },
+    "9": { width: "150px", height: "220px", marginTop: "15px" },
+    "10": { width: "150px", height: "220px", marginTop: "15px" }
   };
 
   const mobileTabletGrid = (
@@ -707,7 +705,7 @@ export default function Beverages() {
         columnGap: 4,
         rowGap: 4,
         mt: 4,
-        mb: 12,
+        mb: 50,
         px: 2,
         mx: "auto",
         maxWidth: 1120,
