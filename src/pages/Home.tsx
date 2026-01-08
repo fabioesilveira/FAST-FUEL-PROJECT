@@ -93,8 +93,9 @@ type MiniActionCardProps = {
     title?: string;
     secondaryLabel?: string;
     onClick: () => void;
+    onRemove?: () => void;
     count?: number;
-}
+};
 
 // mantém kcal no card grande
 const getNameWithKcal = (name: string) => name.trim();
@@ -192,6 +193,7 @@ function MiniCard({
     title,
     secondaryLabel = "$0.00",
     onClick,
+    onRemove,
     count = 0,
 }: MiniActionCardProps) {
     const imageStylesOrder: { [id: string]: React.CSSProperties } = {
@@ -224,7 +226,40 @@ function MiniCard({
             sx={{ width: 143, borderRadius: "14px", textAlign: "center" }}
         >
             <Box sx={{ position: "relative", width: "100%" }}>
-                {/* BADGE overlay (só aparece se count > 0) */}
+                {/* BOTÃO MINUS - só aparece se count > 0 */}
+                {count > 0 && (
+                    <Box
+                        onClick={(e) => {
+                            e.stopPropagation(); // não deixa ativar o onClick do card (add)
+                            onRemove?.();
+                        }}
+                        sx={{
+                            position: "absolute",
+                            top: -10,
+                            left: -10,
+                            zIndex: 3,
+                            width: 32,
+                            height: 32,
+                            borderRadius: "999px",
+                            backgroundColor: "#1e5bb8",
+                            color: "#fff",
+                            fontWeight: 900,
+                            fontSize: "1.05rem",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            boxShadow: "0px 6px 14px rgba(0,0,0,0.25)",
+                            border: "2px solid #fff3e0",
+                            userSelect: "none",
+                            cursor: "pointer",
+                            "&:active": { transform: "scale(0.92)" },
+                        }}
+                    >
+                        –
+                    </Box>
+                )}
+
+                {/* BADGE - top-right) */}
                 {count > 0 && (
                     <Box
                         sx={{
@@ -296,7 +331,6 @@ function MiniCard({
                                 display: "block",
                             }}
                         />
-
                     </Box>
 
                     {title && (
@@ -336,7 +370,9 @@ function MiniCard({
     );
 }
 
+
 //Inicio do componente HOME
+
 export default function Home() {
     const [search, setSearch] = useState("");
     const [checkout, setCheckout] = useState(0);
@@ -481,6 +517,30 @@ export default function Home() {
         setCheckout(total < 0 ? 0 : total);
     }, [order]);
 
+    // Remove itens adicionados ao carrinho FAST THRU
+
+    function handleRemove(product: Meal) {
+        const existing = order.find((p) => p.id === product.id);
+        if (!existing) return;
+
+        const currentQty = existing.quantidade ?? 0;
+
+        if (currentQty <= 1) {
+            setOrder(order.filter((p) => p.id !== product.id));
+            return;
+        }
+
+        setOrder(
+            order.map((p) =>
+                p.id === product.id
+                    ? { ...p, quantidade: (p.quantidade ?? 0) - 1 }
+                    : p
+            )
+        );
+    }
+
+    // SLIDES CAROUSEL
+
     const desktopCarouselSlides = [
         (
             <Carousel.Item key="slide-1">
@@ -515,7 +575,7 @@ export default function Home() {
                 display: "flex",
                 flexDirection: "column",
 
-                // 👇 compensação correta do Navbar fixo no mobile
+                // compensação correta do Navbar fixo no mobile
                 pt: { xs: "92px", md: 0 },
             }}
         >
@@ -696,6 +756,7 @@ export default function Home() {
                                     secondaryLabel={`$${Number(product.price).toFixed(2)}`}
                                     count={qtyMap[product.id] ?? 0}
                                     onClick={() => handleOrder(product)}
+                                    onRemove={() => handleRemove(product)}
                                 />
                             ))}
                         </Box>
@@ -715,7 +776,4 @@ export default function Home() {
             )}
         </Box>
     );
-
-
-
 }
