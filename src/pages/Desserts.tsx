@@ -31,6 +31,8 @@ const normalizeImageKey = (value?: string) => {
     const last = value.split("/").pop() || value;
     return last.split("?")[0].trim();
 };
+
+
 function ProductCard({
     product,
     onAdd,

@@ -27,7 +27,37 @@ import FloatingContact from '../components/FloatingContact';
 import FloatingContactMobile from '../components/FloatingContactMobile';
 import HeroCarousel from '../components/HeroCarousel';
 
+//imgs out of Backend
+
+import CokeImg from "../assets/Coke.png";
+import SpriteImg from "../assets/Sprite.png";
+import DrPepperImg from "../assets/Drpepper.png";
+import FantaImg from "../assets/Fanta.png";
+import DietCokeImg from "../assets/Dietacoke.png";
+import LemonadeImg from "../assets/Lemonade.png";
+import SaladImg from "../assets/Crispsalad.png"
+import MilkshakeImg from "../assets/Milkshake.png"
+import SundaeImg from "../assets/Sundae.png"
+
 const cleanProductName = (name: string) => name.split("/")[0].trim();
+
+const imageMap: Record<string, string> = {
+    "Coke.png": CokeImg,
+    "Sprite.png": SpriteImg,
+    "Drpepper.png": DrPepperImg,
+    "Fanta.png": FantaImg,
+    "Dietcoke.png": DietCokeImg,
+    "Lemonade.png": LemonadeImg,
+    "Crispsalad.png": SaladImg,
+    "Milkshake.png": MilkshakeImg,
+    "Sundae.png": SundaeImg,
+};
+
+const normalizeImageKey = (value?: string) => {
+    if (!value) return "";
+    const last = value.split("/").pop() || value;
+    return last.split("?")[0].trim();
+};
 
 const imageStylesById: Record<string, React.CSSProperties> = {
     "1": { width: "130px", height: "120px" },
@@ -171,19 +201,22 @@ function MiniCard({
         "4": { width: "85px", height: "65px" },
         "11": { width: "70px", height: "73px" },
         "12": { width: "85px", height: "70px" },
-        "13": { width: "105px", height: "70px" },
+        "13": { width: "90px", height: "70px" },
         "14": { width: "65px", height: "70px" },
-        "5": { width: "80px", height: "60px" },
-        "6": { width: "70px", height: "79px" },
-        "7": { width: "67px", height: "67px" },
-        "8": { width: "58px", height: "58px" },
-        "9": { width: "110px", height: "87px" },
-        "10": { width: "74px", height: "74px" },
+        "5": { width: "77px", height: "77px" },
+        "6": { width: "77px", height: "77px" },
+        "7": { width: "77px", height: "77px" },
+        "8": { width: "77px", height: "77px" },
+        "9": { width: "77px", height: "77px" },
+        "10": { width: "77px", height: "77px" },
         "15": { width: "200px", height: "81px" },
-        "16": { width: "85px", height: "70px" },
-        "17": { width: "80px", height: "85px" },
-        "18": { width: "62px", height: "55px" },
+        "16": { width: "82px", height: "75px" },
+        "17": { width: "78px", height: "85px" },
+        "18": { width: "60px", height: "55px" },
     };
+
+    const imgKey = normalizeImageKey(image);
+    const imgSrc = imageMap[imgKey] ?? image;
 
     return (
         <ButtonBase
@@ -251,7 +284,7 @@ function MiniCard({
                         }}
                     >
                         <img
-                            src={image}
+                            src={imgSrc}
                             alt={title || "item"}
                             style={{
                                 ...(imageStylesOrder[id] ?? {
@@ -260,8 +293,10 @@ function MiniCard({
                                     marginTop: "0px",
                                 }),
                                 objectFit: "contain",
+                                display: "block",
                             }}
                         />
+
                     </Box>
 
                     {title && (
@@ -269,7 +304,7 @@ function MiniCard({
                             sx={{
                                 fontSize: "0.75rem",
                                 fontWeight: 600,
-                                color: "#e65100",
+                                color: "#1e5bb8",
                                 textAlign: "center",
                                 lineHeight: 1.2,
                             }}
