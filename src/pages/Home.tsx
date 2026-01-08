@@ -479,13 +479,14 @@ export default function Home() {
                 minHeight: "100vh",
                 display: "flex",
                 flexDirection: "column",
+
+                // 👇 compensação correta do Navbar fixo no mobile
+                pt: { xs: "92px", md: 0 },
             }}
         >
             <Navbar onSearch={handleSearchInput} />
 
             <CssBaseline />
-
-            {isMobile && <Box sx={{ height: 92 }} />}
 
             {!isMobile && (
                 <CategoryDrawer
@@ -533,9 +534,11 @@ export default function Home() {
                     </Box>
                 )}
 
-                {/* DESKTOP */}
+                {/* DESKTOP HERO */}
                 {shouldShowCarousel && !isMobile && !driveModeActive && (
-                    <HeroCarousel aspectRatio="16 / 9.7">{desktopCarouselSlides}</HeroCarousel>
+                    <HeroCarousel aspectRatio="16 / 9.7">
+                        {desktopCarouselSlides}
+                    </HeroCarousel>
                 )}
 
                 {search.trim() && (
@@ -578,7 +581,6 @@ export default function Home() {
                                 flexWrap: "wrap",
                             }}
                         >
-                            {/* TOTAL */}
                             <h2
                                 className="total"
                                 style={{
@@ -590,7 +592,6 @@ export default function Home() {
                                 TOTAL R$: {checkout.toFixed(2)}
                             </h2>
 
-                            {/* BOTÕES */}
                             <Box sx={{ display: "flex", gap: 1.2 }}>
                                 <Button
                                     variant="contained"
@@ -619,26 +620,19 @@ export default function Home() {
                         <Typography
                             align="center"
                             sx={{
-                                mb: { xs: 3 , md: 3 },
+                                mb: { xs: 3, md: 3 },
                                 mt: { xs: -2, md: -3 },
-
                                 fontFamily: "Titan One",
                                 fontSize: { xs: "30px", md: "37px" },
-                                fontWeight: 400,
-
                                 letterSpacing: "0.14em",
                                 textTransform: "uppercase",
-
                                 color: "#ff8a4c",
                                 textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
-
-                                fontStyle: "normal",
                                 opacity: 0.95,
                             }}
                         >
                             Quick add menu
                         </Typography>
-
 
                         <h2 className="h2-driveMode-desk">
                             *COMBO PROMO: Burger + Side + Beverage = $2 OFF. Discount applied at
@@ -686,6 +680,7 @@ export default function Home() {
             )}
         </Box>
     );
+
 
 
 }

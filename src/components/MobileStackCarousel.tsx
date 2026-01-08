@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Box from "@mui/material/Box";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 type Slide = {
   id: string;
@@ -28,23 +30,28 @@ export default function MobileStackCarousel({
   shadow = "0 10px 26px rgba(0,0,0,0.16)",
   animationMs = 720,
 }: Props) {
+  const theme = useTheme();
+
+  const isXs = useMediaQuery(theme.breakpoints.down("xs"));
+ 
+  const effectiveHeight = isXs ? Math.min(height, 260) : height;
+
   const safeSlides = useMemo(() => slides.filter(Boolean), [slides]);
   const count = safeSlides.length;
 
-  const step = height + gap;
-  const frameHeight = height * 2 + gap ;
+  const step = effectiveHeight + gap;
+  const frameHeight = effectiveHeight * 2 + gap;
   const easing = "cubic-bezier(0.22, 1, 0.36, 1)";
 
   const [idx, setIdx] = useState(0);
-
-  // começa pré-posicionado pra não aparecer branco em cima
-  const [offset, setOffset] = useState<number>(() => (count >= 2 ? -step : 0));
+  const [offset, setOffset] = useState<number>(() =>
+    count >= 2 ? -step : 0
+  );
   const [enableTransition, setEnableTransition] = useState(false);
 
   const timerRef = useRef<number | null>(null);
   const isAnimatingRef = useRef(false);
 
-  // quando slides mudam
   useEffect(() => {
     setIdx(0);
     setEnableTransition(false);
@@ -52,12 +59,15 @@ export default function MobileStackCarousel({
     isAnimatingRef.current = false;
   }, [count, step]);
 
-  // Renderiza 3 itens:
-  // [PREV, TOP, NEXT]
-  // e a viewport começa em translateY(-step) mostrando TOP + NEXT.
-  const prev = count > 1 ? safeSlides[(idx - 1 + count) % count] : safeSlides[idx % count];
+  const prev =
+    count > 1
+      ? safeSlides[(idx - 1 + count) % count]
+      : safeSlides[idx % count];
+
   const top = count > 0 ? safeSlides[idx % count] : undefined;
-  const next = count > 1 ? safeSlides[(idx + 1) % count] : top;
+
+  const next =
+    count > 1 ? safeSlides[(idx + 1) % count] : top;
 
   const tick = () => {
     if (count < 2) return;
@@ -65,22 +75,17 @@ export default function MobileStackCarousel({
 
     isAnimatingRef.current = true;
     setEnableTransition(true);
-
-    // anima “descendo”: de -step para 0
     setOffset(0);
   };
 
   const handleTransitionEnd = () => {
     if (!isAnimatingRef.current) return;
 
-    // após descer, quem virou TOP visualmente foi o PREV
     setIdx((prevIdx) => (prevIdx - 1 + count) % count);
-
-    // reset invisível (sem jump)
     setEnableTransition(false);
 
     requestAnimationFrame(() => {
-      setOffset(-step); // volta pro “pré-posicionado”
+      setOffset(-step);
       requestAnimationFrame(() => {
         isAnimatingRef.current = false;
       });
@@ -94,7 +99,6 @@ export default function MobileStackCarousel({
     return () => {
       if (timerRef.current) window.clearInterval(timerRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [interval, count]);
 
   if (!top) return null;
@@ -116,7 +120,6 @@ export default function MobileStackCarousel({
             left: 0,
             right: 0,
             top: 0,
-
             transform: `translateY(${offset}px)`,
             transition: enableTransition
               ? `transform ${animationMs}ms ${easing}`
@@ -124,16 +127,11 @@ export default function MobileStackCarousel({
             willChange: "transform",
           }}
         >
-          {/* PREV (fica acima, entra descendo) */}
-          <SlideCard slide={prev} height={height} radius={radius} shadow={shadow} />
+          <SlideCard slide={prev} height={effectiveHeight} radius={radius} shadow={shadow} />
           <Box sx={{ height: gap }} />
-
-          {/* TOP */}
-          <SlideCard slide={top} height={height} radius={radius} shadow={shadow} />
+          <SlideCard slide={top} height={effectiveHeight} radius={radius} shadow={shadow} />
           <Box sx={{ height: gap }} />
-
-          {/* NEXT */}
-          <SlideCard slide={next!} height={height} radius={radius} shadow={shadow} />
+          <SlideCard slide={next!} height={effectiveHeight} radius={radius} shadow={shadow} />
         </Box>
       </Box>
     </Box>
@@ -159,8 +157,6 @@ function SlideCard({
         overflow: "hidden",
         boxShadow: shadow,
         bgcolor: slide.bg ?? "transparent",
-        transform: "translateZ(0)",
-        backfaceVisibility: "hidden",
       }}
     >
       <Box
@@ -172,8 +168,6 @@ function SlideCard({
           height: "100%",
           objectFit: slide.fit ?? "cover",
           display: "block",
-          transform: "translateZ(0)",
-          borderRadius: "0px",
         }}
       />
     </Box>
