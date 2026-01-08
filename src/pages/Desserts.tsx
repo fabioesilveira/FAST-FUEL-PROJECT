@@ -635,25 +635,25 @@ export default function Desserts() {
     }
 
     const imageStylesMobile: Record<string, React.CSSProperties> = {
-        "15": { width: "180px", height: "190px" },
-        "16": { width: "150px", height: "140px" },
-        "17": { width: "143px", height: "133px" },
-        "18": { width: "115px", height: "120px" },
+        "15": { transform: "scale(1.14)", marginTop: "8px" },
+        "16": { width: "140px", height: "142px" },
+        "17": { width: "133px", height: "133px" },
+        "18": { width: "106px", height: "110px" },
     };
 
     const imageStylesDesktop: Record<string, React.CSSProperties> = {
-        "15": { width: "180px", height: "190px" },
-        "16": { width: "150px", height: "140px" },
-        "17": { width: "148px", height: "138px" },
-        "18": { width: "120px", height: "125px" },
+        "15": { transform: "scale(1.14)", marginTop: "8px" },
+        "16": { width: "210px", height: "220px" },
+        "17": { width: "152px", height: "152px" },
+        "18": { width: "125px", height: "125px" },
     };
 
 
     const imageStylesDesktopWide: Record<string, React.CSSProperties> = {
-        "1": { width: "180px", height: "190px", marginTop: "5px" },
-        "2": { width: "240px", height: "225px", },
-        "3": { width: "173px", height: "163px", marginTop: "12px" },
-        "4": { width: "250px", height: "195px", },
+        "15": { width: "260px", height: "260px", marginTop: "10px" },
+        "16": { width: "220px", height: "230px", },
+        "17": { width: "203px", height: "213px", },
+        "18": { width: "175px", height: "175px", },
     };
 
     const mobileTabletGrid = (

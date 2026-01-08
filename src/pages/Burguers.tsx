@@ -606,10 +606,10 @@ export default function Burguers() {
   //IMG ADJUST 
 
   const imageStylesMobile: Record<string, React.CSSProperties> = {
-    "1": { width: "105px", height: "105px", marginTop: "5px" },
+    "1": { width: "105px", height: "93px", marginTop: "5px" },
     "2": { width: "260px", height: "260px" },
-    "3": { width: "135px", height: "100px", marginTop: "5px" },
-    "4": { width: "170px", height: "120px" },
+    "3": { width: "135px", height: "100px", marginTop: "7px" },
+    "4": { width: "170px", height: "120px", marginTop: "-5px" },
   };
 
   const imageStylesDesktop: Record<string, React.CSSProperties> = {
