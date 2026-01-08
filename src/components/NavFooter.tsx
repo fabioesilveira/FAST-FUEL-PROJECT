@@ -28,7 +28,7 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
     if (!isMobile) return null;
 
     const items = [
-        { label: "BURGUERS", type: "mui", Icon: LunchDiningIcon, onClick: () => onNavigate("BURGUERS") },
+        { label: "BURGERS", type: "mui", Icon: LunchDiningIcon, onClick: () => onNavigate("BURGUERS") },
         { label: "SIDES", type: "img", src: FriesIcon, onClick: () => onNavigate("SIDES") },
         { label: "FAST_THRU", type: "fast", onClick: () => onFastThruClick?.() },
         { label: "BEVERAGES", type: "img", src: SodaIcon, onClick: () => onNavigate("BEVERAGES") },
@@ -43,7 +43,7 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                 bottom: 0,
                 left: 0,
                 right: 0,
-                height: 86, // ✅ um pouco mais alto pra caber ícones maiores
+                height: 86, 
                 zIndex: 1300,
                 backgroundColor: "#fff3e0",
                 borderTop: "2px solid rgba(13, 71, 161, 0.25)",
@@ -70,8 +70,8 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                             key={c.label}
                             onClick={c.onClick}
                             sx={{
-                                width: isFast ? 70 : 62,  // ✅ maior
-                                height: isFast ? 70 : 62, // ✅ maior
+                                width: isFast ? 70 : 62,  
+                                height: isFast ? 70 : 62, 
                                 borderRadius: 2,
                                 border: "2px solid transparent",
                                 backgroundColor: "transparent",
@@ -94,23 +94,22 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                                     src={c.src}
                                     alt={c.label}
                                     style={{
-                                        width: c.label === "BEVERAGES" ? 42 : 38,  // ✅ maior
-                                        height: c.label === "BEVERAGES" ? 42 : 38, // ✅ maior
+                                        width: c.label === "BEVERAGES" ? 42 : 38,  
+                                        height: c.label === "BEVERAGES" ? 42 : 38, 
                                         objectFit: "contain",
 
-                                        // ✅ mantém BEVERAGES mais “elevado”
+                                    
                                         transform: c.label === "BEVERAGES" ? "translateY(-3px)" : "none",
                                     }}
                                 />
                             ) : c.type === "mui" ? (
                                 <c.Icon
                                     sx={{
-                                        fontSize: 32, // ✅ maior
+                                        fontSize: 32, 
                                         color: ORANGE,
                                     }}
                                 />
                             ) : (
-                                // ✅ FAST THRU maior
                                 <Box
                                     sx={{
                                         width: 54,

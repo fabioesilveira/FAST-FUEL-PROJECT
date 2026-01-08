@@ -15,8 +15,22 @@ import { DescriptionBox } from '../components/DescriptionBox';
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
+import MilkshakeImg from "../assets/Milkshake.png"
+import SundaeImg from "../assets/Sundae.png"
+
 const getNameWithKcal = (name: string) => name.trim();
 
+
+const imageMap: Record<string, string> = {
+    "Milkshake.png": MilkshakeImg,
+    "Sundae.png": SundaeImg,
+};
+
+const normalizeImageKey = (value?: string) => {
+    if (!value) return "";
+    const last = value.split("/").pop() || value;
+    return last.split("?")[0].trim();
+};
 function ProductCard({
     product,
     onAdd,
@@ -43,6 +57,9 @@ function ProductCard({
     const useCompactMobile = isMobile;
 
     const useCompactStyle = isMobile || isTabletOnly || useToggle;
+
+    const imgKey = normalizeImageKey(product.image);
+    const imgSrc = imageMap[imgKey] ?? product.image;
 
     return (
         <Box
@@ -112,7 +129,7 @@ function ProductCard({
                 }}
             >
                 <img
-                    src={product.image}
+                    src={imgSrc}
                     alt={product.name}
                     style={{
                         ...(imgStyle ?? {}),
@@ -295,6 +312,10 @@ function ProductCardDesktopLandscape({
     const title = getNameWithKcal(product.name);
     const price = `$${Number(product.price).toFixed(2)}`;
 
+    const imgKey = normalizeImageKey(product.image);
+    const imgSrc = imageMap[imgKey] ?? product.image;
+
+
     return (
         <Box
             sx={{
@@ -363,7 +384,7 @@ function ProductCardDesktopLandscape({
                 }}
             >
                 <img
-                    src={product.image}
+                    src={imgSrc}
                     alt={product.name}
                     style={{
                         ...(imgStyle ?? {}),
@@ -373,6 +394,7 @@ function ProductCardDesktopLandscape({
                         display: "block",
                     }}
                 />
+
             </Box>
 
 

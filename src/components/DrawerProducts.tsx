@@ -49,7 +49,7 @@ type CategoryItem =
   | { label: string; type: "img"; src: string; imgW?: number; imgH?: number };
 
 const categories: CategoryItem[] = [
-  { label: "BURGUERS", type: "mui", Icon: LunchDiningIcon },
+  { label: "BURGERS", type: "mui", Icon: LunchDiningIcon },
   { label: "SIDES", type: "img", src: FriesIcon, imgW: 32, imgH: 32 },
   { label: "BEVERAGES", type: "img", src: SodaIcon, imgW: 36, imgH: 36 },
   { label: "DESSERTS", type: "mui", Icon: CookieIcon },

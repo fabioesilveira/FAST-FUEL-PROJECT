@@ -310,7 +310,7 @@ export default function SignIn() {
                                         fontWeight: 700,
                                         bgcolor: "#1e5bb8",
                                         boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
-                                        fontSize: { xs: "0.85rem", sm: "0.85rem", md: "0.92rem" },
+                                        fontSize: { xs: "0.85rem", sm: "0.85rem", md: "0.93rem" },
                                         "&:hover": { bgcolor: "#164a99" },
                                         "&:active": {
                                             bgcolor: "rgba(230, 81, 0, 0.28)",

@@ -44,7 +44,7 @@ const ORANGE = "#e85f10";
 const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
 
 const productItems: NavItem[] = [
-    { label: "BURGUERS", kind: "mui", Icon: LunchDiningIcon, path: "/burguers" },
+    { label: "BURGERS", kind: "mui", Icon: LunchDiningIcon, path: "/burguers" },
     { label: "SIDES", kind: "img", src: FriesIcon, imgW: 38, imgH: 38, path: "/sides" },
     { label: "BEVERAGES", kind: "img", src: SodaIcon, imgW: 42, imgH: 42, path: "/beverages" },
     { label: "DESSERTS", kind: "mui", Icon: CookieIcon, path: "/desserts" },
