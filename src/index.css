@@ -527,7 +527,7 @@ body {
   font-weight: 500;
   letter-spacing: 0.08em;
 
-  font-size: clamp(38px, 6vw, 50px);
+  font-size: clamp(38px, 6vw, 52px);
 
   color: #1e5bb8;
   text-shadow:
@@ -535,25 +535,30 @@ body {
     0 2px 6px rgba(180, 200, 255, 0.45);
 }
 
+@media (max-width: 600px) {
+  .total {
+    margin-top: -10px;
+  }
+}
 
 .h2-driveMode-desk {
-  font-size: 0.82rem;
-  /* pequeno */
+  font-size: clamp(0.59rem, 1.2vw, 0.80rem);
   font-weight: 600;
-  
-  /* azul badge */
-  line-height: 1.4;
+  line-height: 1.35;
   letter-spacing: 0.04em;
   text-align: center;
   margin-top: 8px;
+  opacity: 0.92;
+  margin-bottom: 10px;
 }
 
-/* some no mobile/tablet */
-@media (max-width: 900px) {
+/* some só no mobile real */
+@media (max-width: 600px) {
   .h2-driveMode-desk {
     display: none;
   }
 }
+
 
 /* Tabs container */
 .ff-tabs .nav-link {

@@ -5,13 +5,11 @@ import axios from "axios";
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
 import Chat from '../assets/Fast-Fuel-RestO.png';
 import Chat4 from '../assets/Fuel-Up.png'
 import Chat5 from '../assets/fastFuel-employees.png'
 import Chat6 from '../assets/girl-fastFuel.png'
 import Carousel from 'react-bootstrap/Carousel';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/context';
 import Typography from '@mui/material/Typography';
@@ -26,6 +24,8 @@ import PromoBannerCarousel from "../components/PromoBannerCarousel";
 import FloatingContact from '../components/FloatingContact';
 import FloatingContactMobile from '../components/FloatingContactMobile';
 import HeroCarousel from '../components/HeroCarousel';
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 
 //imgs out of Backend
 
@@ -381,6 +381,7 @@ export default function Home() {
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const isMobileOrSm = useMediaQuery(theme.breakpoints.down("md"));
 
     const filteredData = data.filter(item =>
         item.name.toLowerCase().includes(search.toLowerCase())
@@ -393,10 +394,6 @@ export default function Home() {
         navigate(`/${category.toLowerCase()}`);
     };
 
-    const totalItems = order.reduce(
-        (sum, item) => sum + (item.quantidade ?? 0),
-        0
-    );
 
     const qtyMap = order.reduce<Record<string, number>>((acc, item) => {
         const q = item.quantidade ?? 1;
@@ -404,11 +401,8 @@ export default function Home() {
         return acc;
     }, {});
 
-    const driveModeActive = showDriveThru || search.trim().length > 0 || totalItems > 0;
-
-    const shouldShowCarousel =
-        !driveModeActive && search.trim().length === 0 && totalItems === 0;
-
+    const driveModeActive = showDriveThru || search.trim().length > 0;
+    const shouldShowCarousel = !driveModeActive && search.trim().length === 0;
     const shouldShowOrderPreview = driveModeActive;
 
     // Init: fetch products + hydrate order from localStorage
@@ -470,20 +464,11 @@ export default function Home() {
     }
 
     useEffect(() => {
-        if (search.trim().length > 0 || totalItems > 0) {
+        if (search.trim().length > 0) {
             setShowDriveThru(true);
         }
-    }, [search, totalItems]);
+    }, [search]);
 
-    function handleClearCart() {
-        setOrder([]);
-        localStorage.removeItem("lsOrder");
-        setCheckout(0);
-
-        // volta estado da home
-        setSearch("");
-        setShowDriveThru(false);
-    }
 
     // Discount: any 1 sandwich + 1 side + 1 beverage = $2 off
     useEffect(() => {
@@ -664,51 +649,95 @@ export default function Home() {
                 )}
 
                 {shouldShowOrderPreview && (
-                    <>
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                gap: { xs: 1.5, md: 2 },
-                                mb: { xs: 5, md: 6 },
-                                mt: { xs: 4, sm: 15, md: 2 },
-                                flexWrap: "wrap",
-                            }}
-                        >
-                            <h2
-                                className="total"
-                                style={{
-                                    margin: 0,
-                                    lineHeight: 1,
-                                    whiteSpace: "nowrap",
-                                }}
-                            >
-                                TOTAL R$: {checkout.toFixed(2)}
-                            </h2>
+                    <Box
+                        sx={{
+                            maxWidth: { xs: "100%", md: "938px" },
+                            mx: "auto",
+                            mb: { xs: 5, md: 6 },
+                            mt: { xs: 0.5, sm: 1, md: 2 },
+                            px: { xs: 0.5, sm: 0 },
 
-                            <Box sx={{ display: "flex", gap: 1.2 }}>
-                                <Button
-                                    variant="contained"
-                                    onClick={handleClearCart}
+                            display: "grid",
+                            alignItems: "center",
+                            gridTemplateColumns: { xs: "1fr", md: "1fr auto 1fr" },
+                            gridTemplateRows: { xs: "auto auto", md: "auto" },
+                            rowGap: { xs: 1.2, md: 0 },
+                        }}
+                    >
+                        {/* MOBILE + SM */}
+                        {isMobileOrSm ? (
+                            <Box sx={{ justifySelf: "end" }}>
+                                <IconButton
+                                    onClick={() => setShowDriveThru(false)}
                                     sx={{
-                                        minWidth: { xs: 30, sm: 45 },
-                                        width: { xs: 55, sm: 60, md: 75 },
-                                        height: { xs: 34, sm: 38, md: 44 },
-                                        borderRadius: 2,
+                                        justifySelf: "end",
+
+                                        width: {
+                                            xs: 32,  
+                                            sm: 38,   
+                                            md: 45,   
+                                        },
+                                        height: {
+                                            xs: 32,
+                                            sm: 38,
+                                            md: 45,
+                                        },
+
+                                        borderRadius: "12px",
                                         backgroundColor: "#e65100",
+                                        border: "2px solid rgba(255, 224, 199, 0.95)",
+
                                         "&:hover": { backgroundColor: "#b33f00" },
-                                        p: 0,
                                     }}
                                 >
-                                    <DeleteForeverIcon
-                                        sx={{ fontSize: { xs: 28, md: 36 }, color: "#ffe0c7" }}
+                                    <CloseIcon
+                                        sx={{
+                                            fontSize: {
+                                                xs: 22,
+                                                sm: 26, 
+                                                md: 30,
+                                            },
+                                            color: "#ffe0c7",
+                                        }}
                                     />
-                                </Button>
+                                </IconButton>
+
                             </Box>
-                        </Box>
-                    </>
+                        ) : (
+                            <Box
+                                sx={{
+                                    justifySelf: "start",
+                                    width: { md: 52 },
+                                    height: { md: 52 },
+                                    visibility: "hidden",
+                                }}
+                            />
+                        )}
+
+                        <h2 className="total" style={{ whiteSpace: "nowrap", justifySelf: "center" }}>
+                            TOTAL R$: {checkout.toFixed(2)}
+                        </h2>
+
+                        {/* DESKTOP */}
+                        {!isMobileOrSm && (
+                            <IconButton
+                                onClick={() => setShowDriveThru(false)}
+                                sx={{
+                                    justifySelf: "end",
+                                    width: { md: 45 },
+                                    height: { md: 45 },
+                                    borderRadius: "12px",
+                                    backgroundColor: "#e65100",
+                                    border: "2px solid rgba(255, 224, 199, 0.95)",
+                                    "&:hover": { backgroundColor: "#b33f00" },
+                                }}
+                            >
+                                <CloseIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
+                            </IconButton>
+                        )}
+                    </Box>
                 )}
+
 
                 {driveModeActive && (
                     <Box sx={{ mb: { xs: 1.5, md: 2 } }}>
@@ -716,9 +745,9 @@ export default function Home() {
                             align="center"
                             sx={{
                                 mb: { xs: 3, md: 3 },
-                                mt: { xs: -2, md: -3 },
+                                mt: { xs: -3, md: -4 },
                                 fontFamily: "Titan One",
-                                fontSize: { xs: "30px", md: "37px" },
+                                fontSize: { xs: "28px", md: "37px" },
                                 letterSpacing: "0.14em",
                                 textTransform: "uppercase",
                                 color: "#ff8a4c",
