@@ -141,7 +141,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
         ? { label: "SIGN OUT", icon: AccountCircleIcon, action: handleSignout }
         : { label: "SIGNIN / SIGNUP", icon: AccountCircleIcon, path: "/sign-in" },
 
-      { label: "MY ORDERS", icon: HistoryIcon, path: "/history" },
+      { label: "MY ORDERS", icon: HistoryIcon, path: "/orders" },
       { label: "CONTACT US", icon: EmailIcon, path: "/contact-us" },
       {
         label: "DELETE ACCOUNT",
@@ -334,7 +334,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
               <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
                 <SwapHorizIcon
                   sx={{
-                    fontSize: 35.5,
+                    fontSize: 37.5,
                     color: ORANGE,
                     transition: "transform .2s ease",
                     transform: open ? "scale(1.04)" : "scale(1)",

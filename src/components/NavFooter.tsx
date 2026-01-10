@@ -28,7 +28,7 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
     if (!isMobile) return null;
 
     const items = [
-        { label: "BURGERS", type: "mui", Icon: LunchDiningIcon, onClick: () => onNavigate("BURGUERS") },
+        { label: "BURGERS", type: "mui", Icon: LunchDiningIcon, onClick: () => onNavigate("BURGERS") },
         { label: "SIDES", type: "img", src: FriesIcon, onClick: () => onNavigate("SIDES") },
         { label: "FAST_THRU", type: "fast", onClick: () => onFastThruClick?.() },
         { label: "BEVERAGES", type: "img", src: SodaIcon, onClick: () => onNavigate("BEVERAGES") },

@@ -55,6 +55,8 @@ export default function AddressLookup({ onSelect, onInput, sx }: Props) {
           // ✅ GARANTE que street nunca venha com cidade/estado (corta antes da vírgula)
           const street = (apiStreet || streetFromFull).split(",")[0].trim();
 
+          console.log("estou aqui",street)
+
           return {
             full,
             street,

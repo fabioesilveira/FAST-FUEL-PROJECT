@@ -52,7 +52,7 @@ const productItems: NavItem[] = [
 
 const accountItems: NavItem[] = [
     { label: "SIGNIN / SIGNUP", kind: "mui", Icon: AccountCircleIcon, path: "/sign-in" },
-    { label: "MY ORDERS", kind: "mui", Icon: HistoryIcon, path: "/history" },
+    { label: "MY ORDERS", kind: "mui", Icon: HistoryIcon, path: "/orders" },
     { label: "CONTACT US", kind: "mui", Icon: EmailIcon, path: "/contact-us" },
     {
         label: "DELETE ACCOUNT",
@@ -218,7 +218,7 @@ export default function NavFooterProducts({
                                 },
                             }}
                         >
-                            <SwapHorizIcon sx={{ fontSize: 38, color: ORANGE }} />
+                            <SwapHorizIcon sx={{ fontSize: 39, color: ORANGE }} />
                         </IconButton>
                     </Tooltip>
 

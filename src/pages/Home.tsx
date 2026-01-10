@@ -647,14 +647,13 @@ export default function Home() {
                         ))}
                     </Box>
                 )}
-
                 {shouldShowOrderPreview && (
                     <Box
                         sx={{
                             maxWidth: { xs: "100%", md: "938px" },
                             mx: "auto",
                             mb: { xs: 5, md: 6 },
-                            mt: { xs: 0.5, sm: 1, md: 2 },
+                            mt: { xs: 2.5, sm: 1, md: 2 },
                             px: { xs: 0.5, sm: 0 },
 
                             display: "grid",
@@ -666,42 +665,32 @@ export default function Home() {
                     >
                         {/* MOBILE + SM */}
                         {isMobileOrSm ? (
-                            <Box sx={{ justifySelf: "end" }}>
+                            <Box
+                                sx={{
+                                    justifySelf: "end",
+                                    gridRow: 1,          // ✅ força linha 1
+                                    gridColumn: 1,       // ✅ única coluna no xs/sm
+                                    alignSelf: "start",  // ✅ garante topo
+                                }}
+                            >
                                 <IconButton
                                     onClick={() => setShowDriveThru(false)}
                                     sx={{
-                                        justifySelf: "end",
-
-                                        width: {
-                                            xs: 32,  
-                                            sm: 38,   
-                                            md: 45,   
-                                        },
-                                        height: {
-                                            xs: 32,
-                                            sm: 38,
-                                            md: 45,
-                                        },
-
+                                        width: { xs: 32, sm: 38, md: 45 },
+                                        height: { xs: 32, sm: 38, md: 45 },
                                         borderRadius: "12px",
                                         backgroundColor: "#e65100",
                                         border: "2px solid rgba(255, 224, 199, 0.95)",
-
                                         "&:hover": { backgroundColor: "#b33f00" },
                                     }}
                                 >
                                     <CloseIcon
                                         sx={{
-                                            fontSize: {
-                                                xs: 22,
-                                                sm: 26, 
-                                                md: 30,
-                                            },
+                                            fontSize: { xs: 22, sm: 26, md: 30 },
                                             color: "#ffe0c7",
                                         }}
                                     />
                                 </IconButton>
-
                             </Box>
                         ) : (
                             <Box
@@ -714,9 +703,24 @@ export default function Home() {
                             />
                         )}
 
-                        <h2 className="total" style={{ whiteSpace: "nowrap", justifySelf: "center" }}>
+                        <h2
+                            className="total"
+                            style={{ whiteSpace: "nowrap" }}
+                        >
                             TOTAL R$: {checkout.toFixed(2)}
                         </h2>
+
+                        {/* ✅ força o TOTAL ir pra linha 2 no mobile/sm */}
+                        <style>
+                            {`
+        @media (max-width: 899.95px){
+          .total{
+            grid-row: 2;
+            justify-self: center;
+          }
+        }
+      `}
+                        </style>
 
                         {/* DESKTOP */}
                         {!isMobileOrSm && (
@@ -737,6 +741,7 @@ export default function Home() {
                         )}
                     </Box>
                 )}
+
 
 
                 {driveModeActive && (

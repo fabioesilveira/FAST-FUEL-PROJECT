@@ -146,6 +146,10 @@ export default function Checkout() {
     // UX/state
     const [submitting, setSubmitting] = useState(false);
 
+    useEffect(() => {
+        console.log(address, "")
+    }, [address])
+
 
     // Pre-fill se logado
     useEffect(() => {

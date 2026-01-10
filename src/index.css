@@ -397,20 +397,6 @@ body {
   align-items: center;
 }
 
-.signin-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* keep horizontally centered */
-  justify-content: flex-start;
-  /* align content to the top */
-  min-height: 80vh;
-  /* fill the height of the viewport */
-  padding-top: 2rem;
-  /* space from the top (adjust as needed) */
-}
-
-
 
 /* Tablet */
 @media (max-width: 900px) {
@@ -537,7 +523,19 @@ body {
 
 @media (max-width: 600px) {
   .total {
-    margin-top: -10px;
+    margin-top: -35px;
+  }
+}
+/* 🔽 opcional: ajuste fino no sm grande */
+@media (max-width: 900px) {
+  .total {
+    margin-top: -35px;
+  }
+}
+
+@media (max-width: 1150px) {
+  .h2-driveMode-desk {
+    display: none !important;
   }
 }
 
@@ -666,7 +664,7 @@ body {
 }
 
 @media (max-width: 600px) {
-  .h2-products-background  {
+  .h2-products-background {
     margin-top: 120px;
     margin-bottom: 35px;
   }
