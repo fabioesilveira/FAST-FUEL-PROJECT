@@ -5,10 +5,13 @@ import axios from "axios";
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import Chat from '../assets/Fast-Fuel-RestO.png';
-import Chat4 from '../assets/Fuel-Up.png'
-import Chat5 from '../assets/fastFuel-employees.png'
-import Chat6 from '../assets/girl-fastFuel.png'
+// import Chat from '../assets/Fast-Fuel-RestO.png';
+import Chat4 from '../assets/Fuel-Up.png' // last
+// import Chat5 from '../assets/fastFuel-employees.png'
+import Chat6 from '../assets/girl-fastFuel.png' // third
+import RestImg from '../assets/Restaurante.png'
+import Employees from '../assets/Funcionarios.png'
+import Combo from '../assets/Combo.png'
 import Carousel from 'react-bootstrap/Carousel';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/context';
@@ -53,6 +56,7 @@ const imageMap: Record<string, string> = {
     "Sundae.png": SundaeImg,
 };
 
+
 const normalizeImageKey = (value?: string) => {
     if (!value) return "";
     const last = value.split("/").pop() || value;
@@ -81,11 +85,13 @@ const imageStylesById: Record<string, React.CSSProperties> = {
 };
 
 const mobileSlides = [
-    { id: "drive", src: Chat, alt: "Drive Thru" },
-    { id: "combo", src: Chat5, alt: "Combo Promo" },
-    { id: "team", src: Chat4, alt: "Fast Fuel Team" },
-    { id: "team", src: Chat6, alt: "Fast Fuel Team" },
+    { id: "combo", src: Combo, alt: "Combo Promo" },
+    { id: "rest", src: RestImg, alt: "Rest" },
+    { id: "girl", src: Chat6, alt: "Girl" },
+    { id: "team", src: Employees, alt: "Fast Fuel Team" },
+    { id: "drive", src: Chat4, alt: "Car Drive" },
 ];
+
 
 type MiniActionCardProps = {
     id: string;
@@ -530,7 +536,7 @@ export default function Home() {
         (
             <Carousel.Item key="slide-1">
                 <img
-                    src={Chat6}
+                    src={Combo}
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
             </Carousel.Item>
@@ -538,7 +544,23 @@ export default function Home() {
         (
             <Carousel.Item key="slide-2">
                 <img
-                    src={Chat5}
+                    src={RestImg}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+            </Carousel.Item>
+        ),
+        (
+            <Carousel.Item key="slide-3">
+                <img
+                    src={Chat6}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+            </Carousel.Item>
+        ),
+        (
+            <Carousel.Item key="slide-3">
+                <img
+                    src={Employees}
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
             </Carousel.Item>

@@ -12,7 +12,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AddressLookup from "../components/AddressLookup";
 import Footer from "../components/Footer";
-import NavbarCheckout from "../components/NavBarCheckout";
+import NavbarCheckout from "../components/NavbarCheckout";
 import { useAppContext } from "../context/context";
 import { useAppAlert } from "../hooks/useAppAlert";
 import HistoryIcon from "@mui/icons-material/History";
