@@ -4,7 +4,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { styled, alpha } from "@mui/material/styles";
+import CloseIcon from "@mui/icons-material/Close";
+import { styled } from "@mui/material/styles";
 import Logo from "../assets/fast-fuel.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
@@ -23,7 +24,7 @@ type DropdownItem = {
   icon: any;
   path?: string;
   requiresAuth?: boolean;
-  action?: () => void; // for Signout
+  action?: () => void;
 };
 
 const dropdownItems: DropdownItem[] = [
@@ -38,61 +39,13 @@ const dropdownItems: DropdownItem[] = [
   },
 ];
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: 10,
-
-  backgroundColor: alpha("#e65100", 0.08),
-  border: "2px solid rgba(230, 81, 0, 0.85)",
-
-  transition: "all .18s ease",
-
-  "&:hover": {
-    backgroundColor: alpha("#e65100", 0.12),
-    borderColor: "rgba(230, 81, 0, 0.85)",
-  },
-
-  "&:focus-within": {
-    backgroundColor: alpha("#e65100", 0.10),
-    borderColor: "#e65100",
-    boxShadow: "0 0 0 4px rgba(230, 81, 0, 0.32)",
-  },
-
-  marginRight: theme.spacing(2),
-  marginLeft: theme.spacing(2),
-  width: "100%",
-  maxWidth: 320,
-  display: "flex",
-  alignItems: "center",
-  cursor: "text",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "#0d47a1",
-  width: "100%",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1.1, 1, 1.1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    width: "100%",
-    fontSize: "0.95rem",
-    fontWeight: 600,
-  },
-  "& .MuiInputBase-input::placeholder": {
-    color: "rgba(13, 71, 161, 0.75)",
-    opacity: 1,
-    fontWeight: 600,
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  color: "#0d47a1",
-  pointerEvents: "none",
+const IconHit = styled("button")(() => ({
+  border: 0,
+  background: "transparent",
+  padding: 0,
+  cursor: "pointer",
+  borderRadius: 12,
+  lineHeight: 0,
 }));
 
 const CartBadge = styled(Badge)`
@@ -106,9 +59,10 @@ const CartBadge = styled(Badge)`
 
 type NavbarProps = {
   onSearch: (value: string) => void;
+  onSearchOverlayChange?: (open: boolean) => void;
 };
 
-function Navbar({ onSearch }: NavbarProps) {
+function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
   const navigate = useNavigate();
   const { order } = useAppContext();
 
@@ -117,7 +71,11 @@ function Navbar({ onSearch }: NavbarProps) {
     useState<DropdownItem[]>(dropdownItems);
   const [badgeQuantity, setBadgeQuantity] = useState(0);
 
-  const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchFocused, setSearchFocused] = useState(false);
+  const floatingSearchRef = useRef<HTMLDivElement | null>(null);
+  const floatingInputRef = useRef<HTMLInputElement | null>(null);
+
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   const { showAlert, AlertUI, confirmAlert, ConfirmUI } = useAppAlert({
@@ -125,7 +83,22 @@ function Navbar({ onSearch }: NavbarProps) {
     horizontal: "center",
   });
 
-  //  Signout action (now actually used)
+  const openSearch = () => {
+    setSearchFocused(false);
+    setSearchOpen((prev) => {
+      const next = !prev;
+      onSearchOverlayChange?.(next);
+      return next;
+    });
+  };
+
+  const closeSearch = () => {
+    setSearchOpen(false);
+    setSearchFocused(false);
+    onSearchOverlayChange?.(false);
+    onSearch("");
+  };
+
   const handleClickSignout = () => {
     localStorage.removeItem("idUser");
     localStorage.removeItem("userName");
@@ -144,26 +117,13 @@ function Navbar({ onSearch }: NavbarProps) {
   };
 
   useEffect(() => {
-    // if logged: swap menu
     if (localStorage.getItem("idUser")) {
       setShown(false);
 
       setDropDownChange([
-        {
-          label: "Signout",
-          icon: AccountCircleIcon,
-          action: handleClickSignout, // action instead of Link
-        },
-        {
-          label: "My Orders",
-          icon: HistoryIcon,
-          path: "/orders",
-        },
-        {
-          label: "Contact Us",
-          icon: EmailIcon,
-          path: "/contact-us",
-        },
+        { label: "Signout", icon: AccountCircleIcon, action: handleClickSignout },
+        { label: "My Orders", icon: HistoryIcon, path: "/orders" },
+        { label: "Contact Us", icon: EmailIcon, path: "/contact-us" },
         {
           label: "Delete Account",
           icon: NoAccountsIcon,
@@ -172,7 +132,6 @@ function Navbar({ onSearch }: NavbarProps) {
         },
       ]);
     } else {
-      // if not logged: ensure default menu
       setDropDownChange(dropdownItems);
     }
 
@@ -181,21 +140,44 @@ function Navbar({ onSearch }: NavbarProps) {
   }, [order]);
 
   useEffect(() => {
-    const qtdTotal = order.reduce((acc, element) => acc + element.quantidade, 0);
+    const qtdTotal = order.reduce(
+      (acc, element) => acc + (element.quantidade ?? 0),
+      0
+    );
     setBadgeQuantity(qtdTotal);
   }, [order]);
 
+  // close dropdown + close search on outside click
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setShown(false);
       }
+
+      if (
+        searchOpen &&
+        floatingSearchRef.current &&
+        !floatingSearchRef.current.contains(event.target as Node)
+      ) {
+        closeSearch();
+      }
     }
 
-    if (shown) document.addEventListener("mousedown", handleClickOutside);
-
+    document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [shown]);
+  }, [searchOpen]);
+
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        if (searchOpen) closeSearch();
+        if (shown) setShown(false);
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [searchOpen, shown]);
 
   return (
     <>
@@ -237,27 +219,121 @@ function Navbar({ onSearch }: NavbarProps) {
               />
             </Box>
 
-            {/* SEARCH */}
+            {/* SEARCH (icon + dropdown under it) */}
             <Box
               sx={{
                 flexGrow: 1,
                 display: "flex",
                 justifyContent: "flex-start",
+                alignItems: "center",
+                position: "relative",
               }}
-              onClick={() => searchInputRef.current?.focus()}
             >
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
+              <Box
+                sx={{
+                  position: "relative",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+              >
+                <IconHit onClick={openSearch} aria-label="Open search">
+                  <Box
+                    sx={{
+                      width: 54,
+                      height: 54,
+                      borderRadius: 2.2,
+                      display: "grid",
+                      placeItems: "center",
+                      transition: "background-color .15s ease, transform .08s ease",
+                      color: "#1e5bb8",
+                      "&:hover": { bgcolor: "rgba(30, 91, 184, 0.14)" },
+                      "&:active": {
+                        bgcolor: "rgba(30, 91, 184, 0.20)",
+                        transform: "scale(0.98)",
+                      },
+                    }}
+                  >
+                    <SearchIcon sx={{ fontSize: 32 }} />
+                  </Box>
+                </IconHit>
 
-                <StyledInputBase
-                  placeholder="Search…"
-                  onChange={(event) => onSearch(event.target.value)}
-                  inputProps={{ "aria-label": "search" }}
-                  inputRef={searchInputRef}
-                />
-              </Search>
+                {searchOpen && (
+                  <Box
+                    ref={floatingSearchRef}
+                    sx={{
+                      position: "absolute",
+                      top: "calc(100% + 10px)",
+                      left: 0,
+                      zIndex: 2000,
+                      width: 310,
+                      maxWidth: "78vw",
+                      pt: 2.5,
+                      pb: 2.5,
+                      pr: 2.5,
+                      pl: 4.6,
+                      bgcolor: "#fff",
+                      borderRadius: 3,
+                      boxShadow: "0 14px 30px rgba(0,0,0,0.12)",
+                      border: "1px solid rgba(13, 71, 161, 0.18)",
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Box
+                      sx={{
+                        height: 48,
+                        borderRadius: 2.4,
+                        border: "2px solid rgba(13, 71, 161, 0.22)",
+                        display: "flex",
+                        alignItems: "center",
+                        px: 1.6,
+                        transition: "border-color .15s ease, box-shadow .15s ease",
+
+                        ...(searchFocused
+                          ? {
+                            borderColor: "#e65100",
+                            boxShadow: "0 0 0 5px rgba(230, 81, 0, 0.35)",
+                          }
+                          : {}),
+                      }}
+                    >
+                      <InputBase
+                        placeholder="Search"
+                        inputRef={floatingInputRef}
+                        onFocus={() => setSearchFocused(true)}
+                        onBlur={() => setSearchFocused(false)}
+                        onChange={(e) => onSearch(e.target.value)}
+                        sx={{
+                          flex: 1,
+                          color: "#0d47a1",
+                          fontWeight: 650,
+                          fontSize: "1rem",
+                          "& .MuiInputBase-input": { padding: "6px 0" },
+                          "& .MuiInputBase-input::placeholder": {
+                            color: "rgba(13, 71, 161, 0.35)",
+                            opacity: 1,
+                            fontWeight: 600,
+                          },
+                        }}
+                      />
+
+                      <Button
+                        onClick={closeSearch}
+                        sx={{
+                          minWidth: 40,
+                          width: 40,
+                          height: 40,
+                          borderRadius: 2,
+                          color: "#1e5bb8",
+                          "&:hover": { bgcolor: "rgba(30, 91, 184, 0.10)" },
+                        }}
+                        aria-label="Close search"
+                      >
+                        <CloseIcon fontSize="small" />
+                      </Button>
+                    </Box>
+                  </Box>
+                )}
+              </Box>
             </Box>
 
             {/* RIGHT SIDE */}
@@ -271,14 +347,11 @@ function Navbar({ onSearch }: NavbarProps) {
                 position: "relative",
               }}
             >
-
-
-              {/* Manage Button */}
               <Button
                 variant="contained"
                 onClick={() => setShown((prev) => !prev)}
                 sx={{
-                  width: { xs: 58, md: 71 },
+                  width: { xs: 60, md: 71 },
                   height: { xs: 42, md: 42 },
                   minWidth: "unset",
                   borderRadius: 2,
@@ -288,14 +361,10 @@ function Navbar({ onSearch }: NavbarProps) {
                 }}
               >
                 <ManageAccountsIcon
-                  sx={{
-                    fontSize: { xs: 30, md: 34.5 },
-                    color: "#ffe0c7",
-                  }}
+                  sx={{ fontSize: { xs: 31, md: 34.5 }, color: "#ffe0c7" }}
                 />
               </Button>
 
-              {/* Cart */}
               <Button
                 variant="contained"
                 onClick={() => {
@@ -322,7 +391,6 @@ function Navbar({ onSearch }: NavbarProps) {
                     onDismiss: () => { },
                   });
                 }}
-
                 sx={{
                   width: { xs: 60, md: 73 },
                   height: { xs: 42, md: 42 },
@@ -334,12 +402,8 @@ function Navbar({ onSearch }: NavbarProps) {
                 }}
               >
                 <ShoppingCartIcon
-                  sx={{
-                    fontSize: { xs: 28, md: 31 },
-                    color: "#ffe0c7",
-                  }}
+                  sx={{ fontSize: { xs: 28, md: 31 }, color: "#ffe0c7" }}
                 />
-
                 <CartBadge
                   badgeContent={badgeQuantity}
                   overlap="circular"
@@ -347,7 +411,6 @@ function Navbar({ onSearch }: NavbarProps) {
                 />
               </Button>
 
-              {/* Dropdown */}
               {shown && (
                 <Box
                   ref={menuRef}
@@ -396,7 +459,6 @@ function Navbar({ onSearch }: NavbarProps) {
                       },
                     } as const;
 
-                    // ACTION (Signout)
                     if (isAction) {
                       return (
                         <Button
@@ -425,7 +487,10 @@ function Navbar({ onSearch }: NavbarProps) {
 
                           if (requiresAuth && !isLogged) {
                             e.preventDefault();
-                            showAlert("Please sign in to delete your account", "warning");
+                            showAlert(
+                              "Please sign in to delete your account",
+                              "warning"
+                            );
                             setShown(false);
                             return;
                           }
@@ -449,7 +514,6 @@ function Navbar({ onSearch }: NavbarProps) {
       </AppBar>
     </>
   );
-
 }
 
 export default Navbar;
