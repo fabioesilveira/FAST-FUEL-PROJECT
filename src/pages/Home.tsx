@@ -63,6 +63,39 @@ const normalizeImageKey = (value?: string) => {
     return last.split("?")[0].trim();
 };
 
+const categoryAliases: Record<string, string[]> = {
+    sandwiches: ["burger", "burgers", "sandwich", "sandwiches"],
+    sides: ["side", "sides", "fries", "snacks"],
+    beverages: ["drink", "drinks", "beverage", "beverages", "soda", "sodas"],
+    desserts: ["dessert", "desserts", "sweet", "sweets"],
+};
+
+const funMessages = [
+    "Hmm… nice choice 😋",
+    "This one is delicious 🔥",
+    "Classic pick. Respect 👌",
+    "Fast Fuel approved ✅",
+    "You’ve got good taste 😄",
+    "Okayyy, that’s a winner 🏆",
+];
+
+function detectCategory(term: string) {
+    const t = term.trim().toLowerCase();
+    if (!t) return null;
+
+    for (const [category, aliases] of Object.entries(categoryAliases)) {
+        if (aliases.includes(t)) return category; // returns "sandwiches" | "sides" | ...
+    }
+    return null;
+}
+
+function pickMessage(seed: string) {
+    // mensagem “aleatória”, mas estável pro mesmo texto
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+    return funMessages[hash % funMessages.length];
+}
+
 const imageStylesById: Record<string, React.CSSProperties> = {
     "1": { width: "130px", height: "120px" },
     "2": { width: "220px", height: "210px" },
@@ -389,9 +422,27 @@ export default function Home() {
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const isMobileOrSm = useMediaQuery(theme.breakpoints.down("md"));
 
-    const filteredData = data.filter(item =>
-        item.name.toLowerCase().includes(search.toLowerCase())
-    );
+    const searchTrim = search.trim().toLowerCase();
+
+    const funTitle = searchTrim ? pickMessage(searchTrim) : "";
+
+
+    const detected = detectCategory(searchTrim);
+
+    const filteredData = data.filter((item) => {
+        const name = item.name.toLowerCase();
+        const category = (item.category || "").toLowerCase();
+
+        // se o user digitou uma categoria inteira
+        if (detected) return category === detected;
+
+        // senão, busca por nome (e ainda aceita buscar por category digitando parte)
+        return (
+            name.includes(searchTrim) ||
+            category.includes(searchTrim) // ex: user digita "side" ou "bev"
+        );
+    });
+
 
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext();
@@ -407,9 +458,12 @@ export default function Home() {
         return acc;
     }, {});
 
-    const driveModeActive = showDriveThru || search.trim().length > 0;
-    const shouldShowCarousel = !driveModeActive && search.trim().length === 0;
-    const shouldShowOrderPreview = driveModeActive;
+    const isSearching = searchTrim.length > 0;
+
+    const driveModeActive = showDriveThru; // só fast-thru manual
+    const shouldShowCarousel = !isSearching && !driveModeActive;
+    const shouldShowOrderPreview = driveModeActive; // continua igual
+
 
     // Init: fetch products + hydrate order from localStorage
     useEffect(() => {
@@ -469,11 +523,11 @@ export default function Home() {
         }
     }
 
-    useEffect(() => {
-        if (search.trim().length > 0) {
-            setShowDriveThru(true);
-        }
-    }, [search]);
+    // useEffect(() => {
+    //     if (search.trim().length > 0) {
+    //         setShowDriveThru(true);
+    //     }
+    // }, [search]);
 
 
     // Discount: any 1 sandwich + 1 side + 1 beverage = $2 off
@@ -643,32 +697,56 @@ export default function Home() {
                     </HeroCarousel>
                 )}
 
-                {search.trim() && (
-                    <Box
-                        sx={{
-                            display: "grid",
-                            justifyContent: "center",
-                            justifyItems: filteredData.length === 1 ? "center" : "stretch",
-                            gap: 4,
-                            mb: 4,
-                            gridTemplateColumns: {
-                                xs: "repeat(1, 260px)",
-                                sm:
-                                    filteredData.length === 1
-                                        ? "repeat(1, 300px)"
-                                        : "repeat(2, 300px)",
-                                md:
-                                    filteredData.length === 1
-                                        ? "repeat(1, 300px)"
-                                        : "repeat(3, 300px)",
-                            },
-                        }}
-                    >
-                        {filteredData.map((e) => (
-                            <ProductCard key={e.id} product={e} />
-                        ))}
-                    </Box>
+                {isSearching && (
+                    <>
+                        <Typography
+                            align="center"
+                            sx={{
+                                mb: { xs: 2.5, md: 3 },
+                                mt: { xs: 1, md: 1 },
+                                fontFamily: "Titan One",
+                                fontSize: { xs: "26px", md: "34px" },
+                                letterSpacing: "0.06em",
+                                textTransform: "uppercase",
+                                color: "#ff8a4c",
+                                textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+                            }}
+                        >
+                            {funTitle}
+                        </Typography>
+
+                        <Typography
+                            align="center"
+                            sx={{
+                                mb: { xs: 3, md: 4 },
+                                fontWeight: 700,
+                                color: "rgba(13, 71, 161, 0.78)",
+                            }}
+                        >
+                            Results for: <span style={{ color: "#e65100" }}>{searchTrim}</span>
+                        </Typography>
+
+                        <Box
+                            sx={{
+                                display: "grid",
+                                justifyContent: "center",
+                                justifyItems: filteredData.length === 1 ? "center" : "stretch",
+                                gap: 4,
+                                mb: 4,
+                                gridTemplateColumns: {
+                                    xs: "repeat(1, 260px)",
+                                    sm: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
+                                    md: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(3, 300px)",
+                                },
+                            }}
+                        >
+                            {filteredData.map((e) => (
+                                <ProductCard key={e.id} product={e} />
+                            ))}
+                        </Box>
+                    </>
                 )}
+
                 {shouldShowOrderPreview && (
                     <Box
                         sx={{
