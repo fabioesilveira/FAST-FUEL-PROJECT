@@ -11,7 +11,7 @@ import Chat4 from '../assets/Fuel-Up.png' // last
 import Chat6 from '../assets/girl-fastFuel.png' // third
 import RestImg from '../assets/Restaurante.png'
 import Employees from '../assets/Funcionarios.png'
-import Combo from '../assets/Combo.png'
+import Combo from '../assets/Combo1.png'
 import Carousel from 'react-bootstrap/Carousel';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/context';
