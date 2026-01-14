@@ -83,16 +83,27 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
     horizontal: "center",
   });
 
+
+
   const openSearch = () => {
     setSearchFocused(false);
-    setSearchOpen((prev) => {
-      const next = !prev;
-      onSearchOverlayChange?.(next);
-      return next;
+    setSearchOpen(true);
+    onSearchOverlayChange?.(true);
+
+    requestAnimationFrame(() => {
+      floatingInputRef.current?.focus();
     });
   };
 
-  const closeSearch = () => {
+
+  const closeSearchOnly = () => {
+    setSearchOpen(false);
+    setSearchFocused(false);
+    onSearchOverlayChange?.(false);
+  };
+
+
+  const closeSearchAndClear = () => {
     setSearchOpen(false);
     setSearchFocused(false);
     onSearchOverlayChange?.(false);
@@ -147,31 +158,33 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
     setBadgeQuantity(qtdTotal);
   }, [order]);
 
-  // close dropdown + close search on outside click
+  // fecha dropdown/search em clique fora (SEM limpar search)
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+    function handlePointerDownOutside(event: PointerEvent) {
+      const target = event.target as Node;
+
+      if (menuRef.current && !menuRef.current.contains(target)) {
         setShown(false);
       }
 
       if (
         searchOpen &&
         floatingSearchRef.current &&
-        !floatingSearchRef.current.contains(event.target as Node)
+        !floatingSearchRef.current.contains(target)
       ) {
-        closeSearch();
+        closeSearchOnly();
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("pointerdown", handlePointerDownOutside, true);
+    return () =>
+      document.removeEventListener("pointerdown", handlePointerDownOutside, true);
   }, [searchOpen]);
-
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
-        if (searchOpen) closeSearch();
+        if (searchOpen) closeSearchOnly(); // ESC só fecha overlay
         if (shown) setShown(false);
       }
     }
@@ -236,7 +249,13 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                   alignItems: "center",
                 }}
               >
-                <IconHit onClick={openSearch} aria-label="Open search">
+                <IconHit
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openSearch();
+                  }}
+                  aria-label="Open search"
+                >
                   <Box
                     sx={{
                       width: 54,
@@ -244,7 +263,8 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                       borderRadius: 2.2,
                       display: "grid",
                       placeItems: "center",
-                      transition: "background-color .15s ease, transform .08s ease",
+                      transition:
+                        "background-color .15s ease, transform .08s ease",
                       color: "#1e5bb8",
                       "&:hover": { bgcolor: "rgba(30, 91, 184, 0.14)" },
                       "&:active": {
@@ -286,12 +306,13 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                         display: "flex",
                         alignItems: "center",
                         px: 1.6,
-                        transition: "border-color .15s ease, box-shadow .15s ease",
-
+                        transition:
+                          "border-color .15s ease, box-shadow .15s ease",
                         ...(searchFocused
                           ? {
                             borderColor: "#e65100",
-                            boxShadow: "0 0 0 5px rgba(230, 81, 0, 0.35)",
+                            boxShadow:
+                              "0 0 0 5px rgba(230, 81, 0, 0.35)",
                           }
                           : {}),
                       }}
@@ -317,7 +338,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                       />
 
                       <Button
-                        onClick={closeSearch}
+                        onClick={closeSearchAndClear}
                         sx={{
                           minWidth: 40,
                           width: 40,
@@ -383,7 +404,8 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
 
                   confirmAlert({
                     title: "Checkout",
-                    message: "You’re not signed in. Continue as guest or sign in?",
+                    message:
+                      "You’re not signed in. Continue as guest or sign in?",
                     confirmText: "Continue as guest",
                     cancelText: "Sign in / Sign up",
                     onConfirm: () => navigate("/checkout?guest=1"),
@@ -487,10 +509,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
 
                           if (requiresAuth && !isLogged) {
                             e.preventDefault();
-                            showAlert(
-                              "Please sign in to delete your account",
-                              "warning"
-                            );
+                            showAlert("Please sign in to delete your account", "warning");
                             setShown(false);
                             return;
                           }

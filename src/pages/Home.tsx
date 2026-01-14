@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
-// import Chat from '../assets/Fast-Fuel-RestO.png';
 import Chat4 from "../assets/Fuel-Up.png"; // last
-// import Chat5 from '../assets/fastFuel-employees.png'
 import Chat6 from "../assets/girl-fastFuel.png"; // third
 import RestImg from "../assets/Restaurante.png";
 import Employees from "../assets/Funcionarios.png";
@@ -49,6 +47,7 @@ const imageMap: Record<string, string> = {
     "Drpepper.png": DrPepperImg,
     "Fanta.png": FantaImg,
     "Dietcoke.png": DietCokeImg,
+    "Dietacoke.png": DietCokeImg,
     "Lemonade.png": LemonadeImg,
     "Crispsalad.png": SaladImg,
     "Milkshake.png": MilkshakeImg,
@@ -63,9 +62,9 @@ const normalizeImageKey = (value?: string) => {
 
 const categoryAliases: Record<string, string[]> = {
     sandwiches: ["bur", "burger", "burgers", "sandwich", "sandwiches"],
-    sides: ["side", "sides", "snacks"],
-    beverages: ["drink", "drinks", "beverage", "beverages", "soda", "sodas"],
-    desserts: ["dessert", "desserts", "sweet", "sweets"],
+    sides: ["sid", "side", "sides", "snacks"],
+    beverages: ["dri", "bev", "drink", "drinks", "beverage", "beverages", "soda", "sodas"],
+    desserts: ["swe", "des", "dessert", "desserts", "sweet", "sweets"],
 };
 
 const funMessages = [
@@ -77,16 +76,7 @@ const funMessages = [
     "Okayyy, that’s a winner 🏆",
 ];
 
-const headlineSx = {
-    mb: { xs: 2.5, md: 3 },
-    mt: { xs: 1, md: 1 },
-    fontFamily: "Titan One",
-    fontSize: { xs: "26px", md: "34px" },
-    letterSpacing: "0.06em",
-    textTransform: "uppercase",
-    color: "#ff8a4c",
-    textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
-};
+
 
 function detectCategory(term: string) {
     const t = term.trim().toLowerCase();
@@ -163,6 +153,12 @@ function ProductCard({ product }: { product: Meal }) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+    const pid = String(product.id);
+
+    // 🔹 resolve imagem (backend OU local)
+    const imgKey = normalizeImageKey(product.image);
+    const imgSrc = imageMap[imgKey] ?? product.image;
+
     return (
         <Box
             sx={{
@@ -196,10 +192,13 @@ function ProductCard({ product }: { product: Meal }) {
                 }}
             >
                 <img
-                    src={product.image}
+                    src={imgSrc}
                     alt={title}
                     style={{
-                        ...(imageStylesById[product.id] ?? { width: "180px", height: "150px" }),
+                        ...(imageStylesById[pid] ?? {
+                            width: "180px",
+                            height: "150px",
+                        }),
                         maxWidth: "100%",
                         maxHeight: "100%",
                         objectFit: "contain",
@@ -220,7 +219,13 @@ function ProductCard({ product }: { product: Meal }) {
                     textAlign: "center",
                 }}
             >
-                <Typography sx={{ fontSize: isMobile ? "0.92rem" : "0.98rem", fontWeight: 800, color: "#e65100" }}>
+                <Typography
+                    sx={{
+                        fontSize: isMobile ? "0.92rem" : "0.98rem",
+                        fontWeight: 800,
+                        color: "#1e5bb8",
+                    }}
+                >
                     {title}
                 </Typography>
             </Box>
@@ -237,7 +242,13 @@ function ProductCard({ product }: { product: Meal }) {
                     textAlign: "center",
                 }}
             >
-                <Typography sx={{ fontSize: isMobile ? "0.9rem" : "0.95rem", fontWeight: 800, color: "#e65100" }}>
+                <Typography
+                    sx={{
+                        fontSize: isMobile ? "0.9rem" : "0.95rem",
+                        fontWeight: 500,
+                        color: "#000",
+                    }}
+                >
                     {product.description}
                 </Typography>
             </Box>
@@ -245,7 +256,16 @@ function ProductCard({ product }: { product: Meal }) {
     );
 }
 
-function MiniCard({ id, image, title, secondaryLabel = "$0.00", onClick, onRemove, count = 0 }: MiniActionCardProps) {
+function MiniCard({
+    id,
+    image,
+    title,
+    secondaryLabel = "$0.00",
+    onClick,
+    onRemove,
+    count = 0,
+}: MiniActionCardProps) {
+
     const imageStylesOrder: { [id: string]: React.CSSProperties } = {
         "1": { width: "60px", height: "52px" },
         "2": { width: "90px", height: "77px" },
@@ -424,6 +444,7 @@ export default function Home() {
     const [data, setData] = useState<Meal[]>([]);
     const [showDriveThru, setShowDriveThru] = useState(false);
 
+
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const isMobileOrSm = useMediaQuery(theme.breakpoints.down("md"));
@@ -444,7 +465,7 @@ export default function Home() {
         if (detected) return category === detected;
 
         // senão, busca por nome (e ainda aceita buscar por category digitando parte)
-        return name.includes(searchTrim) || category.includes(searchTrim); // ex: user digita "side" ou "bev"
+        return name.includes(searchTrim) || category.includes(searchTrim);
     });
 
     const hasResults = filteredData.length > 0;
@@ -457,8 +478,9 @@ export default function Home() {
     };
 
     const qtyMap = order.reduce<Record<string, number>>((acc, item) => {
+        const pid = String(item.id);
         const q = item.quantidade ?? 1;
-        acc[item.id] = (acc[item.id] ?? 0) + q;
+        acc[pid] = (acc[pid] ?? 0) + q;
         return acc;
     }, {});
 
@@ -466,9 +488,11 @@ export default function Home() {
 
     const driveModeActive = showDriveThru; // só fast-thru manual
     const shouldShowCarousel = !isSearching && !driveModeActive;
-    const shouldShowOrderPreview = driveModeActive; // continua igual
+    const shouldShowOrderPreview = driveModeActive;
 
-    const hidePromos = isSearching;
+    const hidePromos = isSearching || driveModeActive;
+
+
 
     // Init: fetch products + hydrate order from localStorage
     useEffect(() => {
@@ -498,18 +522,42 @@ export default function Home() {
         init();
     }, [setOrder]);
 
+    const ignoreSearchRef = useRef(false);
+
+    function enterFastThru() {
+        ignoreSearchRef.current = true;
+
+        setShowDriveThru(true);
+        setSearch("");
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        requestAnimationFrame(() => {
+            ignoreSearchRef.current = false;
+        });
+    }
+
+
     // Save order to localStorage whenever it changes
     useEffect(() => {
         console.log("ORDER STATE:", order);
         localStorage.setItem("lsOrder", JSON.stringify(order));
     }, [order]);
 
+
     function handleSearchInput(value: string) {
+        if (ignoreSearchRef.current) return;
+
         setSearch(value);
+
+        if (value.trim().length > 0) {
+            setShowDriveThru(false);
+        }
     }
 
+
     function handleOrder(product: Meal) {
-        const existingIndex = order.findIndex((p) => p.id === product.id);
+        const existingIndex = order.findIndex((p) => String(p.id) === String(product.id));
 
         if (existingIndex === -1) {
             const newItem: Meal = {
@@ -562,50 +610,40 @@ export default function Home() {
 
     // Remove itens adicionados ao carrinho FAST THRU
     function handleRemove(product: Meal) {
-        const existing = order.find((p) => p.id === product.id);
+        const existing = order.find((p) => String(p.id) === String(product.id));
         if (!existing) return;
 
         const currentQty = existing.quantidade ?? 0;
 
         if (currentQty <= 1) {
-            setOrder(order.filter((p) => p.id !== product.id));
+            setOrder(order.filter((p) => String(p.id) !== String(product.id)));
             return;
         }
 
         setOrder(
             order.map((p) =>
-                p.id === product.id ? { ...p, quantidade: (p.quantidade ?? 0) - 1 } : p
+                String(p.id) === String(product.id) ? { ...p, quantidade: (p.quantidade ?? 0) - 1 } : p
             )
         );
     }
 
     // SLIDES CAROUSEL
     const desktopCarouselSlides = [
-        (
-            <Carousel.Item key="slide-1">
-                <img src={Combo} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            </Carousel.Item>
-        ),
-        (
-            <Carousel.Item key="slide-2">
-                <img src={RestImg} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            </Carousel.Item>
-        ),
-        (
-            <Carousel.Item key="slide-3">
-                <img src={Chat6} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            </Carousel.Item>
-        ),
-        (
-            <Carousel.Item key="slide-3">
-                <img src={Employees} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            </Carousel.Item>
-        ),
-        (
-            <Carousel.Item key="slide-3">
-                <img src={Chat4} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            </Carousel.Item>
-        ),
+        <Carousel.Item key="slide-1">
+            <img src={Combo} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </Carousel.Item>,
+        <Carousel.Item key="slide-2">
+            <img src={RestImg} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </Carousel.Item>,
+        <Carousel.Item key="slide-3">
+            <img src={Chat6} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </Carousel.Item>,
+        <Carousel.Item key="slide-4">
+            <img src={Employees} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </Carousel.Item>,
+        <Carousel.Item key="slide-5">
+            <img src={Chat4} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </Carousel.Item>,
     ];
 
     return (
@@ -614,8 +652,6 @@ export default function Home() {
                 minHeight: "100vh",
                 display: "flex",
                 flexDirection: "column",
-
-                // compensação correta do Navbar fixo no mobile
                 pt: { xs: "92px", md: 0 },
             }}
         >
@@ -627,9 +663,9 @@ export default function Home() {
                 <CategoryDrawer
                     onNavigate={handleDrawerNavigate}
                     onDriveThruClick={() => {
-                        setShowDriveThru(true);
-                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        enterFastThru();
                     }}
+
                 />
             )}
 
@@ -642,7 +678,13 @@ export default function Home() {
 
                     {shouldShowCarousel && (
                         <Box sx={{ mt: 2.5 }}>
-                            <MobileStackCarousel slides={mobileSlides} height={295} gap={14} interval={4200} animationMs={780} />
+                            <MobileStackCarousel
+                                slides={mobileSlides}
+                                height={295}
+                                gap={14}
+                                interval={4200}
+                                animationMs={780}
+                            />
                         </Box>
                     )}
                 </>
@@ -761,26 +803,24 @@ export default function Home() {
 
                 {isSearching && (
                     <>
-                        
                         {!hasResults && (
                             <Typography
                                 align="center"
                                 sx={{
-                                    mt: { xs: 4, md: 5 },
+                                    mt: { xs: 20, md: 15 },
                                     mb: { xs: 6, md: 7 },
                                     fontFamily: "Titan One",
-                                    fontSize: { xs: "22px", md: "26px" },
+                                    fontSize: { xs: "22px", md: "35px" },
                                     letterSpacing: "0.05em",
                                     color: "rgba(13, 71, 161, 0.65)",
                                     textAlign: "center",
                                 }}
                             >
                                 No products found 😕 <br />
-                                <span style={{ fontSize: "0.85em" }}>Try a different search</span>
+                                <span style={{ fontSize: "0.75em" }}>Try a different search</span>
                             </Typography>
                         )}
 
-                       
                         {hasResults && (
                             <>
                                 {/* HEADLINE */}
@@ -788,9 +828,9 @@ export default function Home() {
                                     align="center"
                                     sx={{
                                         mb: { xs: 2.5, md: 3 },
-                                        mt: { xs: 1, md: 1 },
+                                        mt: { xs: 12, md: 1 },
                                         fontFamily: "Titan One",
-                                        fontSize: isCategorySearch ? { xs: "30px", md: "40px" } : { xs: "26px", md: "34px" },
+                                        fontSize: isCategorySearch ? { xs: "45px", md: "50px" } : { xs: "26px", md: "34px" },
                                         letterSpacing: isCategorySearch ? "0.12em" : "0.06em",
                                         textTransform: "uppercase",
                                         color: "#ff8a4c",
@@ -830,8 +870,43 @@ export default function Home() {
                                     }}
                                 >
                                     {filteredData.map((e) => (
-                                        <ProductCard key={e.id} product={e} />
+                                        <ProductCard key={String(e.id)} product={e} />
                                     ))}
+                                </Box>
+
+                                {/*  READY TO ORDER */}
+                                <Box sx={{ display: "flex", justifyContent: "center", mt: 3, mb: 4 }}>
+                                    <Box
+                                        onClick={() => {
+                                            enterFastThru();
+                                        }}
+
+                                        sx={{
+                                            px: { xs: 3.5, md: 4.5 },
+                                            py: { xs: 1.2, md: 1.4 },
+                                            borderRadius: "14px",
+                                            backgroundColor: "#1e5bb8",
+                                            color: "#fff",
+                                            fontFamily: "Titan One",
+                                            fontSize: { xs: "0.9rem", md: "1rem" },
+                                            letterSpacing: "0.12em",
+                                            textTransform: "uppercase",
+                                            cursor: "pointer",
+                                            boxShadow: "0 6px 16px rgba(30, 91, 184, 0.35)",
+                                            transition: "all 0.2s ease",
+                                            "&:hover": {
+                                                backgroundColor: "#163f82",
+                                                boxShadow: "0 8px 22px rgba(30, 91, 184, 0.45)",
+                                                transform: "translateY(-2px)",
+                                            },
+                                            "&:active": {
+                                                transform: "translateY(0)",
+                                                boxShadow: "0 4px 10px rgba(30, 91, 184, 0.3)",
+                                            },
+                                        }}
+                                    >
+                                        READY TO ORDER
+                                    </Box>
                                 </Box>
                             </>
                         )}
@@ -858,7 +933,8 @@ export default function Home() {
                         </Typography>
 
                         <h2 className="h2-driveMode-desk">
-                            *COMBO PROMO: Burger + Side + Beverage = $2 OFF. Discount applied at checkout. Search by name or visit the Products page for full descriptions.
+                            *COMBO PROMO: Burger + Side + Beverage = $2 OFF. Discount applied at checkout. Search by name or visit
+                            the Products page for full descriptions.
                         </h2>
 
                         <Box
@@ -873,18 +949,21 @@ export default function Home() {
                                 },
                             }}
                         >
-                            {data.map((product) => (
-                                <MiniCard
-                                    key={product.id}
-                                    id={product.id}
-                                    image={product.image}
-                                    title={cleanProductName(product.name)}
-                                    secondaryLabel={`$${Number(product.price).toFixed(2)}`}
-                                    count={qtyMap[product.id] ?? 0}
-                                    onClick={() => handleOrder(product)}
-                                    onRemove={() => handleRemove(product)}
-                                />
-                            ))}
+                            {data.map((product) => {
+                                const pid = String(product.id);
+                                return (
+                                    <MiniCard
+                                        key={pid}
+                                        id={pid}
+                                        image={product.image}
+                                        title={cleanProductName(product.name)}
+                                        secondaryLabel={`$${Number(product.price).toFixed(2)}`}
+                                        count={qtyMap[pid] ?? 0}
+                                        onClick={() => handleOrder(product)}
+                                        onRemove={() => handleRemove(product)}
+                                    />
+                                );
+                            })}
                         </Box>
                     </Box>
                 )}
@@ -893,7 +972,11 @@ export default function Home() {
             {isMobile ? <FloatingContactMobile /> : <FloatingContact />}
 
             {isMobile ? (
-                <NavFooter onNavigate={handleDrawerNavigate} onFastThruClick={() => setShowDriveThru(true)} />
+                <NavFooter
+                    onNavigate={handleDrawerNavigate}
+                    onFastThruClick={() => enterFastThru()}
+                />
+
             ) : (
                 <Footer />
             )}
