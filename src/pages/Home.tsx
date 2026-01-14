@@ -1,46 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import axios from "axios";
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
 // import Chat from '../assets/Fast-Fuel-RestO.png';
-import Chat4 from '../assets/Fuel-Up.png' // last
+import Chat4 from "../assets/Fuel-Up.png"; // last
 // import Chat5 from '../assets/fastFuel-employees.png'
-import Chat6 from '../assets/girl-fastFuel.png' // third
-import RestImg from '../assets/Restaurante.png'
-import Employees from '../assets/Funcionarios.png'
-import Combo from '../assets/Combo1.png'
-import Carousel from 'react-bootstrap/Carousel';
-import { useNavigate } from 'react-router-dom';
-import { useAppContext } from '../context/context';
-import Typography from '@mui/material/Typography';
-import CategoryDrawer from '../components/CategoryDrawer';
-import type { Meal } from '../context/context';   // type-only import
+import Chat6 from "../assets/girl-fastFuel.png"; // third
+import RestImg from "../assets/Restaurante.png";
+import Employees from "../assets/Funcionarios.png";
+import Combo from "../assets/Combo1.png";
+import Carousel from "react-bootstrap/Carousel";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/context";
+import Typography from "@mui/material/Typography";
+import CategoryDrawer from "../components/CategoryDrawer";
+import type { Meal } from "../context/context"; // type-only import
 import NavFooter from "../components/NavFooter";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ButtonBase from "@mui/material/ButtonBase";
 import MobileStackCarousel from "../components/MobileStackCarousel";
 import PromoBannerCarousel from "../components/PromoBannerCarousel";
-import FloatingContact from '../components/FloatingContact';
-import FloatingContactMobile from '../components/FloatingContactMobile';
-import HeroCarousel from '../components/HeroCarousel';
+import FloatingContact from "../components/FloatingContact";
+import FloatingContactMobile from "../components/FloatingContactMobile";
+import HeroCarousel from "../components/HeroCarousel";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 
 //imgs out of Backend
-
 import CokeImg from "../assets/Coke.png";
 import SpriteImg from "../assets/Sprite.png";
 import DrPepperImg from "../assets/Drpepper.png";
 import FantaImg from "../assets/Fanta.png";
 import DietCokeImg from "../assets/Dietacoke.png";
 import LemonadeImg from "../assets/Lemonade.png";
-import SaladImg from "../assets/Crispsalad.png"
-import MilkshakeImg from "../assets/Milkshake.png"
-import SundaeImg from "../assets/Sundae.png"
+import SaladImg from "../assets/Crispsalad.png";
+import MilkshakeImg from "../assets/Milkshake.png";
+import SundaeImg from "../assets/Sundae.png";
 
 const cleanProductName = (name: string) => name.split("/")[0].trim();
 
@@ -56,7 +55,6 @@ const imageMap: Record<string, string> = {
     "Sundae.png": SundaeImg,
 };
 
-
 const normalizeImageKey = (value?: string) => {
     if (!value) return "";
     const last = value.split("/").pop() || value;
@@ -64,7 +62,7 @@ const normalizeImageKey = (value?: string) => {
 };
 
 const categoryAliases: Record<string, string[]> = {
-    sandwiches: ["burger", "burgers", "sandwich", "sandwiches"],
+    sandwiches: ["bur", "burger", "burgers", "sandwich", "sandwiches"],
     sides: ["side", "sides", "snacks"],
     beverages: ["drink", "drinks", "beverage", "beverages", "soda", "sodas"],
     desserts: ["dessert", "desserts", "sweet", "sweets"],
@@ -90,19 +88,17 @@ const headlineSx = {
     textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
 };
 
-
 function detectCategory(term: string) {
     const t = term.trim().toLowerCase();
     if (!t) return null;
 
     for (const [category, aliases] of Object.entries(categoryAliases)) {
-        if (aliases.some(alias => t.includes(alias))) {
+        if (aliases.some((alias) => t.includes(alias))) {
             return category;
         }
     }
     return null;
 }
-
 
 function pickMessage(seed: string) {
     // mensagem “aleatória”, mas estável pro mesmo texto
@@ -119,7 +115,6 @@ const categoryLabelMap: Record<string, string> = {
 };
 
 const getCategoryLabel = (cat: string | null) => (cat ? categoryLabelMap[cat] ?? cat : "");
-
 
 const imageStylesById: Record<string, React.CSSProperties> = {
     "1": { width: "130px", height: "120px" },
@@ -149,7 +144,6 @@ const mobileSlides = [
     { id: "team", src: Employees, alt: "Fast Fuel Team" },
     { id: "drive", src: Chat4, alt: "Car Drive" },
 ];
-
 
 type MiniActionCardProps = {
     id: string;
@@ -251,15 +245,7 @@ function ProductCard({ product }: { product: Meal }) {
     );
 }
 
-function MiniCard({
-    id,
-    image,
-    title,
-    secondaryLabel = "$0.00",
-    onClick,
-    onRemove,
-    count = 0,
-}: MiniActionCardProps) {
+function MiniCard({ id, image, title, secondaryLabel = "$0.00", onClick, onRemove, count = 0 }: MiniActionCardProps) {
     const imageStylesOrder: { [id: string]: React.CSSProperties } = {
         "1": { width: "60px", height: "52px" },
         "2": { width: "90px", height: "77px" },
@@ -285,10 +271,7 @@ function MiniCard({
     const imgSrc = imageMap[imgKey] ?? image;
 
     return (
-        <ButtonBase
-            onClick={onClick}
-            sx={{ width: 143, borderRadius: "14px", textAlign: "center" }}
-        >
+        <ButtonBase onClick={onClick} sx={{ width: 143, borderRadius: "14px", textAlign: "center" }}>
             <Box sx={{ position: "relative", width: "100%" }}>
                 {/* BOTÃO MINUS - só aparece se count > 0 */}
                 {count > 0 && (
@@ -434,9 +417,7 @@ function MiniCard({
     );
 }
 
-
 //Inicio do componente HOME
-
 export default function Home() {
     const [search, setSearch] = useState("");
     const [checkout, setCheckout] = useState(0);
@@ -455,7 +436,6 @@ export default function Home() {
     // fun message só quando NÃO for categoria e tiver texto
     const funTitle = !isCategorySearch && searchTrim ? pickMessage(searchTrim) : "";
 
-
     const filteredData = data.filter((item) => {
         const name = item.name.toLowerCase();
         const category = (item.category || "").toLowerCase();
@@ -464,12 +444,10 @@ export default function Home() {
         if (detected) return category === detected;
 
         // senão, busca por nome (e ainda aceita buscar por category digitando parte)
-        return (
-            name.includes(searchTrim) ||
-            category.includes(searchTrim) // ex: user digita "side" ou "bev"
-        );
+        return name.includes(searchTrim) || category.includes(searchTrim); // ex: user digita "side" ou "bev"
     });
 
+    const hasResults = filteredData.length > 0;
 
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext();
@@ -477,7 +455,6 @@ export default function Home() {
     const handleDrawerNavigate = (category: string) => {
         navigate(`/${category.toLowerCase()}`);
     };
-
 
     const qtyMap = order.reduce<Record<string, number>>((acc, item) => {
         const q = item.quantidade ?? 1;
@@ -491,6 +468,7 @@ export default function Home() {
     const shouldShowCarousel = !isSearching && !driveModeActive;
     const shouldShowOrderPreview = driveModeActive; // continua igual
 
+    const hidePromos = isSearching;
 
     // Init: fetch products + hydrate order from localStorage
     useEffect(() => {
@@ -560,15 +538,15 @@ export default function Home() {
         order.forEach((item) => {
             const quantity = item.quantidade ?? 0;
             const price = item.price ?? 0;
-            const category = (item.category || '').toLowerCase();
+            const category = (item.category || "").toLowerCase();
 
             subtotal += quantity * price;
 
-            if (category === 'sandwiches') {
+            if (category === "sandwiches") {
                 burgerCount += quantity;
-            } else if (category === 'sides') {
+            } else if (category === "sides") {
                 sideCount += quantity;
-            } else if (category === 'beverages') {
+            } else if (category === "beverages") {
                 beverageCount += quantity;
             }
         });
@@ -583,7 +561,6 @@ export default function Home() {
     }, [order]);
 
     // Remove itens adicionados ao carrinho FAST THRU
-
     function handleRemove(product: Meal) {
         const existing = order.find((p) => p.id === product.id);
         if (!existing) return;
@@ -597,54 +574,36 @@ export default function Home() {
 
         setOrder(
             order.map((p) =>
-                p.id === product.id
-                    ? { ...p, quantidade: (p.quantidade ?? 0) - 1 }
-                    : p
+                p.id === product.id ? { ...p, quantidade: (p.quantidade ?? 0) - 1 } : p
             )
         );
     }
 
     // SLIDES CAROUSEL
-
     const desktopCarouselSlides = [
         (
             <Carousel.Item key="slide-1">
-                <img
-                    src={Combo}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
+                <img src={Combo} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </Carousel.Item>
         ),
         (
             <Carousel.Item key="slide-2">
-                <img
-                    src={RestImg}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
+                <img src={RestImg} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </Carousel.Item>
         ),
         (
             <Carousel.Item key="slide-3">
-                <img
-                    src={Chat6}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
+                <img src={Chat6} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </Carousel.Item>
         ),
         (
             <Carousel.Item key="slide-3">
-                <img
-                    src={Employees}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
+                <img src={Employees} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </Carousel.Item>
         ),
         (
             <Carousel.Item key="slide-3">
-                <img
-                    src={Chat4}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
+                <img src={Chat4} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </Carousel.Item>
         ),
     ];
@@ -675,7 +634,7 @@ export default function Home() {
             )}
 
             {/* MOBILE FULL WIDTH: banner + carousel fora do Container */}
-            {isMobile && !driveModeActive && (
+            {isMobile && !hidePromos && !driveModeActive && (
                 <>
                     <Box sx={{ width: "100%" }}>
                         <PromoBannerCarousel />
@@ -683,13 +642,7 @@ export default function Home() {
 
                     {shouldShowCarousel && (
                         <Box sx={{ mt: 2.5 }}>
-                            <MobileStackCarousel
-                                slides={mobileSlides}
-                                height={295}
-                                gap={14}
-                                interval={4200}
-                                animationMs={780}
-                            />
+                            <MobileStackCarousel slides={mobileSlides} height={295} gap={14} interval={4200} animationMs={780} />
                         </Box>
                     )}
                 </>
@@ -704,20 +657,16 @@ export default function Home() {
                 }}
             >
                 {/* DESKTOP: banner dentro do Container */}
-                {!isMobile && !driveModeActive && (
+                {!isMobile && !hidePromos && !driveModeActive && (
                     <Box sx={{ mb: 2, mt: -1.5 }}>
                         <PromoBannerCarousel />
                     </Box>
                 )}
 
                 {/* DESKTOP HERO */}
-                {shouldShowCarousel && !isMobile && !driveModeActive && (
-                    <HeroCarousel aspectRatio="16 / 9.7">
-                        {desktopCarouselSlides}
-                    </HeroCarousel>
+                {shouldShowCarousel && !isMobile && !hidePromos && !driveModeActive && (
+                    <HeroCarousel aspectRatio="16 / 9.7">{desktopCarouselSlides}</HeroCarousel>
                 )}
-
-
 
                 {shouldShowOrderPreview && (
                     <Box
@@ -740,9 +689,9 @@ export default function Home() {
                             <Box
                                 sx={{
                                     justifySelf: "end",
-                                    gridRow: 1,          
-                                    gridColumn: 1,       
-                                    alignSelf: "start",  
+                                    gridRow: 1,
+                                    gridColumn: 1,
+                                    alignSelf: "start",
                                 }}
                             >
                                 <IconButton
@@ -775,23 +724,19 @@ export default function Home() {
                             />
                         )}
 
-                        <h2
-                            className="total"
-                            style={{ whiteSpace: "nowrap" }}
-                        >
+                        <h2 className="total" style={{ whiteSpace: "nowrap" }}>
                             TOTAL R$: {checkout.toFixed(2)}
                         </h2>
 
-
                         <style>
                             {`
-        @media (max-width: 899.95px){
-          .total{
-            grid-row: 2;
-            justify-self: center;
-          }
-        }
-      `}
+                @media (max-width: 899.95px){
+                  .total{
+                    grid-row: 2;
+                    justify-self: center;
+                  }
+                }
+              `}
                         </style>
 
                         {/* DESKTOP */}
@@ -813,69 +758,85 @@ export default function Home() {
                         )}
                     </Box>
                 )}
+
                 {isSearching && (
                     <>
-
-                        <Typography
-                            align="center"
-                            sx={{
-                                mb: { xs: 2.5, md: 3 },
-                                mt: { xs: 1, md: 1 },
-                                fontFamily: "Titan One",
-                                fontSize: isCategorySearch
-                                    ? { xs: "40px", md: "50px" }   //  MAIOR só pra categoria
-                                    : { xs: "26px", md: "34px" },  //  normal (funTitle)
-                                letterSpacing: "0.06em",
-                                textTransform: "uppercase",
-                                color: "#ff8a4c",
-                                textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
-                            }}
-                        >
-
-                            {isCategorySearch ? getCategoryLabel(detected) : funTitle}
-                        </Typography>
-
-                        {/* SUBTITLE: só aparece quando for produto (não categoria) */}
-                        {!isCategorySearch && (
+                        
+                        {!hasResults && (
                             <Typography
                                 align="center"
                                 sx={{
-                                    mb: { xs: 3, md: 4 },
-                                    fontWeight: 700,
-                                    color: "rgba(13, 71, 161, 0.78)",
+                                    mt: { xs: 4, md: 5 },
+                                    mb: { xs: 6, md: 7 },
+                                    fontFamily: "Titan One",
+                                    fontSize: { xs: "22px", md: "26px" },
+                                    letterSpacing: "0.05em",
+                                    color: "rgba(13, 71, 161, 0.65)",
+                                    textAlign: "center",
                                 }}
                             >
-                                Results for: <span style={{ color: "#e65100" }}>{searchTrim}</span>
+                                No products found 😕 <br />
+                                <span style={{ fontSize: "0.85em" }}>Try a different search</span>
                             </Typography>
                         )}
 
-                        <Box
-                            sx={{
-                                display: "grid",
-                                justifyContent: "center",
-                                justifyItems: filteredData.length === 1 ? "center" : "stretch",
-                                gap: 4,
-                                mb: 4,
-                                gridTemplateColumns: {
-                                    xs: "repeat(1, 260px)",
-                                    sm:
-                                        filteredData.length === 1
-                                            ? "repeat(1, 300px)"
-                                            : "repeat(2, 300px)",
-                                    md:
-                                        filteredData.length === 1
-                                            ? "repeat(1, 300px)"
-                                            : "repeat(3, 300px)",
-                                },
-                            }}
-                        >
-                            {filteredData.map((e) => (
-                                <ProductCard key={e.id} product={e} />
-                            ))}
-                        </Box>
+                       
+                        {hasResults && (
+                            <>
+                                {/* HEADLINE */}
+                                <Typography
+                                    align="center"
+                                    sx={{
+                                        mb: { xs: 2.5, md: 3 },
+                                        mt: { xs: 1, md: 1 },
+                                        fontFamily: "Titan One",
+                                        fontSize: isCategorySearch ? { xs: "30px", md: "40px" } : { xs: "26px", md: "34px" },
+                                        letterSpacing: isCategorySearch ? "0.12em" : "0.06em",
+                                        textTransform: "uppercase",
+                                        color: "#ff8a4c",
+                                        textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+                                    }}
+                                >
+                                    {isCategorySearch ? getCategoryLabel(detected) : funTitle}
+                                </Typography>
+
+                                {/* SUBTITLE só pra produto */}
+                                {!isCategorySearch && (
+                                    <Typography
+                                        align="center"
+                                        sx={{
+                                            mb: { xs: 3, md: 4 },
+                                            fontWeight: 700,
+                                            color: "rgba(13, 71, 161, 0.78)",
+                                        }}
+                                    >
+                                        Results for: <span style={{ color: "#e65100" }}>{searchTrim}</span>
+                                    </Typography>
+                                )}
+
+                                {/* GRID */}
+                                <Box
+                                    sx={{
+                                        display: "grid",
+                                        justifyContent: "center",
+                                        justifyItems: filteredData.length === 1 ? "center" : "stretch",
+                                        gap: 4,
+                                        mb: 4,
+                                        gridTemplateColumns: {
+                                            xs: "repeat(1, 260px)",
+                                            sm: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
+                                            md: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(3, 300px)",
+                                        },
+                                    }}
+                                >
+                                    {filteredData.map((e) => (
+                                        <ProductCard key={e.id} product={e} />
+                                    ))}
+                                </Box>
+                            </>
+                        )}
                     </>
                 )}
-
 
                 {driveModeActive && (
                     <Box sx={{ mb: { xs: 1.5, md: 2 } }}>
@@ -897,9 +858,7 @@ export default function Home() {
                         </Typography>
 
                         <h2 className="h2-driveMode-desk">
-                            *COMBO PROMO: Burger + Side + Beverage = $2 OFF. Discount applied at
-                            checkout. Search by name or visit the Products page for full
-                            descriptions.
+                            *COMBO PROMO: Burger + Side + Beverage = $2 OFF. Discount applied at checkout. Search by name or visit the Products page for full descriptions.
                         </h2>
 
                         <Box
@@ -934,10 +893,7 @@ export default function Home() {
             {isMobile ? <FloatingContactMobile /> : <FloatingContact />}
 
             {isMobile ? (
-                <NavFooter
-                    onNavigate={handleDrawerNavigate}
-                    onFastThruClick={() => setShowDriveThru(true)}
-                />
+                <NavFooter onNavigate={handleDrawerNavigate} onFastThruClick={() => setShowDriveThru(true)} />
             ) : (
                 <Footer />
             )}
