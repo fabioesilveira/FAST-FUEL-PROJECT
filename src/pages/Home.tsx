@@ -800,17 +800,16 @@ export default function Home() {
                         )}
                     </Box>
                 )}
-
                 {isSearching && (
                     <>
                         {!hasResults && (
                             <Typography
                                 align="center"
                                 sx={{
-                                    mt: { xs: 20, md: 15 },
+                                    mt: { xs: 20, md: 17 },
                                     mb: { xs: 6, md: 7 },
                                     fontFamily: "Titan One",
-                                    fontSize: { xs: "22px", md: "35px" },
+                                    fontSize: { xs: "28px", md: "35px" },
                                     letterSpacing: "0.05em",
                                     color: "rgba(13, 71, 161, 0.65)",
                                     textAlign: "center",
@@ -827,10 +826,12 @@ export default function Home() {
                                 <Typography
                                     align="center"
                                     sx={{
-                                        mb: { xs: 2.5, md: 3 },
-                                        mt: { xs: 12, md: 1 },
+                                        mb: { xs: 4.5, sm: 4.5, md: 4 },
+                                        mt: { xs: 12, sm: 11, md: 3 },
                                         fontFamily: "Titan One",
-                                        fontSize: isCategorySearch ? { xs: "45px", md: "50px" } : { xs: "26px", md: "34px" },
+                                        fontSize: isCategorySearch
+                                            ? { xs: "45px", md: "50px" }
+                                            : { xs: "26px", md: "34px" },
                                         letterSpacing: isCategorySearch ? "0.12em" : "0.06em",
                                         textTransform: "uppercase",
                                         color: "#ff8a4c",
@@ -840,63 +841,28 @@ export default function Home() {
                                     {isCategorySearch ? getCategoryLabel(detected) : funTitle}
                                 </Typography>
 
-                                {/* SUBTITLE só pra produto */}
-                                {!isCategorySearch && (
-                                    <Typography
-                                        align="center"
-                                        sx={{
-                                            mb: { xs: 3, md: 4 },
-                                            fontWeight: 700,
-                                            color: "rgba(13, 71, 161, 0.78)",
-                                        }}
-                                    >
-                                        Results for: <span style={{ color: "#e65100" }}>{searchTrim}</span>
-                                    </Typography>
-                                )}
-
-                                {/* GRID */}
-                                <Box
-                                    sx={{
-                                        display: "grid",
-                                        justifyContent: "center",
-                                        justifyItems: filteredData.length === 1 ? "center" : "stretch",
-                                        gap: 4,
-                                        mb: 4,
-                                        gridTemplateColumns: {
-                                            xs: "repeat(1, 260px)",
-                                            sm: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
-                                            md: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(3, 300px)",
-                                        },
-                                    }}
-                                >
-                                    {filteredData.map((e) => (
-                                        <ProductCard key={String(e.id)} product={e} />
-                                    ))}
-                                </Box>
-
-                                {/*  READY TO ORDER */}
-                                <Box sx={{ display: "flex", justifyContent: "center", mt: 3, mb: 4 }}>
+                                {/* READY TO ORDER */}
+                                <Box sx={{ display: "flex", justifyContent: "center", mt: 1, mb: 4 }}>
                                     <Box
-                                        onClick={() => {
-                                            enterFastThru();
-                                        }}
-
+                                        onClick={enterFastThru}
                                         sx={{
                                             px: { xs: 3.5, md: 4.5 },
                                             py: { xs: 1.2, md: 1.4 },
-                                            borderRadius: "14px",
+                                            mb: { xs: 1.5 },
+                                            borderRadius: "10px",
                                             backgroundColor: "#1e5bb8",
                                             color: "#fff",
                                             fontFamily: "Titan One",
-                                            fontSize: { xs: "0.9rem", md: "1rem" },
+                                            fontSize: { xs: "0.98rem", md: "1.2rem" },
                                             letterSpacing: "0.12em",
                                             textTransform: "uppercase",
                                             cursor: "pointer",
-                                            boxShadow: "0 6px 16px rgba(30, 91, 184, 0.35)",
+                                            border: "1px solid rgba(230,81,0,0.18)",
+                                            boxShadow: 2,
+
                                             transition: "all 0.2s ease",
                                             "&:hover": {
                                                 backgroundColor: "#163f82",
-                                                boxShadow: "0 8px 22px rgba(30, 91, 184, 0.45)",
                                                 transform: "translateY(-2px)",
                                             },
                                             "&:active": {
@@ -908,10 +874,45 @@ export default function Home() {
                                         READY TO ORDER
                                     </Box>
                                 </Box>
+
+                                {/* GRID */}
+                                <Box
+                                    sx={{
+                                        display: "grid",
+                                        justifyContent: "center",
+                                        justifyItems: "center",
+                                        gap: 4,
+                                        mb: 4,
+                                        gridTemplateColumns: {
+                                            xs: "repeat(1, 260px)",
+
+                                            sm:
+                                                filteredData.length === 1
+                                                    ? "repeat(1, 300px)"
+                                                    : "repeat(2, 300px)",
+
+                                            md:
+                                                filteredData.length === 1
+                                                    ? "repeat(1, 300px)"
+                                                    : "repeat(2, 300px)",
+
+                                            lg:
+                                                filteredData.length === 1
+                                                    ? "repeat(1, 300px)"
+                                                    : "repeat(2, 300px)",
+                                        },
+                                    }}
+                                >
+                                    {filteredData.map((e) => (
+                                        <ProductCard key={String(e.id)} product={e} />
+                                    ))}
+                                </Box>
+
                             </>
                         )}
                     </>
                 )}
+
 
                 {driveModeActive && (
                     <Box sx={{ mb: { xs: 1.5, md: 2 } }}>

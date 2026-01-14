@@ -291,7 +291,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                       pb: 2.5,
                       pr: 2.5,
                       pl: 4.6,
-                      bgcolor: "#fff",
+                      bgcolor: "#fffefe",
                       borderRadius: 3,
                       boxShadow: "0 14px 30px rgba(0,0,0,0.12)",
                       border: "1px solid rgba(13, 71, 161, 0.18)",

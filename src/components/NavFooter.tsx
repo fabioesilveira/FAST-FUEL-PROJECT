@@ -18,7 +18,7 @@ type NavFooterProps = {
 };
 
 const BLUE = "#0d47a1";
-const ORANGE = "#e85f10";
+const ORANGE = "#f66c16ff";
 const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
 
 export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProps) {

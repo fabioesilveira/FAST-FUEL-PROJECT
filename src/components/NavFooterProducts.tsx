@@ -40,7 +40,7 @@ type NavItem =
     };
 
 const BLUE = "#0d47a1";
-const ORANGE = "#e85f10";
+const ORANGE = "#f66c16ff";
 const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
 
 const productItems: NavItem[] = [
@@ -63,10 +63,11 @@ const accountItems: NavItem[] = [
     },
 ];
 
+const shrinkLabels = new Set(["CONTACT US",]);
+
 function RenderIcon({ item }: { item: NavItem }) {
     if (item.kind === "img") {
         const isBeverages = item.label === "BEVERAGES";
-
         return (
             <img
                 src={item.src}
@@ -76,7 +77,6 @@ function RenderIcon({ item }: { item: NavItem }) {
                     height: item.imgH ?? 38,
                     objectFit: "contain",
                     display: "block",
-                    // BEVERAGES elevado
                     transform: isBeverages ? "translateY(-3px)" : "none",
                 }}
             />
@@ -84,21 +84,20 @@ function RenderIcon({ item }: { item: NavItem }) {
     }
 
     const Icon = item.Icon;
+
+    const shouldShrink = shrinkLabels.has(item.label);
+
     return (
         <Icon
             sx={{
-                fontSize: 32,
+                fontSize: shouldShrink ? 29.5 : 32, // 
                 color: ORANGE,
             }}
         />
     );
 }
 
-export default function NavFooterProducts({
-    onSwitchNav,
-}: {
-    onSwitchNav?: () => void;
-}) {
+export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () => void }) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const navigate = useNavigate();
@@ -130,7 +129,6 @@ export default function NavFooterProducts({
 
     const activeItems = mode === "products" ? productItems : accountItems;
 
-    // 2 esquerda + switch + 2 direita
     const leftTwo = activeItems.slice(0, 2);
     const rightTwo = activeItems.slice(2, 4);
 
@@ -164,7 +162,6 @@ export default function NavFooterProducts({
                         px: 1,
                     }}
                 >
-                    {/* 2 da esquerda */}
                     {leftTwo.map((item) => (
                         <Tooltip key={item.label} title={item.label} placement="top" arrow>
                             <IconButton
@@ -192,12 +189,7 @@ export default function NavFooterProducts({
                         </Tooltip>
                     ))}
 
-                    {/* SWITCH no meio (maior) */}
-                    <Tooltip
-                        title={mode === "products" ? "ACCOUNT MENU" : "PRODUCTS MENU"}
-                        placement="top"
-                        arrow
-                    >
+                    <Tooltip title={mode === "products" ? "ACCOUNT MENU" : "PRODUCTS MENU"} placement="top" arrow>
                         <IconButton
                             onClick={toggleMode}
                             sx={{
@@ -209,7 +201,7 @@ export default function NavFooterProducts({
                                 transition: "all 0.18s ease",
                                 "&:hover": {
                                     backgroundColor: ORANGE_SOFT,
-                                    borderColor: "transparent", 
+                                    borderColor: "transparent",
                                     transform: "translateY(-2px)",
                                 },
                                 "&:active": {
@@ -222,13 +214,11 @@ export default function NavFooterProducts({
                         </IconButton>
                     </Tooltip>
 
-                    {/* 2 da direita */}
                     {rightTwo.map((item) => (
                         <Tooltip key={item.label} title={item.label} placement="top" arrow>
                             <IconButton
                                 onClick={() => handleClick(item)}
                                 sx={{
-                                    
                                     width: 62,
                                     height: 62,
                                     borderRadius: 2,
