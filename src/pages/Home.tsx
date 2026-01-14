@@ -65,7 +65,7 @@ const normalizeImageKey = (value?: string) => {
 
 const categoryAliases: Record<string, string[]> = {
     sandwiches: ["burger", "burgers", "sandwich", "sandwiches"],
-    sides: ["side", "sides", "fries", "snacks"],
+    sides: ["side", "sides", "snacks"],
     beverages: ["drink", "drinks", "beverage", "beverages", "soda", "sodas"],
     desserts: ["dessert", "desserts", "sweet", "sweets"],
 };
@@ -79,15 +79,30 @@ const funMessages = [
     "Okayyy, that’s a winner 🏆",
 ];
 
+const headlineSx = {
+    mb: { xs: 2.5, md: 3 },
+    mt: { xs: 1, md: 1 },
+    fontFamily: "Titan One",
+    fontSize: { xs: "26px", md: "34px" },
+    letterSpacing: "0.06em",
+    textTransform: "uppercase",
+    color: "#ff8a4c",
+    textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+};
+
+
 function detectCategory(term: string) {
     const t = term.trim().toLowerCase();
     if (!t) return null;
 
     for (const [category, aliases] of Object.entries(categoryAliases)) {
-        if (aliases.includes(t)) return category; // returns "sandwiches" | "sides" | ...
+        if (aliases.some(alias => t.includes(alias))) {
+            return category;
+        }
     }
     return null;
 }
+
 
 function pickMessage(seed: string) {
     // mensagem “aleatória”, mas estável pro mesmo texto
@@ -95,6 +110,16 @@ function pickMessage(seed: string) {
     for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
     return funMessages[hash % funMessages.length];
 }
+
+const categoryLabelMap: Record<string, string> = {
+    sandwiches: "BURGERS",
+    sides: "SIDES",
+    beverages: "BEVERAGES",
+    desserts: "DESSERTS",
+};
+
+const getCategoryLabel = (cat: string | null) => (cat ? categoryLabelMap[cat] ?? cat : "");
+
 
 const imageStylesById: Record<string, React.CSSProperties> = {
     "1": { width: "130px", height: "120px" },
@@ -424,10 +449,12 @@ export default function Home() {
 
     const searchTrim = search.trim().toLowerCase();
 
-    const funTitle = searchTrim ? pickMessage(searchTrim) : "";
-
-
     const detected = detectCategory(searchTrim);
+    const isCategorySearch = !!detected;
+
+    // fun message só quando NÃO for categoria e tiver texto
+    const funTitle = !isCategorySearch && searchTrim ? pickMessage(searchTrim) : "";
+
 
     const filteredData = data.filter((item) => {
         const name = item.name.toLowerCase();
@@ -522,13 +549,6 @@ export default function Home() {
             setOrder(newOrder);
         }
     }
-
-    // useEffect(() => {
-    //     if (search.trim().length > 0) {
-    //         setShowDriveThru(true);
-    //     }
-    // }, [search]);
-
 
     // Discount: any 1 sandwich + 1 side + 1 beverage = $2 off
     useEffect(() => {
@@ -697,55 +717,7 @@ export default function Home() {
                     </HeroCarousel>
                 )}
 
-                {isSearching && (
-                    <>
-                        <Typography
-                            align="center"
-                            sx={{
-                                mb: { xs: 2.5, md: 3 },
-                                mt: { xs: 1, md: 1 },
-                                fontFamily: "Titan One",
-                                fontSize: { xs: "26px", md: "34px" },
-                                letterSpacing: "0.06em",
-                                textTransform: "uppercase",
-                                color: "#ff8a4c",
-                                textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
-                            }}
-                        >
-                            {funTitle}
-                        </Typography>
 
-                        <Typography
-                            align="center"
-                            sx={{
-                                mb: { xs: 3, md: 4 },
-                                fontWeight: 700,
-                                color: "rgba(13, 71, 161, 0.78)",
-                            }}
-                        >
-                            Results for: <span style={{ color: "#e65100" }}>{searchTrim}</span>
-                        </Typography>
-
-                        <Box
-                            sx={{
-                                display: "grid",
-                                justifyContent: "center",
-                                justifyItems: filteredData.length === 1 ? "center" : "stretch",
-                                gap: 4,
-                                mb: 4,
-                                gridTemplateColumns: {
-                                    xs: "repeat(1, 260px)",
-                                    sm: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
-                                    md: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(3, 300px)",
-                                },
-                            }}
-                        >
-                            {filteredData.map((e) => (
-                                <ProductCard key={e.id} product={e} />
-                            ))}
-                        </Box>
-                    </>
-                )}
 
                 {shouldShowOrderPreview && (
                     <Box
@@ -768,9 +740,9 @@ export default function Home() {
                             <Box
                                 sx={{
                                     justifySelf: "end",
-                                    gridRow: 1,          // ✅ força linha 1
-                                    gridColumn: 1,       // ✅ única coluna no xs/sm
-                                    alignSelf: "start",  // ✅ garante topo
+                                    gridRow: 1,          
+                                    gridColumn: 1,       
+                                    alignSelf: "start",  
                                 }}
                             >
                                 <IconButton
@@ -810,7 +782,7 @@ export default function Home() {
                             TOTAL R$: {checkout.toFixed(2)}
                         </h2>
 
-                        {/* ✅ força o TOTAL ir pra linha 2 no mobile/sm */}
+
                         <style>
                             {`
         @media (max-width: 899.95px){
@@ -841,7 +813,68 @@ export default function Home() {
                         )}
                     </Box>
                 )}
+                {isSearching && (
+                    <>
 
+                        <Typography
+                            align="center"
+                            sx={{
+                                mb: { xs: 2.5, md: 3 },
+                                mt: { xs: 1, md: 1 },
+                                fontFamily: "Titan One",
+                                fontSize: isCategorySearch
+                                    ? { xs: "40px", md: "50px" }   //  MAIOR só pra categoria
+                                    : { xs: "26px", md: "34px" },  //  normal (funTitle)
+                                letterSpacing: "0.06em",
+                                textTransform: "uppercase",
+                                color: "#ff8a4c",
+                                textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+                            }}
+                        >
+
+                            {isCategorySearch ? getCategoryLabel(detected) : funTitle}
+                        </Typography>
+
+                        {/* SUBTITLE: só aparece quando for produto (não categoria) */}
+                        {!isCategorySearch && (
+                            <Typography
+                                align="center"
+                                sx={{
+                                    mb: { xs: 3, md: 4 },
+                                    fontWeight: 700,
+                                    color: "rgba(13, 71, 161, 0.78)",
+                                }}
+                            >
+                                Results for: <span style={{ color: "#e65100" }}>{searchTrim}</span>
+                            </Typography>
+                        )}
+
+                        <Box
+                            sx={{
+                                display: "grid",
+                                justifyContent: "center",
+                                justifyItems: filteredData.length === 1 ? "center" : "stretch",
+                                gap: 4,
+                                mb: 4,
+                                gridTemplateColumns: {
+                                    xs: "repeat(1, 260px)",
+                                    sm:
+                                        filteredData.length === 1
+                                            ? "repeat(1, 300px)"
+                                            : "repeat(2, 300px)",
+                                    md:
+                                        filteredData.length === 1
+                                            ? "repeat(1, 300px)"
+                                            : "repeat(3, 300px)",
+                                },
+                            }}
+                        >
+                            {filteredData.map((e) => (
+                                <ProductCard key={e.id} product={e} />
+                            ))}
+                        </Box>
+                    </>
+                )}
 
 
                 {driveModeActive && (
