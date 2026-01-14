@@ -61,8 +61,8 @@ const normalizeImageKey = (value?: string) => {
 };
 
 const categoryAliases: Record<string, string[]> = {
-    sandwiches: ["bur", "burger", "burgers", "sandwich", "sandwiches"],
-    sides: ["sid", "side", "sides", "snacks"],
+    sandwiches: ["bu", "bur", "burger", "burgers", "sandwich", "sandwiches"],
+    sides: ["si", "sid", "side", "sides", "snacks"],
     beverages: ["dri", "bev", "drink", "drinks", "beverage", "beverages", "soda", "sodas"],
     desserts: ["swe", "des", "dessert", "desserts", "sweet", "sweets"],
 };
@@ -76,6 +76,18 @@ const funMessages = [
     "Okayyy, that’s a winner 🏆",
 ];
 
+const pluralMessages = [
+    "Nice! Here are some options 😋",
+    "Found a few matches 🔥",
+    "Good picks — take a look 👀",
+    "Fast Fuel options coming up ✅",
+];
+
+function pickPluralMessage(seed: string) {
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+    return pluralMessages[hash % pluralMessages.length];
+}
 
 
 function detectCategory(term: string) {
@@ -454,19 +466,23 @@ export default function Home() {
     const detected = detectCategory(searchTrim);
     const isCategorySearch = !!detected;
 
-    // fun message só quando NÃO for categoria e tiver texto
-    const funTitle = !isCategorySearch && searchTrim ? pickMessage(searchTrim) : "";
 
     const filteredData = data.filter((item) => {
         const name = item.name.toLowerCase();
         const category = (item.category || "").toLowerCase();
 
-        // se o user digitou uma categoria inteira
         if (detected) return category === detected;
 
-        // senão, busca por nome (e ainda aceita buscar por category digitando parte)
         return name.includes(searchTrim) || category.includes(searchTrim);
     });
+
+    const headlineText = isCategorySearch
+        ? getCategoryLabel(detected)
+        : filteredData.length === 1
+            ? pickMessage(searchTrim)
+            : pickPluralMessage(searchTrim);
+
+
 
     const hasResults = filteredData.length > 0;
 
@@ -838,7 +854,7 @@ export default function Home() {
                                         textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
                                     }}
                                 >
-                                    {isCategorySearch ? getCategoryLabel(detected) : funTitle}
+                                    {headlineText}
                                 </Typography>
 
                                 {/* READY TO ORDER */}
