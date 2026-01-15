@@ -204,7 +204,6 @@ function ProductCard({
         previewLines={2}
         maxWidth={230}
       />
-
       {/* ACTION */}
 
       <Box
@@ -214,11 +213,10 @@ function ProductCard({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-
           borderRadius: 2,
           px: 1,
           height: 38,
-          bgcolor: "#fff1e3",
+          bgcolor: "#f06612",
           border: "1px solid rgba(230,81,0,0.18)",
           boxShadow: 2,
         }}
@@ -230,21 +228,28 @@ function ProductCard({
             width: 30,
             height: 30,
             borderRadius: "50%",
-            bgcolor: "#1e5bb8",
-            color: "#ffffff",
-
+            bgcolor: "#ffffff",
+            color: "#0d47a1",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
+            transition: "all 0.16s ease",
+
+            "&:hover": {
+              bgcolor: "#1e5bb8",
+              color: "#ffffff",
+            },
 
             "&:active": {
+              bgcolor: "#163f82",
+              color: "#ffffff",
               transform: "scale(0.92)",
-              boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+              opacity: 0.85,
             },
           }}
         >
-          <RemoveIcon sx={{ fontSize: 20 }} />
+          <RemoveIcon sx={{ fontSize: 21 }} />
         </Box>
 
         {/* price */}
@@ -253,6 +258,7 @@ function ProductCard({
             fontWeight: 900,
             fontSize: "0.9rem",
             letterSpacing: "0.04em",
+            color: "#ffffff"
           }}
         >
           {price}
@@ -265,17 +271,24 @@ function ProductCard({
             width: 30,
             height: 30,
             borderRadius: "50%",
-            bgcolor: "#1e5bb8",
-            color: "#ffffff",
-
+            bgcolor: "#ffffff",
+            color: "#0d47a1",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
+            transition: "all 0.16s ease",
+
+            "&:hover": {
+              bgcolor: "#1e5bb8",
+              color: "#ffffff",
+            },
 
             "&:active": {
+              bgcolor: "#163f82",
+              color: "#ffffff",
               transform: "scale(0.92)",
-              boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+              opacity: 0.85,
             },
           }}
         >
@@ -483,7 +496,7 @@ function ProductCardDesktopLandscape({
             justifyContent: "space-between",
             borderRadius: 2,
             px: 1,
-            bgcolor: "#fff1e3",
+            bgcolor: "#f06612",
             border: "1px solid rgba(230,81,0,0.18)",
             boxShadow: 2,
           }}
@@ -496,22 +509,32 @@ function ProductCardDesktopLandscape({
               width: 30,
               height: 30,
               borderRadius: "50%",
-              bgcolor: "#1e5bb8",
-              color: "#ffffff",
+              bgcolor: "#ffffff",
+              color: "#0d47a1",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
+              transition: "all 0.16s ease",
+
+              "&:hover": {
+                bgcolor: "#1e5bb8",
+                color: "#ffffff",
+              },
+
               "&:active": {
+                bgcolor: "#163f82",
+                color: "#ffffff",
                 transform: "scale(0.92)",
-                boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+                opacity: 0.85,
               },
             }}
           >
-            <RemoveIcon sx={{ fontSize: 20 }} />
+            <RemoveIcon sx={{ fontSize: 22 }} />
           </Box>
 
-          <Typography sx={{ fontWeight: 900, fontSize: "0.9rem", letterSpacing: "0.04em" }}>
+
+          <Typography sx={{ fontWeight: 900, fontSize: "0.95rem", letterSpacing: "0.04em", color: "#ffffff", }}>
             {price}
           </Typography>
 
@@ -522,19 +545,32 @@ function ProductCardDesktopLandscape({
               width: 30,
               height: 30,
               borderRadius: "50%",
-              bgcolor: "#1e5bb8",
-              color: "#ffffff",
+              bgcolor: "#ffffff",
+              color: "#0d47a1",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
+              transition: "all 0.16s ease",
+
+              "&:hover": {
+                bgcolor: "#1e5bb8",
+                color: "#ffffff",
+              },
+
               "&:active": {
+                bgcolor: "#163f82",
+                color: "#ffffff",
                 transform: "scale(0.92)",
-                boxShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+                opacity: 0.85,
               },
             }}
           >
-            <AddIcon sx={{ fontSize: 20 }} />
+            <AddIcon
+              sx={{
+                fontSize: 22,
+              }}
+            />
           </Box>
         </Box>
       </Box>

@@ -7,7 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import Chat4 from "../assets/Fuel-Up.png"; // last
 import Chat6 from "../assets/girl-fastFuel.png"; // third
-import RestImg from "../assets/Restaurante.png";
+import RestImg from "../assets/Restaurante2.png";
 import Employees from "../assets/Funcionarios.png";
 import Combo from "../assets/Combo1.png";
 import Carousel from "react-bootstrap/Carousel";

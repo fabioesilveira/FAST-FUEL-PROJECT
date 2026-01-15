@@ -40,7 +40,7 @@ type NavItem =
     };
 
 const BLUE = "#0d47a1";
-const ORANGE = "#f66c16ff";
+const ORANGE = "#fa6000ff";
 const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
 
 const productItems: NavItem[] = [

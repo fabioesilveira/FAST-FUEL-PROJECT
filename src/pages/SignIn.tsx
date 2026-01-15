@@ -391,7 +391,6 @@ export default function SignIn() {
                                             bgcolor: "rgba(230, 81, 0, 0.22)",
                                             borderColor: "#0d47a1",
                                             color: "#0d47a1",
-                                            boxShadow: "0 6px 16px rgba(13, 71, 161, 0.32)",
                                         },
                                         "&:active": {
                                             bgcolor: "rgba(230, 81, 0, 0.28)",

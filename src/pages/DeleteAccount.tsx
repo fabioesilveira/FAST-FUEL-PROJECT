@@ -350,8 +350,7 @@ export default function DeleteAccount() {
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
                                         bgcolor: "rgba(230, 81, 0, 0.14)",
-                                        boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
-
+                
                                         fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
 
                                         "&:hover": {
@@ -361,7 +360,6 @@ export default function DeleteAccount() {
                                         },
                                         "&:active": {
                                             bgcolor: "rgba(230, 81, 0, 0.28)",
-                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
                                             transform: "translateY(1px)",
                                         },
                                     }}

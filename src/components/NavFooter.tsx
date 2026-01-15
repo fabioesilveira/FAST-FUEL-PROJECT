@@ -18,7 +18,7 @@ type NavFooterProps = {
 };
 
 const BLUE = "#0d47a1";
-const ORANGE = "#f66c16ff";
+const ORANGE = "#fa6000ff";
 const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
 
 export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProps) {
@@ -43,7 +43,7 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                 bottom: 0,
                 left: 0,
                 right: 0,
-                height: 86, 
+                height: 86,
                 zIndex: 1300,
                 backgroundColor: "#fff3e0",
                 borderTop: "2px solid rgba(13, 71, 161, 0.25)",
@@ -70,8 +70,8 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                             key={c.label}
                             onClick={c.onClick}
                             sx={{
-                                width: isFast ? 70 : 62,  
-                                height: isFast ? 70 : 62, 
+                                width: isFast ? 70 : 62,
+                                height: isFast ? 70 : 62,
                                 borderRadius: 2,
                                 border: "2px solid transparent",
                                 backgroundColor: "transparent",
@@ -94,18 +94,18 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                                     src={c.src}
                                     alt={c.label}
                                     style={{
-                                        width: c.label === "BEVERAGES" ? 42 : 38,  
-                                        height: c.label === "BEVERAGES" ? 42 : 38, 
+                                        width: c.label === "BEVERAGES" ? 42 : 38,
+                                        height: c.label === "BEVERAGES" ? 42 : 38,
                                         objectFit: "contain",
 
-                                    
+
                                         transform: c.label === "BEVERAGES" ? "translateY(-3px)" : "none",
                                     }}
                                 />
                             ) : c.type === "mui" ? (
                                 <c.Icon
                                     sx={{
-                                        fontSize: 32, 
+                                        fontSize: 32,
                                         color: ORANGE,
                                     }}
                                 />
