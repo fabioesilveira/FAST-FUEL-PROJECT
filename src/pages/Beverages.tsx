@@ -97,34 +97,38 @@ function ProductCard({
         },
       }}
     >
-
       {qty > 0 && (
         <Box
           sx={{
             position: "absolute",
-            top: 10,
-            right: 10,
-            width: 35,
-            height: 35,
+            top: -12,
+            right: -12,
+            zIndex: 6,
+
+            minWidth: 30,
+            height: 30,
             px: 0.9,
             borderRadius: "999px",
+
             bgcolor: "#0d47a1",
             color: "#fff",
             boxShadow: "0 6px 14px rgba(13,71,161,0.30)",
+
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontWeight: 600,
-            fontSize: "0.85rem",
+            fontWeight: 900,
+            fontSize: "0.82rem",
             letterSpacing: "0.02em",
-            zIndex: 5,
+
             userSelect: "none",
             pointerEvents: "none",
           }}
         >
-          {qty}
+          {qty > 99 ? "99+" : qty}
         </Box>
       )}
+
 
 
       {/* IMAGE */}
@@ -371,29 +375,34 @@ function ProductCardDesktopLandscape({
         <Box
           sx={{
             position: "absolute",
-            top: 12,
-            right: 12,
-            minWidth: 35,
-            height: 35,
+            top: -14,
+            right: -14,
+            zIndex: 6,
+
+            minWidth: 32,
+            height: 32,
             px: 1,
             borderRadius: "999px",
+
             bgcolor: "#0d47a1",
             color: "#fff",
-
             boxShadow: "0 6px 14px rgba(13,71,161,0.30)",
+
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontWeight: 600,
-            fontSize: "0.95rem",
-            zIndex: 5,
+            fontWeight: 900,
+            fontSize: "0.88rem",
+            letterSpacing: "0.02em",
+
             userSelect: "none",
             pointerEvents: "none",
           }}
         >
-          {qty}
+          {qty > 99 ? "99+" : qty}
         </Box>
       )}
+
 
       {/* IMAGE */}
       <Box

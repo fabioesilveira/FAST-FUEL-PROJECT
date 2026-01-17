@@ -127,12 +127,12 @@ const imageStylesById: Record<string, React.CSSProperties> = {
     "12": { width: "165px", height: "120px" },
     "13": { width: "178px", height: "138px" },
     "14": { width: "170px", height: "115px" },
-    "5": { width: "140px", height: "150px" },
-    "6": { width: "180px", height: "145px" },
-    "7": { width: "168px", height: "118px" },
-    "8": { width: "140px", height: "102px" },
-    "9": { width: "190px", height: "180px" },
-    "10": { width: "145px", height: "133px" },
+    "5": { width: "130px", height: "140px", marginTop: "6px" },
+    "6": { width: "130px", height: "140px", marginTop: "6px" },
+    "7": { width: "130px", height: "140px", marginTop: "6px" },
+    "8": { width: "130px", height: "140px", marginTop: "6px" },
+    "9": { width: "130px", height: "140px", marginTop: "6px" },
+    "10": { width: "130px", height: "140px", marginTop: "6px" },
     "15": { width: "180px", height: "190px" },
     "16": { width: "150px", height: "140px" },
     "17": { width: "143px", height: "133px" },
@@ -257,7 +257,7 @@ function ProductCard({ product }: { product: Meal }) {
                 <Typography
                     sx={{
                         fontSize: isMobile ? "0.9rem" : "0.95rem",
-                        fontWeight: 500,
+                        fontWeight: 400,
                         color: "#000",
                     }}
                 >
@@ -456,6 +456,7 @@ export default function Home() {
     const [data, setData] = useState<Meal[]>([]);
     const [showDriveThru, setShowDriveThru] = useState(false);
 
+    const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -502,12 +503,20 @@ export default function Home() {
 
     const isSearching = searchTrim.length > 0;
 
+
     const driveModeActive = showDriveThru; // só fast-thru manual
     const shouldShowCarousel = !isSearching && !driveModeActive;
     const shouldShowOrderPreview = driveModeActive;
 
     const hidePromos = isSearching || driveModeActive;
 
+
+
+    const headlineMt = searchOverlayOpen
+        ? { xs: 12, sm: 12, md: 3 }
+        : isSearching
+            ? { xs: 5, sm: 5, md: 3 }   // tem texto mas overlay fechado
+            : { xs: 2, sm: 3, md: 3 };  // sem texto e overlay fechado
 
 
     // Init: fetch products + hydrate order from localStorage
@@ -671,7 +680,10 @@ export default function Home() {
                 pt: { xs: "92px", md: 0 },
             }}
         >
-            <Navbar onSearch={handleSearchInput} />
+            <Navbar
+                onSearch={handleSearchInput}
+                onSearchOverlayChange={setSearchOverlayOpen}
+            />
 
             <CssBaseline />
 
@@ -843,11 +855,11 @@ export default function Home() {
                                     align="center"
                                     sx={{
                                         mb: { xs: 4.5, sm: 4.5, md: 4 },
-                                        mt: { xs: 12, sm: 11, md: 3 },
+                                        mt: headlineMt,
                                         fontFamily: "Titan One",
                                         fontSize: isCategorySearch
-                                            ? { xs: "45px", md: "50px" }
-                                            : { xs: "26px", md: "34px" },
+                                            ? { xs: "42px", md: "45px" }
+                                            : { xs: "29px", md: "45px" },
                                         letterSpacing: isCategorySearch ? "0.12em" : "0.06em",
                                         textTransform: "uppercase",
                                         color: "#ff8a4c",
@@ -862,8 +874,8 @@ export default function Home() {
                                     <Box
                                         onClick={enterFastThru}
                                         sx={{
-                                            px: { xs: 3.5, md: 4.5 },
-                                            py: { xs: 1.2, md: 1.4 },
+                                            px: { xs: 3.5, md: 4 },
+                                            py: { xs: 1.2, md: 1.2 },
                                             mb: { xs: 1.5 },
                                             borderRadius: "10px",
                                             backgroundColor: "#1e5bb8",
@@ -898,7 +910,7 @@ export default function Home() {
                                         justifyContent: "center",
                                         justifyItems: "center",
                                         gap: 4,
-                                        mb: 4,
+                                        mb: 2,
                                         gridTemplateColumns: {
                                             xs: "repeat(1, 260px)",
 

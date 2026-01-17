@@ -52,7 +52,7 @@ const CartBadge = styled(Badge)`
   & .${badgeClasses.badge} {
     top: -12px;
     right: -6px;
-    background-color: #1e5bb8;
+    background-color: #0d47a1;
     color: #fff;
   }
 `;
@@ -429,7 +429,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                 <CartBadge
                   badgeContent={badgeQuantity}
                   overlap="circular"
-                  sx={{ pointerEvents: "none" }}
+                  sx={{ pointerEvents: "none",  }}
                 />
               </Button>
 
