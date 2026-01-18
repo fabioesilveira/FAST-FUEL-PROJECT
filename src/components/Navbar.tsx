@@ -78,6 +78,8 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
 
   const menuRef = useRef<HTMLDivElement | null>(null);
 
+  const searchAreaRef = useRef<HTMLDivElement | null>(null);
+
   const { showAlert, AlertUI, confirmAlert, ConfirmUI } = useAppAlert({
     vertical: "top",
     horizontal: "center",
@@ -169,8 +171,8 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
 
       if (
         searchOpen &&
-        floatingSearchRef.current &&
-        !floatingSearchRef.current.contains(target)
+        searchAreaRef.current &&
+        !searchAreaRef.current.contains(target)
       ) {
         closeSearchOnly();
       }
@@ -243,6 +245,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
               }}
             >
               <Box
+                ref={searchAreaRef}
                 sx={{
                   position: "relative",
                   display: "inline-flex",
@@ -252,7 +255,8 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                 <IconHit
                   onClick={(e) => {
                     e.stopPropagation();
-                    openSearch();
+                    if (searchOpen) closeSearchOnly();
+                    else openSearch();
                   }}
                   aria-label="Open search"
                 >
@@ -429,7 +433,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                 <CartBadge
                   badgeContent={badgeQuantity}
                   overlap="circular"
-                  sx={{ pointerEvents: "none",  }}
+                  sx={{ pointerEvents: "none", }}
                 />
               </Button>
 
