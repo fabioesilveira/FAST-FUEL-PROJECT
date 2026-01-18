@@ -513,10 +513,10 @@ export default function Home() {
 
 
     const headlineMt = searchOverlayOpen
-        ? { xs: 12, sm: 12, md: 3 }
+        ? { xs: 12, sm: 12, md: 2.5 }
         : isSearching
-            ? { xs: 5, sm: 5, md: 3 }   // tem texto mas overlay fechado
-            : { xs: 2, sm: 3, md: 3 };  // sem texto e overlay fechado
+            ? { xs: 4, sm: 4, md: 2.5 }   // tem texto mas overlay fechado
+            : { xs: 2, sm: 3, md: 2.5 };  // sem texto e overlay fechado
 
 
     // Init: fetch products + hydrate order from localStorage
@@ -858,8 +858,8 @@ export default function Home() {
                                         mt: headlineMt,
                                         fontFamily: "Titan One",
                                         fontSize: isCategorySearch
-                                            ? { xs: "42px", md: "45px" }
-                                            : { xs: "29px", md: "45px" },
+                                            ? { xs: "42px", md: "43px" }
+                                            : { xs: "29px", md: "43px" },
                                         letterSpacing: isCategorySearch ? "0.12em" : "0.06em",
                                         textTransform: "uppercase",
                                         color: "#ff8a4c",
@@ -874,14 +874,14 @@ export default function Home() {
                                     <Box
                                         onClick={enterFastThru}
                                         sx={{
-                                            px: { xs: 3.5, md: 4 },
+                                            px: { xs: 3.5, md: 3.5 },
                                             py: { xs: 1.2, md: 1.2 },
                                             mb: { xs: 1.5 },
                                             borderRadius: "10px",
                                             backgroundColor: "#1e5bb8",
                                             color: "#fff",
                                             fontFamily: "Titan One",
-                                            fontSize: { xs: "0.98rem", md: "1.2rem" },
+                                            fontSize: { xs: "0.96rem", md: "1.1rem" },
                                             letterSpacing: "0.12em",
                                             textTransform: "uppercase",
                                             cursor: "pointer",
