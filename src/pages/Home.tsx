@@ -61,10 +61,10 @@ const normalizeImageKey = (value?: string) => {
 };
 
 const categoryAliases: Record<string, string[]> = {
-    sandwiches: ["bu", "bur", "burger", "burgers", "sandwich", "sandwiches"],
-    sides: ["si", "sid", "side", "sides", "snacks"],
-    beverages: ["dri", "bev", "drink", "drinks", "beverage", "beverages", "soda", "sodas"],
-    desserts: ["swe", "des", "dessert", "desserts", "sweet", "sweets"],
+    sandwiches: ["burg", "sand", "burger", "burgers", "sandwich", "sandwiches"],
+    sides: ["side", "sides", "snac", "snacks"],
+    beverages: ["drin", "drink", "drinks", "beverage", "beverages", "soda", "sodas"],
+    desserts: ["swee", "dessert", "desserts", "sweet", "sweets"],
 };
 
 const funMessages = [
@@ -110,10 +110,10 @@ function pickMessage(seed: string) {
 }
 
 const categoryLabelMap: Record<string, string> = {
-    sandwiches: "BURGERS",
-    sides: "SIDES",
-    beverages: "BEVERAGES",
-    desserts: "DESSERTS",
+    sandwiches: "BURGER LINEUP",
+    sides: "SIDES & EXTRAS",
+    beverages: "COLD DRINKS",
+    desserts: "SWEET TREATS",
 };
 
 const getCategoryLabel = (cat: string | null) => (cat ? categoryLabelMap[cat] ?? cat : "");
@@ -487,6 +487,8 @@ export default function Home() {
 
     const hasResults = filteredData.length > 0;
 
+
+
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext();
 
@@ -503,6 +505,16 @@ export default function Home() {
 
     const isSearching = searchTrim.length > 0;
 
+    const MIN_CHARS_FOR_NOT_FOUND = 4;
+
+    const charsLeft = Math.max(0, MIN_CHARS_FOR_NOT_FOUND - searchTrim.length);
+
+    const showNotFound =
+        isSearching && !hasResults && searchTrim.length >= MIN_CHARS_FOR_NOT_FOUND;
+
+    const showKeepTyping =
+        isSearching && !hasResults && searchTrim.length > 0 && searchTrim.length < MIN_CHARS_FOR_NOT_FOUND;
+
 
     const driveModeActive = showDriveThru; // só fast-thru manual
     const shouldShowCarousel = !isSearching && !driveModeActive;
@@ -513,10 +525,10 @@ export default function Home() {
 
 
     const headlineMt = searchOverlayOpen
-        ? { xs: 12, sm: 12, md: 2.5 }
+        ? { xs: 12, sm: 12, md: 2.7 }
         : isSearching
-            ? { xs: 4, sm: 4, md: 2.5 }   // tem texto mas overlay fechado
-            : { xs: 2, sm: 3, md: 2.5 };  // sem texto e overlay fechado
+            ? { xs: 5, sm: 5, md: 2.7 }   // tem texto mas overlay fechado
+            : { xs: 2, sm: 3, md: 2.7 };  // sem texto e overlay fechado
 
 
     // Init: fetch products + hydrate order from localStorage
@@ -828,26 +840,68 @@ export default function Home() {
                         )}
                     </Box>
                 )}
+                {/* SEARCH */}
                 {isSearching && (
                     <>
-                        {!hasResults && (
-                            <Typography
-                                align="center"
+                        {/* KEEP TYPING (1-3 chars) */}
+                        {showKeepTyping && (
+                            <Box
                                 sx={{
-                                    mt: { xs: 20, md: 17 },
-                                    mb: { xs: 6, md: 7 },
-                                    fontFamily: "Titan One",
-                                    fontSize: { xs: "28px", md: "35px" },
-                                    letterSpacing: "0.05em",
-                                    color: "rgba(13, 71, 161, 0.65)",
+                                    minHeight: { xs: "55dvh", md: "52dvh" },
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
                                     textAlign: "center",
+                                    px: 2,
                                 }}
                             >
-                                No products found 😕 <br />
-                                <span style={{ fontSize: "0.75em" }}>Try a different search</span>
-                            </Typography>
+                                <Typography
+                                    align="center"
+                                    sx={{
+                                        fontFamily: "Titan One",
+                                        fontSize: { xs: "26px", md: "34px" },
+                                        letterSpacing: "0.05em",
+                                        color: "rgba(13, 71, 161, 0.65)",
+                                        textAlign: "center",
+                                    }}
+                                >
+                                    Keep typing… ✍️ <br />
+                                    <span style={{ fontSize: "0.75em" }}>
+                                        {charsLeft} more {charsLeft === 1 ? "letter" : "letters"}
+                                    </span>
+                                </Typography>
+                            </Box>
                         )}
 
+                        {/* NOT FOUND (>= 4 chars) */}
+                        {showNotFound && (
+                            <Box
+                                sx={{
+                                    minHeight: { xs: "55dvh", md: "52dvh" },
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    textAlign: "center",
+                                    px: 2,
+                                }}
+                            >
+                                <Typography
+                                    align="center"
+                                    sx={{
+                                        fontFamily: "Titan One",
+                                        fontSize: { xs: "28px", md: "35px" },
+                                        letterSpacing: "0.05em",
+                                        color: "rgba(13, 71, 161, 0.65)",
+                                        textAlign: "center",
+                                    }}
+                                >
+                                    No products found 😕 <br />
+                                    <span style={{ fontSize: "0.75em" }}>Try a different search</span>
+                                </Typography>
+                            </Box>
+                        )}
+
+                        {/* RESULTS */}
                         {hasResults && (
                             <>
                                 {/* HEADLINE */}
@@ -858,8 +912,8 @@ export default function Home() {
                                         mt: headlineMt,
                                         fontFamily: "Titan One",
                                         fontSize: isCategorySearch
-                                            ? { xs: "42px", md: "43px" }
-                                            : { xs: "29px", md: "43px" },
+                                            ? { xs: "35px", md: "41px" }
+                                            : { xs: "29px", md: "41px" },
                                         letterSpacing: isCategorySearch ? "0.12em" : "0.06em",
                                         textTransform: "uppercase",
                                         color: "#ff8a4c",
@@ -874,14 +928,14 @@ export default function Home() {
                                     <Box
                                         onClick={enterFastThru}
                                         sx={{
-                                            px: { xs: 3.5, md: 3.5 },
+                                            px: { xs: 3, md: 3 },
                                             py: { xs: 1.2, md: 1.2 },
                                             mb: { xs: 1.5 },
                                             borderRadius: "10px",
                                             backgroundColor: "#1e5bb8",
                                             color: "#fff",
                                             fontFamily: "Titan One",
-                                            fontSize: { xs: "0.96rem", md: "1.1rem" },
+                                            fontSize: { xs: "0.98rem", md: "1.1rem" },
                                             letterSpacing: "0.12em",
                                             textTransform: "uppercase",
                                             cursor: "pointer",
@@ -903,7 +957,7 @@ export default function Home() {
                                     </Box>
                                 </Box>
 
-                                {/* GRID */}
+                                {/* GRID (mesmo do seu) */}
                                 <Box
                                     sx={{
                                         display: "grid",
@@ -935,11 +989,11 @@ export default function Home() {
                                         <ProductCard key={String(e.id)} product={e} />
                                     ))}
                                 </Box>
-
                             </>
                         )}
                     </>
                 )}
+
 
 
                 {driveModeActive && (
