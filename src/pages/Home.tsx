@@ -118,26 +118,49 @@ const categoryLabelMap: Record<string, string> = {
 
 const getCategoryLabel = (cat: string | null) => (cat ? categoryLabelMap[cat] ?? cat : "");
 
-const imageStylesById: Record<string, React.CSSProperties> = {
-    "1": { width: "130px", height: "120px" },
-    "2": { width: "220px", height: "210px" },
-    "3": { width: "158px", height: "118px", marginTop: "10px" },
-    "4": { width: "200px", height: "135px" },
-    "11": { width: "135px", height: "135px" },
+const imageStylesByIdDesktop: Record<string, React.CSSProperties> = {
+    "1": { width: "125px", height: "120px", marginTop: "4px" },
+    "2": { width: "230px", height: "225px" },
+    "3": { width: "158px", height: "120px", marginTop: "10px" },
+    "4": { width: "200px", height: "142px" },
+    "11": { width: "143px", height: "143px" },
     "12": { width: "165px", height: "120px" },
-    "13": { width: "178px", height: "138px" },
-    "14": { width: "170px", height: "115px" },
-    "5": { width: "130px", height: "140px", marginTop: "6px" },
-    "6": { width: "130px", height: "140px", marginTop: "6px" },
-    "7": { width: "130px", height: "140px", marginTop: "6px" },
-    "8": { width: "130px", height: "140px", marginTop: "6px" },
-    "9": { width: "130px", height: "140px", marginTop: "6px" },
-    "10": { width: "130px", height: "140px", marginTop: "6px" },
-    "15": { width: "180px", height: "190px" },
-    "16": { width: "150px", height: "140px" },
-    "17": { width: "143px", height: "133px" },
-    "18": { width: "115px", height: "120px" },
+    "13": { width: "160px", height: "138px", marginTop: "10px" },
+    "14": { width: "170px", height: "125px" },
+    "5": { width: "145px", height: "155px", marginTop: "6px" },
+    "6": { width: "145px", height: "155px", marginTop: "6px" },
+    "7": { width: "145px", height: "155px", marginTop: "6px" },
+    "8": { width: "145px", height: "155px", marginTop: "6px" },
+    "9": { width: "145px", height: "155px", marginTop: "6px" },
+    "10": { width: "145px", height: "155px", marginTop: "6px" },
+    "15": { width: "180px", height: "195px" },
+    "16": { width: "160px", height: "150px" },
+    "17": { width: "163px", height: "148px" },
+    "18": { width: "125px", height: "120px" },
 };
+
+const imageStylesByIdMobile: Record<string, React.CSSProperties> = {
+    // mesmos ids, só “reduzido” (ajusta do jeito que você curtir)
+    "1": { width: "115px", height: "105px" },
+    "2": { width: "185px", height: "180px" },
+    "3": { width: "140px", height: "115px", marginTop: "8px" },
+    "4": { width: "175px", height: "128px" },
+    "11": { width: "132px", height: "132px" },
+    "12": { width: "148px", height: "108px" },
+    "13": { width: "130px", height: "120px", marginTop: "8px" },
+    "14": { width: "158px", height: "111px" },
+    "5": { width: "125px", height: "134px", marginTop: "5px" },
+    "6": { width: "125px", height: "134px", marginTop: "5px" },
+    "7": { width: "125px", height: "134px", marginTop: "5px" },
+    "8": { width: "125px", height: "134px", marginTop: "5px" },
+    "9": { width: "125px", height: "134px", marginTop: "5px" },
+    "10": { width: "125px", height: "134px", marginTop: "5px" },
+    "15": { width: "165px", height: "172px" },
+    "16": { width: "135px", height: "134px" },
+    "17": { width: "128px", height: "120px" },
+    "18": { width: "105px", height: "110px" },
+};
+
 
 const mobileSlides = [
     { id: "combo", src: Combo, alt: "Combo Promo" },
@@ -161,15 +184,23 @@ type MiniActionCardProps = {
 const getNameWithKcal = (name: string) => name.trim();
 
 function ProductCard({ product }: { product: Meal }) {
+
+
     const title = getNameWithKcal(product.name);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const pid = String(product.id);
 
-    // 🔹 resolve imagem (backend OU local)
     const imgKey = normalizeImageKey(product.image);
     const imgSrc = imageMap[imgKey] ?? product.image;
+
+    const imgStyle =
+        (isMobile ? imageStylesByIdMobile[pid] : imageStylesByIdDesktop[pid]) ?? {
+            width: isMobile ? "160px" : "180px",
+            height: isMobile ? "130px" : "150px",
+        };
+
 
     return (
         <Box
@@ -207,10 +238,7 @@ function ProductCard({ product }: { product: Meal }) {
                     src={imgSrc}
                     alt={title}
                     style={{
-                        ...(imageStylesById[pid] ?? {
-                            width: "180px",
-                            height: "150px",
-                        }),
+                        ...imgStyle,
                         maxWidth: "100%",
                         maxHeight: "100%",
                         objectFit: "contain",
@@ -1016,8 +1044,7 @@ export default function Home() {
                         </Typography>
 
                         <h2 className="h2-driveMode-desk">
-                            *COMBO PROMO: Burger + Side + Beverage = $2 OFF. Discount applied at checkout. Search by name or visit
-                            the Products page for full descriptions.
+                            *COMBO PROMO: Burger + Side + Beverage = $2 OFF. Discount applied at checkout. Search by name or category to see full descriptions.
                         </h2>
 
                         <Box
