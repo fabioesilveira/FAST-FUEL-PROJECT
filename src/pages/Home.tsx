@@ -119,14 +119,14 @@ const categoryLabelMap: Record<string, string> = {
 const getCategoryLabel = (cat: string | null) => (cat ? categoryLabelMap[cat] ?? cat : "");
 
 const imageStylesByIdDesktop: Record<string, React.CSSProperties> = {
-    "1": { width: "125px", height: "120px", marginTop: "4px" },
+    "1": { width: "125px", height: "120px", marginTop: "5px" },
     "2": { width: "230px", height: "215px" },
     "3": { width: "158px", height: "120px", marginTop: "10px" },
     "4": { width: "200px", height: "142px" },
-    "11": { width: "143px", height: "143px" },
+    "11": { width: "145px", height: "145px" },
     "12": { width: "165px", height: "120px" },
     "13": { width: "160px", height: "138px", marginTop: "10px" },
-    "14": { width: "170px", height: "125px" },
+    "14": { width: "172px", height: "127px" },
     "5": { width: "155px", height: "160px", marginTop: "4px" },
     "6": { width: "155px", height: "160px", marginTop: "4px" },
     "7": { width: "155px", height: "160px", marginTop: "4px" },
@@ -141,13 +141,13 @@ const imageStylesByIdDesktop: Record<string, React.CSSProperties> = {
 
 const imageStylesByIdMobile: Record<string, React.CSSProperties> = {
     // mesmos ids, só “reduzido” (ajusta do jeito que você curtir)
-    "1": { width: "115px", height: "105px" },
+    "1": { width: "110px", height: "105px",marginTop: "5px" },
     "2": { width: "185px", height: "180px" },
     "3": { width: "140px", height: "115px", marginTop: "8px" },
     "4": { width: "175px", height: "128px" },
     "11": { width: "132px", height: "132px" },
     "12": { width: "148px", height: "108px" },
-    "13": { width: "130px", height: "120px", marginTop: "8px" },
+    "13": { width: "115px", height: "115px", marginTop: "8px" },
     "14": { width: "158px", height: "111px" },
     "5": { width: "125px", height: "134px", marginTop: "5px" },
     "6": { width: "125px", height: "134px", marginTop: "5px" },
@@ -155,10 +155,10 @@ const imageStylesByIdMobile: Record<string, React.CSSProperties> = {
     "8": { width: "125px", height: "134px", marginTop: "5px" },
     "9": { width: "125px", height: "134px", marginTop: "5px" },
     "10": { width: "125px", height: "134px", marginTop: "5px" },
-    "15": { width: "165px", height: "172px" },
-    "16": { width: "135px", height: "134px" },
-    "17": { width: "128px", height: "120px" },
-    "18": { width: "105px", height: "110px" },
+    "15": { width: "190px", height: "192px" },
+    "16": { width: "120px", height: "134px" },
+    "17": { width: "138px", height: "120px" },
+    "18": { width: "105px", height: "105px" },
 };
 
 

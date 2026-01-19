@@ -338,7 +338,7 @@ export default function TrackOrderGuest() {
                             <Stack
                                 direction={{ xs: "column", sm: "row" }}
                                 spacing={1.2}
-                                alignItems="flex-start"
+                                alignItems="stretch"
                             >
                                 <TextField
                                     size="small"
@@ -349,7 +349,12 @@ export default function TrackOrderGuest() {
                                         setHasSearched(false);
                                         setItems([]);
                                     }}
-                                    sx={[tfBlueLabelSx, { width: { xs: "100%", sm: 260 } }]}
+                                    sx={[
+                                        tfBlueLabelSx,
+                                        {
+                                            flex: 1.2,
+                                        },
+                                    ]}
                                 />
 
                                 <TextField
@@ -362,7 +367,12 @@ export default function TrackOrderGuest() {
                                         setItems([]);
                                     }}
                                     inputProps={{ maxLength: 6, inputMode: "numeric" }}
-                                    sx={[tfBlueLabelSx, { width: { xs: "100%", sm: 200 } }]}
+                                    sx={[
+                                        tfBlueLabelSx,
+                                        {
+                                            flex: 0.8,
+                                        },
+                                    ]}
                                 />
 
                                 <Button
@@ -370,16 +380,15 @@ export default function TrackOrderGuest() {
                                     disabled={!canSearch || loading}
                                     onClick={fetchOrders}
                                     sx={{
-                                        borderRadius: 2,
+                                        flex: 0.6,
+                                        borderRadius: 1.5,
                                         bgcolor: "#1e5bb8",
                                         color: "#fff",
                                         fontWeight: 900,
                                         textTransform: "uppercase",
                                         letterSpacing: "0.10em",
                                         height: 40,
-                                        px: 3,
                                         "&:hover": { bgcolor: "#164a96" },
-                                        alignSelf: { xs: "stretch", sm: "center" },
                                     }}
                                 >
                                     Search
@@ -390,25 +399,25 @@ export default function TrackOrderGuest() {
                                     onClick={handleReset}
                                     disabled={loading}
                                     sx={{
+                                        flex: 0.6,
                                         display: { xs: "none", sm: "inline-flex" },
-                                        borderRadius: 2,
+                                        borderRadius: 1.5,
                                         borderColor: "rgba(0,0,0,0.35)",
                                         color: "rgba(0,0,0,0.70)",
                                         fontWeight: 900,
                                         textTransform: "uppercase",
                                         letterSpacing: "0.10em",
                                         height: 40,
-                                        px: 3,
                                         "&:hover": {
                                             borderColor: "rgba(0,0,0,0.55)",
                                             bgcolor: "rgba(0,0,0,0.04)",
                                         },
-                                        alignSelf: { xs: "stretch", sm: "center" },
                                     }}
                                 >
                                     Reset
                                 </Button>
                             </Stack>
+
                         </Box>
 
                         <Divider

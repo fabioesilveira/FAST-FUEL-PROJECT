@@ -22,6 +22,21 @@ export default function DeleteAccount() {
 
     const navigate = useNavigate();
 
+    function handleRequestDelete() {
+    if (!deleteACC.email || !deleteACC.password || !deleteACC.confirmPassword) {
+        showAlert("Please fill in all fields.", "warning");
+        return;
+    }
+
+    if (deleteACC.password !== deleteACC.confirmPassword) {
+        showAlert("The passwords entered don’t match. Please try again.", "error");
+        return;
+    }
+
+    setOpenConfirm(true);
+}
+
+
     const { showAlert, AlertUI } = useAppAlert({
         vertical: "top",
         horizontal: "center",
@@ -308,7 +323,7 @@ export default function DeleteAccount() {
                                     fullWidth
                                     size="large"
                                     variant="contained"
-                                    onClick={() => setOpenConfirm(true)}
+                                    onClick={handleRequestDelete}
                                     sx={{
                                         mt: 1,
                                         borderRadius: 2,
