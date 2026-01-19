@@ -367,7 +367,6 @@ function MiniCard({
                             alignItems: "center",
                             justifyContent: "center",
                             boxShadow: "0px 6px 14px rgba(0,0,0,0.25)",
-                            border: "2px solid #fff3e0",
                         }}
                     >
                         {count}
@@ -824,14 +823,14 @@ export default function Home() {
                         />
 
 
-                        {/* TOTAL + CART DROPDOWN + CLOSE */}
+                        {/* TOTAL + ACTIONS */}
                         <Box
                             sx={{
                                 display: "flex",
+                                flexDirection: { xs: "column", md: "row" },
                                 alignItems: "center",
                                 justifyContent: "center",
-                                gap: 1.2,
-                                flexWrap: "nowrap",
+                                gap: { xs: 1.2, md: 1.2 },
                             }}
                         >
                             {/* TOTAL */}
@@ -839,52 +838,105 @@ export default function Home() {
                                 TOTAL R$: {checkout.toFixed(2)}
                             </h2>
 
-                            {/* DROPDOWN TRIGGER */}
-                            <Button
-                                onClick={openCartMenu}
-                                variant="contained"
+                            {/* Actions */}
+                            <Box
                                 sx={{
-                                    minWidth: 42,
-                                    height: 42,
-                                    borderRadius: "12px",
-                                    bgcolor: "#1e5bb8",
-                                    border: "2px solid rgba(255, 224, 199, 0.95)",
-                                    boxShadow: "0px 6px 14px rgba(0,0,0,0.18)",
-                                    px: 1,
-                                    "&:hover": { bgcolor: "#164a96" },
-                                    "&:active": { transform: "scale(0.97)" },
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    gap: 1.1,
+                                    mt: { xs: 0.8, md: 0 },
                                 }}
                             >
-                                <Badge
-                                    badgeContent={cartCount}
-                                    color="error"
+                                {/* DROPDOWN + BADGE */}
+                                <Box sx={{ position: "relative", display: "inline-flex" }}>
+                                    {cartCount > 0 && (
+                                        <Box
+                                            sx={{
+                                                position: "absolute",
+                                                top: -8,
+                                                right: -8,
+                                                minWidth: 22,
+                                                height: 22,
+                                                px: 0.6,
+                                                borderRadius: "999px",
+                                                backgroundColor: "#1e5bb8",
+                                                color: "#fff",
+                                                fontWeight: 900,
+                                                fontSize: "0.7rem",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
+                                                zIndex: 2,
+                                            }}
+                                        >
+                                            {cartCount}
+                                        </Box>
+                                    )}
+
+                                    <Button
+                                        onClick={openCartMenu}
+                                        sx={{
+                                            width: 44,
+                                            height: 44,
+                                            minWidth: 44,
+                                            p: 0,
+                                            borderRadius: "12px",
+                                            backgroundColor: "#fff0da",
+                                            border: "2.5px solid rgba(230, 81, 0, 0.85)",
+
+                                            transition: "all .22s ease",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+
+                                            "&:hover": {
+                                                backgroundColor: "rgba(230, 81, 0, 0.12)",
+                                                transform: "translateY(-1px)",
+                                            },
+
+                                            "&:active": {
+                                                backgroundColor: "rgba(230, 81, 0, 0.22)",
+                                                transform: "scale(0.97)",
+                                            },
+                                        }}
+                                    >
+                                        <ExpandMoreIcon sx={{ color: "#164a96", fontSize: 29 }} />
+                                    </Button>
+                                </Box>
+
+                                <Button
+                                    onClick={() => setShowDriveThru(false)}
                                     sx={{
-                                        "& .MuiBadge-badge": {
-                                            fontWeight: 900,
-                                            fontSize: "0.7rem",
+                                        width: 44,
+                                        height: 44,
+                                        minWidth: 44,
+                                        p: 0,
+                                        borderRadius: "12px",
+                                        backgroundColor: "#fff0da",
+                                        border: "2.5px solid rgba(230, 81, 0, 0.85)",
+
+                                        transition: "all .22s ease",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+
+                                        "&:hover": {
+                                            backgroundColor: "rgba(230, 81, 0, 0.12)",
+                                            transform: "translateY(-1px)",
+                                        },
+
+                                        "&:active": {
+                                            backgroundColor: "rgba(230, 81, 0, 0.22)",
+                                            transform: "scale(0.97)",
                                         },
                                     }}
                                 >
-                                    <ExpandMoreIcon sx={{ color: "#ffe0c7", fontSize: 26 }} />
-                                </Badge>
-                            </Button>
-
-                            {/* CLOSE FAST THRU */}
-                            <IconButton
-                                onClick={() => setShowDriveThru(false)}
-                                sx={{
-                                    width: 42,
-                                    height: 42,
-                                    borderRadius: "12px",
-                                    backgroundColor: "#e65100",
-                                    border: "2px solid rgba(255, 224, 199, 0.95)",
-                                    "&:hover": { backgroundColor: "#b33f00" },
-                                }}
-                            >
-                                <CloseIcon sx={{ fontSize: 24, color: "#ffe0c7" }} />
-                            </IconButton>
+                                    <CloseIcon sx={{ color: "#164a96", fontSize: 24 }} />
+                                </Button>
+                            </Box>
                         </Box>
-
 
                         <Menu
                             anchorEl={cartAnchorEl}

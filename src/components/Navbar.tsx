@@ -52,7 +52,7 @@ const CartBadge = styled(Badge)`
   & .${badgeClasses.badge} {
     top: -12px;
     right: -6px;
-    background-color: #0d47a1;
+    background-color: #1e5bb8;
     color: #fff;
   }
 `;
