@@ -27,6 +27,19 @@ import FloatingContactMobile from "../components/FloatingContactMobile";
 import HeroCarousel from "../components/HeroCarousel";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
+import ArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+import Menu from "@mui/material/Menu";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+import Badge from "@mui/material/Badge";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import RemoveIcon from "@mui/icons-material/Remove";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 //imgs out of Backend
 import CokeImg from "../assets/Coke.png";
@@ -141,7 +154,7 @@ const imageStylesByIdDesktop: Record<string, React.CSSProperties> = {
 
 const imageStylesByIdMobile: Record<string, React.CSSProperties> = {
     // mesmos ids, só “reduzido” (ajusta do jeito que você curtir)
-    "1": { width: "110px", height: "105px",marginTop: "5px" },
+    "1": { width: "110px", height: "105px", marginTop: "5px" },
     "2": { width: "185px", height: "180px" },
     "3": { width: "140px", height: "115px", marginTop: "8px" },
     "4": { width: "175px", height: "128px" },
@@ -333,38 +346,6 @@ function MiniCard({
     return (
         <ButtonBase onClick={onClick} sx={{ width: 143, borderRadius: "14px", textAlign: "center" }}>
             <Box sx={{ position: "relative", width: "100%" }}>
-                {/* BOTÃO MINUS - só aparece se count > 0 */}
-                {count > 0 && (
-                    <Box
-                        onClick={(e) => {
-                            e.stopPropagation(); // não deixa ativar o onClick do card (add)
-                            onRemove?.();
-                        }}
-                        sx={{
-                            position: "absolute",
-                            top: -10,
-                            left: -10,
-                            zIndex: 3,
-                            width: 32,
-                            height: 32,
-                            borderRadius: "999px",
-                            backgroundColor: "#1e5bb8",
-                            color: "#fff",
-                            fontWeight: 900,
-                            fontSize: "1.05rem",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            boxShadow: "0px 6px 14px rgba(0,0,0,0.25)",
-                            border: "2px solid #fff3e0",
-                            userSelect: "none",
-                            cursor: "pointer",
-                            "&:active": { transform: "scale(0.92)" },
-                        }}
-                    >
-                        –
-                    </Box>
-                )}
 
                 {/* BADGE - top-right) */}
                 {count > 0 && (
@@ -486,6 +467,18 @@ export default function Home() {
 
     const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
 
+    const [cartAnchorEl, setCartAnchorEl] = useState<null | HTMLElement>(null);
+    const cartOpen = Boolean(cartAnchorEl);
+
+    function openCartMenu(e: React.MouseEvent<HTMLElement>) {
+        setCartAnchorEl(e.currentTarget);
+    }
+
+    function closeCartMenu() {
+        setCartAnchorEl(null);
+    }
+
+
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const isMobileOrSm = useMediaQuery(theme.breakpoints.down("md"));
@@ -549,6 +542,30 @@ export default function Home() {
     const shouldShowOrderPreview = driveModeActive;
 
     const hidePromos = isSearching || driveModeActive;
+
+    const cartCount = order.reduce((acc, it) => acc + (it.quantidade ?? 1), 0);
+
+    function decItem(productId: string) {
+        const existing = order.find((p) => String(p.id) === productId);
+        if (!existing) return;
+
+        const q = existing.quantidade ?? 0;
+        if (q <= 1) {
+            setOrder(order.filter((p) => String(p.id) !== productId));
+            return;
+        }
+
+        setOrder(
+            order.map((p) =>
+                String(p.id) === productId ? { ...p, quantidade: (p.quantidade ?? 0) - 1 } : p
+            )
+        );
+    }
+
+    function removeItem(productId: string) {
+        setOrder(order.filter((p) => String(p.id) !== productId));
+    }
+
 
 
 
@@ -692,6 +709,7 @@ export default function Home() {
         );
     }
 
+
     // SLIDES CAROUSEL
     const desktopCarouselSlides = [
         <Carousel.Item key="slide-1">
@@ -795,48 +813,220 @@ export default function Home() {
                         }}
                     >
                         {/* MOBILE + SM */}
-                        {isMobileOrSm ? (
-                            <Box
+
+                        <Box
+                            sx={{
+                                justifySelf: "start",
+                                width: { md: 52 },
+                                height: { md: 52 },
+                                visibility: "hidden",
+                            }}
+                        />
+
+
+                        {/* TOTAL + CART DROPDOWN + CLOSE */}
+                        <Box
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: 1.2,
+                                flexWrap: "nowrap",
+                            }}
+                        >
+                            {/* TOTAL */}
+                            <h2 className="total" style={{ whiteSpace: "nowrap", margin: 0 }}>
+                                TOTAL R$: {checkout.toFixed(2)}
+                            </h2>
+
+                            {/* DROPDOWN TRIGGER */}
+                            <Button
+                                onClick={openCartMenu}
+                                variant="contained"
                                 sx={{
-                                    justifySelf: "end",
-                                    gridRow: 1,
-                                    gridColumn: 1,
-                                    alignSelf: "start",
+                                    minWidth: 42,
+                                    height: 42,
+                                    borderRadius: "12px",
+                                    bgcolor: "#1e5bb8",
+                                    border: "2px solid rgba(255, 224, 199, 0.95)",
+                                    boxShadow: "0px 6px 14px rgba(0,0,0,0.18)",
+                                    px: 1,
+                                    "&:hover": { bgcolor: "#164a96" },
+                                    "&:active": { transform: "scale(0.97)" },
                                 }}
                             >
-                                <IconButton
-                                    onClick={() => setShowDriveThru(false)}
+                                <Badge
+                                    badgeContent={cartCount}
+                                    color="error"
                                     sx={{
-                                        width: { xs: 32, sm: 38, md: 45 },
-                                        height: { xs: 32, sm: 38, md: 45 },
-                                        borderRadius: "12px",
-                                        backgroundColor: "#e65100",
-                                        border: "2px solid rgba(255, 224, 199, 0.95)",
-                                        "&:hover": { backgroundColor: "#b33f00" },
+                                        "& .MuiBadge-badge": {
+                                            fontWeight: 900,
+                                            fontSize: "0.7rem",
+                                        },
                                     }}
                                 >
-                                    <CloseIcon
-                                        sx={{
-                                            fontSize: { xs: 22, sm: 26, md: 30 },
-                                            color: "#ffe0c7",
-                                        }}
-                                    />
-                                </IconButton>
-                            </Box>
-                        ) : (
-                            <Box
-                                sx={{
-                                    justifySelf: "start",
-                                    width: { md: 52 },
-                                    height: { md: 52 },
-                                    visibility: "hidden",
-                                }}
-                            />
-                        )}
+                                    <ExpandMoreIcon sx={{ color: "#ffe0c7", fontSize: 26 }} />
+                                </Badge>
+                            </Button>
 
-                        <h2 className="total" style={{ whiteSpace: "nowrap" }}>
-                            TOTAL R$: {checkout.toFixed(2)}
-                        </h2>
+                            {/* CLOSE FAST THRU */}
+                            <IconButton
+                                onClick={() => setShowDriveThru(false)}
+                                sx={{
+                                    width: 42,
+                                    height: 42,
+                                    borderRadius: "12px",
+                                    backgroundColor: "#e65100",
+                                    border: "2px solid rgba(255, 224, 199, 0.95)",
+                                    "&:hover": { backgroundColor: "#b33f00" },
+                                }}
+                            >
+                                <CloseIcon sx={{ fontSize: 24, color: "#ffe0c7" }} />
+                            </IconButton>
+                        </Box>
+
+
+                        <Menu
+                            anchorEl={cartAnchorEl}
+                            open={cartOpen}
+                            onClose={closeCartMenu}
+                            PaperProps={{
+                                sx: {
+                                    mt: 1.2,
+                                    borderRadius: 3,
+                                    border: "1.5px solid rgba(230, 81, 0, 0.28)",
+                                    bgcolor: "#fffefe",
+                                    minWidth: 320,
+                                    maxWidth: 360,
+                                    boxShadow: "0 10px 26px rgba(0,0,0,0.18)",
+                                    overflow: "hidden",
+                                },
+                            }}
+                            transformOrigin={{ horizontal: "center", vertical: "top" }}
+                            anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+                        >
+                            <Box sx={{ px: 2, py: 1.5 }}>
+                                <Typography sx={{ fontWeight: 900, letterSpacing: "0.08em", color: "#0d47a1" }}>
+                                    YOUR CART
+                                </Typography>
+                                <Typography sx={{ fontSize: "0.85rem", color: "text.secondary", fontWeight: 700 }}>
+                                    {cartCount === 0 ? "No items added yet." : `${cartCount} item(s)`}
+                                </Typography>
+                            </Box>
+
+                            <Divider />
+
+                            {order.length === 0 ? (
+                                <Box sx={{ px: 2, py: 2 }}>
+                                    <Typography sx={{ color: "text.secondary", fontWeight: 700 }}>
+                                        Add items from the grid to see them here.
+                                    </Typography>
+                                </Box>
+                            ) : (
+                                <List sx={{ py: 0 }}>
+                                    {order.map((it) => {
+                                        const pid = String(it.id);
+                                        const qty = it.quantidade ?? 1;
+                                        const price = Number(it.price ?? 0);
+
+                                        return (
+                                            <Box key={pid}>
+                                                <ListItem
+                                                    secondaryAction={
+                                                        <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
+                                                            <IconButton
+                                                                size="small"
+                                                                onClick={() => decItem(pid)}
+                                                                sx={{
+                                                                    bgcolor: "rgba(30, 91, 184, 0.12)",
+                                                                    border: "1px solid rgba(30, 91, 184, 0.22)",
+                                                                    "&:hover": { bgcolor: "rgba(30, 91, 184, 0.18)" },
+                                                                }}
+                                                            >
+                                                                <RemoveIcon sx={{ fontSize: 18, color: "#1e5bb8" }} />
+                                                            </IconButton>
+
+                                                            <Box
+                                                                sx={{
+                                                                    minWidth: 26,
+                                                                    height: 26,
+                                                                    px: 0.9,
+                                                                    borderRadius: "999px",
+                                                                    bgcolor: "#1e5bb8",
+                                                                    color: "#fff",
+                                                                    fontWeight: 900,
+                                                                    fontSize: "0.78rem",
+                                                                    display: "flex",
+                                                                    alignItems: "center",
+                                                                    justifyContent: "center",
+                                                                }}
+                                                            >
+                                                                {qty}
+                                                            </Box>
+
+                                                            <IconButton
+                                                                size="small"
+                                                                onClick={() => removeItem(pid)}
+                                                                sx={{
+                                                                    bgcolor: "rgba(183, 28, 28, 0.10)",
+                                                                    border: "1px solid rgba(183, 28, 28, 0.22)",
+                                                                    "&:hover": { bgcolor: "rgba(183, 28, 28, 0.16)" },
+                                                                }}
+                                                            >
+                                                                <DeleteOutlineIcon sx={{ fontSize: 18, color: "#b71c1c" }} />
+                                                            </IconButton>
+                                                        </Box>
+                                                    }
+                                                >
+                                                    <ListItemText
+                                                        primary={
+                                                            <Typography sx={{ fontWeight: 900, color: "#e65100" }}>
+                                                                {cleanProductName(it.name)}
+                                                            </Typography>
+                                                        }
+                                                        secondary={
+                                                            <Typography sx={{ fontSize: "0.82rem", color: "text.secondary", fontWeight: 700 }}>
+                                                                ${price.toFixed(2)} each
+                                                            </Typography>
+                                                        }
+                                                    />
+                                                </ListItem>
+
+                                                <Divider />
+                                            </Box>
+                                        );
+                                    })}
+                                </List>
+                            )}
+
+                            {/* Footer do menu */}
+                            <Box sx={{ px: 2, py: 1.4, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                <Typography sx={{ fontWeight: 900, color: "#333" }}>
+                                    Total: ${checkout.toFixed(2)}
+                                </Typography>
+
+                                <Button
+                                    onClick={() => {
+                                        closeCartMenu();
+                                        navigate("/checkout");
+                                    }}
+                                    disabled={order.length === 0}
+                                    sx={{
+                                        borderRadius: 2,
+                                        textTransform: "uppercase",
+                                        fontWeight: 900,
+                                        letterSpacing: "0.10em",
+                                        bgcolor: "#e65100",
+                                        color: "#ffe0c7",
+                                        px: 2,
+                                        "&:hover": { bgcolor: "#b33f00" },
+                                    }}
+                                >
+                                    Checkout
+                                </Button>
+                            </Box>
+                        </Menu>
+
 
                         <style>
                             {`
@@ -850,22 +1040,6 @@ export default function Home() {
                         </style>
 
                         {/* DESKTOP */}
-                        {!isMobileOrSm && (
-                            <IconButton
-                                onClick={() => setShowDriveThru(false)}
-                                sx={{
-                                    justifySelf: "end",
-                                    width: { md: 45 },
-                                    height: { md: 45 },
-                                    borderRadius: "12px",
-                                    backgroundColor: "#e65100",
-                                    border: "2px solid rgba(255, 224, 199, 0.95)",
-                                    "&:hover": { backgroundColor: "#b33f00" },
-                                }}
-                            >
-                                <CloseIcon sx={{ fontSize: 30, color: "#ffe0c7" }} />
-                            </IconButton>
-                        )}
                     </Box>
                 )}
                 {/* SEARCH */}
