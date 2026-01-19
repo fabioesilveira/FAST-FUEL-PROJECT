@@ -7,8 +7,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import Chat4 from "../assets/Fuel-Up.png"; // last
 import Chat6 from "../assets/girl-fastFuel.png"; // third
-import RestImg from "../assets/Restaurante2.png";
-import Employees from "../assets/Funcionarios.png";
+import RestImg from "../assets/Restaurant3.png";
+import Employees from "../assets/Employees4.png";
 import Combo from "../assets/Combo1.png";
 import Carousel from "react-bootstrap/Carousel";
 import { useNavigate } from "react-router-dom";
@@ -125,7 +125,7 @@ const imageStylesByIdDesktop: Record<string, React.CSSProperties> = {
     "4": { width: "200px", height: "142px" },
     "11": { width: "145px", height: "145px" },
     "12": { width: "165px", height: "120px" },
-    "13": { width: "160px", height: "138px", marginTop: "10px" },
+    "13": { width: "140px", height: "132px", marginTop: "10px" },
     "14": { width: "172px", height: "127px" },
     "5": { width: "155px", height: "160px", marginTop: "4px" },
     "6": { width: "155px", height: "160px", marginTop: "4px" },
@@ -135,7 +135,7 @@ const imageStylesByIdDesktop: Record<string, React.CSSProperties> = {
     "10": { width: "155px", height: "160px", marginTop: "4px" },
     "15": { width: "185px", height: "200px" },
     "16": { width: "160px", height: "150px" },
-    "17": { width: "163px", height: "148px" },
+    "17": { width: "168px", height: "148px" },
     "18": { width: "125px", height: "120px" },
 };
 

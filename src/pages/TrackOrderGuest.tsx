@@ -445,7 +445,7 @@ export default function TrackOrderGuest() {
                                         justifyContent: "center",
                                         px: 3,
                                         textAlign: "center",
-                                        pb: { xs: 6, md: 10 },
+                                        pb: { xs: 10, md: 10 },
                                     }}
                                 >
                                     <Typography
@@ -485,16 +485,19 @@ export default function TrackOrderGuest() {
                                         textAlign: "center",
                                         px: 3,
                                         gap: 2,
-                                        pb: { xs: 6, md: 10 },
+                                        pb: { xs: 15, sm: 13, md: 12 },
                                     }}
                                 >
-                                    <Typography sx={{ color: "text.secondary" }}>
-                                        No orders were found for this email and order number.
+                                    <Typography
+                                        sx={{
+                                            color: "text.secondary",
+                                            fontSize: { xs: "0.98rem", sm: "1.1rem" },
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        No matching orders found.
                                     </Typography>
 
-                                    <Typography sx={{ color: "text.secondary" }}>
-                                        Please make sure the information is correct and try again.
-                                    </Typography>
                                 </Box>
                             ) : (
                                 <Box sx={{ flex: 1, overflowY: "auto" }}>

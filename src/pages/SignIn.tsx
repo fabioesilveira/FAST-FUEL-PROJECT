@@ -177,7 +177,7 @@ export default function SignIn() {
                         justifyContent: "center",
                         alignItems: "center",
                         px: 2,
-                        pt: { xs: 10, md: 12 },
+                        pt: { xs: 9.8, md: 12 },
                         pb: 10,
                         boxSizing: "border-box",
                         pointerEvents: "none",

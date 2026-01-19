@@ -192,7 +192,7 @@ export default function DeleteAccount() {
                         justifyContent: "center",
                         alignItems: "center",
                         px: 2,
-                        pt: { xs: 10, md: 12 },
+                        pt: { xs: 9.2, md: 11.1 },
                         pb: 10,
                         boxSizing: "border-box",
                         pointerEvents: "none",
