@@ -28,7 +28,6 @@ import HeroCarousel from "../components/HeroCarousel";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-import ArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import Menu from "@mui/material/Menu";
@@ -36,8 +35,6 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import Badge from "@mui/material/Badge";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
@@ -463,6 +460,8 @@ export default function Home() {
     const [checkout, setCheckout] = useState(0);
     const [data, setData] = useState<Meal[]>([]);
     const [showDriveThru, setShowDriveThru] = useState(false);
+    const [discount, setDiscount] = useState(0);
+    const [subtotal, setSubtotal] = useState(0);
 
     const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
 
@@ -662,32 +661,33 @@ export default function Home() {
         let burgerCount = 0;
         let sideCount = 0;
         let beverageCount = 0;
-        let subtotal = 0;
+        let subtotalCalc = 0;
 
         order.forEach((item) => {
             const quantity = item.quantidade ?? 0;
-            const price = item.price ?? 0;
+            const price = Number(item.price ?? 0);
             const category = (item.category || "").toLowerCase();
 
-            subtotal += quantity * price;
+            subtotalCalc += quantity * price;
 
-            if (category === "sandwiches") {
-                burgerCount += quantity;
-            } else if (category === "sides") {
-                sideCount += quantity;
-            } else if (category === "beverages") {
-                beverageCount += quantity;
-            }
+            if (category === "sandwiches") burgerCount += quantity;
+            else if (category === "sides") sideCount += quantity;
+            else if (category === "beverages") beverageCount += quantity;
         });
 
         const sets = Math.min(burgerCount, sideCount, beverageCount);
-        const discount = sets * 2;
-        const total = subtotal - discount;
+        const discountCalc = sets * 2;
 
-        console.log({ burgerCount, sideCount, beverageCount, sets, discount, subtotal, total });
+        const base = Math.max(0, subtotalCalc - discountCalc);
 
-        setCheckout(total < 0 ? 0 : total);
+        setSubtotal(subtotalCalc);
+        setDiscount(discountCalc);
+        setCheckout(base); // seu "checkout" agora é base (subtotal - discount)
     }, [order]);
+
+    // const tax = Number((checkout * 0.09).toFixed(2));
+    // const deliveryFee = checkout >= 30 ? 0 : 9.99;
+    // const grandTotal = Number((checkout + tax + deliveryFee).toFixed(2));
 
     // Remove itens adicionados ao carrinho FAST THRU
     function handleRemove(product: Meal) {
@@ -835,7 +835,7 @@ export default function Home() {
                         >
                             {/* TOTAL */}
                             <h2 className="total" style={{ whiteSpace: "nowrap", margin: 0 }}>
-                                TOTAL R$: {checkout.toFixed(2)}
+                                TOTAL $: {checkout.toFixed(2)}
                             </h2>
 
                             {/* Actions */}
@@ -878,8 +878,8 @@ export default function Home() {
                                     <Button
                                         onClick={openCartMenu}
                                         sx={{
-                                            width: 44,
-                                            height: 44,
+                                            width: { xs: 39, md: 44 },
+                                            height: { xs: 39, md: 44 },
                                             minWidth: 44,
                                             p: 0,
                                             borderRadius: "12px",
@@ -909,8 +909,8 @@ export default function Home() {
                                 <Button
                                     onClick={() => setShowDriveThru(false)}
                                     sx={{
-                                        width: 44,
-                                        height: 44,
+                                        width: { xs: 39, md: 44 },
+                                        height: { xs: 39, md: 44 },
                                         minWidth: 44,
                                         p: 0,
                                         borderRadius: "12px",
@@ -1052,31 +1052,116 @@ export default function Home() {
                             )}
 
                             {/* Footer do menu */}
-                            <Box sx={{ px: 2, py: 1.4, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                                <Typography sx={{ fontWeight: 900, color: "#333" }}>
-                                    Total: ${checkout.toFixed(2)}
-                                </Typography>
+                           
+                            <Box
+                                sx={{
+                                    px: 2,
+                                    py: 1.6,
+                                    borderTop: "1px solid rgba(230, 81, 0, 0.22)",
+                                    backgroundColor: "#fffefe",
+                                }}
+                            >
+                                {/* Lines */}
+                                <Box sx={{ display: "grid", gap: 0.7 }}>
+                                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                                        <Typography sx={{ fontWeight: 800, color: "rgba(13, 71, 161, 0.75)" }}>
+                                            Subtotal
+                                        </Typography>
+                                        <Typography sx={{ fontWeight: 900, color: "#333" }}>
+                                            ${subtotal.toFixed(2)}
+                                        </Typography>
+                                    </Box>
 
-                                <Button
-                                    onClick={() => {
-                                        closeCartMenu();
-                                        navigate("/checkout");
-                                    }}
-                                    disabled={order.length === 0}
+                                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                                        <Typography sx={{ fontWeight: 800, color: "rgba(13, 71, 161, 0.75)" }}>
+                                            Discount
+                                        </Typography>
+                                        <Typography sx={{ fontWeight: 900, color: "#b71c1c" }}>
+                                            -${discount.toFixed(2)}
+                                        </Typography>
+                                    </Box>
+
+                                    <Divider sx={{ my: 0.6, borderColor: "rgba(230, 81, 0, 0.22)" }} />
+
+                                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                                        <Typography sx={{ fontWeight: 900, color: "#164a96", letterSpacing: "0.06em" }}>
+                                            Total (Before Fees)
+                                        </Typography>
+                                        <Typography sx={{ fontWeight: 1000, color: "#e65100", fontSize: { xs: "1.15rem", sm: "1.2rem" } }}>
+                                            ${checkout.toFixed(2)}
+                                        </Typography>
+                                    </Box>
+
+                                    <Typography sx={{ mt: 0.35, fontSize: "0.78rem", fontWeight: 800, color: "rgba(0,0,0,0.55)" }}>
+                                        Taxes & delivery calculated at checkout.
+                                    </Typography>
+
+
+                                    <Typography sx={{ mt: 0.4, fontSize: "0.78rem", fontWeight: 800, color: "rgba(0,0,0,0.55)" }}>
+                                        {checkout >= 30
+                                            ? "You unlocked free delivery 🎉"
+                                            : `Add $${(30 - checkout).toFixed(2)} more to get FREE delivery`}
+                                    </Typography>
+
+
+
+
+                                    <Divider sx={{ my: 0.6, borderColor: "rgba(230, 81, 0, 0.22)" }} />
+
+
+
+
+
+                                </Box>
+
+                                {/* Actions */}
+                                <Box
                                     sx={{
-                                        borderRadius: 2,
-                                        textTransform: "uppercase",
-                                        fontWeight: 900,
-                                        letterSpacing: "0.10em",
-                                        bgcolor: "#e65100",
-                                        color: "#ffe0c7",
-                                        px: 2,
-                                        "&:hover": { bgcolor: "#b33f00" },
+                                        mt: 1.3,
+                                        display: "flex",
+                                        flexDirection: { xs: "column", sm: "row" },
+                                        gap: 1,
+                                        justifyContent: "flex-end",
                                     }}
                                 >
-                                    Checkout
-                                </Button>
+                                    <Button
+                                        onClick={() => closeCartMenu()}
+                                        sx={{
+                                            borderRadius: 2,
+                                            textTransform: "uppercase",
+                                            fontWeight: 900,
+                                            letterSpacing: "0.10em",
+                                            backgroundColor: "#fff0da",
+                                            border: "2px solid rgba(230, 81, 0, 0.85)",
+                                            color: "#164a96",
+                                            "&:hover": { backgroundColor: "rgba(230, 81, 0, 0.12)" },
+                                        }}
+                                    >
+                                        Keep shopping
+                                    </Button>
+
+                                    <Button
+                                        onClick={() => {
+                                            closeCartMenu();
+                                            navigate("/checkout");
+                                        }}
+                                        disabled={order.length === 0}
+                                        sx={{
+                                            borderRadius: 2,
+                                            textTransform: "uppercase",
+                                            fontWeight: 900,
+                                            letterSpacing: "0.10em",
+                                            bgcolor: "#e65100",
+                                            color: "#ffe0c7",
+                                            "&:hover": { bgcolor: "#b33f00" },
+                                            opacity: order.length === 0 ? 0.6 : 1,
+                                        }}
+                                    >
+                                        Checkout
+                                    </Button>
+                                </Box>
                             </Box>
+
                         </Menu>
 
 
