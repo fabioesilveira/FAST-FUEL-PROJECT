@@ -77,7 +77,6 @@ type LoggedUser = {
 const API = "http://localhost:3000/sales";
 
 export default function Checkout() {
-    const NAV_H = 80;
 
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext(); // order: Meal[]
@@ -351,14 +350,14 @@ export default function Checkout() {
                 sx={{
                     flex: 1,
                     px: 3,
-                    pt: { xs: 10, md: 12 },
-                    pb: 6,
+                    py: 6,
+                    mt: 8,
                     maxWidth: 500,
                     mx: "auto",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    justifyContent: "flex-start",
+                    justifyContent: "center", 
                     textAlign: "center",
                     gap: 2,
                 }}
@@ -421,7 +420,7 @@ export default function Checkout() {
                         fontWeight: 800,
                     }}
                 >
-                    Secure checkout simulation
+                    Checkout simulation
                 </Typography>
             </Box>
         );
@@ -562,7 +561,6 @@ export default function Checkout() {
                             fontWeight: 800,
                             letterSpacing: "0.06em",
                             textTransform: "uppercase",
-                            boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
                             "&:hover": { backgroundColor: "#b33f00" },
                             px: { xs: 1.7, md: 2.2 },
                             whiteSpace: "nowrap",
@@ -588,30 +586,30 @@ export default function Checkout() {
                     component="main"
                     sx={{
                         flex: 1,
-                        pt: { xs: 15, sm: 13, md: 12.5 },
+                        pt: { xs: 14.5, sm: 13, md: 12.5 },
                         pb: 2,
                         px: 2,
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "flex-start",
                         backgroundImage: `
-              linear-gradient(
-                to right,
-                rgba(255,255,255,1) 0%,
-                rgba(255,255,255,0.92) 12%,
-                rgba(255,255,255,0.55) 28%,
-                rgba(255,255,255,0.55) 72%,
-                rgba(255,255,255,0.92) 88%,
-                rgba(255,255,255,1) 100%
-              ),
-              repeating-linear-gradient(
-                to right,
-                rgba(255, 167, 38, 0.14),
-                rgba(255, 167, 38, 0.14) 18px,
-                transparent 18px,
-                transparent 40px
-              )
-            `,
+                                          linear-gradient(
+                                          to right,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.92) 12%,
+                                        rgba(255,255,255,0.55) 28%,
+                                        rgba(255,255,255,0.55) 72%,
+                                        rgba(255,255,255,0.92) 88%,
+                                        rgba(255,255,255,1) 100%
+                                         ),
+                                          repeating-linear-gradient(
+                                          to right,
+                                        rgba(255, 167, 38, 0.14),
+                                        rgba(255, 167, 38, 0.14) 18px,
+                                          transparent 18px,
+                                          transparent 40px
+                                          )
+                                          `,
                         backgroundSize: "100% 100%, 100% 40px",
                         backgroundRepeat: "no-repeat, repeat-y",
                         backgroundAttachment: "fixed, fixed",
@@ -629,543 +627,558 @@ export default function Checkout() {
                             bgcolor: "background.paper",
                             boxShadow:
                                 "0 4px 14px rgba(13, 71, 161, 0.25), 0 8px 24px rgba(13, 71, 161, 0.18)",
-                            height: "auto",
-                            maxHeight: {
-                                xs: "clamp(520px, calc(100svh - 210px), 680px)",
-                                sm: "clamp(560px, calc(100svh - 210px), 720px)",
+
+                            height: {
+                                xs: "calc(100svh - 210px)",
+                                sm: "calc(100svh - 210px)",
                                 md: 740,
                             },
+                            minHeight: {
+                                xs: 560,
+                                sm: 620,
+                                md: 740,
+                            },
+                            maxHeight: 760,
+
                             overflow: "hidden",
                             display: "flex",
                             flexDirection: "column",
-                            ...(screen === "form" ? { overflowY: "auto" } : {}),
                         }}
                     >
-                        {screen === "processing" ? (
-                            <ProcessingScreen />
-                        ) : screen === "confirmed" ? (
-                            <ConfirmedScreen />
-                        ) : (
-                            <>
-                                {/* FORM */}
-                                <Box
-                                    sx={{
-                                        px: 5,
-                                        py: 3.5,
-                                        maxWidth: 500,
-                                        mx: "auto",
-                                        pb: 2,
-                                    }}
-                                >
-                                    {/* Title */}
-                                    <Typography
-                                        variant="h4"
-                                        align="center"
+
+                        <Box
+                            sx={{
+                                flex: 1,
+                                overflowY: "auto",
+                                WebkitOverflowScrolling: "touch",
+                            }}
+                        >
+                            {screen === "processing" ? (
+                                <ProcessingScreen />
+                            ) : screen === "confirmed" ? (
+                                <ConfirmedScreen />
+                            ) : (
+                                <>
+                                    {/* FORM */}
+                                    <Box
                                         sx={{
-                                            mb: 2.5,
-                                            mt: 1,
-                                            fontSize: "2.3rem",
-                                            letterSpacing: "0.12em",
-                                            textTransform: "uppercase",
-                                            color: "#0d47a1",
-                                            fontWeight: 700,
-                                            textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
+                                            px: 5,
+                                            py: 3.5,
+                                            maxWidth: 500,
+                                            mx: "auto",
+                                            pb: 2,
                                         }}
                                     >
-                                        Checkout
-                                    </Typography>
-
-                                    {/* Order summary */}
-                                    <Box sx={{ mb: 3 }}>
-                                        <Chip
-                                            label="Order Summary"
-                                            size="small"
+                                        {/* Title */}
+                                        <Typography
+                                            variant="h4"
+                                            align="center"
                                             sx={{
-                                                mb: 3,
-                                                fontSize: "0.7rem",
-                                                letterSpacing: "0.1em",
+                                                mb: 2.5,
+                                                mt: 1,
+                                                fontSize: "clamp(2.05rem, 5vw, 2.3rem)",
+                                                letterSpacing: "0.12em",
                                                 textTransform: "uppercase",
-                                                bgcolor: "#0d47a1",
-                                                color: "#fff",
+                                                color: "#0d47a1",
+                                                fontWeight: 700,
+                                                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
                                             }}
-                                        />
+                                        >
+                                            Checkout
+                                        </Typography>
 
-                                        {order.length === 0 ? (
-                                            <Typography sx={{ fontWeight: 700, color: "text.secondary" }}>
-                                                Your cart is empty.
-                                            </Typography>
-                                        ) : (
-                                            <Stack spacing={1.2}>
-                                                {order.map((it) => {
-                                                    const pid = String(it.id);
-                                                    const qty = Number(it.quantidade ?? 1);
+                                        {/* Order summary */}
+                                        <Box sx={{ mb: 3 }}>
+                                            <Chip
+                                                label="Order Summary"
+                                                size="small"
+                                                sx={{
+                                                    mb: 3,
+                                                    fontSize: "0.7rem",
+                                                    letterSpacing: "0.1em",
+                                                    textTransform: "uppercase",
+                                                    bgcolor: "#0d47a1",
+                                                    color: "#fff",
+                                                }}
+                                            />
 
-                                                    const imgKey = normalizeImageKey(it.image);
-                                                    const imgSrc = imageMap[imgKey] ?? it.image;
+                                            {order.length === 0 ? (
+                                                <Typography sx={{ fontWeight: 700, color: "text.secondary" }}>
+                                                    Your cart is empty.
+                                                </Typography>
+                                            ) : (
+                                                <Stack spacing={1.2}>
+                                                    {order.map((it) => {
+                                                        const pid = String(it.id);
+                                                        const qty = Number(it.quantidade ?? 1);
 
-                                                    const imgOverride = imageStylesByIdOrderSummary[pid];
+                                                        const imgKey = normalizeImageKey(it.image);
+                                                        const imgSrc = imageMap[imgKey] ?? it.image;
 
-                                                    return (
-                                                        <Stack
-                                                            key={pid}
-                                                            direction="row"
-                                                            spacing={1.5}
-                                                            alignItems="center"
-                                                            sx={{
-                                                                p: 1.2,
-                                                                borderRadius: 2,
-                                                                border: "1px solid rgba(13, 71, 161, 0.18)",
-                                                                bgcolor: "rgba(255, 224, 199, 0.35)"
-                                                            }}
-                                                        >
-                                                            {/* container fixo */}
-                                                            <Box
+                                                        const imgOverride = imageStylesByIdOrderSummary[pid];
+
+                                                        return (
+                                                            <Stack
+                                                                key={pid}
+                                                                direction="row"
+                                                                spacing={1.5}
+                                                                alignItems="center"
                                                                 sx={{
-                                                                    width: 58,
-                                                                    height: 58,
-                                                                    backgroundColor: "#fff",
-                                                                    borderRadius: 1.5,
+                                                                    p: 1.2,
+                                                                    borderRadius: 2,
                                                                     border: "1px solid rgba(13, 71, 161, 0.18)",
-                                                                    p: 0.6,
-                                                                    display: "flex",
-                                                                    alignItems: "center",
-                                                                    justifyContent: "center",
-                                                                    flexShrink: 0,
-                                                                    overflow: "visible",
+                                                                    bgcolor: "rgba(255, 224, 199, 0.35)"
                                                                 }}
                                                             >
-                                                                <img
-                                                                    src={imgSrc}
-                                                                    alt={it.name}
-                                                                    style={{
-                                                                        width: 44,
-                                                                        height: 44,
-                                                                        objectFit: "contain",
-                                                                        display: "block",
-                                                                        ...(imgOverride ?? {}),
-                                                                    }}
-                                                                />
-
-                                                            </Box>
-
-                                                            <Box sx={{ flex: 1, minWidth: 0 }}>
-                                                                <Typography sx={{ fontWeight: 800, color: "#0d47a1" }} noWrap>
-                                                                    {cleanProductName(it.name)}
-                                                                </Typography>
-
+                                                                {/* container fixo */}
                                                                 <Box
                                                                     sx={{
+                                                                        width: 58,
+                                                                        height: 58,
+                                                                        backgroundColor: "#fff",
+                                                                        borderRadius: 1.5,
+                                                                        border: "1px solid rgba(13, 71, 161, 0.18)",
+                                                                        p: 0.6,
                                                                         display: "flex",
-                                                                        alignItems: "baseline",
-                                                                        justifyContent: "space-between",
-                                                                        gap: 1,
-                                                                        mt: 0.2,
+                                                                        alignItems: "center",
+                                                                        justifyContent: "center",
+                                                                        flexShrink: 0,
+                                                                        overflow: "visible",
                                                                     }}
                                                                 >
-                                                                    <Typography sx={{ fontSize: "0.82rem", color: "text.secondary" }}>
-                                                                        <b>${Number(it.price).toFixed(2)}</b> each
+                                                                    <img
+                                                                        src={imgSrc}
+                                                                        alt={it.name}
+                                                                        style={{
+                                                                            width: 44,
+                                                                            height: 44,
+                                                                            objectFit: "contain",
+                                                                            display: "block",
+                                                                            ...(imgOverride ?? {}),
+                                                                        }}
+                                                                    />
+
+                                                                </Box>
+
+                                                                <Box sx={{ flex: 1, minWidth: 0 }}>
+                                                                    <Typography sx={{ fontWeight: 800, color: "#0d47a1" }} noWrap>
+                                                                        {cleanProductName(it.name)}
                                                                     </Typography>
 
-                                                                    <Typography
+                                                                    <Box
                                                                         sx={{
-                                                                            fontSize: "0.85rem",
-                                                                            color: "#0d47a1",
-                                                                            fontWeight: 900,
-                                                                            whiteSpace: "nowrap",
-                                                                            alignItems: "baseline"
+                                                                            display: "flex",
+                                                                            alignItems: "baseline",
+                                                                            justifyContent: "space-between",
+                                                                            gap: 1,
+                                                                            mt: 0.2,
                                                                         }}
                                                                     >
-                                                                        Qty: {qty}
-                                                                    </Typography>
+                                                                        <Typography sx={{ fontSize: "0.82rem", color: "text.secondary" }}>
+                                                                            <b>${Number(it.price).toFixed(2)}</b> each
+                                                                        </Typography>
+
+                                                                        <Typography
+                                                                            sx={{
+                                                                                fontSize: "0.85rem",
+                                                                                color: "#0d47a1",
+                                                                                fontWeight: 900,
+                                                                                whiteSpace: "nowrap",
+                                                                                alignItems: "baseline"
+                                                                            }}
+                                                                        >
+                                                                            Qty: {qty}
+                                                                        </Typography>
+                                                                    </Box>
                                                                 </Box>
-                                                            </Box>
 
 
-                                                        </Stack>
-                                                    );
-                                                })}
+                                                            </Stack>
+                                                        );
+                                                    })}
 
 
-                                                {/* Totals breakdown */}
-                                                <Box
-                                                    sx={{
-                                                        mt: 2,
-                                                        pt: 1,
-                                                        borderTop: "1px dashed rgba(13, 71, 161, 0.2)",
-                                                    }}
-                                                >
-                                                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
-                                                        Items: {totalItems}
-                                                    </Typography>
-                                                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
-                                                        Subtotal: {subtotalLabel}
-                                                    </Typography>
-                                                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
-                                                        Discount:{" "}
-                                                        {discount > 0 ? (
-                                                            <span>-{discountLabel}</span>
-                                                        ) : (
-                                                            <span style={{ color: "rgba(0,0,0,0.55)" }}>$0.00</span>
-                                                        )}
-                                                    </Typography>
-
-                                                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
-                                                        Tax: {taxLabel}
-                                                    </Typography>
-
-                                                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
-                                                        Delivery: {deliveryFee === 0 ? "FREE" : deliveryLabel}
-                                                    </Typography>
-
-                                                    <Typography
+                                                    {/* Totals breakdown */}
+                                                    <Box
                                                         sx={{
-                                                            fontSize: "0.97rem",
-                                                            fontWeight: 900,
-                                                            color: "#0d47a1",
-                                                            mt: 0.4,
+                                                            mt: 2,
+                                                            pt: 1,
+                                                            borderTop: "1px dashed rgba(13, 71, 161, 0.2)",
                                                         }}
                                                     >
-                                                        Total:
-                                                        <span style={{ color: "#0d47a1" }}> {grandTotalLabel}</span>
-                                                    </Typography>
-                                                </Box>
-                                            </Stack>
-                                        )}
-                                    </Box>
+                                                        <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
+                                                            Items: {totalItems}
+                                                        </Typography>
+                                                        <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
+                                                            Subtotal: {subtotalLabel}
+                                                        </Typography>
+                                                        <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
+                                                            Discount:{" "}
+                                                            {discount > 0 ? (
+                                                                <span>-{discountLabel}</span>
+                                                            ) : (
+                                                                <span style={{ color: "rgba(0,0,0,0.55)" }}>$0.00</span>
+                                                            )}
+                                                        </Typography>
 
-                                    {/* Contact */}
-                                    <Box sx={{ mb: 3 }}>
-                                        <Typography
-                                            variant="subtitle1"
-                                            align="center"
-                                            sx={{
-                                                textTransform: "uppercase",
-                                                letterSpacing: "0.16em",
-                                                mb: 2,
-                                                fontWeight: 700,
-                                                position: "relative",
-                                                "&::after": {
-                                                    content: '""',
-                                                    display: "block",
-                                                    width: 52,
-                                                    height: 3,
-                                                    borderRadius: 999,
-                                                    bgcolor: "#0d47a1",
-                                                    mx: "auto",
-                                                    mt: 0.8,
-                                                },
-                                            }}
-                                        >
-                                            Contact Info
-                                        </Typography>
+                                                        <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
+                                                            Tax: {taxLabel}
+                                                        </Typography>
 
-                                        <Stack spacing={1.6}>
-                                            <TextField
-                                                size="small"
-                                                label="Full Name*"
-                                                fullWidth
-                                                variant="outlined"
-                                                sx={tfBlueLabelSx}
-                                                value={fullName}
-                                                onChange={(e) => setFullName(e.target.value)}
-                                                InputProps={{ readOnly: isLogged }}
-                                            />
-                                            <TextField
-                                                size="small"
-                                                label="Email*"
-                                                type="email"
-                                                fullWidth
-                                                variant="outlined"
-                                                sx={tfBlueLabelSx}
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
-                                                InputProps={{ readOnly: isLogged }}
-                                            />
-                                        </Stack>
+                                                        <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
+                                                            Delivery: {deliveryFee === 0 ? "FREE" : deliveryLabel}
+                                                        </Typography>
 
-                                        {!isLogged && (
-                                            <Typography
-                                                align="center"
-                                                sx={{ mt: 1.4, fontSize: "0.75rem", color: "text.secondary" }}
-                                            >
-                                                Guest checkout: keep your <b>Order Code</b> to track your order later.
-                                            </Typography>
-                                        )}
-                                    </Box>
-
-                                    {/* Delivery */}
-                                    <Box sx={{ mb: 3 }}>
-                                        <Typography
-                                            variant="subtitle1"
-                                            align="center"
-                                            sx={{
-                                                textTransform: "uppercase",
-                                                letterSpacing: "0.16em",
-                                                mb: 2,
-                                                fontWeight: 700,
-                                                position: "relative",
-                                                "&::after": {
-                                                    content: '""',
-                                                    display: "block",
-                                                    width: 52,
-                                                    height: 3,
-                                                    borderRadius: 999,
-                                                    bgcolor: "#0d47a1",
-                                                    mx: "auto",
-                                                    mt: 0.8,
-                                                },
-                                            }}
-                                        >
-                                            Delivery
-                                        </Typography>
-
-                                        <Stack spacing={1.6}>
-                                            <AddressLookup
-                                                sx={tfBlueLabelSx}
-                                                onInput={(v) => {
-                                                    if (!v.trim()) {
-                                                        setAddress((prev) => ({
-                                                            ...prev,
-                                                            street: "",
-                                                            city: "",
-                                                            apt: "",
-                                                            state: "",
-                                                            zip: "",
-                                                            country: "USA",
-                                                        }));
-                                                    }
-                                                }}
-                                                onSelect={(addr) =>
-                                                    setAddress((prev) => ({
-                                                        ...prev,
-                                                        street: addr.street.split(",")[0].trim(),
-                                                        city: addr.city,
-                                                        state: addr.state,
-                                                        zip: addr.zip,
-                                                    }))
-                                                }
-                                            />
-
-                                            <Stack direction="row" spacing={1.6}>
-                                                <TextField
-                                                    size="small"
-                                                    label="City*"
-                                                    fullWidth
-                                                    variant="outlined"
-                                                    value={address.city}
-                                                    onChange={(e) => setAddress((prev) => ({ ...prev, city: e.target.value }))}
-                                                    sx={[tfBlueLabelSx, { flex: 6 }]}
-                                                />
-
-                                                <TextField
-                                                    size="small"
-                                                    label="Apt / Suite"
-                                                    variant="outlined"
-                                                    value={address.apt}
-                                                    onChange={(e) => setAddress((prev) => ({ ...prev, apt: e.target.value }))}
-                                                    sx={[tfBlueLabelSx, { flex: 4 }]}
-                                                />
-                                            </Stack>
-
-                                            <Stack direction="row" spacing={1.6}>
-                                                <TextField
-                                                    size="small"
-                                                    label="State*"
-                                                    variant="outlined"
-                                                    value={address.state}
-                                                    onChange={(e) => setAddress((prev) => ({ ...prev, state: e.target.value }))}
-                                                    sx={[tfBlueLabelSx, { flex: 3 }]}
-                                                />
-
-                                                <TextField
-                                                    size="small"
-                                                    label="Zipcode*"
-                                                    variant="outlined"
-                                                    value={address.zip}
-                                                    onChange={(e) => setAddress((prev) => ({ ...prev, zip: e.target.value }))}
-                                                    sx={[tfBlueLabelSx, { flex: 3 }]}
-                                                />
-
-                                                <TextField
-                                                    size="small"
-                                                    label="Country*"
-                                                    placeholder="USA"
-                                                    variant="outlined"
-                                                    value={address.country}
-                                                    onChange={(e) =>
-                                                        setAddress((prev) => ({
-                                                            ...prev,
-                                                            country: e.target.value,
-                                                        }))
-                                                    }
-                                                    sx={[tfBlueLabelSx, { flex: 4 }]}
-                                                />
-                                            </Stack>
-
-                                            <Typography
-                                                align="center"
-                                                sx={{ mt: 0.6, fontSize: "0.75rem", color: "text.secondary" }}
-                                            >
-                                                Demo only — use any valid address (it doesn’t need to be yours).
-                                            </Typography>
-                                        </Stack>
-                                    </Box>
-
-                                    {/* Payment */}
-                                    <Box sx={{ mb: 1.5 }}>
-                                        <Typography
-                                            variant="subtitle1"
-                                            align="center"
-                                            sx={{
-                                                textTransform: "uppercase",
-                                                letterSpacing: "0.16em",
-                                                mb: 2,
-                                                fontWeight: 700,
-                                                position: "relative",
-                                                "&::after": {
-                                                    content: '""',
-                                                    display: "block",
-                                                    width: 52,
-                                                    height: 3,
-                                                    borderRadius: 999,
-                                                    bgcolor: "#0d47a1",
-                                                    mx: "auto",
-                                                    mt: 0.8,
-                                                },
-                                            }}
-                                        >
-                                            Payment
-                                        </Typography>
-
-                                        <Stack spacing={1.6}>
-                                            <TextField
-                                                size="small"
-                                                label="Name on Card*"
-                                                value="Fast Fuel Payment Simulation"
-                                                fullWidth
-                                                variant="outlined"
-                                                sx={[
-                                                    tfBlueLabelSx,
-                                                    { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
-                                                ]}
-                                                InputProps={{ readOnly: true }}
-                                            />
-
-                                            <TextField
-                                                size="small"
-                                                label="Card Number*"
-                                                value="4242 4242 4242 4242"
-                                                fullWidth
-                                                variant="outlined"
-                                                sx={[
-                                                    tfBlueLabelSx,
-                                                    { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
-                                                ]}
-                                                InputProps={{ readOnly: true }}
-                                            />
-
-                                            <Stack direction="row" spacing={1.6}>
-                                                <TextField
-                                                    size="small"
-                                                    label="Valid Through*"
-                                                    value="12/30"
-                                                    fullWidth
-                                                    variant="outlined"
-                                                    sx={[
-                                                        tfBlueLabelSx,
-                                                        { flex: 7 },
-                                                        { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
-                                                    ]}
-                                                    InputProps={{ readOnly: true }}
-                                                />
-
-                                                <TextField
-                                                    size="small"
-                                                    label="CVV*"
-                                                    value="123"
-                                                    fullWidth
-                                                    variant="outlined"
-                                                    sx={[
-                                                        tfBlueLabelSx,
-                                                        { flex: 5 },
-                                                        { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
-                                                    ]}
-                                                    InputProps={{ readOnly: true }}
-                                                />
-                                            </Stack>
-
-                                            <Typography
-                                                align="center"
-                                                sx={{ mt: 0.5, fontSize: "0.75rem", color: "text.secondary" }}
-                                            >
-                                                This is a portfolio demo — no real payment is processed.
-                                            </Typography>
-                                        </Stack>
-                                    </Box>
-                                </Box>
-
-                                {/* STICKY TOTAL BAR */}
-                                <Box
-                                    ref={stickyRef}
-                                    sx={{
-                                        position: "sticky",
-                                        bottom: -1,
-                                        px: { xs: 2, sm: 3 },
-                                        py: 1.5,
-                                        zIndex: 10,
-                                        backgroundColor: "#ffe0c7",
-                                        borderTop: isDockedToPaperBottom ? "2px solid rgba(13, 71, 161, 0.25)" : "none",
-                                        borderBottomLeftRadius: isDockedToPaperBottom ? 12 : 0,
-                                        borderBottomRightRadius: isDockedToPaperBottom ? 12 : 0,
-                                        boxShadow: "none",
-                                    }}
-                                >
-                                    <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
-                                        <Box>
-                                            <Typography
-                                                sx={{
-                                                    fontSize: 12,
-                                                    letterSpacing: "0.12em",
-                                                    textTransform: "uppercase",
-                                                    color: "#0d47a1",
-                                                }}
-                                            >
-                                                Total
-                                            </Typography>
-                                            <Typography sx={{ fontWeight: 800, color: "#0d47a1", fontSize: 18 }}>
-                                                {grandTotalLabel}
-                                            </Typography>
+                                                        <Typography
+                                                            sx={{
+                                                                fontSize: "0.97rem",
+                                                                fontWeight: 900,
+                                                                color: "#0d47a1",
+                                                                mt: 0.4,
+                                                            }}
+                                                        >
+                                                            Total:
+                                                            <span style={{ color: "#0d47a1" }}> {grandTotalLabel}</span>
+                                                        </Typography>
+                                                    </Box>
+                                                </Stack>
+                                            )}
                                         </Box>
 
-                                        <Button
-                                            variant="outlined"
-                                            disabled={submitting || order.length === 0}
-                                            sx={{
-                                                borderRadius: 2,
-                                                textTransform: "uppercase",
-                                                border: "2px solid #0d47a1",
-                                                color: "#ffffff",
-                                                letterSpacing: "0.14em",
-                                                fontWeight: 800,
-                                                bgcolor: "#1e5bb8",
-                                                px: 2.5,
-                                                py: 1,
-                                                whiteSpace: "nowrap",
-                                                "&:hover": { bgcolor: "#164a99" },
-                                                "&.Mui-disabled": {
-                                                    bgcolor: "rgba(30, 91, 184, 0.35)",
-                                                    color: "rgba(255,255,255,0.75)",
-                                                    borderColor: "rgba(13, 71, 161, 0.35)",
-                                                },
-                                            }}
-                                            onClick={handlePay}
-                                        >
-                                            {submitting ? "Processing..." : `Pay ${grandTotalLabel}`}
-                                        </Button>
-                                    </Stack>
-                                </Box>
-                            </>
-                        )}
+                                        {/* Contact */}
+                                        <Box sx={{ mb: 3 }}>
+                                            <Typography
+                                                variant="subtitle1"
+                                                align="center"
+                                                sx={{
+                                                    textTransform: "uppercase",
+                                                    letterSpacing: "0.16em",
+                                                    mb: 2,
+                                                    fontWeight: 700,
+                                                    position: "relative",
+                                                    "&::after": {
+                                                        content: '""',
+                                                        display: "block",
+                                                        width: 52,
+                                                        height: 3,
+                                                        borderRadius: 999,
+                                                        bgcolor: "#0d47a1",
+                                                        mx: "auto",
+                                                        mt: 0.8,
+                                                    },
+                                                }}
+                                            >
+                                                Contact Info
+                                            </Typography>
+
+                                            <Stack spacing={1.6}>
+                                                <TextField
+                                                    size="small"
+                                                    label="Full Name*"
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    sx={tfBlueLabelSx}
+                                                    value={fullName}
+                                                    onChange={(e) => setFullName(e.target.value)}
+                                                    InputProps={{ readOnly: isLogged }}
+                                                />
+                                                <TextField
+                                                    size="small"
+                                                    label="Email*"
+                                                    type="email"
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    sx={tfBlueLabelSx}
+                                                    value={email}
+                                                    onChange={(e) => setEmail(e.target.value)}
+                                                    InputProps={{ readOnly: isLogged }}
+                                                />
+                                            </Stack>
+
+                                            {!isLogged && (
+                                                <Typography
+                                                    align="center"
+                                                    sx={{ mt: 1.4, fontSize: "0.75rem", color: "text.secondary" }}
+                                                >
+                                                    Guest checkout: keep your <b>Order Code</b> to track your order later.
+                                                </Typography>
+                                            )}
+                                        </Box>
+
+                                        {/* Delivery */}
+                                        <Box sx={{ mb: 3 }}>
+                                            <Typography
+                                                variant="subtitle1"
+                                                align="center"
+                                                sx={{
+                                                    textTransform: "uppercase",
+                                                    letterSpacing: "0.16em",
+                                                    mb: 2,
+                                                    fontWeight: 700,
+                                                    position: "relative",
+                                                    "&::after": {
+                                                        content: '""',
+                                                        display: "block",
+                                                        width: 52,
+                                                        height: 3,
+                                                        borderRadius: 999,
+                                                        bgcolor: "#0d47a1",
+                                                        mx: "auto",
+                                                        mt: 0.8,
+                                                    },
+                                                }}
+                                            >
+                                                Delivery
+                                            </Typography>
+
+                                            <Stack spacing={1.6}>
+                                                <AddressLookup
+                                                    sx={tfBlueLabelSx}
+                                                    onInput={(v) => {
+                                                        if (!v.trim()) {
+                                                            setAddress((prev) => ({
+                                                                ...prev,
+                                                                street: "",
+                                                                city: "",
+                                                                apt: "",
+                                                                state: "",
+                                                                zip: "",
+                                                                country: "USA",
+                                                            }));
+                                                        }
+                                                    }}
+                                                    onSelect={(addr) =>
+                                                        setAddress((prev) => ({
+                                                            ...prev,
+                                                            street: addr.street.split(",")[0].trim(),
+                                                            city: addr.city,
+                                                            state: addr.state,
+                                                            zip: addr.zip,
+                                                        }))
+                                                    }
+                                                />
+
+                                                <Stack direction="row" spacing={1.6}>
+                                                    <TextField
+                                                        size="small"
+                                                        label="City*"
+                                                        fullWidth
+                                                        variant="outlined"
+                                                        value={address.city}
+                                                        onChange={(e) => setAddress((prev) => ({ ...prev, city: e.target.value }))}
+                                                        sx={[tfBlueLabelSx, { flex: 6 }]}
+                                                    />
+
+                                                    <TextField
+                                                        size="small"
+                                                        label="Apt / Suite"
+                                                        variant="outlined"
+                                                        value={address.apt}
+                                                        onChange={(e) => setAddress((prev) => ({ ...prev, apt: e.target.value }))}
+                                                        sx={[tfBlueLabelSx, { flex: 4 }]}
+                                                    />
+                                                </Stack>
+
+                                                <Stack direction="row" spacing={1.6}>
+                                                    <TextField
+                                                        size="small"
+                                                        label="State*"
+                                                        variant="outlined"
+                                                        value={address.state}
+                                                        onChange={(e) => setAddress((prev) => ({ ...prev, state: e.target.value }))}
+                                                        sx={[tfBlueLabelSx, { flex: 3 }]}
+                                                    />
+
+                                                    <TextField
+                                                        size="small"
+                                                        label="Zipcode*"
+                                                        variant="outlined"
+                                                        value={address.zip}
+                                                        onChange={(e) => setAddress((prev) => ({ ...prev, zip: e.target.value }))}
+                                                        sx={[tfBlueLabelSx, { flex: 3 }]}
+                                                    />
+
+                                                    <TextField
+                                                        size="small"
+                                                        label="Country*"
+                                                        placeholder="USA"
+                                                        variant="outlined"
+                                                        value={address.country}
+                                                        onChange={(e) =>
+                                                            setAddress((prev) => ({
+                                                                ...prev,
+                                                                country: e.target.value,
+                                                            }))
+                                                        }
+                                                        sx={[tfBlueLabelSx, { flex: 4 }]}
+                                                    />
+                                                </Stack>
+
+                                                <Typography
+                                                    align="center"
+                                                    sx={{ mt: 0.6, fontSize: "0.75rem", color: "text.secondary" }}
+                                                >
+                                                    Demo only — use any valid address (it doesn’t need to be yours).
+                                                </Typography>
+                                            </Stack>
+                                        </Box>
+
+                                        {/* Payment */}
+                                        <Box sx={{ mb: 1.5 }}>
+                                            <Typography
+                                                variant="subtitle1"
+                                                align="center"
+                                                sx={{
+                                                    textTransform: "uppercase",
+                                                    letterSpacing: "0.16em",
+                                                    mb: 2,
+                                                    fontWeight: 700,
+                                                    position: "relative",
+                                                    "&::after": {
+                                                        content: '""',
+                                                        display: "block",
+                                                        width: 52,
+                                                        height: 3,
+                                                        borderRadius: 999,
+                                                        bgcolor: "#0d47a1",
+                                                        mx: "auto",
+                                                        mt: 0.8,
+                                                    },
+                                                }}
+                                            >
+                                                Payment
+                                            </Typography>
+
+                                            <Stack spacing={1.6}>
+                                                <TextField
+                                                    size="small"
+                                                    label="Name on Card*"
+                                                    value="Fast Fuel Payment Simulation"
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    sx={[
+                                                        tfBlueLabelSx,
+                                                        { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                                    ]}
+                                                    InputProps={{ readOnly: true }}
+                                                />
+
+                                                <TextField
+                                                    size="small"
+                                                    label="Card Number*"
+                                                    value="4242 4242 4242 4242"
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    sx={[
+                                                        tfBlueLabelSx,
+                                                        { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                                    ]}
+                                                    InputProps={{ readOnly: true }}
+                                                />
+
+                                                <Stack direction="row" spacing={1.6}>
+                                                    <TextField
+                                                        size="small"
+                                                        label="Valid Through*"
+                                                        value="12/30"
+                                                        fullWidth
+                                                        variant="outlined"
+                                                        sx={[
+                                                            tfBlueLabelSx,
+                                                            { flex: 7 },
+                                                            { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                                        ]}
+                                                        InputProps={{ readOnly: true }}
+                                                    />
+
+                                                    <TextField
+                                                        size="small"
+                                                        label="CVV*"
+                                                        value="123"
+                                                        fullWidth
+                                                        variant="outlined"
+                                                        sx={[
+                                                            tfBlueLabelSx,
+                                                            { flex: 5 },
+                                                            { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                                        ]}
+                                                        InputProps={{ readOnly: true }}
+                                                    />
+                                                </Stack>
+
+                                                <Typography
+                                                    align="center"
+                                                    sx={{ mt: 0.5, fontSize: "0.75rem", color: "text.secondary" }}
+                                                >
+                                                    This is a portfolio demo — no real payment is processed.
+                                                </Typography>
+                                            </Stack>
+                                        </Box>
+                                    </Box>
+
+                                    {/* STICKY TOTAL BAR */}
+                                    <Box
+                                        ref={stickyRef}
+                                        sx={{
+                                            position: "sticky",
+                                            bottom: -1,
+                                            px: { xs: 2, sm: 3 },
+                                            py: 1.5,
+                                            zIndex: 10,
+                                            backgroundColor: "#ffe0c7",
+                                            borderTop: isDockedToPaperBottom ? "2px solid rgba(13, 71, 161, 0.25)" : "none",
+                                            borderBottomLeftRadius: isDockedToPaperBottom ? 12 : 0,
+                                            borderBottomRightRadius: isDockedToPaperBottom ? 12 : 0,
+                                            boxShadow: "none",
+                                        }}
+                                    >
+                                        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
+                                            <Box>
+                                                <Typography
+                                                    sx={{
+                                                        fontSize: 12,
+                                                        letterSpacing: "0.12em",
+                                                        textTransform: "uppercase",
+                                                        color: "#0d47a1",
+                                                    }}
+                                                >
+                                                    Total
+                                                </Typography>
+                                                <Typography sx={{ fontWeight: 800, color: "#0d47a1", fontSize: 18 }}>
+                                                    {grandTotalLabel}
+                                                </Typography>
+                                            </Box>
+
+                                            <Button
+                                                variant="outlined"
+                                                disabled={submitting || order.length === 0}
+                                                sx={{
+                                                    borderRadius: 2,
+                                                    textTransform: "uppercase",
+                                                    border: "2px solid #0d47a1",
+                                                    color: "#ffffff",
+                                                    letterSpacing: "0.14em",
+                                                    fontWeight: 800,
+                                                    bgcolor: "#1e5bb8",
+                                                    px: 2.5,
+                                                    py: 1,
+                                                    whiteSpace: "nowrap",
+                                                    "&:hover": { bgcolor: "#164a99" },
+                                                    "&.Mui-disabled": {
+                                                        bgcolor: "rgba(30, 91, 184, 0.35)",
+                                                        color: "rgba(255,255,255,0.75)",
+                                                        borderColor: "rgba(13, 71, 161, 0.35)",
+                                                    },
+                                                }}
+                                                onClick={handlePay}
+                                            >
+                                                {submitting ? "Processing..." : `Pay ${grandTotalLabel}`}
+                                            </Button>
+                                        </Stack>
+                                    </Box>
+                                </>
+                            )}
+                        </Box>
                     </Paper>
                 </Box>
 
