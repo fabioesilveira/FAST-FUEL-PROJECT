@@ -29,6 +29,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 
 import Menu from "@mui/material/Menu";
 import List from "@mui/material/List";
@@ -468,6 +469,9 @@ export default function Home() {
     const [cartAnchorEl, setCartAnchorEl] = useState<null | HTMLElement>(null);
     const cartOpen = Boolean(cartAnchorEl);
 
+    const [cartMobileOpen, setCartMobileOpen] = useState(false);
+
+
     const cartHeaderRef = useRef<HTMLDivElement | null>(null);
     const cartFooterRef = useRef<HTMLDivElement | null>(null);
     const [cartBodyMaxH, setCartBodyMaxH] = useState<number>(0);
@@ -484,7 +488,6 @@ export default function Home() {
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-    const isMobileOrSm = useMediaQuery(theme.breakpoints.down("md"));
 
     const searchTrim = search.trim().toLowerCase();
 
@@ -655,8 +658,8 @@ export default function Home() {
             const paddingAndDividers = 12;
             const availableForBody = paperMax - headerH - footerH - paddingAndDividers;
 
-           
-            const ROW_H = 66; 
+
+            const ROW_H = 66;
             const mobileCap = ROW_H * 3; // 3 itens
 
             const finalMax =
@@ -897,8 +900,8 @@ export default function Home() {
                                         <Box
                                             sx={{
                                                 position: "absolute",
-                                                top: -8,
-                                                right: -8,
+                                                top: -9,
+                                                right: -9,
                                                 minWidth: 22,
                                                 height: 22,
                                                 px: 0.6,
@@ -945,7 +948,9 @@ export default function Home() {
                                             },
                                         }}
                                     >
-                                        <ExpandMoreIcon sx={{ color: "#164a96", fontSize: 29 }} />
+                                      
+                                            <ReceiptLongIcon sx={{ color: "#164a96", fontSize: 25 }} />
+                                        
                                     </Button>
                                 </Box>
 
@@ -976,7 +981,7 @@ export default function Home() {
                                         },
                                     }}
                                 >
-                                    <CloseIcon sx={{ color: "#164a96", fontSize: 24 }} />
+                                    <CloseIcon sx={{ color: "#164a96", fontSize: 25 }} />
                                 </Button>
                             </Box>
                         </Box>
@@ -987,6 +992,15 @@ export default function Home() {
                             onClose={closeCartMenu}
                             transformOrigin={{ horizontal: "center", vertical: "top" }}
                             anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+                            sx={{ zIndex: 8000 }}
+
+                            slotProps={{
+                                backdrop: {
+                                    sx: { backgroundColor: "rgba(0,0,0,0.28)" },
+                                    onClick: closeCartMenu,
+                                },
+                            }}
+
                             MenuListProps={{
                                 disablePadding: true,
                                 sx: {
@@ -994,11 +1008,12 @@ export default function Home() {
                                     display: "flex",
                                     flexDirection: "column",
                                     height: "auto",
-                                    maxHeight: "none", 
+                                    maxHeight: "none",
                                 },
                             }}
                             PaperProps={{
                                 sx: {
+                                    zIndex: 8001,
                                     mt: 1.2,
                                     borderRadius: 3,
                                     border: "1.5px solid rgba(230, 81, 0, 0.28)",
@@ -1008,7 +1023,6 @@ export default function Home() {
                                     display: "flex",
                                     flexDirection: "column",
 
-                                  
                                     width: { sm: 360 },
                                     maxWidth: { sm: 380 },
                                     maxHeight: {
@@ -1016,33 +1030,28 @@ export default function Home() {
                                         md: "78vh",
                                     },
 
-                                  
-                                    // MOBILE (BOTTOM SHEET)
-                                   
                                     ...(isMobile && {
-                                        position: "fixed",
-                                        left: "50%",
-                                        transform: "translateX(-50%)",
-                                        bottom: 88,
-                                        top: "auto",
+  position: "fixed",
+  left: "50%",
+  right: "auto",
+  transform: "translateX(-50%)",
+  bottom: 88,
+  top: "auto",
 
-                                        width: "88vw",
-                                        maxWidth: 360,
+  width: "88vw",
+  maxWidth: 360,
 
-                                        
-                                        height: "fit-content",
-                                        minHeight: 0,
-
-                                        
-                                        maxHeight: "calc(100svh - 190px)",
-                                        borderRadius: 4,
-                                    }),
-
+  height: "fit-content",
+  minHeight: 0,
+  maxHeight: "calc(100svh - 190px)",
+  borderRadius: 4,
+  margin: 0,
+}),
                                 },
-
-
                             }}
                         >
+
+
                             {/* HEADER */}
                             <Box ref={cartHeaderRef} sx={{ px: { xs: 1.5, sm: 2 }, py: { xs: 1.1, sm: 1.5 } }}>
                                 <Typography
@@ -1069,7 +1078,7 @@ export default function Home() {
 
                             <Divider />
 
-                            {/* BODY: aqui volta o "4 itens e scroll" no DESKTOP */}
+                            {/* BODY */}
                             {order.length === 0 ? (
                                 <Box sx={{ px: { xs: 1.5, sm: 2 }, py: 2 }}>
                                     <Typography
@@ -1085,10 +1094,10 @@ export default function Home() {
                                         minHeight: 0,
                                         overflowY: "auto",
 
-                                      
+
                                         ...(!isMobile && { maxHeight: { sm: 260, md: 300 } }),
 
-                                       
+
                                         ...(isMobile && { maxHeight: cartBodyMaxH }),
 
                                         "&::-webkit-scrollbar": { width: 6 },
@@ -1191,13 +1200,13 @@ export default function Home() {
                                 </Box>
                             )}
 
-                            {/* FOOTER (sempre visível) */}
+                            {/* FOOTER  */}
                             <Box
                                 ref={cartFooterRef}
                                 sx={{
                                     px: { xs: 1.5, sm: 2 },
                                     py: 1.4,
-                                    pb: { xs: 1.4, sm: 1.4 }, 
+                                    pb: { xs: 1.4, sm: 1.4 },
                                     borderTop: "1px solid rgba(230, 81, 0, 0.22)",
                                     backgroundColor: "#fffefe",
                                     flexShrink: 0,
