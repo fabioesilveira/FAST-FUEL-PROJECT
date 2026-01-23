@@ -258,7 +258,7 @@ export default function SignIn() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label": { color: "#0d47a1", fontWeight: 500 },
                                         "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
                                             "& fieldset": { borderColor: "#0d47a1" },
@@ -281,7 +281,7 @@ export default function SignIn() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label": { color: "#0d47a1", fontWeight: 500 },
                                         "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
                                             "& fieldset": { borderColor: "#0d47a1" },
@@ -325,8 +325,8 @@ export default function SignIn() {
                                 <Typography
                                     align="center"
                                     sx={{
-                                        mt: 0.3,
-                                        fontSize: { xs: "0.78rem", sm: "0.83rem", md: "0.85rem" },
+                                        mt: 0.1,
+                                        fontSize: { xs: "0.82rem", sm: "0.83rem", md: "0.85rem" },
                                         color: "rgba(180, 63, 0, 1)",
                                         fontWeight: "bold",
                                     }}
@@ -340,7 +340,7 @@ export default function SignIn() {
                                     variant="outlined"
                                     onClick={() => navigate("/sign-up")}
                                     sx={{
-                                        mt: 0.3,
+                                        mt: 0.1,
                                         height: 42,
                                         borderRadius: 2,
                                         textTransform: "uppercase",

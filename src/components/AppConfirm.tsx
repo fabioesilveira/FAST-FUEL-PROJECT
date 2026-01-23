@@ -50,6 +50,12 @@ export default function AppConfirm({
       }}
       maxWidth="xs"
       fullWidth
+      sx={{
+        zIndex: 9000, 
+        "& .MuiBackdrop-root": { zIndex: 9000 },
+        "& .MuiDialog-container": { zIndex: 9001 },
+        "& .MuiPaper-root": { zIndex: 9002 },
+      }}
       PaperProps={{
         sx: {
           borderRadius: { xs: "14px", md: "18px" },

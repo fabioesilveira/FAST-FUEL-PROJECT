@@ -191,7 +191,7 @@ export default function ContactUs() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: { xs: "2.25rem", sm: "2.35rem", md: "2.5rem" },
+                                    fontSize: { xs: "2.20rem", sm: "2.30rem", md: "2.40rem" },
                                     letterSpacing: { xs: "0.10em", sm: "0.12em" },
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
@@ -226,7 +226,7 @@ export default function ContactUs() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label": { color: "#0d47a1", fontWeight: 500 },
                                         "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
                                             "& fieldset": { borderColor: "#0d47a1" },
@@ -249,7 +249,7 @@ export default function ContactUs() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label": { color: "#0d47a1", fontWeight: 500 },
                                         "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
                                             "& fieldset": { borderColor: "#0d47a1" },
@@ -273,7 +273,7 @@ export default function ContactUs() {
                                         onChange={handleChange}
                                         fullWidth
                                         sx={{
-                                            "& label": { color: "#0d47a1", fontWeight: 600 },
+                                            "& label": { color: "#0d47a1", fontWeight: 500 },
                                             "& label.Mui-focused": { color: "#0d47a1" },
                                             "& .MuiOutlinedInput-root": {
                                                 "& fieldset": { borderColor: "#0d47a1" },
@@ -295,7 +295,7 @@ export default function ContactUs() {
                                         onChange={handleChange}
                                         fullWidth
                                         sx={{
-                                            "& label": { color: "#0d47a1", fontWeight: 600 },
+                                            "& label": { color: "#0d47a1", fontWeight: 500 },
                                             "& label.Mui-focused": { color: "#0d47a1" },
                                             "& .MuiOutlinedInput-root": {
                                                 "& fieldset": { borderColor: "#0d47a1" },
@@ -318,7 +318,7 @@ export default function ContactUs() {
                                     onChange={handleChange}
                                     fullWidth
                                     sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label": { color: "#0d47a1", fontWeight: 500 },
                                         "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
                                             "& fieldset": { borderColor: "#0d47a1" },
@@ -357,7 +357,7 @@ export default function ContactUs() {
                                         rows={5}
                                         inputProps={{ maxLength: 300 }}
                                         sx={{
-                                            "& label": { color: "#0d47a1", fontWeight: 600 },
+                                            "& label": { color: "#0d47a1", fontWeight: 500 },
                                             "& label.Mui-focused": { color: "#0d47a1" },
                                             "& .MuiOutlinedInput-root": {
                                                 "& fieldset": { borderColor: "#0d47a1" },

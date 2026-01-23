@@ -228,7 +228,7 @@ export default function DeleteAccount() {
                                 sx={{
                                     mb: 2.5,
 
-                                    fontSize: { xs: "2.10rem", sm: "2.15rem", md: "2.24rem" },
+                                    fontSize: { xs: "1.99rem", sm: "2.15rem", md: "2.24rem" },
                                     letterSpacing: { xs: "0.10em", sm: "0.12em" },
 
                                     textTransform: "uppercase",

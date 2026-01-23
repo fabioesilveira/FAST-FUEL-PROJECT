@@ -47,6 +47,7 @@ import LemonadeImg from "../assets/Lemonade.png";
 import SaladImg from "../assets/Crispsalad.png";
 import MilkshakeImg from "../assets/Milkshake.png";
 import SundaeImg from "../assets/Sundae.png";
+import { useAppAlert } from "../hooks/useAppAlert";
 
 
 
@@ -483,6 +484,11 @@ export default function Home() {
     const cartFooterRef = useRef<HTMLDivElement | null>(null);
     const [cartBodyMaxH, setCartBodyMaxH] = useState<number>(0);
 
+    const { showAlert, confirmAlert, AlertUI, ConfirmUI } = useAppAlert({
+        vertical: "top",
+        horizontal: "center",
+    });
+
 
     function openCartMenu(e: React.MouseEvent<HTMLElement>) {
         if (isMobile && actionsRef.current) {
@@ -744,11 +750,41 @@ export default function Home() {
         setCheckout(base);
     }, [order]);
 
-    // const tax = Number((checkout * 0.09).toFixed(2));
-    // const deliveryFee = checkout >= 30 ? 0 : 9.99;
-    // const grandTotal = Number((checkout + tax + deliveryFee).toFixed(2));
 
-    // Remove itens adicionados ao carrinho FAST THRU
+    
+    function handleCheckoutFromCart() {
+        const isLogged = Boolean(localStorage.getItem("idUser"));
+        const cartHasItems = cartCount > 0;
+
+        if (!cartHasItems) {
+            navigate("/checkout");
+            return;
+        }
+
+        if (isLogged) {
+            navigate("/checkout");
+            return;
+        }
+
+        confirmAlert({
+            title: "Checkout",
+            message: "You’re not signed in. Continue as guest or sign in?",
+            confirmText: "Continue as guest",
+            cancelText: "Sign in / Sign up",
+            onConfirm: () => {
+                closeCartMenu();
+                navigate("/checkout?guest=1");
+            },
+            onCancel: () => {
+                closeCartMenu();
+                navigate("/sign-in");
+            },
+            onDismiss: () => {
+            },
+        });
+    }
+
+
 
     function handleRemove(product: Meal) {
         const existing = order.find((p) => String(p.id) === String(product.id));
@@ -788,150 +824,186 @@ export default function Home() {
     ];
 
     return (
-        <Box
-            sx={{
-                minHeight: "100vh",
-                display: "flex",
-                flexDirection: "column",
-                pt: { xs: "92px", md: 0 },
-            }}
-        >
-            <Navbar onSearch={handleSearchInput} onSearchOverlayChange={setSearchOverlayOpen} />
-
-            <CssBaseline />
-
-            {!isMobile && (
-                <CategoryDrawer
-                    onNavigate={handleDrawerNavigate}
-                    onDriveThruClick={() => {
-                        enterFastThru();
-                    }}
-                />
-            )}
-
-            {/* MOBILE FULL WIDTH: banner + carousel fora do Container */}
-            {isMobile && !hidePromos && !driveModeActive && (
-                <>
-                    <Box sx={{ width: "100%" }}>
-                        <PromoBannerCarousel />
-                    </Box>
-
-                    {shouldShowCarousel && (
-                        <Box sx={{ mt: 2.5 }}>
-                            <MobileStackCarousel
-                                slides={mobileSlides}
-                                height={295}
-                                gap={14}
-                                interval={4200}
-                                animationMs={780}
-                            />
-                        </Box>
-                    )}
-                </>
-            )}
-
-            <Container
-                fixed
+        <>
+            {AlertUI}
+            {ConfirmUI}
+            <Box
                 sx={{
-                    flexGrow: 2,
-                    mt: { xs: 0, md: "100px" },
-                    mb: { xs: "110px", md: "60px" },
+                    minHeight: "100vh",
+                    display: "flex",
+                    flexDirection: "column",
+                    pt: { xs: "92px", md: 0 },
                 }}
             >
-                {/* DESKTOP: banner dentro do Container */}
-                {!isMobile && !hidePromos && !driveModeActive && (
-                    <Box sx={{ mb: 2, mt: -1.5 }}>
-                        <PromoBannerCarousel />
-                    </Box>
-                )}
+                <Navbar onSearch={handleSearchInput} onSearchOverlayChange={setSearchOverlayOpen} />
 
-                {/* DESKTOP HERO */}
-                {shouldShowCarousel && !isMobile && !hidePromos && !driveModeActive && (
-                    <HeroCarousel aspectRatio="16 / 9.7">{desktopCarouselSlides}</HeroCarousel>
-                )}
+                <CssBaseline />
 
-                {shouldShowOrderPreview && (
-                    <Box
-                        sx={{
-                            maxWidth: { xs: "100%", md: "938px" },
-                            mx: "auto",
-                            mb: { xs: 5, md: 6 },
-                            mt: { xs: 2.5, sm: 1, md: 2 },
-                            px: { xs: 0.5, sm: 0 },
-
-                            display: "grid",
-                            alignItems: "center",
-                            gridTemplateColumns: { xs: "1fr", md: "1fr auto 1fr" },
-                            gridTemplateRows: { xs: "auto auto", md: "auto" },
-                            rowGap: { xs: 1.2, md: 0 },
+                {!isMobile && (
+                    <CategoryDrawer
+                        onNavigate={handleDrawerNavigate}
+                        onDriveThruClick={() => {
+                            enterFastThru();
                         }}
-                    >
-                        {/* MOBILE + SM */}
-                        <Box
-                            sx={{
-                                justifySelf: "start",
-                                width: { md: 52 },
-                                height: { md: 52 },
-                                visibility: "hidden",
-                            }}
-                        />
+                    />
+                )}
 
-                        {/* TOTAL + ACTIONS */}
+                {/* MOBILE FULL WIDTH: banner + carousel fora do Container */}
+                {isMobile && !hidePromos && !driveModeActive && (
+                    <>
+                        <Box sx={{ width: "100%" }}>
+                            <PromoBannerCarousel />
+                        </Box>
+
+                        {shouldShowCarousel && (
+                            <Box sx={{ mt: 2.5 }}>
+                                <MobileStackCarousel
+                                    slides={mobileSlides}
+                                    height={295}
+                                    gap={14}
+                                    interval={4200}
+                                    animationMs={780}
+                                />
+                            </Box>
+                        )}
+                    </>
+                )}
+
+                <Container
+                    fixed
+                    sx={{
+                        flexGrow: 2,
+                        mt: { xs: 0, md: "100px" },
+                        mb: { xs: "110px", md: "60px" },
+                    }}
+                >
+                    {/* DESKTOP: banner dentro do Container */}
+                    {!isMobile && !hidePromos && !driveModeActive && (
+                        <Box sx={{ mb: 2, mt: -1.5 }}>
+                            <PromoBannerCarousel />
+                        </Box>
+                    )}
+
+                    {/* DESKTOP HERO */}
+                    {shouldShowCarousel && !isMobile && !hidePromos && !driveModeActive && (
+                        <HeroCarousel aspectRatio="16 / 9.7">{desktopCarouselSlides}</HeroCarousel>
+                    )}
+
+                    {shouldShowOrderPreview && (
                         <Box
                             sx={{
-                                display: "flex",
-                                flexDirection: { xs: "column", md: "row" },
+                                maxWidth: { xs: "100%", md: "938px" },
+                                mx: "auto",
+                                mb: { xs: 5, md: 6 },
+                                mt: { xs: 2.5, sm: 1, md: 2 },
+                                px: { xs: 0.5, sm: 0 },
+
+                                display: "grid",
                                 alignItems: "center",
-                                justifyContent: "center",
-                                gap: { xs: 1.2, md: 1.2 },
+                                gridTemplateColumns: { xs: "1fr", md: "1fr auto 1fr" },
+                                gridTemplateRows: { xs: "auto auto", md: "auto" },
+                                rowGap: { xs: 1.2, md: 0 },
                             }}
                         >
-                            {/* TOTAL */}
-                            <h2 className="total" style={{ whiteSpace: "nowrap", margin: 0 }}>
-                                TOTAL $: {checkout.toFixed(2)}
-                            </h2>
-
-                            {/* Actions */}
+                            {/* MOBILE + SM */}
                             <Box
-                                ref={actionsRef}
+                                sx={{
+                                    justifySelf: "start",
+                                    width: { md: 52 },
+                                    height: { md: 52 },
+                                    visibility: "hidden",
+                                }}
+                            />
+
+                            {/* TOTAL + ACTIONS */}
+                            <Box
                                 sx={{
                                     display: "flex",
+                                    flexDirection: { xs: "column", md: "row" },
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    gap: 1.1,
-                                    mt: { xs: 0.8, md: 0 },
+                                    gap: { xs: 1.2, md: 1.2 },
                                 }}
                             >
+                                {/* TOTAL */}
+                                <h2 className="total" style={{ whiteSpace: "nowrap", margin: 0 }}>
+                                    TOTAL $: {checkout.toFixed(2)}
+                                </h2>
 
-                                {/* DROPDOWN + BADGE */}
-                                <Box sx={{ position: "relative", display: "inline-flex" }}>
-                                    {cartCount > 0 && (
-                                        <Box
+                                {/* Actions */}
+                                <Box
+                                    ref={actionsRef}
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        gap: 1.1,
+                                        mt: { xs: 0.8, md: 0 },
+                                    }}
+                                >
+
+                                    {/* DROPDOWN + BADGE */}
+                                    <Box sx={{ position: "relative", display: "inline-flex" }}>
+                                        {cartCount > 0 && (
+                                            <Box
+                                                sx={{
+                                                    position: "absolute",
+                                                    top: -9,
+                                                    right: -9,
+                                                    minWidth: 22,
+                                                    height: 22,
+                                                    px: 0.6,
+                                                    borderRadius: "999px",
+                                                    backgroundColor: "#1e5bb8",
+                                                    color: "#fff",
+                                                    fontWeight: 900,
+                                                    fontSize: "0.7rem",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
+                                                    zIndex: 2,
+                                                }}
+                                            >
+                                                {cartCount}
+                                            </Box>
+                                        )}
+
+                                        <Button
+                                            onClick={openCartMenu}
                                             sx={{
-                                                position: "absolute",
-                                                top: -9,
-                                                right: -9,
-                                                minWidth: 22,
-                                                height: 22,
-                                                px: 0.6,
-                                                borderRadius: "999px",
-                                                backgroundColor: "#1e5bb8",
-                                                color: "#fff",
-                                                fontWeight: 900,
-                                                fontSize: "0.7rem",
+                                                width: { xs: 39, md: 44 },
+                                                height: { xs: 39, md: 44 },
+                                                minWidth: 44,
+                                                p: 0,
+                                                borderRadius: "12px",
+                                                backgroundColor: "#fff0da",
+                                                border: "2.5px solid rgba(230, 81, 0, 0.85)",
+
+                                                transition: "all .22s ease",
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "center",
-                                                boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                                                zIndex: 2,
+
+                                                "&:hover": {
+                                                    backgroundColor: "rgba(230, 81, 0, 0.12)",
+                                                    transform: "translateY(-1px)",
+                                                },
+
+                                                "&:active": {
+                                                    backgroundColor: "rgba(230, 81, 0, 0.22)",
+                                                    transform: "scale(0.97)",
+                                                },
                                             }}
                                         >
-                                            {cartCount}
-                                        </Box>
-                                    )}
+
+                                            <ReceiptLongIcon sx={{ color: "#164a96", fontSize: 25 }} />
+
+                                        </Button>
+                                    </Box>
 
                                     <Button
-                                        onClick={openCartMenu}
+                                        onClick={() => setShowDriveThru(false)}
                                         sx={{
                                             width: { xs: 39, md: 44 },
                                             height: { xs: 39, md: 44 },
@@ -957,379 +1029,343 @@ export default function Home() {
                                             },
                                         }}
                                     >
-
-                                        <ReceiptLongIcon sx={{ color: "#164a96", fontSize: 25 }} />
-
+                                        <CloseIcon sx={{ color: "#164a96", fontSize: 25 }} />
                                     </Button>
                                 </Box>
-
-                                <Button
-                                    onClick={() => setShowDriveThru(false)}
-                                    sx={{
-                                        width: { xs: 39, md: 44 },
-                                        height: { xs: 39, md: 44 },
-                                        minWidth: 44,
-                                        p: 0,
-                                        borderRadius: "12px",
-                                        backgroundColor: "#fff0da",
-                                        border: "2.5px solid rgba(230, 81, 0, 0.85)",
-
-                                        transition: "all .22s ease",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-
-                                        "&:hover": {
-                                            backgroundColor: "rgba(230, 81, 0, 0.12)",
-                                            transform: "translateY(-1px)",
-                                        },
-
-                                        "&:active": {
-                                            backgroundColor: "rgba(230, 81, 0, 0.22)",
-                                            transform: "scale(0.97)",
-                                        },
-                                    }}
-                                >
-                                    <CloseIcon sx={{ color: "#164a96", fontSize: 25 }} />
-                                </Button>
                             </Box>
-                        </Box>
 
-                        <Menu
-                            anchorEl={cartAnchorEl}
-                            open={cartOpen}
-                            onClose={closeCartMenu}
-                            transformOrigin={{ horizontal: "center", vertical: "top" }}
-                            anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
-                            sx={{ zIndex: 8000 }}
+                            <Menu
+                                anchorEl={cartAnchorEl}
+                                open={cartOpen}
+                                onClose={closeCartMenu}
+                                transformOrigin={{ horizontal: "center", vertical: "top" }}
+                                anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+                                sx={{ zIndex: 8000 }}
 
-                            slotProps={{
-                                backdrop: {
-                                    sx: { backgroundColor: "rgba(0,0,0,0.28)" },
-                                    onClick: closeCartMenu,
-                                },
-                            }}
-
-                            MenuListProps={{
-                                disablePadding: true,
-                                sx: {
-                                    p: 0,
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    height: "auto",
-                                    maxHeight: "none",
-                                },
-                            }}
-                            PaperProps={{
-                                sx: {
-                                    zIndex: 8001,
-                                    mt: 1.2,
-                                    borderRadius: 3,
-                                    border: "1.5px solid rgba(230, 81, 0, 0.28)",
-                                    bgcolor: "#fffefe",
-                                    boxShadow: "0 10px 26px rgba(0,0,0,0.18)",
-                                    overflow: "hidden",
-                                    display: "flex",
-                                    flexDirection: "column",
-
-                                    width: { sm: 360 },
-                                    maxWidth: { sm: 380 },
-                                    maxHeight: {
-                                        sm: "70dvh",
-                                        md: "78vh",
+                                slotProps={{
+                                    backdrop: {
+                                        sx: { backgroundColor: "rgba(0,0,0,0.28)" },
+                                        onClick: closeCartMenu,
                                     },
+                                }}
 
-                                    ...(isMobile && {
-                                        position: "fixed",
-                                        left: "50%",
-                                        right: "auto",
-                                        transform: "translateX(-50%)",
-                                        bottom: 88,
-                                        top: "auto",
+                                MenuListProps={{
+                                    disablePadding: true,
+                                    sx: {
+                                        p: 0,
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        height: "auto",
+                                        maxHeight: "none",
+                                    },
+                                }}
+                                PaperProps={{
+                                    sx: {
+                                        zIndex: 8001,
+                                        mt: 1.2,
+                                        borderRadius: 3,
+                                        border: "1.5px solid rgba(230, 81, 0, 0.28)",
+                                        bgcolor: "#fffefe",
+                                        boxShadow: "0 10px 26px rgba(0,0,0,0.18)",
+                                        overflow: "hidden",
+                                        display: "flex",
+                                        flexDirection: "column",
 
-                                        width: "88vw",
-                                        maxWidth: 360,
-
-                                        height: "fit-content",
-                                        minHeight: 0,
-                                        maxHeight: "calc(100svh - 190px)",
-                                        borderRadius: 4,
-                                        margin: 0,
-                                    }),
-                                },
-                            }}
-                        >
-
-
-                            {/* HEADER */}
-                            <Box ref={cartHeaderRef} sx={{ px: { xs: 1.5, sm: 2 }, py: { xs: 1.1, sm: 1.5 } }}>
-                                <Typography
-                                    sx={{
-                                        fontWeight: 900,
-                                        letterSpacing: "0.08em",
-                                        color: "#0d47a1",
-                                        fontSize: { xs: "0.95rem", sm: "1rem" },
-                                    }}
-                                >
-                                    YOUR CART
-                                </Typography>
-
-                                <Typography
-                                    sx={{
-                                        fontSize: { xs: "0.78rem", sm: "0.85rem" },
-                                        color: "text.secondary",
-                                        fontWeight: 700,
-                                    }}
-                                >
-                                    {cartCount === 0 ? "No items added yet." : `${cartCount} item(s)`}
-                                </Typography>
-                            </Box>
-
-                            <Divider />
-
-                            {/* BODY */}
-                            {order.length === 0 ? (
-                                <Box sx={{ px: { xs: 1.5, sm: 2 }, py: 2 }}>
-                                    <Typography
-                                        sx={{ color: "text.secondary", fontWeight: 700, fontSize: { xs: "0.85rem", sm: "0.95rem" } }}
-                                    >
-                                        Add items from the grid to see them here.
-                                    </Typography>
-                                </Box>
-                            ) : (
-                                <Box
-                                    sx={{
-                                        flex: 1,
-                                        minHeight: 0,
-                                        overflowY: "auto",
-
-
-                                        ...(!isMobile && { maxHeight: { sm: 260, md: 300 } }),
-
-
-                                        ...(isMobile && { maxHeight: cartBodyMaxH }),
-
-                                        "&::-webkit-scrollbar": { width: 6 },
-                                        "&::-webkit-scrollbar-thumb": {
-                                            backgroundColor: "rgba(230,81,0,0.55)",
-                                            borderRadius: 999,
+                                        width: { sm: 360 },
+                                        maxWidth: { sm: 380 },
+                                        maxHeight: {
+                                            sm: "70dvh",
+                                            md: "78vh",
                                         },
-                                    }}
-                                >
 
-                                    <List sx={{ py: 0 }}>
-                                        {order.map((it) => {
-                                            const pid = String(it.id);
-                                            const qty = it.quantidade ?? 1;
-                                            const price = Number(it.price ?? 0);
+                                        ...(isMobile && {
+                                            position: "fixed",
+                                            left: "50%",
+                                            right: "auto",
+                                            transform: "translateX(-50%)",
+                                            bottom: 88,
+                                            top: "auto",
 
-                                            return (
-                                                <Box key={pid}>
-                                                    <ListItem
-                                                        sx={{ py: { xs: 0.8, sm: 1 } }}
-                                                        secondaryAction={
-                                                            <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 0.35, sm: 0.6 } }}>
-                                                                <IconButton
-                                                                    size="small"
-                                                                    onClick={() => decItem(pid)}
-                                                                    sx={{
-                                                                        transform: { xs: "scale(0.9)", sm: "scale(1)" },
-                                                                        bgcolor: "rgba(30, 91, 184, 0.12)",
-                                                                        border: "1px solid rgba(30, 91, 184, 0.22)",
-                                                                        "&:hover": { bgcolor: "rgba(30, 91, 184, 0.18)" },
-                                                                    }}
-                                                                >
-                                                                    <RemoveIcon sx={{ fontSize: { xs: 16, sm: 18 }, color: "#1e5bb8" }} />
-                                                                </IconButton>
+                                            width: "88vw",
+                                            maxWidth: 360,
 
-                                                                <Box
-                                                                    sx={{
-                                                                        minWidth: { xs: 22, sm: 26 },
-                                                                        height: { xs: 22, sm: 26 },
-                                                                        px: { xs: 0.7, sm: 0.9 },
-                                                                        borderRadius: "999px",
-                                                                        bgcolor: "#1e5bb8",
-                                                                        color: "#fff",
-                                                                        fontWeight: 900,
-                                                                        fontSize: { xs: "0.7rem", sm: "0.78rem" },
-                                                                        display: "flex",
-                                                                        alignItems: "center",
-                                                                        justifyContent: "center",
-                                                                    }}
-                                                                >
-                                                                    {qty}
-                                                                </Box>
-
-                                                                <IconButton
-                                                                    size="small"
-                                                                    onClick={() => removeItem(pid)}
-                                                                    sx={{
-                                                                        transform: { xs: "scale(0.9)", sm: "scale(1)" },
-                                                                        bgcolor: "rgba(183, 28, 28, 0.10)",
-                                                                        border: "1px solid rgba(183, 28, 28, 0.22)",
-                                                                        "&:hover": { bgcolor: "rgba(183, 28, 28, 0.16)" },
-                                                                    }}
-                                                                >
-                                                                    <DeleteOutlineIcon sx={{ fontSize: { xs: 16, sm: 18 }, color: "#b71c1c" }} />
-                                                                </IconButton>
-                                                            </Box>
-                                                        }
-                                                    >
-                                                        <ListItemText
-                                                            primary={
-                                                                <Typography
-                                                                    sx={{
-                                                                        fontWeight: 900,
-                                                                        color: "#e65100",
-                                                                        fontSize: { xs: "0.95rem", sm: "1rem" },
-                                                                    }}
-                                                                >
-                                                                    {cleanProductName(it.name)}
-                                                                </Typography>
-                                                            }
-                                                            secondary={
-                                                                <Typography
-                                                                    sx={{
-                                                                        fontSize: { xs: "0.74rem", sm: "0.82rem" },
-                                                                        color: "text.secondary",
-                                                                        fontWeight: 700,
-                                                                    }}
-                                                                >
-                                                                    ${price.toFixed(2)} each
-                                                                </Typography>
-                                                            }
-                                                        />
-                                                    </ListItem>
-
-                                                    <Divider />
-                                                </Box>
-                                            );
-                                        })}
-                                    </List>
-                                </Box>
-                            )}
-
-                            {/* FOOTER  */}
-                            <Box
-                                ref={cartFooterRef}
-                                sx={{
-                                    px: { xs: 1.5, sm: 2 },
-                                    py: 1.4,
-                                    pb: { xs: 1.4, sm: 1.4 },
-                                    borderTop: "1px solid rgba(230, 81, 0, 0.22)",
-                                    backgroundColor: "#fffefe",
-                                    flexShrink: 0,
+                                            height: "fit-content",
+                                            minHeight: 0,
+                                            maxHeight: "calc(100svh - 190px)",
+                                            borderRadius: 4,
+                                            margin: 0,
+                                        }),
+                                    },
                                 }}
                             >
-                                <Box sx={{ display: "grid", gap: 0.55 }}>
-                                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                                        <Typography sx={{ fontWeight: 800, color: "rgba(13, 71, 161, 0.75)", fontSize: { xs: "0.85rem", sm: "0.95rem" } }}>
-                                            Subtotal
-                                        </Typography>
-                                        <Typography sx={{ fontWeight: 900, color: "#333", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
-                                            ${subtotal.toFixed(2)}
-                                        </Typography>
-                                    </Box>
 
-                                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                                        <Typography sx={{ fontWeight: 800, color: "rgba(13, 71, 161, 0.75)", fontSize: { xs: "0.85rem", sm: "0.95rem" } }}>
-                                            Discount
-                                        </Typography>
-                                        <Typography sx={{ fontWeight: 900, color: "#b71c1c", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
-                                            -${discount.toFixed(2)}
-                                        </Typography>
-                                    </Box>
 
-                                    <Divider sx={{ my: 0.5, borderColor: "rgba(230, 81, 0, 0.22)" }} />
-
-                                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                                        <Typography sx={{ fontWeight: 900, color: "#164a96", letterSpacing: "0.06em", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
-                                            Total (Before Fees)
-                                        </Typography>
-                                        <Typography sx={{ fontWeight: 1000, color: "#164a96", fontSize: { xs: "1.08rem", sm: "1.2rem" } }}>
-                                            ${checkout.toFixed(2)}
-                                        </Typography>
-                                    </Box>
-
-                                    <Typography sx={{ mt: 0.25, fontSize: { xs: "0.72rem", sm: "0.78rem" }, fontWeight: 800, color: "rgba(0,0,0,0.55)" }}>
-                                        Taxes & delivery calculated at checkout.
-                                    </Typography>
-
-                                    <Typography sx={{ mt: 0.25, fontSize: { xs: "0.72rem", sm: "0.78rem" }, fontWeight: 800, color: "rgba(0,0,0,0.55)" }}>
-                                        {checkout >= 30 ? "You unlocked free delivery 🎉" : `Add $${(30 - checkout).toFixed(2)} more to get FREE delivery`}
-                                    </Typography>
+                                {/* HEADER */}
+                                <Box ref={cartHeaderRef} sx={{ px: { xs: 1.5, sm: 2 }, py: { xs: 1.1, sm: 1.5 } }}>
                                     <Typography
                                         sx={{
-                                            mt: 0.25,
-                                            fontSize: { xs: "0.72rem", sm: "0.78rem" },
-                                            fontWeight: 800,
-                                            color: "rgba(0,0,0,0.55)",
+                                            fontWeight: 900,
+                                            letterSpacing: "0.08em",
+                                            color: "#0d47a1",
+                                            fontSize: { xs: "0.95rem", sm: "1rem" },
                                         }}
                                     >
-                                        $2 combo discount applied at checkout.
+                                        YOUR CART
                                     </Typography>
 
-                                    <Divider sx={{ my: 0.5, borderColor: "rgba(230, 81, 0, 0.22)" }} />
-                                </Box>
-
-                                <Box sx={{ mt: 1.1, display: "flex", gap: 1, width: "100%", flexDirection: { xs: "column", sm: "row" } }}>
-                                    <Button
-                                        onClick={closeCartMenu}
-                                        fullWidth
+                                    <Typography
                                         sx={{
-                                            flex: { sm: 1 },
-                                            minWidth: 0,
-                                            borderRadius: 2,
-                                            textTransform: "uppercase",
-                                            fontWeight: 900,
-                                            letterSpacing: "0.10em",
-                                            fontSize: { xs: "0.78rem", sm: "0.78rem" },
-                                            py: { xs: 0.8, sm: 1.1 },
-                                            backgroundColor: "#fff0da",
-                                            border: "2px solid rgba(230, 81, 0, 0.85)",
-                                            color: "#164a96",
-                                            whiteSpace: "nowrap",
-                                            "&:hover": { backgroundColor: "rgba(230, 81, 0, 0.12)" },
+                                            fontSize: { xs: "0.78rem", sm: "0.85rem" },
+                                            color: "text.secondary",
+                                            fontWeight: 700,
                                         }}
                                     >
-                                        Keep Shopping
-                                    </Button>
+                                        {cartCount === 0 ? "No items added yet." : `${cartCount} item(s)`}
+                                    </Typography>
+                                </Box>
 
-                                    <Button
-                                        onClick={() => {
-                                            closeCartMenu();
-                                            navigate("/checkout");
-                                        }}
-                                        disabled={order.length === 0}
-                                        fullWidth
+                                <Divider />
+
+                                {/* BODY */}
+                                {order.length === 0 ? (
+                                    <Box sx={{ px: { xs: 1.5, sm: 2 }, py: 2 }}>
+                                        <Typography
+                                            sx={{ color: "text.secondary", fontWeight: 700, fontSize: { xs: "0.85rem", sm: "0.95rem" } }}
+                                        >
+                                            Add items from the grid to see them here.
+                                        </Typography>
+                                    </Box>
+                                ) : (
+                                    <Box
                                         sx={{
-                                            flex: { sm: 1 },
-                                            minWidth: 0,
-                                            borderRadius: 2,
-                                            textTransform: "uppercase",
-                                            fontWeight: 900,
-                                            letterSpacing: "0.10em",
-                                            fontSize: { xs: "0.78rem", sm: "0.78rem" },
-                                            py: { xs: 0.8, sm: 1.1 },
-                                            bgcolor: "#1e5bb8",
-                                            color: "#ffffff",
-                                            "&:hover": { bgcolor: "#164a96" },
-                                            "&.Mui-disabled": {
-                                                bgcolor: "rgba(30, 91, 184, 0.35)",
-                                                color: "rgba(255,255,255,0.85)",
-                                                opacity: 1,
+                                            flex: 1,
+                                            minHeight: 0,
+                                            overflowY: "auto",
+
+
+                                            ...(!isMobile && { maxHeight: { sm: 260, md: 300 } }),
+
+
+                                            ...(isMobile && { maxHeight: cartBodyMaxH }),
+
+                                            "&::-webkit-scrollbar": { width: 6 },
+                                            "&::-webkit-scrollbar-thumb": {
+                                                backgroundColor: "rgba(230,81,0,0.55)",
+                                                borderRadius: 999,
                                             },
                                         }}
                                     >
-                                        Checkout
-                                    </Button>
+
+                                        <List sx={{ py: 0 }}>
+                                            {order.map((it) => {
+                                                const pid = String(it.id);
+                                                const qty = it.quantidade ?? 1;
+                                                const price = Number(it.price ?? 0);
+
+                                                return (
+                                                    <Box key={pid}>
+                                                        <ListItem
+                                                            sx={{ py: { xs: 0.8, sm: 1 } }}
+                                                            secondaryAction={
+                                                                <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 0.35, sm: 0.6 } }}>
+                                                                    <IconButton
+                                                                        size="small"
+                                                                        onClick={() => decItem(pid)}
+                                                                        sx={{
+                                                                            transform: { xs: "scale(0.9)", sm: "scale(1)" },
+                                                                            bgcolor: "rgba(30, 91, 184, 0.12)",
+                                                                            border: "1px solid rgba(30, 91, 184, 0.22)",
+                                                                            "&:hover": { bgcolor: "rgba(30, 91, 184, 0.18)" },
+                                                                        }}
+                                                                    >
+                                                                        <RemoveIcon sx={{ fontSize: { xs: 16, sm: 18 }, color: "#1e5bb8" }} />
+                                                                    </IconButton>
+
+                                                                    <Box
+                                                                        sx={{
+                                                                            minWidth: { xs: 22, sm: 26 },
+                                                                            height: { xs: 22, sm: 26 },
+                                                                            px: { xs: 0.7, sm: 0.9 },
+                                                                            borderRadius: "999px",
+                                                                            bgcolor: "#1e5bb8",
+                                                                            color: "#fff",
+                                                                            fontWeight: 900,
+                                                                            fontSize: { xs: "0.7rem", sm: "0.78rem" },
+                                                                            display: "flex",
+                                                                            alignItems: "center",
+                                                                            justifyContent: "center",
+                                                                        }}
+                                                                    >
+                                                                        {qty}
+                                                                    </Box>
+
+                                                                    <IconButton
+                                                                        size="small"
+                                                                        onClick={() => removeItem(pid)}
+                                                                        sx={{
+                                                                            transform: { xs: "scale(0.9)", sm: "scale(1)" },
+                                                                            bgcolor: "rgba(183, 28, 28, 0.10)",
+                                                                            border: "1px solid rgba(183, 28, 28, 0.22)",
+                                                                            "&:hover": { bgcolor: "rgba(183, 28, 28, 0.16)" },
+                                                                        }}
+                                                                    >
+                                                                        <DeleteOutlineIcon sx={{ fontSize: { xs: 16, sm: 18 }, color: "#b71c1c" }} />
+                                                                    </IconButton>
+                                                                </Box>
+                                                            }
+                                                        >
+                                                            <ListItemText
+                                                                primary={
+                                                                    <Typography
+                                                                        sx={{
+                                                                            fontWeight: 900,
+                                                                            color: "#e65100",
+                                                                            fontSize: { xs: "0.95rem", sm: "1rem" },
+                                                                        }}
+                                                                    >
+                                                                        {cleanProductName(it.name)}
+                                                                    </Typography>
+                                                                }
+                                                                secondary={
+                                                                    <Typography
+                                                                        sx={{
+                                                                            fontSize: { xs: "0.74rem", sm: "0.82rem" },
+                                                                            color: "text.secondary",
+                                                                            fontWeight: 700,
+                                                                        }}
+                                                                    >
+                                                                        ${price.toFixed(2)} each
+                                                                    </Typography>
+                                                                }
+                                                            />
+                                                        </ListItem>
+
+                                                        <Divider />
+                                                    </Box>
+                                                );
+                                            })}
+                                        </List>
+                                    </Box>
+                                )}
+
+                                {/* FOOTER  */}
+                                <Box
+                                    ref={cartFooterRef}
+                                    sx={{
+                                        px: { xs: 1.5, sm: 2 },
+                                        py: 1.4,
+                                        pb: { xs: 1.4, sm: 1.4 },
+                                        borderTop: "1px solid rgba(230, 81, 0, 0.22)",
+                                        backgroundColor: "#fffefe",
+                                        flexShrink: 0,
+                                    }}
+                                >
+                                    <Box sx={{ display: "grid", gap: 0.55 }}>
+                                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                                            <Typography sx={{ fontWeight: 800, color: "rgba(13, 71, 161, 0.75)", fontSize: { xs: "0.85rem", sm: "0.95rem" } }}>
+                                                Subtotal
+                                            </Typography>
+                                            <Typography sx={{ fontWeight: 900, color: "#333", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
+                                                ${subtotal.toFixed(2)}
+                                            </Typography>
+                                        </Box>
+
+                                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                                            <Typography sx={{ fontWeight: 800, color: "rgba(13, 71, 161, 0.75)", fontSize: { xs: "0.85rem", sm: "0.95rem" } }}>
+                                                Discount
+                                            </Typography>
+                                            <Typography sx={{ fontWeight: 900, color: "#b71c1c", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
+                                                -${discount.toFixed(2)}
+                                            </Typography>
+                                        </Box>
+
+                                        <Divider sx={{ my: 0.5, borderColor: "rgba(230, 81, 0, 0.22)" }} />
+
+                                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                                            <Typography sx={{ fontWeight: 900, color: "#164a96", letterSpacing: "0.06em", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
+                                                Total (Before Fees)
+                                            </Typography>
+                                            <Typography sx={{ fontWeight: 1000, color: "#164a96", fontSize: { xs: "1.08rem", sm: "1.2rem" } }}>
+                                                ${checkout.toFixed(2)}
+                                            </Typography>
+                                        </Box>
+
+                                        <Typography sx={{ mt: 0.25, fontSize: { xs: "0.72rem", sm: "0.78rem" }, fontWeight: 800, color: "rgba(0,0,0,0.55)" }}>
+                                            Taxes & delivery calculated at checkout.
+                                        </Typography>
+
+                                        <Typography sx={{ mt: 0.25, fontSize: { xs: "0.72rem", sm: "0.78rem" }, fontWeight: 800, color: "rgba(0,0,0,0.55)" }}>
+                                            {checkout >= 30 ? "You unlocked free delivery 🎉" : `Add $${(30 - checkout).toFixed(2)} more to get FREE delivery`}
+                                        </Typography>
+                                        <Typography
+                                            sx={{
+                                                mt: 0.25,
+                                                fontSize: { xs: "0.72rem", sm: "0.78rem" },
+                                                fontWeight: 800,
+                                                color: "rgba(0,0,0,0.55)",
+                                            }}
+                                        >
+                                            $2 combo discount applied at checkout.
+                                        </Typography>
+
+                                        <Divider sx={{ my: 0.5, borderColor: "rgba(230, 81, 0, 0.22)" }} />
+                                    </Box>
+
+                                    <Box sx={{ mt: 1.1, display: "flex", gap: 1, width: "100%", flexDirection: { xs: "column", sm: "row" } }}>
+                                        <Button
+                                            onClick={closeCartMenu}
+                                            fullWidth
+                                            sx={{
+                                                flex: { sm: 1 },
+                                                minWidth: 0,
+                                                borderRadius: 2,
+                                                textTransform: "uppercase",
+                                                fontWeight: 900,
+                                                letterSpacing: "0.10em",
+                                                fontSize: { xs: "0.78rem", sm: "0.78rem" },
+                                                py: { xs: 0.8, sm: 1.1 },
+                                                backgroundColor: "#fff0da",
+                                                border: "2px solid rgba(230, 81, 0, 0.85)",
+                                                color: "#164a96",
+                                                whiteSpace: "nowrap",
+                                                "&:hover": { backgroundColor: "rgba(230, 81, 0, 0.12)" },
+                                            }}
+                                        >
+                                            Keep Shopping
+                                        </Button>
+
+                                        <Button
+                                            onClick={handleCheckoutFromCart}
+                                            disabled={order.length === 0}
+                                            fullWidth
+                                            sx={{
+                                                flex: { sm: 1 },
+                                                minWidth: 0,
+                                                borderRadius: 2,
+                                                textTransform: "uppercase",
+                                                fontWeight: 900,
+                                                letterSpacing: "0.10em",
+                                                fontSize: { xs: "0.78rem", sm: "0.78rem" },
+                                                py: { xs: 0.8, sm: 1.1 },
+                                                bgcolor: "#1e5bb8",
+                                                color: "#ffffff",
+                                                "&:hover": { bgcolor: "#164a96" },
+                                                "&.Mui-disabled": {
+                                                    bgcolor: "rgba(30, 91, 184, 0.35)",
+                                                    color: "rgba(255,255,255,0.85)",
+                                                    opacity: 1,
+                                                },
+                                            }}
+                                        >
+                                            Checkout
+                                        </Button>
+                                    </Box>
                                 </Box>
-                            </Box>
-                        </Menu>
+                            </Menu>
 
 
-                        <style>
-                            {`
+                            <style>
+                                {`
                             @media (max-width: 899.95px){
                              .total{
                               grid-row: 2;
@@ -1337,208 +1373,209 @@ export default function Home() {
                               }
                             }
                            `}
-                        </style>
+                            </style>
 
-                        {/* DESKTOP */}
-                    </Box>
-                )}
+                            {/* DESKTOP */}
+                        </Box>
+                    )}
 
-                {/* SEARCH */}
-                {isSearching && (
-                    <>
-                        {/* KEEP TYPING (1-3 chars) */}
-                        {showKeepTyping && (
-                            <Box
-                                sx={{
-                                    minHeight: { xs: "55dvh", md: "52dvh" },
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    textAlign: "center",
-                                    px: 2,
-                                }}
-                            >
-                                <Typography
-                                    align="center"
-                                    sx={{
-                                        fontFamily: "Titan One",
-                                        fontSize: { xs: "26px", md: "34px" },
-                                        letterSpacing: "0.05em",
-                                        color: "rgba(13, 71, 161, 0.65)",
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    Keep typing… ✍️ <br />
-                                    <span style={{ fontSize: "0.75em" }}>
-                                        {charsLeft} more {charsLeft === 1 ? "letter" : "letters"}
-                                    </span>
-                                </Typography>
-                            </Box>
-                        )}
-
-                        {/* NOT FOUND (>= 4 chars) */}
-                        {showNotFound && (
-                            <Box
-                                sx={{
-                                    minHeight: { xs: "55dvh", md: "52dvh" },
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    textAlign: "center",
-                                    px: 2,
-                                }}
-                            >
-                                <Typography
-                                    align="center"
-                                    sx={{
-                                        fontFamily: "Titan One",
-                                        fontSize: { xs: "28px", md: "35px" },
-                                        letterSpacing: "0.05em",
-                                        color: "rgba(13, 71, 161, 0.65)",
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    No products found 😕 <br />
-                                    <span style={{ fontSize: "0.75em" }}>Try a different search</span>
-                                </Typography>
-                            </Box>
-                        )}
-
-                        {/* RESULTS */}
-                        {hasResults && (
-                            <>
-                                {/* HEADLINE */}
-                                <Typography
-                                    align="center"
-                                    sx={{
-                                        mb: { xs: 4.5, sm: 4.5, md: 4 },
-                                        mt: headlineMt,
-                                        fontFamily: "Titan One",
-                                        fontSize: isCategorySearch ? { xs: "35px", md: "41px" } : { xs: "29px", md: "41px" },
-                                        letterSpacing: isCategorySearch ? "0.12em" : "0.06em",
-                                        textTransform: "uppercase",
-                                        color: "#ff8a4c",
-                                        textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
-                                    }}
-                                >
-                                    {headlineText}
-                                </Typography>
-
-                                {/* READY TO ORDER */}
-                                <Box sx={{ display: "flex", justifyContent: "center", mt: 1, mb: 4 }}>
-                                    <Box
-                                        onClick={enterFastThru}
-                                        sx={{
-                                            px: { xs: 3, md: 3 },
-                                            py: { xs: 1.2, md: 1.2 },
-                                            mb: { xs: 1.5 },
-                                            borderRadius: "10px",
-                                            backgroundColor: "#1e5bb8",
-                                            color: "#fff",
-                                            fontFamily: "Titan One",
-                                            fontSize: { xs: "0.98rem", md: "1.1rem" },
-                                            letterSpacing: "0.12em",
-                                            textTransform: "uppercase",
-                                            cursor: "pointer",
-                                            border: "1px solid rgba(230,81,0,0.18)",
-                                            boxShadow: 2,
-                                            transition: "all 0.2s ease",
-                                            "&:hover": { backgroundColor: "#163f82", transform: "translateY(-2px)" },
-                                            "&:active": { transform: "translateY(0)", boxShadow: "0 4px 10px rgba(30, 91, 184, 0.3)" },
-                                        }}
-                                    >
-                                        READY TO ORDER
-                                    </Box>
-                                </Box>
-
-                                {/* GRID (mesmo do seu) */}
+                    {/* SEARCH */}
+                    {isSearching && (
+                        <>
+                            {/* KEEP TYPING (1-3 chars) */}
+                            {showKeepTyping && (
                                 <Box
                                     sx={{
-                                        display: "grid",
+                                        minHeight: { xs: "55dvh", md: "52dvh" },
+                                        display: "flex",
+                                        alignItems: "center",
                                         justifyContent: "center",
-                                        justifyItems: "center",
-                                        gap: 4,
-                                        mb: 2,
-                                        gridTemplateColumns: {
-                                            xs: "repeat(1, 260px)",
-                                            sm: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
-                                            md: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
-                                            lg: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
-                                        },
+                                        textAlign: "center",
+                                        px: 2,
                                     }}
                                 >
-                                    {filteredData.map((e) => (
-                                        <ProductCard key={String(e.id)} product={e} />
-                                    ))}
+                                    <Typography
+                                        align="center"
+                                        sx={{
+                                            fontFamily: "Titan One",
+                                            fontSize: { xs: "26px", md: "34px" },
+                                            letterSpacing: "0.05em",
+                                            color: "rgba(13, 71, 161, 0.65)",
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        Keep typing… ✍️ <br />
+                                        <span style={{ fontSize: "0.75em" }}>
+                                            {charsLeft} more {charsLeft === 1 ? "letter" : "letters"}
+                                        </span>
+                                    </Typography>
                                 </Box>
-                            </>
-                        )}
-                    </>
-                )}
+                            )}
 
-                {driveModeActive && (
-                    <Box sx={{ mb: { xs: 1.5, md: 2 } }}>
-                        <Typography
-                            align="center"
-                            sx={{
-                                mb: { xs: 3, md: 3 },
-                                mt: { xs: -3, md: -4 },
-                                fontFamily: "Titan One",
-                                fontSize: { xs: "28px", md: "37px" },
-                                letterSpacing: "0.14em",
-                                textTransform: "uppercase",
-                                color: "#ff8a4c",
-                                textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
-                                opacity: 0.95,
-                            }}
-                        >
-                            Quick add menu
-                        </Typography>
+                            {/* NOT FOUND (>= 4 chars) */}
+                            {showNotFound && (
+                                <Box
+                                    sx={{
+                                        minHeight: { xs: "55dvh", md: "52dvh" },
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        textAlign: "center",
+                                        px: 2,
+                                    }}
+                                >
+                                    <Typography
+                                        align="center"
+                                        sx={{
+                                            fontFamily: "Titan One",
+                                            fontSize: { xs: "28px", md: "35px" },
+                                            letterSpacing: "0.05em",
+                                            color: "rgba(13, 71, 161, 0.65)",
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        No products found 😕 <br />
+                                        <span style={{ fontSize: "0.75em" }}>Try a different search</span>
+                                    </Typography>
+                                </Box>
+                            )}
 
-                        <h2 className="h2-driveMode-desk">
-                            *Search by name or category, or browse the products page for full details.
-                        </h2>
+                            {/* RESULTS */}
+                            {hasResults && (
+                                <>
+                                    {/* HEADLINE */}
+                                    <Typography
+                                        align="center"
+                                        sx={{
+                                            mb: { xs: 4.5, sm: 4.5, md: 4 },
+                                            mt: headlineMt,
+                                            fontFamily: "Titan One",
+                                            fontSize: isCategorySearch ? { xs: "35px", md: "41px" } : { xs: "29px", md: "41px" },
+                                            letterSpacing: isCategorySearch ? "0.12em" : "0.06em",
+                                            textTransform: "uppercase",
+                                            color: "#ff8a4c",
+                                            textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+                                        }}
+                                    >
+                                        {headlineText}
+                                    </Typography>
 
-                        <Box
-                            sx={{
-                                display: "grid",
-                                gap: 2,
-                                justifyContent: "center",
-                                gridTemplateColumns: {
-                                    xs: "repeat(2, 143px)",
-                                    sm: "repeat(3, 143px)",
-                                    lg: "repeat(6, 143px)",
-                                },
-                            }}
-                        >
-                            {data.map((product) => {
-                                const pid = String(product.id);
-                                return (
-                                    <MiniCard
-                                        key={pid}
-                                        id={pid}
-                                        image={product.image}
-                                        title={cleanProductName(product.name)}
-                                        secondaryLabel={`$${Number(product.price).toFixed(2)}`}
-                                        count={qtyMap[pid] ?? 0}
-                                        onClick={() => handleOrder(product)}
-                                        onRemove={() => handleRemove(product)}
-                                    />
-                                );
-                            })}
+                                    {/* READY TO ORDER */}
+                                    <Box sx={{ display: "flex", justifyContent: "center", mt: 1, mb: 4 }}>
+                                        <Box
+                                            onClick={enterFastThru}
+                                            sx={{
+                                                px: { xs: 3, md: 3 },
+                                                py: { xs: 1.2, md: 1.2 },
+                                                mb: { xs: 1.5 },
+                                                borderRadius: "10px",
+                                                backgroundColor: "#1e5bb8",
+                                                color: "#fff",
+                                                fontFamily: "Titan One",
+                                                fontSize: { xs: "0.98rem", md: "1.1rem" },
+                                                letterSpacing: "0.12em",
+                                                textTransform: "uppercase",
+                                                cursor: "pointer",
+                                                border: "1px solid rgba(230,81,0,0.18)",
+                                                boxShadow: 2,
+                                                transition: "all 0.2s ease",
+                                                "&:hover": { backgroundColor: "#163f82", transform: "translateY(-2px)" },
+                                                "&:active": { transform: "translateY(0)", boxShadow: "0 4px 10px rgba(30, 91, 184, 0.3)" },
+                                            }}
+                                        >
+                                            READY TO ORDER
+                                        </Box>
+                                    </Box>
+
+                                    {/* GRID (mesmo do seu) */}
+                                    <Box
+                                        sx={{
+                                            display: "grid",
+                                            justifyContent: "center",
+                                            justifyItems: "center",
+                                            gap: 4,
+                                            mb: 2,
+                                            gridTemplateColumns: {
+                                                xs: "repeat(1, 260px)",
+                                                sm: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
+                                                md: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
+                                                lg: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
+                                            },
+                                        }}
+                                    >
+                                        {filteredData.map((e) => (
+                                            <ProductCard key={String(e.id)} product={e} />
+                                        ))}
+                                    </Box>
+                                </>
+                            )}
+                        </>
+                    )}
+
+                    {driveModeActive && (
+                        <Box sx={{ mb: { xs: 1.5, md: 2 } }}>
+                            <Typography
+                                align="center"
+                                sx={{
+                                    mb: { xs: 3, md: 3 },
+                                    mt: { xs: -3, md: -4 },
+                                    fontFamily: "Titan One",
+                                    fontSize: { xs: "28px", md: "37px" },
+                                    letterSpacing: "0.14em",
+                                    textTransform: "uppercase",
+                                    color: "#ff8a4c",
+                                    textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+                                    opacity: 0.95,
+                                }}
+                            >
+                                Quick add menu
+                            </Typography>
+
+                            <h2 className="h2-driveMode-desk">
+                                *Search by name or category, or browse the products page for full details.
+                            </h2>
+
+                            <Box
+                                sx={{
+                                    display: "grid",
+                                    gap: 2,
+                                    justifyContent: "center",
+                                    gridTemplateColumns: {
+                                        xs: "repeat(2, 143px)",
+                                        sm: "repeat(3, 143px)",
+                                        lg: "repeat(6, 143px)",
+                                    },
+                                }}
+                            >
+                                {data.map((product) => {
+                                    const pid = String(product.id);
+                                    return (
+                                        <MiniCard
+                                            key={pid}
+                                            id={pid}
+                                            image={product.image}
+                                            title={cleanProductName(product.name)}
+                                            secondaryLabel={`$${Number(product.price).toFixed(2)}`}
+                                            count={qtyMap[pid] ?? 0}
+                                            onClick={() => handleOrder(product)}
+                                            onRemove={() => handleRemove(product)}
+                                        />
+                                    );
+                                })}
+                            </Box>
                         </Box>
-                    </Box>
+                    )}
+                </Container>
+
+                {isMobile ? <FloatingContactMobile /> : <FloatingContact />}
+
+                {isMobile ? (
+                    <NavFooter onNavigate={handleDrawerNavigate} onFastThruClick={() => enterFastThru()} />
+                ) : (
+                    <Footer />
                 )}
-            </Container>
-
-            {isMobile ? <FloatingContactMobile /> : <FloatingContact />}
-
-            {isMobile ? (
-                <NavFooter onNavigate={handleDrawerNavigate} onFastThruClick={() => enterFastThru()} />
-            ) : (
-                <Footer />
-            )}
-        </Box>
+            </Box>
+        </>
     );
 
 }

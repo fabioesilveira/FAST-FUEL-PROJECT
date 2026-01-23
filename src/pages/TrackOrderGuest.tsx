@@ -306,7 +306,7 @@ export default function TrackOrderGuest() {
                             variant="h4"
                             align="center"
                             sx={{
-                                fontSize: { xs: "2.25rem", sm: "2.35rem", md: "2.5rem" },
+                                fontSize: { xs: "2.19rem", sm: "2.35rem", md: "2.5rem" },
                                 letterSpacing: { xs: "0.10em", sm: "0.12em" },
                                 textTransform: "uppercase",
                                 color: "#0d47a1",

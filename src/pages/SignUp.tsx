@@ -282,7 +282,7 @@ export default function SignUp() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label": { color: "#0d47a1", fontWeight: 500 },
                                         "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
                                             "& fieldset": { borderColor: "#0d47a1" },
@@ -304,7 +304,7 @@ export default function SignUp() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label": { color: "#0d47a1", fontWeight: 500 },
                                         "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
                                             "& fieldset": { borderColor: "#0d47a1" },
@@ -326,7 +326,7 @@ export default function SignUp() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label": { color: "#0d47a1", fontWeight: 500 },
                                         "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
                                             "& fieldset": { borderColor: "#0d47a1" },
@@ -349,7 +349,7 @@ export default function SignUp() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label": { color: "#0d47a1", fontWeight: 500 },
                                         "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
                                             "& fieldset": { borderColor: "#0d47a1" },
@@ -372,7 +372,7 @@ export default function SignUp() {
                                     size="small"
                                     fullWidth
                                     sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 600 },
+                                        "& label": { color: "#0d47a1", fontWeight: 500 },
                                         "& label.Mui-focused": { color: "#0d47a1" },
                                         "& .MuiOutlinedInput-root": {
                                             "& fieldset": { borderColor: "#0d47a1" },
@@ -419,12 +419,12 @@ export default function SignUp() {
                                     variant="text"
                                     onClick={() => navigate("/sign-in")}
                                     sx={{
-                                        mt: 0.3,
+                                        mt: 0.1,
                                         textTransform: "none",
                                         color: "rgba(180, 63, 0, 1)",
 
 
-                                        fontSize: { xs: "0.78rem", sm: "0.83rem", md: "0.85rem" },
+                                        fontSize: { xs: "0.82rem", sm: "0.83rem", md: "0.85rem" },
 
                                         "&:hover": {
                                             textDecoration: "underline",
