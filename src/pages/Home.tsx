@@ -5,8 +5,8 @@ import axios from "axios";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
-import Chat4 from "../assets/Fuel-Up.png"; // last
-import Chat6 from "../assets/girl-fastFuel.png"; // third
+import Chat4 from "../assets/Fuel-Up.png";
+import Chat6 from "../assets/girl-fastFuel.png";
 import RestImg from "../assets/Restaurant3.png";
 import Employees from "../assets/Employees4.png";
 import Combo from "../assets/Combo1.png";
@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/context";
 import Typography from "@mui/material/Typography";
 import CategoryDrawer from "../components/CategoryDrawer";
-import type { Meal } from "../context/context"; // type-only import
+import type { Meal } from "../context/context";
 import NavFooter from "../components/NavFooter";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -28,9 +28,7 @@ import HeroCarousel from "../components/HeroCarousel";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-
 import Menu from "@mui/material/Menu";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -50,7 +48,18 @@ import SaladImg from "../assets/Crispsalad.png";
 import MilkshakeImg from "../assets/Milkshake.png";
 import SundaeImg from "../assets/Sundae.png";
 
-const cleanProductName = (name: string) => name.split("/")[0].trim();
+
+
+type MiniActionCardProps = {
+    id: string;
+    image: string;
+    title?: string;
+    secondaryLabel?: string;
+    onClick: () => void;
+    onRemove?: () => void;
+    count?: number;
+};
+
 
 const imageMap: Record<string, string> = {
     "Coke.png": CokeImg,
@@ -64,6 +73,14 @@ const imageMap: Record<string, string> = {
     "Milkshake.png": MilkshakeImg,
     "Sundae.png": SundaeImg,
 };
+
+const categoryLabelMap: Record<string, string> = {
+    sandwiches: "BURGER LINEUP",
+    sides: "SIDES & EXTRAS",
+    beverages: "COLD DRINKS",
+    desserts: "SWEET TREATS",
+};
+
 
 const normalizeImageKey = (value?: string) => {
     if (!value) return "";
@@ -94,40 +111,6 @@ const pluralMessages = [
     "Fast Fuel options coming up ✅",
 ];
 
-function pickPluralMessage(seed: string) {
-    let hash = 0;
-    for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
-    return pluralMessages[hash % pluralMessages.length];
-}
-
-
-function detectCategory(term: string) {
-    const t = term.trim().toLowerCase();
-    if (!t) return null;
-
-    for (const [category, aliases] of Object.entries(categoryAliases)) {
-        if (aliases.some((alias) => t.includes(alias))) {
-            return category;
-        }
-    }
-    return null;
-}
-
-function pickMessage(seed: string) {
-    // mensagem “aleatória”, mas estável pro mesmo texto
-    let hash = 0;
-    for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
-    return funMessages[hash % funMessages.length];
-}
-
-const categoryLabelMap: Record<string, string> = {
-    sandwiches: "BURGER LINEUP",
-    sides: "SIDES & EXTRAS",
-    beverages: "COLD DRINKS",
-    desserts: "SWEET TREATS",
-};
-
-const getCategoryLabel = (cat: string | null) => (cat ? categoryLabelMap[cat] ?? cat : "");
 
 const imageStylesByIdDesktop: Record<string, React.CSSProperties> = {
     "1": { width: "125px", height: "120px", marginTop: "5px" },
@@ -151,7 +134,6 @@ const imageStylesByIdDesktop: Record<string, React.CSSProperties> = {
 };
 
 const imageStylesByIdMobile: Record<string, React.CSSProperties> = {
-    // mesmos ids, só “reduzido” (ajusta do jeito que você curtir)
     "1": { width: "110px", height: "105px", marginTop: "5px" },
     "2": { width: "185px", height: "180px" },
     "3": { width: "140px", height: "115px", marginTop: "8px" },
@@ -181,21 +163,46 @@ const mobileSlides = [
     { id: "drive", src: Chat4, alt: "Car Drive" },
 ];
 
-type MiniActionCardProps = {
-    id: string;
-    image: string;
-    title?: string;
-    secondaryLabel?: string;
-    onClick: () => void;
-    onRemove?: () => void;
-    count?: number;
-};
+
+const cleanProductName = (name: string) => name.split("/")[0].trim();
+
+
+function pickPluralMessage(seed: string) {
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+    return pluralMessages[hash % pluralMessages.length];
+}
+
+
+function detectCategory(term: string) {
+    const t = term.trim().toLowerCase();
+    if (!t) return null;
+
+    for (const [category, aliases] of Object.entries(categoryAliases)) {
+        if (aliases.some((alias) => t.includes(alias))) {
+            return category;
+        }
+    }
+    return null;
+}
+
+function pickMessage(seed: string) {
+    // mensagem “aleatória”, mas estável pro mesmo texto
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+    return funMessages[hash % funMessages.length];
+}
+
+const getCategoryLabel = (cat: string | null) => (cat ? categoryLabelMap[cat] ?? cat : "");
+
 
 // mantém kcal no card grande
 const getNameWithKcal = (name: string) => name.trim();
 
-function ProductCard({ product }: { product: Meal }) {
 
+// CARDS SEARCH
+
+function ProductCard({ product }: { product: Meal }) {
 
     const title = getNameWithKcal(product.name);
     const theme = useTheme();
@@ -211,7 +218,6 @@ function ProductCard({ product }: { product: Meal }) {
             width: isMobile ? "160px" : "180px",
             height: isMobile ? "130px" : "150px",
         };
-
 
     return (
         <Box
@@ -307,13 +313,14 @@ function ProductCard({ product }: { product: Meal }) {
     );
 }
 
+// CARDS FAST THRU
+
 function MiniCard({
     id,
     image,
     title,
     secondaryLabel = "$0.00",
     onClick,
-    onRemove,
     count = 0,
 }: MiniActionCardProps) {
 
@@ -455,22 +462,22 @@ function MiniCard({
     );
 }
 
-//Inicio do componente HOME
+// HOME COMPONENT START'S HERE
+
 export default function Home() {
+
     const [search, setSearch] = useState("");
     const [checkout, setCheckout] = useState(0);
     const [data, setData] = useState<Meal[]>([]);
     const [showDriveThru, setShowDriveThru] = useState(false);
     const [discount, setDiscount] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
-
     const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
 
     const [cartAnchorEl, setCartAnchorEl] = useState<null | HTMLElement>(null);
     const cartOpen = Boolean(cartAnchorEl);
 
-    const [cartMobileOpen, setCartMobileOpen] = useState(false);
-
+    const actionsRef = useRef<HTMLDivElement | null>(null);
 
     const cartHeaderRef = useRef<HTMLDivElement | null>(null);
     const cartFooterRef = useRef<HTMLDivElement | null>(null);
@@ -478,8 +485,13 @@ export default function Home() {
 
 
     function openCartMenu(e: React.MouseEvent<HTMLElement>) {
+        if (isMobile && actionsRef.current) {
+            setCartAnchorEl(actionsRef.current);
+            return;
+        }
         setCartAnchorEl(e.currentTarget);
     }
+
 
     function closeCartMenu() {
         setCartAnchorEl(null);
@@ -573,13 +585,11 @@ export default function Home() {
     }
 
 
-
-
     const headlineMt = searchOverlayOpen
         ? { xs: 12, sm: 12, md: 2.7 }
         : isSearching
-            ? { xs: 5, sm: 5, md: 2.7 }   // tem texto mas overlay fechado
-            : { xs: 2, sm: 3, md: 2.7 };  // sem texto e overlay fechado
+            ? { xs: 5, sm: 5, md: 2.7 }
+            : { xs: 2, sm: 3, md: 2.7 };
 
 
     // Init: fetch products + hydrate order from localStorage
@@ -625,7 +635,6 @@ export default function Home() {
         });
     }
 
-
     // Save order to localStorage whenever it changes
     useEffect(() => {
         console.log("ORDER STATE:", order);
@@ -652,7 +661,6 @@ export default function Home() {
 
             const viewportH = window.visualViewport?.height ?? window.innerHeight;
 
-            // tem que bater com o seu Paper (calc(100svh - 190px))
             const paperMax = viewportH - 190;
 
             const paddingAndDividers = 12;
@@ -660,7 +668,7 @@ export default function Home() {
 
 
             const ROW_H = 66;
-            const mobileCap = ROW_H * 3; // 3 itens
+            const mobileCap = ROW_H * 3;
 
             const finalMax =
                 isMobile
@@ -684,7 +692,6 @@ export default function Home() {
             ro.disconnect();
         };
     }, [cartOpen, isMobile, cartCount, subtotal, discount, checkout]);
-
 
 
 
@@ -734,7 +741,7 @@ export default function Home() {
 
         setSubtotal(subtotalCalc);
         setDiscount(discountCalc);
-        setCheckout(base); // seu "checkout" agora é base (subtotal - discount)
+        setCheckout(base);
     }, [order]);
 
     // const tax = Number((checkout * 0.09).toFixed(2));
@@ -742,6 +749,7 @@ export default function Home() {
     // const grandTotal = Number((checkout + tax + deliveryFee).toFixed(2));
 
     // Remove itens adicionados ao carrinho FAST THRU
+
     function handleRemove(product: Meal) {
         const existing = order.find((p) => String(p.id) === String(product.id));
         if (!existing) return;
@@ -759,7 +767,6 @@ export default function Home() {
             )
         );
     }
-
 
     // SLIDES CAROUSEL
     const desktopCarouselSlides = [
@@ -886,6 +893,7 @@ export default function Home() {
 
                             {/* Actions */}
                             <Box
+                                ref={actionsRef}
                                 sx={{
                                     display: "flex",
                                     alignItems: "center",
@@ -894,6 +902,7 @@ export default function Home() {
                                     mt: { xs: 0.8, md: 0 },
                                 }}
                             >
+
                                 {/* DROPDOWN + BADGE */}
                                 <Box sx={{ position: "relative", display: "inline-flex" }}>
                                     {cartCount > 0 && (
@@ -948,9 +957,9 @@ export default function Home() {
                                             },
                                         }}
                                     >
-                                      
-                                            <ReceiptLongIcon sx={{ color: "#164a96", fontSize: 25 }} />
-                                        
+
+                                        <ReceiptLongIcon sx={{ color: "#164a96", fontSize: 25 }} />
+
                                     </Button>
                                 </Box>
 
@@ -1031,22 +1040,22 @@ export default function Home() {
                                     },
 
                                     ...(isMobile && {
-  position: "fixed",
-  left: "50%",
-  right: "auto",
-  transform: "translateX(-50%)",
-  bottom: 88,
-  top: "auto",
+                                        position: "fixed",
+                                        left: "50%",
+                                        right: "auto",
+                                        transform: "translateX(-50%)",
+                                        bottom: 88,
+                                        top: "auto",
 
-  width: "88vw",
-  maxWidth: 360,
+                                        width: "88vw",
+                                        maxWidth: 360,
 
-  height: "fit-content",
-  minHeight: 0,
-  maxHeight: "calc(100svh - 190px)",
-  borderRadius: 4,
-  margin: 0,
-}),
+                                        height: "fit-content",
+                                        minHeight: 0,
+                                        maxHeight: "calc(100svh - 190px)",
+                                        borderRadius: 4,
+                                        margin: 0,
+                                    }),
                                 },
                             }}
                         >
@@ -1311,13 +1320,13 @@ export default function Home() {
 
                         <style>
                             {`
-              @media (max-width: 899.95px){
-                .total{
-                  grid-row: 2;
-                  justify-self: center;
-                }
-              }
-            `}
+                            @media (max-width: 899.95px){
+                             .total{
+                              grid-row: 2;
+                              justify-self: center;
+                              }
+                            }
+                           `}
                         </style>
 
                         {/* DESKTOP */}

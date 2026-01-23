@@ -4,6 +4,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 type AppConfirmProps = {
   open: boolean;
@@ -26,15 +27,17 @@ export default function AppConfirm({
   onCancel,
   onDismiss,
 }: AppConfirmProps) {
-
   const actionButtonSx = {
-    minWidth: { xs: 120, sm: 130, md: 140 },
-    height: { xs: 34, sm: 36, md: 38 },
+    width: "100%",
+    minWidth: { xs: "unset", sm: 130, md: 140 },
+    height: { xs: "auto", sm: 36, md: 38 },
+    py: { xs: 1.15, sm: 0.9, md: 0.8 },
+    px: { xs: 2.2, sm: 2.4 },
     borderRadius: "10px",
     fontWeight: 900,
-    letterSpacing: "0.08em",
-    textTransform: "uppercase",
-    fontSize: { xs: "0.72rem", sm: "0.75rem", md: "0.8rem" },
+    letterSpacing: { xs: "0.06em", sm: "0.08em" },
+    fontSize: { xs: "0.68rem", sm: "0.75rem", md: "0.8rem" },
+    whiteSpace: "nowrap",
   };
 
   return (
@@ -90,45 +93,58 @@ export default function AppConfirm({
         sx={{
           p: { xs: 1.5, md: 2 },
           pt: 1,
-          gap: { xs: 1, md: 1.3 },
+          pb: { xs: 1.8, md: 2.4 },
           justifyContent: "center",
         }}
       >
-        <Button
-          onClick={onCancel}
-          variant="outlined"
+        <Box
           sx={{
-            ...actionButtonSx,
-            border: "1.8px solid rgba(0,0,0,0.28)",
-            color: "#1f1f1f",
-            "&:hover": {
-              borderColor: "rgba(0,0,0,0.45)",
-              backgroundColor: "rgba(0,0,0,0.04)",
-            },
+            width: { xs: "min(300px, 86vw)", sm: "auto" },
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: "center",
+            justifyContent: "center",
+            gap: { xs: 1.1, md: 1.3 },
+            mx: "auto",
           }}
         >
-          {cancelText}
-        </Button>
+          <Button
+            onClick={onCancel}
+            variant="outlined"
+            sx={{
+              ...actionButtonSx,
+              width: { xs: "100%", sm: "auto" },
+              border: "1.8px solid rgba(0,0,0,0.28)",
+              color: "#1f1f1f",
+              "&:hover": {
+                borderColor: "rgba(0,0,0,0.45)",
+                backgroundColor: "rgba(0,0,0,0.04)",
+              },
+            }}
+          >
+            {cancelText}
+          </Button>
 
-        <Button
-          onClick={onConfirm}
-          variant="contained"
-          sx={{
-            ...actionButtonSx,
-            color: "#ffffff",
-            backgroundColor: "#4a4a4a",
-            "&:hover": {
-              backgroundColor: "#3a3a3a",
-            },
-            "&:active": {
-              transform: "translateY(1px)",
-              boxShadow: "0 6px 14px rgba(0,0,0,0.18)",
-            },
-          }}
-        >
-          {confirmText}
-        </Button>
+          <Button
+            onClick={onConfirm}
+            variant="contained"
+            sx={{
+              ...actionButtonSx,
+              width: { xs: "100%", sm: "auto" },
+              color: "#ffffff",
+              backgroundColor: "#4a4a4a",
+              "&:hover": { backgroundColor: "#3a3a3a" },
+              "&:active": {
+                transform: "translateY(1px)",
+                boxShadow: "0 6px 14px rgba(0,0,0,0.18)",
+              },
+            }}
+          >
+            {confirmText}
+          </Button>
+        </Box>
       </DialogActions>
+
     </Dialog>
   );
 }
