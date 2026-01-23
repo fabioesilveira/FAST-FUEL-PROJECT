@@ -1,23 +1,70 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-    Box,
-    Paper,
-    Typography,
-    TextField,
-    Button,
-    Stack,
-    Chip,
-} from "@mui/material";
+import { Box, Paper, Typography, TextField, Button, Stack, Chip } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AddressLookup from "../components/AddressLookup";
 import Footer from "../components/Footer";
 import NavbarCheckout from "../components/NavbarCheckout";
-import { useAppContext } from "../context/context";
+import { useAppContext, type Meal } from "../context/context";
 import { useAppAlert } from "../hooks/useAppAlert";
 import HistoryIcon from "@mui/icons-material/History";
 import HomeIcon from "@mui/icons-material/Home";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
+
+//imgs out of Backend
+import CokeImg from "../assets/Coke.png";
+import SpriteImg from "../assets/Sprite.png";
+import DrPepperImg from "../assets/Drpepper.png";
+import FantaImg from "../assets/Fanta.png";
+import DietCokeImg from "../assets/Dietacoke.png";
+import LemonadeImg from "../assets/Lemonade.png";
+import SaladImg from "../assets/Crispsalad.png";
+import MilkshakeImg from "../assets/Milkshake.png";
+import SundaeImg from "../assets/Sundae.png";
+
+const imageMap: Record<string, string> = {
+    "Coke.png": CokeImg,
+    "Sprite.png": SpriteImg,
+    "Drpepper.png": DrPepperImg,
+    "DrPepper.png": DrPepperImg,
+    "Fanta.png": FantaImg,
+    "Dietcoke.png": DietCokeImg,
+    "Dietacoke.png": DietCokeImg,
+    "DietCoke.png": DietCokeImg,
+    "Lemonade.png": LemonadeImg,
+    "Crispsalad.png": SaladImg,
+    "CrispSalad.png": SaladImg,
+    "Milkshake.png": MilkshakeImg,
+    "Sundae.png": SundaeImg,
+};
+
+const normalizeImageKey = (value?: string) => {
+    if (!value) return "";
+    const last = value.split("/").pop() || value;   
+    return last.split("?")[0].trim();              
+};
+
+const imageStylesByIdOrderSummary: Record<string, React.CSSProperties> = {
+    "1": { width: "125px", height: "120px", marginTop: "5px" },
+    "2": { width: "230px", height: "215px" },
+    "3": { width: "158px", height: "120px", marginTop: "10px" },
+    "4": { width: "200px", height: "142px" },
+    "11": { width: "145px", height: "145px" },
+    "12": { width: "165px", height: "120px" },
+    "13": { width: "140px", height: "132px", marginTop: "10px" },
+    "14": { width: "172px", height: "127px" },
+    "5": { width: "155px", height: "160px", marginTop: "4px" },
+    "6": { width: "155px", height: "160px", marginTop: "4px" },
+    "7": { width: "155px", height: "160px", marginTop: "4px" },
+    "8": { width: "155px", height: "160px", marginTop: "4px" },
+    "9": { width: "155px", height: "160px", marginTop: "4px" },
+    "10": { width: "155px", height: "160px", marginTop: "4px" },
+    "15": { width: "185px", height: "200px" },
+    "16": { width: "160px", height: "150px" },
+    "17": { width: "168px", height: "148px" },
+    "18": { width: "125px", height: "120px" },
+};
+
 
 type LoggedUser = {
     id: number;
@@ -27,23 +74,13 @@ type LoggedUser = {
     type?: "admin" | "normal";
 };
 
-type CartItem = {
-    id: string;
-    name: string;
-    category: string;
-    description: string;
-    image: string;
-    price: number;
-    quantidade?: number;
-};
-
 const API = "http://localhost:3000/sales";
 
 export default function Checkout() {
     const NAV_H = 80;
 
     const navigate = useNavigate();
-    const { order, setOrder } = useAppContext();
+    const { order, setOrder } = useAppContext(); // order: Meal[]
 
     const { showAlert, AlertUI, ConfirmUI } = useAppAlert({
         vertical: "top",
@@ -54,17 +91,14 @@ export default function Checkout() {
     const stickyRef = useRef<HTMLDivElement | null>(null);
     const [isDockedToPaperBottom, setIsDockedToPaperBottom] = useState(false);
 
-    //controle de telas do checkout (form / processing / confirmed)
+    // controle de telas do checkout (form / processing / confirmed)
     const [screen, setScreen] = useState<"form" | "processing" | "confirmed">("form");
     const [orderCode, setOrderCode] = useState<string>("");
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const view = params.get("view");
-
-        if (view === "form" || view === "processing" || view === "confirmed") {
-            setScreen(view);
-        }
+        if (view === "form" || view === "processing" || view === "confirmed") setScreen(view);
     }, []);
 
     // logged user (fallback completo)
@@ -101,7 +135,6 @@ export default function Checkout() {
     useEffect(() => {
         function checkDocked() {
             if (!paperRef.current || !stickyRef.current) return;
-
             const paperRect = paperRef.current.getBoundingClientRect();
             const barRect = stickyRef.current.getBoundingClientRect();
             const docked = Math.abs(barRect.bottom - paperRect.bottom) <= 2;
@@ -146,25 +179,14 @@ export default function Checkout() {
     // UX/state
     const [submitting, setSubmitting] = useState(false);
 
-    useEffect(() => {
-        console.log(address, "")
-    }, [address])
-
-
     // Pre-fill se logado
     useEffect(() => {
         if (!isLogged) return;
 
         const name =
-            loggedUser?.userName ||
-            loggedUser?.fullName ||
-            localStorage.getItem("userName") ||
-            "";
+            loggedUser?.userName || loggedUser?.fullName || localStorage.getItem("userName") || "";
 
-        const mail =
-            loggedUser?.email ||
-            localStorage.getItem("emailUser") ||
-            "";
+        const mail = loggedUser?.email || localStorage.getItem("emailUser") || "";
 
         setFullName(name);
         setEmail(mail);
@@ -178,8 +200,8 @@ export default function Checkout() {
 
         let subtotalCalc = 0;
 
-        (order as CartItem[]).forEach((item) => {
-            const qty = item.quantidade ?? 1;
+        (order as Meal[]).forEach((item) => {
+            const qty = Number(item.quantidade ?? 1);
             const price = Number(item.price ?? 0);
             const category = String(item.category || "").toLowerCase();
 
@@ -194,10 +216,7 @@ export default function Checkout() {
         const discountCalc = sets * 2;
         const totalCalc = Math.max(0, subtotalCalc - discountCalc);
 
-        const itemsCount = (order as CartItem[]).reduce(
-            (sum, it) => sum + (it.quantidade ?? 1),
-            0
-        );
+        const itemsCount = (order as Meal[]).reduce((sum, it) => sum + Number(it.quantidade ?? 1), 0);
 
         return {
             subtotal: subtotalCalc,
@@ -207,36 +226,40 @@ export default function Checkout() {
         };
     }, [order]);
 
-    const totalLabel = useMemo(() => {
-        return new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-        }).format(total);
-    }, [total]);
+    const money = (n: number) =>
+        new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
 
-    const subtotalLabel = useMemo(() => {
-        return new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-        }).format(subtotal);
-    }, [subtotal]);
+    const subtotalLabel = useMemo(() => money(subtotal), [subtotal]);
+    const discountLabel = useMemo(() => money(discount), [discount]);
 
-    const discountLabel = useMemo(() => {
-        return new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-        }).format(discount);
-    }, [discount]);
-
-    function normalizeCartSnapshot(list: CartItem[]) {
+    function normalizeCartSnapshot(list: Meal[]) {
         return list.map((it) => ({
             product_id: it.id,
             name: it.name,
             category: it.category,
             price: Number(it.price ?? 0),
-            quantity: it.quantidade ?? 1,
+            quantity: Number(it.quantidade ?? 1),
         }));
     }
+
+    // ---- TAX / DELIVERY / GRAND TOTAL ----
+    const TAX_RATE = 0.09;
+    const DELIVERY_FEE = 9.99;
+    const FREE_DELIVERY_AT = 30;
+
+    // Tax/Delivery 
+    const tax = useMemo(() => Number((total * TAX_RATE).toFixed(2)), [total]);
+
+    const deliveryFee = useMemo(() => {
+        if (total <= 0) return 0;
+        return total >= FREE_DELIVERY_AT ? 0 : DELIVERY_FEE;
+    }, [total]);
+
+    const grandTotal = useMemo(() => Number((total + tax + deliveryFee).toFixed(2)), [total, tax, deliveryFee]);
+
+    const taxLabel = useMemo(() => money(tax), [tax]);
+    const deliveryLabel = useMemo(() => money(deliveryFee), [deliveryFee]);
+    const grandTotalLabel = useMemo(() => money(grandTotal), [grandTotal]);
 
     function validate() {
         if (!order || order.length === 0) return "Your cart is empty.";
@@ -252,6 +275,7 @@ export default function Checkout() {
 
         return null;
     }
+
 
     function cleanProductName(name: string) {
         return String(name || "").split("/")[0].trim();
@@ -280,32 +304,34 @@ export default function Checkout() {
         setScreen("processing");
 
         try {
-            const itemsSnapshot = normalizeCartSnapshot(order as CartItem[]);
+            const itemsSnapshot = normalizeCartSnapshot(order as Meal[]);
 
             const payload = {
                 user_id: isLogged ? Number(loggedUser!.id) : null,
                 customer_name: fullName.trim(),
                 customer_email: email.trim(),
                 items: itemsSnapshot,
+
                 subtotal,
                 discount,
-                total,
+                total, 
+
+                tax,
+                delivery_fee: deliveryFee,
+                grand_total: grandTotal,
             };
 
             const res = await axios.post(API, payload);
             const { order_code } = res.data;
 
-            // tracking (guest ou logged)
             localStorage.setItem("lastOrderCode", String(order_code));
             localStorage.setItem("lastOrderEmail", email.trim());
 
             setOrderCode(String(order_code));
 
-            // limpar o carrinho
             setOrder([]);
             localStorage.removeItem("lsOrder");
 
-            // simulacao do pagamento com timer
             await new Promise((r) => setTimeout(r, 5000));
 
             setScreen("confirmed");
@@ -401,7 +427,6 @@ export default function Checkout() {
         );
     }
 
-
     function ConfirmedScreen() {
         const firstName = (fullName || "there").trim().split(" ")[0];
 
@@ -443,8 +468,8 @@ export default function Checkout() {
                         lineHeight: 1.7,
                     }}
                 >
-                    Hi <b>{firstName}</b>. Your order has been confirmed and is waiting for the
-                    store to accept and start preparing it.
+                    Hi <b>{firstName}</b>. Your order has been confirmed and is waiting for the store to
+                    accept and start preparing it.
                 </Typography>
 
                 <Typography
@@ -550,7 +575,6 @@ export default function Checkout() {
         );
     }
 
-
     return (
         <>
             {AlertUI}
@@ -593,7 +617,6 @@ export default function Checkout() {
                         backgroundAttachment: "fixed, fixed",
                     }}
                 >
-
                     <Paper
                         elevation={0}
                         ref={paperRef}
@@ -607,27 +630,20 @@ export default function Checkout() {
                             boxShadow:
                                 "0 4px 14px rgba(13, 71, 161, 0.25), 0 8px 24px rgba(13, 71, 161, 0.18)",
                             overflow: "hidden",
-
                             height: { xs: "calc(100dvh - 160px)", md: "calc(100vh - 180px)" },
                             maxHeight: 760,
                             display: "flex",
                             flexDirection: "column",
-
-                            ...(screen === "form"
-                                ? {
-                                    overflowY: "auto",
-                                }
-                                : {}),
+                            ...(screen === "form" ? { overflowY: "auto" } : {}),
                         }}
                     >
-                        {/* CHECKOUT PROCESSING AND CONFIRMED) */}
                         {screen === "processing" ? (
                             <ProcessingScreen />
                         ) : screen === "confirmed" ? (
                             <ConfirmedScreen />
                         ) : (
                             <>
-                                {/* CHECKOUT ORIGINAL) */}
+                                {/* FORM */}
                                 <Box
                                     sx={{
                                         px: 5,
@@ -676,11 +692,18 @@ export default function Checkout() {
                                             </Typography>
                                         ) : (
                                             <Stack spacing={1.2}>
-                                                {(order as CartItem[]).map((it) => {
-                                                    const qty = it.quantidade ?? 1;
+                                                {order.map((it) => {
+                                                    const pid = String(it.id);
+                                                    const qty = Number(it.quantidade ?? 1);
+
+                                                    const imgKey = normalizeImageKey(it.image);
+                                                    const imgSrc = imageMap[imgKey] ?? it.image;
+
+                                                    const imgOverride = imageStylesByIdOrderSummary[pid];
+
                                                     return (
                                                         <Stack
-                                                            key={it.id}
+                                                            key={pid}
                                                             direction="row"
                                                             spacing={1.5}
                                                             alignItems="center"
@@ -691,32 +714,73 @@ export default function Checkout() {
                                                                 bgcolor: "rgba(255, 224, 199, 0.45)",
                                                             }}
                                                         >
+                                                            {/* container fixo */}
                                                             <Box
-                                                                component="img"
-                                                                src={it.image}
-                                                                alt={it.name}
                                                                 sx={{
                                                                     width: 54,
                                                                     height: 54,
-                                                                    objectFit: "contain",
                                                                     backgroundColor: "#fff",
                                                                     borderRadius: 1.5,
                                                                     border: "1px solid rgba(13, 71, 161, 0.18)",
                                                                     p: 0.6,
+                                                                    display: "flex",
+                                                                    alignItems: "center",
+                                                                    justifyContent: "center",
+                                                                    flexShrink: 0,
                                                                 }}
-                                                            />
-                                                            <Box sx={{ flex: 1 }}>
-                                                                <Typography sx={{ fontWeight: 800, color: "#0d47a1" }}>
+                                                            >
+                                                                <img
+                                                                    src={imgSrc}
+                                                                    alt={it.name}
+                                                                    style={{
+                                                                        ...(imgOverride ?? { width: 44, height: 44 }),
+                                                                        maxWidth: "100%",
+                                                                        maxHeight: "100%",
+                                                                        objectFit: "contain",
+                                                                        display: "block",
+                                                                    }}
+                                                                />
+                                                            </Box>
+
+                                                            <Box sx={{ flex: 1, minWidth: 0 }}>
+                                                                <Typography sx={{ fontWeight: 800, color: "#0d47a1" }} noWrap>
                                                                     {cleanProductName(it.name)}
                                                                 </Typography>
-                                                                <Typography sx={{ fontSize: "0.85rem", color: "text.secondary" }}>
-                                                                    Qty: <b>{qty}</b> • ${Number(it.price).toFixed(2)}
-                                                                </Typography>
+
+                                                                <Box
+                                                                    sx={{
+                                                                        display: "flex",
+                                                                        alignItems: "baseline",
+                                                                        justifyContent: "space-between",
+                                                                        gap: 1,
+                                                                        mt: 0.2,
+                                                                    }}
+                                                                >
+                                                                    <Typography sx={{ fontSize: "0.82rem", color: "text.secondary" }}>
+                                                                        <b>${Number(it.price).toFixed(2)}</b> each
+                                                                    </Typography>
+
+                                                                    <Typography
+                                                                        sx={{
+                                                                            fontSize: "0.85rem",
+                                                                            color: "#0d47a1",
+                                                                            fontWeight: 900,
+                                                                            whiteSpace: "nowrap",
+                                                                            alignItems: "baseline"
+                                                                        }}
+                                                                    >
+                                                                        Qty: {qty}
+                                                                    </Typography>
+                                                                </Box>
                                                             </Box>
+
+
                                                         </Stack>
                                                     );
                                                 })}
 
+
+                                                {/* Totals breakdown */}
                                                 <Box sx={{ mt: 0.6 }}>
                                                     <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
                                                         Items: {totalItems}
@@ -731,6 +795,26 @@ export default function Checkout() {
                                                         ) : (
                                                             <span style={{ color: "rgba(0,0,0,0.55)" }}>$0.00</span>
                                                         )}
+                                                    </Typography>
+
+                                                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
+                                                        Tax: {taxLabel}
+                                                    </Typography>
+
+                                                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
+                                                        Delivery: {deliveryFee === 0 ? "FREE" : deliveryLabel}
+                                                    </Typography>
+
+                                                    <Typography
+                                                        sx={{
+                                                            fontSize: "0.95rem",
+                                                            fontWeight: 900,
+                                                            color: "#0d47a1",
+                                                            mt: 0.4,
+                                                        }}
+                                                    >
+                                                        Grand Total:
+                                                        <span style={{ color: "#e65100" }}> {grandTotalLabel}</span>
                                                     </Typography>
                                                 </Box>
                                             </Stack>
@@ -857,9 +941,7 @@ export default function Checkout() {
                                                     fullWidth
                                                     variant="outlined"
                                                     value={address.city}
-                                                    onChange={(e) =>
-                                                        setAddress((prev) => ({ ...prev, city: e.target.value }))
-                                                    }
+                                                    onChange={(e) => setAddress((prev) => ({ ...prev, city: e.target.value }))}
                                                     sx={[tfBlueLabelSx, { flex: 6 }]}
                                                 />
 
@@ -868,9 +950,7 @@ export default function Checkout() {
                                                     label="Apt / Suite"
                                                     variant="outlined"
                                                     value={address.apt}
-                                                    onChange={(e) =>
-                                                        setAddress((prev) => ({ ...prev, apt: e.target.value }))
-                                                    }
+                                                    onChange={(e) => setAddress((prev) => ({ ...prev, apt: e.target.value }))}
                                                     sx={[tfBlueLabelSx, { flex: 4 }]}
                                                 />
                                             </Stack>
@@ -881,9 +961,7 @@ export default function Checkout() {
                                                     label="State*"
                                                     variant="outlined"
                                                     value={address.state}
-                                                    onChange={(e) =>
-                                                        setAddress((prev) => ({ ...prev, state: e.target.value }))
-                                                    }
+                                                    onChange={(e) => setAddress((prev) => ({ ...prev, state: e.target.value }))}
                                                     sx={[tfBlueLabelSx, { flex: 3 }]}
                                                 />
 
@@ -892,9 +970,7 @@ export default function Checkout() {
                                                     label="Zipcode*"
                                                     variant="outlined"
                                                     value={address.zip}
-                                                    onChange={(e) =>
-                                                        setAddress((prev) => ({ ...prev, zip: e.target.value }))
-                                                    }
+                                                    onChange={(e) => setAddress((prev) => ({ ...prev, zip: e.target.value }))}
                                                     sx={[tfBlueLabelSx, { flex: 3 }]}
                                                 />
 
@@ -1026,20 +1102,13 @@ export default function Checkout() {
                                         py: 1.5,
                                         zIndex: 10,
                                         backgroundColor: "#ffe0c7",
-                                        borderTop: isDockedToPaperBottom
-                                            ? "2px solid rgba(13, 71, 161, 0.25)"
-                                            : "none",
+                                        borderTop: isDockedToPaperBottom ? "2px solid rgba(13, 71, 161, 0.25)" : "none",
                                         borderBottomLeftRadius: isDockedToPaperBottom ? 12 : 0,
                                         borderBottomRightRadius: isDockedToPaperBottom ? 12 : 0,
                                         boxShadow: "none",
                                     }}
                                 >
-                                    <Stack
-                                        direction="row"
-                                        alignItems="center"
-                                        justifyContent="space-between"
-                                        spacing={2}
-                                    >
+                                    <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
                                         <Box>
                                             <Typography
                                                 sx={{
@@ -1052,7 +1121,7 @@ export default function Checkout() {
                                                 Total
                                             </Typography>
                                             <Typography sx={{ fontWeight: 800, color: "#0d47a1", fontSize: 18 }}>
-                                                {totalLabel}
+                                                {grandTotalLabel}
                                             </Typography>
                                         </Box>
 
@@ -1079,7 +1148,7 @@ export default function Checkout() {
                                             }}
                                             onClick={handlePay}
                                         >
-                                            {submitting ? "Processing..." : `Pay ${totalLabel}`}
+                                            {submitting ? "Processing..." : `Pay ${grandTotalLabel}`}
                                         </Button>
                                     </Stack>
                                 </Box>
