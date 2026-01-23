@@ -46,7 +46,7 @@ const normalizeImageKey = (value?: string) => {
 
 const imageStylesByIdOrderSummary: Record<string, React.CSSProperties> = {
     "1": { width: "35px", height: "35px" },
-    "2": { width: "62px", height: "62px" },
+    "2": { width: "47px", height: "47px" },
     "3": { width: "35px", height: "35px" },
     "4": { width: "40px", height: "40px" },
     "11": { width: "42px", height: "42px" },
@@ -58,15 +58,8 @@ const imageStylesByIdOrderSummary: Record<string, React.CSSProperties> = {
     "7": { width: "54px", height: "54px" },
     "8": { width: "54px", height: "54px" },
     "9": { width: "54px", height: "54px" },
-    "10": {
-        width: "45px",
-        height: "45px",
-
-    },
-
-
-
-    "15": { width: "60px", height: "60px" },
+    "10": { width: "54px", height: "54px" },
+    "15": { width: "62px", height: "56px" },
     "16": { width: "52px", height: "52px" },
     "17": { width: "45px", height: "45px" },
     "18": { width: "38px", height: "38px" },
@@ -595,7 +588,7 @@ export default function Checkout() {
                     component="main"
                     sx={{
                         flex: 1,
-                        pt: `${NAV_H + 21}px`,
+                        pt: { xs: 15, sm: 13, md: 12.5 },
                         pb: 2,
                         px: 2,
                         display: "flex",
@@ -636,9 +629,13 @@ export default function Checkout() {
                             bgcolor: "background.paper",
                             boxShadow:
                                 "0 4px 14px rgba(13, 71, 161, 0.25), 0 8px 24px rgba(13, 71, 161, 0.18)",
+                            height: "auto",
+                            maxHeight: {
+                                xs: "clamp(520px, calc(100svh - 210px), 680px)",
+                                sm: "clamp(560px, calc(100svh - 210px), 720px)",
+                                md: 740,
+                            },
                             overflow: "hidden",
-                            height: { xs: "calc(100dvh - 160px)", md: "calc(100vh - 180px)" },
-                            maxHeight: 760,
                             display: "flex",
                             flexDirection: "column",
                             ...(screen === "form" ? { overflowY: "auto" } : {}),
@@ -790,7 +787,13 @@ export default function Checkout() {
 
 
                                                 {/* Totals breakdown */}
-                                                <Box sx={{ mt: 0.6 }}>
+                                                <Box
+                                                    sx={{
+                                                        mt: 2,
+                                                        pt: 1,
+                                                        borderTop: "1px dashed rgba(13, 71, 161, 0.2)",
+                                                    }}
+                                                >
                                                     <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
                                                         Items: {totalItems}
                                                     </Typography>
@@ -1106,7 +1109,7 @@ export default function Checkout() {
                                     ref={stickyRef}
                                     sx={{
                                         position: "sticky",
-                                        bottom: 0,
+                                        bottom: -1,
                                         px: { xs: 2, sm: 3 },
                                         py: 1.5,
                                         zIndex: 10,
