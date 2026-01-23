@@ -40,29 +40,36 @@ const imageMap: Record<string, string> = {
 
 const normalizeImageKey = (value?: string) => {
     if (!value) return "";
-    const last = value.split("/").pop() || value;   
-    return last.split("?")[0].trim();              
+    const last = value.split("/").pop() || value;
+    return last.split("?")[0].trim();
 };
 
 const imageStylesByIdOrderSummary: Record<string, React.CSSProperties> = {
-    "1": { width: "125px", height: "120px", marginTop: "5px" },
-    "2": { width: "230px", height: "215px" },
-    "3": { width: "158px", height: "120px", marginTop: "10px" },
-    "4": { width: "200px", height: "142px" },
-    "11": { width: "145px", height: "145px" },
-    "12": { width: "165px", height: "120px" },
-    "13": { width: "140px", height: "132px", marginTop: "10px" },
-    "14": { width: "172px", height: "127px" },
-    "5": { width: "155px", height: "160px", marginTop: "4px" },
-    "6": { width: "155px", height: "160px", marginTop: "4px" },
-    "7": { width: "155px", height: "160px", marginTop: "4px" },
-    "8": { width: "155px", height: "160px", marginTop: "4px" },
-    "9": { width: "155px", height: "160px", marginTop: "4px" },
-    "10": { width: "155px", height: "160px", marginTop: "4px" },
-    "15": { width: "185px", height: "200px" },
-    "16": { width: "160px", height: "150px" },
-    "17": { width: "168px", height: "148px" },
-    "18": { width: "125px", height: "120px" },
+    "1": { width: "35px", height: "35px" },
+    "2": { width: "62px", height: "62px" },
+    "3": { width: "35px", height: "35px" },
+    "4": { width: "40px", height: "40px" },
+    "11": { width: "42px", height: "42px" },
+    "12": { width: "48px", height: "48px" },
+    "13": { width: "38px", height: "38px" },
+    "14": { width: "38px", height: "38px" },
+    "5": { width: "54px", height: "54px" },
+    "6": { width: "54px", height: "54px" },
+    "7": { width: "54px", height: "54px" },
+    "8": { width: "54px", height: "54px" },
+    "9": { width: "54px", height: "54px" },
+    "10": {
+        width: "45px",
+        height: "45px",
+
+    },
+
+
+
+    "15": { width: "60px", height: "60px" },
+    "16": { width: "52px", height: "52px" },
+    "17": { width: "45px", height: "45px" },
+    "18": { width: "38px", height: "38px" },
 };
 
 
@@ -314,7 +321,7 @@ export default function Checkout() {
 
                 subtotal,
                 discount,
-                total, 
+                total,
 
                 tax,
                 delivery_fee: deliveryFee,
@@ -711,14 +718,14 @@ export default function Checkout() {
                                                                 p: 1.2,
                                                                 borderRadius: 2,
                                                                 border: "1px solid rgba(13, 71, 161, 0.18)",
-                                                                bgcolor: "rgba(255, 224, 199, 0.45)",
+                                                                bgcolor: "rgba(255, 224, 199, 0.35)"
                                                             }}
                                                         >
                                                             {/* container fixo */}
                                                             <Box
                                                                 sx={{
-                                                                    width: 54,
-                                                                    height: 54,
+                                                                    width: 58,
+                                                                    height: 58,
                                                                     backgroundColor: "#fff",
                                                                     borderRadius: 1.5,
                                                                     border: "1px solid rgba(13, 71, 161, 0.18)",
@@ -727,19 +734,21 @@ export default function Checkout() {
                                                                     alignItems: "center",
                                                                     justifyContent: "center",
                                                                     flexShrink: 0,
+                                                                    overflow: "visible",
                                                                 }}
                                                             >
                                                                 <img
                                                                     src={imgSrc}
                                                                     alt={it.name}
                                                                     style={{
-                                                                        ...(imgOverride ?? { width: 44, height: 44 }),
-                                                                        maxWidth: "100%",
-                                                                        maxHeight: "100%",
+                                                                        width: 44,
+                                                                        height: 44,
                                                                         objectFit: "contain",
                                                                         display: "block",
+                                                                        ...(imgOverride ?? {}),
                                                                     }}
                                                                 />
+
                                                             </Box>
 
                                                             <Box sx={{ flex: 1, minWidth: 0 }}>
@@ -807,14 +816,14 @@ export default function Checkout() {
 
                                                     <Typography
                                                         sx={{
-                                                            fontSize: "0.95rem",
+                                                            fontSize: "0.97rem",
                                                             fontWeight: 900,
                                                             color: "#0d47a1",
                                                             mt: 0.4,
                                                         }}
                                                     >
-                                                        Grand Total:
-                                                        <span style={{ color: "#e65100" }}> {grandTotalLabel}</span>
+                                                        Total:
+                                                        <span style={{ color: "#0d47a1" }}> {grandTotalLabel}</span>
                                                     </Typography>
                                                 </Box>
                                             </Stack>

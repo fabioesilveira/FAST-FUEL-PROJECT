@@ -123,9 +123,9 @@ export default function PromoBannerCarousel({
                     <Typography
                         sx={{
                             mt: 0.9,
-                            fontSize: { xs: "0.88rem", sm: "0.95rem", md: "1.05rem" }, 
+                            fontSize: { xs: "0.88rem", sm: "0.95rem", md: "1.05rem" },
                             fontWeight: 800,
-                            letterSpacing: "0.1em", 
+                            letterSpacing: "0.1em",
                             textTransform: "uppercase",
                             color: "rgba(13, 71, 161, 0.85)",
                         }}
@@ -152,4 +152,8 @@ const defaultItems: BannerItem[] = [
         title: "Treat yourself today",
         subtitle: "Try our delicious desserts",
     },
+    {
+        title: "Fast delivery",
+        subtitle: "Free delivery on orders over $30",
+    }
 ];

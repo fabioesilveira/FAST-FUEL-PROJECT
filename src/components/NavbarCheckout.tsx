@@ -87,7 +87,7 @@ export default function NavbarCheckout() {
                                 mr: 1,
                             }}
                         >
-                            Exit Checkout
+                            Exit
                         </Button>
                     </Toolbar>
                 </Box>

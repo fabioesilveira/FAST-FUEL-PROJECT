@@ -210,7 +210,7 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                                 },
                             }}
                         >
-                            <SwapHorizIcon sx={{ fontSize: 39, color: ORANGE }} />
+                            <SwapHorizIcon sx={{ fontSize: 39, color: "#0d47a1" }} />
                         </IconButton>
                     </Tooltip>
 

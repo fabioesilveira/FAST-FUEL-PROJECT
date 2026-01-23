@@ -129,7 +129,7 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                                             fontFamily: '"Big Shoulders Inline", sans-serif',
                                             fontSize: 23,
                                             fontWeight: 900,
-                                            color: "#e65100",
+                                            color: "#0d47a1",
                                             lineHeight: 0.9,
                                             letterSpacing: "0.08em",
                                         }}
@@ -141,7 +141,7 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                                             fontFamily: '"Big Shoulders Inline", sans-serif',
                                             fontSize: 23,
                                             fontWeight: 900,
-                                            color: "#e65100",
+                                            color: "#0d47a1",
                                             lineHeight: 0.9,
                                             letterSpacing: "0.08em",
                                         }}

@@ -335,7 +335,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                 <SwapHorizIcon
                   sx={{
                     fontSize: 37.5,
-                    color: ORANGE,
+                    color: "#0d47a1",
                     transition: "transform .2s ease",
                     transform: open ? "scale(1.04)" : "scale(1)",
                   }}

@@ -23,18 +23,18 @@ export default function DeleteAccount() {
     const navigate = useNavigate();
 
     function handleRequestDelete() {
-    if (!deleteACC.email || !deleteACC.password || !deleteACC.confirmPassword) {
-        showAlert("Please fill in all fields.", "warning");
-        return;
-    }
+        if (!deleteACC.email || !deleteACC.password || !deleteACC.confirmPassword) {
+            showAlert("Please fill in all fields.", "warning");
+            return;
+        }
 
-    if (deleteACC.password !== deleteACC.confirmPassword) {
-        showAlert("The passwords entered don’t match. Please try again.", "error");
-        return;
-    }
+        if (deleteACC.password !== deleteACC.confirmPassword) {
+            showAlert("The passwords entered don’t match. Please try again.", "error");
+            return;
+        }
 
-    setOpenConfirm(true);
-}
+        setOpenConfirm(true);
+    }
 
 
     const { showAlert, AlertUI } = useAppAlert({
@@ -269,17 +269,38 @@ export default function DeleteAccount() {
                                     fullWidth
                                     type="email"
                                     variant="outlined"
-                                    className="text-field-orange"
+                                    // className="text-field-orange"
                                     name="email"
                                     value={deleteACC.email}
                                     onChange={handleChange}
                                     InputProps={{ readOnly: true }}
                                     sx={{
+                                        "& .MuiInputLabel-root": {
+                                            color: "#000",
+                                        },
+                                        "& .MuiInputLabel-root.Mui-focused": {
+                                            color: "#000",
+                                        },
+
+                                        "& .MuiOutlinedInput-root": {
+                                            "& fieldset": {
+                                                borderColor: "#000",
+                                            },
+                                            "&:hover fieldset": {
+                                                borderColor: "#000",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                                borderColor: "#000",
+                                                borderWidth: 1.5,
+                                            },
+                                        },
+
                                         "& .MuiOutlinedInput-input": {
                                             color: "#000",
                                             WebkitTextFillColor: "#000",
                                         },
                                     }}
+
                                 />
 
                                 <TextField
@@ -293,11 +314,32 @@ export default function DeleteAccount() {
                                     value={deleteACC.password}
                                     onChange={handleChange}
                                     sx={{
+                                        "& .MuiInputLabel-root": {
+                                            color: "#000",
+                                        },
+                                        "& .MuiInputLabel-root.Mui-focused": {
+                                            color: "#000",
+                                        },
+
+                                        "& .MuiOutlinedInput-root": {
+                                            "& fieldset": {
+                                                borderColor: "#000",
+                                            },
+                                            "&:hover fieldset": {
+                                                borderColor: "#000",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                                borderColor: "#000",
+                                                borderWidth: 1.5,
+                                            },
+                                        },
+
                                         "& .MuiOutlinedInput-input": {
                                             color: "#000",
                                             WebkitTextFillColor: "#000",
                                         },
                                     }}
+
                                 />
 
                                 <TextField
@@ -311,11 +353,32 @@ export default function DeleteAccount() {
                                     value={deleteACC.confirmPassword}
                                     onChange={handleChange}
                                     sx={{
+                                        "& .MuiInputLabel-root": {
+                                            color: "#000",
+                                        },
+                                        "& .MuiInputLabel-root.Mui-focused": {
+                                            color: "#000",
+                                        },
+
+                                        "& .MuiOutlinedInput-root": {
+                                            "& fieldset": {
+                                                borderColor: "#000",
+                                            },
+                                            "&:hover fieldset": {
+                                                borderColor: "#000",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                                borderColor: "#000",
+                                                borderWidth: 1.5,
+                                            },
+                                        },
+
                                         "& .MuiOutlinedInput-input": {
                                             color: "#000",
                                             WebkitTextFillColor: "#000",
                                         },
                                     }}
+
                                 />
 
                                 {/* DELETE BUTTON */}
@@ -365,7 +428,7 @@ export default function DeleteAccount() {
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
                                         bgcolor: "rgba(230, 81, 0, 0.14)",
-                
+
                                         fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
 
                                         "&:hover": {

@@ -207,7 +207,7 @@ export default function SignUp() {
                         justifyContent: "center",
                         alignItems: "center",
                         px: 2,
-                        pt: { xs: 10, md: 12 },
+                        pt: { xs: 11, md: 12 },
                         pb: 10,
                         boxSizing: "border-box",
                         overflowY: "auto",
@@ -419,7 +419,7 @@ export default function SignUp() {
                                     variant="text"
                                     onClick={() => navigate("/sign-in")}
                                     sx={{
-                                        mt: 0.5,
+                                        mt: 0.3,
                                         textTransform: "none",
                                         color: "rgba(180, 63, 0, 1)",
 

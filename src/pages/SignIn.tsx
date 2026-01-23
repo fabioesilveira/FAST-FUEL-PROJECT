@@ -325,7 +325,7 @@ export default function SignIn() {
                                 <Typography
                                     align="center"
                                     sx={{
-                                        mt: 1,
+                                        mt: 0.3,
                                         fontSize: { xs: "0.78rem", sm: "0.83rem", md: "0.85rem" },
                                         color: "rgba(180, 63, 0, 1)",
                                         fontWeight: "bold",
@@ -340,7 +340,7 @@ export default function SignIn() {
                                     variant="outlined"
                                     onClick={() => navigate("/sign-up")}
                                     sx={{
-                                        mt: 1,
+                                        mt: 0.3,
                                         height: 42,
                                         borderRadius: 2,
                                         textTransform: "uppercase",

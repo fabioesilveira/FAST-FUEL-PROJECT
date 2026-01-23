@@ -63,7 +63,7 @@ export default function NavbarOrders() {
                                 mr: 1,
                             }}
                         >
-                            Exit Orders
+                            Exit
                         </Button>
                     </Toolbar>
                 </Box>
