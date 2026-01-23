@@ -1258,6 +1258,16 @@ export default function Home() {
                                     <Typography sx={{ mt: 0.25, fontSize: { xs: "0.72rem", sm: "0.78rem" }, fontWeight: 800, color: "rgba(0,0,0,0.55)" }}>
                                         {checkout >= 30 ? "You unlocked free delivery 🎉" : `Add $${(30 - checkout).toFixed(2)} more to get FREE delivery`}
                                     </Typography>
+                                    <Typography
+                                        sx={{
+                                            mt: 0.25,
+                                            fontSize: { xs: "0.72rem", sm: "0.78rem" },
+                                            fontWeight: 800,
+                                            color: "rgba(0,0,0,0.55)",
+                                        }}
+                                    >
+                                        $2 combo discount applied at checkout.
+                                    </Typography>
 
                                     <Divider sx={{ my: 0.5, borderColor: "rgba(230, 81, 0, 0.22)" }} />
                                 </Box>
@@ -1486,7 +1496,7 @@ export default function Home() {
                         </Typography>
 
                         <h2 className="h2-driveMode-desk">
-                            *COMBO PROMO: Burger + Side + Beverage = $2 OFF. Discount applied at checkout. Search by name or category to see full descriptions.
+                            *Search by name or category, or browse the products page for full details.
                         </h2>
 
                         <Box

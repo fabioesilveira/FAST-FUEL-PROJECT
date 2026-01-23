@@ -533,14 +533,9 @@ body {
   }
 }
 
-@media (max-width: 1150px) {
-  .h2-driveMode-desk {
-    display: none !important;
-  }
-}
 
 .h2-driveMode-desk {
-  font-size: clamp(0.59rem, 1.2vw, 0.80rem);
+  font-size: clamp(0.64rem, 1.2vw, 0.82rem);
   font-weight: 600;
   line-height: 1.35;
   letter-spacing: 0.04em;
@@ -553,10 +548,13 @@ body {
 /* some só no mobile real */
 @media (max-width: 600px) {
   .h2-driveMode-desk {
-    display: none;
+    display: block !important;
+    font-size: 0.64rem;
+    line-height: 1.25;
+    opacity: 0.82;
+     margin-bottom: 10px;
   }
 }
-
 
 /* Tabs container */
 .ff-tabs .nav-link {

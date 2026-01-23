@@ -157,7 +157,7 @@ export default function ContactUs() {
                         justifyContent: "center",
                         alignItems: "center",
                         px: 2,
-                        pt: { xs: 10, md: 12 },
+                        pt: { xs: 12, md: 12 },
                         pb: 10,
                         boxSizing: "border-box",
                         pointerEvents: "none",
