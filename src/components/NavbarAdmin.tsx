@@ -2,14 +2,12 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-
 import Logo from "../assets/fast-fuel.png";
 import { useLocation, useNavigate } from "react-router-dom";
-
 import HistoryIcon from "@mui/icons-material/History";
 import EmailIcon from "@mui/icons-material/Email";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { Chip } from "@mui/material";
 
 export default function NavbarAdmin() {
     const navigate = useNavigate();
@@ -88,21 +86,20 @@ export default function NavbarAdmin() {
                             />
                         </Box>
 
-                        <Typography
+                        <Chip
+                            label="ADM"
+                            size="small"
                             sx={{
-                                display: { xs: "none", sm: "block" },
-                                color: "#e65100",
+                                ml: 1.2,
+                                height: 20,
+                                fontSize: "0.62rem",
                                 fontWeight: 900,
-                                textTransform: "uppercase",
-                                letterSpacing: "0.14em",
-                                fontSize: { sm: "1rem", md: "1.35rem" },
-                                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.18)",
-                                userSelect: "none",
-                                whiteSpace: "nowrap",
+                                letterSpacing: "0.12em",
+                                bgcolor: "rgba(0,0,0,0.12)",
+                                color: "rgba(0,0,0,0.65)",
+                                borderRadius: 1,
                             }}
-                        >
-                            Adm Dashboard
-                        </Typography>
+                        />
                     </Box>
 
                     {/* SPACER */}
