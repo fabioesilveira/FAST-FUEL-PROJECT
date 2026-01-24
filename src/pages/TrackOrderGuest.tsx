@@ -24,6 +24,12 @@ type Sale = {
     customer_email: string | null;
 
     items: any;
+    items_snapshot?: any; 
+    delivery_address?: any; 
+
+    payment_method?: "card" | "apple_pay" | "google_pay" | "cash"; 
+    payment_status?: "approved" | "pending" | "declined" | "refunded"; 
+
     subtotal: number;
     discount: number;
     total: number;
@@ -37,6 +43,7 @@ type Sale = {
     created_at: string;
     updated_at: string;
 };
+
 
 const API = "http://localhost:3000/sales";
 
@@ -57,6 +64,55 @@ function safeParseItems(items: any) {
 function cleanProductName(name: string) {
     return String(name || "").split("/")[0].trim();
 }
+
+function formatAddress(addr: any) {
+    let a = addr;
+
+    // se vier string JSON do backend, tenta parse
+    if (typeof addr === "string") {
+        try {
+            a = JSON.parse(addr);
+        } catch {
+            a = null;
+        }
+    }
+
+    if (!a) return "-";
+
+    const street = a.street ?? a.line1 ?? "";
+    const city = a.city ?? "";
+    const state = a.state ?? a.region ?? "";
+    const zip = a.zip ?? a.postalCode ?? "";
+    const country = a.country ?? "";
+
+    const parts = [street, city, state, zip, country]
+        .map((x) => String(x || "").trim())
+        .filter(Boolean);
+
+    return parts.length ? parts.join(", ") : "-";
+}
+
+
+function formatPayment(method?: Sale["payment_method"], status?: Sale["payment_status"]) {
+    const m = method ?? "card";
+    const methodLabel =
+        m === "apple_pay" ? "Apple Pay" :
+            m === "google_pay" ? "Google Pay" :
+                m === "cash" ? "Cash" :
+                    "Card";
+
+    const statusLabel =
+        status === "pending" ? "Pending" :
+            status === "declined" ? "Declined" :
+                status === "refunded" ? "Refunded" :
+                    "Approved";
+
+    // se for cash, mostra Pay on delivery / Pending
+    if (m === "cash") return `Pay on delivery • Cash`;
+
+    return `${statusLabel} • ${methodLabel}`;
+}
+
 
 export default function TrackOrderGuest() {
     const [orderCodeFilter, setOrderCodeFilter] = useState("");
@@ -257,7 +313,7 @@ export default function TrackOrderGuest() {
 
         const id = setInterval(() => {
             fetchOrders();
-        }, 8000); // 8s (ajusta como quiser)
+        }, 8000); 
 
         return () => clearInterval(id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -503,19 +559,25 @@ export default function TrackOrderGuest() {
                                 <Box sx={{ flex: 1, overflowY: "auto" }}>
                                     <Stack spacing={1.4}>
                                         {items.map((o) => {
+                                            const snap = safeParseItems((o as any).items_snapshot);
                                             const cart = safeParseItems(o.items);
-                                            const list = Array.isArray(cart) ? cart : [];
+
+                                            const list = Array.isArray(snap) && snap.length > 0
+                                                ? snap
+                                                : (Array.isArray(cart) ? cart : []);
 
                                             const lines = list.map((it: any, idx: number) => {
-                                                const rawName = String(
-                                                    it?.name ?? it?.product_name ?? it?.title ?? "Item"
-                                                );
+                                                const rawName = String(it?.name ?? it?.product_name ?? it?.title ?? "Item");
                                                 return {
                                                     key: `${o.id}-${idx}`,
                                                     name: cleanProductName(rawName),
-                                                    qty: Number(it?.quantity ?? it?.quantidade ?? it?.qty ?? 1),
+                                                    qty: Number(it?.qty ?? it?.quantity ?? it?.quantidade ?? 1),
                                                 };
                                             });
+
+                                            const deliveryText = formatAddress((o as any).delivery_address);
+                                            const paymentText = formatPayment((o as any).payment_method, (o as any).payment_status);
+
 
                                             const canConfirm =
                                                 o.status === "sent" && !o.received_confirmed_at;
@@ -548,6 +610,14 @@ export default function TrackOrderGuest() {
                                                                     <b>{o.customer_name ?? "Guest"}</b>
                                                                     {o.customer_email ? ` • ${o.customer_email}` : ""}
                                                                 </Typography>
+                                                                <Typography sx={{ fontSize: "0.86rem" }}>
+                                                                    <b>Delivery:</b> {deliveryText}
+                                                                </Typography>
+
+                                                                <Typography sx={{ fontSize: "0.86rem" }}>
+                                                                    <b>Payment:</b> {paymentText}
+                                                                </Typography>
+
                                                             </Box>
 
                                                             <Box sx={{ display: { xs: "none", sm: "block" } }}>
