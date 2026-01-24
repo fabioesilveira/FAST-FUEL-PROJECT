@@ -267,6 +267,7 @@ export default function Checkout() {
         if (!email.trim()) return "Please enter your email.";
         if (!email.includes("@")) return "Please enter a valid email.";
 
+        if (!address.street.trim()) return "Please fill your street.";
         if (!address.city.trim()) return "Please fill your city.";
         if (!address.state.trim()) return "Please fill your state.";
         if (!address.zip.trim()) return "Please fill your zipcode.";
@@ -303,22 +304,35 @@ export default function Checkout() {
         setScreen("processing");
 
         try {
-            const itemsSnapshot = normalizeCartSnapshot(order as Meal[]);
+
+            const itemsNorm = (order as Meal[]).map((it) => ({
+                id: String(it.id),
+                qty: Number(it.quantidade ?? 1),
+            }));
 
             const payload = {
                 user_id: isLogged ? Number(loggedUser!.id) : null,
                 customer_name: fullName.trim(),
                 customer_email: email.trim(),
-                items: itemsSnapshot,
 
-                subtotal,
-                discount,
-                total,
+                // ✅ o backend precisa disso (id + qty)
+                items: itemsNorm,
 
-                tax,
-                delivery_fee: deliveryFee,
-                grand_total: grandTotal,
+                // ✅ endereço (vai pro delivery_address JSON no banco)
+                delivery_address: {
+                    street: address.street.trim(),
+                    apt: address.apt.trim(),
+                    city: address.city.trim(),
+                    state: address.state.trim(),
+                    zip: address.zip.trim(),
+                    country: address.country.trim() || "USA",
+                },
+
+                // ✅ simulação do payment
+                payment_status: "APPROVED",
+                payment_method: "CREDIT_CARD",
             };
+
 
             const res = await axios.post(API, payload);
             const { order_code } = res.data;
@@ -357,7 +371,7 @@ export default function Checkout() {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    justifyContent: "center", 
+                    justifyContent: "center",
                     textAlign: "center",
                     gap: 2,
                 }}
@@ -950,7 +964,7 @@ export default function Checkout() {
                                                     onSelect={(addr) =>
                                                         setAddress((prev) => ({
                                                             ...prev,
-                                                            street: addr.street.split(",")[0].trim(),
+                                                            street: (addr.street || "").split(",")[0].trim(),
                                                             city: addr.city,
                                                             state: addr.state,
                                                             zip: addr.zip,

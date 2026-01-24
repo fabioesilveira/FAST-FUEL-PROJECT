@@ -15,6 +15,25 @@ import {
 import NavbarAdmin from "../../components/NavbarAdmin";
 import Footer from "../../components/Footer";
 
+type DeliveryAddress = {
+    street?: string;
+    apt?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+    country?: string;
+};
+
+type SnapshotItem = {
+    id: string;
+    name: string;
+    price: number;
+    category: string | null;
+    image: string | null;
+    qty: number;
+};
+
+
 type Sale = {
     id: number;
     order_code: string;
@@ -23,7 +42,9 @@ type Sale = {
     customer_name: string | null;
     customer_email: string | null;
 
-    items: any; // pode vir string JSON
+    items: any; // [{id, qty}] ou string JSON
+    items_snapshot: any; // [{id,name,price,category,image,qty}] ou string JSON
+
     subtotal: number;
     discount: number;
     total: number;
@@ -36,6 +57,10 @@ type Sale = {
 
     created_at: string;
     updated_at: string;
+
+    delivery_address: any; // JSON ou string JSON
+    payment_status: string | null;
+    payment_method: string | null;
 };
 
 const API = "http://localhost:3000/sales";
@@ -45,19 +70,23 @@ function formatDate(iso: string | null) {
     return new Date(iso).toLocaleString();
 }
 
-function safeParseItems(items: any) {
+function safeParseJson(value: any) {
     try {
-        if (typeof items === "string") return JSON.parse(items);
-        return items ?? [];
+        if (typeof value === "string") return JSON.parse(value);
+        return value ?? null;
     } catch {
-        return [];
+        return null;
     }
 }
 
+function cleanProductName(name: any) {
+    return String(name ?? "Item").split("/")[0].trim();
+}
+
 export default function AdminOrders() {
-    const [activeKey, setActiveKey] = useState<
-        "received" | "in_progress" | "completed"
-    >("received");
+    const [activeKey, setActiveKey] = useState<"received" | "in_progress" | "completed">(
+        "received"
+    );
 
     const [orderCodeFilter, setOrderCodeFilter] = useState("");
     const [emailFilter, setEmailFilter] = useState("");
@@ -78,7 +107,6 @@ export default function AdminOrders() {
         },
     };
 
-    // debounce pros inputs
     useEffect(() => {
         const t = setTimeout(() => {
             setDebouncedOrderCode(orderCodeFilter.trim());
@@ -101,7 +129,6 @@ export default function AdminOrders() {
                 return params.toString();
             };
 
-            // Tab "in_progress" mostra também "sent" 
             if (activeKey === "in_progress") {
                 const [inprog, sent] = await Promise.all([
                     axios.get<Sale[]>(`${API}?${buildParams("in_progress")}`),
@@ -132,9 +159,8 @@ export default function AdminOrders() {
 
     useEffect(() => {
         const interval = setInterval(() => {
-
             if (!loading) fetchOrders();
-        }, 8000); // 
+        }, 8000);
 
         return () => clearInterval(interval);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -261,7 +287,6 @@ export default function AdminOrders() {
                             Orders
                         </Typography>
 
-                        {/* Tabs */}
                         <Tabs
                             id="ff-admin-orders-tabs"
                             activeKey={activeKey}
@@ -274,7 +299,6 @@ export default function AdminOrders() {
                             <Tab eventKey="completed" title="Completed" />
                         </Tabs>
 
-                        {/* Filters */}
                         <Stack
                             direction={{ xs: "column", sm: "row" }}
                             spacing={1.2}
@@ -300,9 +324,7 @@ export default function AdminOrders() {
                                     size="small"
                                     label="Filter by Order Code"
                                     value={orderCodeFilter}
-                                    onChange={(e) =>
-                                        setOrderCodeFilter(e.target.value.replace(/\D/g, ""))
-                                    }
+                                    onChange={(e) => setOrderCodeFilter(e.target.value.replace(/\D/g, ""))}
                                     inputProps={{ maxLength: 6, inputMode: "numeric" }}
                                     sx={[tfBlueLabelSx, { width: { xs: "100%", sm: 240 } }]}
                                 />
@@ -319,7 +341,6 @@ export default function AdminOrders() {
 
                         <Divider />
 
-                        {/* LIST */}
                         <Box sx={{ flex: 1, overflowY: "auto", pr: 0.5 }}>
                             {loading ? (
                                 <Typography align="center" sx={{ color: "text.secondary", mt: 3 }}>
@@ -332,27 +353,32 @@ export default function AdminOrders() {
                             ) : (
                                 <Stack spacing={1.4}>
                                     {items.map((o) => {
-                                        const cart = safeParseItems(o.items);
-                                        const count =
-                                            Array.isArray(cart)
-                                                ? cart.reduce(
-                                                    (sum, it) =>
-                                                        sum + (it.quantidade ?? it.quantity ?? 1),
-                                                    0
-                                                )
-                                                : 0;
-                                        const list = Array.isArray(cart) ? cart : [];
+                                        const snap = safeParseJson(o.items_snapshot) as SnapshotItem[];
 
-                                        const lines = list.map((it: any, idx: number) => {
-                                            const rawName = String(it?.name ?? it?.product_name ?? it?.title ?? "Item");
+                                        const addr = safeParseJson(o.delivery_address) as DeliveryAddress;
 
-                                            return {
-                                                key: `${o.id}-${idx}`,
-                                                name: rawName.split("/")[0].trim(),
-                                                qty: Number(it?.quantity ?? it?.quantidade ?? it?.qty ?? 1),
-                                            };
-                                        });
+                                        const addressLine = [
+                                            addr?.street?.trim(),
+                                            addr?.apt?.trim() ? `Apt ${addr.apt.trim()}` : "",
+                                            addr?.city?.trim(),
+                                            addr?.state?.trim(),
+                                            addr?.zip?.trim(),
+                                            addr?.country?.trim(),
+                                        ]
+                                            .filter(Boolean)
+                                            .join(", ");
 
+                                        const paymentStatus = String(o.payment_status ?? "-");
+                                        const paymentMethod = String(o.payment_method ?? "-");
+
+                                        const list = Array.isArray(snap) ? snap : [];
+                                        const count = list.reduce((sum, it) => sum + (Number(it.qty) || 0), 0);
+
+                                        const lines = list.map((it, idx) => ({
+                                            key: `${o.id}-${idx}`,
+                                            name: cleanProductName(it?.name),
+                                            qty: Number(it?.qty ?? 1),
+                                        }));
 
                                         return (
                                             <Paper
@@ -383,12 +409,18 @@ export default function AdminOrders() {
                                                                 {o.user_id ? ` • User ID: ${o.user_id}` : " • Guest"}
                                                                 {count ? ` • Items: ${count}` : ""}
                                                             </Typography>
+                                                            <Typography sx={{ fontSize: "0.86rem", color: "#333", mt: 0.3 }}>
+                                                                <b>Delivery:</b> {addressLine || "-"}
+                                                            </Typography>
+
+                                                            <Typography sx={{ fontSize: "0.86rem", color: "#333", mt: 0.1 }}>
+                                                                <b>Payment:</b> {paymentStatus} • {paymentMethod}
+                                                            </Typography>
                                                         </Box>
 
                                                         <Stack direction="row" spacing={1} alignItems="center">
                                                             {statusChip(o.status)}
 
-                                                            {/* Accept (somente em received) */}
                                                             {activeKey === "received" && o.status === "received" && (
                                                                 <Button
                                                                     variant="contained"
@@ -407,7 +439,6 @@ export default function AdminOrders() {
                                                                 </Button>
                                                             )}
 
-                                                            {/* Mark sent (somente quando status ainda é in_progress) */}
                                                             {activeKey === "in_progress" && o.status === "in_progress" && (
                                                                 <Button
                                                                     variant="contained"
@@ -449,7 +480,11 @@ export default function AdminOrders() {
                                                             {lines.map((p) => (
                                                                 <Typography
                                                                     key={p.key}
-                                                                    sx={{ fontSize: "0.9rem", color: "#333", lineHeight: 1.35 }}
+                                                                    sx={{
+                                                                        fontSize: "0.9rem",
+                                                                        color: "#333",
+                                                                        lineHeight: 1.35,
+                                                                    }}
                                                                 >
                                                                     • {p.name} <b>x{p.qty}</b>
                                                                 </Typography>

@@ -466,6 +466,10 @@ export default function OrdersLogged() {
                                         const cart = safeParseItems(o.items);
                                         const list = Array.isArray(cart) ? cart : [];
 
+                                        console.log("RAW o.items:", o.items);
+                                        console.log("PARSED cart:", cart);
+                                        console.log("FIRST item:", Array.isArray(cart) ? cart[0] : cart);
+
                                         const lines = list.map((it: any, idx: number) => {
                                             const rawName = String(it?.name ?? it?.product_name ?? it?.title ?? "Item");
                                             return {
