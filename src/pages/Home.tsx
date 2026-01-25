@@ -42,7 +42,7 @@ import CokeImg from "../assets/Coke.png";
 import SpriteImg from "../assets/Sprite.png";
 import DrPepperImg from "../assets/Drpepper.png";
 import FantaImg from "../assets/Fanta.png";
-import DietCokeImg from "../assets/Dietacoke.png";
+import DietCokeImg from "../assets/Dietcoke.png";
 import LemonadeImg from "../assets/Lemonade.png";
 import SaladImg from "../assets/Crispsalad.png";
 import MilkshakeImg from "../assets/Milkshake.png";

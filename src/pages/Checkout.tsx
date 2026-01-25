@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Box, Paper, Typography, TextField, Button, Stack, Chip } from "@mui/material";
-import axios from "axios";
+import { api } from "../api";
 import { useNavigate } from "react-router-dom";
 import AddressLookup from "../components/AddressLookup";
 import Footer from "../components/Footer";
@@ -16,7 +16,7 @@ import CokeImg from "../assets/Coke.png";
 import SpriteImg from "../assets/Sprite.png";
 import DrPepperImg from "../assets/Drpepper.png";
 import FantaImg from "../assets/Fanta.png";
-import DietCokeImg from "../assets/Dietacoke.png";
+import DietCokeImg from "../assets/Dietcoke.png";
 import LemonadeImg from "../assets/Lemonade.png";
 import SaladImg from "../assets/Crispsalad.png";
 import MilkshakeImg from "../assets/Milkshake.png";
@@ -42,6 +42,16 @@ const normalizeImageKey = (value?: string) => {
     if (!value) return "";
     const last = value.split("/").pop() || value;
     return last.split("?")[0].trim();
+};
+
+const resolveImgSrc = (img?: string) => {
+    if (!img) return "";
+    if (img.startsWith("http")) return img;
+    if (img.startsWith("/images/")) return img;
+    if (img.startsWith("images/")) return `/${img}`;
+
+    const key = normalizeImageKey(img);
+    return imageMap[key] ?? `/images/${key}`;
 };
 
 const imageStylesByIdOrderSummary: Record<string, React.CSSProperties> = {
@@ -73,8 +83,6 @@ type LoggedUser = {
     email?: string;
     type?: "admin" | "normal";
 };
-
-const API = "http://localhost:3000/sales";
 
 export default function Checkout() {
 
@@ -231,17 +239,7 @@ export default function Checkout() {
     const subtotalLabel = useMemo(() => money(subtotal), [subtotal]);
     const discountLabel = useMemo(() => money(discount), [discount]);
 
-    function normalizeCartSnapshot(list: Meal[]) {
-        return list.map((it) => ({
-            product_id: it.id,
-            name: it.name,
-            category: it.category,
-            price: Number(it.price ?? 0),
-            quantity: Number(it.quantidade ?? 1),
-        }));
-    }
-
-    // ---- TAX / DELIVERY / GRAND TOTAL ----
+    // ---- TAX / DELIVERY / TOTAL ----
     const TAX_RATE = 0.09;
     const DELIVERY_FEE = 9.99;
     const FREE_DELIVERY_AT = 30;
@@ -315,10 +313,10 @@ export default function Checkout() {
                 customer_name: fullName.trim(),
                 customer_email: email.trim(),
 
-                // ✅ o backend precisa disso (id + qty)
+                // backend precisa disso (id + qty)
                 items: itemsNorm,
 
-                // ✅ endereço (vai pro delivery_address JSON no banco)
+                // endereço (vai pro delivery_address JSON no banco)
                 delivery_address: {
                     street: address.street.trim(),
                     apt: address.apt.trim(),
@@ -328,13 +326,13 @@ export default function Checkout() {
                     country: address.country.trim() || "USA",
                 },
 
-                // ✅ simulação do payment
+                // simulação do payment
                 payment_status: "APPROVED",
                 payment_method: "CREDIT_CARD",
             };
 
 
-            const res = await axios.post(API, payload);
+            const res = await api.post("/sales", payload);
             const { order_code } = res.data;
 
             localStorage.setItem("lastOrderCode", String(order_code));
@@ -726,8 +724,7 @@ export default function Checkout() {
                                                         const pid = String(it.id);
                                                         const qty = Number(it.quantidade ?? 1);
 
-                                                        const imgKey = normalizeImageKey(it.image);
-                                                        const imgSrc = imageMap[imgKey] ?? it.image;
+                                                        const imgSrc = resolveImgSrc(it.image);
 
                                                         const imgOverride = imageStylesByIdOrderSummary[pid];
 

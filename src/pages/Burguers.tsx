@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from "../api";
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Footer from "../components/Footer";
@@ -17,6 +17,17 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 
 const getNameWithKcal = (name: string) => name.trim();
+
+const normalizeImageKey = (value?: string) => {
+  if (!value) return "";
+  return value.split("/").pop() || value;
+};
+
+const resolveImgSrc = (img?: string) => {
+  if (!img) return "";
+  if (img.startsWith("http")) return img;           // url do Railway
+  return `/images/${normalizeImageKey(img)}`;       // vem do backend (express static)
+};
 
 function ProductCard({
   product,
@@ -118,15 +129,9 @@ function ProductCard({
         }}
       >
         <img
-          src={product.image}
+          src={resolveImgSrc(product.image)}
           alt={product.name}
-          style={{
-            ...(imgStyle ?? {}),
-            maxWidth: "100%",
-            maxHeight: "100%",
-            objectFit: "contain",
-            display: "block",
-          }}
+          style={{ ...(imgStyle ?? {}), maxWidth: "100%", maxHeight: "100%", objectFit: "contain", display: "block" }}
         />
       </Box>
 
@@ -389,15 +394,9 @@ function ProductCardDesktopLandscape({
         }}
       >
         <img
-          src={product.image}
+          src={resolveImgSrc(product.image)}
           alt={product.name}
-          style={{
-            ...(imgStyle ?? {}),
-            maxWidth: "100%",
-            maxHeight: "100%",
-            objectFit: "contain",
-            display: "block",
-          }}
+          style={{ ...(imgStyle ?? {}), maxWidth: "100%", maxHeight: "100%", objectFit: "contain", display: "block" }}
         />
       </Box>
 
@@ -613,7 +612,7 @@ export default function Burguers() {
 
   useEffect(() => {
     async function fetchApi() {
-      const req = await axios.get("http://localhost:3000/products/category/sandwiches");
+      const req = await api.get("/products/category/sandwiches");
       setData(req.data);
     }
     fetchApi();

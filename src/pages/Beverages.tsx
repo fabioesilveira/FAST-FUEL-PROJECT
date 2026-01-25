@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from "../api";
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Footer from "../components/Footer";
@@ -19,7 +19,7 @@ import CokeImg from "../assets/Coke.png";
 import SpriteImg from "../assets/Sprite.png";
 import DrPepperImg from "../assets/Drpepper.png";
 import FantaImg from "../assets/Fanta.png";
-import DietCokeImg from "../assets/Dietacoke.png";
+import DietCokeImg from "../assets/Dietcoke.png";
 import LemonadeImg from "../assets/Lemonade.png";
 
 const imageMap: Record<string, string> = {
@@ -39,8 +39,6 @@ const normalizeImageKey = (value?: string) => {
 
 
 const getNameWithKcal = (name: string) => name.trim();
-
-
 
 
 function ProductCard({
@@ -71,8 +69,13 @@ function ProductCard({
   const useCompactStyle = isMobile || isTabletOnly || useToggle;
 
   const imgKey = normalizeImageKey(product.image);
-  const imgSrc = imageMap[imgKey] ?? product.image;
 
+  // Se vier URL do Railway, usa direto.
+  // Se vier só "Coke.png", cai no map local.
+  const imgSrc =
+    typeof product.image === "string" && product.image.startsWith("http")
+      ? product.image
+      : imageMap[imgKey] ?? product.image;
 
 
   return (
@@ -345,8 +348,11 @@ function ProductCardDesktopLandscape({
   const price = `$${Number(product.price).toFixed(2)}`;
 
   const imgKey = normalizeImageKey(product.image);
-  const imgSrc = imageMap[imgKey] ?? product.image;
 
+  const imgSrc =
+    typeof product.image === "string" && product.image.startsWith("http")
+      ? product.image
+      : imageMap[imgKey] ?? product.image;
 
   return (
     <Box
@@ -647,25 +653,22 @@ export default function Beverages() {
 
   useEffect(() => {
     async function fetchApi() {
-      const req = await axios.get("http://localhost:3000/products/category/beverages");
+      const req = await api.get("/products/category/beverages");
       setData(req.data);
     }
     fetchApi();
 
-    // hydrate cart from localStorage (optional, to keep it in sync if user lands here first)
     const raw = localStorage.getItem("lsOrder");
     if (raw) {
-      console.log('existe no local storage');
       try {
         const lsOrder = JSON.parse(raw) as Meal[];
         setOrder(lsOrder);
       } catch (err) {
-        console.error('Erro ao ler lsOrder em Beverages:', err);
+        console.error("Erro ao ler lsOrder em Beverages:", err);
       }
-    } else {
-      console.log('nao existe no local storage');
     }
   }, [setOrder]);
+
 
   // keep lsOrder updated whenever the cart changes
   useEffect(() => {
