@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from "../api";
 import {
     Box,
     Paper,
@@ -24,11 +24,11 @@ type Sale = {
     customer_email: string | null;
 
     items: any;
-    items_snapshot?: any; 
-    delivery_address?: any; 
+    items_snapshot?: any;
+    delivery_address?: any;
 
-    payment_method?: "card" | "apple_pay" | "google_pay" | "cash"; 
-    payment_status?: "approved" | "pending" | "declined" | "refunded"; 
+    payment_method?: "card" | "apple_pay" | "google_pay" | "cash";
+    payment_status?: "approved" | "pending" | "declined" | "refunded";
 
     subtotal: number;
     discount: number;
@@ -44,8 +44,6 @@ type Sale = {
     updated_at: string;
 };
 
-
-const API = "http://localhost:3000/sales";
 
 function formatDate(iso: string | null) {
     if (!iso) return "-";
@@ -166,13 +164,14 @@ export default function TrackOrderGuest() {
             return;
         }
 
+        localStorage.setItem("lastOrderCode", code);
+        localStorage.setItem("lastOrderEmail", email);
+
         setLoading(true);
         try {
-            const params = new URLSearchParams();
-            params.set("order_code", code);
-            params.set("email", email);
-
-            const res = await axios.get<Sale[]>(`${API}?${params.toString()}`);
+            const res = await api.get<Sale[]>("/sales", {
+                params: { order_code: code, email },
+            });
 
             const sorted = [...res.data].sort(
                 (a, b) => +new Date(b.created_at) - +new Date(a.created_at)
@@ -180,11 +179,13 @@ export default function TrackOrderGuest() {
             setItems(sorted);
         } catch (e) {
             console.error(e);
-            alert("Failed to load your orders");
+            showAlert("Failed to load your orders.", "error");
+            setItems([]);
         } finally {
             setLoading(false);
         }
     }
+
 
     function statusChip(status: Sale["status"]) {
         if (status === "received") {
@@ -279,9 +280,9 @@ export default function TrackOrderGuest() {
 
     async function confirmReceived(o: Sale) {
         try {
-            await axios.patch(`${API}/${o.id}/confirm-received`, {
+            await api.patch(`/sales/${o.id}/confirm-received`, {
                 order_code: o.order_code,
-                email: o.customer_email,
+                email: o.customer_email ?? emailFilter.trim(),
             });
 
             showAlert("Thanks! Marked as received.", "success");
@@ -291,6 +292,7 @@ export default function TrackOrderGuest() {
             showAlert("Failed to confirm receipt", "error");
         }
     }
+
 
     function handleNotReceivedYet() {
         confirmAlert({
@@ -313,7 +315,7 @@ export default function TrackOrderGuest() {
 
         const id = setInterval(() => {
             fetchOrders();
-        }, 8000); 
+        }, 8000);
 
         return () => clearInterval(id);
         // eslint-disable-next-line react-hooks/exhaustive-deps

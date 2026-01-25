@@ -3,7 +3,7 @@ import { useAppAlert } from "../hooks/useAppAlert";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { api } from "../api";
 import NavbarExtra from "../components/NavbarExtra";
 
 type Contact = {
@@ -53,7 +53,7 @@ export default function ContactUs() {
         }
 
         try {
-            const res = await axios.post("http://localhost:3000/contact-us", contactForm);
+            const res = await api.post("/contact-us", contactForm);
 
             if (!res.data || !res.data.id) {
                 showAlert("Failed to send the message. Please try again.", "error");

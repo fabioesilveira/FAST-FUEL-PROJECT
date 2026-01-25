@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import Footer from "../components/Footer";
-import axios from "axios";
+import { api } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useAppAlert } from "../hooks/useAppAlert";
 import AppConfirm from "../components/AppConfirm";
@@ -69,10 +69,7 @@ export default function DeleteAccount() {
         }
 
         try {
-            const res = await axios.delete(
-                "http://localhost:3000/users/removeUser",
-                { data: deleteACC }
-            );
+            const res = await api.delete("/users/removeUser", { data: deleteACC });
 
             if (!res.data || res.data.affectedRows === 0) {
                 showAlert("Email and password do not match any account.", "error");

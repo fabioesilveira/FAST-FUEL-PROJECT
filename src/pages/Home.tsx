@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import axios from "axios";
+import { api } from "../api";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
@@ -212,7 +212,11 @@ function ProductCard({ product }: { product: Meal }) {
     const pid = String(product.id);
 
     const imgKey = normalizeImageKey(product.image);
-    const imgSrc = imageMap[imgKey] ?? product.image;
+
+    const imgSrc =
+        typeof product.image === "string" && product.image.startsWith("http")
+            ? product.image
+            : imageMap[imgKey] ?? product.image;
 
     const imgStyle =
         (isMobile ? imageStylesByIdMobile[pid] : imageStylesByIdDesktop[pid]) ?? {
@@ -347,8 +351,11 @@ function MiniCard({
     };
 
     const imgKey = normalizeImageKey(image);
-    const imgSrc = imageMap[imgKey] ?? image;
 
+    const imgSrc =
+        typeof image === "string" && image.startsWith("http")
+            ? image
+            : imageMap[imgKey] ?? image;
     return (
         <ButtonBase onClick={onClick} sx={{ width: 143, borderRadius: "14px", textAlign: "center" }}>
             <Box sx={{ position: "relative", width: "100%" }}>
@@ -602,7 +609,7 @@ export default function Home() {
     useEffect(() => {
         async function init() {
             try {
-                const res = await axios.get("http://localhost:3000/products");
+                const res = await api.get("/products");
                 const allProducts: Meal[] = res.data;
 
                 // joga tudo no data
@@ -751,7 +758,7 @@ export default function Home() {
     }, [order]);
 
 
-    
+
     function handleCheckoutFromCart() {
         const isLogged = Boolean(localStorage.getItem("idUser"));
         const cartHasItems = cartCount > 0;

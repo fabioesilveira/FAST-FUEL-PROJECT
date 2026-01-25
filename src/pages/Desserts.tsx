@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from "../api";
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Footer from "../components/Footer";
@@ -61,8 +61,12 @@ function ProductCard({
     const useCompactStyle = isMobile || isTabletOnly || useToggle;
 
     const imgKey = normalizeImageKey(product.image);
-    const imgSrc = imageMap[imgKey] ?? product.image;
 
+    const imgSrc =
+        typeof product.image === "string" && product.image.startsWith("http")
+            ? product.image
+            : imageMap[imgKey] ?? product.image;
+            
     return (
         <Box
             sx={{
@@ -333,8 +337,11 @@ function ProductCardDesktopLandscape({
     const price = `$${Number(product.price).toFixed(2)}`;
 
     const imgKey = normalizeImageKey(product.image);
-    const imgSrc = imageMap[imgKey] ?? product.image;
 
+    const imgSrc =
+        typeof product.image === "string" && product.image.startsWith("http")
+            ? product.image
+            : imageMap[imgKey] ?? product.image;
 
     return (
         <Box
@@ -615,7 +622,7 @@ export default function Desserts() {
     // Fetch desserts + hydrate cart from localStorage if exists
     useEffect(() => {
         async function fetchApi() {
-            const req = await axios.get("http://localhost:3000/products/category/desserts");
+            const req = await api.get("/products/category/desserts");
             setData(req.data);
         }
         fetchApi();

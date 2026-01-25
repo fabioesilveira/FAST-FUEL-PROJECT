@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from "../api";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
@@ -56,7 +56,7 @@ export default function SignIn() {
         }
 
         try {
-            const res = await axios.post("http://localhost:3000/users/login", signUp);
+            const res = await api.post("/users/login", signUp);
 
             if (!res.data || !res.data.id) {
                 showAlert("Login failed. Please try again.", "error");

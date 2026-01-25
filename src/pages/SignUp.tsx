@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from "../api";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useAppAlert } from "../hooks/useAppAlert";
@@ -105,7 +105,7 @@ export default function SignUp() {
                 password: signUp.password,
             };
 
-            const res = await axios.post("http://localhost:3000/users/register", payload);
+            const res = await api.post("/users/register", payload);
 
             localStorage.setItem("idUser", String(res.data.id));
             localStorage.setItem("userName", res.data.userName || signUp.name);

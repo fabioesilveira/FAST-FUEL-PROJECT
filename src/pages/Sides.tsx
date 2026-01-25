@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from "../api";
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Footer from "../components/Footer";
@@ -23,9 +23,9 @@ const imageMap: Record<string, string> = {
 
 const normalizeImageKey = (value?: string) => {
   if (!value) return "";
-  return value.split("/").pop() || value;
+  const last = value.split("/").pop() || value;
+  return last.split("?")[0].trim();
 };
-
 
 const getNameWithKcal = (name: string) => name.trim();
 
@@ -57,7 +57,11 @@ function ProductCard({
   const useCompactStyle = isMobile || isTabletOnly || useToggle;
 
   const imgKey = normalizeImageKey(product.image);
-  const imgSrc = imageMap[imgKey] ?? product.image;
+
+  const imgSrc =
+    typeof product.image === "string" && product.image.startsWith("http")
+      ? product.image
+      : imageMap[imgKey] ?? SaladImg;
 
   return (
     <Box
@@ -325,7 +329,11 @@ function ProductCardDesktopLandscape({
   const price = `$${Number(product.price).toFixed(2)}`;
 
   const imgKey = normalizeImageKey(product.image);
-  const imgSrc = imageMap[imgKey] ?? product.image;
+
+  const imgSrc =
+    typeof product.image === "string" && product.image.startsWith("http")
+      ? product.image
+      : imageMap[imgKey] ?? SaladImg;
 
   return (
     <Box
@@ -625,7 +633,7 @@ export default function Sides() {
 
   useEffect(() => {
     async function fetchApi() {
-      const req = await axios.get("http://localhost:3000/products/category/sides");
+      const req = await api.get("/products/category/sides");
       setData(req.data);
     }
     fetchApi();

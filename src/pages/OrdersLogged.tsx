@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { api } from "../api";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import {
@@ -54,7 +54,7 @@ type LoggedUser = {
     type?: "admin" | "normal";
 };
 
-const API = "http://localhost:3000/sales";
+const API = "/sales";
 
 function formatDate(iso: string | null) {
     if (!iso) return "-";
@@ -268,7 +268,7 @@ export default function OrdersLogged() {
 
             if (debouncedOrderCode) params.set("order_code", debouncedOrderCode);
 
-            const res = await axios.get<Sale[]>(`${API}?${params.toString()}`);
+            const res = await api.get<Sale[]>(`${API}?${params.toString()}`);
 
             const sorted = [...res.data].sort(
                 (a, b) => +new Date(b.created_at) - +new Date(a.created_at)
@@ -290,10 +290,13 @@ export default function OrdersLogged() {
 
     async function confirmReceived(o: Sale) {
         try {
-            await axios.patch(`${API}/${o.id}/confirm-received`, {
-                order_code: o.order_code,
-                email: o.customer_email,
-            });
+            await api.patch(
+                `${API}/${o.id}/confirm-received`,
+                {
+                    order_code: o.order_code,
+                    email: o.customer_email,
+                }
+            );
 
             showAlert?.("Thanks! Marked as received.", "success");
             await fetchUserOrders();
