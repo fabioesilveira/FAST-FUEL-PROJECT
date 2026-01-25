@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from "../../api";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import {
@@ -63,7 +63,7 @@ type Sale = {
     payment_method: string | null;
 };
 
-const API = "http://localhost:3000/sales";
+const API = "/sales";
 
 function formatDate(iso: string | null) {
     if (!iso) return "-";
@@ -131,8 +131,8 @@ export default function AdminOrders() {
 
             if (activeKey === "in_progress") {
                 const [inprog, sent] = await Promise.all([
-                    axios.get<Sale[]>(`${API}?${buildParams("in_progress")}`),
-                    axios.get<Sale[]>(`${API}?${buildParams("sent")}`),
+                    api.get<Sale[]>(`${API}?${buildParams("in_progress")}`),
+                    api.get<Sale[]>(`${API}?${buildParams("sent")}`),
                 ]);
 
                 const merged = [...inprog.data, ...sent.data].sort(
@@ -141,7 +141,7 @@ export default function AdminOrders() {
 
                 setItems(merged);
             } else {
-                const res = await axios.get<Sale[]>(`${API}?${buildParams(activeKey)}`);
+                const res = await api.get<Sale[]>(`${API}?${buildParams(activeKey)}`);
                 setItems(res.data);
             }
         } catch (e) {
@@ -168,7 +168,7 @@ export default function AdminOrders() {
 
     async function updateStatus(id: number, status: "in_progress" | "sent") {
         try {
-            await axios.patch(`${API}/${id}/status`, { status });
+            await api.patch(`${API}/${id}/status`, { status });
             await fetchOrders();
         } catch (e) {
             console.error(e);

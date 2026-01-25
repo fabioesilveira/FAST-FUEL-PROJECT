@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { api } from "../../api"
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import { Box, Paper, Typography, TextField, Button, Stack, Chip, Divider } from "@mui/material";
@@ -20,7 +20,7 @@ type ContactMsg = {
     replied_at: string | null;
 };
 
-const API = "http://localhost:3000/contact-us";
+const API = "/contact-us";
 
 function formatDate(iso: string | null) {
     if (!iso) return "-";
@@ -43,9 +43,9 @@ export default function AdminMessages() {
         },
     };
 
-
     const repliedValue = activeKey === "answered" ? 1 : 0;
 
+    
     const queryUrl = useMemo(() => {
         const params = new URLSearchParams();
         params.set("replied", String(repliedValue));
@@ -56,7 +56,7 @@ export default function AdminMessages() {
     async function fetchMessages() {
         setLoading(true);
         try {
-            const res = await axios.get<ContactMsg[]>(queryUrl);
+            const res = await api.get<ContactMsg[]>(queryUrl);
             setItems(res.data);
         } catch (e) {
             console.error(e);
@@ -66,36 +66,32 @@ export default function AdminMessages() {
         }
     }
 
+
+
     useEffect(() => {
         if (activeKey === "contact") return;
-        fetchMessages();
+
+        fetchMessages(); // primeira carga imediata
+
+        const interval = setInterval(() => {
+            fetchMessages();
+        }, 8000);
+
+        return () => clearInterval(interval);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [queryUrl, activeKey]);
 
+
+
     async function markAsAnswered(id: number) {
         try {
-            await axios.patch(`${API}/${id}/reply`);
-
+            await api.patch(`${API}/${id}/reply`);
             setItems((prev) => prev.filter((m) => m.id !== id));
-
         } catch (e) {
             console.error(e);
             alert("Failed to mark as answered");
         }
     }
-
-    useEffect(() => {
-        if (activeKey === "contact") return;
-
-        fetchMessages(); 
-
-        const interval = setInterval(() => {
-            fetchMessages();
-        }, 8000); 
-
-        return () => clearInterval(interval);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [queryUrl, activeKey]);
 
     return (
         <>
@@ -296,5 +292,4 @@ export default function AdminMessages() {
             </Box>
         </>
     );
-
 }
