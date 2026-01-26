@@ -221,8 +221,8 @@ export default function ContactUs() {
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -0.5, md: -0.5 },
-                                    mt: { xs: 1.5, sm: 2, md: 0 },
+                                    mb: { xs: -1.2, sm: -0.7, md: -0.2 },
+                                    mt: { xs: 1.5, sm: 1.5, md: 1.5 },
                                 }}
                             >
                                 Contact Us
@@ -240,7 +240,7 @@ export default function ContactUs() {
                                     // espaço REAL pro primeiro label subir (só mobile)
                                     pt: { xs: 1.6, sm: 0 },
 
-                                   
+
                                     pb: { xs: 6, sm: 4 },
                                 }}
                             >
@@ -340,9 +340,9 @@ export default function ContactUs() {
                                             onChange={handleChange}
                                             fullWidth
                                             multiline
-                                            rows={isMobile ? 3 : 5}   
+                                            rows={isMobile ? 3 : 5}
                                             inputProps={{ maxLength: 300 }}
-                                            sx={tfSx}                 
+                                            sx={tfSx}
                                         />
 
                                     </Box>
