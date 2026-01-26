@@ -5,6 +5,8 @@ import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
 import NavbarExtra from "../components/NavbarExtra";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 type Contact = {
     name: string;
@@ -26,6 +28,9 @@ export default function ContactUs() {
     });
 
     const navigate = useNavigate();
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const { showAlert, AlertUI } = useAppAlert({
         vertical: "top",
@@ -216,8 +221,8 @@ export default function ContactUs() {
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: 1.2, md: 4 },
-                                    mt: { xs: 1.5, sm: 1, md: 0 },
+                                    mb: { xs: -0.5, md: -0.5 },
+                                    mt: { xs: 1.5, sm: 2, md: 0 },
                                 }}
                             >
                                 Contact Us
@@ -232,8 +237,11 @@ export default function ContactUs() {
                                     justifyContent: "center",
                                     pr: 0.5,
 
-                                    
-                                    pb: { xs: 18, sm: 4 },
+                                    // espaço REAL pro primeiro label subir (só mobile)
+                                    pt: { xs: 1.6, sm: 0 },
+
+                                   
+                                    pb: { xs: 6, sm: 4 },
                                 }}
                             >
 
@@ -247,8 +255,12 @@ export default function ContactUs() {
                                         display: "flex",
                                         flexDirection: "column",
                                         gap: 2,
+
+                                        // gives space for the first label to float (ONLY mobile)
+                                        pt: { xs: 1.2, sm: 2 },
                                     }}
                                 >
+
                                     <TextField
                                         variant="outlined"
                                         label="Full Name*"
@@ -328,29 +340,9 @@ export default function ContactUs() {
                                             onChange={handleChange}
                                             fullWidth
                                             multiline
-                                            rows={4}              // mobile
-                                            maxRows={6}           // desktop cresce
+                                            rows={isMobile ? 3 : 5}   
                                             inputProps={{ maxLength: 300 }}
-                                            InputLabelProps={{ shrink: true }}
-                                            sx={{
-                                                "& label": { color: "#0d47a1", fontWeight: 500 },
-                                                "& label.Mui-focused": { color: "#0d47a1" },
-                                                "& .MuiOutlinedInput-root": {
-                                                    "& fieldset": { borderColor: "#0d47a1" },
-                                                    "&:hover fieldset": { borderColor: "#123b7a" },
-                                                    "&.Mui-focused fieldset": {
-                                                        borderColor: "#0d47a1",
-                                                        borderWidth: 2,
-                                                    },
-                                                },
-
-                                                
-                                                "& textarea": {
-                                                    "@media (max-width:600px)": {
-                                                        minHeight: "88px",
-                                                    },
-                                                },
-                                            }}
+                                            sx={tfSx}                 
                                         />
 
                                     </Box>
@@ -388,7 +380,7 @@ export default function ContactUs() {
                                         fullWidth
                                         onClick={() => navigate("/")}
                                         sx={{
-                                            mt: 1,
+                                            mt: 0,
                                             height: 42,
                                             borderRadius: 2,
                                             textTransform: "uppercase",
