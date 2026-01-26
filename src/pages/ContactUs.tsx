@@ -224,6 +224,7 @@ export default function ContactUs() {
                                         variant="outlined"
                                         label="Full Name*"
                                         name="name"
+                                        InputLabelProps={{ shrink: true }}
                                         value={contactForm.name}
                                         onChange={handleChange}
                                         size="small"
@@ -248,6 +249,7 @@ export default function ContactUs() {
                                         label="Email*"
                                         type="email"
                                         name="email"
+                                        InputLabelProps={{ shrink: true }}
                                         value={contactForm.email}
                                         onChange={handleChange}
                                         size="small"
@@ -271,6 +273,7 @@ export default function ContactUs() {
                                         <TextField
                                             variant="outlined"
                                             size="small"
+                                            InputLabelProps={{ shrink: true }}
                                             label="Order Number"
                                             name="orderNumber"
                                             value={contactForm.orderNumber || ""}
@@ -293,6 +296,7 @@ export default function ContactUs() {
                                             variant="outlined"
                                             size="small"
                                             label="Phone Number"
+                                            InputLabelProps={{ shrink: true }}
                                             name="phone"
                                             value={contactForm.phone}
                                             onChange={handleChange}
@@ -318,6 +322,7 @@ export default function ContactUs() {
                                         size="small"
                                         label="Subject*"
                                         name="subject"
+                                        InputLabelProps={{ shrink: true }}
                                         value={contactForm.subject}
                                         onChange={handleChange}
                                         fullWidth
@@ -360,6 +365,7 @@ export default function ContactUs() {
                                             multiline
                                             rows={5}
                                             inputProps={{ maxLength: 300 }}
+                                            InputLabelProps={{ shrink: true }}
                                             sx={{
                                                 "& label": { color: "#0d47a1", fontWeight: 500 },
                                                 "& label.Mui-focused": { color: "#0d47a1" },
