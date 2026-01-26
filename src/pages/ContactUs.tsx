@@ -85,10 +85,33 @@ export default function ContactUs() {
         }));
     }
 
+    const tfSx = {
+        "& label": { color: "#0d47a1", fontWeight: 500 },
+        "& label.Mui-focused": { color: "#0d47a1" },
+
+        "& .MuiInputLabel-root.MuiInputLabel-shrink": {
+            backgroundColor: "background.paper",
+            padding: "0 6px",
+            borderRadius: "8px",
+            lineHeight: 1.2,
+        },
+
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": { borderColor: "#0d47a1" },
+            "&:hover fieldset": { borderColor: "#123b7a" },
+            "&.Mui-focused fieldset": {
+                borderColor: "#0d47a1",
+                borderWidth: 2,
+            },
+        },
+    };
+
+
     return (
         <>
             <NavbarExtra />
             {AlertUI}
+
 
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
                 {/* BACKGROUND */}
@@ -146,6 +169,7 @@ export default function ContactUs() {
                         <Box sx={{ flex: 1, background: "#fff4e1" }} />
                     </Box>
 
+
                     <Box
                         component="main"
                         sx={{
@@ -162,11 +186,14 @@ export default function ContactUs() {
                             elevation={0}
                             sx={{
                                 width: "100%",
-                                maxWidth: { xs: 520, md: 980 },
+
+                                maxWidth: { xs: 520, md: 520 },
+
                                 borderRadius: 3,
                                 border: "1.5px solid rgba(230, 81, 0, 0.35)",
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
+
 
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
                                 maxHeight: 720,
@@ -189,7 +216,7 @@ export default function ContactUs() {
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: 2.2, md: 4 }, 
+                                    mb: { xs: 2.2, md: 4 },
                                     mt: { xs: 1.5, sm: 1, md: 0 },
                                 }}
                             >
@@ -218,129 +245,63 @@ export default function ContactUs() {
                                         gap: 2,
                                     }}
                                 >
-                                    
-                                    {/* Full Name */}
                                     <TextField
                                         variant="outlined"
                                         label="Full Name*"
                                         name="name"
-                                        InputLabelProps={{ shrink: true }}
                                         value={contactForm.name}
                                         onChange={handleChange}
                                         size="small"
                                         fullWidth
-                                        sx={{
-                                            "& label": { color: "#0d47a1", fontWeight: 500 },
-                                            "& label.Mui-focused": { color: "#0d47a1" },
-                                            "& .MuiOutlinedInput-root": {
-                                                "& fieldset": { borderColor: "#0d47a1" },
-                                                "&:hover fieldset": { borderColor: "#123b7a" },
-                                                "&.Mui-focused fieldset": {
-                                                    borderColor: "#0d47a1",
-                                                    borderWidth: 2,
-                                                },
-                                            },
-                                        }}
+                                        sx={tfSx}
                                     />
 
-                                    {/* Email */}
                                     <TextField
                                         variant="outlined"
                                         label="Email*"
                                         type="email"
                                         name="email"
-                                        InputLabelProps={{ shrink: true }}
                                         value={contactForm.email}
                                         onChange={handleChange}
                                         size="small"
                                         fullWidth
-                                        sx={{
-                                            "& label": { color: "#0d47a1", fontWeight: 500 },
-                                            "& label.Mui-focused": { color: "#0d47a1" },
-                                            "& .MuiOutlinedInput-root": {
-                                                "& fieldset": { borderColor: "#0d47a1" },
-                                                "&:hover fieldset": { borderColor: "#123b7a" },
-                                                "&.Mui-focused fieldset": {
-                                                    borderColor: "#0d47a1",
-                                                    borderWidth: 2,
-                                                },
-                                            },
-                                        }}
+                                        sx={tfSx}
                                     />
 
-                                    {/* Order + Phone */}
                                     <Box sx={{ display: "flex", gap: 1.5 }}>
                                         <TextField
                                             variant="outlined"
                                             size="small"
-                                            InputLabelProps={{ shrink: true }}
                                             label="Order Number"
                                             name="orderNumber"
                                             value={contactForm.orderNumber || ""}
                                             onChange={handleChange}
                                             fullWidth
-                                            sx={{
-                                                "& label": { color: "#0d47a1", fontWeight: 500 },
-                                                "& label.Mui-focused": { color: "#0d47a1" },
-                                                "& .MuiOutlinedInput-root": {
-                                                    "& fieldset": { borderColor: "#0d47a1" },
-                                                    "&:hover fieldset": { borderColor: "#123b7a" },
-                                                    "&.Mui-focused fieldset": {
-                                                        borderColor: "#0d47a1",
-                                                        borderWidth: 2,
-                                                    },
-                                                },
-                                            }}
+                                            sx={tfSx}
                                         />
                                         <TextField
                                             variant="outlined"
                                             size="small"
                                             label="Phone Number"
-                                            InputLabelProps={{ shrink: true }}
                                             name="phone"
                                             value={contactForm.phone}
                                             onChange={handleChange}
                                             fullWidth
-                                            sx={{
-                                                "& label": { color: "#0d47a1", fontWeight: 500 },
-                                                "& label.Mui-focused": { color: "#0d47a1" },
-                                                "& .MuiOutlinedInput-root": {
-                                                    "& fieldset": { borderColor: "#0d47a1" },
-                                                    "&:hover fieldset": { borderColor: "#123b7a" },
-                                                    "&.Mui-focused fieldset": {
-                                                        borderColor: "#0d47a1",
-                                                        borderWidth: 2,
-                                                    },
-                                                },
-                                            }}
+                                            sx={tfSx}
                                         />
                                     </Box>
 
-                                    {/* Subject */}
                                     <TextField
                                         variant="outlined"
                                         size="small"
                                         label="Subject*"
                                         name="subject"
-                                        InputLabelProps={{ shrink: true }}
                                         value={contactForm.subject}
                                         onChange={handleChange}
                                         fullWidth
-                                        sx={{
-                                            "& label": { color: "#0d47a1", fontWeight: 500 },
-                                            "& label.Mui-focused": { color: "#0d47a1" },
-                                            "& .MuiOutlinedInput-root": {
-                                                "& fieldset": { borderColor: "#0d47a1" },
-                                                "&:hover fieldset": { borderColor: "#123b7a" },
-                                                "&.Mui-focused fieldset": {
-                                                    borderColor: "#0d47a1",
-                                                    borderWidth: 2,
-                                                },
-                                            },
-                                        }}
+                                        sx={tfSx}
                                     />
 
-                                    {/* Message + counter */}
                                     <Box>
                                         <Typography
                                             variant="caption"
@@ -365,19 +326,7 @@ export default function ContactUs() {
                                             multiline
                                             rows={5}
                                             inputProps={{ maxLength: 300 }}
-                                            InputLabelProps={{ shrink: true }}
-                                            sx={{
-                                                "& label": { color: "#0d47a1", fontWeight: 500 },
-                                                "& label.Mui-focused": { color: "#0d47a1" },
-                                                "& .MuiOutlinedInput-root": {
-                                                    "& fieldset": { borderColor: "#0d47a1" },
-                                                    "&:hover fieldset": { borderColor: "#123b7a" },
-                                                    "&.Mui-focused fieldset": {
-                                                        borderColor: "#0d47a1",
-                                                        borderWidth: 2,
-                                                    },
-                                                },
-                                            }}
+                                            sx={tfSx}
                                         />
                                     </Box>
 
@@ -439,7 +388,6 @@ export default function ContactUs() {
                                         Cancel
                                     </Button>
 
-                                    {/* espaçador pra não “grudar” no fim quando rolar */}
                                     <Box sx={{ height: 6 }} />
                                 </Box>
                             </Box>
@@ -451,5 +399,6 @@ export default function ContactUs() {
             </Box>
         </>
     );
+
 
 }
