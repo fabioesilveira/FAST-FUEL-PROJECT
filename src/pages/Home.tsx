@@ -491,7 +491,7 @@ export default function Home() {
     const cartFooterRef = useRef<HTMLDivElement | null>(null);
     const [cartBodyMaxH, setCartBodyMaxH] = useState<number>(0);
 
-    const { showAlert, confirmAlert, AlertUI, ConfirmUI } = useAppAlert({
+    const { confirmAlert, AlertUI, ConfirmUI } = useAppAlert({
         vertical: "top",
         horizontal: "center",
     });

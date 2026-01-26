@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 
 import OrdersLogged from "./OrdersLogged";
 import TrackOrderGuest from "./TrackOrderGuest";
