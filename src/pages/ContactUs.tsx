@@ -184,7 +184,7 @@ export default function ContactUs() {
                             justifyContent: "center",
                             px: 2,
                             pt: { xs: "110px", md: "120px" },
-                            pb: 4,
+                            pb: { xs: 2, md: 4 }
                         }}
                     >
                         <Paper
@@ -221,8 +221,8 @@ export default function ContactUs() {
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -1.2, sm: -0.7, md: -0.2 },
-                                    mt: { xs: 1.5, sm: 1.5, md: 1.5 },
+                                    mb: { xs: -1.4, sm: -0.7, md: -0.2 },
+                                    mt: { xs: 1.5, sm: 1.5, md: 1.3 },
                                 }}
                             >
                                 Contact Us

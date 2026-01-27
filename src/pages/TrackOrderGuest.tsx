@@ -131,12 +131,21 @@ export default function TrackOrderGuest() {
     const tfBlueLabelSx = {
         "& label": { color: "#0d47a1" },
         "& label.Mui-focused": { color: "#0d47a1" },
+
+        "& .MuiInputLabel-root.MuiInputLabel-shrink": {
+            backgroundColor: "background.paper",
+            padding: "0 6px",
+            borderRadius: "8px",
+            lineHeight: 1.2,
+        },
+
         "& .MuiOutlinedInput-root": {
             "& fieldset": { borderColor: "#0d47a1" },
             "&:hover fieldset": { borderColor: "#123b7a" },
             "&.Mui-focused fieldset": { borderColor: "#0d47a1", borderWidth: 2 },
         },
     };
+
 
     function handleReset() {
         setEmailFilter("");
@@ -338,7 +347,7 @@ export default function TrackOrderGuest() {
                         justifyContent: "center",
                         px: 2,
                         pt: { xs: "110px", md: "120px" },
-                        pb: 4,
+                        pb: { xs: 2, md: 4 }
                     }}
                 >
                     <Paper
@@ -370,8 +379,8 @@ export default function TrackOrderGuest() {
                                 color: "#0d47a1",
                                 fontWeight: 700,
                                 textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                mb: 4,
-                                mt: { xs: 1.5, sm: 1, md: 0 },
+                                mb: { xs: 2, sm: 2, md: 2 },
+                                mt: { xs: 1.5, sm: 1.5, md: 1.3 },
                             }}
                         >
                             Track Order
