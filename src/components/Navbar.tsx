@@ -47,6 +47,12 @@ const IconHit = styled("button")(() => ({
   cursor: "pointer",
   borderRadius: 12,
   lineHeight: 0,
+
+  outline: "none",
+  WebkitTapHighlightColor: "transparent",
+
+  "&:focus": { outline: "none" },
+  "&:focus-visible": { outline: "none" },
 }));
 
 const CartBadge = styled(Badge)`
@@ -254,6 +260,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                 }}
               >
                 <IconHit
+                  onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                   onClick={(e) => {
                     e.stopPropagation();
                     if (searchOpen) closeSearchOnly();
@@ -353,7 +360,9 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                           height: 40,
                           borderRadius: 2,
                           color: "#1e5bb8",
-                          "&:hover": { bgcolor: "rgba(30, 91, 184, 0.10)" },
+                          "@media (hover: hover) and (pointer: fine)": {
+                            "&:hover": { bgcolor: "rgba(30, 91, 184, 0.10)" },
+                          },
                         }}
                         aria-label="Close search"
                       >
@@ -385,8 +394,11 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                   minWidth: "unset",
                   borderRadius: 2,
                   backgroundColor: "#e65100",
-                  "&:hover": { backgroundColor: "#b33f00" },
                   padding: 0,
+
+                  "@media (hover: hover) and (pointer: fine)": {
+                    "&:hover": { backgroundColor: "#b33f00" },
+                  },
                 }}
               >
                 <ManageAccountsIcon
@@ -422,13 +434,16 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                   });
                 }}
                 sx={{
-                  width: { xs: 60, md: 73 },
+                  width: { xs: 60, md: 71 },
                   height: { xs: 42, md: 42 },
                   minWidth: "unset",
                   borderRadius: 2,
                   backgroundColor: "#e65100",
-                  "&:hover": { backgroundColor: "#b33f00" },
                   padding: 0,
+
+                  "@media (hover: hover) and (pointer: fine)": {
+                    "&:hover": { backgroundColor: "#b33f00" },
+                  },
                 }}
               >
                 <ShoppingCartIcon
@@ -479,15 +494,20 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                       fontWeight: 600,
                       bgcolor: "rgba(230, 81, 0, 0.14)",
                       boxShadow: "0 2px 6px rgba(13, 71, 161, 0.18)",
-                      "&:hover": {
-                        bgcolor: "rgba(230, 81, 0, 0.22)",
-                        boxShadow: "0 4px 10px rgba(13, 71, 161, 0.28)",
+
+                      "@media (hover: hover) and (pointer: fine)": {
+                        "&:hover": {
+                          bgcolor: "rgba(230, 81, 0, 0.22)",
+                          boxShadow: "0 4px 10px rgba(13, 71, 161, 0.28)",
+                        },
                       },
+
                       "&:active": {
                         bgcolor: "rgba(230, 81, 0, 0.28)",
                         transform: "translateY(1px)",
                       },
                     } as const;
+
 
                     if (isAction) {
                       return (
