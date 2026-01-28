@@ -859,11 +859,11 @@ export default function Home() {
                     <Box
                         sx={{
                             position: "sticky",
-                            top: "92px",                 // 👈 altura do seu Navbar no mobile
-                            zIndex: 1,                   // 👈 fica abaixo do navbar (navbar tem zIndex maior)
-                            mt: 1.2,                     // 👈 seu “respiro” controlado (ajusta aqui)
-                            mb: 0,                       // 👈 sem empurrar o resto
-                            transform: "translateZ(0)",  // 👈 ajuda o Safari a respeitar sticky
+                            top: "92px",
+                            zIndex: 1,
+                            mt: 0.9,                     // seu “respiro” controlado (ajusta aqui)
+                            mb: 0,
+                            transform: "translateZ(0)",
                         }}
                     >
                         <Box sx={{ width: "100%" }}>
@@ -871,7 +871,7 @@ export default function Home() {
                         </Box>
 
                         {shouldShowCarousel && (
-                            <Box sx={{ mt: 1.6 /* 👈 diminui o respiro entre banner e carousel */ }}>
+                            <Box>
                                 <MobileStackCarousel
                                     slides={mobileSlides}
                                     height={295}
