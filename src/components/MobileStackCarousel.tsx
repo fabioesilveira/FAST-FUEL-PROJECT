@@ -34,7 +34,7 @@ export default function MobileCarouselSingle({
   // - mobile: usa clamp pra não ficar gigante nem pequeno
   // - desktop: mantém height prop
   const effectiveHeight = isMobile
-    ? "clamp(260px, 42svh, 420px)"
+    ? "clamp(300px, 48svh, 480px)"
     : `${height}px`;
 
   const safeSlides = useMemo(() => slides.filter(Boolean), [slides]);
@@ -126,7 +126,7 @@ export default function MobileCarouselSingle({
           sx={{
             height: "100%",
             display: "flex",
-            width: "300%", 
+            width: "300%",
             transform: "translateX(-33.3333%)", // mantém o current no meio
           }}
         >
