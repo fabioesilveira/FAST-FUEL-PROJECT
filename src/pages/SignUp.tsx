@@ -226,7 +226,7 @@ export default function SignUp() {
                             justifyContent: "center",
                             px: 2,
                             pt: { xs: "110px", md: "120px" },
-                            pb: { xs: 1, md: 4 },
+                            pb: { xs: -1, md: 4 },
                         }}
                     >
                         <Paper
