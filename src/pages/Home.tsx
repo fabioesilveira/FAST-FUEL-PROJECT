@@ -855,17 +855,23 @@ export default function Home() {
                     />
                 )}
 
-                {/* MOBILE FULL WIDTH: banner + carousel fora do Container */}
                 {isMobile && !hidePromos && !driveModeActive && (
-                    <>
-                        <Box sx={{ width: "100%", mt: 0.5 }}>
-                            {/* 0.5 = 4px */}
+                    <Box
+                        sx={{
+                            position: "sticky",
+                            top: "92px",                 // 👈 altura do seu Navbar no mobile
+                            zIndex: 1,                   // 👈 fica abaixo do navbar (navbar tem zIndex maior)
+                            mt: 1.2,                     // 👈 seu “respiro” controlado (ajusta aqui)
+                            mb: 0,                       // 👈 sem empurrar o resto
+                            transform: "translateZ(0)",  // 👈 ajuda o Safari a respeitar sticky
+                        }}
+                    >
+                        <Box sx={{ width: "100%" }}>
                             <PromoBannerCarousel />
                         </Box>
 
                         {shouldShowCarousel && (
-                            <Box sx={{ mt: 1 }}>
-                                {/* 1 = 8px */}
+                            <Box sx={{ mt: 1.6 /* 👈 diminui o respiro entre banner e carousel */ }}>
                                 <MobileStackCarousel
                                     slides={mobileSlides}
                                     height={295}
@@ -874,7 +880,7 @@ export default function Home() {
                                 />
                             </Box>
                         )}
-                    </>
+                    </Box>
                 )}
 
 
