@@ -193,13 +193,14 @@ export default function SignIn() {
                     <Box
                         component="main"
                         sx={{
-                            position: "absolute",
+                            position: "fixed",          // ✅ era absolute
                             inset: 0,
                             display: "flex",
                             justifyContent: "center",
                             px: 2,
                             pt: { xs: "110px", md: "120px" },
-                            pb: { xs: 0, md: 4 },
+                            pb: { xs: 1, md: 4 },
+                            minHeight: 0,               // ✅ importante para scroll interno
                         }}
                     >
                         <Paper
