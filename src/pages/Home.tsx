@@ -859,11 +859,11 @@ export default function Home() {
                     <Box
                         sx={{
                             position: "sticky",
-                            top: "92px",
-                            zIndex: 1,
-                            mt: 0.9,                     // seu “respiro” controlado (ajusta aqui)
-                            mb: 0,
-                            transform: "translateZ(0)",
+                            top: "92px",                
+                            zIndex: 1,                   
+                            mt: 1.2,                     
+                            mb: 0,                      
+                            transform: "translateZ(0)",  
                         }}
                     >
                         <Box sx={{ width: "100%" }}>

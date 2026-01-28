@@ -239,7 +239,10 @@ export default function ContactUs() {
                                     pr: 0.5,
                                     pt: { xs: 1.6, sm: 0 },
 
-                                    pb: { xs: "calc(28px + env(safe-area-inset-bottom))", sm: 4 },
+                                    pb: {
+                                        xs: `calc(120px + env(safe-area-inset-bottom))`, 
+                                        sm: 4,
+                                    },
                                 }}
                             >
 
@@ -401,7 +404,7 @@ export default function ContactUs() {
                                         Cancel
                                     </Button>
 
-                                   <Box sx={{ height: { xs: 24, sm: 8 } }} />
+                                    <Box sx={{ height: { xs: 24, sm: 8 } }} />
                                 </Box>
                             </Box>
                         </Paper>
