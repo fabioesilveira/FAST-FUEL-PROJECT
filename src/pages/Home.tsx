@@ -855,26 +855,35 @@ export default function Home() {
                     />
                 )}
 
-                {/* MOBILE FULL WIDTH: banner + carousel fora do Container */}
                 {isMobile && !hidePromos && !driveModeActive && (
-                    <>
-                        <Box sx={{ width: "100%" }}>
-                            <PromoBannerCarousel />
-                        </Box>
+                    <Box
+                        sx={{
+                            position: "sticky",
+                            top: 0,                 // respeita o pt: 92px do Home
+                            zIndex: 1200,
+                            width: "100%",
+                            pt: 0.5,
+                            pb: 0,
+                            borderBottom: "1px solid rgba(0,0,0,0.08)",
+                            transform: "translateZ(0)", // iOS fix
+                        }}
+                    >
+                        <PromoBannerCarousel />
 
                         {shouldShowCarousel && (
-                            <Box sx={{ mt: 2.5 }}>
+                            <Box sx={{ mt: 1.5 }}>
                                 <MobileStackCarousel
                                     slides={mobileSlides}
                                     height={295}
-                                    
                                     interval={4200}
                                     animationMs={780}
                                 />
                             </Box>
                         )}
-                    </>
+                    </Box>
                 )}
+
+
 
                 <Container
                     fixed
