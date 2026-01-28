@@ -867,7 +867,7 @@ export default function Home() {
                                 <MobileStackCarousel
                                     slides={mobileSlides}
                                     height={295}
-                                    gap={14}
+                                    
                                     interval={4200}
                                     animationMs={780}
                                 />

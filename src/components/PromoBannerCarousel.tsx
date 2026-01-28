@@ -59,7 +59,6 @@ export default function PromoBannerCarousel({
     if (count === 0) return null;
     const b = safeItems[idx];
 
-    // 👇 smoother easing than default "ease"
     const easing = "cubic-bezier(0.22, 1, 0.36, 1)";
 
     return (
@@ -75,7 +74,7 @@ export default function PromoBannerCarousel({
                 borderRadius: 0,
                 mt: { xs: 0.8, md: 0.7 },
                 mb: -0.5,
-                height: { xs: 90, md: 95 },
+                height: { xs: 95, md: 95 },
                 boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
                 display: "flex",
                 alignItems: "center",
