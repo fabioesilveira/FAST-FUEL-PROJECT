@@ -99,6 +99,7 @@ export default function ContactUs() {
             padding: "0 6px",
             borderRadius: "8px",
             lineHeight: 1.2,
+            zIndex: 1,
         },
 
         "& .MuiOutlinedInput-root": {
@@ -184,7 +185,7 @@ export default function ContactUs() {
                             justifyContent: "center",
                             px: 2,
                             pt: { xs: "110px", md: "120px" },
-                            pb: { xs: 2, md: 4 }
+                            pb: { xs: 1, md: 4 }
                         }}
                     >
                         <Paper
@@ -380,7 +381,7 @@ export default function ContactUs() {
                                         fullWidth
                                         onClick={() => navigate("/")}
                                         sx={{
-                                            mt: 0,
+                                            mt: 0.5,
                                             height: 42,
                                             borderRadius: 2,
                                             textTransform: "uppercase",

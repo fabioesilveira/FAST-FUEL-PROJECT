@@ -137,6 +137,7 @@ export default function TrackOrderGuest() {
             padding: "0 6px",
             borderRadius: "8px",
             lineHeight: 1.2,
+            zIndex: 1,
         },
 
         "& .MuiOutlinedInput-root": {
@@ -347,7 +348,7 @@ export default function TrackOrderGuest() {
                         justifyContent: "center",
                         px: 2,
                         pt: { xs: "110px", md: "120px" },
-                        pb: { xs: 2, md: 4 }
+                        pb: { xs: 1, md: 4 }
                     }}
                 >
                     <Paper
@@ -379,7 +380,7 @@ export default function TrackOrderGuest() {
                                 color: "#0d47a1",
                                 fontWeight: 700,
                                 textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                mb: { xs: 2, sm: 2, md: 2 },
+                                mb: { xs: 1.5, sm: 2, md: 2 },
                                 mt: { xs: 1.5, sm: 1.5, md: 1.3 },
                             }}
                         >

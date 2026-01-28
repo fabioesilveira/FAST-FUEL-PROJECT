@@ -135,100 +135,121 @@ export default function SignUp() {
         }
     }
 
+    const tfSx = {
+        "& label": { color: "#0d47a1", fontWeight: 500 },
+        "& label.Mui-focused": { color: "#0d47a1" },
+
+        "& .MuiInputLabel-root.MuiInputLabel-shrink": {
+            backgroundColor: "background.paper",
+            padding: "0 6px",
+            borderRadius: "8px",
+            lineHeight: 1.2,
+            zIndex: 1,
+        },
+
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": { borderColor: "#0d47a1" },
+            "&:hover fieldset": { borderColor: "#123b7a" },
+            "&.Mui-focused fieldset": { borderColor: "#0d47a1", borderWidth: 2 },
+        },
+    };
+
     return (
         <>
             <NavbarExtra />
             {AlertUI}
 
-            <Box
-                sx={{
-                    position: "relative",
-                    width: "100%",
-                    minHeight: "100dvh",
-                    display: "flex",
-                    flexDirection: "row",
-                    borderTop: "3px solid #e65100",
-                    boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
-                }}
-            >
-                {/* LEFT SIDE */}
+            <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+                {/* BACKGROUND (mesmo padrão do ContactUs) */}
                 <Box
                     sx={{
-                        width: 70,
-                        flexShrink: 0,
-                        backgroundImage: `repeating-linear-gradient(
-              to right,
-              rgba(255, 244, 225, 0.4),
-              rgba(255, 244, 225, 0.4) 20px,
-              transparent 20px,
-              transparent 40px
-            )`,
-                        backgroundSize: "100% 40px",
-                        backgroundRepeat: "repeat-y",
-                        backgroundAttachment: "fixed",
+                        position: "relative",
+                        flexGrow: 1,
+                        width: "100%",
+                        borderTop: "3px solid #e65100",
+                        boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
                     }}
-                />
-
-                {/* MIDDLE */}
-                <Box
-                    sx={{
-                        flex: 3,
-                        backgroundImage: `
-              linear-gradient(
-                to left,
-                #fff4e1 0%,
-                #fff4e1 25%,
-                rgba(255, 244, 225, 0.7) 25%,
-                rgba(255, 244, 225, 0.0) 45%
-              ),
-              repeating-linear-gradient(
+                >
+                    <Box sx={{ display: "flex", height: "100%" }}>
+                        <Box
+                            sx={{
+                                width: 70,
+                                flexShrink: 0,
+                                backgroundImage: `repeating-linear-gradient(
                 to right,
                 rgba(255, 244, 225, 0.4),
                 rgba(255, 244, 225, 0.4) 20px,
                 transparent 20px,
                 transparent 40px
-              )
-            `,
-                        backgroundSize: "100% 40px, 100% 40px",
-                        backgroundRepeat: "repeat-y, repeat-y",
-                        backgroundAttachment: "fixed",
-                    }}
-                />
+              )`,
+                                backgroundSize: "100% 40px",
+                                backgroundRepeat: "repeat-y",
+                                backgroundAttachment: "fixed",
+                            }}
+                        />
 
-                {/* RIGHT SIDE */}
-                <Box sx={{ flex: 1, background: "#fff4e1" }} />
+                        <Box
+                            sx={{
+                                flex: 3,
+                                backgroundImage: `
+                linear-gradient(
+                  to left,
+                  #fff4e1 0%,
+                  #fff4e1 25%,
+                  rgba(255, 244, 225, 0.7) 25%,
+                  rgba(255, 244, 225, 0.0) 45%
+                ),
+                repeating-linear-gradient(
+                  to right,
+                  rgba(255, 244, 225, 0.4),
+                  rgba(255, 244, 225, 0.4) 20px,
+                  transparent 20px,
+                  transparent 40px
+                )
+              `,
+                                backgroundSize: "100% 40px, 100% 40px",
+                                backgroundRepeat: "repeat-y, repeat-y",
+                                backgroundAttachment: "fixed",
+                            }}
+                        />
 
-                {/* OVERLAY */}
-                <Box
-                    sx={{
-                        position: "absolute",
-                        inset: 0,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        px: 2,
-                        pt: { xs: 11, md: 12 },
-                        pb: 10,
-                        boxSizing: "border-box",
-                        overflowY: "auto",
-                    }}
-                >
-                    <Box sx={{ width: "100%", maxWidth: { xs: 420, sm: 480, md: 520 } }}>
+                        <Box sx={{ flex: 1, background: "#fff4e1" }} />
+                    </Box>
+
+                    {/* MAIN (padrão igual ContactUs / TrackOrder) */}
+                    <Box
+                        component="main"
+                        sx={{
+                            position: "absolute",
+                            inset: 0,
+                            display: "flex",
+                            justifyContent: "center",
+                            px: 2,
+                            pt: { xs: "110px", md: "120px" },
+                            pb: { xs: 1, md: 4 },
+                        }}
+                    >
                         <Paper
                             elevation={0}
                             sx={{
                                 width: "100%",
-                                p: { xs: 2.5, sm: 3, md: 3.5 },
-                                pb: { xs: 4.5, sm: 5, md: 8 },
-                                pt: { xs: 3.5, sm: 5, md: 6 },
+                                maxWidth: { xs: 520, md: 520 },
+
                                 borderRadius: 3,
                                 border: "1.5px solid rgba(230, 81, 0, 0.35)",
                                 bgcolor: "background.paper",
+                                p: { xs: 2.5, md: 4 },
+
+                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
+                                maxHeight: 720,
+
                                 boxShadow:
                                     "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
+
                                 display: "flex",
                                 flexDirection: "column",
-                                alignItems: "center",
+                                gap: 2,
+                                overflow: "hidden",
                             }}
                         >
                             <Typography
@@ -241,239 +262,185 @@ export default function SignUp() {
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: 2,
-                                    mt: { xs: 1.5, sm: 1, md: 0 },
+                                    mb: { xs: -1.0, sm: -0.4, md: 0 },
+                                    mt: { xs: 1.5, sm: 1.5, md: 1.3 },
                                 }}
                             >
                                 Sign Up
                             </Typography>
 
-                            <Typography
-                                align="center"
-                                sx={{
-                                    mb: 2,
-                                    fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
-                                    color: "text.secondary",
-                                    fontWeight: "bold",
-                                }}
-                            >
-                                Create your Fast Fuel account for a full experience.
-                            </Typography>
 
-                            {/* Form */}
                             <Box
-                                component="form"
-                                noValidate
-                                autoComplete="off"
                                 sx={{
-                                    width: "100%",
-                                    maxWidth: 360,
+                                    flex: 1,
+                                    minHeight: 0,
+                                    overflowY: "auto",
                                     display: "flex",
-                                    flexDirection: "column",
-                                    gap: 2,
+                                    justifyContent: "center",
+                                    pr: 0.5,
+                                    pt: { xs: 1.2, sm: 0 },
+                                    pb: { xs: 6, sm: 4 },
                                 }}
                             >
-                                <TextField
-                                    label="Full Name*"
-                                    variant="outlined"
-                                    name="name"
-                                    value={signUp.name}
-                                    onChange={handleChange}
-                                    size="small"
-                                    fullWidth
+                                <Box
+                                    component="form"
+                                    noValidate
+                                    autoComplete="off"
                                     sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 500 },
-                                        "& label.Mui-focused": { color: "#0d47a1" },
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { borderColor: "#0d47a1" },
-                                            "&:hover fieldset": { borderColor: "#123b7a" },
-                                            "&.Mui-focused fieldset": {
-                                                borderColor: "#0d47a1",
-                                                borderWidth: 2,
-                                            },
-                                        },
-                                    }}
-                                />
-
-                                <TextField
-                                    label="Email Address*"
-                                    variant="outlined"
-                                    name="email"
-                                    value={signUp.email}
-                                    onChange={handleChange}
-                                    size="small"
-                                    fullWidth
-                                    sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 500 },
-                                        "& label.Mui-focused": { color: "#0d47a1" },
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { borderColor: "#0d47a1" },
-                                            "&:hover fieldset": { borderColor: "#123b7a" },
-                                            "&.Mui-focused fieldset": {
-                                                borderColor: "#0d47a1",
-                                                borderWidth: 2,
-                                            },
-                                        },
-                                    }}
-                                />
-
-                                <TextField
-                                    label="Phone Number*"
-                                    variant="outlined"
-                                    name="number"
-                                    value={signUp.number}
-                                    onChange={handleChange}
-                                    size="small"
-                                    fullWidth
-                                    sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 500 },
-                                        "& label.Mui-focused": { color: "#0d47a1" },
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { borderColor: "#0d47a1" },
-                                            "&:hover fieldset": { borderColor: "#123b7a" },
-                                            "&.Mui-focused fieldset": {
-                                                borderColor: "#0d47a1",
-                                                borderWidth: 2,
-                                            },
-                                        },
-                                    }}
-                                />
-
-                                <TextField
-                                    label="Password*"
-                                    variant="outlined"
-                                    type="password"
-                                    name="password"
-                                    value={signUp.password}
-                                    onChange={handleChange}
-                                    size="small"
-                                    fullWidth
-                                    sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 500 },
-                                        "& label.Mui-focused": { color: "#0d47a1" },
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { borderColor: "#0d47a1" },
-                                            "&:hover fieldset": { borderColor: "#123b7a" },
-                                            "&.Mui-focused fieldset": {
-                                                borderColor: "#0d47a1",
-                                                borderWidth: 2,
-                                            },
-                                        },
-                                    }}
-                                />
-
-                                <TextField
-                                    label="Confirm Password*"
-                                    variant="outlined"
-                                    type="password"
-                                    name="confirmPassword"
-                                    value={signUp.confirmPassword}
-                                    onChange={handleChange}
-                                    size="small"
-                                    fullWidth
-                                    sx={{
-                                        "& label": { color: "#0d47a1", fontWeight: 500 },
-                                        "& label.Mui-focused": { color: "#0d47a1" },
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { borderColor: "#0d47a1" },
-                                            "&:hover fieldset": { borderColor: "#123b7a" },
-                                            "&.Mui-focused fieldset": {
-                                                borderColor: "#0d47a1",
-                                                borderWidth: 2,
-                                            },
-                                        },
-                                    }}
-                                />
-
-                                <Button
-                                    fullWidth
-                                    size="large"
-                                    variant="outlined"
-                                    onClick={handleClick}
-                                    sx={{
-                                        mt: 1,
-                                        height: 42,
-                                        borderRadius: 2,
-                                        textTransform: "uppercase",
-                                        border: "2px solid #0d47a1",
-                                        color: "#ffffff",
-                                        letterSpacing: "0.14em",
-                                        fontWeight: 700,
-                                        bgcolor: "#1e5bb8",
-                                        boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
-
-                                        fontSize: { xs: "0.85rem", sm: "0.85rem", md: "0.93rem" },
-
-                                        "&:hover": { bgcolor: "#164a99" },
-                                        "&:active": {
-                                            bgcolor: "rgba(230, 81, 0, 0.28)",
-                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
-                                            transform: "translateY(1px)",
-                                        },
+                                        width: "100%",
+                                        maxWidth: 360,
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: 2,
+                                        pt: { xs: 1.0, sm: 1.5 },
                                     }}
                                 >
-                                    Sign up
-                                </Button>
+                                    <Typography
+                                        align="center"
+                                        sx={{
+                                            fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
+                                            color: "text.secondary",
+                                            fontWeight: "bold",
+                                        }}
+                                    >
+                                        Create your Fast Fuel account for a full experience.
+                                    </Typography>
 
-                                <Button
-                                    variant="text"
-                                    onClick={() => navigate("/sign-in")}
-                                    sx={{
-                                        mt: 0.1,
-                                        textTransform: "none",
-                                        color: "rgba(180, 63, 0, 1)",
+                                    <TextField
+                                        label="Full Name*"
+                                        name="name"
+                                        value={signUp.name}
+                                        onChange={handleChange}
+                                        size="small"
+                                        fullWidth
+                                        sx={tfSx}
+                                    />
 
+                                    <TextField
+                                        label="Email Address*"
+                                        name="email"
+                                        value={signUp.email}
+                                        onChange={handleChange}
+                                        size="small"
+                                        fullWidth
+                                        sx={tfSx}
+                                    />
 
-                                        fontSize: { xs: "0.82rem", sm: "0.83rem", md: "0.85rem" },
+                                    <TextField
+                                        label="Phone Number*"
+                                        name="number"
+                                        value={signUp.number}
+                                        onChange={handleChange}
+                                        size="small"
+                                        fullWidth
+                                        sx={tfSx}
+                                    />
 
-                                        "&:hover": {
-                                            textDecoration: "underline",
-                                        },
-                                    }}
-                                >
-                                    Already have an account? Sign In
-                                </Button>
+                                    <TextField
+                                        label="Password*"
+                                        type="password"
+                                        name="password"
+                                        value={signUp.password}
+                                        onChange={handleChange}
+                                        size="small"
+                                        fullWidth
+                                        sx={tfSx}
+                                    />
 
-                                <Button
-                                    variant="outlined"
-                                    fullWidth
-                                    onClick={() => navigate("/")}
-                                    sx={{
-                                        mb: { xs: 2, md: -0.7 },
-                                        height: 42,
-                                        borderRadius: 2,
-                                        textTransform: "uppercase",
-                                        border: "2px solid #0d47a1",
-                                        color: "#0d47a1",
-                                        letterSpacing: "0.14em",
-                                        fontWeight: 700,
-                                        bgcolor: "rgba(230, 81, 0, 0.14)",
-                                        boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+                                    <TextField
+                                        label="Confirm Password*"
+                                        type="password"
+                                        name="confirmPassword"
+                                        value={signUp.confirmPassword}
+                                        onChange={handleChange}
+                                        size="small"
+                                        fullWidth
+                                        sx={tfSx}
+                                    />
 
+                                    <Button
+                                        fullWidth
+                                        size="large"
+                                        variant="outlined"
+                                        onClick={handleClick}
+                                        sx={{
+                                            mt: 0.5,
+                                            height: 42,
+                                            borderRadius: 2,
+                                            textTransform: "uppercase",
+                                            border: "2px solid #0d47a1",
+                                            color: "#ffffff",
+                                            letterSpacing: "0.14em",
+                                            fontWeight: 700,
+                                            bgcolor: "#1e5bb8",
+                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+                                            fontSize: { xs: "0.85rem", sm: "0.85rem", md: "0.93rem" },
+                                            "&:hover": { bgcolor: "#164a99" },
+                                            "&:active": {
+                                                bgcolor: "rgba(230, 81, 0, 0.28)",
+                                                boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
+                                                transform: "translateY(1px)",
+                                            },
+                                        }}
+                                    >
+                                        Sign up
+                                    </Button>
 
-                                        fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
+                                    <Button
+                                        variant="text"
+                                        onClick={() => navigate("/sign-in")}
+                                        sx={{
+                                            mt: -0.6,
+                                            textTransform: "none",
+                                            color: "rgba(180, 63, 0, 1)",
+                                            fontSize: { xs: "0.82rem", sm: "0.83rem", md: "0.85rem" },
+                                            "&:hover": { textDecoration: "underline" },
+                                        }}
+                                    >
+                                        Already have an account? Sign In
+                                    </Button>
 
-                                        "&:hover": {
-                                            bgcolor: "rgba(230, 81, 0, 0.22)",
-                                            borderColor: "#0d47a1",
+                                    <Button
+                                        variant="outlined"
+                                        fullWidth
+                                        onClick={() => navigate("/")}
+                                        sx={{
+                                            mt: -0.6,
+                                            height: 42,
+                                            borderRadius: 2,
+                                            textTransform: "uppercase",
+                                            border: "2px solid #0d47a1",
                                             color: "#0d47a1",
-                                        },
-                                        "&:active": {
-                                            bgcolor: "rgba(230, 81, 0, 0.28)",
-                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
-                                            transform: "translateY(1px)",
-                                        },
-                                    }}
-                                >
-                                    Continue as guest
-                                </Button>
+                                            letterSpacing: "0.14em",
+                                            fontWeight: 700,
+                                            bgcolor: "rgba(230, 81, 0, 0.14)",
+                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
+                                            "&:hover": {
+                                                bgcolor: "rgba(230, 81, 0, 0.22)",
+                                                borderColor: "#0d47a1",
+                                                color: "#0d47a1",
+                                            },
+                                            "&:active": {
+                                                bgcolor: "rgba(230, 81, 0, 0.28)",
+                                                boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
+                                                transform: "translateY(1px)",
+                                            },
+                                        }}
+                                    >
+                                        Continue as guest
+                                    </Button>
+
+                                    <Box sx={{ height: 6 }} />
+                                </Box>
                             </Box>
                         </Paper>
                     </Box>
                 </Box>
-            </Box>
 
-            <Footer />
+                <Footer />
+            </Box>
         </>
     );
+
 }
