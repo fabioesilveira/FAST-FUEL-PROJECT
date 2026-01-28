@@ -40,18 +40,30 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
             elevation={0}
             sx={{
                 position: "fixed",
-                bottom: 0,
                 left: 0,
                 right: 0,
+
+                bottom: "env(safe-area-inset-bottom)",
+
+                // altura visual do footer + safe area
                 height: 86,
+                pb: "env(safe-area-inset-bottom)",
+
                 zIndex: 1300,
                 backgroundColor: "#fff3e0",
                 borderTop: "2px solid rgba(13, 71, 161, 0.25)",
                 boxShadow: "0 -6px 18px rgba(13,71,161,.18)",
                 display: "flex",
                 alignItems: "center",
+
+                //reduz “sobe/desce” em scroll/toolbar
+                transform: "translateZ(0)",
+                willChange: "transform",
+                WebkitBackfaceVisibility: "hidden",
+                backfaceVisibility: "hidden",
             }}
         >
+
             <Box
                 sx={{
                     width: "100%",
