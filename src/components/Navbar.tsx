@@ -27,6 +27,7 @@ type DropdownItem = {
   action?: () => void;
 };
 
+
 const dropdownItems: DropdownItem[] = [
   { label: "Signin / Signup", icon: AccountCircleIcon, path: "/sign-in" },
   { label: "My Orders", icon: HistoryIcon, path: "/orders" },
@@ -267,10 +268,13 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                       borderRadius: 2.2,
                       display: "grid",
                       placeItems: "center",
-                      transition:
-                        "background-color .15s ease, transform .08s ease",
+                      transition: "background-color .15s ease, transform .08s ease",
                       color: "#1e5bb8",
-                      "&:hover": { bgcolor: "rgba(30, 91, 184, 0.14)" },
+
+                      "@media (hover: hover) and (pointer: fine)": {
+                        "&:hover": { bgcolor: "rgba(30, 91, 184, 0.14)" },
+                      },
+
                       "&:active": {
                         bgcolor: "rgba(30, 91, 184, 0.20)",
                         transform: "scale(0.98)",

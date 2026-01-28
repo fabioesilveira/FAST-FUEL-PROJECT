@@ -404,7 +404,7 @@ export default function ContactUs() {
                                         Cancel
                                     </Button>
 
-                                    <Box sx={{ height: { xs: 24, sm: 8 } }} />
+                                    <Box sx={{ height: { xs: 8, sm: 8 } }} />
                                 </Box>
                             </Box>
                         </Paper>

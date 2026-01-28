@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -14,7 +14,7 @@ type Slide = {
 type Props = {
   slides: Slide[];
   interval?: number;
-  height?: number;          // height base (desktop)
+  height?: number;
   radius?: number;
   shadow?: string;
   animationMs?: number;
@@ -31,17 +31,16 @@ export default function MobileCarouselSingle({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // - mobile: usa clamp pra não ficar gigante nem pequeno
-  // - desktop: mantém height prop
-  const effectiveHeight = isMobile
-    ? "clamp(300px, 48svh, 480px)"
-    : `${height}px`;
+  const effectiveHeight = isMobile ? "clamp(300px, 48svh, 480px)" : `${height}px`;
 
   const safeSlides = useMemo(() => slides.filter(Boolean), [slides]);
   const count = safeSlides.length;
 
   const [idx, setIdx] = useState(0);
-  const [enableTransition, setEnableTransition] = useState(true);
+
+  // fade state
+  const [nextIdx, setNextIdx] = useState<number | null>(null);
+  const [fading, setFading] = useState(false);
 
   const timerRef = useRef<number | null>(null);
 
@@ -49,44 +48,68 @@ export default function MobileCarouselSingle({
   const startX = useRef<number | null>(null);
   const deltaX = useRef(0);
 
-  const goNext = () => {
-    if (count < 2) return;
-    setIdx((i) => (i + 1) % count);
+  const clearTimer = () => {
+    if (timerRef.current) window.clearInterval(timerRef.current);
+    timerRef.current = null;
   };
 
-  const goPrev = () => {
+  const startTimer = useCallback(() => {
+    clearTimer();
+    if (count >= 2) timerRef.current = window.setInterval(() => goNext(), interval);
+  }, [count, interval]); // eslint-disable-line
+
+  const goTo = useCallback(
+    (target: number) => {
+      if (count < 2) return;
+      if (fading) return; // evita spam
+      if (target === idx) return;
+
+      setNextIdx(target);
+      setFading(true);
+
+      window.setTimeout(() => {
+        setIdx(target);
+        setNextIdx(null);
+        setFading(false);
+      }, animationMs);
+    },
+    [count, idx, fading, animationMs]
+  );
+
+  const goNext = useCallback(() => {
     if (count < 2) return;
-    setIdx((i) => (i - 1 + count) % count);
-  };
+    goTo((idx + 1) % count);
+  }, [count, idx, goTo]);
+
+  const goPrev = useCallback(() => {
+    if (count < 2) return;
+    goTo((idx - 1 + count) % count);
+  }, [count, idx, goTo]);
 
   useEffect(() => {
     setIdx(0);
-    setEnableTransition(false);
-    requestAnimationFrame(() => setEnableTransition(true));
-  }, [count]);
+    setNextIdx(null);
+    setFading(false);
+    startTimer();
+    return clearTimer;
+  }, [count, startTimer]);
 
+  // autoplay
   useEffect(() => {
-    if (count < 2) return;
-    timerRef.current = window.setInterval(goNext, interval);
-    return () => {
-      if (timerRef.current) window.clearInterval(timerRef.current);
-    };
-  }, [interval, count]);
+    startTimer();
+    return clearTimer;
+  }, [startTimer]);
 
   if (count === 0) return null;
 
-  // Para efeito “slide”, a gente renderiza uma “track” com 3 slides:
-  // prev | current | next  e mantem o current centralizado
-  const prev = safeSlides[(idx - 1 + count) % count];
-  const current = safeSlides[idx % count];
-  const next = safeSlides[(idx + 1) % count];
+  const current = safeSlides[idx];
+  const incoming = nextIdx != null ? safeSlides[nextIdx] : null;
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (count < 2) return;
     startX.current = e.touches[0].clientX;
     deltaX.current = 0;
-    // pausa autoplay durante swipe
-    if (timerRef.current) window.clearInterval(timerRef.current);
+    clearTimer();
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -99,14 +122,10 @@ export default function MobileCarouselSingle({
     const dx = deltaX.current;
     startX.current = null;
 
-    // threshold
     if (dx > 40) goPrev();
     else if (dx < -40) goNext();
 
-    // retoma autoplay
-    if (count >= 2) {
-      timerRef.current = window.setInterval(goNext, interval);
-    }
+    startTimer();
   };
 
   return (
@@ -122,28 +141,28 @@ export default function MobileCarouselSingle({
           borderRadius: `${radius}px`,
         }}
       >
-        <Box
-          sx={{
-            height: "100%",
-            display: "flex",
-            width: "300%",
-            transform: "translateX(-33.3333%)", // mantém o current no meio
-          }}
-        >
-          <Track
-            prev={prev}
-            current={current}
-            next={next}
+        {/* base */}
+        <FadeSlide
+          slide={current}
+          radius={radius}
+          shadow={shadow}
+          opacity={1}
+          animationMs={animationMs}
+        />
+
+        {/* incoming (fade in) */}
+        {incoming && (
+          <FadeSlide
+            slide={incoming}
             radius={radius}
             shadow={shadow}
+            opacity={fading ? 1 : 0}
             animationMs={animationMs}
-            enableTransition={enableTransition}
-            // quando idx muda, “simulamos” o slide com translate interno:
-            key={current.id}
+            absolute
           />
-        </Box>
+        )}
 
-        {/* dots (opcional) */}
+        {/* dots */}
         <Box
           sx={{
             position: "absolute",
@@ -154,6 +173,7 @@ export default function MobileCarouselSingle({
             gap: 0.8,
             justifyContent: "center",
             pointerEvents: "none",
+            zIndex: 3,
           }}
         >
           {safeSlides.map((s, i) => (
@@ -174,62 +194,35 @@ export default function MobileCarouselSingle({
   );
 }
 
-function Track({
-  prev,
-  current,
-  next,
-  radius,
-  shadow,
-}: {
-  prev: Slide;
-  current: Slide;
-  next: Slide;
-  radius: number;
-  shadow: string;
-  animationMs: number;
-  enableTransition: boolean;
-}) {
-
-  return (
-    <>
-      <SlideCard slide={prev} radius={radius} shadow={shadow} />
-      <SlideCard slide={current} radius={radius} shadow={shadow} />
-      <SlideCard slide={next} radius={radius} shadow={shadow} />
-
-      <Box
-        sx={{
-          position: "absolute",
-          inset: 0,
-          pointerEvents: "none",
-        }}
-      />
-
-      <style>{`
-        /* opcional: nada aqui */
-      `}</style>
-    </>
-  );
-}
-
-function SlideCard({
+function FadeSlide({
   slide,
   radius,
   shadow,
+  opacity,
+  animationMs,
+  absolute = true,
 }: {
   slide: Slide;
   radius: number;
   shadow: string;
+  opacity: number;
+  animationMs: number;
+  absolute?: boolean;
 }) {
   return (
     <Box
       sx={{
-        width: "33.3333%",
+        position: absolute ? "absolute" : "relative",
+        inset: 0,
+        width: "100%",
         height: "100%",
         borderRadius: `${radius}px`,
         overflow: "hidden",
         boxShadow: shadow,
         bgcolor: slide.bg ?? "transparent",
-        flexShrink: 0,
+        opacity,
+        transition: `opacity ${animationMs}ms ease`,
+        willChange: "opacity",
       }}
     >
       <Box
