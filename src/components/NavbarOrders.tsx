@@ -44,9 +44,9 @@ export default function NavbarOrders() {
                         </Box>
 
                         <Box sx={{ flexGrow: 1 }} />
-
                         <Button
                             variant="contained"
+                            onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                             onClick={handleExitOrders}
                             startIcon={<ExitToAppIcon />}
                             sx={{
@@ -58,13 +58,27 @@ export default function NavbarOrders() {
                                 letterSpacing: "0.06em",
                                 textTransform: "uppercase",
                                 boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
-                                "&:hover": { backgroundColor: "#b33f00" },
                                 px: { xs: 1.7, md: 2.2 },
                                 mr: 1,
+                                WebkitTapHighlightColor: "transparent",
+
+                                // hover só desktop
+                                "@media (hover: hover) and (pointer: fine)": {
+                                    "&:hover": { backgroundColor: "#b33f00" },
+                                },
+
+                                // mobile: não deixa ficar marcado
+                                "@media (hover: none) and (pointer: coarse)": {
+                                    "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                                        backgroundColor: "#e65100",
+                                        boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
+                                    },
+                                },
                             }}
                         >
                             Exit
                         </Button>
+
                     </Toolbar>
                 </Box>
             </AppBar>

@@ -11,7 +11,7 @@ import { useAppContext } from "../context/context";
 
 export default function NavbarCheckout() {
     const navigate = useNavigate();
-    const { order } = useAppContext(); 
+    const { order } = useAppContext();
 
     const { confirmAlert, AlertUI, ConfirmUI } = useAppAlert({
         vertical: "top",
@@ -19,7 +19,7 @@ export default function NavbarCheckout() {
     });
 
     function handleExitCheckout() {
-       
+
         if (!order || order.length === 0) {
             navigate("/");
             return;
@@ -32,8 +32,8 @@ export default function NavbarCheckout() {
             confirmText: "Yes, exit",
             cancelText: "No, stay",
             onConfirm: () => navigate("/"),
-            onCancel: () => {},
-            onDismiss: () => {},
+            onCancel: () => { },
+            onDismiss: () => { },
         });
     }
 
@@ -71,6 +71,7 @@ export default function NavbarCheckout() {
 
                         <Button
                             variant="contained"
+                            onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                             onClick={handleExitCheckout}
                             startIcon={<ExitToAppIcon />}
                             sx={{
@@ -82,13 +83,27 @@ export default function NavbarCheckout() {
                                 letterSpacing: "0.06em",
                                 textTransform: "uppercase",
                                 boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
-                                "&:hover": { backgroundColor: "#b33f00" },
                                 px: { xs: 1.7, md: 2.2 },
                                 mr: 1,
+                                WebkitTapHighlightColor: "transparent",
+
+                                // hover só desktop
+                                "@media (hover: hover) and (pointer: fine)": {
+                                    "&:hover": { backgroundColor: "#b33f00" },
+                                },
+
+                                // mobile: não deixa ficar marcado
+                                "@media (hover: none) and (pointer: coarse)": {
+                                    "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                                        backgroundColor: "#e65100",
+                                        boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
+                                    },
+                                },
                             }}
                         >
                             Exit
                         </Button>
+
                     </Toolbar>
                 </Box>
             </AppBar>

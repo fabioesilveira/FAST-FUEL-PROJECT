@@ -39,7 +39,7 @@ type NavItem =
         path: string;
     };
 
-const BLUE = "#0d47a1";
+const BLUE = "#1e5bb8";
 const ORANGE = "#fa6000ff";
 const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
 
@@ -165,6 +165,7 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                     {leftTwo.map((item) => (
                         <Tooltip key={item.label} title={item.label} placement="top" arrow>
                             <IconButton
+                                onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                                 onClick={() => handleClick(item)}
                                 sx={{
                                     width: 62,
@@ -173,11 +174,26 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                                     border: "2px solid transparent",
                                     backgroundColor: "transparent",
                                     transition: "all 0.18s ease",
-                                    "&:hover": {
-                                        backgroundColor: ORANGE_SOFT,
-                                        borderColor: BLUE,
-                                        transform: "translateY(-2px)",
+                                    WebkitTapHighlightColor: "transparent",
+
+                                    // hover só desktop
+                                    "@media (hover: hover) and (pointer: fine)": {
+                                        "&:hover": {
+                                            backgroundColor: ORANGE_SOFT,
+                                            borderColor: BLUE,
+                                            transform: "translateY(-2px)",
+                                        },
                                     },
+
+                                    // mobile: não deixa ficar marcado
+                                    "@media (hover: none) and (pointer: coarse)": {
+                                        "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                                            backgroundColor: "transparent",
+                                            boxShadow: "none",
+                                            transform: "none",
+                                        },
+                                    },
+
                                     "&:active": {
                                         transform: "translateY(0)",
                                         backgroundColor: "rgba(230,81,0,.28)",
@@ -186,11 +202,13 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                             >
                                 <RenderIcon item={item} />
                             </IconButton>
+
                         </Tooltip>
                     ))}
 
                     <Tooltip title={mode === "products" ? "ACCOUNT MENU" : "PRODUCTS MENU"} placement="top" arrow>
                         <IconButton
+                            onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                             onClick={toggleMode}
                             sx={{
                                 width: 70,
@@ -199,11 +217,24 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                                 border: "2px solid transparent",
                                 backgroundColor: "transparent",
                                 transition: "all 0.18s ease",
-                                "&:hover": {
-                                    backgroundColor: ORANGE_SOFT,
-                                    borderColor: "transparent",
-                                    transform: "translateY(-2px)",
+                                WebkitTapHighlightColor: "transparent",
+
+                                "@media (hover: hover) and (pointer: fine)": {
+                                    "&:hover": {
+                                        backgroundColor: ORANGE_SOFT,
+                                        borderColor: "transparent",
+                                        transform: "translateY(-2px)",
+                                    },
                                 },
+
+                                "@media (hover: none) and (pointer: coarse)": {
+                                    "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                                        backgroundColor: "transparent",
+                                        boxShadow: "none",
+                                        transform: "none",
+                                    },
+                                },
+
                                 "&:active": {
                                     transform: "translateY(0)",
                                     backgroundColor: "rgba(230,81,0,.28)",
@@ -217,6 +248,7 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                     {rightTwo.map((item) => (
                         <Tooltip key={item.label} title={item.label} placement="top" arrow>
                             <IconButton
+                                onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                                 onClick={() => handleClick(item)}
                                 sx={{
                                     width: 62,
@@ -225,11 +257,24 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                                     border: "2px solid transparent",
                                     backgroundColor: "transparent",
                                     transition: "all 0.18s ease",
-                                    "&:hover": {
-                                        backgroundColor: ORANGE_SOFT,
-                                        borderColor: BLUE,
-                                        transform: "translateY(-2px)",
+                                    WebkitTapHighlightColor: "transparent",
+
+                                    "@media (hover: hover) and (pointer: fine)": {
+                                        "&:hover": {
+                                            backgroundColor: ORANGE_SOFT,
+                                            borderColor: BLUE,
+                                            transform: "translateY(-2px)",
+                                        },
                                     },
+
+                                    "@media (hover: none) and (pointer: coarse)": {
+                                        "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                                            backgroundColor: "transparent",
+                                            boxShadow: "none",
+                                            transform: "none",
+                                        },
+                                    },
+
                                     "&:active": {
                                         transform: "translateY(0)",
                                         backgroundColor: "rgba(230,81,0,.28)",

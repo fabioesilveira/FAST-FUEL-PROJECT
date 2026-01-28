@@ -30,11 +30,25 @@ export default function NavbarAdmin() {
         letterSpacing: "0.06em",
         textTransform: "uppercase",
         boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
-        "&:hover": { backgroundColor: "#b33f00" },
         px: { xs: 1.7, md: 2.2 },
         minWidth: "unset",
         flexShrink: 0,
+        WebkitTapHighlightColor: "transparent",
+
+        // hover só desktop
+        "@media (hover: hover) and (pointer: fine)": {
+            "&:hover": { backgroundColor: "#b33f00" },
+        },
+
+        // mobile: não deixa ficar marcado
+        "@media (hover: none) and (pointer: coarse)": {
+            "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                backgroundColor: "#e65100",
+                boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
+            },
+        },
     } as const;
+
 
     return (
         <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
@@ -60,6 +74,8 @@ export default function NavbarAdmin() {
                     >
                         <Box
                             component="button"
+                            type="button"
+                            onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                             onClick={() => navigate("/admin")}
                             sx={{
                                 border: "none",
@@ -68,9 +84,15 @@ export default function NavbarAdmin() {
                                 display: "flex",
                                 alignItems: "center",
                                 p: 0,
+                                borderRadius: 12,
+                                outline: "none",
+                                WebkitTapHighlightColor: "transparent",
+                                "&:focus": { outline: "none" },
+                                "&:focus-visible": { outline: "none" },
                             }}
                             aria-label="Go to admin dashboard"
                         >
+
                             <Box
                                 component="img"
                                 src={Logo}
@@ -121,6 +143,7 @@ export default function NavbarAdmin() {
                         {!isOrders && (
                             <Button
                                 variant="contained"
+                                onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                                 onClick={() => navigate("/admin/orders")}
                                 startIcon={<HistoryIcon />}
                                 sx={actionBtnSx}
@@ -132,6 +155,7 @@ export default function NavbarAdmin() {
                         {!isMessages && (
                             <Button
                                 variant="contained"
+                                onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                                 onClick={() => navigate("/admin/messages")}
                                 startIcon={<EmailIcon />}
                                 sx={actionBtnSx}
@@ -142,6 +166,7 @@ export default function NavbarAdmin() {
 
                         <Button
                             variant="contained"
+                            onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                             onClick={handleSignout}
                             startIcon={<LogoutIcon />}
                             sx={{ ...actionBtnSx, mr: 1 }}
