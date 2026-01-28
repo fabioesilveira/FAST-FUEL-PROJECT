@@ -1,17 +1,16 @@
 import { styled } from "@mui/material/styles";
-import { Box } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
+import { useNavigate } from "react-router-dom";
 
-const MobileContactBubble = styled(Box)(({ theme }) => ({
+const MobileContactBubble = styled("button")(({ theme }) => ({
   position: "fixed",
   right: 14,
-  bottom: 150, 
+  bottom: 150,
   zIndex: 1400,
 
   width: 54,
   height: 54,
   borderRadius: "999px",
-
   display: "grid",
   placeItems: "center",
 
@@ -20,29 +19,38 @@ const MobileContactBubble = styled(Box)(({ theme }) => ({
   boxShadow: "0 10px 22px rgba(0,0,0,0.28)",
   cursor: "pointer",
   transition: "all .2s ease",
+  WebkitTapHighlightColor: "transparent",
 
-  "&:hover": {
-    transform: "translateY(-2px)",
-    boxShadow: "0 12px 26px rgba(0,0,0,0.22)",
+  // reset button defaults
+  padding: 0,
+  outline: "none",
+
+  "@media (hover: hover) and (pointer: fine)": {
+    "&:hover": {
+      transform: "translateY(-2px)",
+      boxShadow: "0 12px 26px rgba(0,0,0,0.22)",
+    },
   },
 
-  "&:active": {
-    transform: "translateY(0)",
+  "&:active": { transform: "translateY(0)" },
+
+  // remove “marked/focus” look on mobile
+  "&:focus, &:focus-visible": {
+    outline: "none",
   },
 
-  [theme.breakpoints.up("sm")]: {
-    display: "none",
-  },
+  [theme.breakpoints.up("sm")]: { display: "none" },
 }));
 
 export default function FloatingContactMobile() {
+  const navigate = useNavigate();
+
   return (
     <MobileContactBubble
-      onClick={() => {
-        window.location.href = "/contact-us";
-      }}
+      type="button"
+      onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
+      onClick={() => navigate("/contact-us")}
       aria-label="Contact us"
-      role="button"
     >
       <EmailIcon sx={{ color: "#ffe0c7", fontSize: 26 }} />
     </MobileContactBubble>

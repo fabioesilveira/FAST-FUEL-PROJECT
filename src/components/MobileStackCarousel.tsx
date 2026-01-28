@@ -30,42 +30,46 @@ export default function MobileCarouselSingle({
 }: Props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
   const effectiveHeight = isMobile ? "clamp(300px, 48svh, 480px)" : `${height}px`;
 
   const safeSlides = useMemo(() => slides.filter(Boolean), [slides]);
   const count = safeSlides.length;
 
   const [idx, setIdx] = useState(0);
-
-  // fade state
   const [nextIdx, setNextIdx] = useState<number | null>(null);
   const [fading, setFading] = useState(false);
 
   const timerRef = useRef<number | null>(null);
 
+  const idxRef = useRef(0);
+  const fadingRef = useRef(false);
+
+  useEffect(() => {
+    idxRef.current = idx;
+  }, [idx]);
+
+  useEffect(() => {
+    fadingRef.current = fading;
+  }, [fading]);
+
   // swipe
   const startX = useRef<number | null>(null);
   const deltaX = useRef(0);
 
-  const clearTimer = () => {
+  const clearTimer = useCallback(() => {
     if (timerRef.current) window.clearInterval(timerRef.current);
     timerRef.current = null;
-  };
+  }, []);
 
-  const startTimer = useCallback(() => {
-    clearTimer();
-    if (count >= 2) timerRef.current = window.setInterval(() => goNext(), interval);
-  }, [count, interval]); // eslint-disable-line
-
-  const goTo = useCallback(
+  const runTransitionTo = useCallback(
     (target: number) => {
       if (count < 2) return;
-      if (fading) return; // evita spam
-      if (target === idx) return;
+      if (fadingRef.current) return;
+      if (target === idxRef.current) return;
 
+      // monta incoming primeiro (opacity 0), depois liga fading (opacity 1)
       setNextIdx(target);
-      setFading(true);
+      requestAnimationFrame(() => setFading(true));
 
       window.setTimeout(() => {
         setIdx(target);
@@ -73,32 +77,44 @@ export default function MobileCarouselSingle({
         setFading(false);
       }, animationMs);
     },
-    [count, idx, fading, animationMs]
+    [count, animationMs]
   );
 
   const goNext = useCallback(() => {
     if (count < 2) return;
-    goTo((idx + 1) % count);
-  }, [count, idx, goTo]);
+    const next = (idxRef.current + 1) % count;
+    runTransitionTo(next);
+  }, [count, runTransitionTo]);
 
   const goPrev = useCallback(() => {
     if (count < 2) return;
-    goTo((idx - 1 + count) % count);
-  }, [count, idx, goTo]);
+    const prev = (idxRef.current - 1 + count) % count;
+    runTransitionTo(prev);
+  }, [count, runTransitionTo]);
 
+  const startTimer = useCallback(() => {
+    clearTimer();
+    if (count >= 2) {
+      timerRef.current = window.setInterval(() => {
+        goNext();
+      }, interval);
+    }
+  }, [clearTimer, count, interval, goNext]);
+
+  // reinicia quando muda quantidade de slides
   useEffect(() => {
     setIdx(0);
+    idxRef.current = 0;
     setNextIdx(null);
     setFading(false);
     startTimer();
     return clearTimer;
-  }, [count, startTimer]);
+  }, [count, startTimer, clearTimer]);
 
-  // autoplay
   useEffect(() => {
     startTimer();
     return clearTimer;
-  }, [startTimer]);
+  }, [startTimer, clearTimer]);
 
   if (count === 0) return null;
 
@@ -141,16 +157,8 @@ export default function MobileCarouselSingle({
           borderRadius: `${radius}px`,
         }}
       >
-        {/* base */}
-        <FadeSlide
-          slide={current}
-          radius={radius}
-          shadow={shadow}
-          opacity={1}
-          animationMs={animationMs}
-        />
+        <FadeSlide slide={current} radius={radius} shadow={shadow} opacity={1} animationMs={animationMs} />
 
-        {/* incoming (fade in) */}
         {incoming && (
           <FadeSlide
             slide={incoming}
@@ -162,7 +170,6 @@ export default function MobileCarouselSingle({
           />
         )}
 
-        {/* dots */}
         <Box
           sx={{
             position: "absolute",
