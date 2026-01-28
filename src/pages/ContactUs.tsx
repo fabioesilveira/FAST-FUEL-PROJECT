@@ -126,7 +126,6 @@ export default function ContactUs() {
                         position: "relative",
                         flexGrow: 1,
                         width: "100%",
-                        borderTop: "3px solid #e65100",
                         boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
                     }}
                 >
@@ -238,10 +237,9 @@ export default function ContactUs() {
                                     display: "flex",
                                     justifyContent: "center",
                                     pr: 0.5,
-
-                                    // espaço REAL pro primeiro label subir 
                                     pt: { xs: 1.6, sm: 0 },
-                                    pb: { xs: 6, sm: 4 },
+
+                                    pb: { xs: "calc(28px + env(safe-area-inset-bottom))", sm: 4 },
                                 }}
                             >
 
@@ -403,7 +401,7 @@ export default function ContactUs() {
                                         Cancel
                                     </Button>
 
-                                    <Box sx={{ height: 6 }} />
+                                   <Box sx={{ height: { xs: 24, sm: 8 } }} />
                                 </Box>
                             </Box>
                         </Paper>
