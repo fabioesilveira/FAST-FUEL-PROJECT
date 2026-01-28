@@ -80,6 +80,7 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                     return (
                         <IconButton
                             key={c.label}
+                            onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                             onClick={c.onClick}
                             sx={{
                                 width: isFast ? 70 : 62,
@@ -88,11 +89,21 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                                 border: "2px solid transparent",
                                 backgroundColor: "transparent",
                                 transition: "all 0.18s ease",
+                                WebkitTapHighlightColor: "transparent",
 
-                                "&:hover": {
-                                    backgroundColor: ORANGE_SOFT,
-                                    borderColor: isFast ? "transparent" : BLUE,
-                                    transform: "translateY(-2px)",
+                                "@media (hover: hover) and (pointer: fine)": {
+                                    "&:hover": {
+                                        backgroundColor: ORANGE_SOFT,
+                                        borderColor: isFast ? "transparent" : BLUE,
+                                        transform: "translateY(-2px)",
+                                    },
+                                },
+
+                                "@media (hover: none) and (pointer: coarse)": {
+                                    "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                                        backgroundColor: "transparent",
+                                        boxShadow: "none",
+                                    },
                                 },
 
                                 "&:active": {

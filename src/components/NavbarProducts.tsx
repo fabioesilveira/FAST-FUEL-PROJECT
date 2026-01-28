@@ -96,6 +96,7 @@ function NavbarProducts() {
               {/* HOME */}
               <Button
                 variant="contained"
+                onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                 onClick={() => navigate("/")}
                 sx={{
                   width: { xs: 58, md: 71 },
@@ -103,18 +104,24 @@ function NavbarProducts() {
                   minWidth: "unset",
                   borderRadius: 2,
                   backgroundColor: "#e65100",
-                  "&:hover": { backgroundColor: "#b33f00" },
                   padding: 0,
+
+                  // hover só desktop
+                  "@media (hover: hover) and (pointer: fine)": {
+                    "&:hover": { backgroundColor: "#b33f00" },
+                  },
+
+                  // mobile: não deixa ficar “marcado”
+                  "@media (hover: none) and (pointer: coarse)": {
+                    "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                      backgroundColor: "#e65100",
+                      boxShadow: "none",
+                    },
+                  },
                 }}
               >
-                <HomeIcon
-                  sx={{
-                    fontSize: { xs: 30, md: 34.5 },
-                    color: "#ffe0c7",
-                  }}
-                />
+                <HomeIcon sx={{ fontSize: { xs: 30, md: 34.5 }, color: "#ffe0c7" }} />
               </Button>
-
               {/* CART */}
               <Button
                 variant="contained"
@@ -139,7 +146,7 @@ function NavbarProducts() {
                     cancelText: "Sign in / Sign up",
                     onConfirm: () => navigate("/checkout?guest=1"),
                     onCancel: () => navigate("/sign-in"),
-                    onDismiss: () => {},
+                    onDismiss: () => { },
                   });
                 }}
                 sx={{
@@ -148,8 +155,18 @@ function NavbarProducts() {
                   minWidth: "unset",
                   borderRadius: 2,
                   backgroundColor: "#e65100",
-                  "&:hover": { backgroundColor: "#b33f00" },
                   padding: 0,
+
+                  "@media (hover: hover) and (pointer: fine)": {
+                    "&:hover": { backgroundColor: "#b33f00" },
+                  },
+
+                  "@media (hover: none) and (pointer: coarse)": {
+                    "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                      backgroundColor: "#e65100",
+                      boxShadow: "none",
+                    },
+                  },
                 }}
               >
                 <ShoppingCartIcon
