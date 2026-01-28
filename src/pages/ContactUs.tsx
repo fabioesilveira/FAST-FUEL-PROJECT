@@ -179,13 +179,14 @@ export default function ContactUs() {
                     <Box
                         component="main"
                         sx={{
-                            position: "absolute",
+                            position: "fixed",
                             inset: 0,
                             display: "flex",
                             justifyContent: "center",
                             px: 2,
                             pt: { xs: "110px", md: "120px" },
-                            pb: { xs: 1, md: 4 }
+                            pb: { xs: 1, md: 4 },
+                            minHeight: 0,
                         }}
                     >
                         <Paper
@@ -238,10 +239,8 @@ export default function ContactUs() {
                                     justifyContent: "center",
                                     pr: 0.5,
 
-                                    // espaço REAL pro primeiro label subir (só mobile)
+                                    // espaço REAL pro primeiro label subir 
                                     pt: { xs: 1.6, sm: 0 },
-
-
                                     pb: { xs: 6, sm: 4 },
                                 }}
                             >
@@ -256,8 +255,6 @@ export default function ContactUs() {
                                         display: "flex",
                                         flexDirection: "column",
                                         gap: 2,
-
-                                        // gives space for the first label to float (ONLY mobile)
                                         pt: { xs: 1.2, sm: 2 },
                                     }}
                                 >

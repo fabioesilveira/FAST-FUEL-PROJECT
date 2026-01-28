@@ -193,14 +193,14 @@ export default function SignIn() {
                     <Box
                         component="main"
                         sx={{
-                            position: "fixed",          // ✅ era absolute
+                            position: "fixed",          
                             inset: 0,
                             display: "flex",
                             justifyContent: "center",
                             px: 2,
                             pt: { xs: "110px", md: "120px" },
                             pb: { xs: 1, md: 4 },
-                            minHeight: 0,               // ✅ importante para scroll interno
+                            minHeight: 0,               
                         }}
                     >
                         <Paper
@@ -221,7 +221,7 @@ export default function SignIn() {
 
                                 display: "flex",
                                 flexDirection: "column",
-                                gap: 2, // ✅ IGUAL SignUp
+                                gap: 2, 
                                 overflow: "hidden",
                             }}
                         >

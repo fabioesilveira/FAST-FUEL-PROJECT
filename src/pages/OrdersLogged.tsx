@@ -403,7 +403,7 @@ export default function OrdersLogged() {
             {ConfirmUI}
             <NavbarOrders />
 
-            <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+            <Box sx={{ minHeight: "100svh", display: "flex", flexDirection: "column" }}>
                 <Box
                     component="main"
                     sx={{
@@ -412,7 +412,8 @@ export default function OrdersLogged() {
                         justifyContent: "center",
                         px: 2,
                         pt: { xs: "110px", md: "120px" },
-                        pb: 4,
+                        pb: { xs: 1, md: 4 },
+                        minHeight: 0, 
                     }}
                 >
                     <Paper
@@ -424,8 +425,8 @@ export default function OrdersLogged() {
                             border: "1.5px solid rgba(230, 81, 0, 0.35)",
                             bgcolor: "background.paper",
                             p: { xs: 2.5, md: 4 },
-                            height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
-                            maxHeight: 760,
+                            height: { xs: "calc(100svh - 200px)", md: "calc(100vh - 220px)" },
+                            maxHeight: 720,
                             boxShadow:
                                 "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
                             display: "flex",
@@ -444,8 +445,9 @@ export default function OrdersLogged() {
                                 color: "#0d47a1",
                                 fontWeight: 700,
                                 textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                mb: 4,
-                                mt: { xs: 1.5, sm: 1, md: 0 },
+                                mb: { xs: 1.5, sm: 2, md: 2 },
+                                mt: { xs: 1.5, sm: 1.5, md: 1.3 },
+
                             }}
                         >
                             Orders
