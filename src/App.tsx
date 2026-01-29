@@ -10,7 +10,7 @@ import Sides from "./pages/Sides";
 import Checkout from "./pages/Checkout";
 import DeleteAccount from "./pages/DeleteAccount";
 import ContactUs from "./pages/ContactUs";
-import AdminMessages from "./pages/admin/AdminMessages";
+import AdminMessages from "./pages/admin/AdminMessages.tsx";
 import AdminOrders from "./pages/admin/AdminOrders";
 import OrdersLogged from "./pages/OrdersLogged";
 import TrackOrderGuest from "./pages/TrackOrderGuest";
