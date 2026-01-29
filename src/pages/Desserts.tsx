@@ -66,7 +66,7 @@ function ProductCard({
         typeof product.image === "string" && product.image.startsWith("http")
             ? product.image
             : imageMap[imgKey] ?? product.image;
-            
+
     return (
         <Box
             sx={{
@@ -76,16 +76,18 @@ function ProductCard({
                 border: "2px solid #e65100",
                 backgroundColor: "#fff3e0",
                 boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
-
                 p: useCompactMobile ? 1.5 : 2.5,
                 display: "flex",
                 flexDirection: "column",
                 gap: useCompactMobile ? 1.2 : 1.8,
 
                 transition: "transform 0.2s ease, box-shadow 0.2s ease",
-                "&:hover": {
-                    transform: "translateY(-5px)",
-                    boxShadow: "0 12px 26px rgba(230, 81, 0, 0.38)",
+
+                "@media (hover: hover) and (pointer: fine)": {
+                    "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 12px 26px rgba(230, 81, 0, 0.38)",
+                    },
                 },
             }}
         >
@@ -252,9 +254,11 @@ function ProductCard({
                         cursor: "pointer",
                         transition: "all 0.16s ease",
 
-                        "&:hover": {
-                            bgcolor: "#1e5bb8",
-                            color: "#ffffff",
+                        "@media (hover: hover) and (pointer: fine)": {
+                            "&:hover": {
+                                bgcolor: "#1e5bb8",
+                                color: "#ffffff",
+                            },
                         },
 
                         "&:active": {
@@ -262,6 +266,11 @@ function ProductCard({
                             color: "#ffffff",
                             transform: "scale(0.92)",
                             opacity: 0.85,
+                        },
+
+                        WebkitTapHighlightColor: "transparent",
+                        "&:focus, &:focus-visible": {
+                            outline: "none",
                         },
                     }}
                 >
@@ -295,9 +304,11 @@ function ProductCard({
                         cursor: "pointer",
                         transition: "all 0.16s ease",
 
-                        "&:hover": {
-                            bgcolor: "#1e5bb8",
-                            color: "#ffffff",
+                        "@media (hover: hover) and (pointer: fine)": {
+                            "&:hover": {
+                                bgcolor: "#1e5bb8",
+                                color: "#ffffff",
+                            },
                         },
 
                         "&:active": {
@@ -305,6 +316,11 @@ function ProductCard({
                             color: "#ffffff",
                             transform: "scale(0.92)",
                             opacity: 0.85,
+                        },
+
+                        WebkitTapHighlightColor: "transparent",
+                        "&:focus, &:focus-visible": {
+                            outline: "none",
                         },
                     }}
                 >

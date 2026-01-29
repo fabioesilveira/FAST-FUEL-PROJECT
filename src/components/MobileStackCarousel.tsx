@@ -23,7 +23,7 @@ type Props = {
 export default function MobileCarouselSingle({
   slides,
   interval = 3800,
-  height = 450,
+  height = 470,
   radius = 0,
   shadow = "0 10px 26px rgba(0,0,0,0.16)",
   animationMs = 520,
