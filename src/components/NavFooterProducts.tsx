@@ -2,7 +2,6 @@ import * as React from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -163,10 +162,10 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                     }}
                 >
                     {leftTwo.map((item) => (
-                        <Tooltip key={item.label} title={item.label} placement="top" arrow>
                             <IconButton
                                 onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                                 onClick={() => handleClick(item)}
+                                key={item.label}
                                 sx={{
                                     width: 62,
                                     height: 62,
@@ -203,10 +202,8 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                                 <RenderIcon item={item} />
                             </IconButton>
 
-                        </Tooltip>
                     ))}
 
-                    <Tooltip title={mode === "products" ? "ACCOUNT MENU" : "PRODUCTS MENU"} placement="top" arrow>
                         <IconButton
                             onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                             onClick={toggleMode}
@@ -243,13 +240,12 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                         >
                             <SwapHorizIcon sx={{ fontSize: 39, color: "#0d47a1" }} />
                         </IconButton>
-                    </Tooltip>
 
                     {rightTwo.map((item) => (
-                        <Tooltip key={item.label} title={item.label} placement="top" arrow>
                             <IconButton
                                 onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                                 onClick={() => handleClick(item)}
+                                key={item.label}
                                 sx={{
                                     width: 62,
                                     height: 62,
@@ -283,7 +279,6 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                             >
                                 <RenderIcon item={item} />
                             </IconButton>
-                        </Tooltip>
                     ))}
                 </Box>
             </Paper>
