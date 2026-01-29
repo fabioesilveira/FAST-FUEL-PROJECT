@@ -597,34 +597,14 @@ export default function Checkout() {
                 <Box
                     component="main"
                     sx={{
-                        flex: 1,
-                        pt: { xs: 14.5, sm: 13, md: 12.5 },
-                        pb: 2,
-                        px: 2,
+                        position: "fixed",
+                        inset: 0,
                         display: "flex",
                         justifyContent: "center",
-                        alignItems: "flex-start",
-                        backgroundImage: `
-                                          linear-gradient(
-                                          to right,
-                                        rgba(255,255,255,1) 0%,
-                                        rgba(255,255,255,0.92) 12%,
-                                        rgba(255,255,255,0.55) 28%,
-                                        rgba(255,255,255,0.55) 72%,
-                                        rgba(255,255,255,0.92) 88%,
-                                        rgba(255,255,255,1) 100%
-                                         ),
-                                          repeating-linear-gradient(
-                                          to right,
-                                        rgba(255, 167, 38, 0.14),
-                                        rgba(255, 167, 38, 0.14) 18px,
-                                          transparent 18px,
-                                          transparent 40px
-                                          )
-                                          `,
-                        backgroundSize: "100% 100%, 100% 40px",
-                        backgroundRepeat: "no-repeat, repeat-y",
-                        backgroundAttachment: "fixed, fixed",
+                        px: 2,
+                        pt: { xs: "110px", md: "120px" }, 
+                        pb: { xs: 1, md: 4 },           
+                        minHeight: 0,
                     }}
                 >
                     <Paper
@@ -632,37 +612,54 @@ export default function Checkout() {
                         ref={paperRef}
                         sx={{
                             width: "100%",
-                            maxWidth: 540,
+
+                            
+                            maxWidth: { xs: 520, sm: 540 }, 
+
                             borderRadius: 3,
-                            mb: 1,
                             border: "2px solid rgba(13, 71, 161, 0.35)",
                             bgcolor: "background.paper",
                             boxShadow:
                                 "0 4px 14px rgba(13, 71, 161, 0.25), 0 8px 24px rgba(13, 71, 161, 0.18)",
 
-                            height: {
-                                xs: "calc(100svh - 210px)",
-                                sm: "calc(100svh - 210px)",
-                                md: 740,
-                            },
-                            minHeight: {
-                                xs: 560,
-                                sm: 620,
-                                md: 740,
-                            },
-                            maxHeight: 760,
+                           
+                            height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
+                            maxHeight: 720,
 
                             overflow: "hidden",
                             display: "flex",
                             flexDirection: "column",
+                            minHeight: 0,
                         }}
                     >
 
+                        {/* HEADER FIXO */}
+                        <Box sx={{ px: 5, pt: 3.5, pb: 2, maxWidth: 500, mx: "auto", flexShrink: 0 }}>
+                            <Typography
+                                variant="h4"
+                                align="center"
+                                sx={{
+                                    mb: 1.5,
+                                    mt: 1,
+                                    fontSize: "clamp(2.05rem, 5vw, 2.3rem)",
+                                    letterSpacing: "0.12em",
+                                    textTransform: "uppercase",
+                                    color: "#0d47a1",
+                                    fontWeight: 700,
+                                    textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
+                                }}
+                            >
+                                Checkout
+                            </Typography>
+                        </Box>
+
+                        {/* BODY COM SCROLL */}
                         <Box
                             sx={{
                                 flex: 1,
                                 overflowY: "auto",
                                 WebkitOverflowScrolling: "touch",
+                                minHeight: 0,
                             }}
                         >
                             {screen === "processing" ? (
@@ -681,24 +678,6 @@ export default function Checkout() {
                                             pb: 2,
                                         }}
                                     >
-                                        {/* Title */}
-                                        <Typography
-                                            variant="h4"
-                                            align="center"
-                                            sx={{
-                                                mb: 2.5,
-                                                mt: 1,
-                                                fontSize: "clamp(2.05rem, 5vw, 2.3rem)",
-                                                letterSpacing: "0.12em",
-                                                textTransform: "uppercase",
-                                                color: "#0d47a1",
-                                                fontWeight: 700,
-                                                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                            }}
-                                        >
-                                            Checkout
-                                        </Typography>
-
                                         {/* Order summary */}
                                         <Box sx={{ mb: 3 }}>
                                             <Chip
@@ -1189,7 +1168,9 @@ export default function Checkout() {
                                     </Box>
                                 </>
                             )}
+
                         </Box>
+
                     </Paper>
                 </Box>
 
