@@ -160,11 +160,11 @@ const imageStylesByIdMobile: Record<string, React.CSSProperties> = {
 
 
 const mobileSlides = [
-  { id: "combo", src: ComboMobile, alt: "Combo Promo" }, 
-  { id: "rest", src: RestImg, alt: "Rest" },
-  { id: "girl", src: Chat6, alt: "Girl" },
-  { id: "team", src: EmployeesMobile, alt: "Fast Fuel Team" }, 
-  { id: "drive", src: Chat4, alt: "Car Drive" },
+    { id: "combo", src: ComboMobile, alt: "Combo Promo" },
+    { id: "rest", src: RestImg, alt: "Rest" },
+    { id: "girl", src: Chat6, alt: "Girl" },
+    { id: "team", src: EmployeesMobile, alt: "Fast Fuel Team" },
+    { id: "drive", src: Chat4, alt: "Car Drive" },
 ];
 
 
@@ -887,7 +887,7 @@ export default function Home() {
                     sx={{
                         flexGrow: 2,
                         mt: { xs: 0, md: "100px" },
-                        mb: { xs: "110px", md: "60px" },
+                        mb: { xs: "60px", md: "60px" },
                     }}
                 >
                     {/* DESKTOP: banner dentro do Container */}
