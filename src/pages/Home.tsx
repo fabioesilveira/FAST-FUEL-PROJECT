@@ -887,7 +887,7 @@ export default function Home() {
                     sx={{
                         flexGrow: 2,
                         mt: { xs: 0, md: "100px" },
-                        mb: { xs: "30px", md: "60px" },
+                        mb: { xs: "20px", md: "60px" },
                     }}
                 >
                     {/* DESKTOP: banner dentro do Container */}

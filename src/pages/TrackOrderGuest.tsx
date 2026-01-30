@@ -253,6 +253,7 @@ export default function TrackOrderGuest() {
             />
         );
     }
+
     function progressLabel(status: Sale["status"]) {
         const steps: Array<{ key: Sale["status"]; label: string }> = [
             { key: "received", label: "Received" },
@@ -267,11 +268,14 @@ export default function TrackOrderGuest() {
             <Box
                 sx={{
                     display: "grid",
-                    gap: { xs: 0.6, sm: 1 },
+                    gap: { xs: 0.6, sm: 0.8 },
+
                     gridTemplateColumns: {
                         xs: "repeat(2, 1fr)",
-                        sm: "repeat(4, 1fr)",
+                        sm: "repeat(4, auto)",
                     },
+
+                    justifyContent: "center",
                 }}
             >
                 {steps.map((s, i) => (
@@ -280,23 +284,25 @@ export default function TrackOrderGuest() {
                         label={s.label}
                         size="small"
                         sx={{
-                            width: "100%",
-                            justifyContent: "center",
-                            borderRadius: "999px",
+                            // 🔹 tamanho FIXO e pequeno
+                            width: { xs: 120, sm: 110 },
+                            height: 22,
 
-                            height: { xs: 22, sm: 24 },
-                            px: { xs: 0.6, sm: 0.9 },
-                            fontSize: { xs: "0.62rem", sm: "0.70rem" },
-
-                            letterSpacing: "0.07em",
-                            textTransform: "uppercase",
+                            fontSize: "0.62rem",
                             fontWeight: 800,
+                            letterSpacing: "0.06em",
+                            textTransform: "uppercase",
+
+                            borderRadius: "999px",
+                            justifyContent: "center",
 
                             "& .MuiChip-label": {
                                 width: "100%",
                                 textAlign: "center",
                                 whiteSpace: "nowrap",
-                                overflow: "visible",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                px: 0.5,
                             },
 
                             bgcolor: i <= idx
@@ -317,7 +323,6 @@ export default function TrackOrderGuest() {
             </Box>
         );
     }
-
 
 
     async function confirmReceived(o: Sale) {
