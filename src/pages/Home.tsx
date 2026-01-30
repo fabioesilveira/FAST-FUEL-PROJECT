@@ -845,6 +845,10 @@ export default function Home() {
                     display: "flex",
                     flexDirection: "column",
                     pt: { xs: "92px", md: 0 },
+
+                    pb: { xs: `calc(86px + env(safe-area-inset-bottom))`, sm: 0 },
+
+                    overscrollBehaviorY: { xs: "none", sm: "auto" },
                 }}
             >
                 <Navbar onSearch={handleSearchInput} onSearchOverlayChange={setSearchOverlayOpen} />
@@ -864,8 +868,8 @@ export default function Home() {
                     <Box
                         sx={{
                             position: "fixed",
-                            top: 92,      
-                            bottom: 86,   
+                            top: 92,
+                            bottom: 86,
                             left: 0,
                             right: 0,
 

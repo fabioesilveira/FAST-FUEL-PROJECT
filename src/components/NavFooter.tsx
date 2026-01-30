@@ -42,11 +42,9 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                 position: "fixed",
                 left: 0,
                 right: 0,
+                bottom: 0,
 
-                bottom: "env(safe-area-inset-bottom)",
-
-                // altura visual do footer + safe area
-                height: 86,
+                height: `calc(86px + env(safe-area-inset-bottom))`,
                 pb: "env(safe-area-inset-bottom)",
 
                 zIndex: 1300,
@@ -56,14 +54,12 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                 display: "flex",
                 alignItems: "center",
 
-                //reduz “sobe/desce” em scroll/toolbar
                 transform: "translateZ(0)",
                 willChange: "transform",
                 WebkitBackfaceVisibility: "hidden",
                 backfaceVisibility: "hidden",
             }}
         >
-
             <Box
                 sx={{
                     width: "100%",
