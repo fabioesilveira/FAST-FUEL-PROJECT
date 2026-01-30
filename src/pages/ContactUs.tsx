@@ -4,9 +4,9 @@ import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
-import NavbarExtra from "../components/NavbarExtra";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import NavbarContactUs from "../components/NavbarContactUs";
 
 type Contact = {
     name: string;
@@ -114,7 +114,7 @@ export default function ContactUs() {
 
     return (
         <>
-            <NavbarExtra />
+            <NavbarContactUs />
             {AlertUI}
 
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -218,8 +218,8 @@ export default function ContactUs() {
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -0.6, sm: -0.7, md: -0.2 },
-                                    mt: { xs: 1.0, sm: 1.5, md: 1.3 },
+                                    mb: { xs: -0.8, sm: -0.7, md: -0.2 },
+                                    mt: { xs: 1.0, sm: 1.5, md: 2 },
                                 }}
                             >
                                 Contact Us
@@ -374,35 +374,38 @@ export default function ContactUs() {
                                         Send Message
                                     </Button>
 
-                                    <Button
-                                        variant="outlined"
-                                        fullWidth
-                                        onClick={() => navigate("/")}
-                                        sx={{
-                                            mt: 0.5,
-                                            height: 42,
-                                            borderRadius: 2,
-                                            textTransform: "uppercase",
-                                            border: "2px solid #0d47a1",
-                                            color: "#0d47a1",
-                                            letterSpacing: "0.14em",
-                                            fontWeight: 700,
-                                            bgcolor: "rgba(230, 81, 0, 0.14)",
-                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
-                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
-                                            "&:hover": {
-                                                bgcolor: "rgba(230, 81, 0, 0.22)",
-                                                borderColor: "#0d47a1",
+                                    {!isMobile && (
+                                        <Button
+                                            variant="outlined"
+                                            fullWidth
+                                            onClick={() => navigate("/")}
+                                            sx={{
+                                                mt: 0.5,
+                                                height: 42,
+                                                borderRadius: 2,
+                                                textTransform: "uppercase",
+                                                border: "2px solid #0d47a1",
                                                 color: "#0d47a1",
-                                            },
-                                            "&:active": {
-                                                bgcolor: "rgba(230, 81, 0, 0.28)",
-                                                transform: "translateY(1px)",
-                                            },
-                                        }}
-                                    >
-                                        Cancel
-                                    </Button>
+                                                letterSpacing: "0.14em",
+                                                fontWeight: 700,
+                                                bgcolor: "rgba(230, 81, 0, 0.14)",
+                                                boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
+                                                fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
+                                                "&:hover": {
+                                                    bgcolor: "rgba(230, 81, 0, 0.22)",
+                                                    borderColor: "#0d47a1",
+                                                    color: "#0d47a1",
+                                                },
+                                                "&:active": {
+                                                    bgcolor: "rgba(230, 81, 0, 0.28)",
+                                                    transform: "translateY(1px)",
+                                                },
+                                            }}
+                                        >
+                                            Cancel
+                                        </Button>
+                                    )}
+
 
                                     <Box sx={{ height: { xs: 8, sm: 8 } }} />
                                 </Box>
@@ -415,8 +418,5 @@ export default function ContactUs() {
             </Box>
         </>
     );
-
-
-
 
 }

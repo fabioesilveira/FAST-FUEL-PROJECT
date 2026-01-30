@@ -155,7 +155,7 @@ export default function SignIn() {
               )`,
                                 backgroundSize: "100% 40px",
                                 backgroundRepeat: "repeat-y",
-                                backgroundAttachment: "fixed",
+                                backgroundAttachment: { xs: "scroll", md: "fixed" },
                             }}
                         />
 
@@ -181,7 +181,7 @@ export default function SignIn() {
               `,
                                 backgroundSize: "100% 40px, 100% 40px",
                                 backgroundRepeat: "repeat-y, repeat-y",
-                                backgroundAttachment: "fixed",
+                                backgroundAttachment: { xs: "scroll", md: "fixed" },
                             }}
                         />
 
@@ -236,8 +236,8 @@ export default function SignIn() {
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -1.0, sm: -0.4, md: 0 },
-                                    mt: { xs: 1.5, sm: 1.5, md: 1.3 },
+                                    mb: { xs: -1.2, sm: -0.4, md: -0.2 },
+                                    mt: { xs: 1.5, sm: 1.5, md: 2 },
                                 }}
                             >
                                 Sign In
@@ -253,7 +253,7 @@ export default function SignIn() {
                                     justifyContent: "center",
                                     pr: 0.5,
                                     pt: { xs: 1.2, sm: 0 },
-                                    pb: { xs: 6, sm: 4 },
+                                    pb: { xs: `calc(96px + env(safe-area-inset-bottom))`, sm: 4 },
                                 }}
                             >
                                 <Box

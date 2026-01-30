@@ -263,8 +263,8 @@ export default function SignUp() {
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -1.0, sm: -0.4, md: 0 },
-                                    mt: { xs: 1.5, sm: 1.5, md: 1.3 },
+                                    mb: { xs: -1.2, sm: -0.4, md: -0.2 },
+                                    mt: { xs: 1.5, sm: 1.5, md: 2 },
                                 }}
                             >
                                 Sign Up
@@ -393,6 +393,7 @@ export default function SignUp() {
 
                                     <Button
                                         variant="outlined"
+                                        size="large"
                                         fullWidth
                                         onClick={() => navigate("/")}
                                         sx={{
