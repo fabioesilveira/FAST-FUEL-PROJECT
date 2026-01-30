@@ -193,14 +193,14 @@ export default function SignIn() {
                     <Box
                         component="main"
                         sx={{
-                            position: "fixed",          
+                            position: "fixed",
                             inset: 0,
                             display: "flex",
                             justifyContent: "center",
                             px: 2,
                             pt: { xs: "110px", md: "120px" },
                             pb: { xs: 1, md: 4 },
-                            minHeight: 0,               
+                            minHeight: 0,
                         }}
                     >
                         <Paper
@@ -221,7 +221,7 @@ export default function SignIn() {
 
                                 display: "flex",
                                 flexDirection: "column",
-                                gap: 2, 
+                                gap: 2,
                                 overflow: "hidden",
                             }}
                         >
@@ -266,7 +266,7 @@ export default function SignIn() {
                                         display: "flex",
                                         flexDirection: "column",
                                         gap: 2,
-                                        pt: { xs: 1.0, sm: 1.5 },
+                                        pt: { xs: 1.0, sm: 2.5 },
                                     }}
                                 >
                                     <Typography
@@ -275,6 +275,7 @@ export default function SignIn() {
                                             fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
                                             color: "text.secondary",
                                             fontWeight: "bold",
+                                            mt: { xs: -0.5 }
                                         }}
                                     >
                                         Sign in to enjoy the complete Fast Fuel experience.

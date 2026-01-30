@@ -184,7 +184,7 @@ export default function SignUp() {
               )`,
                                 backgroundSize: "100% 40px",
                                 backgroundRepeat: "repeat-y",
-                                backgroundAttachment: "fixed",
+                                backgroundAttachment: { xs: "scroll", md: "fixed" },
                             }}
                         />
 
@@ -209,7 +209,7 @@ export default function SignUp() {
               `,
                                 backgroundSize: "100% 40px, 100% 40px",
                                 backgroundRepeat: "repeat-y, repeat-y",
-                                backgroundAttachment: "fixed",
+                                backgroundAttachment: { xs: "scroll", md: "fixed" }
                             }}
                         />
 
@@ -220,14 +220,14 @@ export default function SignUp() {
                     <Box
                         component="main"
                         sx={{
-                            position: "fixed",         
+                            position: "fixed",
                             inset: 0,
                             display: "flex",
                             justifyContent: "center",
                             px: 2,
                             pt: { xs: "110px", md: "120px" },
                             pb: { xs: 1, md: 4 },
-                            minHeight: 0,              
+                            minHeight: 0,
                         }}
                     >
                         <Paper
@@ -280,7 +280,7 @@ export default function SignUp() {
                                     justifyContent: "center",
                                     pr: 0.5,
                                     pt: { xs: 1.2, sm: 0 },
-                                    pb: { xs: 6, sm: 4 },
+                                    pb: { xs: `calc(96px + env(safe-area-inset-bottom))`, sm: 4 }
                                 }}
                             >
                                 <Box
@@ -293,19 +293,23 @@ export default function SignUp() {
                                         display: "flex",
                                         flexDirection: "column",
                                         gap: 2,
-                                        pt: { xs: 1.0, sm: 1.5 },
+                                        pt: { xs: 1.0, sm: 2.5 },
                                     }}
                                 >
-                                    <Typography
-                                        align="center"
+                                    <Button
+                                        variant="text"
+                                        onClick={() => navigate("/sign-in")}
                                         sx={{
+                                            textTransform: "none",
+                                            color: "rgba(180, 63, 0, 1)",
                                             fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
-                                            color: "text.secondary",
-                                            fontWeight: "bold",
+                                            "&:hover": { textDecoration: "underline" },
+                                            mb: { xs: -1 },
+                                            mt: { xs: -1.5 }
                                         }}
                                     >
-                                        Create your Fast Fuel account for a full experience.
-                                    </Typography>
+                                        Already have an account? Sign In
+                                    </Button>
 
                                     <TextField
                                         label="Full Name*"
@@ -385,20 +389,6 @@ export default function SignUp() {
                                         }}
                                     >
                                         Sign up
-                                    </Button>
-
-                                    <Button
-                                        variant="text"
-                                        onClick={() => navigate("/sign-in")}
-                                        sx={{
-                                            mt: -0.6,
-                                            textTransform: "none",
-                                            color: "rgba(180, 63, 0, 1)",
-                                            fontSize: { xs: "0.82rem", sm: "0.83rem", md: "0.85rem" },
-                                            "&:hover": { textDecoration: "underline" },
-                                        }}
-                                    >
-                                        Already have an account? Sign In
                                     </Button>
 
                                     <Button
