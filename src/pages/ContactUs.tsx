@@ -212,7 +212,7 @@ export default function ContactUs() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: "clamp(1.95rem, 5.3vw, 2.40rem)",
+                                    fontSize: "clamp(1.99rem, 5.3vw, 2.40rem)",
                                     letterSpacing: "clamp(0.08em, 0.9vw, 0.12em)",
                                     textTransform: "uppercase",
                                     color: "#0d47a1",

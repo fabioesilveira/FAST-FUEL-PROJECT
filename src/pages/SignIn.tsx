@@ -230,7 +230,7 @@ export default function SignIn() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: { xs: "2.25rem", sm: "2.35rem", md: "2.5rem" },
+                                    fontSize: { xs: "2.35rem", sm: "2.45rem", md: "2.6rem" },
                                     letterSpacing: { xs: "0.10em", sm: "0.12em" },
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
@@ -375,9 +375,10 @@ export default function SignIn() {
                                     <Button
                                         variant="outlined"
                                         fullWidth
+                                        size="large"
                                         onClick={() => navigate("/")}
                                         sx={{
-                                            mt: 0.2,
+                                            mt: -0.4,
                                             height: 42,
                                             borderRadius: 2,
                                             textTransform: "uppercase",
