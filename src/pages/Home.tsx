@@ -517,6 +517,10 @@ export default function Home() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+    const NAVBAR_H = 92;
+    const NAVFOOTER_H = 86;
+    const GAP = 12;
+
     const searchTrim = search.trim().toLowerCase();
 
     const detected = detectCategory(searchTrim);
@@ -868,24 +872,18 @@ export default function Home() {
                     <Box
                         sx={{
                             position: "fixed",
-                            top: 92,
-                            bottom: 86,
+                            top: `${NAVBAR_H}px`,
+                            bottom: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + ${GAP}px)`,
                             left: 0,
                             right: 0,
-
                             display: "flex",
                             flexDirection: "column",
-
                             py: 1,
                             gap: 1,
-
                             overflow: "hidden",
                             overscrollBehavior: "none",
-
                             zIndex: 2,
-
                             WebkitOverflowScrolling: "touch",
-
                             backgroundColor: "transparent",
                         }}
                     >
@@ -910,7 +908,7 @@ export default function Home() {
                     sx={{
                         flexGrow: 2,
                         mt: { xs: 0, md: "100px" },
-                        mb: { xs: "100px", md: "60px" },
+                        mb: { xs: 2, md: "60px" },
                     }}
                 >
                     {/* DESKTOP: banner dentro do Container */}
