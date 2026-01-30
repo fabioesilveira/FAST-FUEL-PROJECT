@@ -236,7 +236,7 @@ export default function SignIn() {
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -1.2, sm: -0.4, md: -0.2 },
+                                    mb: { xs: -1.5, sm: -0.7, md: -0.7 },
                                     mt: { xs: 1.5, sm: 1.5, md: 2 },
                                 }}
                             >
