@@ -265,22 +265,57 @@ export default function TrackOrderGuest() {
         const idx = steps.findIndex((s) => s.key === status);
 
         return (
-            <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap" }}>
+            <Stack
+                direction="row"
+                spacing={1}
+                sx={{
+                    flexWrap: "nowrap",
+                    overflow: "hidden",
+                    minWidth: 0,
+                    justifyContent: "space-between",
+                }}
+            >
+
                 {steps.map((s, i) => (
                     <Chip
                         key={s.key}
                         size="small"
                         label={s.label}
                         sx={{
-                            fontSize: "0.70rem",
+                            flex: 1,
+                            minWidth: 0,
+                            display: "flex",
+                            justifyContent: "center",
+
+                            "& .MuiChip-label": {
+                                whiteSpace: "nowrap",
+                            },
+
+                            flexShrink: 1,
+
+                            fontSize: { xs: "0.62rem", sm: "0.70rem" },
+                            px: { xs: 0.6, sm: 0.9 },
+                            height: { xs: 22, sm: 24 },
+
                             letterSpacing: "0.08em",
                             textTransform: "uppercase",
                             fontWeight: 800,
-                            bgcolor: i <= idx ? "rgba(13, 71, 161, 0.10)" : "rgba(0,0,0,0.06)",
-                            color: i <= idx ? "#0d47a1" : "rgba(0,0,0,0.45)",
+
+                            bgcolor:
+                                i <= idx
+                                    ? "rgba(13, 71, 161, 0.10)"
+                                    : "rgba(0,0,0,0.06)",
+
+                            color:
+                                i <= idx
+                                    ? "#0d47a1"
+                                    : "rgba(0,0,0,0.45)",
+
                             border: "1px solid",
                             borderColor:
-                                i <= idx ? "rgba(13, 71, 161, 0.28)" : "rgba(0,0,0,0.10)",
+                                i <= idx
+                                    ? "rgba(13, 71, 161, 0.28)"
+                                    : "rgba(0,0,0,0.10)",
                         }}
                     />
                 ))}
