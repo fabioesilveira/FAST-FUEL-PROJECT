@@ -265,63 +265,54 @@ export default function TrackOrderGuest() {
         const idx = steps.findIndex((s) => s.key === status);
 
         return (
-            <Stack
-                direction="row"
-                spacing={1}
+            <Box
                 sx={{
-                    flexWrap: "nowrap",
-                    overflow: "hidden",
-                    minWidth: 0,
-                    justifyContent: "space-between",
+                    display: "grid",
+                    gap: 1,
+
+                    gridTemplateColumns: { xs: "repeat(2, 1fr)", sm: "repeat(4, 1fr)" },
+
+
+                    alignItems: "stretch",
                 }}
             >
-
                 {steps.map((s, i) => (
                     <Chip
                         key={s.key}
-                        size="small"
                         label={s.label}
+                        size="small"
                         sx={{
-                            flex: 1,
-                            minWidth: 0,
-                            display: "flex",
+                            width: "100%",
                             justifyContent: "center",
+                            borderRadius: "999px",
 
                             "& .MuiChip-label": {
+                                width: "100%",
+                                textAlign: "center",
                                 whiteSpace: "nowrap",
+                                overflow: "visible",
+                                textOverflow: "clip",
                             },
 
-                            flexShrink: 1,
-
-                            fontSize: { xs: "0.62rem", sm: "0.70rem" },
-                            px: { xs: 0.6, sm: 0.9 },
-                            height: { xs: 22, sm: 24 },
+                            fontSize: { xs: "0.70rem", sm: "0.70rem" },
+                            px: { xs: 0.9, sm: 0.9 },
+                            height: { xs: 26, sm: 24 },
 
                             letterSpacing: "0.08em",
                             textTransform: "uppercase",
                             fontWeight: 800,
 
-                            bgcolor:
-                                i <= idx
-                                    ? "rgba(13, 71, 161, 0.10)"
-                                    : "rgba(0,0,0,0.06)",
-
-                            color:
-                                i <= idx
-                                    ? "#0d47a1"
-                                    : "rgba(0,0,0,0.45)",
-
+                            bgcolor: i <= idx ? "rgba(13, 71, 161, 0.10)" : "rgba(0,0,0,0.06)",
+                            color: i <= idx ? "#0d47a1" : "rgba(0,0,0,0.45)",
                             border: "1px solid",
-                            borderColor:
-                                i <= idx
-                                    ? "rgba(13, 71, 161, 0.28)"
-                                    : "rgba(0,0,0,0.10)",
+                            borderColor: i <= idx ? "rgba(13, 71, 161, 0.28)" : "rgba(0,0,0,0.10)",
                         }}
                     />
                 ))}
-            </Stack>
+            </Box>
         );
     }
+
 
     async function confirmReceived(o: Sale) {
         try {
