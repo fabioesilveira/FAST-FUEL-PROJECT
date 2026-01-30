@@ -49,6 +49,9 @@ import MilkshakeImg from "../assets/Milkshake.png";
 import SundaeImg from "../assets/Sundae.png";
 import { useAppAlert } from "../hooks/useAppAlert";
 
+import ComboMobile from "../assets/ComboMobile.png"
+import EmployeesMobile from "../assets/EmployesMobile.png"
+
 
 
 type MiniActionCardProps = {
@@ -157,11 +160,11 @@ const imageStylesByIdMobile: Record<string, React.CSSProperties> = {
 
 
 const mobileSlides = [
-    { id: "combo", src: Combo, alt: "Combo Promo" },
-    { id: "rest", src: RestImg, alt: "Rest" },
-    { id: "girl", src: Chat6, alt: "Girl" },
-    { id: "team", src: Employees, alt: "Fast Fuel Team" },
-    { id: "drive", src: Chat4, alt: "Car Drive" },
+  { id: "combo", src: ComboMobile, alt: "Combo Promo" }, 
+  { id: "rest", src: RestImg, alt: "Rest" },
+  { id: "girl", src: Chat6, alt: "Girl" },
+  { id: "team", src: EmployeesMobile, alt: "Fast Fuel Team" }, 
+  { id: "drive", src: Chat4, alt: "Car Drive" },
 ];
 
 
