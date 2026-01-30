@@ -30,7 +30,14 @@ export default function MobileCarouselSingle({
 }: Props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const effectiveHeight = isMobile ? "clamp(300px, 48svh, 480px)" : `${height}px`;
+
+  const NAV_FOOTER_H = 86;
+  const TOP_GAP = 14;      // “1mt”
+  const BOTTOM_GAP = 14;   // “1mb”
+
+  const effectiveHeight = isMobile
+    ? `calc(100svh - ${NAV_FOOTER_H + TOP_GAP + BOTTOM_GAP}px)`
+    : `${height}px`;
 
   const safeSlides = useMemo(() => slides.filter(Boolean), [slides]);
   const count = safeSlides.length;
