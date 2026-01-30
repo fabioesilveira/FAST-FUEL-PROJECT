@@ -464,7 +464,7 @@ export default function Checkout() {
                         fontWeight: 900,
                         textTransform: "uppercase",
                         letterSpacing: "0.14em",
-                        fontSize: { xs: "1.05rem", md: "1.90rem" },
+                        fontSize: { xs: "1.35rem", md: "1.90rem" },
                         textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
                     }}
                 >
@@ -602,8 +602,8 @@ export default function Checkout() {
                         display: "flex",
                         justifyContent: "center",
                         px: 2,
-                        pt: { xs: "110px", md: "120px" }, 
-                        pb: { xs: 1, md: 4 },           
+                        pt: { xs: "110px", md: "120px" },
+                        pb: { xs: 1, md: 4 },
                         minHeight: 0,
                     }}
                 >
@@ -613,8 +613,8 @@ export default function Checkout() {
                         sx={{
                             width: "100%",
 
-                            
-                            maxWidth: { xs: 520, sm: 540 }, 
+
+                            maxWidth: { xs: 520, sm: 540 },
 
                             borderRadius: 3,
                             border: "2px solid rgba(13, 71, 161, 0.35)",
@@ -622,7 +622,7 @@ export default function Checkout() {
                             boxShadow:
                                 "0 4px 14px rgba(13, 71, 161, 0.25), 0 8px 24px rgba(13, 71, 161, 0.18)",
 
-                           
+
                             height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
                             maxHeight: 720,
 
@@ -633,27 +633,29 @@ export default function Checkout() {
                         }}
                     >
 
-                        {/* HEADER FIXO */}
-                        <Box sx={{ px: 5, pt: 3.5, pb: 2, maxWidth: 500, mx: "auto", flexShrink: 0 }}>
-                            <Typography
-                                variant="h4"
-                                align="center"
-                                sx={{
-                                    mb: 1.5,
-                                    mt: 1,
-                                    fontSize: "clamp(2.05rem, 5vw, 2.3rem)",
-                                    letterSpacing: "0.12em",
-                                    textTransform: "uppercase",
-                                    color: "#0d47a1",
-                                    fontWeight: 700,
-                                    textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                }}
-                            >
-                                Checkout
-                            </Typography>
-                        </Box>
+                        {screen === "form" && (
+                            <Box sx={{ px: 5, pt: 3.5, pb: 2, maxWidth: 500, mx: "auto", flexShrink: 0 }}>
+                                <Typography
+                                    variant="h4"
+                                    align="center"
+                                    sx={{
+                                        mb: 1.5,
+                                        mt: 1,
+                                        fontSize: "clamp(2.05rem, 5vw, 2.3rem)",
+                                        letterSpacing: "0.12em",
+                                        textTransform: "uppercase",
+                                        color: "#0d47a1",
+                                        fontWeight: 700,
+                                        textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
+                                    }}
+                                >
+                                    Checkout
+                                </Typography>
+                            </Box>
+                        )}
 
                         {/* BODY COM SCROLL */}
+
                         <Box
                             sx={{
                                 flex: 1,
@@ -662,6 +664,7 @@ export default function Checkout() {
                                 minHeight: 0,
                             }}
                         >
+
                             {screen === "processing" ? (
                                 <ProcessingScreen />
                             ) : screen === "confirmed" ? (

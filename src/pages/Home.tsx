@@ -339,7 +339,7 @@ function MiniCard({
         "4": { width: "85px", height: "65px" },
         "11": { width: "70px", height: "73px" },
         "12": { width: "85px", height: "70px" },
-        "13": { width: "90px", height: "70px" },
+        "13": { width: "75px", height: "65px", marginTop: "4px" },
         "14": { width: "65px", height: "70px" },
         "5": { width: "77px", height: "77px" },
         "6": { width: "77px", height: "77px" },
@@ -887,7 +887,7 @@ export default function Home() {
                     sx={{
                         flexGrow: 2,
                         mt: { xs: 0, md: "100px" },
-                        mb: { xs: "20px", md: "60px" },
+                        mb: { xs: "60px", md: "60px" },
                     }}
                 >
                     {/* DESKTOP: banner dentro do Container */}

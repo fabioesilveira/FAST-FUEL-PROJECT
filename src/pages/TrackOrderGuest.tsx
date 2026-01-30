@@ -268,14 +268,17 @@ export default function TrackOrderGuest() {
             <Box
                 sx={{
                     display: "grid",
-                    gap: { xs: 0.6, sm: 0.8 },
 
-                    gridTemplateColumns: {
-                        xs: "repeat(2, 1fr)",
-                        sm: "repeat(4, auto)",
-                    },
+                    gridTemplateColumns: { xs: "repeat(2, max-content)", sm: "repeat(4, max-content)" },
 
-                    justifyContent: "center",
+                    justifyContent: "flex-start",
+                    justifyItems: "start",
+
+                    columnGap: { xs: 0.6, sm: 0.9 },
+                    rowGap: { xs: 0.6, sm: 0 },
+
+                    // evita quebrar o layout no card
+                    alignItems: "center",
                 }}
             >
                 {steps.map((s, i) => (
@@ -284,39 +287,32 @@ export default function TrackOrderGuest() {
                         label={s.label}
                         size="small"
                         sx={{
-                            // 🔹 tamanho FIXO e pequeno
-                            width: { xs: 120, sm: 110 },
-                            height: 22,
 
-                            fontSize: "0.62rem",
-                            fontWeight: 800,
-                            letterSpacing: "0.06em",
-                            textTransform: "uppercase",
+                            width: { xs: 122, sm: 118 }, // ajuste fino aqui se quiser
+                            height: { xs: 24, sm: 24 },
 
                             borderRadius: "999px",
                             justifyContent: "center",
+                            px: 0, // não “infla” o chip
 
                             "& .MuiChip-label": {
                                 width: "100%",
                                 textAlign: "center",
                                 whiteSpace: "nowrap",
                                 overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                px: 0.5,
+                                textOverflow: "clip",
+                                px: { xs: 0.9, sm: 1.0 }, // padding interno controlado
                             },
 
-                            bgcolor: i <= idx
-                                ? "rgba(13, 71, 161, 0.10)"
-                                : "rgba(0,0,0,0.06)",
+                            fontSize: { xs: "0.68rem", sm: "0.68rem" },
+                            letterSpacing: "0.06em",
+                            textTransform: "uppercase",
+                            fontWeight: 800,
 
-                            color: i <= idx
-                                ? "#0d47a1"
-                                : "rgba(0,0,0,0.45)",
-
+                            bgcolor: i <= idx ? "rgba(13, 71, 161, 0.10)" : "rgba(0,0,0,0.06)",
+                            color: i <= idx ? "#0d47a1" : "rgba(0,0,0,0.45)",
                             border: "1px solid",
-                            borderColor: i <= idx
-                                ? "rgba(13, 71, 161, 0.28)"
-                                : "rgba(0,0,0,0.10)",
+                            borderColor: i <= idx ? "rgba(13, 71, 161, 0.28)" : "rgba(0,0,0,0.10)",
                         }}
                     />
                 ))}
