@@ -31,14 +31,6 @@ export default function MobileCarouselSingle({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const NAV_FOOTER_H = 86;
-  const TOP_GAP = 14;      // “1mt”
-  const BOTTOM_GAP = 14;   // “1mb”
-
-  const effectiveHeight = isMobile
-    ? `calc(100svh - ${NAV_FOOTER_H + TOP_GAP + BOTTOM_GAP}px)`
-    : `${height}px`;
-
   const safeSlides = useMemo(() => slides.filter(Boolean), [slides]);
   const count = safeSlides.length;
 
@@ -152,14 +144,14 @@ export default function MobileCarouselSingle({
   };
 
   return (
-    <Box sx={{ width: "100%", maxWidth: 520, mx: "auto" }}>
+    <Box sx={{ width: "100%", mx: "auto", height: "100%" }}>
       <Box
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         sx={{
           position: "relative",
-          height: effectiveHeight,
+          height: isMobile ? "100%" : `${height}px`,
           overflow: "hidden",
           borderRadius: `${radius}px`,
         }}

@@ -858,31 +858,26 @@ export default function Home() {
                 {isMobile && !hidePromos && !driveModeActive && (
                     <Box
                         sx={{
-                            position: "sticky",
-                            top: "92px",                
-                            zIndex: 1,                   
-                            mt: 1.2,                     
-                            mb: 0,                      
-                            transform: "translateZ(0)",  
+                            height: "calc(100svh - 92px - 86px)", // Navbar e NavFooter
+                            display: "flex",
+                            flexDirection: "column",
+                            px: 0,
+                            pt: 1,
+                            pb: 1,
+                            minHeight: 0,
                         }}
                     >
-                        <Box sx={{ width: "100%" }}>
+                        <Box sx={{ flexShrink: 0 }}>
                             <PromoBannerCarousel />
                         </Box>
 
                         {shouldShowCarousel && (
-                            <Box>
-                                <MobileStackCarousel
-                                    slides={mobileSlides}
-                                    height={295}
-                                    interval={4200}
-                                    animationMs={780}
-                                />
+                            <Box sx={{ flex: 1, minHeight: 0, mt: 1, mb: 1 }}>
+                                <MobileStackCarousel slides={mobileSlides} interval={4200} animationMs={780} />
                             </Box>
                         )}
                     </Box>
                 )}
-
 
                 <Container
                     fixed
