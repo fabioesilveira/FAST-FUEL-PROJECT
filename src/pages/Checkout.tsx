@@ -355,15 +355,16 @@ export default function Checkout() {
             setSubmitting(false);
         }
     }
-
     function ProcessingScreen() {
         return (
             <Box
                 sx={{
                     flex: 1,
-                    px: 3,
-                    py: 6,
-                    mt: 8,
+                    px: { xs: 2.5, sm: 3 },
+                    py: { xs: 3.5, sm: 6 },
+
+                    mt: { xs: 3, sm: 4, md: 5 },
+
                     maxWidth: 500,
                     mx: "auto",
                     display: "flex",
@@ -380,7 +381,7 @@ export default function Checkout() {
                         fontWeight: 900,
                         textTransform: "uppercase",
                         letterSpacing: "0.14em",
-                        fontSize: { xs: "1.05rem", md: "1.60rem" },
+                        fontSize: "clamp(1.05rem, 3.6vw, 1.60rem)",
                     }}
                 >
                     Processing your payment
@@ -390,7 +391,7 @@ export default function Checkout() {
                     sx={{
                         maxWidth: 520,
                         color: "text.secondary",
-                        fontSize: "0.95rem",
+                        fontSize: "clamp(0.88rem, 2.8vw, 0.95rem)",
                         lineHeight: 1.65,
                     }}
                 >
@@ -425,7 +426,7 @@ export default function Checkout() {
                 <Typography
                     sx={{
                         mt: 1,
-                        fontSize: "0.75rem",
+                        fontSize: "clamp(0.72rem, 2.4vw, 0.75rem)",
                         letterSpacing: "0.12em",
                         textTransform: "uppercase",
                         color: "rgba(13, 71, 161, 0.7)",
@@ -445,9 +446,12 @@ export default function Checkout() {
             <Box
                 sx={{
                     flex: 1,
-                    px: 5,
-                    pt: { xs: 7, md: 8 },
-                    pb: 6,
+
+                    px: { xs: 2.5, sm: 5 },
+
+                    pt: { xs: 3.5, sm: 7, md: 8 },
+
+                    pb: { xs: 3.5, sm: 6 },
                     maxWidth: 500,
                     mx: "auto",
                     display: "flex",
@@ -464,7 +468,9 @@ export default function Checkout() {
                         fontWeight: 900,
                         textTransform: "uppercase",
                         letterSpacing: "0.14em",
-                        fontSize: { xs: "1.35rem", md: "1.90rem" },
+
+                        fontSize: "clamp(1.40rem, 4.8vw, 1.90rem)",
+
                         textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
                     }}
                 >
@@ -475,7 +481,7 @@ export default function Checkout() {
                     sx={{
                         maxWidth: 520,
                         color: "text.secondary",
-                        fontSize: "0.98rem",
+                        fontSize: "clamp(0.90rem, 3.1vw, 0.98rem)",
                         lineHeight: 1.7,
                     }}
                 >
@@ -487,7 +493,7 @@ export default function Checkout() {
                     sx={{
                         maxWidth: 520,
                         color: "text.secondary",
-                        fontSize: "0.92rem",
+                        fontSize: "clamp(0.86rem, 3.0vw, 0.92rem)",
                         lineHeight: 1.7,
                     }}
                 >
@@ -499,14 +505,21 @@ export default function Checkout() {
                 <Box
                     sx={{
                         mt: 1,
-                        p: 1.6,
+                        p: { xs: 1.25, sm: 1.6 }, 
                         borderRadius: 2,
                         border: "1px solid rgba(13, 71, 161, 0.22)",
                         bgcolor: "rgba(255,255,255,0.75)",
                         width: "100%",
                     }}
                 >
-                    <Typography sx={{ fontWeight: 900, color: "#0d47a1", mb: 0.6 }}>
+                    <Typography
+                        sx={{
+                            fontWeight: 900,
+                            color: "#0d47a1",
+                            mb: 0.6,
+                            fontSize: "clamp(0.92rem, 3.2vw, 1.0rem)",
+                        }}
+                    >
                         Your Order Number
                     </Typography>
 
@@ -515,7 +528,7 @@ export default function Checkout() {
                             fontWeight: 900,
                             color: "#e65100",
                             letterSpacing: "0.14em",
-                            fontSize: "1.1rem",
+                            fontSize: "clamp(1.0rem, 4.1vw, 1.1rem)",
                         }}
                     >
                         {orderCode || "-"}
@@ -524,7 +537,7 @@ export default function Checkout() {
                     <Typography
                         sx={{
                             mt: 1,
-                            fontSize: "0.82rem",
+                            fontSize: "clamp(0.78rem, 2.7vw, 0.82rem)",
                             color: "text.secondary",
                             lineHeight: 1.6,
                         }}
@@ -538,14 +551,26 @@ export default function Checkout() {
                     </Typography>
                 </Box>
 
-                <Stack direction={{ xs: "column", sm: "row" }} spacing={1.2} sx={{ mt: 1.2 }}>
+                <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    spacing={1.2}
+                    sx={{
+                        mt: 1.2,
+                        width: "100%",
+                        justifyContent: "center", 
+                        alignItems: "center",     
+                    }}
+                >
                     <Button
                         variant="outlined"
                         startIcon={<HomeIcon />}
                         onClick={() => navigate("/")}
                         sx={{
                             height: { xs: 40, md: 45 },
-                            width: { xs: 140, md: 160 },
+
+                            width: { xs: "100%", sm: 160 },
+                            maxWidth: { xs: 320, sm: "none" },
+
                             borderRadius: 2,
                             textTransform: "uppercase",
                             border: "2px solid #0d47a1",
@@ -566,7 +591,9 @@ export default function Checkout() {
                         onClick={() => navigate("/orders")}
                         sx={{
                             height: { xs: 40, md: 45 },
-                            width: { xs: 140, md: 160 },
+                            width: { xs: "100%", sm: 160 },
+                            maxWidth: { xs: 320, sm: "none" },
+
                             borderRadius: 2,
                             backgroundColor: "#e65100",
                             color: "#ffe0c7",
