@@ -863,30 +863,42 @@ export default function Home() {
                 {showMobilePromosBlock && (
                     <Box
                         sx={{
-                            height: "calc(100svh - 92px - 86px)", // Navbar + NavFooter
+                            position: "fixed",
+                            top: 92,      
+                            bottom: 86,   
+                            left: 0,
+                            right: 0,
+
                             display: "flex",
                             flexDirection: "column",
-                            px: 0,
-                            py: 1,         
-                            gap: 1,        
-                            minHeight: 0,
+
+                            py: 1,
+                            gap: 1,
+
+                            overflow: "hidden",
+                            overscrollBehavior: "none",
+
+                            zIndex: 2,
+
+                            WebkitOverflowScrolling: "touch",
+
+                            backgroundColor: "transparent",
                         }}
                     >
                         <Box sx={{ flexShrink: 0 }}>
                             <PromoBannerCarousel />
                         </Box>
 
-                        {shouldShowCarousel && (
-                            <Box sx={{ flex: 1, minHeight: 0 }}>
-                                <MobileStackCarousel
-                                    slides={mobileSlides}
-                                    interval={4200}
-                                    animationMs={780}
-                                />
-                            </Box>
-                        )}
+                        <Box sx={{ flex: 1, minHeight: 0 }}>
+                            <MobileStackCarousel
+                                slides={mobileSlides}
+                                interval={4200}
+                                animationMs={780}
+                            />
+                        </Box>
                     </Box>
                 )}
+
 
 
                 <Container
