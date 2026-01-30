@@ -9,17 +9,6 @@ body {
   background-attachment: fixed;
 }
 
-body {
-  margin: 0;
-  overscroll-behavior-y: none;
-  position: relative;
-}
-
-
-.box-home {
-  margin-bottom: 20px;
-}
-
 .img-home {
   width: 100%;
   height: 850px;
@@ -63,56 +52,6 @@ body {
   }
 }
 
-/* SMALL SCREENS (SM) até 900px */
-@media (max-width: 900px) {
-  .products-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* 1 card por linha, centralizado */
-    gap: 20px;
-  }
-
-  /* Todos os cards viram coluna */
-  .product-card {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 320px;
-    /* controla o tamanho do card */
-    padding: 10px;
-    border-radius: 14px;
-    box-shadow: 0 5px 12px rgba(255, 102, 0, 0.2);
-  }
-
-  /* Cancela o reverse no mobile */
-  .product-card.reverse {
-    flex-direction: column;
-  }
-
-  /* IMAGEM em cima */
-  .card-right {
-    order: -1;
-    /* sobe pro topo */
-    display: flex;
-    justify-content: center;
-    margin-bottom: 8px;
-  }
-
-  /* TEXTOS centralizados */
-  .card-left {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin: 0;
-  }
-
-  .img-home-products {
-    max-width: 180px;
-    /* controla o tamanho da imagem no sm */
-  }
-}
 
 /* EXTRA SMALL (XS) até 600px */
 @media (max-width: 600px) {
@@ -165,31 +104,6 @@ body {
   margin-top: 10px;
 }
 
-.btns-increase-decrease {
-  background-color: #e65100;
-  color: #ffe0c7;
-  font-weight: bold;
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.btns-increase-decrease:hover {
-  background-color: #cc4a00;
-}
-
-.h4-quantity {
-  margin: 0;
-  font-size: x-large;
-  color: #e65100;
-}
 
 .checkout-wrapper {
   display: flex;
@@ -197,25 +111,6 @@ body {
   margin-top: 10px;
 }
 
-.total-label {
-  margin-top: 30px;
-}
-
-.btns-checkout-clearCart {
-  background-color: #e65100;
-  color: #ffe0c7;
-  font-weight: bold;
-  border: none;
-  width: 120px;
-  height: 40px;
-  border-radius: 10px;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
 
 .btns-checkout-clearCart:hover {
   background-color: #cc4a00;

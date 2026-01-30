@@ -469,7 +469,7 @@ export default function Checkout() {
                         textTransform: "uppercase",
                         letterSpacing: "0.14em",
 
-                        fontSize: "clamp(1.40rem, 4.8vw, 1.90rem)",
+                        fontSize: "clamp(1.45rem, 4.8vw, 1.90rem)",
 
                         textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
                     }}

@@ -112,12 +112,10 @@ export default function ContactUs() {
         },
     };
 
-
     return (
         <>
             <NavbarExtra />
             {AlertUI}
-
 
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
                 {/* BACKGROUND */}
@@ -129,7 +127,7 @@ export default function ContactUs() {
                         boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
                     }}
                 >
-                    {/* fundo igual você já tem */}
+                    {/* fundo */}
                     <Box sx={{ display: "flex", height: "100%" }}>
                         <Box
                             sx={{
@@ -174,7 +172,7 @@ export default function ContactUs() {
                         <Box sx={{ flex: 1, background: "#fff4e1" }} />
                     </Box>
 
-
+                    {/* MAIN */}
                     <Box
                         component="main"
                         sx={{
@@ -192,14 +190,12 @@ export default function ContactUs() {
                             elevation={0}
                             sx={{
                                 width: "100%",
-
                                 maxWidth: { xs: 520, md: 520 },
 
                                 borderRadius: 3,
                                 border: "1.5px solid rgba(230, 81, 0, 0.35)",
                                 bgcolor: "background.paper",
-                                p: { xs: 2.5, md: 4 },
-
+                                p: { xs: 2.25, sm: 2.75, md: 4 },
 
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
                                 maxHeight: 720,
@@ -216,14 +212,14 @@ export default function ContactUs() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: { xs: "2.20rem", sm: "2.30rem", md: "2.40rem" },
-                                    letterSpacing: { xs: "0.10em", sm: "0.12em" },
+                                    fontSize: "clamp(1.95rem, 5.3vw, 2.40rem)",
+                                    letterSpacing: "clamp(0.08em, 0.9vw, 0.12em)",
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -1.4, sm: -0.7, md: -0.2 },
-                                    mt: { xs: 1.5, sm: 1.5, md: 1.3 },
+                                    mb: { xs: -0.6, sm: -0.7, md: -0.2 },
+                                    mt: { xs: 1.0, sm: 1.5, md: 1.3 },
                                 }}
                             >
                                 Contact Us
@@ -237,29 +233,31 @@ export default function ContactUs() {
                                     display: "flex",
                                     justifyContent: "center",
                                     pr: 0.5,
-                                    pt: { xs: 1.6, sm: 0 },
+
+                                    pt: { xs: 0.9, sm: 0 },
 
                                     pb: {
-                                        xs: `calc(120px + env(safe-area-inset-bottom))`, 
+                                        xs: `calc(120px + env(safe-area-inset-bottom))`,
                                         sm: 4,
                                     },
                                 }}
                             >
-
                                 <Box
                                     component="form"
                                     noValidate
                                     autoComplete="off"
                                     sx={{
                                         width: "100%",
-                                        maxWidth: 360,
+
+                                     
+                                        maxWidth: "min(380px, 100%)",
+
                                         display: "flex",
                                         flexDirection: "column",
-                                        gap: 2,
+                                        gap: { xs: 1.8, sm: 2 },
                                         pt: { xs: 1.2, sm: 2 },
                                     }}
                                 >
-
                                     <TextField
                                         variant="outlined"
                                         label="Full Name*"
@@ -339,11 +337,13 @@ export default function ContactUs() {
                                             onChange={handleChange}
                                             fullWidth
                                             multiline
-                                            rows={isMobile ? 3 : 5}
+
+                                            minRows={isMobile ? 3 : 5}
+                                            maxRows={isMobile ? 6 : 8}
+
                                             inputProps={{ maxLength: 300 }}
                                             sx={tfSx}
                                         />
-
                                     </Box>
 
                                     <Button
@@ -415,6 +415,8 @@ export default function ContactUs() {
             </Box>
         </>
     );
+
+
 
 
 }
