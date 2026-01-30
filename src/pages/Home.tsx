@@ -579,6 +579,8 @@ export default function Home() {
 
     const cartCount = order.reduce((acc, it) => acc + (it.quantidade ?? 1), 0);
 
+    const showMobilePromosBlock = isMobile && !hidePromos && !driveModeActive;
+
     function decItem(productId: string) {
         const existing = order.find((p) => String(p.id) === productId);
         if (!existing) return;
@@ -858,15 +860,15 @@ export default function Home() {
                     />
                 )}
 
-                {isMobile && !hidePromos && !driveModeActive && (
+                {showMobilePromosBlock && (
                     <Box
                         sx={{
-                            height: "calc(100svh - 92px - 86px)", // Navbar e NavFooter
+                            height: "calc(100svh - 92px - 86px)", // Navbar + NavFooter
                             display: "flex",
                             flexDirection: "column",
                             px: 0,
-                            pt: 1,
-                            pb: 1,
+                            py: 1,         
+                            gap: 1,        
                             minHeight: 0,
                         }}
                     >
@@ -875,12 +877,17 @@ export default function Home() {
                         </Box>
 
                         {shouldShowCarousel && (
-                            <Box sx={{ flex: 1, minHeight: 0, mt: 1, mb: 1 }}>
-                                <MobileStackCarousel slides={mobileSlides} interval={4200} animationMs={780} />
+                            <Box sx={{ flex: 1, minHeight: 0 }}>
+                                <MobileStackCarousel
+                                    slides={mobileSlides}
+                                    interval={4200}
+                                    animationMs={780}
+                                />
                             </Box>
                         )}
                     </Box>
                 )}
+
 
                 <Container
                     fixed

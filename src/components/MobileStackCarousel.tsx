@@ -174,7 +174,7 @@ export default function MobileCarouselSingle({
             position: "absolute",
             left: 0,
             right: 0,
-            bottom: 2,
+            bottom: 10,
             display: "flex",
             gap: 0.8,
             justifyContent: "center",
