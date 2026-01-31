@@ -257,7 +257,7 @@ export default function SignUp() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: { xs: "2.35rem", sm: "2.45rem", md: "2.6rem" },
+                                    fontSize: { xs: "2.32rem", sm: "2.45rem", md: "2.6rem" },
                                     letterSpacing: { xs: "0.10em", sm: "0.12em" },
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
@@ -370,7 +370,7 @@ export default function SignUp() {
                                         onClick={handleClick}
                                         sx={{
                                             mt: 0.5,
-                                            height: 42,
+                                            height: { xs: 40, md: 42 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
                                             border: "2px solid #0d47a1",
@@ -398,7 +398,7 @@ export default function SignUp() {
                                         onClick={() => navigate("/")}
                                         sx={{
                                             mt: -0.4,
-                                            height: 42,
+                                            height: { xs: 40, md: 42 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
                                             border: "2px solid #0d47a1",
