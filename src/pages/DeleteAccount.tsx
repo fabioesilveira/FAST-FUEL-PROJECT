@@ -417,7 +417,7 @@ export default function DeleteAccount() {
                                     sx={{
                                         mb: { md: -0.8 },
                                         mt: { sm: 0.5, md: 1 },
-                                        height: { xs: 40, md: 42 },
+                                        height: { xs: 39, md: 42 },
                                         borderRadius: 2,
                                         textTransform: "uppercase",
                                         border: "2px solid #0d47a1",

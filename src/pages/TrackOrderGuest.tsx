@@ -288,8 +288,9 @@ export default function TrackOrderGuest() {
                         size="small"
                         sx={{
 
-                            width: { xs: 122, sm: 118 }, // ajuste fino aqui se quiser
-                            height: { xs: 24, sm: 24 },
+                            width: { xs: 104, sm: 118 },
+                            height: { xs: 18, sm: 24 },
+                            fontSize: { xs: "0.60rem", sm: "0.68rem" },
 
                             borderRadius: "999px",
                             justifyContent: "center",
@@ -301,10 +302,10 @@ export default function TrackOrderGuest() {
                                 whiteSpace: "nowrap",
                                 overflow: "hidden",
                                 textOverflow: "clip",
-                                px: { xs: 0.9, sm: 1.0 }, // padding interno controlado
+                                px: { xs: 0.7, sm: 1.0 },
                             },
 
-                            fontSize: { xs: "0.68rem", sm: "0.68rem" },
+
                             letterSpacing: "0.06em",
                             textTransform: "uppercase",
                             fontWeight: 800,

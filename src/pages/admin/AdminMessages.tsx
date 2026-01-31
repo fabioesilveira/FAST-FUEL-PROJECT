@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { api } from "../../api"
+import { api } from "../../api";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import { Box, Paper, Typography, TextField, Button, Stack, Chip, Divider } from "@mui/material";
 import NavbarAdmin from "../../components/NavbarAdmin";
 import Footer from "../../components/Footer";
-
 
 type ContactMsg = {
     id: number;
@@ -45,7 +44,6 @@ export default function AdminMessages() {
 
     const repliedValue = activeKey === "answered" ? 1 : 0;
 
-    
     const queryUrl = useMemo(() => {
         const params = new URLSearchParams();
         params.set("replied", String(repliedValue));
@@ -66,12 +64,10 @@ export default function AdminMessages() {
         }
     }
 
-
-
     useEffect(() => {
         if (activeKey === "contact") return;
 
-        fetchMessages(); // primeira carga imediata
+        fetchMessages();
 
         const interval = setInterval(() => {
             fetchMessages();
@@ -80,8 +76,6 @@ export default function AdminMessages() {
         return () => clearInterval(interval);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [queryUrl, activeKey]);
-
-
 
     async function markAsAnswered(id: number) {
         try {
@@ -99,9 +93,10 @@ export default function AdminMessages() {
 
             <Box
                 sx={{
-                    minHeight: "100vh",
+                    minHeight: { xs: "100svh", md: "100vh" },
                     display: "flex",
                     flexDirection: "column",
+                    overflow: "hidden",
                 }}
             >
                 <Box
@@ -113,6 +108,8 @@ export default function AdminMessages() {
                         px: 2,
                         pt: { xs: "110px", md: "120px" },
                         pb: 4,
+                        overflow: "hidden",
+                        minHeight: 0,
                     }}
                 >
                     <Paper
@@ -134,6 +131,7 @@ export default function AdminMessages() {
                             flexDirection: "column",
                             gap: 2,
                             overflow: "hidden",
+                            minHeight: 0,
                         }}
                     >
                         <Typography
@@ -152,7 +150,6 @@ export default function AdminMessages() {
                             Messages
                         </Typography>
 
-                        {/* Tabs Bootstrap */}
                         <Tabs
                             id="ff-admin-tabs"
                             activeKey={activeKey}
@@ -168,7 +165,6 @@ export default function AdminMessages() {
                             <Tab eventKey="contact" title="Contact-us" disabled />
                         </Tabs>
 
-                        {/* Filter */}
                         <Stack
                             direction={{ xs: "column", sm: "row" }}
                             spacing={1.2}
@@ -201,7 +197,16 @@ export default function AdminMessages() {
                         <Divider />
 
                         {/* LISTA COM SCROLL */}
-                        <Box sx={{ flex: 1, overflowY: "auto", pr: 0.5 }}>
+                        <Box
+                            sx={{
+                                flex: 1,
+                                overflowY: "auto",
+                                pr: 0.5,
+                                minHeight: 0,
+                                WebkitOverflowScrolling: "touch",
+                                overscrollBehavior: "contain",
+                            }}
+                        >
                             {loading ? (
                                 <Typography align="center" sx={{ color: "text.secondary", mt: 3 }}>
                                     Loading...
@@ -253,6 +258,11 @@ export default function AdminMessages() {
                                                                 fontWeight: 900,
                                                                 textTransform: "uppercase",
                                                                 letterSpacing: "0.10em",
+
+                                                                fontSize: { xs: "0.72rem", sm: "0.8rem" },
+                                                                px: { xs: 1.6, sm: 2.2 },
+                                                                py: { xs: 0.6, sm: 0.9 },
+
                                                                 "&:hover": { bgcolor: "#164a96" },
                                                             }}
                                                         >

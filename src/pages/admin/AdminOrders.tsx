@@ -97,6 +97,7 @@ export default function AdminOrders() {
     const [items, setItems] = useState<Sale[]>([]);
     const [loading, setLoading] = useState(false);
 
+
     const tfBlueLabelSx = {
         "& label": { color: "#0d47a1" },
         "& label.Mui-focused": { color: "#0d47a1" },
@@ -240,7 +241,7 @@ export default function AdminOrders() {
         <>
             <NavbarAdmin />
 
-            <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+            <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column", overflow: "hidden" }}>
                 <Box
                     component="main"
                     sx={{
@@ -249,7 +250,9 @@ export default function AdminOrders() {
                         justifyContent: "center",
                         px: 2,
                         pt: { xs: "110px", md: "120px" },
-                        pb: 4,
+                        pb: { xs: 4, md: 4 },
+                        overflow: "hidden",
+                        minHeight: 0,
                     }}
                 >
                     <Paper
