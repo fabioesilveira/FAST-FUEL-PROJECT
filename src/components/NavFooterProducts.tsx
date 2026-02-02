@@ -64,7 +64,7 @@ const accountItems: NavItem[] = [
 
 const shrinkLabels = new Set(["CONTACT US",]);
 
-function RenderIcon({ item }: { item: NavItem }) {
+function RenderIcon({ item, color }: { item: NavItem; color: string }) {
     if (item.kind === "img") {
         const isBeverages = item.label === "BEVERAGES";
         return (
@@ -89,8 +89,8 @@ function RenderIcon({ item }: { item: NavItem }) {
     return (
         <Icon
             sx={{
-                fontSize: shouldShrink ? 29.5 : 32, // 
-                color: ORANGE,
+                fontSize: shouldShrink ? 29.5 : 32,
+                color,
             }}
         />
     );
@@ -107,6 +107,11 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
     });
 
     const [mode, setMode] = React.useState<"products" | "account">("products");
+
+    const isProductsMode = mode === "products";
+
+    const iconColor = isProductsMode ? ORANGE : BLUE;
+    const switchColor = isProductsMode ? BLUE : ORANGE;
 
     if (!isMobile) return null;
 
@@ -162,54 +167,98 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                     }}
                 >
                     {leftTwo.map((item) => (
-                            <IconButton
-                                onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
-                                onClick={() => handleClick(item)}
-                                key={item.label}
-                                sx={{
-                                    width: 62,
-                                    height: 62,
-                                    borderRadius: 2,
-                                    border: "2px solid transparent",
-                                    backgroundColor: "transparent",
-                                    transition: "all 0.18s ease",
-                                    WebkitTapHighlightColor: "transparent",
+                        <IconButton
+                            onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
+                            onClick={() => handleClick(item)}
+                            key={item.label}
+                            sx={{
+                                width: 62,
+                                height: 62,
+                                borderRadius: 2,
+                                border: "2px solid transparent",
+                                backgroundColor: "transparent",
+                                transition: "all 0.18s ease",
+                                WebkitTapHighlightColor: "transparent",
 
-                                    // hover só desktop
-                                    "@media (hover: hover) and (pointer: fine)": {
-                                        "&:hover": {
-                                            backgroundColor: ORANGE_SOFT,
-                                            borderColor: BLUE,
-                                            transform: "translateY(-2px)",
-                                        },
+                                // hover só desktop
+                                "@media (hover: hover) and (pointer: fine)": {
+                                    "&:hover": {
+                                        backgroundColor: ORANGE_SOFT,
+                                        borderColor: BLUE,
+                                        transform: "translateY(-2px)",
                                     },
+                                },
 
-                                    // mobile: não deixa ficar marcado
-                                    "@media (hover: none) and (pointer: coarse)": {
-                                        "&:focus, &:focus-visible, &.Mui-focusVisible": {
-                                            backgroundColor: "transparent",
-                                            boxShadow: "none",
-                                            transform: "none",
-                                        },
+                                // mobile: não deixa ficar marcado
+                                "@media (hover: none) and (pointer: coarse)": {
+                                    "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                                        backgroundColor: "transparent",
+                                        boxShadow: "none",
+                                        transform: "none",
                                     },
+                                },
 
-                                    "&:active": {
-                                        transform: "translateY(0)",
-                                        backgroundColor: "rgba(230,81,0,.28)",
-                                    },
-                                }}
-                            >
-                                <RenderIcon item={item} />
-                            </IconButton>
+                                "&:active": {
+                                    transform: "translateY(0)",
+                                    backgroundColor: "rgba(230,81,0,.28)",
+                                },
+                            }}
+                        >
+                            <RenderIcon item={item} color={iconColor} />
+                        </IconButton>
 
                     ))}
 
+                    <IconButton
+                        onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
+                        onClick={toggleMode}
+                        sx={{
+                            width: 70,
+                            height: 70,
+                            borderRadius: 2,
+                            border: "2px solid transparent",
+                            backgroundColor: "transparent",
+                            transition: "all 0.18s ease",
+                            WebkitTapHighlightColor: "transparent",
+
+                            "@media (hover: hover) and (pointer: fine)": {
+                                "&:hover": {
+                                    backgroundColor: ORANGE_SOFT,
+                                    borderColor: "transparent",
+                                    transform: "translateY(-2px)",
+                                },
+                            },
+
+                            "@media (hover: none) and (pointer: coarse)": {
+                                "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                                    backgroundColor: "transparent",
+                                    boxShadow: "none",
+                                    transform: "none",
+                                },
+                            },
+
+                            "&:active": {
+                                transform: "translateY(0)",
+                                backgroundColor: "rgba(230,81,0,.28)",
+                            },
+                        }}
+                    >
+                        <SwapHorizIcon
+                            sx={{
+                                fontSize: 39,
+                                color: switchColor,
+                            }}
+                        />
+                    </IconButton>
+
+                    {rightTwo.map((item) => (
                         <IconButton
                             onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
-                            onClick={toggleMode}
+                            onClick={() => handleClick(item)}
+                            key={item.label}
                             sx={{
-                                width: 70,
-                                height: 70,
+                                width: 62,
+                                height: 62,
                                 borderRadius: 2,
                                 border: "2px solid transparent",
                                 backgroundColor: "transparent",
@@ -219,7 +268,7 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                                 "@media (hover: hover) and (pointer: fine)": {
                                     "&:hover": {
                                         backgroundColor: ORANGE_SOFT,
-                                        borderColor: "transparent",
+                                        borderColor: BLUE,
                                         transform: "translateY(-2px)",
                                     },
                                 },
@@ -238,47 +287,8 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                                 },
                             }}
                         >
-                            <SwapHorizIcon sx={{ fontSize: 39, color: "#0d47a1" }} />
+                            <RenderIcon item={item} color={iconColor} />
                         </IconButton>
-
-                    {rightTwo.map((item) => (
-                            <IconButton
-                                onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
-                                onClick={() => handleClick(item)}
-                                key={item.label}
-                                sx={{
-                                    width: 62,
-                                    height: 62,
-                                    borderRadius: 2,
-                                    border: "2px solid transparent",
-                                    backgroundColor: "transparent",
-                                    transition: "all 0.18s ease",
-                                    WebkitTapHighlightColor: "transparent",
-
-                                    "@media (hover: hover) and (pointer: fine)": {
-                                        "&:hover": {
-                                            backgroundColor: ORANGE_SOFT,
-                                            borderColor: BLUE,
-                                            transform: "translateY(-2px)",
-                                        },
-                                    },
-
-                                    "@media (hover: none) and (pointer: coarse)": {
-                                        "&:focus, &:focus-visible, &.Mui-focusVisible": {
-                                            backgroundColor: "transparent",
-                                            boxShadow: "none",
-                                            transform: "none",
-                                        },
-                                    },
-
-                                    "&:active": {
-                                        transform: "translateY(0)",
-                                        backgroundColor: "rgba(230,81,0,.28)",
-                                    },
-                                }}
-                            >
-                                <RenderIcon item={item} />
-                            </IconButton>
                     ))}
                 </Box>
             </Paper>

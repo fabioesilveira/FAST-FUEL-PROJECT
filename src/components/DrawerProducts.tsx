@@ -96,7 +96,7 @@ const Drawer = styled(MuiDrawer, {
     : { ...closedMixin(theme), "& .MuiDrawer-paper": closedMixin(theme) }),
 }));
 
-function CategoryIcon({ item }: { item: CategoryItem }) {
+function CategoryIcon({ item, color }: { item: CategoryItem; color: string }) {
   if (item.type === "img") {
     return (
       <img
@@ -112,7 +112,7 @@ function CategoryIcon({ item }: { item: CategoryItem }) {
   }
 
   const Icon = item.Icon;
-  return <Icon sx={{ fontSize: 30.5, color: ORANGE }} />;
+  return <Icon sx={{ fontSize: 30.5, color }} />;
 }
 
 export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
@@ -121,6 +121,11 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
   const [open, setOpen] = React.useState(false);
 
   const [mode, setMode] = React.useState<"categories" | "account">("categories");
+
+  const isCategoriesMode = mode === "categories";
+
+  const iconColor = isCategoriesMode ? ORANGE : BLUE;     // ícones do menu
+  const switchColor = isCategoriesMode ? BLUE : ORANGE;   // ícone do switch
 
   const { showAlert, AlertUI } = useAppAlert({
     vertical: "top",
@@ -249,7 +254,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
         <Divider sx={{ backgroundColor: "rgba(13,71,161,.35)" }} />
 
         <List sx={{ px: 1, pt: 2, pb: 2 }}>
-         
+
           {mode === "categories" ? (
             <>
               {categories.slice(0, 2).map((cat) => (
@@ -259,7 +264,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                     sx={[buttonSx, open ? { justifyContent: "initial" } : { justifyContent: "center" }]}
                   >
                     <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
-                      <CategoryIcon item={cat} />
+                      <CategoryIcon item={cat} color={iconColor} />
                     </ListItemIcon>
                     <ListItemText primary={cat.label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
                   </ListItemButton>
@@ -279,7 +284,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                       <IconComp
                         sx={{
                           fontSize: 30.5,
-                          color: ORANGE,
+                          color: iconColor,
                           transition: "transform .2s ease",
                           transform: open ? "scale(1.04)" : "scale(1)",
                         }}
@@ -308,25 +313,25 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                   overflow: "visible",
                   ...(open
                     ? {
-                        "&:hover": { bgcolor: ORANGE_SOFT, borderColor: "transparent" },
-                      }
+                      "&:hover": { bgcolor: ORANGE_SOFT, borderColor: "transparent" },
+                    }
                     : {
-                        "&::before": {
-                          content: '""',
-                          position: "absolute",
-                          top: -4,
-                          bottom: -4,
-                          left: -6,
-                          right: -6,
-                          borderRadius: "999px",
-                          backgroundColor: ORANGE_SOFT,
-                          opacity: 0,
-                          transition: "opacity .15s ease",
-                          zIndex: -1,
-                        },
-                        "&:hover::before": { opacity: 1 },
-                        "&:hover": { bgcolor: "transparent", borderColor: "transparent" },
-                      }),
+                      "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        top: -4,
+                        bottom: -4,
+                        left: -6,
+                        right: -6,
+                        borderRadius: "999px",
+                        backgroundColor: ORANGE_SOFT,
+                        opacity: 0,
+                        transition: "opacity .15s ease",
+                        zIndex: -1,
+                      },
+                      "&:hover::before": { opacity: 1 },
+                      "&:hover": { bgcolor: "transparent", borderColor: "transparent" },
+                    }),
                 },
                 open ? { justifyContent: "initial" } : { justifyContent: "center" },
               ]}
@@ -335,7 +340,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                 <SwapHorizIcon
                   sx={{
                     fontSize: 37.5,
-                    color: "#0d47a1",
+                    color: switchColor,
                     transition: "transform .2s ease",
                     transform: open ? "scale(1.04)" : "scale(1)",
                   }}
@@ -369,7 +374,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                     sx={[buttonSx, open ? { justifyContent: "initial" } : { justifyContent: "center" }]}
                   >
                     <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
-                      <CategoryIcon item={cat} />
+                      <CategoryIcon item={cat} color={iconColor} />
                     </ListItemIcon>
                     <ListItemText primary={cat.label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
                   </ListItemButton>
@@ -388,7 +393,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                       <IconComp
                         sx={{
                           fontSize: 29.5,
-                          color: ORANGE,
+                          color: iconColor,
                           transition: "transform .2s ease",
                           transform: open ? "scale(1.04)" : "scale(1)",
                         }}
