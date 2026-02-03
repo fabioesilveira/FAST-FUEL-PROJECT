@@ -811,17 +811,21 @@ export default function Beverages() {
 
 
       {!isMobile && <DrawerProducts />}
+      <Box sx={{ minHeight: "100svh" }}>
+        <h2 className='h2-products-background'>BEVERAGES</h2>
 
-      <h2 className='h2-products-background'>BEVERAGES</h2>
-
-      <Container fixed>
-        {isDesktop ? desktopGridLandscape : mobileTabletGrid}
-      </Container>
-
-
-      <Box sx={{ position: "fixed", bottom: 0, left: 0, width: "100%", zIndex: 2000 }}>
-        {isMobile ? <NavFooterProducts /> : <Footer />}
+        <Container
+          fixed
+          sx={{
+            pb: { xs: `calc(86px + env(safe-area-inset-bottom) + 16px)`, sm: 0 },
+          }}
+        >
+          {isDesktop ? desktopGridLandscape : mobileTabletGrid}
+        </Container>
       </Box>
+
+
+      {isMobile ? <NavFooterProducts /> : <Footer />}
     </>
   );
 }
