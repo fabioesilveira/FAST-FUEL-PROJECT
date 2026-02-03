@@ -257,14 +257,14 @@ export default function SignUp() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: { xs: "2.32rem", sm: "2.45rem", md: "2.6rem" },
-                                    letterSpacing: { xs: "0.10em", sm: "0.12em" },
+                                    fontSize: { xs: "2.20rem", sm: "2.45rem", md: "2.6rem" },
+                                    letterSpacing: "clamp(0.08em, 0.9vw, 0.12em)",
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -1.5, sm: -0.7, md: -0.7 },
-                                    mt: { xs: 1.5, sm: 1.5, md: 2 },
+                                    mb: { xs: -1.2, sm: -0.7, md: -0.2 },
+                                    mt: { xs: 1.0, sm: 1.5, md: 1.8 },
                                 }}
                             >
                                 Sign Up
@@ -279,14 +279,14 @@ export default function SignUp() {
                                     display: "flex",
                                     justifyContent: "center",
                                     pr: 0.5,
-                                    pt: { xs: 1.2, sm: 0 },
+                                    pt: { xs: 1, sm: 0 },
                                     pb: { xs: `calc(96px + env(safe-area-inset-bottom))`, sm: 4 }
                                 }}
                             >
                                 <Box
                                     component="form"
                                     noValidate
-                                    autoComplete="off"
+                                    autoComplete="on"
                                     sx={{
                                         width: "100%",
                                         maxWidth: 360,
@@ -312,8 +312,10 @@ export default function SignUp() {
                                     </Button>
 
                                     <TextField
+                                        id="name"
                                         label="Full Name*"
                                         name="name"
+                                        autoComplete="name"
                                         value={signUp.name}
                                         onChange={handleChange}
                                         size="small"
@@ -322,8 +324,17 @@ export default function SignUp() {
                                     />
 
                                     <TextField
+                                        id="email"
                                         label="Email Address*"
                                         name="email"
+                                        type="email"
+                                        autoComplete="email"
+                                        inputProps={{
+                                            inputMode: "email",
+                                            autoCapitalize: "none",
+                                            autoCorrect: "off",
+                                            spellCheck: false,
+                                        }}
                                         value={signUp.email}
                                         onChange={handleChange}
                                         size="small"
@@ -332,8 +343,16 @@ export default function SignUp() {
                                     />
 
                                     <TextField
+                                        id="tel"
                                         label="Phone Number*"
                                         name="number"
+                                        type="tel"
+                                        autoComplete="tel"
+                                        inputProps={{
+                                            inputMode: "tel",
+                                            autoCapitalize: "none",
+                                            autoCorrect: "off",
+                                        }}
                                         value={signUp.number}
                                         onChange={handleChange}
                                         size="small"
@@ -342,9 +361,11 @@ export default function SignUp() {
                                     />
 
                                     <TextField
+                                        id="new-password"
                                         label="Password*"
                                         type="password"
                                         name="password"
+                                        autoComplete="new-password"
                                         value={signUp.password}
                                         onChange={handleChange}
                                         size="small"
@@ -352,10 +373,18 @@ export default function SignUp() {
                                         sx={tfSx}
                                     />
 
+
                                     <TextField
+                                        id="confirm-password"
                                         label="Confirm Password*"
                                         type="password"
                                         name="confirmPassword"
+                                        autoComplete="off"
+                                        inputProps={{
+                                            autoCapitalize: "none",
+                                            autoCorrect: "off",
+                                            spellCheck: false,
+                                        }}
                                         value={signUp.confirmPassword}
                                         onChange={handleChange}
                                         size="small"
