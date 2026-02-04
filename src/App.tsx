@@ -15,25 +15,29 @@ import AdminOrders from "./pages/admin/AdminOrders";
 import OrdersLogged from "./pages/OrdersLogged";
 import TrackOrderGuest from "./pages/TrackOrderGuest";
 import OrdersPage from "./pages/OrdersPage";
+import ScrollToTop from "./components/ScrollToTop.tsx";
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/sign-in" element={<SignIn />} />
-      <Route path="/sign-up" element={<SignUp />} />
-      <Route path="/burgers" element={<Burguers />} />
-      <Route path="/sides" element={<Sides />} />
-      <Route path="/desserts" element={<Desserts />} />
-      <Route path="/beverages" element={<Beverages />} />
-      <Route path="/checkout" element={<Checkout />} />
-      <Route path="/deleteaccount" element={<DeleteAccount />} />
-      <Route path="/contact-us" element={<ContactUs />} />
-      <Route path="/admin/messages" element={<AdminMessages />} />
-      <Route path="/admin/orders" element={<AdminOrders />} />
-      <Route path="/orders" element={<OrdersPage />} />
-      <Route path="/OrdersLogged" element={<OrdersLogged />} />
-      <Route path="/TrackOrderGuest" element={<TrackOrderGuest />} />
-    </Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/burgers" element={<Burguers />} />
+        <Route path="/sides" element={<Sides />} />
+        <Route path="/desserts" element={<Desserts />} />
+        <Route path="/beverages" element={<Beverages />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/deleteaccount" element={<DeleteAccount />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/admin/messages" element={<AdminMessages />} />
+        <Route path="/admin/orders" element={<AdminOrders />} />
+        <Route path="/orders" element={<OrdersPage />} />
+        <Route path="/OrdersLogged" element={<OrdersLogged />} />
+        <Route path="/TrackOrderGuest" element={<TrackOrderGuest />} />
+      </Routes>
+    </>
   )
 }

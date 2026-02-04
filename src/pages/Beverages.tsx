@@ -712,6 +712,7 @@ export default function Beverages() {
     }
   }
 
+
   const imageStylesMobile: Record<string, React.CSSProperties> = {
     "5": { width: "140px", height: "145px", marginTop: "10px" },
     "6": { width: "140px", height: "145px", marginTop: "10px" },
@@ -739,6 +740,8 @@ export default function Beverages() {
     "10": { width: "150px", height: "220px", marginTop: "15px" }
   };
 
+  const FOOTER_H = 86;
+
   const mobileTabletGrid = (
     <Box
       sx={{
@@ -755,7 +758,6 @@ export default function Beverages() {
         px: { xs: 1, sm: 2 },
         mx: "auto",
         mt: 4,
-        mb: 15,
       }}
     >
       {data.map((product) => (
@@ -784,10 +786,10 @@ export default function Beverages() {
         columnGap: 4,
         rowGap: 4,
         mt: 4,
-        mb: 50,
         px: 2,
         mx: "auto",
         maxWidth: 1120,
+        pb: 6,
       }}
     >
       {data.map((product, index) => (
