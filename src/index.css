@@ -247,22 +247,6 @@ body {
   }
 }
 
-/* Tablet */
-@media (max-width: 900px) {
-  .nav-products-page {
-    margin-top: 43px;
-    gap: 25px;
-    /* diminui o espaçamento no tablet */
-  }
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  .nav-products-page {
-    margin-top: 43px;
-    gap: 18px;
-  }
-}
 
 /* Desktop only — padding maior no card */
 @media (min-width: 900px) {
