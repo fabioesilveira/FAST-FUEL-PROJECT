@@ -740,7 +740,6 @@ export default function Beverages() {
     "10": { width: "150px", height: "220px", marginTop: "15px" }
   };
 
-  const FOOTER_H = 86;
 
   const mobileTabletGrid = (
     <Box
