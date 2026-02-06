@@ -57,7 +57,6 @@ export default function NavbarOrders() {
                                 fontWeight: 800,
                                 letterSpacing: "0.06em",
                                 textTransform: "uppercase",
-                                boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
                                 px: { xs: 1.7, md: 2.2 },
                                 mr: 1,
                                 WebkitTapHighlightColor: "transparent",

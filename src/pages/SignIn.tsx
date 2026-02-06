@@ -193,16 +193,19 @@ export default function SignIn() {
                     <Box
                         component="main"
                         sx={{
-                            position: "fixed",
-                            inset: 0,
+                            position: "relative",
+                            flex: 1,
+                            minHeight: "100dvh",
                             display: "flex",
                             justifyContent: "center",
+                            alignItems: "flex-start",
                             px: 2,
                             pt: { xs: "110px", md: "120px" },
                             pb: { xs: 1, md: 4 },
-                            minHeight: 0,
+                            minWidth: 0,
                         }}
                     >
+
                         <Paper
                             elevation={0}
                             sx={{
@@ -213,9 +216,10 @@ export default function SignIn() {
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
 
-                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
+                                height: { xs: "calc(100dvh - 200px)", md: "calc(100dvh - 220px)" },
                                 maxHeight: 720,
 
+                               
                                 boxShadow:
                                     "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
 
@@ -225,6 +229,7 @@ export default function SignIn() {
                                 overflow: "hidden",
                             }}
                         >
+
                             {/* TITLE fora do scroll (igual SignUp) */}
                             <Typography
                                 variant="h4"
@@ -259,7 +264,11 @@ export default function SignIn() {
                                 <Box
                                     component="form"
                                     noValidate
-                                    autoComplete="off"
+                                    autoComplete="on"
+                                    onSubmit={(e) => {
+                                        e.preventDefault();
+                                        handleClick();
+                                    }}
                                     sx={{
                                         width: "100%",
                                         maxWidth: 360,
@@ -282,9 +291,18 @@ export default function SignIn() {
                                     </Typography>
 
                                     <TextField
+                                        id="email"
                                         label="Email Address*"
                                         variant="outlined"
                                         name="email"
+                                        type="email"
+                                        autoComplete="email"
+                                        inputProps={{
+                                            inputMode: "email",
+                                            autoCapitalize: "none",
+                                            autoCorrect: "off",
+                                            spellCheck: false,
+                                        }}
                                         value={signUp.email}
                                         onChange={handleChange}
                                         size="small"
@@ -292,11 +310,19 @@ export default function SignIn() {
                                         sx={tfSx}
                                     />
 
+
                                     <TextField
+                                        id="password"
                                         label="Password*"
                                         variant="outlined"
                                         type="password"
                                         name="password"
+                                        autoComplete="current-password"
+                                        inputProps={{
+                                            autoCapitalize: "none",
+                                            autoCorrect: "off",
+                                            spellCheck: false,
+                                        }}
                                         value={signUp.password}
                                         onChange={handleChange}
                                         size="small"
@@ -304,11 +330,12 @@ export default function SignIn() {
                                         sx={tfSx}
                                     />
 
+
                                     <Button
                                         fullWidth
                                         size="large"
                                         variant="outlined"
-                                        onClick={handleClick}
+                                        type="submit"
                                         sx={{
                                             mt: 0.5,
                                             height: { xs: 40, md: 42 },

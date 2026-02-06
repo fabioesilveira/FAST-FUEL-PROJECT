@@ -220,29 +220,32 @@ export default function SignUp() {
                     <Box
                         component="main"
                         sx={{
-                            position: "fixed",
-                            inset: 0,
+                            position: "relative",
+                            flex: 1,
+                            minHeight: "100dvh",
                             display: "flex",
                             justifyContent: "center",
+                            alignItems: "flex-start",
                             px: 2,
                             pt: { xs: "110px", md: "120px" },
                             pb: { xs: 1, md: 4 },
-                            minHeight: 0,
+                            minWidth: 0,
                         }}
                     >
+
                         <Paper
                             elevation={0}
                             sx={{
                                 width: "100%",
                                 maxWidth: { xs: 520, md: 520 },
-
                                 borderRadius: 3,
                                 border: "1.5px solid rgba(230, 81, 0, 0.35)",
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
 
-                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
+                                height: { xs: "calc(100dvh - 200px)", md: "calc(100dvh - 220px)" },
                                 maxHeight: 720,
+
 
                                 boxShadow:
                                     "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
