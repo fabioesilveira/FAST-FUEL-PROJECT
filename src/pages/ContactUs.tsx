@@ -176,40 +176,37 @@ export default function ContactUs() {
                     <Box
                         component="main"
                         sx={{
-                            position: "relative",
-                            flex: 1,
-                            minHeight: "100dvh",
+                            position: "fixed",
+                            inset: 0,
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "flex-start",
                             px: 2,
                             pt: { xs: "110px", md: "120px" },
                             pb: { xs: 1, md: 4 },
-                            minWidth: 0,
-                        }}
-                    >
-
-                        <Paper
-                            elevation={0}
-                           sx={{
-                            width: "100%",
-                            maxWidth: { xs: 520, sm: 520 },
-
-                            borderRadius: 3,
-                            border: "2px solid rgba(13, 71, 161, 0.35)",
-                            bgcolor: "background.paper",
-                            boxShadow:
-                                "0 4px 14px rgba(13, 71, 161, 0.25), 0 8px 24px rgba(13, 71, 161, 0.18)",
-
-
-                            height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
-                            maxHeight: 720,
-
-                            overflow: "hidden",
-                            display: "flex",
-                            flexDirection: "column",
                             minHeight: 0,
                         }}
+                    >
+                        <Paper
+                            elevation={0}
+                            sx={{
+                                width: "100%",
+                                maxWidth: { xs: 520, md: 520 },
+
+                                borderRadius: 3,
+                                border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                                bgcolor: "background.paper",
+                                p: { xs: 2.25, sm: 2.75, md: 4 },
+
+                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
+                                maxHeight: 720,
+
+                                boxShadow:
+                                    "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 2,
+                                overflow: "hidden",
+                            }}
                         >
                             <Typography
                                 variant="h4"

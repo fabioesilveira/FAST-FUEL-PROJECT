@@ -670,7 +670,7 @@ export default function Checkout() {
                                     variant="h4"
                                     align="center"
                                     sx={{
-                                        mb: 1.5,
+                                        mb: -1.5,
                                         mt: 1,
                                         fontSize: "clamp(2.05rem, 5vw, 2.3rem)",
                                         letterSpacing: "0.12em",
@@ -924,7 +924,7 @@ export default function Checkout() {
                                                     align="center"
                                                     sx={{ mt: 1.4, fontSize: "0.75rem", color: "text.secondary" }}
                                                 >
-                                                    Guest checkout: keep your <b>Order Code</b> to track your order later.
+                                                    Guest checkout: keep your <b>Order Number</b> to track your order later.
                                                 </Typography>
                                             )}
                                         </Box>
@@ -953,6 +953,18 @@ export default function Checkout() {
                                                 }}
                                             >
                                                 Delivery
+                                            </Typography>
+
+                                            <Typography
+                                                align="center"
+                                                sx={{
+                                                    mt: 0.8,
+                                                    mb: 1.2,
+                                                    fontSize: "0.72rem",
+                                                    color: "text.secondary",
+                                                }}
+                                            >
+                                                <b>*Type and select an address to auto-fill the fields.</b>
                                             </Typography>
 
                                             <Stack spacing={1.6}>
@@ -993,17 +1005,6 @@ export default function Checkout() {
                                                         }));
                                                     }}
                                                 />
-
-                                                <Typography
-                                                    align="center"
-                                                    sx={{
-                                                        mt: 0.4,
-                                                        fontSize: "0.72rem",
-                                                        color: "text.secondary",
-                                                    }}
-                                                >
-                                                    Type and select an address to auto-fill the fields.
-                                                </Typography>
 
                                                 <Stack direction="row" spacing={1.6}>
                                                     <TextField
