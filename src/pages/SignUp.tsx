@@ -287,6 +287,10 @@ export default function SignUp() {
                                     component="form"
                                     noValidate
                                     autoComplete="on"
+                                    onSubmit={(e) => {
+                                        e.preventDefault();
+                                        handleClick();
+                                    }}
                                     sx={{
                                         width: "100%",
                                         maxWidth: 360,
@@ -318,8 +322,8 @@ export default function SignUp() {
                                         autoComplete="name"
                                         value={signUp.name}
                                         onChange={handleChange}
-                                        size="small"
                                         fullWidth
+                                        size="small"
                                         sx={tfSx}
                                     />
 
@@ -337,8 +341,8 @@ export default function SignUp() {
                                         }}
                                         value={signUp.email}
                                         onChange={handleChange}
-                                        size="small"
                                         fullWidth
+                                        size="small"
                                         sx={tfSx}
                                     />
 
@@ -347,7 +351,7 @@ export default function SignUp() {
                                         label="Phone Number*"
                                         name="number"
                                         type="tel"
-                                        autoComplete="tel"
+                                        autoComplete="tel-national"
                                         inputProps={{
                                             inputMode: "tel",
                                             autoCapitalize: "none",
@@ -355,8 +359,8 @@ export default function SignUp() {
                                         }}
                                         value={signUp.number}
                                         onChange={handleChange}
-                                        size="small"
                                         fullWidth
+                                        size="small"
                                         sx={tfSx}
                                     />
 
@@ -368,18 +372,17 @@ export default function SignUp() {
                                         autoComplete="new-password"
                                         value={signUp.password}
                                         onChange={handleChange}
-                                        size="small"
                                         fullWidth
+                                        size="small"
                                         sx={tfSx}
                                     />
-
 
                                     <TextField
                                         id="confirm-password"
                                         label="Confirm Password*"
                                         type="password"
                                         name="confirmPassword"
-                                        autoComplete="off"
+                                        autoComplete="new-password"
                                         inputProps={{
                                             autoCapitalize: "none",
                                             autoCorrect: "off",
@@ -387,8 +390,8 @@ export default function SignUp() {
                                         }}
                                         value={signUp.confirmPassword}
                                         onChange={handleChange}
-                                        size="small"
                                         fullWidth
+                                        size="small"
                                         sx={tfSx}
                                     />
 
@@ -396,7 +399,7 @@ export default function SignUp() {
                                         fullWidth
                                         size="large"
                                         variant="outlined"
-                                        onClick={handleClick}
+                                        type="submit"
                                         sx={{
                                             mt: 0.5,
                                             height: { xs: 40, md: 42 },
@@ -426,7 +429,7 @@ export default function SignUp() {
                                         fullWidth
                                         onClick={() => navigate("/")}
                                         sx={{
-                                            mt: -0.4,
+                                            mt: -0.2,
                                             height: { xs: 40, md: 42 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",

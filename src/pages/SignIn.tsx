@@ -378,7 +378,7 @@ export default function SignIn() {
                                         size="large"
                                         onClick={() => navigate("/")}
                                         sx={{
-                                            mt: -0.4,
+                                            mt: -0.2,
                                             height: { xs: 40, md: 42 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",

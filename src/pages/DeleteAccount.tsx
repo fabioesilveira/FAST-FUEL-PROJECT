@@ -416,7 +416,7 @@ export default function DeleteAccount() {
                                     onClick={() => navigate("/")}
                                     sx={{
                                         mb: { md: -0.8 },
-                                        mt: { sm: 0.5, md: 1 },
+                                        mt: -0.2,
                                         height: { xs: 39, md: 42 },
                                         borderRadius: 2,
                                         textTransform: "uppercase",
