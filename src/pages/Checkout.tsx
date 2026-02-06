@@ -665,12 +665,12 @@ export default function Checkout() {
                     >
 
                         {screen === "form" && (
-                            <Box sx={{ px: 5, pt: 3.5, pb: 2, maxWidth: 500, mx: "auto", flexShrink: 0 }}>
+                            <Box sx={{ px: 5, pt: 3.5, pb: 2.5, maxWidth: 500, mx: "auto", flexShrink: 0 }}>
                                 <Typography
                                     variant="h4"
                                     align="center"
                                     sx={{
-                                        mb: -1.5,
+                                        mb: -1,
                                         mt: 1,
                                         fontSize: "clamp(2.05rem, 5vw, 2.3rem)",
                                         letterSpacing: "0.12em",
@@ -940,6 +940,7 @@ export default function Checkout() {
                                                     mb: 2,
                                                     fontWeight: 700,
                                                     position: "relative",
+
                                                     "&::after": {
                                                         content: '""',
                                                         display: "block",
@@ -948,28 +949,32 @@ export default function Checkout() {
                                                         borderRadius: 999,
                                                         bgcolor: "#0d47a1",
                                                         mx: "auto",
-                                                        mt: 0.8,
+                                                        mt: 0.9,
                                                     },
                                                 }}
                                             >
                                                 Delivery
+
+                                                <span
+                                                    style={{
+                                                        display: "block",
+                                                        marginTop: "4.5px",
+                                                        fontSize: "0.72rem",
+                                                        fontWeight: 400,
+                                                        letterSpacing: "0.02em",
+                                                        textTransform: "none",
+                                                        color: "rgba(0,0,0,0.55)",
+                                                    }}
+                                                >
+                                                    <b>*Type and select an address to auto-fill the fields</b>
+                                                </span>
                                             </Typography>
 
-                                            <Typography
-                                                align="center"
-                                                sx={{
-                                                    mt: 0.8,
-                                                    mb: 1.2,
-                                                    fontSize: "0.72rem",
-                                                    color: "text.secondary",
-                                                }}
-                                            >
-                                                <b>*Type and select an address to auto-fill the fields.</b>
-                                            </Typography>
 
                                             <Stack spacing={1.6}>
                                                 <AddressLookup
                                                     sx={tfBlueLabelSx}
+                                                    requireZip5
                                                     inputValue={streetText}
                                                     onInputChange={(v) => {
                                                         setStreetText(v);
@@ -993,7 +998,7 @@ export default function Checkout() {
                                                     }}
 
                                                     onSelect={(addr) => {
-                                                        setStreetText(addr.street); // full do jeito que vier
+                                                        setStreetText(addr.street); 
 
                                                         setAddress((prev) => ({
                                                             ...prev,
@@ -1034,7 +1039,7 @@ export default function Checkout() {
                                                         variant="outlined"
                                                         value={address.state}
                                                         onChange={(e) => setAddress((prev) => ({ ...prev, state: e.target.value }))}
-                                                        sx={[tfBlueLabelSx, { flex: 3 }]}
+                                                        sx={[tfBlueLabelSx, { flex: 5 }]}
                                                     />
 
                                                     <TextField
@@ -1058,7 +1063,7 @@ export default function Checkout() {
                                                                 country: e.target.value,
                                                             }))
                                                         }
-                                                        sx={[tfBlueLabelSx, { flex: 4 }]}
+                                                        sx={[tfBlueLabelSx, { flex: 2 }]}
                                                     />
                                                 </Stack>
 

@@ -1,11 +1,13 @@
+// src/components/AddressAutocomplete.tsx
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Autocomplete, TextField } from "@mui/material";
+import type { SxProps, Theme } from "@mui/material/styles";
 
 type AddressOption = {
   id: string;
-  full: string;      // dropdown
-  street: string;    // input
+  full: string; // dropdown
+  street: string; // input
   city: string;
   state: string;
   postcode: string;
@@ -21,72 +23,86 @@ type Props = {
     country?: string;
   }) => void;
   onInput?: (value: string) => void;
-  sx?: any;
+  sx?: SxProps<Theme>;
+  requireZip5?: boolean;
 };
 
-const GEOAPIFY_KEY = import.meta.env.VITE_GEOAPIFY_KEY;
+const GEOAPIFY_KEY = import.meta.env.VITE_GEOAPIFY_KEY as string;
 
 function streetFromFull(full: string) {
-  // pega tudo antes da primeira vírgula
   return (full || "").split(",")[0]?.trim() || "";
 }
 
-export default function AddressAutocomplete({ onSelect, onInput, sx }: Props) {
+const isZip5 = (v: string) => /^\d{5}$/.test((v || "").trim());
+
+export default function AddressAutocomplete({
+  onSelect,
+  onInput,
+  sx,
+  requireZip5 = false,
+}: Props) {
   const [query, setQuery] = useState("");
   const [options, setOptions] = useState<AddressOption[]>([]);
-
-  // texto que aparece dentro do input
   const [inputValue, setInputValue] = useState("");
-
-  // option selecionada
   const [value, setValue] = useState<AddressOption | null>(null);
 
   useEffect(() => {
-    if (query.trim().length < 3) {
+    const q = query.trim();
+    if (q.length < 3) {
       setOptions([]);
       return;
     }
 
     const t = setTimeout(async () => {
       try {
-        const res = await axios.get(
-          "https://api.geoapify.com/v1/geocode/autocomplete",
-          {
-            params: {
-              text: query,
-              limit: 5,
-              format: "json",
-              apiKey: GEOAPIFY_KEY,
-            },
-          }
-        );
+        const res = await axios.get("https://api.geoapify.com/v1/geocode/autocomplete", {
+          params: {
+            text: q,
+            limit: 8,
+            format: "json",
+            apiKey: GEOAPIFY_KEY,
 
-        const results: AddressOption[] = (res.data?.results ?? []).map(
-          (r: any, idx: number) => {
-            const full = r.formatted ?? "";
+            filter: "countrycode:us",
+            bias: "countrycode:us",
+          },
+        });
+
+        const results: AddressOption[] = (res.data?.results ?? [])
+          .map((r: any, idx: number): AddressOption => {
+            const full = String(r.formatted ?? "").trim();
+
             const street =
-              (r.address_line1 ?? "").trim() || streetFromFull(full);
+              String(r.address_line1 ?? "").trim() || streetFromFull(full);
+
+            const city = String(
+              r.city ?? r.town ?? r.village ?? r.hamlet ?? r.suburb ?? ""
+            ).trim();
+
+            const postcode = String(r.postcode ?? "").trim();
 
             return {
               id: String(r.place_id ?? `${full}-${idx}`),
               full,
               street,
-              city: r.city ?? "",
-              state: r.state ?? "",
-              postcode: r.postcode ?? "",
-              country: r.country ?? "",
+              city,
+              state: String(r.state ?? "").trim(),
+              postcode,
+              country: String(r.country ?? "").trim(),
             };
-          }
-        );
+          })
+          .filter((o: AddressOption) =>
+            requireZip5 ? isZip5(o.postcode) : true
+          );
 
         setOptions(results);
-      } catch {
+      } catch (e) {
+        console.error("Geoapify error:", e);
         setOptions([]);
       }
     }, 350);
 
     return () => clearTimeout(t);
-  }, [query]);
+  }, [query, requireZip5]);
 
   return (
     <Autocomplete
@@ -96,15 +112,12 @@ export default function AddressAutocomplete({ onSelect, onInput, sx }: Props) {
       value={value}
       inputValue={inputValue}
       isOptionEqualToValue={(a, b) => a.id === b.id}
-      getOptionLabel={(opt) => opt.full} // dropdown usa full
-
-      // ✅ dropdown bonito, mas sem “forçar” full no input
+      getOptionLabel={(opt) => opt.full}
       renderOption={(props, option) => (
         <li {...props} key={option.id}>
           {option.full}
         </li>
       )}
-
       onInputChange={(_, v, reason) => {
         setInputValue(v);
         onInput?.(v);
@@ -114,20 +127,17 @@ export default function AddressAutocomplete({ onSelect, onInput, sx }: Props) {
           setValue(null);
         }
 
-        if (v === "") {
+        if (reason === "clear" || v === "") {
           setQuery("");
           setOptions([]);
           setValue(null);
         }
       }}
-
       onChange={(_, opt) => {
         setValue(opt);
-
         if (!opt) return;
 
-        // ✅ input mostra SÓ street
-        setInputValue(opt.street);
+        setInputValue(opt.street); 
         setQuery(opt.street);
         onInput?.(opt.street);
 
@@ -139,15 +149,14 @@ export default function AddressAutocomplete({ onSelect, onInput, sx }: Props) {
           country: opt.country,
         });
       }}
-
       renderInput={(params) => (
         <TextField
           {...params}
           fullWidth
           size="small"
           label="Street"
-          placeholder="Start typing your street"
-          helperText="Demo only — any valid address works"
+          placeholder="Start typing and select an address"
+          helperText="Select an address from the list"
           sx={sx}
         />
       )}

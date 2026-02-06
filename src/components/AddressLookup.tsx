@@ -1,7 +1,7 @@
-// src/components/AddressLookup.tsx
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Autocomplete, TextField } from "@mui/material";
+import type { SxProps, Theme } from "@mui/material/styles";
 
 type AddressResult = {
   street: string;
@@ -11,28 +11,30 @@ type AddressResult = {
 };
 
 type AddressOption = {
-  full: string;      // endereço completo (dropdown)
-  street: string;    // o que vai aparecer no input 
+  id: string;
+  full: string;      // dropdown
+  street: string;    // input
   city: string;
   state: string;
   postcode: string;
+  country: string;
 };
 
 type AddressLookupProps = {
-  sx?: any;
+  sx?: SxProps<Theme>;
 
-  // controlled input 
   inputValue?: string;
   onInputChange?: (value: string) => void;
 
-  // callback 
   onInput?: (value: string) => void;
-
-  // quando seleciona uma opção
   onSelect: (addr: AddressResult) => void;
+
+  requireZip5?: boolean;
 };
 
-const GEOAPIFY_KEY = import.meta.env.VITE_GEOAPIFY_KEY;
+const GEOAPIFY_KEY = import.meta.env.VITE_GEOAPIFY_KEY as string;
+
+const isZip5 = (v: string) => /^\d{5}$/.test((v || "").trim());
 
 export default function AddressLookup({
   onSelect,
@@ -40,12 +42,12 @@ export default function AddressLookup({
   sx,
   inputValue: controlledInputValue,
   onInputChange,
+  requireZip5 = false,
 }: AddressLookupProps) {
   const [query, setQuery] = useState("");
   const [options, setOptions] = useState<AddressOption[]>([]);
   const [value, setValue] = useState<AddressOption | null>(null);
 
-  // suporte a controlled/uncontrolled
   const [internalInput, setInternalInput] = useState("");
 
   const isControlled = controlledInputValue !== undefined;
@@ -56,7 +58,6 @@ export default function AddressLookup({
     onInputChange?.(v);
   };
 
-  // se for controlled e o pai setar um valor já com +3 chars, dispara query
   useEffect(() => {
     if (!isControlled) return;
     const v = (controlledInputValue ?? "").trim();
@@ -73,36 +74,40 @@ export default function AddressLookup({
 
     const t = setTimeout(async () => {
       try {
-        const res = await axios.get(
-          "https://api.geoapify.com/v1/geocode/autocomplete",
-          {
-            params: {
-              text: q,
-              limit: 8,
-              format: "json",
-              apiKey: GEOAPIFY_KEY,
-
-              filter: "countrycode:us",
-              bias: "countrycode:us",
-            },
-          }
-        );
-
-        const results: AddressOption[] = (res.data?.results ?? []).map((r: any) => {
-          const full = String(r.formatted ?? "").trim();
-
-          const city = String(
-            r.city ?? r.town ?? r.village ?? r.hamlet ?? r.suburb ?? ""
-          ).trim();
-
-          return {
-            full,
-            street: full, 
-            city,
-            state: String(r.state ?? "").trim(),
-            postcode: String(r.postcode ?? "").trim(),
-          };
+        const res = await axios.get("https://api.geoapify.com/v1/geocode/autocomplete", {
+          params: {
+            text: q,
+            limit: 8,
+            format: "json",
+            apiKey: GEOAPIFY_KEY,
+            filter: "countrycode:us",
+            bias: "countrycode:us",
+          },
         });
+
+        const results: AddressOption[] = (res.data?.results ?? [])
+          .map((r: any, idx: number): AddressOption => {
+            const full = String(r.formatted ?? "").trim();
+
+            const city = String(
+              r.city ?? r.town ?? r.village ?? r.hamlet ?? r.suburb ?? ""
+            ).trim();
+
+            const postcode = String(r.postcode ?? "").trim();
+
+            const street = String(r.address_line1 ?? "").trim() || full;
+
+            return {
+              id: String(r.place_id ?? `${full}-${idx}`),
+              full,
+              street,
+              city,
+              state: String(r.state ?? "").trim(),
+              postcode,
+              country: String(r.country ?? "").trim(),
+            };
+          })
+          .filter((o: AddressOption) => (requireZip5 ? isZip5(o.postcode) : true));
 
         setOptions(results);
       } catch (err) {
@@ -112,25 +117,24 @@ export default function AddressLookup({
     }, 350);
 
     return () => clearTimeout(t);
-  }, [query]);
+  }, [query, requireZip5]);
 
   return (
-    <Autocomplete
+    <Autocomplete<AddressOption, false, false, false>
       options={options}
       popupIcon={null}
-      filterOptions={(x) => x} // API já filtra
+      filterOptions={(x) => x}
       value={value}
       inputValue={shownInputValue}
-      isOptionEqualToValue={(a, b) => a.full === b.full}
-      getOptionLabel={(opt) => opt.full} // dropdown mostra completo
-
+      isOptionEqualToValue={(a, b) => a.id === b.id}
+      getOptionLabel={(opt) => opt.full}
       onInputChange={(_, v, reason) => {
         setShownInput(v);
         onInput?.(v);
 
         if (reason === "input") {
           setQuery(v);
-          setValue(null); // digitando => nada selecionado
+          setValue(null);
         }
 
         if (reason === "clear" || v === "") {
@@ -139,15 +143,12 @@ export default function AddressLookup({
           setValue(null);
         }
       }}
-
       onChange={(_, opt) => {
         setValue(opt);
         if (!opt) return;
 
         setShownInput(opt.street);
-
         setQuery(opt.street);
-
         onInput?.(opt.street);
 
         onSelect({
@@ -157,17 +158,27 @@ export default function AddressLookup({
           zip: opt.postcode,
         });
       }}
-
       renderInput={(params) => (
         <TextField
           {...params}
           fullWidth
           size="small"
           label="Street*"
-          placeholder="Start typing to see suggestions"
+          placeholder="Start typing and select an address"
           sx={sx}
+          inputProps={{
+            ...params.inputProps,
+            autoComplete: "new-password",
+            autoCorrect: "off",
+            autoCapitalize: "off",
+            spellCheck: false,
+            name: "ff-address-search",
+            inputMode: "text",
+          }}
+          FormHelperTextProps={{ sx: { textAlign: "center" } }}
         />
       )}
     />
   );
+
 }
