@@ -254,6 +254,7 @@ export default function SignUp() {
                                 flexDirection: "column",
                                 gap: 2,
                                 overflow: "hidden",
+                                minHeight: 0,
                             }}
                         >
                             <Typography

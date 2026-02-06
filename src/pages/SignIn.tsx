@@ -205,7 +205,6 @@ export default function SignIn() {
                             minWidth: 0,
                         }}
                     >
-
                         <Paper
                             elevation={0}
                             sx={{
@@ -226,6 +225,7 @@ export default function SignIn() {
                                 flexDirection: "column",
                                 gap: 2,
                                 overflow: "hidden",
+                                minHeight: 0,
                             }}
                         >
                             {/* TITLE fora do scroll (igual SignUp) */}

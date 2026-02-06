@@ -210,6 +210,7 @@ export default function ContactUs() {
                                 flexDirection: "column",
                                 gap: 2,
                                 overflow: "hidden",
+                                minHeight: 0,
                             }}
                         >
                             <Typography
