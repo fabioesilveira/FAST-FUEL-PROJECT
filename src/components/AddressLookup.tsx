@@ -3,27 +3,66 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Autocomplete, TextField } from "@mui/material";
 
+type AddressResult = {
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
+};
+
 type AddressOption = {
-  full: string;      // dropdown (endereço completo)
-  street: string;    // input (SÓ street)
+  full: string;      // endereço completo (dropdown)
+  street: string;    // o que vai aparecer no input 
   city: string;
   state: string;
   postcode: string;
 };
 
-type Props = {
-  onSelect: (addr: { street: string; city: string; state: string; zip: string }) => void;
-  onInput?: (value: string) => void; // dispara quando digita/limpa (pra você limpar os campos no Checkout)
+type AddressLookupProps = {
   sx?: any;
+
+  // controlled input 
+  inputValue?: string;
+  onInputChange?: (value: string) => void;
+
+  // callback 
+  onInput?: (value: string) => void;
+
+  // quando seleciona uma opção
+  onSelect: (addr: AddressResult) => void;
 };
 
 const GEOAPIFY_KEY = import.meta.env.VITE_GEOAPIFY_KEY;
 
-export default function AddressLookup({ onSelect, onInput, sx }: Props) {
+export default function AddressLookup({
+  onSelect,
+  onInput,
+  sx,
+  inputValue: controlledInputValue,
+  onInputChange,
+}: AddressLookupProps) {
   const [query, setQuery] = useState("");
   const [options, setOptions] = useState<AddressOption[]>([]);
-  const [inputValue, setInputValue] = useState(""); // texto dentro do input
-  const [value, setValue] = useState<AddressOption | null>(null); // opção selecionada
+  const [value, setValue] = useState<AddressOption | null>(null);
+
+  // suporte a controlled/uncontrolled
+  const [internalInput, setInternalInput] = useState("");
+
+  const isControlled = controlledInputValue !== undefined;
+  const shownInputValue = isControlled ? controlledInputValue : internalInput;
+
+  const setShownInput = (v: string) => {
+    if (!isControlled) setInternalInput(v);
+    onInputChange?.(v);
+  };
+
+  // se for controlled e o pai setar um valor já com +3 chars, dispara query
+  useEffect(() => {
+    if (!isControlled) return;
+    const v = (controlledInputValue ?? "").trim();
+    if (v.length < 3) return;
+    setQuery(v);
+  }, [isControlled, controlledInputValue]);
 
   useEffect(() => {
     const q = query.trim();
@@ -34,33 +73,32 @@ export default function AddressLookup({ onSelect, onInput, sx }: Props) {
 
     const t = setTimeout(async () => {
       try {
-        const res = await axios.get("https://api.geoapify.com/v1/geocode/autocomplete", {
-          params: {
-            text: q,
-            limit: 5,
-            format: "json",
-            apiKey: GEOAPIFY_KEY,
-          },
-        });
+        const res = await axios.get(
+          "https://api.geoapify.com/v1/geocode/autocomplete",
+          {
+            params: {
+              text: q,
+              limit: 8,
+              format: "json",
+              apiKey: GEOAPIFY_KEY,
+
+              filter: "countrycode:us",
+              bias: "countrycode:us",
+            },
+          }
+        );
 
         const results: AddressOption[] = (res.data?.results ?? []).map((r: any) => {
           const full = String(r.formatted ?? "").trim();
 
-          // Preferência: address_line1 (geralmente: "1536 S Flower St")
-          const apiStreet = String(r.address_line1 ?? "").trim();
-
-          // Fallback: pega só antes da primeira vírgula do formatted
-          const streetFromFull = full.split(",")[0]?.trim() ?? "";
-
-          // ✅ GARANTE que street nunca venha com cidade/estado (corta antes da vírgula)
-          const street = (apiStreet || streetFromFull).split(",")[0].trim();
-
-          console.log("estou aqui",street)
+          const city = String(
+            r.city ?? r.town ?? r.village ?? r.hamlet ?? r.suburb ?? ""
+          ).trim();
 
           return {
             full,
-            street,
-            city: String(r.city ?? "").trim(),
+            street: full, 
+            city,
             state: String(r.state ?? "").trim(),
             postcode: String(r.postcode ?? "").trim(),
           };
@@ -79,23 +117,22 @@ export default function AddressLookup({ onSelect, onInput, sx }: Props) {
   return (
     <Autocomplete
       options={options}
-      popupIcon={null} // ✅ remove setinha
-      filterOptions={(x) => x} // ✅ API já filtra
+      popupIcon={null}
+      filterOptions={(x) => x} // API já filtra
       value={value}
-      inputValue={inputValue}
+      inputValue={shownInputValue}
       isOptionEqualToValue={(a, b) => a.full === b.full}
-      getOptionLabel={(opt) => opt.full} // dropdown mostra endereço completo
+      getOptionLabel={(opt) => opt.full} // dropdown mostra completo
 
       onInputChange={(_, v, reason) => {
-        setInputValue(v);
+        setShownInput(v);
         onInput?.(v);
 
         if (reason === "input") {
           setQuery(v);
-          setValue(null); // digitando = não tem selecionado
+          setValue(null); // digitando => nada selecionado
         }
 
-        // quando clica no X (clear) ou apaga tudo
         if (reason === "clear" || v === "") {
           setQuery("");
           setOptions([]);
@@ -105,12 +142,12 @@ export default function AddressLookup({ onSelect, onInput, sx }: Props) {
 
       onChange={(_, opt) => {
         setValue(opt);
-
         if (!opt) return;
 
-        // ✅ input mostra só street
-        setInputValue(opt.street);
+        setShownInput(opt.street);
+
         setQuery(opt.street);
+
         onInput?.(opt.street);
 
         onSelect({

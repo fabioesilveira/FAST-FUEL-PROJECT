@@ -98,6 +98,9 @@ export default function Checkout() {
     const stickyRef = useRef<HTMLDivElement | null>(null);
     const [isDockedToPaperBottom, setIsDockedToPaperBottom] = useState(false);
 
+    const [streetText, setStreetText] = useState("");
+
+
     // controle de telas do checkout (form / processing / confirmed)
     const [screen, setScreen] = useState<"form" | "processing" | "confirmed">("form");
     const [orderCode, setOrderCode] = useState<string>("");
@@ -257,6 +260,7 @@ export default function Checkout() {
     const taxLabel = useMemo(() => money(tax), [tax]);
     const deliveryLabel = useMemo(() => money(deliveryFee), [deliveryFee]);
     const grandTotalLabel = useMemo(() => money(grandTotal), [grandTotal]);
+
 
     function validate() {
         if (!order || order.length === 0) return "Your cart is empty.";
@@ -505,7 +509,7 @@ export default function Checkout() {
                 <Box
                     sx={{
                         mt: 1,
-                        p: { xs: 1.25, sm: 1.6 }, 
+                        p: { xs: 1.25, sm: 1.6 },
                         borderRadius: 2,
                         border: "1px solid rgba(13, 71, 161, 0.22)",
                         bgcolor: "rgba(255,255,255,0.75)",
@@ -557,8 +561,8 @@ export default function Checkout() {
                     sx={{
                         mt: 1.2,
                         width: "100%",
-                        justifyContent: "center", 
-                        alignItems: "center",     
+                        justifyContent: "center",
+                        alignItems: "center",
                     }}
                 >
                     <Button
@@ -624,14 +628,16 @@ export default function Checkout() {
                 <Box
                     component="main"
                     sx={{
-                        position: "fixed",
-                        inset: 0,
+                        position: "relative",
+                        flex: 1,
+                        minHeight: "100dvh",
                         display: "flex",
                         justifyContent: "center",
+                        alignItems: "flex-start",
                         px: 2,
                         pt: { xs: "110px", md: "120px" },
                         pb: { xs: 1, md: 4 },
-                        minHeight: 0,
+                        minWidth: 0,
                     }}
                 >
                     <Paper
@@ -954,7 +960,15 @@ export default function Checkout() {
                                             <Stack spacing={1.6}>
                                                 <AddressLookup
                                                     sx={tfBlueLabelSx}
-                                                    onInput={(v) => {
+                                                    inputValue={streetText}
+                                                    onInputChange={(v) => {
+                                                        setStreetText(v);
+
+                                                        setAddress((prev) => ({
+                                                            ...prev,
+                                                            street: v,
+                                                        }));
+
                                                         if (!v.trim()) {
                                                             setAddress((prev) => ({
                                                                 ...prev,
@@ -967,16 +981,31 @@ export default function Checkout() {
                                                             }));
                                                         }
                                                     }}
-                                                    onSelect={(addr) =>
+
+                                                    onSelect={(addr) => {
+                                                        setStreetText(addr.street); // full do jeito que vier
+
                                                         setAddress((prev) => ({
                                                             ...prev,
-                                                            street: (addr.street || "").split(",")[0].trim(),
+                                                            street: addr.street,
                                                             city: addr.city,
                                                             state: addr.state,
                                                             zip: addr.zip,
-                                                        }))
-                                                    }
+                                                            country: "USA",
+                                                        }));
+                                                    }}
                                                 />
+
+                                                <Typography
+                                                    align="center"
+                                                    sx={{
+                                                        mt: 0.4,
+                                                        fontSize: "0.72rem",
+                                                        color: "text.secondary",
+                                                    }}
+                                                >
+                                                    Type and select an address to auto-fill the fields.
+                                                </Typography>
 
                                                 <Stack direction="row" spacing={1.6}>
                                                     <TextField

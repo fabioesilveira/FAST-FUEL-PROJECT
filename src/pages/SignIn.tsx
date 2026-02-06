@@ -193,18 +193,18 @@ export default function SignIn() {
                     <Box
                         component="main"
                         sx={{
-                            position: "relative",
                             flex: 1,
                             minHeight: "100dvh",
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "flex-start",
                             px: 2,
-                            pt: { xs: "110px", md: "120px" },
+                            pt: { xs: "110px", md: "120px" }, // espaço pro navbar
                             pb: { xs: 1, md: 4 },
                             minWidth: 0,
                         }}
                     >
+
 
                         <Paper
                             elevation={0}
@@ -219,7 +219,7 @@ export default function SignIn() {
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100dvh - 220px)" },
                                 maxHeight: 720,
 
-                               
+
                                 boxShadow:
                                     "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
 
