@@ -209,21 +209,21 @@ export default function SignIn() {
                             elevation={0}
                             sx={{
                                 width: "100%",
-                                maxWidth: { xs: 520, md: 520 },
+                                maxWidth: { xs: 520, sm: 520 },
+
                                 borderRadius: 3,
-                                border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                                border: "2px solid rgba(13, 71, 161, 0.35)",
                                 bgcolor: "background.paper",
-                                p: { xs: 2.5, md: 4 },
+                                boxShadow:
+                                    "0 4px 14px rgba(13, 71, 161, 0.25), 0 8px 24px rgba(13, 71, 161, 0.18)",
+
 
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
                                 maxHeight: 720,
 
-                                boxShadow:
-                                    "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
-
+                                overflow: "hidden",
                                 display: "flex",
                                 flexDirection: "column",
-                                overflow: "hidden",
                                 minHeight: 0,
                             }}
                         >

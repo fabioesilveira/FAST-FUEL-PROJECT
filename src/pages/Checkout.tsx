@@ -645,8 +645,6 @@ export default function Checkout() {
                         ref={paperRef}
                         sx={{
                             width: "100%",
-
-
                             maxWidth: { xs: 520, sm: 540 },
 
                             borderRadius: 3,
