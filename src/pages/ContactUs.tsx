@@ -208,7 +208,6 @@ export default function ContactUs() {
 
                                 display: "flex",
                                 flexDirection: "column",
-                                gap: 2,
                                 overflow: "hidden",
                                 minHeight: 0,
                             }}

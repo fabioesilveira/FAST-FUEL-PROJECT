@@ -252,7 +252,6 @@ export default function SignUp() {
 
                                 display: "flex",
                                 flexDirection: "column",
-                                gap: 2,
                                 overflow: "hidden",
                                 minHeight: 0,
                             }}

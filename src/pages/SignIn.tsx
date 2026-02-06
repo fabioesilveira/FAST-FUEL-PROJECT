@@ -223,7 +223,6 @@ export default function SignIn() {
 
                                 display: "flex",
                                 flexDirection: "column",
-                                gap: 2,
                                 overflow: "hidden",
                                 minHeight: 0,
                             }}
