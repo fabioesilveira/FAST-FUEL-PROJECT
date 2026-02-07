@@ -959,7 +959,7 @@ export default function Checkout() {
                                                     style={{
                                                         display: "block",
                                                         marginTop: "4.5px",
-                                                        fontSize: "0.72rem",
+                                                        fontSize: "0.75rem",
                                                         fontWeight: 400,
                                                         letterSpacing: "0.02em",
                                                         textTransform: "none",
@@ -1039,7 +1039,7 @@ export default function Checkout() {
                                                         variant="outlined"
                                                         value={address.state}
                                                         onChange={(e) => setAddress((prev) => ({ ...prev, state: e.target.value }))}
-                                                        sx={[tfBlueLabelSx, { flex: 5 }]}
+                                                        sx={[tfBlueLabelSx, { flex: 4.5 }]}
                                                     />
 
                                                     <TextField
@@ -1063,7 +1063,7 @@ export default function Checkout() {
                                                                 country: e.target.value,
                                                             }))
                                                         }
-                                                        sx={[tfBlueLabelSx, { flex: 2 }]}
+                                                        sx={[tfBlueLabelSx, { flex: 2.5 }]}
                                                     />
                                                 </Stack>
 

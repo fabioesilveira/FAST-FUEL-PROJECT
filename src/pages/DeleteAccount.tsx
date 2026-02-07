@@ -225,7 +225,7 @@ export default function DeleteAccount() {
                                 sx={{
                                     mb: 2.5,
 
-                                    fontSize: { xs: "1.99rem", sm: "2.15rem", md: "2.24rem" },
+                                    fontSize: { xs: "1.99rem", sm: "2.15rem", md: "2.15rem" },
                                     letterSpacing: { xs: "0.10em", sm: "0.12em" },
 
                                     textTransform: "uppercase",
@@ -382,15 +382,16 @@ export default function DeleteAccount() {
                                 <Button
                                     fullWidth
                                     size="large"
-                                    variant="contained"
+                                    variant="outlined"
                                     onClick={handleRequestDelete}
                                     sx={{
                                         mt: 1,
                                         borderRadius: 2,
                                         textTransform: "uppercase",
-                                        bgcolor: "#b71c1c",
-                                        color: "#fff",
+                                        bgcolor: "rgba(198, 40, 40, 0.12)" ,
+                                        color: "#b71c1c",
                                         letterSpacing: "0.16em",
+                                        border: "2px solid #b71c1c",
                                         fontWeight: 700,
 
                                         fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
@@ -416,7 +417,7 @@ export default function DeleteAccount() {
                                     onClick={() => navigate("/")}
                                     sx={{
                                         mb: { md: -0.8 },
-                                        mt: -0.2,
+                                        mt: 0.2,
                                         height: { xs: 39, md: 42 },
                                         borderRadius: 2,
                                         textTransform: "uppercase",

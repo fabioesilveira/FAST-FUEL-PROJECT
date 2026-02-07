@@ -712,7 +712,6 @@ export default function Beverages() {
     }
   }
 
-
   const imageStylesMobile: Record<string, React.CSSProperties> = {
     "5": { width: "140px", height: "145px", marginTop: "10px" },
     "6": { width: "140px", height: "145px", marginTop: "10px" },
@@ -740,7 +739,6 @@ export default function Beverages() {
     "10": { width: "150px", height: "220px", marginTop: "15px" }
   };
 
-
   const mobileTabletGrid = (
     <Box
       sx={{
@@ -757,6 +755,7 @@ export default function Beverages() {
         px: { xs: 1, sm: 2 },
         mx: "auto",
         mt: 4,
+        mb: 15,
       }}
     >
       {data.map((product) => (
@@ -785,10 +784,10 @@ export default function Beverages() {
         columnGap: 4,
         rowGap: 4,
         mt: 4,
+        mb: 50,
         px: 2,
         mx: "auto",
         maxWidth: 1120,
-        pb: 6,
       }}
     >
       {data.map((product, index) => (
@@ -812,21 +811,17 @@ export default function Beverages() {
 
 
       {!isMobile && <DrawerProducts />}
-      <Box sx={{ minHeight: "100svh" }}>
-        <h2 className='h2-products-background'>BEVERAGES</h2>
 
-        <Container
-          fixed
-          sx={{
-            pb: { xs: `calc(86px + env(safe-area-inset-bottom) + 16px)`, sm: 0 },
-          }}
-        >
-          {isDesktop ? desktopGridLandscape : mobileTabletGrid}
-        </Container>
+      <h2 className='h2-products-background'>BEVERAGES</h2>
+
+      <Container fixed>
+        {isDesktop ? desktopGridLandscape : mobileTabletGrid}
+      </Container>
+
+
+      <Box sx={{ position: "fixed", bottom: 0, left: 0, width: "100%", zIndex: 2000 }}>
+        {isMobile ? <NavFooterProducts /> : <Footer />}
       </Box>
-
-
-      {isMobile ? <NavFooterProducts /> : <Footer />}
     </>
   );
 }
