@@ -263,8 +263,8 @@ export default function SignUp() {
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -1.2, sm: -0.7, md: -0.5 },
-                                    mt: { xs: 1.0, sm: 1.5, md: 1.8 },
+                                    mb: { xs: -1.2, sm: -0.9, md: -0.9 },
+                                    mt: { xs: 1.0, sm: 1.5, md: 1.6 },
                                 }}
                             >
                                 Sign Up

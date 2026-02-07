@@ -87,17 +87,19 @@ function ProductCard({
         border: "2px solid #e65100",
         backgroundColor: "#fff3e0",
         boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
+
         p: useCompactMobile ? 1.5 : 2.5,
         display: "flex",
         flexDirection: "column",
         gap: useCompactMobile ? 1.2 : 1.8,
 
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
-
-        "@media (hover: hover) and (pointer: fine)": {
-          "&:hover": {
-            transform: "translateY(-5px)",
-            boxShadow: "0 12px 26px rgba(230, 81, 0, 0.38)",
+        "&:hover": {
+          "@media (hover: hover) and (pointer: fine)": {
+            "&:hover": {
+              transform: "translateY(-5px)",
+              boxShadow: "0 12px 26px rgba(230, 81, 0, 0.38)",
+            },
           },
         },
       }}
@@ -779,12 +781,11 @@ export default function Beverages() {
       sx={{
         display: "grid",
         gridTemplateColumns: "repeat(2, 560px)",
-        height: "630px",
         justifyContent: "center",
         columnGap: 4,
         rowGap: 4,
         mt: 4,
-        mb: 50,
+        mb: 12,
         px: 2,
         mx: "auto",
         maxWidth: 1120,
@@ -814,7 +815,7 @@ export default function Beverages() {
 
       <h2 className='h2-products-background'>BEVERAGES</h2>
 
-      <Container fixed>
+      <Container fixed sx={{ pb: { xs: 2, sm: 2 } }}>
         {isDesktop ? desktopGridLandscape : mobileTabletGrid}
       </Container>
 

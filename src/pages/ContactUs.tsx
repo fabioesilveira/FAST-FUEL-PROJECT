@@ -219,7 +219,7 @@ export default function ContactUs() {
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
                                     mb: { xs: -1.2, sm: -0.7, md: -0.2 },
-                                    mt: { xs: 1.0, sm: 1.5, md: 1.8 },
+                                    mt: { xs: 1.0, sm: 1.5, md: 1.6 },
                                 }}
                             >
                                 Contact Us

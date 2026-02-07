@@ -297,7 +297,6 @@ export default function DeleteAccount() {
                                             WebkitTextFillColor: "#000",
                                         },
                                     }}
-
                                 />
 
                                 <TextField

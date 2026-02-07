@@ -124,8 +124,11 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
 
   const isCategoriesMode = mode === "categories";
 
-  const iconColor = isCategoriesMode ? ORANGE : BLUE;     // ícones do menu
-  const switchColor = isCategoriesMode ? BLUE : ORANGE;   // ícone do switch
+  const iconColor = isCategoriesMode ? ORANGE : BLUE;    
+  const switchColor = isCategoriesMode ? BLUE : ORANGE;  
+  const chevronColor = switchColor; 
+  const textColor = isCategoriesMode ? BLUE : ORANGE; 
+
 
   const { showAlert, AlertUI } = useAppAlert({
     vertical: "top",
@@ -204,7 +207,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
       fontWeight: 600,
       fontSize: ".95rem",
       letterSpacing: ".06em",
-      color: BLUE,
+      color: textColor, 
       textTransform: "uppercase",
     },
   } as const;
@@ -244,10 +247,11 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
             }}
           >
             {open ? (
-              <ChevronLeftIcon sx={{ color: BLUE, fontSize: 26 }} />
+              <ChevronLeftIcon sx={{ color: chevronColor, fontSize: 26 }} />
             ) : (
-              <ChevronRightIcon sx={{ color: BLUE, fontSize: 26 }} />
+              <ChevronRightIcon sx={{ color: chevronColor, fontSize: 26 }} />
             )}
+
           </IconButton>
         </DrawerHeader>
 
@@ -290,7 +294,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                         }}
                       />
                     </ListItemIcon>
-                    <ListItemText primary={label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
+                   <ListItemText primary={label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
                   </ListItemButton>
                 </ListItem>
               ))}
@@ -340,7 +344,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                 <SwapHorizIcon
                   sx={{
                     fontSize: 37.5,
-                    color: switchColor,
+                    color: switchColor, 
                     transition: "transform .2s ease",
                     transform: open ? "scale(1.04)" : "scale(1)",
                   }}
@@ -355,7 +359,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                       fontWeight: 800,
                       fontSize: "1rem",
                       letterSpacing: ".08em",
-                      color: BLUE,
+                      color: textColor,
                       textTransform: "uppercase",
                     },
                   },
