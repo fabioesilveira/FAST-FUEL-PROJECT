@@ -644,20 +644,29 @@ export default function Home() {
 
     const ignoreSearchRef = useRef(false);
 
+    function scrollPageToTop() {
+
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+
+        const se = document.scrollingElement as HTMLElement | null;
+        if (se) se.scrollTo({ top: 0, left: 0, behavior: "auto" });
+
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+    }
+
     function enterFastThru() {
         ignoreSearchRef.current = true;
 
         setShowDriveThru(true);
         setSearch("");
 
-        window.scrollTo({ top: 0, behavior: "smooth" });
-
         requestAnimationFrame(() => {
+            scrollPageToTop();
             ignoreSearchRef.current = false;
         });
     }
 
-    // Save order to localStorage whenever it changes
     useEffect(() => {
         console.log("ORDER STATE:", order);
         localStorage.setItem("lsOrder", JSON.stringify(order));
