@@ -251,7 +251,7 @@ export default function SignIn() {
                                     overflowY: "auto",
                                     display: "flex",
                                     justifyContent: "center",
-                                    pr: 0.5,
+                                    px: 1,
                                     pt: { xs: 1, sm: 0 },
                                     pb: { xs: `calc(96px + env(safe-area-inset-bottom))`, sm: 4 },
                                 }}

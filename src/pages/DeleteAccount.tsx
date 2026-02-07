@@ -382,16 +382,15 @@ export default function DeleteAccount() {
                                 <Button
                                     fullWidth
                                     size="large"
-                                    variant="outlined"
+                                    variant="contained"
                                     onClick={handleRequestDelete}
                                     sx={{
                                         mt: 1,
                                         borderRadius: 2,
                                         textTransform: "uppercase",
-                                        bgcolor: "rgba(198, 40, 40, 0.12)" ,
-                                        color: "#b71c1c",
+                                        bgcolor: "#b71c1c",
+                                        color: "#fff",
                                         letterSpacing: "0.16em",
-                                        border: "2px solid #b71c1c",
                                         fontWeight: 700,
 
                                         fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
@@ -412,7 +411,7 @@ export default function DeleteAccount() {
                                 </Button>
 
                                 <Button
-                                    variant="outlined"
+                                    variant="contained"
                                     fullWidth
                                     onClick={() => navigate("/")}
                                     sx={{
@@ -421,18 +420,16 @@ export default function DeleteAccount() {
                                         height: { xs: 39, md: 42 },
                                         borderRadius: 2,
                                         textTransform: "uppercase",
-                                        border: "2px solid #0d47a1",
-                                        color: "#0d47a1",
+                                        color: "#fff",
                                         letterSpacing: "0.14em",
                                         fontWeight: 700,
-                                        bgcolor: "rgba(230, 81, 0, 0.14)",
+                                        bgcolor: "rgba(13, 71, 161, 0.75)", // azul com opacidade
 
                                         fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
 
+
                                         "&:hover": {
-                                            bgcolor: "rgba(230, 81, 0, 0.22)",
-                                            borderColor: "#0d47a1",
-                                            color: "#0d47a1",
+                                            bgcolor: "rgba(13, 71, 161, 0.92)", // um pouco mais escuro
                                         },
                                         "&:active": {
                                             bgcolor: "rgba(230, 81, 0, 0.28)",

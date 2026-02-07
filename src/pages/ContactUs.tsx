@@ -232,7 +232,7 @@ export default function ContactUs() {
                                     overflowY: "auto",
                                     display: "flex",
                                     justifyContent: "center",
-                                    pr: 0.5,
+                                    px: 1,
 
                                     pt: { xs: 0.9, sm: 0 },
 
@@ -322,6 +322,7 @@ export default function ContactUs() {
                                                 display: "block",
                                                 textAlign: "right",
                                                 mb: 0.5,
+                                                mt: -1,
                                                 color: "rgba(180, 63, 0, 1)",
                                                 fontSize: { xs: "0.70rem", sm: "0.74rem", md: "0.75rem" },
                                             }}
