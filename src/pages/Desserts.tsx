@@ -766,7 +766,6 @@ export default function Desserts() {
             sx={{
                 display: "grid",
                 gridTemplateColumns: "repeat(2, 560px)",
-                height: "630px",
                 justifyContent: "center",
                 columnGap: 4,
                 rowGap: 4,
@@ -802,7 +801,7 @@ export default function Desserts() {
 
             <h2 className='h2-products-background'>DESSERTS</h2>
 
-            <Container fixed>
+            <Container fixed sx={{ pb: { xs: 1, sm: 1.5 } }}>
                 {isDesktop ? desktopGridLandscape : mobileTabletGrid}
             </Container>
 

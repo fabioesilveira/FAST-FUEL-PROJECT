@@ -638,6 +638,41 @@ export default function Checkout() {
                         pt: { xs: "110px", md: "120px" },
                         pb: { xs: 1, md: 4 },
                         minWidth: 0,
+
+                        bgcolor: "#fff",
+
+                        "&::before": {
+                            content: '""',
+                            position: "absolute",
+                            top: 0,
+                            bottom: 0,
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            zIndex: 0,
+
+                            width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
+
+                            // listras sólidas no centro + fade (gradiente) nas bordas
+                            backgroundImage: `
+                                              linear-gradient(90deg,
+                                              rgba(255,255,255,1) 0%,
+                                              rgba(255,255,255,0.0) 14%,
+                                              rgba(255,255,255,0.0) 86%,
+                                              rgba(255,255,255,1) 100%
+                                              ),
+                                              repeating-linear-gradient(135deg,
+                                              rgba(13,71,161,0.06) 0px,
+                                              rgba(13,71,161,0.06) 10px,
+                                              rgba(230,81,0,0.045) 10px,
+                                              rgba(230,81,0,0.045) 20px
+                                              )
+                                              `,
+                            backgroundRepeat: "no-repeat, repeat",
+                            backgroundSize: "100% 100%, auto",
+                            borderRadius: 20,
+                        },
+
+                        "& > .MuiPaper-root": { position: "relative", zIndex: 1 },
                     }}
                 >
                     <Paper
@@ -998,7 +1033,7 @@ export default function Checkout() {
                                                     }}
 
                                                     onSelect={(addr) => {
-                                                        setStreetText(addr.street); 
+                                                        setStreetText(addr.street);
 
                                                         setAddress((prev) => ({
                                                             ...prev,

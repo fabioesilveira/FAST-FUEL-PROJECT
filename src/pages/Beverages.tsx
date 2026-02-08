@@ -815,7 +815,7 @@ export default function Beverages() {
 
       <h2 className='h2-products-background'>BEVERAGES</h2>
 
-      <Container fixed sx={{ pb: { xs: 2, sm: 2 } }}>
+      <Container fixed sx={{ pb: { xs: 1, sm: 1.5 } }}>
         {isDesktop ? desktopGridLandscape : mobileTabletGrid}
       </Container>
 
