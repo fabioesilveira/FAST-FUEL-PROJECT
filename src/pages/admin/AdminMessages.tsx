@@ -170,11 +170,13 @@ export default function AdminMessages() {
                             spacing={1.2}
                             alignItems={{ xs: "stretch", sm: "center" }}
                             justifyContent="space-between"
+                            sx={{ mt: { xs: -3.7, sm: 0 } }} 
                         >
                             <Chip
                                 label={activeKey === "answered" ? "Answered" : "Received"}
                                 size="small"
                                 sx={{
+                                    display: { xs: "none", sm: "inline-flex" },
                                     fontSize: "0.72rem",
                                     letterSpacing: "0.1em",
                                     textTransform: "uppercase",

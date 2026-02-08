@@ -307,11 +307,13 @@ export default function AdminOrders() {
                             spacing={1.2}
                             alignItems={{ xs: "stretch", sm: "center" }}
                             justifyContent="space-between"
+                            sx={{ mt: { xs: -3.7, sm: 0 } }}
                         >
                             <Chip
                                 label={activeKey.replace("_", " ").toUpperCase()}
                                 size="small"
                                 sx={{
+                                    display: { xs: "none", sm: "inline-flex" },
                                     fontSize: "0.72rem",
                                     letterSpacing: "0.1em",
                                     textTransform: "uppercase",
@@ -321,6 +323,7 @@ export default function AdminOrders() {
                                     alignSelf: { xs: "flex-start", sm: "center" },
                                 }}
                             />
+
 
                             <Stack direction={{ xs: "column", sm: "row" }} spacing={1.2}>
                                 <TextField
@@ -436,6 +439,11 @@ export default function AdminOrders() {
                                                                         textTransform: "uppercase",
                                                                         letterSpacing: "0.10em",
                                                                         "&:hover": { bgcolor: "#164a96" },
+
+                                                                        fontSize: { xs: "0.72rem", sm: "0.85rem" },
+                                                                        px: { xs: 1.3, sm: 2.2 },
+                                                                        py: { xs: 0.55, sm: 0.9 },
+                                                                        minHeight: { xs: 34, sm: 36 },
                                                                     }}
                                                                 >
                                                                     Accept
@@ -454,10 +462,16 @@ export default function AdminOrders() {
                                                                         textTransform: "uppercase",
                                                                         letterSpacing: "0.10em",
                                                                         "&:hover": { bgcolor: "#164a96" },
+
+                                                                        fontSize: { xs: "0.72rem", sm: "0.85rem" },
+                                                                        px: { xs: 1.3, sm: 2.2 },
+                                                                        py: { xs: 0.55, sm: 0.9 },
+                                                                        minHeight: { xs: 34, sm: 36 },
                                                                     }}
                                                                 >
                                                                     Mark sent
                                                                 </Button>
+
                                                             )}
                                                         </Stack>
                                                     </Stack>

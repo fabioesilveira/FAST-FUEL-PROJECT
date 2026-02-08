@@ -147,12 +147,12 @@ export default function SignIn() {
                                 width: 70,
                                 flexShrink: 0,
                                 backgroundImage: `repeating-linear-gradient(
-                to right,
-                rgba(255, 244, 225, 0.4),
-                rgba(255, 244, 225, 0.4) 20px,
-                transparent 20px,
-                transparent 40px
-              )`,
+                                                  to right,
+                                                  rgba(255, 244, 225, 0.4),
+                                                  rgba(255, 244, 225, 0.4) 20px,
+                                                  transparent 20px,
+                                                  transparent 40px
+                                                  )`,
                                 backgroundSize: "100% 40px",
                                 backgroundRepeat: "repeat-y",
                                 backgroundAttachment: { xs: "scroll", md: "fixed" },
