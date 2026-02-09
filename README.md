@@ -1,15 +1,49 @@
 # Fast Fuel 🍔
 
-Fast Fuel is a full-stack food ordering web application focused on performance, UI/UX, and real-world order workflows.
-Built with React, TypeScript, Node.js, and MySQL, it simulates a complete food ordering and admin management system.
+Fast Fuel is a **full-stack food ordering web application** focused on performance, UI/UX, and real-world order workflows.  
+It simulates a complete food ordering experience, from product browsing to checkout and admin order management.
+
+🔗 **Live Demo (Frontend):** https://fast-fuel-project-git-main-fabioesilveiras-projects.vercel.app/  
+📦 **Backend Repo:** https://github.com/fabioesilveira/Back-end-FAST-FUEL
+
+---
+
+## Table of Contents
+- Overview
+- Tech Stack
+- Features
+- Order Snapshot System
+- Authentication & Security
+- Architecture
+- UI/UX Focus
+- Getting Started
+- Environment Variables
+- API Overview
+- Project Status
+- License
+- Author
+
+---
+
+## Overview
+
+Fast Fuel was built as a **portfolio-grade project** to demonstrate:
+- Scalable frontend architecture
+- Clean backend design with MVC + service layers
+- Secure authentication and role-based access
+- Realistic e-commerce and order lifecycle logic
+- Strong attention to UI/UX and mobile-first behavior
+
+---
 
 ## Tech Stack
 
 ### Frontend
 - React
 - TypeScript
-- Material UI
+- Material UI (MUI)
 - React Router
+- Vite
 
 ### Backend
 - Node.js
@@ -19,8 +53,11 @@ Built with React, TypeScript, Node.js, and MySQL, it simulates a complete food o
 
 ### Other
 - JWT Authentication
-- bcrypt
+- bcrypt (password hashing)
 - REST API
+- LocalStorage persistence
+
+---
 
 ## Features
 
@@ -32,50 +69,96 @@ Built with React, TypeScript, Node.js, and MySQL, it simulates a complete food o
 - Order status tracking
 
 ### Checkout
-- Full order lifecycle: received → in progress → sent → completed
+- Full order lifecycle:  
+  **received → in progress → sent → completed**
 - Tax, delivery fee, discounts, and total calculation
 - Order confirmation with unique order code
 
 ### Admin Dashboard
+- Secure admin authentication
 - Order management by status
-- Update order lifecycle in real time
-- Contact messages management
-- Secure admin access
+- Real-time lifecycle updates
+- Contact message management
+
+---
 
 ## Order Snapshot System
 
-Orders store a snapshot of product data (name, price, category, image) at purchase time.
-This guarantees historical accuracy even if products are later updated or removed.
+Orders store a **snapshot of product data** at purchase time:
+- Product name
+- Price
+- Category
+- Image
+
+This guarantees **historical accuracy**, even if products are later edited or removed from the catalog.
+
+---
 
 ## Authentication & Security
-- Password hashing with bcrypt
-- Token-based authentication (JWT)
+- Password hashing with **bcrypt**
+- Token-based authentication using **JWT**
 - Protected admin routes
-- Role-based access control
+- Role-based access control (user / admin)
+
+---
 
 ## Architecture
 
-- Frontend: component-driven, mobile-first design
-- Backend: MVC pattern with service layers
+### Frontend
+- Component-driven structure
+- Mobile-first responsive design
+- Clear separation of UI, hooks, and services
+
+### Backend
+- MVC pattern
+- Service layer abstraction
 - Clear separation of concerns
-- Scalable and maintainable structure
+- Designed for scalability and maintainability
+
+---
 
 ## UI/UX Focus
-
-- Mobile-first responsive design
+- Mobile-first responsive layout
 - Consistent spacing and visual hierarchy
-- Smooth scroll and sticky interactions
+- Smooth animations and transitions
+- Sticky navigation and scroll behavior
 - Cross-browser tested (Chrome, Safari, Mobile)
+
+---
+
+## Getting Started (Frontend)
+
+### Prerequisites
+- Node.js v18+
+- npm or yarn
+
+### Installation
+```bash
+npm install
+```
+
+---
 
 ## Project Status
 
 This project is actively maintained and continuously improved as part of a professional portfolio.
 
+---
+
 ## License
 
-This project is licensed under the MIT License **for educational and portfolio purposes only**.
+All rights reserved.
 
-Commercial use, redistribution, or deployment for profit is **not permitted** without prior written consent from the author.
+This project is intended strictly for educational and portfolio demonstration purposes.
 
-© Fabio Silveira
+Commercial use, redistribution, or deployment for profit is not permitted without prior written consent from the author.
 
+---
+
+## Author
+
+**Fabio Silveira**  
+Full-Stack Developer with strong focus on Frontend UI/UX  
+
+© 2026 Fabio Silveira
+```

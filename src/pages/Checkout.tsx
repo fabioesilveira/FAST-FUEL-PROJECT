@@ -570,7 +570,7 @@ export default function Checkout() {
                         startIcon={<HomeIcon />}
                         onClick={() => navigate("/")}
                         sx={{
-                            height: { xs: 40, md: 45 },
+                            height: { xs: 35, md: 45 },
 
                             width: { xs: "100%", sm: 160 },
                             maxWidth: { xs: 320, sm: "none" },
