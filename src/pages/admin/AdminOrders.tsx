@@ -307,7 +307,7 @@ export default function AdminOrders() {
                             spacing={1.2}
                             alignItems={{ xs: "stretch", sm: "center" }}
                             justifyContent="space-between"
-                            sx={{ mt: { xs: -3.7, sm: 0 } }}
+                            sx={{ mt: { xs: -4, sm: 0 } }}
                         >
                             <Chip
                                 label={activeKey.replace("_", " ").toUpperCase()}

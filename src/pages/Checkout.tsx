@@ -367,7 +367,7 @@ export default function Checkout() {
                     px: { xs: 2.5, sm: 3 },
                     py: { xs: 3.5, sm: 6 },
 
-                    mt: { xs: 3, sm: 4, md: 5 },
+                    mt: { xs: 3, sm: 3, md: 3 },
 
                     maxWidth: 500,
                     mx: "auto",
@@ -453,7 +453,7 @@ export default function Checkout() {
 
                     px: { xs: 2.5, sm: 5 },
 
-                    pt: { xs: 3.5, sm: 7, md: 8 },
+                    pt: { xs: 3.5, sm: 6, md: 6 },
 
                     pb: { xs: 3.5, sm: 6 },
                     maxWidth: 500,

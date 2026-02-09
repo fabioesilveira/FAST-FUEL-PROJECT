@@ -401,7 +401,7 @@ export default function SignUp() {
                                         variant="outlined"
                                         type="submit"
                                         sx={{
-                                            mt: 0.5,
+                                            mt: 0.1,
                                             height: { xs: 40, md: 42 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
@@ -429,7 +429,7 @@ export default function SignUp() {
                                         fullWidth
                                         onClick={() => navigate("/")}
                                         sx={{
-                                            mt: -0.2,
+                                            mt: 0.1,
                                             height: { xs: 40, md: 42 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
