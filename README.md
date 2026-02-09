@@ -1,33 +1,81 @@
-# React + TypeScript + Vite
+# Fast Fuel 🍔
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Fast Fuel is a full-stack food ordering web application focused on performance, UI/UX, and real-world order workflows.
+Built with React, TypeScript, Node.js, and MySQL, it simulates a complete food ordering and admin management system.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Frontend
+- React
+- TypeScript
+- Material UI
+- React Router
 
-## Expanding the ESLint configuration
+### Backend
+- Node.js
+- Express
+- MySQL
+- MVC + Service Layer Architecture
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Other
+- JWT Authentication
+- bcrypt
+- REST API
 
-- Configure the top-level `parserOptions` property like this:
+## Features
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+### User
+- Category-based product browsing
+- Persistent shopping cart (localStorage)
+- Guest and authenticated checkout
+- Address auto-fill support
+- Order status tracking
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Checkout
+- Full order lifecycle: received → in progress → sent → completed
+- Tax, delivery fee, discounts, and total calculation
+- Order confirmation with unique order code
 
+### Admin Dashboard
+- Order management by status
+- Update order lifecycle in real time
+- Contact messages management
+- Secure admin access
 
-## Project in PROGRESS.  Arrumar input mobile search , botoes products arrumar cor .. tirar shadow dos botoes das paginas contacts , arrumar cards searched design. 
+## Order Snapshot System
+
+Orders store a snapshot of product data (name, price, category, image) at purchase time.
+This guarantees historical accuracy even if products are later updated or removed.
+
+## Authentication & Security
+- Password hashing with bcrypt
+- Token-based authentication (JWT)
+- Protected admin routes
+- Role-based access control
+
+## Architecture
+
+- Frontend: component-driven, mobile-first design
+- Backend: MVC pattern with service layers
+- Clear separation of concerns
+- Scalable and maintainable structure
+
+## UI/UX Focus
+
+- Mobile-first responsive design
+- Consistent spacing and visual hierarchy
+- Smooth scroll and sticky interactions
+- Cross-browser tested (Chrome, Safari, Mobile)
+
+## Project Status
+
+This project is actively maintained and continuously improved as part of a professional portfolio.
+
+## License
+
+This project is licensed under the MIT License **for educational and portfolio purposes only**.
+
+Commercial use, redistribution, or deployment for profit is **not permitted** without prior written consent from the author.
+
+© Fabio Silveira
+
