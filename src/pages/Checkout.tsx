@@ -385,7 +385,7 @@ export default function Checkout() {
                         fontWeight: 900,
                         textTransform: "uppercase",
                         letterSpacing: "0.14em",
-                        fontSize: "clamp(1.05rem, 3.6vw, 1.60rem)",
+                        fontSize: "clamp(1.10rem, 3.6vw, 1.60rem)",
                     }}
                 >
                     Processing your payment
@@ -394,6 +394,7 @@ export default function Checkout() {
                 <Typography
                     sx={{
                         maxWidth: 520,
+                        mt: { xs: 2, md: 1 },
                         color: "text.secondary",
                         fontSize: "clamp(0.88rem, 2.8vw, 0.95rem)",
                         lineHeight: 1.65,
@@ -473,7 +474,7 @@ export default function Checkout() {
                         textTransform: "uppercase",
                         letterSpacing: "0.14em",
 
-                        fontSize: "clamp(1.45rem, 4.8vw, 1.90rem)",
+                        fontSize: "clamp(1.48rem, 4.8vw, 1.90rem)",
 
                         textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
                     }}
@@ -594,7 +595,7 @@ export default function Checkout() {
                         startIcon={<HistoryIcon />}
                         onClick={() => navigate("/orders")}
                         sx={{
-                            height: { xs: 40, md: 45 },
+                            height: { xs: 35, md: 45 },
                             width: { xs: "100%", sm: 160 },
                             maxWidth: { xs: 320, sm: "none" },
 

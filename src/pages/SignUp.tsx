@@ -160,7 +160,9 @@ export default function SignUp() {
             {AlertUI}
 
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-                {/* BACKGROUND (mesmo padrão do ContactUs) */}
+
+
+                {/* BACKGROUND */}
                 <Box
                     sx={{
                         position: "relative",
@@ -168,55 +170,46 @@ export default function SignUp() {
                         width: "100%",
                         borderTop: "3px solid #e65100",
                         boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
+                        bgcolor: "#fff",
+
+                        "&::before": {
+                            content: '""',
+                            position: "absolute",
+                            top: 0,
+                            bottom: 0,
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            zIndex: 0,
+
+                            width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
+                            borderRadius: 20,
+                            pointerEvents: "none",
+
+                            backgroundImage: `
+                                               linear-gradient(90deg,
+                                               rgba(255,255,255,1) 0%,
+                                               rgba(255,244,225,0.0) 14%,
+                                               rgba(255,244,225,0.0) 86%,
+                                               rgba(255,255,255,1) 100%
+                                              ),
+                                               repeating-linear-gradient(135deg,
+                                               rgba(230,81,0,0.045) 0px,
+                                               rgba(230,81,0,0.045) 8px,
+                                               rgba(255,255,255,0.85) 8px,
+                                               rgba(255,255,255,0.85) 12px
+                                              )
+                                              `,
+                            backgroundRepeat: "no-repeat, repeat",
+                            backgroundSize: "100% 100%, auto",
+                        },
+
+                        "& > .MuiPaper-root": {
+                            position: "relative",
+                            zIndex: 1,
+                        },
                     }}
                 >
-                    <Box sx={{ display: "flex", height: "100%" }}>
-                        <Box
-                            sx={{
-                                width: 70,
-                                flexShrink: 0,
-                                backgroundImage: `repeating-linear-gradient(
-                to right,
-                rgba(255, 244, 225, 0.4),
-                rgba(255, 244, 225, 0.4) 20px,
-                transparent 20px,
-                transparent 40px
-              )`,
-                                backgroundSize: "100% 40px",
-                                backgroundRepeat: "repeat-y",
-                                backgroundAttachment: { xs: "scroll", md: "fixed" },
-                            }}
-                        />
-
-                        <Box
-                            sx={{
-                                flex: 3,
-                                backgroundImage: `
-                linear-gradient(
-                  to left,
-                  #fff4e1 0%,
-                  #fff4e1 25%,
-                  rgba(255, 244, 225, 0.7) 25%,
-                  rgba(255, 244, 225, 0.0) 45%
-                ),
-                repeating-linear-gradient(
-                  to right,
-                  rgba(255, 244, 225, 0.4),
-                  rgba(255, 244, 225, 0.4) 20px,
-                  transparent 20px,
-                  transparent 40px
-                )
-              `,
-                                backgroundSize: "100% 40px, 100% 40px",
-                                backgroundRepeat: "repeat-y, repeat-y",
-                                backgroundAttachment: { xs: "scroll", md: "fixed" }
-                            }}
-                        />
-
-                        <Box sx={{ flex: 1, background: "#fff4e1" }} />
-                    </Box>
-
-                    {/* MAIN (padrão igual ContactUs / TrackOrder) */}
+                    {/* Main */}
                     <Box
                         component="main"
                         sx={{
@@ -228,6 +221,7 @@ export default function SignUp() {
                             pt: { xs: "110px", md: "120px" },
                             pb: { xs: 1, md: 4 },
                             minHeight: 0,
+                            zIndex: 1,
                         }}
                     >
                         <Paper
@@ -263,7 +257,7 @@ export default function SignUp() {
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -1.2, sm: -0.9, md: -0.9 },
+                                    mb: { xs: -1.2, sm: -1, md: -1 },
                                     mt: { xs: 1.0, sm: 1.5, md: 1.6 },
                                 }}
                             >
@@ -429,7 +423,7 @@ export default function SignUp() {
                                         fullWidth
                                         onClick={() => navigate("/")}
                                         sx={{
-                                            mt: 0.1,
+                                            mt: -0.2,
                                             height: { xs: 40, md: 42 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",

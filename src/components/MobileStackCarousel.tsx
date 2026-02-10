@@ -120,6 +120,8 @@ export default function MobileCarouselSingle({
   const current = safeSlides[idx];
   const incoming = nextIdx != null ? safeSlides[nextIdx] : null;
 
+  const dotIdx = fading && nextIdx != null ? nextIdx : idx;
+
   const handleTouchStart = (e: React.TouchEvent) => {
     if (count < 2) return;
     startX.current = e.touches[0].clientX;
@@ -186,10 +188,10 @@ export default function MobileCarouselSingle({
             <Box
               key={s.id}
               sx={{
-                width: i === idx ? 18 : 8,
+                width: i === dotIdx ? 18 : 8,
                 height: 8,
                 borderRadius: 999,
-                bgcolor: i === idx ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.55)",
+                bgcolor: i === dotIdx ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.55)",
                 transition: "all 220ms ease",
               }}
             />
