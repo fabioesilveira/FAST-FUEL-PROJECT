@@ -5,6 +5,17 @@ import DialogActions from "@mui/material/DialogActions";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import Zoom from "@mui/material/Zoom";
+import Backdrop from "@mui/material/Backdrop";
+import type { TransitionProps } from "@mui/material/transitions";
+import React from "react";
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & { children: React.ReactElement<any, any> },
+  ref: React.Ref<unknown>
+) {
+  return <Zoom ref={ref} {...props} />;
+});
 
 type AppConfirmProps = {
   open: boolean;
@@ -43,6 +54,16 @@ export default function AppConfirm({
   return (
     <Dialog
       open={open}
+      TransitionComponent={Transition}
+      transitionDuration={{ enter: 160, exit: 120 }}
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 160,
+        sx: {
+          bgcolor: "rgba(0,0,0,0.35)",
+          transition: "opacity 160ms ease",
+        },
+      }}
       onClose={(_, reason) => {
         if (reason === "backdropClick" || reason === "escapeKeyDown") {
           onDismiss?.();
@@ -51,7 +72,7 @@ export default function AppConfirm({
       maxWidth="xs"
       fullWidth
       sx={{
-        zIndex: 9000, 
+        zIndex: 9000,
         "& .MuiBackdrop-root": { zIndex: 9000 },
         "& .MuiDialog-container": { zIndex: 9001 },
         "& .MuiPaper-root": { zIndex: 9002 },
@@ -64,9 +85,11 @@ export default function AppConfirm({
           backgroundColor: "#ffffff",
           pb: { xs: 2, md: 2 },
           pt: { xs: 1, md: 1 },
+          willChange: "transform, opacity",
         },
       }}
     >
+
       <DialogTitle
         sx={{
           fontWeight: 900,

@@ -155,19 +155,19 @@ export default function SignIn() {
                             pointerEvents: "none",
 
                             backgroundImage: `
-        linear-gradient(90deg,
-          rgba(255,255,255,1) 0%,
-          rgba(255,244,225,0.0) 14%,
-          rgba(255,244,225,0.0) 86%,
-          rgba(255,255,255,1) 100%
-        ),
-   repeating-linear-gradient(135deg,
-  rgba(230,81,0,0.045) 0px,
-  rgba(230,81,0,0.045) 8px,
-  rgba(255,255,255,0.85) 8px,
-  rgba(255,255,255,0.85) 12px
-)
-      `,
+                                               linear-gradient(90deg,
+                                               rgba(255,255,255,1) 0%,
+                                               rgba(255,244,225,0.0) 14%,
+                                               rgba(255,244,225,0.0) 86%,
+                                               rgba(255,255,255,1) 100%
+                                              ),
+                                               repeating-linear-gradient(135deg,
+                                               rgba(230,81,0,0.045) 0px,
+                                               rgba(230,81,0,0.045) 8px,
+                                               rgba(255,255,255,0.85) 8px,
+                                               rgba(255,255,255,0.85) 12px
+                                              )
+                                              `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -178,7 +178,6 @@ export default function SignIn() {
                         },
                     }}
                 >
-
                     {/* Main */}
                     <Box
                         component="main"
@@ -194,7 +193,6 @@ export default function SignIn() {
                             zIndex: 1,
                         }}
                     >
-
 
                         <Paper
                             elevation={0}

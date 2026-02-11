@@ -29,7 +29,7 @@ import type { SvgIconComponent } from "@mui/icons-material";
 const drawerWidth = 270;
 
 const BLUE = "#0d47a1";
-const ORANGE = "#fa6000ff";
+const ORANGE = "#e65100";
 const ORANGE_SOFT = "rgba(230,81,0,.18)";
 
 type DrawerItem = {

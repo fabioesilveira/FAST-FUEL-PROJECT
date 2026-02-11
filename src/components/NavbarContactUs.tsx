@@ -35,10 +35,10 @@ function NavbarContactUs() {
               left: 20,
               width: 40,
               height: 40,
-              bgcolor: "#0d47a1",
+              bgcolor: "#1e5bb8",
               color: "#ffffff",
               "&:hover": {
-                bgcolor: "#0b3c91",
+                bgcolor: "#0d47a1",
               },
               "&:active": {
                 transform: "scale(0.96)",

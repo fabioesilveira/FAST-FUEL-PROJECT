@@ -124,55 +124,48 @@ export default function ContactUs() {
                         position: "relative",
                         flexGrow: 1,
                         width: "100%",
+                        borderTop: "3px solid #e65100",
                         boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
+                        bgcolor: "#fff",
+
+                        "&::before": {
+                            content: '""',
+                            position: "absolute",
+                            top: 0,
+                            bottom: 0,
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            zIndex: 0,
+
+                            width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
+                            borderRadius: 20,
+                            pointerEvents: "none",
+
+                            backgroundImage: `
+                                               linear-gradient(90deg,
+                                               rgba(255,255,255,1) 0%,
+                                               rgba(255,244,225,0.0) 14%,
+                                               rgba(255,244,225,0.0) 86%,
+                                               rgba(255,255,255,1) 100%
+                                              ),
+                                               repeating-linear-gradient(135deg,
+                                               rgba(230,81,0,0.045) 0px,
+                                               rgba(230,81,0,0.045) 8px,
+                                               rgba(255,255,255,0.85) 8px,
+                                               rgba(255,255,255,0.85) 12px
+                                              )
+                                              `,
+                            backgroundRepeat: "no-repeat, repeat",
+                            backgroundSize: "100% 100%, auto",
+                        },
+
+                        "& > .MuiPaper-root": {
+                            position: "relative",
+                            zIndex: 1,
+                        },
                     }}
                 >
-                    {/* fundo */}
-                    <Box sx={{ display: "flex", height: "100%" }}>
-                        <Box
-                            sx={{
-                                width: 70,
-                                flexShrink: 0,
-                                backgroundImage: `repeating-linear-gradient(
-                to right,
-                rgba(255, 244, 225, 0.4),
-                rgba(255, 244, 225, 0.4) 20px,
-                transparent 20px,
-                transparent 40px
-              )`,
-                                backgroundSize: "100% 40px",
-                                backgroundRepeat: "repeat-y",
-                                backgroundAttachment: "fixed",
-                            }}
-                        />
-                        <Box
-                            sx={{
-                                flex: 3,
-                                backgroundImage: `
-                linear-gradient(
-                  to left,
-                  #fff4e1 0%,
-                  #fff4e1 25%,
-                  rgba(255, 244, 225, 0.7) 25%,
-                  rgba(255, 244, 225, 0.0) 45%
-                ),
-                repeating-linear-gradient(
-                  to right,
-                  rgba(255, 244, 225, 0.4),
-                  rgba(255, 244, 225, 0.4) 20px,
-                  transparent 20px,
-                  transparent 40px
-                )
-              `,
-                                backgroundSize: "100% 40px, 100% 40px",
-                                backgroundRepeat: "repeat-y, repeat-y",
-                                backgroundAttachment: "fixed",
-                            }}
-                        />
-                        <Box sx={{ flex: 1, background: "#fff4e1" }} />
-                    </Box>
-
-                    {/* MAIN */}
+                    {/* Main */}
                     <Box
                         component="main"
                         sx={{
@@ -184,6 +177,7 @@ export default function ContactUs() {
                             pt: { xs: "110px", md: "120px" },
                             pb: { xs: 1, md: 4 },
                             minHeight: 0,
+                            zIndex: 1,
                         }}
                     >
                         <Paper
