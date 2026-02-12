@@ -14,6 +14,8 @@ import NavFooterProducts from '../components/NavFooterProducts';
 import { DescriptionBox } from '../components/DescriptionBox';
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import PageBg from '../components/PageBg';
+import PageBgMobile from '../components/PageBgMobile';
 
 
 const getNameWithKcal = (name: string) => name.trim();
@@ -603,6 +605,7 @@ export default function Burguers() {
   const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const PageShell = isMobile ? PageBgMobile : PageBg;
 
   const isTabletOnly = useMediaQuery(theme.breakpoints.between("sm", "lg"));
 
@@ -761,11 +764,19 @@ export default function Burguers() {
 
       {!isMobile && <DrawerProducts />}
 
-      <h2 className='h2-products-background'>BURGERS</h2>
+      <PageShell
+        {...(isMobile
+          ? { gutter: 14, stripeWidth: 8, gapWidth: 14, stripeAlpha: 0.22 }
+          : { centerMaxWidth: 900, fadeWidth: 180 })}
+      >
 
-      <Container fixed sx={{ pb: { xs: 1, sm: 1.5 } }}>
-        {isDesktop ? desktopGridLandscape : mobileTabletGrid}
-      </Container>
+        <h2 className='h2-products-background'>BURGERS</h2>
+
+        <Container fixed sx={{ pb: { xs: 1, sm: 1.5 } }}>
+          {isDesktop ? desktopGridLandscape : mobileTabletGrid}
+        </Container>
+
+      </PageShell>
 
 
       <Box sx={{ position: "fixed", bottom: 0, left: 0, width: "100%", zIndex: 2000 }}>

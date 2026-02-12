@@ -163,6 +163,7 @@ export default function SignUp() {
 
 
                 {/* BACKGROUND */}
+
                 <Box
                     sx={{
                         position: "relative",
@@ -184,21 +185,21 @@ export default function SignUp() {
                             width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
                             borderRadius: 20,
                             pointerEvents: "none",
-
                             backgroundImage: `
-                                               linear-gradient(90deg,
-                                               rgba(255,255,255,1) 0%,
-                                               rgba(255,244,225,0.0) 14%,
-                                               rgba(255,244,225,0.0) 86%,
-                                               rgba(255,255,255,1) 100%
-                                              ),
-                                               repeating-linear-gradient(135deg,
-                                               rgba(230,81,0,0.045) 0px,
-                                               rgba(230,81,0,0.045) 8px,
-                                               rgba(255,255,255,0.85) 8px,
-                                               rgba(255,255,255,0.85) 12px
-                                              )
-                                              `,
+                                 linear-gradient(90deg,
+                                 rgba(255,255,255,1) 0%,
+                                 rgba(255,244,225,0.0) 14%,
+                                 rgba(255,244,225,0.0) 86%,
+                                 rgba(255,255,255,1) 100%
+                                 ),
+                                 repeating-linear-gradient(135deg,
+                                 rgba(230,81,0,0.028) 0px,
+                                 rgba(230,81,0,0.028) 12px,
+                                 rgba(255,255,255,0.75) 12px,
+                                 rgba(255,255,255,0.75) 20px
+                                 )
+                                 `,
+
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },

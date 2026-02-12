@@ -121,330 +121,297 @@ export default function DeleteAccount() {
                     handleDelete();
                 }}
             />
-
-            <Box
-                sx={{
-                    position: "relative",
-                    width: "100%",
-                    minHeight: "100dvh",
-                    display: "flex",
-                    flexDirection: "row",
-                    borderTop: "3px solid #e65100",
-                    boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
-                }}
-            >
-                {/* LEFT SIDE – solid stripe panel */}
+            {/* ✅ PAGE WRAPPER */}
+            <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
                 <Box
+                    component="main"
                     sx={{
-                        width: 70,
-                        flexShrink: 0,
-                        backgroundImage: `repeating-linear-gradient(
-              to right,
-              rgba(255, 244, 225, 0.4),
-              rgba(255, 244, 225, 0.4) 20px,
-              transparent 20px,
-              transparent 40px
-            )`,
-                        backgroundSize: "100% 40px",
-                        backgroundRepeat: "repeat-y",
-                        backgroundAttachment: "fixed",
-                    }}
-                />
-
-                {/* MIDDLE */}
-                <Box
-                    sx={{
-                        flex: 3,
-                        backgroundImage: `
-              linear-gradient(
-                to left,
-                #fff4e1 0%,
-                #fff4e1 25%,
-                rgba(255, 244, 225, 0.7) 25%,
-                rgba(255, 244, 225, 0.0) 45%
-              ),
-              repeating-linear-gradient(
-                to right,
-                rgba(255, 244, 225, 0.4),
-                rgba(255, 244, 225, 0.4) 20px,
-                transparent 20px,
-                transparent 40px
-              )
-            `,
-                        backgroundSize: "100% 40px, 100% 40px",
-                        backgroundRepeat: "repeat-y, repeat-y",
-                        backgroundAttachment: "fixed",
-                    }}
-                />
-
-                {/* RIGHT SIDE */}
-                <Box sx={{ flex: 1, background: "#fff4e1" }} />
-
-                {/* OVERLAY centralizado */}
-                <Box
-                    sx={{
-                        position: "absolute",
-                        inset: 0,
+                        position: "relative",
+                        flex: 1,
                         display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
+                        justifyContent: "center",      // ✅ centraliza na largura
+                        alignItems: "flex-start",       // ✅ joga pra cima
                         px: 2,
-                        pt: { xs: 9.2, md: 11.1 },
-                        pb: 10,
-                        boxSizing: "border-box",
-                        pointerEvents: "none",
+                        pt: "200px",
+                        pb: { xs: 2, md: 4 },
+                        bgcolor: "#fff",
+
+                        "&::before": {
+                            content: '""',
+                            position: "absolute",
+                            top: 0,
+                            bottom: 0,
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            zIndex: 0,
+                            width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
+                            borderRadius: 20,
+                            backgroundImage: `
+        linear-gradient(90deg,
+          rgba(255,255,255,1) 0%,
+          rgba(255,255,255,0.0) 14%,
+          rgba(255,255,255,0.0) 86%,
+          rgba(255,255,255,1) 100%
+        ),
+        repeating-linear-gradient(135deg,
+          rgba(183,28,28,0.028) 0px,
+          rgba(183,28,28,0.028) 10px,
+          rgba(255,235,238,0.04) 10px,
+          rgba(255,235,238,0.04) 20px
+        )
+      `,
+                            backgroundRepeat: "no-repeat, repeat",
+                            backgroundSize: "100% 100%, auto",
+                        },
+
+                        "& > .MuiPaper-root": { position: "relative", zIndex: 1 },
                     }}
                 >
-                    <Box
+                    <Paper
+                        elevation={0}
                         sx={{
                             width: "100%",
-                            maxWidth: { xs: 420, sm: 480, md: 520 },
-                            pointerEvents: "auto",
+                            p: { xs: 2.5, sm: 3, md: 3.5 },
+                            pb: { xs: 4.5, sm: 5, md: 7 },
+                            pt: { xs: 5, sm: 6, md: 7 },
+                            borderRadius: 3,
+                            maxWidth: 520,
+                            mx: "auto",
+                            border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                            bgcolor: "background.paper",
+                            boxShadow:
+                                "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
                         }}
                     >
-                        <Paper
-                            elevation={0}
+
+                        <Typography
+                            variant="h4"
+                            align="center"
                             sx={{
-                                width: "100%",
-                                p: { xs: 2.5, sm: 3, md: 3.5 },
-                                pb: { xs: 4.5, sm: 5, md: 7 },
-                                pt: { xs: 5, sm: 6, md: 7 },
-                                borderRadius: 3,
-                                border: "1.5px solid rgba(230, 81, 0, 0.35)",
-                                bgcolor: "background.paper",
-                                boxShadow:
-                                    "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
+                                mb: 2.5,
+
+                                fontSize: { xs: "1.99rem", sm: "2.15rem", md: "2.15rem" },
+                                letterSpacing: { xs: "0.10em", sm: "0.12em" },
+
+                                textTransform: "uppercase",
+                                color: "#b71c1c",
+                                fontWeight: 700,
+                                textShadow: "1px 1px 0 rgba(183, 28, 28, 0.25)",
+                                mt: { xs: 0.8, sm: 1, md: 0 },
                             }}
                         >
-                            <Typography
-                                variant="h4"
-                                align="center"
+                            Delete Account
+                        </Typography>
+
+                        <Typography
+                            align="center"
+                            sx={{
+                                mb: 2,
+                                fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
+                                color: "text.secondary",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            This action is permanent and cannot be undone.
+                        </Typography>
+
+                        <Box
+                            sx={{
+                                width: "100%",
+                                maxWidth: 360,
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 1.5,
+                                mb: 2,
+                            }}
+                        >
+                            <TextField
+                                size="small"
+                                label="Email Address*"
+                                fullWidth
+                                type="email"
+                                variant="outlined"
+                                // className="text-field-orange"
+                                name="email"
+                                value={deleteACC.email}
+                                onChange={handleChange}
+                                InputProps={{ readOnly: true }}
                                 sx={{
-                                    mb: 2.5,
+                                    "& .MuiInputLabel-root": {
+                                        color: "#000",
+                                    },
+                                    "& .MuiInputLabel-root.Mui-focused": {
+                                        color: "#000",
+                                    },
 
-                                    fontSize: { xs: "1.99rem", sm: "2.15rem", md: "2.15rem" },
-                                    letterSpacing: { xs: "0.10em", sm: "0.12em" },
+                                    "& .MuiOutlinedInput-root": {
+                                        "& fieldset": {
+                                            borderColor: "#000",
+                                        },
+                                        "&:hover fieldset": {
+                                            borderColor: "#000",
+                                        },
+                                        "&.Mui-focused fieldset": {
+                                            borderColor: "#000",
+                                            borderWidth: 1.5,
+                                        },
+                                    },
 
+                                    "& .MuiOutlinedInput-input": {
+                                        color: "#000",
+                                        WebkitTextFillColor: "#000",
+                                    },
+                                }}
+                            />
+
+                            <TextField
+                                size="small"
+                                label="Password*"
+                                fullWidth
+                                type="password"
+                                variant="outlined"
+                                className="text-field-orange"
+                                name="password"
+                                value={deleteACC.password}
+                                onChange={handleChange}
+                                sx={{
+                                    "& .MuiInputLabel-root": {
+                                        color: "#000",
+                                    },
+                                    "& .MuiInputLabel-root.Mui-focused": {
+                                        color: "#000",
+                                    },
+
+                                    "& .MuiOutlinedInput-root": {
+                                        "& fieldset": {
+                                            borderColor: "#000",
+                                        },
+                                        "&:hover fieldset": {
+                                            borderColor: "#000",
+                                        },
+                                        "&.Mui-focused fieldset": {
+                                            borderColor: "#000",
+                                            borderWidth: 1.5,
+                                        },
+                                    },
+
+                                    "& .MuiOutlinedInput-input": {
+                                        color: "#000",
+                                        WebkitTextFillColor: "#000",
+                                    },
+                                }}
+
+                            />
+
+                            <TextField
+                                size="small"
+                                label="Confirm Password*"
+                                fullWidth
+                                type="password"
+                                variant="outlined"
+                                className="text-field-orange"
+                                name="confirmPassword"
+                                value={deleteACC.confirmPassword}
+                                onChange={handleChange}
+                                sx={{
+                                    "& .MuiInputLabel-root": {
+                                        color: "#000",
+                                    },
+                                    "& .MuiInputLabel-root.Mui-focused": {
+                                        color: "#000",
+                                    },
+
+                                    "& .MuiOutlinedInput-root": {
+                                        "& fieldset": {
+                                            borderColor: "#000",
+                                        },
+                                        "&:hover fieldset": {
+                                            borderColor: "#000",
+                                        },
+                                        "&.Mui-focused fieldset": {
+                                            borderColor: "#000",
+                                            borderWidth: 1.5,
+                                        },
+                                    },
+
+                                    "& .MuiOutlinedInput-input": {
+                                        color: "#000",
+                                        WebkitTextFillColor: "#000",
+                                    },
+                                }}
+
+                            />
+
+                            {/* DELETE BUTTON */}
+                            <Button
+                                fullWidth
+                                size="large"
+                                variant="contained"
+                                onClick={handleRequestDelete}
+                                sx={{
+                                    mt: 1,
+                                    borderRadius: 2,
                                     textTransform: "uppercase",
-                                    color: "#b71c1c",
+                                    bgcolor: "#b71c1c",
+                                    color: "#fff",
+                                    letterSpacing: "0.16em",
                                     fontWeight: 700,
-                                    textShadow: "1px 1px 0 rgba(183, 28, 28, 0.25)",
-                                    mt: { xs: 0.8, sm: 1, md: 0 },
+
+                                    fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
+
+                                    "&:hover": {
+                                        bgcolor: "#ffebee",
+                                        color: "#b71c1c",
+                                    },
+                                    "&:active": {
+                                        bgcolor: "#ffebee",
+                                        color: "#b71c1c",
+                                        transform: "scale(0.98)",
+                                        boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
+                                    },
                                 }}
                             >
                                 Delete Account
-                            </Typography>
+                            </Button>
 
-                            <Typography
-                                align="center"
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                onClick={() => navigate("/")}
                                 sx={{
-                                    mb: 2,
-                                    fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
-                                    color: "text.secondary",
-                                    fontWeight: "bold",
+                                    mb: { md: -0.8 },
+                                    mt: 0.2,
+                                    height: { xs: 39, md: 42 },
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    color: "#fff",
+                                    letterSpacing: "0.14em",
+                                    fontWeight: 700,
+                                    bgcolor: "rgba(13, 71, 161, 0.75)", // azul com opacidade
+
+                                    fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
+
+
+                                    "&:hover": {
+                                        bgcolor: "rgba(13, 71, 161, 0.92)", // um pouco mais escuro
+                                    },
+                                    "&:active": {
+                                        bgcolor: "rgba(230, 81, 0, 0.28)",
+                                        transform: "translateY(1px)",
+                                    },
                                 }}
                             >
-                                This action is permanent and cannot be undone.
-                            </Typography>
-
-                            <Box
-                                sx={{
-                                    width: "100%",
-                                    maxWidth: 360,
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    gap: 1.5,
-                                    mb: 2,
-                                }}
-                            >
-                                <TextField
-                                    size="small"
-                                    label="Email Address*"
-                                    fullWidth
-                                    type="email"
-                                    variant="outlined"
-                                    // className="text-field-orange"
-                                    name="email"
-                                    value={deleteACC.email}
-                                    onChange={handleChange}
-                                    InputProps={{ readOnly: true }}
-                                    sx={{
-                                        "& .MuiInputLabel-root": {
-                                            color: "#000",
-                                        },
-                                        "& .MuiInputLabel-root.Mui-focused": {
-                                            color: "#000",
-                                        },
-
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": {
-                                                borderColor: "#000",
-                                            },
-                                            "&:hover fieldset": {
-                                                borderColor: "#000",
-                                            },
-                                            "&.Mui-focused fieldset": {
-                                                borderColor: "#000",
-                                                borderWidth: 1.5,
-                                            },
-                                        },
-
-                                        "& .MuiOutlinedInput-input": {
-                                            color: "#000",
-                                            WebkitTextFillColor: "#000",
-                                        },
-                                    }}
-                                />
-
-                                <TextField
-                                    size="small"
-                                    label="Password*"
-                                    fullWidth
-                                    type="password"
-                                    variant="outlined"
-                                    className="text-field-orange"
-                                    name="password"
-                                    value={deleteACC.password}
-                                    onChange={handleChange}
-                                    sx={{
-                                        "& .MuiInputLabel-root": {
-                                            color: "#000",
-                                        },
-                                        "& .MuiInputLabel-root.Mui-focused": {
-                                            color: "#000",
-                                        },
-
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": {
-                                                borderColor: "#000",
-                                            },
-                                            "&:hover fieldset": {
-                                                borderColor: "#000",
-                                            },
-                                            "&.Mui-focused fieldset": {
-                                                borderColor: "#000",
-                                                borderWidth: 1.5,
-                                            },
-                                        },
-
-                                        "& .MuiOutlinedInput-input": {
-                                            color: "#000",
-                                            WebkitTextFillColor: "#000",
-                                        },
-                                    }}
-
-                                />
-
-                                <TextField
-                                    size="small"
-                                    label="Confirm Password*"
-                                    fullWidth
-                                    type="password"
-                                    variant="outlined"
-                                    className="text-field-orange"
-                                    name="confirmPassword"
-                                    value={deleteACC.confirmPassword}
-                                    onChange={handleChange}
-                                    sx={{
-                                        "& .MuiInputLabel-root": {
-                                            color: "#000",
-                                        },
-                                        "& .MuiInputLabel-root.Mui-focused": {
-                                            color: "#000",
-                                        },
-
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": {
-                                                borderColor: "#000",
-                                            },
-                                            "&:hover fieldset": {
-                                                borderColor: "#000",
-                                            },
-                                            "&.Mui-focused fieldset": {
-                                                borderColor: "#000",
-                                                borderWidth: 1.5,
-                                            },
-                                        },
-
-                                        "& .MuiOutlinedInput-input": {
-                                            color: "#000",
-                                            WebkitTextFillColor: "#000",
-                                        },
-                                    }}
-
-                                />
-
-                                {/* DELETE BUTTON */}
-                                <Button
-                                    fullWidth
-                                    size="large"
-                                    variant="contained"
-                                    onClick={handleRequestDelete}
-                                    sx={{
-                                        mt: 1,
-                                        borderRadius: 2,
-                                        textTransform: "uppercase",
-                                        bgcolor: "#b71c1c",
-                                        color: "#fff",
-                                        letterSpacing: "0.16em",
-                                        fontWeight: 700,
-
-                                        fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
-
-                                        "&:hover": {
-                                            bgcolor: "#ffebee",
-                                            color: "#b71c1c",
-                                        },
-                                        "&:active": {
-                                            bgcolor: "#ffebee",
-                                            color: "#b71c1c",
-                                            transform: "scale(0.98)",
-                                            boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                                        },
-                                    }}
-                                >
-                                    Delete Account
-                                </Button>
-
-                                <Button
-                                    variant="contained"
-                                    fullWidth
-                                    onClick={() => navigate("/")}
-                                    sx={{
-                                        mb: { md: -0.8 },
-                                        mt: 0.2,
-                                        height: { xs: 39, md: 42 },
-                                        borderRadius: 2,
-                                        textTransform: "uppercase",
-                                        color: "#fff",
-                                        letterSpacing: "0.14em",
-                                        fontWeight: 700,
-                                        bgcolor: "rgba(13, 71, 161, 0.75)", // azul com opacidade
-
-                                        fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
-
-
-                                        "&:hover": {
-                                            bgcolor: "rgba(13, 71, 161, 0.92)", // um pouco mais escuro
-                                        },
-                                        "&:active": {
-                                            bgcolor: "rgba(230, 81, 0, 0.28)",
-                                            transform: "translateY(1px)",
-                                        },
-                                    }}
-                                >
-                                    Cancel
-                                </Button>
-                            </Box>
-                        </Paper>
-                    </Box>
+                                Cancel
+                            </Button>
+                        </Box>
+                    </Paper>
                 </Box>
-            </Box>
 
-            <Footer />
+                <Footer />
+            </Box>
         </>
     );
 }
