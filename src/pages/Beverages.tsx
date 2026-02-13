@@ -21,6 +21,8 @@ import DrPepperImg from "../assets/Drpepper.png";
 import FantaImg from "../assets/Fanta.png";
 import DietCokeImg from "../assets/Dietcoke.png";
 import LemonadeImg from "../assets/Lemonade.png";
+import PageBgMobile from '../components/PageBgMobile';
+import PageBg from '../components/PageBg';
 
 const imageMap: Record<string, string> = {
   "Coke.png": CokeImg,
@@ -645,6 +647,8 @@ export default function Beverages() {
   const isDesktop = useMediaQuery(theme.breakpoints.up("lg")); // md+ = desktop
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const PageShell = isMobile ? PageBgMobile : PageBg;
+
 
   const isTabletOnly = useMediaQuery(theme.breakpoints.between("sm", "lg"));
 
@@ -813,12 +817,31 @@ export default function Beverages() {
 
       {!isMobile && <DrawerProducts />}
 
-      <h2 className='h2-products-background'>BEVERAGES</h2>
+      <PageShell
+        stripeCenterWidth={800}
+        stripeWidth={10}
+        gapWidth={18}
+        stripeAlpha={0.14}
+        centerBgAlpha={0.92}
+      >
+        <Box
+          sx={{
+            minHeight: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            backgroundColor: "transparent",
+            pt: { xs: "92px", md: 0 },
+            pb: { xs: `calc(86px + env(safe-area-inset-bottom))`, md: 0 },
+          }}
+        >
 
-      <Container fixed sx={{ pb: { xs: 1, sm: 1.5 } }}>
-        {isDesktop ? desktopGridLandscape : mobileTabletGrid}
-      </Container>
+          <h2 className='h2-products-background'>BEVERAGES</h2>
 
+          <Container fixed sx={{ pb: { xs: 1, sm: 1.5 } }}>
+            {isDesktop ? desktopGridLandscape : mobileTabletGrid}
+          </Container>
+        </Box>
+      </PageShell>
 
       <Box sx={{ position: "fixed", bottom: 0, left: 0, width: "100%", zIndex: 2000 }}>
         {isMobile ? <NavFooterProducts /> : <Footer />}

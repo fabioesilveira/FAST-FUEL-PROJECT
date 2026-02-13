@@ -765,17 +765,28 @@ export default function Burguers() {
       {!isMobile && <DrawerProducts />}
 
       <PageShell
-        {...(isMobile
-          ? { gutter: 14, stripeWidth: 8, gapWidth: 14, stripeAlpha: 0.22 }
-          : { centerMaxWidth: 900, fadeWidth: 180 })}
+        stripeCenterWidth={800}
+        stripeWidth={10}
+        gapWidth={18}
+        stripeAlpha={0.14}
+        centerBgAlpha={0.92}
       >
+        <Box
+          sx={{
+            minHeight: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            backgroundColor: "transparent",
+            pt: { xs: "92px", md: 0 },
+            pb: { xs: `calc(86px + env(safe-area-inset-bottom))`, md: 0 },
+          }}
+        >
+          <h2 className='h2-products-background'>BURGERS</h2>
 
-        <h2 className='h2-products-background'>BURGERS</h2>
-
-        <Container fixed sx={{ pb: { xs: 1, sm: 1.5 } }}>
-          {isDesktop ? desktopGridLandscape : mobileTabletGrid}
-        </Container>
-
+          <Container fixed sx={{ pb: { xs: 1, sm: 1.5 } }}>
+            {isDesktop ? desktopGridLandscape : mobileTabletGrid}
+          </Container>
+        </Box>
       </PageShell>
 
 

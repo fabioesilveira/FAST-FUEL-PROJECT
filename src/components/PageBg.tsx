@@ -1,90 +1,68 @@
-import React from "react";
+import * as React from "react";
 import Box from "@mui/material/Box";
 
 type PageBgProps = {
     children: React.ReactNode;
-    centerMaxWidth?: number;
-    fadeWidth?: number;
+    stripeCenterWidth?: number;
+    stripeWidth?: number;
+    gapWidth?: number;
+    stripeAlpha?: number;
+    centerBgAlpha?: number;
 };
 
 export default function PageBg({
     children,
-    centerMaxWidth = 1000,
-    fadeWidth = 180,
+    stripeCenterWidth = 1150,
+    stripeWidth = 10,
+    gapWidth = 18,
+    stripeAlpha = 0.12,
+    centerBgAlpha = 1,
 }: PageBgProps) {
-    const half = centerMaxWidth / 2;
+    const period = stripeWidth + gapWidth;
 
     return (
         <Box
             sx={{
-                minHeight: "100dvh",
                 position: "relative",
-                bgcolor: "#ffffff",
-                overflowX: "hidden",
-            }}
-        >
-            <Box
-                aria-hidden
-                sx={{
-                    position: "absolute",
+                minHeight: "100vh",
+
+                "&::before": {
+                    content: '""',
+                    position: "fixed",
                     inset: 0,
                     zIndex: 0,
                     pointerEvents: "none",
-                    backgroundImage: `
-            repeating-linear-gradient(
-              to right,
-              rgba(255, 244, 225, 0.30) 0px,
-              rgba(255, 244, 225, 0.30) 22px,
-              rgba(255, 255, 255, 1) 22px,
-              rgba(255, 255, 255, 1) 44px
-            )
-          `,
-                    WebkitMaskImage: `linear-gradient(
-            90deg,
-            rgba(0,0,0,1) 0%,
-            rgba(0,0,0,1) calc(50% - ${half + fadeWidth}px),
-            rgba(0,0,0,0) calc(50% - ${half}px),
-            rgba(0,0,0,0) calc(50% + ${half}px),
-            rgba(0,0,0,1) calc(50% + ${half + fadeWidth}px),
-            rgba(0,0,0,1) 100%
-          )`,
-                    maskImage: `linear-gradient(
-            90deg,
-            rgba(0,0,0,1) 0%,
-            rgba(0,0,0,1) calc(50% - ${half + fadeWidth}px),
-            rgba(0,0,0,0) calc(50% - ${half}px),
-            rgba(0,0,0,0) calc(50% + ${half}px),
-            rgba(0,0,0,1) calc(50% + ${half + fadeWidth}px),
-            rgba(0,0,0,1) 100%
-          )`,
-                }}
-            />
+                    backgroundImage: `repeating-linear-gradient(90deg,
+                 rgba(255, 244, 225, ${stripeAlpha}) 0px,
+                 rgba(255, 244, 225, ${stripeAlpha}) ${stripeWidth}px,
+                 rgba(255, 255, 255, 1) ${stripeWidth}px,
+                 rgba(255, 255, 255, 1) ${period}px
+                )`,
+                    backgroundRepeat: "repeat",
+                },
 
-            {/* content */}
-            <Box
-                sx={{
-                    position: "relative",
+                "&::after": {
+                    content: '""',
+                    position: "fixed",
+                    top: 0,
+                    bottom: 0,
+
+                    left: 0,
+                    right: 0,
+                    marginLeft: "auto",
+                    marginRight: "auto",
+
+                    width: "100vw",
+                    maxWidth: `${stripeCenterWidth}px`,
+
                     zIndex: 1,
-                    minHeight: "100dvh",
-                    display: "flex",
-                    justifyContent: "center",
-                }}
-            >
-                <Box
-                    sx={{
-                        width: "100%",
-                        maxWidth: centerMaxWidth,
-                        minHeight: "100dvh",
-                        bgcolor: "#ffffff",
-                        boxShadow: `
-              -40px 0 90px rgba(255,255,255,0.98),
-               40px 0 90px rgba(255,255,255,0.98)
-            `,
-                    }}
-                >
-                    {children}
-                </Box>
-            </Box>
+                    pointerEvents: "none",
+                    backgroundColor:
+                        centerBgAlpha >= 1 ? "#fff" : `rgba(255,255,255,${centerBgAlpha})`,
+                },
+            }}
+        >
+            <Box sx={{ position: "relative", zIndex: 2 }}>{children}</Box>
         </Box>
     );
 }
