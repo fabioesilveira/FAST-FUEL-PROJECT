@@ -134,31 +134,6 @@ body {
   border-color: #bf360c;
 }
 
-/* Outline on focus */
-.text-field-orange .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: rgba(230, 81, 0, 1);
-}
-
-/* Background */
-.text-field-orange .MuiInputBase-root {
-  background-color: #ffffff;
-}
-
-
-
-/* remove equal flex (optional, for clarity) */
-.half {
-  flex: 0 0 auto;
-}
-
-/* left side is 40% of the total width */
-.solid-half {
-  flex: 4;
-  background-color: #fff4e1;
-
-}
-
-
 
 /* Tablet */
 @media (max-width: 900px) {
@@ -411,6 +386,6 @@ body {
 @media (max-width: 600px) {
   .h2-products-background {
     margin-top: 120px;
-    margin-bottom: 35px;
+    margin-bottom: 15px;
   }
 }

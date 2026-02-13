@@ -805,8 +805,8 @@ export default function Sides() {
             display: "flex",
             flexDirection: "column",
             backgroundColor: "transparent",
-            pt: { xs: "92px", md: 0 },
-            pb: { xs: `calc(86px + env(safe-area-inset-bottom))`, md: 0 },
+            pt: 0,
+            pb: 0,
           }}
         >
 
