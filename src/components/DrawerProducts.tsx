@@ -28,8 +28,9 @@ import type { SvgIconComponent } from "@mui/icons-material";
 
 const drawerWidth = 270;
 
-const BLUE = "#0d47a1";
 const ORANGE = "#e65100";
+const ORANGE_UI = "#fa6000ff";
+const BLUE = "#0d47a1";
 const ORANGE_SOFT = "rgba(230,81,0,.18)";
 
 type DrawerItem = {
@@ -124,11 +125,11 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
 
   const isCategoriesMode = mode === "categories";
 
-  const iconColor = isCategoriesMode ? ORANGE : BLUE;
-  const switchColor = isCategoriesMode ? BLUE : ORANGE;
-  const chevronColor = switchColor;
-  const textColor = isCategoriesMode ? BLUE : ORANGE;
-
+  const categoryMuiIconColor = ORANGE_UI;
+  const accountIconColor = BLUE;
+  const switchColor = isCategoriesMode ? BLUE : ORANGE_UI;
+  const chevronColor = isCategoriesMode ? BLUE : ORANGE_UI;
+  const itemAccentColor = isCategoriesMode ? BLUE : ORANGE;
 
   const { showAlert, AlertUI } = useAppAlert({
     vertical: "top",
@@ -207,7 +208,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
       fontWeight: 600,
       fontSize: ".95rem",
       letterSpacing: ".06em",
-      color: textColor,
+      color: itemAccentColor,
       textTransform: "uppercase",
     },
   } as const;
@@ -268,7 +269,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                     sx={[buttonSx, open ? { justifyContent: "initial" } : { justifyContent: "center" }]}
                   >
                     <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
-                      <CategoryIcon item={cat} color={iconColor} />
+                      <CategoryIcon item={cat} color={categoryMuiIconColor} />
                     </ListItemIcon>
                     <ListItemText primary={cat.label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
                   </ListItemButton>
@@ -288,7 +289,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                       <IconComp
                         sx={{
                           fontSize: 30.5,
-                          color: iconColor,
+                          color: accountIconColor,
                           transition: "transform .2s ease",
                           transform: open ? "scale(1.04)" : "scale(1)",
                         }}
@@ -380,7 +381,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                     sx={[buttonSx, open ? { justifyContent: "initial" } : { justifyContent: "center" }]}
                   >
                     <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
-                      <CategoryIcon item={cat} color={iconColor} />
+                      <CategoryIcon item={cat} color={categoryMuiIconColor} />
                     </ListItemIcon>
                     <ListItemText primary={cat.label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
                   </ListItemButton>
@@ -399,7 +400,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                       <IconComp
                         sx={{
                           fontSize: 29.5,
-                          color: iconColor,
+                          color: accountIconColor,
                           transition: "transform .2s ease",
                           transform: open ? "scale(1.04)" : "scale(1)",
                         }}
