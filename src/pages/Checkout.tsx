@@ -655,19 +655,19 @@ export default function Checkout() {
 
                             // listras sólidas no centro + fade (gradiente) nas bordas
                             backgroundImage: `
-                                              linear-gradient(90deg,
-                                              rgba(255,255,255,1) 0%,
-                                              rgba(255,255,255,0.0) 14%,
-                                              rgba(255,255,255,0.0) 86%,
-                                              rgba(255,255,255,1) 100%
-                                              ),
-                                              repeating-linear-gradient(135deg,
-                                              rgba(13,71,161,0.06) 0px,
-                                              rgba(13,71,161,0.06) 10px,
-                                              rgba(230,81,0,0.045) 10px,
-                                              rgba(230,81,0,0.045) 20px
-                                              )
-                                              `,
+                                linear-gradient(90deg,
+                                    rgba(255,255,255,1) 0%,
+                                    rgba(255,255,255,0.0) 14%,
+                                    rgba(255,255,255,0.0) 86%,
+                                    rgba(255,255,255,1) 100%
+                                ),
+                                repeating-linear-gradient(135deg,
+                                    rgba(13,71,161,0.038) 0px,
+                                    rgba(13,71,161,0.038) 10px,
+                                    rgba(230,81,0,0.028) 10px,
+                                    rgba(230,81,0,0.028) 20px
+                                )
+                                `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                             borderRadius: 20,

@@ -774,7 +774,7 @@ export default function Desserts() {
                 columnGap: 4,
                 rowGap: 4,
                 mt: 4,
-                mb: 12,
+                mb: 10,
                 px: 2,
                 mx: "auto",
                 maxWidth: 1120,

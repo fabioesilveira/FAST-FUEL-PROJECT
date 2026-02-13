@@ -121,7 +121,6 @@ export default function DeleteAccount() {
                     handleDelete();
                 }}
             />
-            {/* ✅ PAGE WRAPPER */}
             <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
                 <Box
                     component="main"
@@ -129,8 +128,8 @@ export default function DeleteAccount() {
                         position: "relative",
                         flex: 1,
                         display: "flex",
-                        justifyContent: "center",      // ✅ centraliza na largura
-                        alignItems: "flex-start",       // ✅ joga pra cima
+                        justifyContent: "center",
+                        alignItems: "flex-start",
                         px: 2,
                         pt: "200px",
                         pb: { xs: 2, md: 4 },
@@ -147,19 +146,19 @@ export default function DeleteAccount() {
                             width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
                             borderRadius: 20,
                             backgroundImage: `
-        linear-gradient(90deg,
-          rgba(255,255,255,1) 0%,
-          rgba(255,255,255,0.0) 14%,
-          rgba(255,255,255,0.0) 86%,
-          rgba(255,255,255,1) 100%
-        ),
-        repeating-linear-gradient(135deg,
-          rgba(183,28,28,0.028) 0px,
-          rgba(183,28,28,0.028) 10px,
-          rgba(255,235,238,0.04) 10px,
-          rgba(255,235,238,0.04) 20px
-        )
-      `,
+                                linear-gradient(90deg,
+                                rgba(255,255,255,1) 0%,
+                                rgba(255,255,255,0.0) 14%,
+                                rgba(255,255,255,0.0) 86%,
+                                rgba(255,255,255,1) 100%
+                                ),
+                                repeating-linear-gradient(135deg,
+                                rgba(183,28,28,0.028) 0px,
+                                rgba(183,28,28,0.028) 10px,
+                                rgba(255,235,238,0.04) 10px,
+                                rgba(255,235,238,0.04) 20px
+                                )
+                            `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -173,7 +172,7 @@ export default function DeleteAccount() {
                             width: "100%",
                             p: { xs: 2.5, sm: 3, md: 3.5 },
                             pb: { xs: 4.5, sm: 5, md: 7 },
-                            pt: { xs: 5, sm: 6, md: 7 },
+                            pt: { xs: 4, sm: 5, md: 6 },
                             borderRadius: 3,
                             maxWidth: 520,
                             mx: "auto",
@@ -193,7 +192,7 @@ export default function DeleteAccount() {
                             sx={{
                                 mb: 2.5,
 
-                                fontSize: { xs: "1.99rem", sm: "2.15rem", md: "2.15rem" },
+                                fontSize: { xs: "2.10rem", sm: "2.15rem", md: "2.15rem" },
                                 letterSpacing: { xs: "0.10em", sm: "0.12em" },
 
                                 textTransform: "uppercase",
@@ -234,7 +233,6 @@ export default function DeleteAccount() {
                                 fullWidth
                                 type="email"
                                 variant="outlined"
-                                // className="text-field-orange"
                                 name="email"
                                 value={deleteACC.email}
                                 onChange={handleChange}
@@ -390,13 +388,13 @@ export default function DeleteAccount() {
                                     color: "#fff",
                                     letterSpacing: "0.14em",
                                     fontWeight: 700,
-                                    bgcolor: "rgba(13, 71, 161, 0.75)", // azul com opacidade
+                                    bgcolor: "rgba(13, 71, 161, 0.75)",
 
                                     fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
 
 
                                     "&:hover": {
-                                        bgcolor: "rgba(13, 71, 161, 0.92)", // um pouco mais escuro
+                                        bgcolor: "rgba(13, 71, 161, 0.92)",
                                     },
                                     "&:active": {
                                         bgcolor: "rgba(230, 81, 0, 0.28)",

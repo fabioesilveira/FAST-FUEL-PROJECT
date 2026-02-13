@@ -154,20 +154,19 @@ export default function SignIn() {
                             borderRadius: 20,
                             pointerEvents: "none",
                             backgroundImage: `
-                                 linear-gradient(90deg,
-                                 rgba(255,255,255,1) 0%,
-                                 rgba(255,244,225,0.0) 14%,
-                                 rgba(255,244,225,0.0) 86%,
-                                 rgba(255,255,255,1) 100%
-                                 ),
-                                 repeating-linear-gradient(135deg,
-                                 rgba(230,81,0,0.028) 0px,
-                                 rgba(230,81,0,0.028) 12px,
-                                 rgba(255,255,255,0.75) 12px,
-                                 rgba(255,255,255,0.75) 20px
-                                 )
-                                 `,
-
+                                linear-gradient(90deg,
+                                    rgba(255,255,255,1) 0%,
+                                    rgba(255,244,225,0.0) 14%,
+                                    rgba(255,244,225,0.0) 86%,
+                                    rgba(255,255,255,1) 100%
+                                ),
+                                repeating-linear-gradient(135deg,
+                                    rgba(230,81,0,0.018) 0px,
+                                    rgba(230,81,0,0.018) 12px,
+                                    rgba(255,255,255,0.85) 12px,
+                                    rgba(255,255,255,0.85) 20px
+                                )
+                                `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -227,7 +226,7 @@ export default function SignIn() {
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -1.2, sm: -1, md: -1 },
+                                    mb: { xs: -1.6, sm: -1, md: -1 },
                                     mt: { xs: 1.0, sm: 1.5, md: 1.6 },
                                 }}
                             >
