@@ -854,6 +854,26 @@ export default function Home() {
         </Carousel.Item>,
     ];
 
+    const fastThruOrder: Record<string, number> = {
+        sandwiches: 1,
+        sides: 2,
+        beverages: 3,
+        desserts: 4,
+    };
+
+    const fastThruData = React.useMemo(() => {
+        return [...data].sort((a, b) => {
+            const ao = fastThruOrder[(a.category || "").toLowerCase()] ?? 999;
+            const bo = fastThruOrder[(b.category || "").toLowerCase()] ?? 999;
+
+            if (ao !== bo) return ao - bo;
+
+            // desempate: por id dentro da categoria
+            return Number(a.id) - Number(b.id);
+        });
+    }, [data]);
+
+
     return (
         <>
             {AlertUI}
@@ -1607,7 +1627,7 @@ export default function Home() {
                                         },
                                     }}
                                 >
-                                    {data.map((product) => {
+                                    {fastThruData.map((product) => {
                                         const pid = String(product.id);
                                         return (
                                             <MiniCard
@@ -1622,6 +1642,7 @@ export default function Home() {
                                             />
                                         );
                                     })}
+
                                 </Box>
                             </Box>
                         )}

@@ -3,137 +3,9 @@ body {
   background: #fff;
 }
 
-/* EXTRA SMALL (XS) até 600px */
-@media (max-width: 600px) {
-  .product-card {
-    max-width: 300px;
-    /* card um pouco menor no XS */
-    padding: 8px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(255, 102, 0, 0.18);
-  }
-
-  .img-home-products {
-    max-width: 140px;
-    /* imagem um pouco menor ainda */
-  }
-
-  .card-right {
-    margin-bottom: 6px;
-  }
-}
-
-
-.order-wrapper {
-  /* shrink wrapper to content and center it */
-  width: fit-content;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* layout products in rows */
-.products-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
-
-.product-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.div-btns-order {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 10px;
-}
-
-
-.checkout-wrapper {
-  display: flex;
-  gap: 12px;
-  margin-top: 10px;
-}
-
-
-.btns-checkout-clearCart:hover {
-  background-color: #cc4a00;
-}
-
-/* Ensure items and separators line up neatly */
-.products-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
-  /* vertically align images and separators */
-}
-
-/* Style for the plus sign between products */
-.plus-separator {
-  color: #e65100;
-  /* project’s orange */
-  font-weight: bold;
-  font-size: 40px;
-  /* adjust size as desired */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 20px;
-  /* space on either side */
-}
-
-
-
-/* Form layout */
-.signin-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 320px;
-  width: 100%;
-  padding: 16px;
-  gap: 1rem;
-}
-
-
 .text-field-orange {
   width: 100%;
 }
-
-/* Input text */
-.text-field-orange .MuiInputBase-input {
-  color: rgba(180, 63, 0, 1);
-}
-
-/* Placeholder (slightly softer) */
-.text-field-orange .MuiInputBase-input::placeholder {
-  color: rgba(180, 63, 0, 0.6);
-}
-
-/* Label */
-.text-field-orange .MuiInputLabel-root,
-.text-field-orange .MuiInputLabel-root.Mui-focused {
-  color: rgba(180, 63, 0, 1);
-}
-
-/* Outline (border) */
-.text-field-orange .MuiOutlinedInput-notchedOutline {
-  border-color: rgba(230, 81, 0, 1);
-}
-
-/* Outline on hover */
-.text-field-orange .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-  border-color: #bf360c;
-}
-
 
 /* Tablet */
 @media (max-width: 900px) {
@@ -154,78 +26,6 @@ body {
     letter-spacing: 0.12em;
     margin-top: 110px;
     margin-bottom: 110px;
-  }
-}
-
-
-/* Desktop only — padding maior no card */
-@media (min-width: 900px) {
-  .product-card {
-    padding: 15px;
-  }
-}
-
-/* DESKTOP PEQUENO: 901px–1200px */
-@media (min-width: 901px) and (max-width: 1200px) {
-  .products-wrapper {
-    justify-content: center;
-    padding: 0;
-    /* nada de padding externo */
-    margin-top: -40px;
-    /* controla só o espaço entre nav e cards */
-  }
-
-  .product-card {
-    width: 80%;
-    max-width: 900px;
-    padding: 64px;
-    /* espaçamento bonito dentro do card */
-    margin-top: 0;
-  }
-}
-
-/* MOBILE/TABLET (até 900px): seu layout de 1 coluna continua */
-@media (max-width: 900px) {
-  .products-wrapper.one-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .products-wrapper.one-item .product-card {
-    width: 100%;
-    max-width: 320px;
-    /* seu tamanho natural mobile */
-  }
-}
-
-/* DESKTOP (a partir de 901px): centraliza mantendo tamanho natural */
-@media (min-width: 901px) {
-  .products-wrapper.one-item {
-    justify-content: center;
-    /* centraliza o card único */
-  }
-
-  .products-wrapper.one-item .product-card {
-    width: calc(50% - 12px);
-    /* mesmo tamanho de 2 cards */
-    flex: 0 0 calc(50% - 12px);
-  }
-}
-
-/* NOTEBOOK / DESKTOP MÉDIO (901px–1200px)
-  
-*/
-@media (min-width: 901px) and (max-width: 1200px) {
-  .products-wrapper.one-item {
-    justify-content: center;
-  }
-
-  .products-wrapper.one-item .product-card {
-    width: 80%;
-    max-width: 900px;
-    flex: 0 0 auto;
   }
 }
 
@@ -310,31 +110,6 @@ body {
   transition: all 0.2s ease;
 }
 
-.drive-btn.closed {
-  width: 42px;
-  height: 42px;
-}
-
-.drive-btn.open {
-  width: 46px;
-  height: 46px;
-}
-
-/* .drive-text {
-  font-family: "Big Shoulders Inline", sans-serif;
-  color: #e65100;
-  font-size: 14px;
-
-  line-height: 0.95;
-  /* 🔑 aproxima DRIVE e THRU */
-/* margin: -1px 0;
-  letter-spacing: 0.08em;
-
-  text-shadow:
-    0 0 3px rgba(230, 81, 0, 0.5),
-    0 0 6px rgba(230, 81, 0, 0.35);
-} */
-*/
 
 /* garante que cada tab ocupe 1/3 do espaço */
 .ff-tabs {
@@ -386,6 +161,6 @@ body {
 @media (max-width: 600px) {
   .h2-products-background {
     margin-top: 120px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
   }
 }

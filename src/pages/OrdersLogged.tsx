@@ -405,311 +405,359 @@ export default function OrdersLogged() {
 
             <Box sx={{ minHeight: "100svh", display: "flex", flexDirection: "column" }}>
                 <Box
-                    component="main"
                     sx={{
+                        position: "relative",
                         flexGrow: 1,
-                        display: "flex",
-                        justifyContent: "center",
-                        px: 2,
-                        pt: { xs: "110px", md: "120px" },
-                        pb: { xs: 1, md: 4 },
-                        minHeight: 0, 
+                        width: "100%",
+                        borderTop: "3px solid #e65100",
+                        boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
+                        bgcolor: "#fff",
+
+                        "&::before": {
+                            content: '""',
+                            position: "absolute",
+                            top: 0,
+                            bottom: 0,
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            zIndex: 0,
+
+                            width: {
+                                xs: "min(98vw, 760px)",
+                                sm: "min(96vw, 1040px)",
+                                md: 1300,
+                            },
+                            borderRadius: 20,
+                            pointerEvents: "none",
+
+                            backgroundImage: `
+                                                linear-gradient(90deg,
+                                                    rgba(255,255,255,1) 0%,
+                                                    rgba(255,244,225,0.0) 14%,
+                                                    rgba(255,244,225,0.0) 86%,
+                                                    rgba(255,255,255,1) 100%
+                                                ),
+                                                repeating-linear-gradient(135deg,
+                                                    rgba(230,81,0,0.018) 0px,
+                                                    rgba(230,81,0,0.018) 12px,
+                                                    rgba(255,255,255,0.85) 12px,
+                                                    rgba(255,255,255,0.85) 20px
+                                                )
+                                                `,
+                            backgroundRepeat: "no-repeat, repeat",
+                            backgroundSize: "100% 100%, auto",
+                        },
+
+                        "& > *": { position: "relative", zIndex: 1 },
                     }}
                 >
-                    <Paper
-                        elevation={0}
+                    <Box
+                        component="main"
                         sx={{
-                            width: "100%",
-                            maxWidth: { xs: 520, md: 980 },
-                            borderRadius: 3,
-                            border: "1.5px solid rgba(230, 81, 0, 0.35)",
-                            bgcolor: "background.paper",
-                            p: { xs: 2.5, md: 4 },
-                            height: { xs: "calc(100svh - 200px)", md: "calc(100vh - 220px)" },
-                            maxHeight: 720,
-                            boxShadow:
-                                "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
+                            flexGrow: 1,
                             display: "flex",
-                            flexDirection: "column",
-                            gap: 2,
-                            overflow: "hidden",
+                            justifyContent: "center",
+                            px: 2,
+                            pt: { xs: "110px", md: "120px" },
+                            pb: { xs: 1, md: 4 },
+                            minHeight: 0,
                         }}
                     >
-                        <Typography
-                            variant="h4"
-                            align="center"
+                        <Paper
+                            elevation={0}
                             sx={{
-                                fontSize: { xs: "2.25rem", sm: "2.35rem", md: "2.5rem" },
-                                letterSpacing: { xs: "0.10em", sm: "0.12em" },
-                                textTransform: "uppercase",
-                                color: "#0d47a1",
-                                fontWeight: 700,
-                                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                mb: { xs: 1.5, sm: 2, md: 2 },
-                                mt: { xs: 1.5, sm: 1.5, md: 1.3 },
-
+                                width: "100%",
+                                maxWidth: { xs: 520, md: 980 },
+                                borderRadius: 3,
+                                border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                                bgcolor: "background.paper",
+                                p: { xs: 2.5, md: 4 },
+                                height: { xs: "calc(100svh - 200px)", md: "calc(100vh - 220px)" },
+                                maxHeight: 720,
+                                boxShadow:
+                                    "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 2,
+                                overflow: "hidden",
                             }}
                         >
-                            Orders
-                        </Typography>
-
-                        {/* Tabs */}
-                        <Tabs
-                            id="ff-user-orders-tabs"
-                            activeKey={activeKey}
-                            onSelect={(k) => k && setActiveKey(k as any)}
-                            className="mb-2 ff-tabs"
-                            fill
-                        >
-                            <Tab eventKey="in_progress" title="In progress" />
-                            <Tab eventKey="completed" title="Completed" />
-                        </Tabs>
-
-                        {/* Filters */}
-                        <Stack
-                            direction={{ xs: "column", sm: "row" }}
-                            spacing={1.2}
-                            alignItems={{ xs: "stretch", sm: "center" }}
-                            justifyContent="space-between"
-                        >
-                            <Chip
-                                label={activeKey === "completed" ? "COMPLETED ORDERS" : "CURRENT ORDERS"}
-                                size="small"
+                            <Typography
+                                variant="h4"
+                                align="center"
                                 sx={{
-                                    fontSize: "0.72rem",
-                                    letterSpacing: "0.1em",
+                                    fontSize: { xs: "2.25rem", sm: "2.35rem", md: "2.4rem" },
+                                    letterSpacing: { xs: "0.10em", sm: "0.12em" },
                                     textTransform: "uppercase",
-                                    bgcolor: "#1e5bb8",
-                                    color: "#fff",
-                                    fontWeight: 800,
-                                    alignSelf: { xs: "flex-start", sm: "center" },
+                                    color: "#0d47a1",
+                                    fontWeight: 700,
+                                    textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
+                                    mb: { xs: 1.5, sm: 2, md: 2 },
+                                    mt: { xs: 1.5, sm: 1.5, md: 1.3 },
+
+                                }}
+                            >
+                                Orders
+                            </Typography>
+
+                            {/* Tabs */}
+                            <Tabs
+                                id="ff-user-orders-tabs"
+                                activeKey={activeKey}
+                                onSelect={(k) => k && setActiveKey(k as any)}
+                                className="mb-2 ff-tabs"
+                                fill
+                            >
+                                <Tab eventKey="in_progress" title="In progress" />
+                                <Tab eventKey="completed" title="Completed" />
+                            </Tabs>
+
+                            {/* Filters */}
+                            <Stack
+                                direction={{ xs: "column", sm: "row" }}
+                                spacing={1.2}
+                                alignItems={{ xs: "stretch", sm: "center" }}
+                                justifyContent="space-between"
+                            >
+                                <Chip
+                                    label={activeKey === "completed" ? "COMPLETED ORDERS" : "CURRENT ORDERS"}
+                                    size="small"
+                                    sx={{
+                                        fontSize: "0.72rem",
+                                        letterSpacing: "0.1em",
+                                        textTransform: "uppercase",
+                                        bgcolor: "#1e5bb8",
+                                        color: "#fff",
+                                        fontWeight: 800,
+                                        alignSelf: { xs: "flex-start", sm: "center" },
+                                    }}
+                                />
+
+                                <TextField
+                                    size="small"
+                                    label="Search by Order Number"
+                                    value={orderCodeFilter}
+                                    onChange={(e) => setOrderCodeFilter(e.target.value.replace(/\D/g, ""))}
+                                    inputProps={{ maxLength: 6, inputMode: "numeric" }}
+                                    sx={[tfBlueLabelSx, { width: { xs: "100%", sm: 260 } }]}
+                                />
+                            </Stack>
+
+                            <Divider
+                                sx={{
+                                    borderColor: "rgba(0, 0, 0, 0.45)",
                                 }}
                             />
 
-                            <TextField
-                                size="small"
-                                label="Search by Order Number"
-                                value={orderCodeFilter}
-                                onChange={(e) => setOrderCodeFilter(e.target.value.replace(/\D/g, ""))}
-                                inputProps={{ maxLength: 6, inputMode: "numeric" }}
-                                sx={[tfBlueLabelSx, { width: { xs: "100%", sm: 260 } }]}
-                            />
-                        </Stack>
+                            {/* LIST */}
+                            <Box
+                                sx={{
+                                    flex: 1,
+                                    overflowY: "auto",
+                                    pr: 0.5,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                }}
+                            >
+                                {loading ? (
+                                    <CenterMessage>Loading...</CenterMessage>
+                                ) : items.length === 0 ? (
+                                    <CenterMessage>No orders found.</CenterMessage>
+                                ) : (
+                                    <Stack spacing={1.4}>
+                                        {items.map((o) => {
+                                            const snap = safeParseItems((o as any).items_snapshot);
+                                            const cart = safeParseItems(o.items);
 
-                        <Divider
-                            sx={{
-                                borderColor: "rgba(0, 0, 0, 0.45)",
-                            }}
-                        />
+                                            const list = Array.isArray(snap) && snap.length > 0
+                                                ? snap
+                                                : (Array.isArray(cart) ? cart : []);
 
-                        {/* LIST */}
-                        <Box
-                            sx={{
-                                flex: 1,
-                                overflowY: "auto",
-                                pr: 0.5,
-                                display: "flex",
-                                flexDirection: "column",
-                            }}
-                        >
-                            {loading ? (
-                                <CenterMessage>Loading...</CenterMessage>
-                            ) : items.length === 0 ? (
-                                <CenterMessage>No orders found.</CenterMessage>
-                            ) : (
-                                <Stack spacing={1.4}>
-                                    {items.map((o) => {
-                                        const snap = safeParseItems((o as any).items_snapshot);
-                                        const cart = safeParseItems(o.items);
+                                            const deliveryText = formatAddress((o as any).delivery_address);
+                                            const paymentText = formatPayment((o as any).payment_method, (o as any).payment_status);
 
-                                        const list = Array.isArray(snap) && snap.length > 0
-                                            ? snap
-                                            : (Array.isArray(cart) ? cart : []);
+                                            console.log("RAW o.items:", o.items);
+                                            console.log("PARSED cart:", cart);
+                                            console.log("FIRST item:", Array.isArray(cart) ? cart[0] : cart);
 
-                                        const deliveryText = formatAddress((o as any).delivery_address);
-                                        const paymentText = formatPayment((o as any).payment_method, (o as any).payment_status);
+                                            const lines = list.map((it: any, idx: number) => {
+                                                const rawName = String(it?.name ?? it?.product_name ?? it?.title ?? "Item");
+                                                return {
+                                                    key: `${o.id}-${idx}`,
+                                                    name: cleanProductName(rawName),
+                                                    qty: Number(it?.qty ?? it?.quantity ?? it?.quantidade ?? it?.qty ?? 1),
+                                                };
+                                            });
 
-                                        console.log("RAW o.items:", o.items);
-                                        console.log("PARSED cart:", cart);
-                                        console.log("FIRST item:", Array.isArray(cart) ? cart[0] : cart);
+                                            const showReceivedPrompt =
+                                                activeKey === "in_progress" &&
+                                                o.status === "sent" &&
+                                                !o.received_confirmed_at;
 
-                                        const lines = list.map((it: any, idx: number) => {
-                                            const rawName = String(it?.name ?? it?.product_name ?? it?.title ?? "Item");
-                                            return {
-                                                key: `${o.id}-${idx}`,
-                                                name: cleanProductName(rawName),
-                                                qty: Number(it?.qty ?? it?.quantity ?? it?.quantidade ?? it?.qty ?? 1),
-                                            };
-                                        });
+                                            const statusHint = userStatusText(o.status).hint;
 
-                                        const showReceivedPrompt =
-                                            activeKey === "in_progress" &&
-                                            o.status === "sent" &&
-                                            !o.received_confirmed_at;
+                                            return (
+                                                <Paper
+                                                    key={o.id}
+                                                    elevation={0}
+                                                    sx={{
+                                                        p: 2,
+                                                        borderRadius: 2,
+                                                        border: "1px solid rgba(230, 81, 0, 0.28)",
+                                                        bgcolor: "#fff4e1",
+                                                    }}
+                                                >
+                                                    <Stack spacing={1}>
+                                                        {/* TOPO */}
+                                                        <Stack
+                                                            direction={{ xs: "column", sm: "row" }}
+                                                            justifyContent="space-between"
+                                                            alignItems={{ xs: "flex-start", sm: "center" }}
+                                                            gap={1}
+                                                        >
+                                                            <Box sx={{ ml: { xs: 0.2 } }}>
+                                                                <Typography sx={{ fontWeight: 900, color: "#e65100" }}>
+                                                                    Order {o.order_code}
+                                                                </Typography>
 
-                                        const statusHint = userStatusText(o.status).hint;
+                                                                <Typography sx={{ fontSize: "0.9rem" }}>
+                                                                    <b>{o.customer_name ?? "Guest"}</b>
+                                                                    {statusHint ? ` • ${statusHint}` : ""}
+                                                                </Typography>
 
-                                        return (
-                                            <Paper
-                                                key={o.id}
-                                                elevation={0}
-                                                sx={{
-                                                    p: 2,
-                                                    borderRadius: 2,
-                                                    border: "1px solid rgba(230, 81, 0, 0.28)",
-                                                    bgcolor: "#fff4e1",
-                                                }}
-                                            >
-                                                <Stack spacing={1}>
-                                                    {/* TOPO */}
-                                                    <Stack
-                                                        direction={{ xs: "column", sm: "row" }}
-                                                        justifyContent="space-between"
-                                                        alignItems={{ xs: "flex-start", sm: "center" }}
-                                                        gap={1}
-                                                    >
-                                                        <Box sx={{ ml: { xs: 0.2 } }}>
-                                                            <Typography sx={{ fontWeight: 900, color: "#e65100" }}>
-                                                                Order {o.order_code}
-                                                            </Typography>
+                                                                <Typography sx={{ fontSize: "0.86rem" }}>
+                                                                    <b>Delivery:</b> {deliveryText}
+                                                                </Typography>
 
-                                                            <Typography sx={{ fontSize: "0.9rem" }}>
-                                                                <b>{o.customer_name ?? "Guest"}</b>
-                                                                {statusHint ? ` • ${statusHint}` : ""}
-                                                            </Typography>
+                                                                <Typography sx={{ fontSize: "0.86rem" }}>
+                                                                    <b>Payment:</b> {paymentText}
+                                                                </Typography>
+                                                            </Box>
 
-                                                            <Typography sx={{ fontSize: "0.86rem" }}>
-                                                                <b>Delivery:</b> {deliveryText}
-                                                            </Typography>
+                                                            <Box sx={{ display: { xs: "none", sm: "block" } }}>
+                                                                {userStatusChip(o.status)}
+                                                            </Box>
+                                                        </Stack>
 
-                                                            <Typography sx={{ fontSize: "0.86rem" }}>
-                                                                <b>Payment:</b> {paymentText}
-                                                            </Typography>
-                                                        </Box>
+                                                        {showReceivedPrompt && (
+                                                            <Box
+                                                                sx={{
+                                                                    mt: { xs: 0.7, sm: 0.9 },
+                                                                    mb: 0.8, // respiro antes do conteúdo abaixo
+                                                                    width: { xs: "100%", md: "auto" },
+                                                                    maxWidth: { xs: "100%", md: 370 },
+                                                                    p: 1.4,
+                                                                    borderRadius: 2,
+                                                                    border: "1px solid rgba(13, 71, 161, 0.22)",
+                                                                    bgcolor: "rgba(255,255,255,0.75)",
+                                                                }}
+                                                            >
+                                                                <Stack
+                                                                    direction={{ xs: "column", md: "row" }}
+                                                                    alignItems={{ xs: "stretch", md: "center" }}
+                                                                    justifyContent="space-between"
+                                                                    gap={1.1}
+                                                                >
+                                                                    <Typography
+                                                                        sx={{
+                                                                            fontWeight: 900,
+                                                                            color: "#0d47a1",
+                                                                            fontSize: { xs: "0.88rem", md: "0.97rem" },
+                                                                            lineHeight: 1.2,
+                                                                            textAlign: { xs: "center", md: "left" },
+                                                                        }}
+                                                                    >
+                                                                        Did you receive your order?
+                                                                    </Typography>
 
-                                                        <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                                                            {userStatusChip(o.status)}
-                                                        </Box>
+                                                                    <Stack
+                                                                        direction="row"
+                                                                        spacing={1}
+                                                                        justifyContent={{ xs: "center", md: "flex-end" }}
+                                                                        sx={{ flexShrink: 0 }}
+                                                                    >
+                                                                        <Button
+                                                                            variant="contained"
+                                                                            size="small"
+                                                                            onClick={() => confirmReceived(o)}
+                                                                            sx={{
+                                                                                borderRadius: 2,
+                                                                                bgcolor: "#1e5bb8",
+                                                                                color: "#fff",
+                                                                                fontWeight: 900,
+                                                                                textTransform: "uppercase",
+                                                                                letterSpacing: "0.08em",
+                                                                                fontSize: { xs: "0.65rem", md: "0.7rem" },
+                                                                                px: { xs: 1.4, md: 1.6 },
+                                                                                minWidth: 64,
+                                                                                height: 28,
+                                                                                "&:hover": { bgcolor: "#164a96" },
+                                                                            }}
+                                                                        >
+                                                                            Yes
+                                                                        </Button>
+
+                                                                        <Button
+                                                                            variant="outlined"
+                                                                            size="small"
+                                                                            onClick={handleNotReceivedYet}
+                                                                            sx={{
+                                                                                borderRadius: 2,
+                                                                                border: "1.5px solid #0d47a1",
+                                                                                color: "#0d47a1",
+                                                                                fontWeight: 900,
+                                                                                textTransform: "uppercase",
+                                                                                letterSpacing: "0.08em",
+                                                                                fontSize: { xs: "0.65rem", md: "0.7rem" },
+                                                                                px: { xs: 1.4, md: 1.6 },
+                                                                                minWidth: 64,
+                                                                                height: 28,
+                                                                                "&:hover": { borderColor: "#123b7a", color: "#123b7a" },
+                                                                            }}
+                                                                        >
+                                                                            No
+                                                                        </Button>
+                                                                    </Stack>
+                                                                </Stack>
+                                                            </Box>
+                                                        )}
+
+                                                        {/* INFO */}
+                                                        <Typography sx={{ color: "text.secondary", fontSize: "0.82rem" }}>
+                                                            Created: {formatDate(o.created_at)}
+                                                            {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
+                                                            {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
+                                                            {o.received_confirmed_at ? ` • Received: ${formatDate(o.received_confirmed_at)}` : ""}
+                                                        </Typography>
+
+                                                        <Typography sx={{ fontWeight: 900, color: "#333" }}>
+                                                            Total: ${Number(o.total).toFixed(2)}
+                                                            {Number(o.discount) > 0 ? ` (Discount: -$${Number(o.discount).toFixed(2)})` : ""}
+                                                        </Typography>
+
+                                                        {/* ITEMS */}
+                                                        {lines.length > 0 && (
+                                                            <Box sx={{ mt: 0.5 }}>
+                                                                {lines.map((p) => (
+                                                                    <Typography
+                                                                        key={p.key}
+                                                                        sx={{ fontSize: "0.9rem", color: "#333", lineHeight: 1.35 }}
+                                                                    >
+                                                                        • {p.name} <b>x{p.qty}</b>
+                                                                    </Typography>
+                                                                ))}
+                                                            </Box>
+                                                        )}
                                                     </Stack>
 
-                                                    {showReceivedPrompt && (
-                                                        <Box
-                                                            sx={{
-                                                                mt: { xs: 0.7, sm: 0.9 },
-                                                                mb: 0.8, // respiro antes do conteúdo abaixo
-                                                                width: { xs: "100%", md: "auto" },
-                                                                maxWidth: { xs: "100%", md: 370 },
-                                                                p: 1.4,
-                                                                borderRadius: 2,
-                                                                border: "1px solid rgba(13, 71, 161, 0.22)",
-                                                                bgcolor: "rgba(255,255,255,0.75)",
-                                                            }}
-                                                        >
-                                                            <Stack
-                                                                direction={{ xs: "column", md: "row" }}
-                                                                alignItems={{ xs: "stretch", md: "center" }}
-                                                                justifyContent="space-between"
-                                                                gap={1.1}
-                                                            >
-                                                                <Typography
-                                                                    sx={{
-                                                                        fontWeight: 900,
-                                                                        color: "#0d47a1",
-                                                                        fontSize: { xs: "0.88rem", md: "0.97rem" },
-                                                                        lineHeight: 1.2,
-                                                                        textAlign: { xs: "center", md: "left" },
-                                                                    }}
-                                                                >
-                                                                    Did you receive your order?
-                                                                </Typography>
-
-                                                                <Stack
-                                                                    direction="row"
-                                                                    spacing={1}
-                                                                    justifyContent={{ xs: "center", md: "flex-end" }}
-                                                                    sx={{ flexShrink: 0 }}
-                                                                >
-                                                                    <Button
-                                                                        variant="contained"
-                                                                        size="small"
-                                                                        onClick={() => confirmReceived(o)}
-                                                                        sx={{
-                                                                            borderRadius: 2,
-                                                                            bgcolor: "#1e5bb8",
-                                                                            color: "#fff",
-                                                                            fontWeight: 900,
-                                                                            textTransform: "uppercase",
-                                                                            letterSpacing: "0.08em",
-                                                                            fontSize: { xs: "0.65rem", md: "0.7rem" },
-                                                                            px: { xs: 1.4, md: 1.6 },
-                                                                            minWidth: 64,
-                                                                            height: 28,
-                                                                            "&:hover": { bgcolor: "#164a96" },
-                                                                        }}
-                                                                    >
-                                                                        Yes
-                                                                    </Button>
-
-                                                                    <Button
-                                                                        variant="outlined"
-                                                                        size="small"
-                                                                        onClick={handleNotReceivedYet}
-                                                                        sx={{
-                                                                            borderRadius: 2,
-                                                                            border: "1.5px solid #0d47a1",
-                                                                            color: "#0d47a1",
-                                                                            fontWeight: 900,
-                                                                            textTransform: "uppercase",
-                                                                            letterSpacing: "0.08em",
-                                                                            fontSize: { xs: "0.65rem", md: "0.7rem" },
-                                                                            px: { xs: 1.4, md: 1.6 },
-                                                                            minWidth: 64,
-                                                                            height: 28,
-                                                                            "&:hover": { borderColor: "#123b7a", color: "#123b7a" },
-                                                                        }}
-                                                                    >
-                                                                        No
-                                                                    </Button>
-                                                                </Stack>
-                                                            </Stack>
-                                                        </Box>
-                                                    )}
-
-                                                    {/* INFO */}
-                                                    <Typography sx={{ color: "text.secondary", fontSize: "0.82rem" }}>
-                                                        Created: {formatDate(o.created_at)}
-                                                        {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
-                                                        {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
-                                                        {o.received_confirmed_at ? ` • Received: ${formatDate(o.received_confirmed_at)}` : ""}
-                                                    </Typography>
-
-                                                    <Typography sx={{ fontWeight: 900, color: "#333" }}>
-                                                        Total: ${Number(o.total).toFixed(2)}
-                                                        {Number(o.discount) > 0 ? ` (Discount: -$${Number(o.discount).toFixed(2)})` : ""}
-                                                    </Typography>
-
-                                                    {/* ITEMS */}
-                                                    {lines.length > 0 && (
-                                                        <Box sx={{ mt: 0.5 }}>
-                                                            {lines.map((p) => (
-                                                                <Typography
-                                                                    key={p.key}
-                                                                    sx={{ fontSize: "0.9rem", color: "#333", lineHeight: 1.35 }}
-                                                                >
-                                                                    • {p.name} <b>x{p.qty}</b>
-                                                                </Typography>
-                                                            ))}
-                                                        </Box>
-                                                    )}
-                                                </Stack>
-
-                                            </Paper>
-                                        );
-                                    })}
-                                </Stack>
-                            )}
-                        </Box>
-                    </Paper>
+                                                </Paper>
+                                            );
+                                        })}
+                                    </Stack>
+                                )}
+                            </Box>
+                        </Paper>
+                    </Box>
                 </Box>
 
                 <Footer />

@@ -1002,7 +1002,7 @@ export default function Checkout() {
                                                         color: "rgba(0,0,0,0.55)",
                                                     }}
                                                 >
-                                                    <b>*Type and select an address to auto-fill the fields</b>
+                                                    <b>*IMPORTANT Type and select an address to auto-fill the fields</b>
                                                 </span>
                                             </Typography>
 

@@ -100,204 +100,252 @@ export default function AdminMessages() {
                 }}
             >
                 <Box
-                    component="main"
                     sx={{
+                        position: "relative",
                         flexGrow: 1,
-                        display: "flex",
-                        justifyContent: "center",
-                        px: 2,
-                        pt: { xs: "110px", md: "120px" },
-                        pb: 4,
-                        overflow: "hidden",
-                        minHeight: 0,
+                        width: "100%",
+                        borderTop: "3px solid #e65100",
+                        boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
+                        bgcolor: "#fff",
+
+                        "&::before": {
+                            content: '""',
+                            position: "absolute",
+                            top: 0,
+                            bottom: 0,
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            zIndex: 0,
+
+                            width: {
+                                xs: "min(98vw, 760px)",
+                                sm: "min(96vw, 1040px)",
+                                md: 1300,
+                            },
+                            borderRadius: 20,
+                            pointerEvents: "none",
+
+                            backgroundImage: `
+                                linear-gradient(90deg,
+                                    rgba(255,255,255,1) 0%,
+                                    rgba(255,244,225,0.0) 14%,
+                                    rgba(255,244,225,0.0) 86%,
+                                    rgba(255,255,255,1) 100%
+                                ),
+                                repeating-linear-gradient(135deg,
+                                    rgba(230,81,0,0.018) 0px,
+                                    rgba(230,81,0,0.018) 12px,
+                                    rgba(255,255,255,0.85) 12px,
+                                    rgba(255,255,255,0.85) 20px
+                                )
+                                `,
+                            backgroundRepeat: "no-repeat, repeat",
+                            backgroundSize: "100% 100%, auto",
+                        },
+
+                        "& > *": { position: "relative", zIndex: 1 },
                     }}
                 >
-                    <Paper
-                        elevation={0}
+                    <Box
+                        component="main"
                         sx={{
-                            width: "100%",
-                            maxWidth: { xs: 520, md: 980 },
-                            borderRadius: 3,
-                            border: "1.5px solid rgba(230, 81, 0, 0.35)",
-                            bgcolor: "background.paper",
-                            p: { xs: 2.5, md: 4 },
-
-                            height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
-                            maxHeight: 720,
-
-                            boxShadow:
-                                "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
+                            flexGrow: 1,
                             display: "flex",
-                            flexDirection: "column",
-                            gap: 2,
+                            justifyContent: "center",
+                            px: 2,
+                            pt: { xs: "110px", md: "120px" },
+                            pb: 4,
                             overflow: "hidden",
                             minHeight: 0,
                         }}
                     >
-                        <Typography
-                            variant="h4"
-                            align="center"
+                        <Paper
+                            elevation={0}
                             sx={{
-                                letterSpacing: "0.14em",
-                                fontSize: "2.3rem",
-                                textTransform: "uppercase",
-                                color: "#0d47a1",
-                                fontWeight: 800,
-                                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
-                                mt: { xs: 1, sm: 1, md: 0 },
-                            }}
-                        >
-                            Messages
-                        </Typography>
+                                width: "100%",
+                                maxWidth: { xs: 520, md: 980 },
+                                borderRadius: 3,
+                                border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                                bgcolor: "background.paper",
+                                p: { xs: 2.5, md: 4 },
 
-                        <Tabs
-                            id="ff-admin-tabs"
-                            activeKey={activeKey}
-                            onSelect={(k) => {
-                                if (!k) return;
-                                setActiveKey(k as any);
-                            }}
-                            className="mb-2 ff-tabs"
-                            fill
-                        >
-                            <Tab eventKey="received" title="Received" />
-                            <Tab eventKey="answered" title="Answered" />
-                            <Tab eventKey="contact" title="Contact-us" disabled />
-                        </Tabs>
+                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
+                                maxHeight: 720,
 
-                        <Stack
-                            direction={{ xs: "column", sm: "row" }}
-                            spacing={1.2}
-                            alignItems={{ xs: "stretch", sm: "center" }}
-                            justifyContent="space-between"
-                            sx={{ mt: { xs: -4, sm: 0 } }} 
-                        >
-                            <Chip
-                                label={activeKey === "answered" ? "Answered" : "Received"}
-                                size="small"
-                                sx={{
-                                    display: { xs: "none", sm: "inline-flex" },
-                                    fontSize: "0.72rem",
-                                    letterSpacing: "0.1em",
-                                    textTransform: "uppercase",
-                                    bgcolor: "#1e5bb8",
-                                    color: "#fff",
-                                    fontWeight: 800,
-                                    alignSelf: { xs: "flex-start", sm: "center" },
-                                }}
-                            />
-
-                            <TextField
-                                size="small"
-                                label="Filter by email"
-                                value={emailFilter}
-                                onChange={(e) => setEmailFilter(e.target.value)}
-                                sx={[tfBlueLabelSx, { width: { xs: "100%", sm: 320 } }]}
-                            />
-                        </Stack>
-
-                        <Divider />
-
-                        {/* LISTA COM SCROLL */}
-                        <Box
-                            sx={{
-                                flex: 1,
-                                overflowY: "auto",
-                                pr: 0.5,
+                                boxShadow:
+                                    "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 2,
+                                overflow: "hidden",
                                 minHeight: 0,
-                                WebkitOverflowScrolling: "touch",
-                                overscrollBehavior: "contain",
                             }}
                         >
-                            {loading ? (
-                                <Typography align="center" sx={{ color: "text.secondary", mt: 3 }}>
-                                    Loading...
-                                </Typography>
-                            ) : items.length === 0 ? (
-                                <Typography align="center" sx={{ color: "text.secondary", mt: 3 }}>
-                                    No messages found.
-                                </Typography>
-                            ) : (
-                                <Stack spacing={1.4}>
-                                    {items.map((m) => (
-                                        <Paper
-                                            key={m.id}
-                                            elevation={0}
-                                            sx={{
-                                                p: 2,
-                                                borderRadius: 2,
-                                                border: "1px solid rgba(230, 81, 0, 0.28)",
-                                                bgcolor: "#fff4e1",
-                                            }}
-                                        >
-                                            <Stack spacing={1}>
-                                                <Stack
-                                                    direction={{ xs: "column", sm: "row" }}
-                                                    justifyContent="space-between"
-                                                    alignItems={{ xs: "flex-start", sm: "center" }}
-                                                    gap={1}
-                                                >
-                                                    <Box>
-                                                        <Typography sx={{ fontWeight: 900, color: "#e65100" }}>
-                                                            #{m.id} — {m.subject}
-                                                        </Typography>
+                            <Typography
+                                variant="h4"
+                                align="center"
+                                sx={{
+                                    letterSpacing: "0.14em",
+                                    fontSize: "2.3rem",
+                                    textTransform: "uppercase",
+                                    color: "#0d47a1",
+                                    fontWeight: 800,
+                                    textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
+                                    mt: { xs: 1, sm: 1, md: 0 },
+                                }}
+                            >
+                                Messages
+                            </Typography>
 
-                                                        <Typography sx={{ fontSize: "0.9rem" }}>
-                                                            <b>{m.name}</b> • {m.email}
-                                                            {m.phone ? ` • ${m.phone}` : ""}
-                                                            {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
-                                                        </Typography>
-                                                    </Box>
+                            <Tabs
+                                id="ff-admin-tabs"
+                                activeKey={activeKey}
+                                onSelect={(k) => {
+                                    if (!k) return;
+                                    setActiveKey(k as any);
+                                }}
+                                className="mb-2 ff-tabs"
+                                fill
+                            >
+                                <Tab eventKey="received" title="Received" />
+                                <Tab eventKey="answered" title="Answered" />
+                                <Tab eventKey="contact" title="Contact-us" disabled />
+                            </Tabs>
 
-                                                    {activeKey === "received" ? (
-                                                        <Button
-                                                            variant="contained"
-                                                            onClick={() => markAsAnswered(m.id)}
-                                                            sx={{
-                                                                borderRadius: 2,
-                                                                bgcolor: "#1e5bb8",
-                                                                color: "#fff",
-                                                                fontWeight: 900,
-                                                                textTransform: "uppercase",
-                                                                letterSpacing: "0.10em",
+                            <Stack
+                                direction={{ xs: "column", sm: "row" }}
+                                spacing={1.2}
+                                alignItems={{ xs: "stretch", sm: "center" }}
+                                justifyContent="space-between"
+                                sx={{ mt: { xs: -4, sm: 0 } }}
+                            >
+                                <Chip
+                                    label={activeKey === "answered" ? "Answered" : "Received"}
+                                    size="small"
+                                    sx={{
+                                        display: { xs: "none", sm: "inline-flex" },
+                                        fontSize: "0.72rem",
+                                        letterSpacing: "0.1em",
+                                        textTransform: "uppercase",
+                                        bgcolor: "#1e5bb8",
+                                        color: "#fff",
+                                        fontWeight: 800,
+                                        alignSelf: { xs: "flex-start", sm: "center" },
+                                    }}
+                                />
 
-                                                                fontSize: { xs: "0.72rem", sm: "0.8rem" },
-                                                                px: { xs: 1.6, sm: 2.2 },
-                                                                py: { xs: 0.6, sm: 0.9 },
+                                <TextField
+                                    size="small"
+                                    label="Filter by email"
+                                    value={emailFilter}
+                                    onChange={(e) => setEmailFilter(e.target.value)}
+                                    sx={[tfBlueLabelSx, { width: { xs: "100%", sm: 320 } }]}
+                                />
+                            </Stack>
 
-                                                                "&:hover": { bgcolor: "#164a96" },
-                                                            }}
-                                                        >
-                                                            Mark answered
-                                                        </Button>
-                                                    ) : (
-                                                        <Chip
-                                                            label="Answered"
-                                                            size="small"
-                                                            sx={{
-                                                                bgcolor: "rgba(30, 91, 184, 0.12)",
-                                                                color: "#1e5bb8",
-                                                                fontWeight: 900,
-                                                            }}
-                                                        />
-                                                    )}
+                            <Divider />
+
+                            {/* LISTA COM SCROLL */}
+                            <Box
+                                sx={{
+                                    flex: 1,
+                                    overflowY: "auto",
+                                    pr: 0.5,
+                                    minHeight: 0,
+                                    WebkitOverflowScrolling: "touch",
+                                    overscrollBehavior: "contain",
+                                }}
+                            >
+                                {loading ? (
+                                    <Typography align="center" sx={{ color: "text.secondary", mt: 3 }}>
+                                        Loading...
+                                    </Typography>
+                                ) : items.length === 0 ? (
+                                    <Typography align="center" sx={{ color: "text.secondary", mt: 3 }}>
+                                        No messages found.
+                                    </Typography>
+                                ) : (
+                                    <Stack spacing={1.4}>
+                                        {items.map((m) => (
+                                            <Paper
+                                                key={m.id}
+                                                elevation={0}
+                                                sx={{
+                                                    p: 2,
+                                                    borderRadius: 2,
+                                                    border: "1px solid rgba(230, 81, 0, 0.28)",
+                                                    bgcolor: "#fff4e1",
+                                                }}
+                                            >
+                                                <Stack spacing={1}>
+                                                    <Stack
+                                                        direction={{ xs: "column", sm: "row" }}
+                                                        justifyContent="space-between"
+                                                        alignItems={{ xs: "flex-start", sm: "center" }}
+                                                        gap={1}
+                                                    >
+                                                        <Box>
+                                                            <Typography sx={{ fontWeight: 900, color: "#e65100" }}>
+                                                                #{m.id} — {m.subject}
+                                                            </Typography>
+
+                                                            <Typography sx={{ fontSize: "0.9rem" }}>
+                                                                <b>{m.name}</b> • {m.email}
+                                                                {m.phone ? ` • ${m.phone}` : ""}
+                                                                {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
+                                                            </Typography>
+                                                        </Box>
+
+                                                        {activeKey === "received" ? (
+                                                            <Button
+                                                                variant="contained"
+                                                                onClick={() => markAsAnswered(m.id)}
+                                                                sx={{
+                                                                    borderRadius: 2,
+                                                                    bgcolor: "#1e5bb8",
+                                                                    color: "#fff",
+                                                                    fontWeight: 900,
+                                                                    textTransform: "uppercase",
+                                                                    letterSpacing: "0.10em",
+
+                                                                    fontSize: { xs: "0.72rem", sm: "0.8rem" },
+                                                                    px: { xs: 1.6, sm: 2.2 },
+                                                                    py: { xs: 0.6, sm: 0.9 },
+
+                                                                    "&:hover": { bgcolor: "#164a96" },
+                                                                }}
+                                                            >
+                                                                Mark answered
+                                                            </Button>
+                                                        ) : (
+                                                            <Chip
+                                                                label="Answered"
+                                                                size="small"
+                                                                sx={{
+                                                                    bgcolor: "rgba(30, 91, 184, 0.12)",
+                                                                    color: "#1e5bb8",
+                                                                    fontWeight: 900,
+                                                                }}
+                                                            />
+                                                        )}
+                                                    </Stack>
+
+                                                    <Typography sx={{ color: "text.secondary", fontSize: "0.82rem" }}>
+                                                        Sent: {formatDate(m.created_at)}
+                                                        {m.replied_at ? ` • Answered: ${formatDate(m.replied_at)}` : ""}
+                                                    </Typography>
+
+                                                    <Typography sx={{ fontWeight: 700, color: "#333" }}>
+                                                        {m.message}
+                                                    </Typography>
                                                 </Stack>
-
-                                                <Typography sx={{ color: "text.secondary", fontSize: "0.82rem" }}>
-                                                    Sent: {formatDate(m.created_at)}
-                                                    {m.replied_at ? ` • Answered: ${formatDate(m.replied_at)}` : ""}
-                                                </Typography>
-
-                                                <Typography sx={{ fontWeight: 700, color: "#333" }}>
-                                                    {m.message}
-                                                </Typography>
-                                            </Stack>
-                                        </Paper>
-                                    ))}
-                                </Stack>
-                            )}
-                        </Box>
-                    </Paper>
+                                            </Paper>
+                                        ))}
+                                    </Stack>
+                                )}
+                            </Box>
+                        </Paper>
+                    </Box>
                 </Box>
 
                 <Footer />
