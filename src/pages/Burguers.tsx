@@ -96,7 +96,7 @@ function ProductCard({
             px: 0.9,
             borderRadius: "999px",
 
-            bgcolor: "#0d47a1",
+            bgcolor: "#1e5bb8",
             color: "#fff",
             boxShadow: "0 6px 14px rgba(13,71,161,0.30)",
 
@@ -375,7 +375,7 @@ function ProductCardDesktopLandscape({
             px: 1,
             borderRadius: "999px",
 
-            bgcolor: "#0d47a1",
+            bgcolor: "#1e5bb8",
             color: "#fff",
             boxShadow: "0 6px 14px rgba(13,71,161,0.30)",
 
@@ -635,21 +635,7 @@ export default function Burguers() {
       setData(req.data);
     }
     fetchApi();
-
-    const raw = localStorage.getItem("lsOrder");
-    if (raw) {
-      try {
-        const lsOrder = JSON.parse(raw) as Meal[];
-        setOrder(lsOrder);
-      } catch (err) {
-        console.error("Erro ao ler lsOrder em Sandwiches:", err);
-      }
-    }
-  }, [setOrder]);
-
-  useEffect(() => {
-    localStorage.setItem("lsOrder", JSON.stringify(order));
-  }, [order]);
+  }, []);
 
   function handleOrder(product: Meal) {
     const existing = order.find((p) => p.id === product.id);

@@ -625,28 +625,15 @@ export default function Home() {
         async function init() {
             try {
                 const res = await api.get("/products");
-                const allProducts: Meal[] = res.data;
-
-                // joga tudo no data
-                setData(allProducts);
+                setData(res.data);
             } catch (err) {
                 console.error("Erro ao buscar /products:", err);
-            }
-
-            // hidratar carrinho do localStorage
-            const raw = localStorage.getItem("lsOrder");
-            if (raw) {
-                try {
-                    const lsOrder = JSON.parse(raw) as Meal[];
-                    setOrder(lsOrder);
-                } catch (err) {
-                    console.error("Erro ao ler lsOrder em Home:", err);
-                }
             }
         }
 
         init();
-    }, [setOrder]);
+    }, []);
+
 
     const ignoreSearchRef = useRef(false);
 
@@ -672,12 +659,6 @@ export default function Home() {
             ignoreSearchRef.current = false;
         });
     }
-
-    useEffect(() => {
-        console.log("ORDER STATE:", order);
-        localStorage.setItem("lsOrder", JSON.stringify(order));
-    }, [order]);
-
 
     function handleSearchInput(value: string) {
         if (ignoreSearchRef.current) return;

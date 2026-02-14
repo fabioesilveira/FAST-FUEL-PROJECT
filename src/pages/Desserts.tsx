@@ -106,7 +106,7 @@ function ProductCard({
                         px: 0.9,
                         borderRadius: "999px",
 
-                        bgcolor: "#0d47a1",
+                        bgcolor: "#1e5bb8",
                         color: "#fff",
                         boxShadow: "0 6px 14px rgba(13,71,161,0.30)",
 
@@ -398,7 +398,7 @@ function ProductCardDesktopLandscape({
                         px: 1,
                         borderRadius: "999px",
 
-                        bgcolor: "#0d47a1",
+                        bgcolor: "#1e5bb8",
                         color: "#fff",
                         boxShadow: "0 6px 14px rgba(13,71,161,0.30)",
 
@@ -639,31 +639,13 @@ export default function Desserts() {
 
     const PageShell = isMobile ? PageBgMobile : PageBg;
 
-    // Fetch desserts + hydrate cart from localStorage if exists
     useEffect(() => {
         async function fetchApi() {
             const req = await api.get("/products/category/desserts");
             setData(req.data);
         }
         fetchApi();
-
-        const raw = localStorage.getItem("lsOrder");
-        if (raw) {
-            try {
-                const parsed = JSON.parse(raw);
-                setOrder(parsed);
-            } catch (err) {
-                console.error("Error parsing lsOrder in Desserts:", err);
-                localStorage.removeItem("lsOrder");
-            }
-        }
-    }, [setOrder]);
-
-    // Save cart whenever order changes
-    useEffect(() => {
-        console.log("USE EFFECT DO ORDER (Desserts):", order);
-        localStorage.setItem("lsOrder", JSON.stringify(order));
-    }, [order]);
+    }, []);
 
     const isTabletOnly = useMediaQuery(theme.breakpoints.between("sm", "lg"));
 

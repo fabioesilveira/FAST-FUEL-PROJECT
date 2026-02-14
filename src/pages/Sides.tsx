@@ -102,7 +102,7 @@ function ProductCard({
             px: 0.9,
             borderRadius: "999px",
 
-            bgcolor: "#0d47a1",
+            bgcolor: "#1e5bb8",
             color: "#fff",
             boxShadow: "0 6px 14px rgba(13,71,161,0.30)",
 
@@ -389,7 +389,7 @@ function ProductCardDesktopLandscape({
             px: 1,
             borderRadius: "999px",
 
-            bgcolor: "#0d47a1",
+            bgcolor: "#1e5bb8",
             color: "#fff",
             boxShadow: "0 6px 14px rgba(13,71,161,0.30)",
 
@@ -656,26 +656,8 @@ export default function Sides() {
       setData(req.data);
     }
     fetchApi();
+  }, []);
 
-    // hydrate from localStorage (if user lands here first)
-    const raw = localStorage.getItem("lsOrder");
-    if (raw) {
-      console.log('existe no local storage');
-      try {
-        const lsOrder = JSON.parse(raw) as Meal[];
-        setOrder(lsOrder);
-      } catch (err) {
-        console.error('Erro ao ler lsOrder em Sides:', err);
-      }
-    } else {
-      console.log('nao existe no local storage');
-    }
-  }, [setOrder]);
-
-  useEffect(() => {
-    console.log("USE EFFECT DO ORDER (Sides):", order);
-    localStorage.setItem("lsOrder", JSON.stringify(order));
-  }, [order]);
 
   function handleOrder(product: Meal) {
     const existing = order.find((p) => p.id === product.id);

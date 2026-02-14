@@ -119,7 +119,7 @@ function ProductCard({
             px: 0.9,
             borderRadius: "999px",
 
-            bgcolor: "#0d47a1",
+            bgcolor: "#1e5bb8",
             color: "#fff",
             boxShadow: "0 6px 14px rgba(13,71,161,0.30)",
 
@@ -410,7 +410,7 @@ function ProductCardDesktopLandscape({
             px: 1,
             borderRadius: "999px",
 
-            bgcolor: "#0d47a1",
+            bgcolor: "#1e5bb8",
             color: "#fff",
             boxShadow: "0 6px 14px rgba(13,71,161,0.30)",
 
@@ -679,24 +679,8 @@ export default function Beverages() {
       setData(req.data);
     }
     fetchApi();
+  }, []);
 
-    const raw = localStorage.getItem("lsOrder");
-    if (raw) {
-      try {
-        const lsOrder = JSON.parse(raw) as Meal[];
-        setOrder(lsOrder);
-      } catch (err) {
-        console.error("Erro ao ler lsOrder em Beverages:", err);
-      }
-    }
-  }, [setOrder]);
-
-
-  // keep lsOrder updated whenever the cart changes
-  useEffect(() => {
-    console.log("USE EFFECT DO ORDER (Beverages):", order);
-    localStorage.setItem("lsOrder", JSON.stringify(order));
-  }, [order]);
 
   // use immutable updates + context cart
   function handleOrder(product: Meal) {
