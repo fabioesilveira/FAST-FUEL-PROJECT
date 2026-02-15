@@ -11,6 +11,10 @@ import HistoryIcon from "@mui/icons-material/History";
 import HomeIcon from "@mui/icons-material/Home";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+
 //imgs out of Backend
 import CokeImg from "../assets/Coke.png";
 import SpriteImg from "../assets/Sprite.png";
@@ -89,7 +93,7 @@ export default function Checkout() {
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext(); // order: Meal[]
 
-    const { showAlert, AlertUI, ConfirmUI } = useAppAlert({
+    const { showAlert, confirmAlert, AlertUI, ConfirmUI } = useAppAlert({
         vertical: "top",
         horizontal: "center",
     });
@@ -202,7 +206,7 @@ export default function Checkout() {
         setEmail(mail);
     }, [isLogged, loggedUser]);
 
-    // --- totals + discount ---
+    // totals + discount 
     const { subtotal, discount, total, totalItems } = useMemo(() => {
         let burgerCount = 0;
         let sideCount = 0;
@@ -359,6 +363,52 @@ export default function Checkout() {
             setSubmitting(false);
         }
     }
+
+    function incItem(productId: string) {
+        setOrder((prev) =>
+            prev.map((p) =>
+                String(p.id) === productId
+                    ? { ...p, quantidade: (p.quantidade ?? 0) + 1 }
+                    : p
+            )
+        );
+    }
+
+    function decItem(productId: string) {
+        setOrder((prev) => {
+            const existing = prev.find((p) => String(p.id) === productId);
+            if (!existing) return prev;
+
+            const q = existing.quantidade ?? 0;
+            if (q <= 1) return prev.filter((p) => String(p.id) !== productId);
+
+            return prev.map((p) =>
+                String(p.id) === productId
+                    ? { ...p, quantidade: (p.quantidade ?? 0) - 1 }
+                    : p
+            );
+        });
+    }
+
+    function handleClearCart() {
+        if (order.length === 0) return;
+
+        confirmAlert({
+            title: "Clear cart",
+            message: "This will remove all items from your cart. Continue?",
+            confirmText: "Yes, clear",
+            cancelText: "Cancel",
+            onConfirm: () => {
+                setOrder([]);
+                localStorage.removeItem("lsOrder");
+                showAlert("Cart cleared.", "warning"); 
+            },
+            onCancel: () => { },
+            onDismiss: () => { },
+        });
+    }
+
+
     function ProcessingScreen() {
         return (
             <Box
@@ -410,22 +460,27 @@ export default function Checkout() {
                         height: 64,
                         display: "grid",
                         placeItems: "center",
-                        "@keyframes ffSpinPulse": {
-                            "0%": { transform: "rotate(0deg) scale(1)" },
-                            "35%": { transform: "rotate(140deg) scale(1.12)" },
-                            "55%": { transform: "rotate(210deg) scale(0.98)" },
-                            "100%": { transform: "rotate(360deg) scale(1)" },
-                        },
+                        "@keyframes ffPulseWobble": {
+                            "0%": { transform: "scale(1) rotate(0deg)" },
+                            "10%": { transform: "scale(1.18) rotate(6deg)" },
+                            "20%": { transform: "scale(1) rotate(-6deg)" },
+                            "30%": { transform: "scale(1.16) rotate(5deg)" },
+                            "40%": { transform: "scale(1) rotate(-5deg)" },
+                            "70%": { transform: "scale(0.92) rotate(0deg)" },
+                            "100%": { transform: "scale(1) rotate(0deg)" },
+                        }
+
                     }}
                 >
                     <LunchDiningIcon
                         sx={{
                             fontSize: 50,
                             color: "#e65100",
-                            animation: "ffSpinPulse 1.7s ease-in-out infinite",
+                            animation: "ffPulseWobble 1.6s ease-in-out infinite",
                             transformOrigin: "center",
                         }}
                     />
+
                 </Box>
 
                 <Typography
@@ -474,7 +529,7 @@ export default function Checkout() {
                         textTransform: "uppercase",
                         letterSpacing: "0.14em",
 
-                        fontSize: "clamp(1.48rem, 4.8vw, 1.90rem)",
+                        fontSize: "clamp(1.62rem, 4.8vw, 1.90rem)",
 
                         textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
                     }}
@@ -763,6 +818,30 @@ export default function Checkout() {
                                                 }}
                                             />
 
+                                            {order.length > 0 && (
+                                                <Box sx={{ display: "flex", justifyContent: "flex-end", mt: -2, mb: 1 }}>
+                                                    <Button
+                                                        onClick={handleClearCart}
+                                                        size="small"
+                                                        sx={{
+                                                            textTransform: "uppercase",
+                                                            letterSpacing: "0.10em",
+                                                            fontWeight: 900,
+                                                            fontSize: "0.72rem",
+                                                            color: "#b71c1c",
+                                                            border: "1px solid rgba(183, 28, 28, 0.28)",
+                                                            borderRadius: 2,
+                                                            px: 1.2,
+                                                            py: 0.5,
+                                                            "&:hover": { bgcolor: "rgba(183, 28, 28, 0.08)" },
+                                                        }}
+                                                    >
+                                                        Clear cart
+                                                    </Button>
+                                                </Box>
+                                            )}
+
+
                                             {order.length === 0 ? (
                                                 <Typography sx={{ fontWeight: 700, color: "text.secondary" }}>
                                                     Your cart is empty.
@@ -838,17 +917,52 @@ export default function Checkout() {
                                                                             <b>${Number(it.price).toFixed(2)}</b> each
                                                                         </Typography>
 
-                                                                        <Typography
-                                                                            sx={{
-                                                                                fontSize: "0.85rem",
-                                                                                color: "#0d47a1",
-                                                                                fontWeight: 900,
-                                                                                whiteSpace: "nowrap",
-                                                                                alignItems: "baseline"
-                                                                            }}
-                                                                        >
-                                                                            Qty: {qty}
-                                                                        </Typography>
+                                                                        <Box sx={{ display: "flex", alignItems: "center", gap: 0.6, flexShrink: 0 }}>
+                                                                            <IconButton
+                                                                                size="small"
+                                                                                onClick={() => decItem(pid)}
+                                                                                sx={{
+                                                                                    transform: "scale(0.92)",
+                                                                                    bgcolor: "rgba(30, 91, 184, 0.12)",
+                                                                                    border: "1px solid rgba(30, 91, 184, 0.22)",
+                                                                                    "&:hover": { bgcolor: "rgba(30, 91, 184, 0.18)" },
+                                                                                }}
+                                                                            >
+                                                                                <RemoveIcon sx={{ fontSize: 16, color: "#1e5bb8" }} />
+                                                                            </IconButton>
+
+                                                                            <Box
+                                                                                sx={{
+                                                                                    minWidth: 26,
+                                                                                    height: 26,
+                                                                                    px: 0.9,
+                                                                                    borderRadius: "999px",
+                                                                                    bgcolor: "#1e5bb8",
+                                                                                    color: "#fff",
+                                                                                    fontWeight: 900,
+                                                                                    fontSize: "0.78rem",
+                                                                                    display: "flex",
+                                                                                    alignItems: "center",
+                                                                                    justifyContent: "center",
+                                                                                }}
+                                                                            >
+                                                                                {qty}
+                                                                            </Box>
+
+                                                                            <IconButton
+                                                                                size="small"
+                                                                                onClick={() => incItem(pid)}
+                                                                                sx={{
+                                                                                    transform: "scale(0.92)",
+                                                                                    bgcolor: "rgba(30, 91, 184, 0.12)",
+                                                                                    border: "1px solid rgba(30, 91, 184, 0.22)",
+                                                                                    "&:hover": { bgcolor: "rgba(30, 91, 184, 0.18)" },
+                                                                                }}
+                                                                            >
+                                                                                <AddIcon sx={{ fontSize: 16, color: "#1e5bb8" }} />
+                                                                            </IconButton>
+                                                                        </Box>
+
                                                                     </Box>
                                                                 </Box>
 
@@ -889,17 +1003,17 @@ export default function Checkout() {
                                                             Delivery: {deliveryFee === 0 ? "FREE" : deliveryLabel}
                                                         </Typography>
 
-                                                        <Typography
-                                                            sx={{
-                                                                fontSize: "0.97rem",
-                                                                fontWeight: 900,
-                                                                color: "#0d47a1",
-                                                                mt: 0.4,
-                                                            }}
-                                                        >
-                                                            Total:
-                                                            <span style={{ color: "#0d47a1" }}> {grandTotalLabel}</span>
-                                                        </Typography>
+                                                        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                                            <Box>
+                                                                <Typography sx={{ fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", color: "#0d47a1" }}>
+                                                                    Total
+                                                                </Typography>
+                                                                <Typography sx={{ fontWeight: 800, color: "#0d47a1", fontSize: 18 }}>
+                                                                    {grandTotalLabel}
+                                                                </Typography>
+                                                            </Box>
+                                                        </Box>
+
                                                     </Box>
                                                 </Stack>
                                             )}
@@ -1210,7 +1324,7 @@ export default function Checkout() {
                                         ref={stickyRef}
                                         sx={{
                                             position: "sticky",
-                                            bottom: -1,
+                                            bottom: 0,
                                             px: { xs: 2, sm: 3 },
                                             py: 1.5,
                                             zIndex: 10,

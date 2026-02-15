@@ -350,7 +350,7 @@ export default function DeleteAccount() {
                                 variant="contained"
                                 onClick={handleRequestDelete}
                                 sx={{
-                                    mt: 1,
+                                    mt: 0.2,
                                     borderRadius: 2,
                                     textTransform: "uppercase",
                                     bgcolor: "#b71c1c",
