@@ -191,7 +191,8 @@ export default function AdminMessages() {
                                     color: "#0d47a1",
                                     fontWeight: 800,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
-                                    mt: { xs: 1, sm: 1, md: 0 },
+                                    mt: { xs: 1, sm: 1, md: 1 },
+                                    mb: { xs: 1, sm: 1, md: 1 },
                                 }}
                             >
                                 Messages

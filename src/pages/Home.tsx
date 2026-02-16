@@ -672,6 +672,12 @@ export default function Home() {
 
     useEffect(() => {
         if (!cartOpen) return;
+        closeCartMenu();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isMobile]);
+
+    useEffect(() => {
+        if (!cartOpen) return;
 
         const compute = () => {
             const headerH = cartHeaderRef.current?.offsetHeight ?? 0;
