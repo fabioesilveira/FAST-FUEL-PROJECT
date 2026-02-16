@@ -17,9 +17,15 @@ export default function NavbarAdmin() {
     const isOrders = location.pathname.startsWith("/admin/orders");
 
     function handleSignout() {
-        localStorage.clear();
+        localStorage.removeItem("token");
+        localStorage.removeItem("idUser");
+        localStorage.removeItem("userType");
+        localStorage.removeItem("emailUser");
+        localStorage.removeItem("userName");
+        localStorage.removeItem("authUser");
         navigate("/sign-in");
     }
+
 
     const actionBtnSx = {
         height: { xs: 40, md: 45 },

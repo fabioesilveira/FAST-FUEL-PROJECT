@@ -69,7 +69,13 @@ export default function SignUp() {
     }
 
     async function handleClick() {
-        if (!signUp.name || !signUp.email || !signUp.number || !signUp.password || !signUp.confirmPassword) {
+        if (
+            !signUp.name ||
+            !signUp.email ||
+            !signUp.number ||
+            !signUp.password ||
+            !signUp.confirmPassword
+        ) {
             showAlert("Please fill in all fields.", "warning");
             return;
         }
@@ -99,26 +105,44 @@ export default function SignUp() {
 
         try {
             const payload = {
-                fullName: signUp.name,
+                fullName: signUp.name.trim(),
                 phone: signUp.number,
-                email: signUp.email,
+                email: signUp.email.trim().toLowerCase(),
                 password: signUp.password,
             };
 
-            const res = await api.post("/users/register", payload);
+            //  Register
+            await api.post("/users/register", payload);
 
-            localStorage.setItem("idUser", String(res.data.id));
-            localStorage.setItem("userName", res.data.userName || signUp.name);
-            localStorage.setItem("userType", res.data.type || "normal");
-            localStorage.setItem("emailUser", res.data.email || signUp.email);
+            // Auto login (get token)
+            const loginRes = await api.post("/users/login", {
+                email: payload.email,
+                password: payload.password,
+            });
+
+            if (!loginRes.data?.id) {
+                showAlert("Account created, but login failed. Please sign in.", "warning");
+                navigate("/sign-in");
+                return;
+            }
+
+            const displayName =
+                loginRes.data.fullName || loginRes.data.userName || payload.fullName || payload.email;
+
+            localStorage.setItem("idUser", String(loginRes.data.id));
+            localStorage.setItem("userName", displayName);
+            localStorage.setItem("userType", loginRes.data.type || "normal");
+            localStorage.setItem("emailUser", loginRes.data.email || payload.email);
+            localStorage.setItem("token", loginRes.data.token);
 
             localStorage.setItem(
                 "authUser",
                 JSON.stringify({
-                    id: res.data.id,
-                    userName: res.data.userName || signUp.name,
-                    email: res.data.email || signUp.email,
-                    type: res.data.type || "normal",
+                    id: loginRes.data.id,
+                    userName: displayName,
+                    email: loginRes.data.email || payload.email,
+                    type: loginRes.data.type || "normal",
+                    token: loginRes.data.token,
                 })
             );
 
@@ -160,10 +184,7 @@ export default function SignUp() {
             {AlertUI}
 
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-
-
                 {/* BACKGROUND */}
-
                 <Box
                     sx={{
                         position: "relative",
@@ -187,18 +208,18 @@ export default function SignUp() {
                             pointerEvents: "none",
                             backgroundImage: `
                                 linear-gradient(90deg,
-                                    rgba(255,255,255,1) 0%,
-                                    rgba(255,244,225,0.0) 14%,
-                                    rgba(255,244,225,0.0) 86%,
-                                    rgba(255,255,255,1) 100%
+                                rgba(255,255,255,1) 0%,
+                                rgba(255,244,225,0.0) 14%,
+                                rgba(255,244,225,0.0) 86%,
+                                rgba(255,255,255,1) 100%
                                 ),
                                 repeating-linear-gradient(135deg,
-                                    rgba(230,81,0,0.018) 0px,
-                                    rgba(230,81,0,0.018) 12px,
-                                    rgba(255,255,255,0.85) 12px,
-                                    rgba(255,255,255,0.85) 20px
+                                rgba(230,81,0,0.018) 0px,
+                                rgba(230,81,0,0.018) 12px,
+                                rgba(255,255,255,0.85) 12px,
+                                rgba(255,255,255,0.85) 20px
                                 )
-                                `,
+                            `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -229,7 +250,6 @@ export default function SignUp() {
                             sx={{
                                 width: "100%",
                                 maxWidth: { xs: 520, md: 520 },
-
                                 borderRadius: 3,
                                 border: "1.5px solid rgba(230, 81, 0, 0.35)",
                                 bgcolor: "background.paper",
@@ -238,8 +258,7 @@ export default function SignUp() {
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
                                 maxHeight: 720,
 
-                                boxShadow:
-                                    "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
+                                boxShadow: "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
 
                                 display: "flex",
                                 flexDirection: "column",
@@ -264,7 +283,6 @@ export default function SignUp() {
                                 Sign Up
                             </Typography>
 
-
                             <Box
                                 sx={{
                                     flex: 1,
@@ -274,7 +292,7 @@ export default function SignUp() {
                                     justifyContent: "center",
                                     px: 1,
                                     pt: { xs: 1, sm: 0 },
-                                    pb: { xs: `calc(96px + env(safe-area-inset-bottom))`, sm: 4 }
+                                    pb: { xs: `calc(96px + env(safe-area-inset-bottom))`, sm: 4 },
                                 }}
                             >
                                 <Box
@@ -303,7 +321,7 @@ export default function SignUp() {
                                             fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
                                             "&:hover": { textDecoration: "underline" },
                                             mb: { xs: -1 },
-                                            mt: { xs: -1.5 }
+                                            mt: { xs: -1.5 },
                                         }}
                                     >
                                         Already have an account? Sign in to your account.
@@ -441,7 +459,6 @@ export default function SignUp() {
                                             },
                                             "&:active": {
                                                 bgcolor: "rgba(230, 81, 0, 0.28)",
-                                                boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
                                                 transform: "translateY(1px)",
                                             },
                                         }}
@@ -460,5 +477,4 @@ export default function SignUp() {
             </Box>
         </>
     );
-
 }
