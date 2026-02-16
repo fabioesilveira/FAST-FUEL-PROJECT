@@ -44,8 +44,9 @@ export default function SignIn() {
         const finalType = type || authType;
         const finalTypeSafe = finalType ?? "normal";
 
-        if (finalId) {
-            navigate(finalTypeSafe === "admin" ? "/admin" : "/");
+        const token = localStorage.getItem("token");
+        if (finalId && token) {
+            navigate(finalTypeSafe === "admin" ? "/admin/orders" : "/");
         }
     }, [navigate]);
 
@@ -56,35 +57,46 @@ export default function SignIn() {
         }
 
         try {
-            const res = await api.post("/users/login", signUp);
+            const payload = {
+                ...signUp,
+                email: signUp.email.trim().toLowerCase(),
+            };
+            const res = await api.post("/users/login", payload);
+
 
             if (!res.data || !res.data.id) {
                 showAlert("Login failed. Please try again.", "error");
                 return;
             }
 
+            const displayName =
+                res.data.fullName || res.data.userName || payload.email;
+
             localStorage.setItem("idUser", String(res.data.id));
-            localStorage.setItem("userName", res.data.userName || signUp.email);
+            localStorage.setItem("userName", displayName);
             localStorage.setItem("userType", res.data.type);
             localStorage.setItem("emailUser", res.data.email);
+            localStorage.setItem("token", res.data.token);
 
             localStorage.setItem(
                 "authUser",
                 JSON.stringify({
                     id: res.data.id,
-                    userName: res.data.userName || signUp.email,
+                    userName: displayName,
                     email: res.data.email,
                     type: res.data.type,
+                    token: res.data.token,
                 })
             );
 
             showAlert("Login successful!", "success");
 
             if (res.data.type === "admin") {
-                navigate("/admin");
+                navigate("/admin/orders");
             } else {
                 navigate("/");
             }
+
         } catch (error: any) {
             if (error.response?.status === 401) {
                 showAlert("Incorrect password.", "error");
