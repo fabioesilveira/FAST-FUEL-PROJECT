@@ -16,6 +16,7 @@ import OrdersLogged from "./pages/OrdersLogged";
 import TrackOrderGuest from "./pages/TrackOrderGuest";
 import OrdersPage from "./pages/OrdersPage";
 import ScrollToTop from "./components/ScrollToTop.tsx";
+import { RequireAuth, RequireAdmin } from "./routes/RequireAuth.tsx"
 
 export default function App() {
   return (
@@ -30,13 +31,20 @@ export default function App() {
         <Route path="/desserts" element={<Desserts />} />
         <Route path="/beverages" element={<Beverages />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/deleteaccount" element={<DeleteAccount />} />
         <Route path="/contact-us" element={<ContactUs />} />
-        <Route path="/admin/messages" element={<AdminMessages />} />
-        <Route path="/admin/orders" element={<AdminOrders />} />
         <Route path="/orders" element={<OrdersPage />} />
-        <Route path="/OrdersLogged" element={<OrdersLogged />} />
         <Route path="/TrackOrderGuest" element={<TrackOrderGuest />} />
+
+        <Route element={<RequireAuth />}>
+          <Route path="/deleteaccount" element={<DeleteAccount />} />
+          <Route path="/OrdersLogged" element={<OrdersLogged />} />
+        </Route>
+
+        <Route element={<RequireAdmin />}>
+          <Route path="/admin/messages" element={<AdminMessages />} />
+          <Route path="/admin/orders" element={<AdminOrders />} />
+        </Route>
+
       </Routes>
     </>
   )

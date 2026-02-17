@@ -31,21 +31,22 @@ export default function SignUp() {
     });
 
     useEffect(() => {
-        const id = localStorage.getItem("idUser");
-        const raw = localStorage.getItem("authUser");
+        const token = localStorage.getItem("token");
+        if (!token) return;
 
-        let authId: string | null = null;
+        const raw = localStorage.getItem("authUser");
         if (raw) {
             try {
                 const u = JSON.parse(raw);
-                authId = u?.id ? String(u.id) : null;
+                if (u?.id) navigate("/");
+                return;
             } catch { }
         }
 
-        if (id || authId) {
-            navigate("/");
-        }
+        const id = localStorage.getItem("idUser");
+        if (id) navigate("/");
     }, [navigate]);
+
 
     function handleChange({ target }: any) {
         const { name, value } = target;
@@ -120,7 +121,7 @@ export default function SignUp() {
                 password: payload.password,
             });
 
-            if (!loginRes.data?.id) {
+            if (!loginRes.data?.id || !loginRes.data?.token) {
                 showAlert("Account created, but login failed. Please sign in.", "warning");
                 navigate("/sign-in");
                 return;

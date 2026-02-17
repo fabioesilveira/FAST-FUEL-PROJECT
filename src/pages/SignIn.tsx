@@ -25,30 +25,28 @@ export default function SignIn() {
     });
 
     useEffect(() => {
-        const id = localStorage.getItem("idUser");
-        const type = localStorage.getItem("userType");
-
-        let authType: string | null = null;
-        let authId: string | null = null;
+        const token = localStorage.getItem("token");
+        if (!token) return;
 
         const raw = localStorage.getItem("authUser");
         if (raw) {
             try {
                 const u = JSON.parse(raw);
-                authId = u?.id ? String(u.id) : null;
-                authType = u?.type ?? null;
+                const type = u?.type ?? localStorage.getItem("userType") ?? "normal";
+                const id = u?.id ? String(u.id) : localStorage.getItem("idUser");
+
+                if (id) {
+                    navigate(type === "admin" ? "/admin/orders" : "/");
+                }
+                return;
             } catch { }
         }
 
-        const finalId = id || authId;
-        const finalType = type || authType;
-        const finalTypeSafe = finalType ?? "normal";
-
-        const token = localStorage.getItem("token");
-        if (finalId && token) {
-            navigate(finalTypeSafe === "admin" ? "/admin/orders" : "/");
-        }
+        const id = localStorage.getItem("idUser");
+        const type = localStorage.getItem("userType") ?? "normal";
+        if (id) navigate(type === "admin" ? "/admin/orders" : "/");
     }, [navigate]);
+
 
     async function handleClick() {
         if (!signUp.email || !signUp.password) {
@@ -99,9 +97,7 @@ export default function SignIn() {
 
         } catch (error: any) {
             if (error.response?.status === 401) {
-                showAlert("Incorrect password.", "error");
-            } else if (error.response?.status === 404) {
-                showAlert("User not found.", "warning");
+                showAlert("Invalid email or password.", "error");
             } else {
                 showAlert("Login failed. Please try again.", "error");
             }
