@@ -1,4 +1,4 @@
-# Fast Fuel 🍔
+# Fast Fuel Project
 
 Fast Fuel is a **full-stack food ordering web application** focused on performance, UI/UX, and real-world order workflows.  
 It simulates a complete food ordering experience, from product browsing to checkout and admin order management.
@@ -10,6 +10,7 @@ It simulates a complete food ordering experience, from product browsing to check
 
 ## Table of Contents
 - Overview
+- Usage
 - Tech Stack
 - Features
 - Order Snapshot System
@@ -17,13 +18,44 @@ It simulates a complete food ordering experience, from product browsing to check
 - Architecture
 - UI/UX Focus
 - Getting Started
-- Environment Variables
-- API Overview
 - Project Status
 - License
 - Author
 
----
+## Usage
+
+Fast Fuel supports both authenticated users and guest checkout for a flexible real-world ordering experience.
+
+### Customer Experience
+
+- Create an account or proceed with **Easy Checkout as a Guest**
+- Browse products through category pages or explore featured items on the Home page
+- Use the **Fast Thru** button when your order is ready for a quick and streamlined checkout
+- Search categories or individual products using the Home page search icon with dynamic feedback messages
+- Adjust cart quantities directly from the Fast Thru preview menu
+- Complete checkout using:
+  - Valid email address  
+  - US address lookup (API-powered with address filtering)
+
+### Order Tracking & Support
+
+- Track order status whether logged in or as a guest
+- Logged users can view their personal order history
+- Send messages to the store through the Contact feature
+
+###  Admin Panel
+
+Server-side protected admin access enables real-time order management.
+
+**Demo Admin Credentials:**
+
+```json
+{
+  "email": "fabio.test.user@gmail.com",
+  "password": "FastFuel123!"
+}
+```
+
 
 ## Overview
 
@@ -122,7 +154,10 @@ This guarantees **historical accuracy**, even if products are later edited or re
 - Consistent spacing and visual hierarchy
 - Smooth animations and transitions
 - Sticky navigation and scroll behavior
-- Cross-browser tested (Chrome, Safari, Mobile)
+- Cross-browser tested on Chrome and Safari across desktop and mobile environments
+- Mobile responsiveness validated on iPhone devices (medium through Pro Max)
+- Optimized for modern viewport ranges with mobile-first breakpoints
+- Additional support for very small devices and small notebooks is planned for future enhancement
 
 ---
 
@@ -137,7 +172,29 @@ This guarantees **historical accuracy**, even if products are later edited or re
 npm install
 ```
 
----
+### Environment Variables
+
+Create a `.env` file in the project root and add:
+
+```env
+VITE_API_URL=your_backend_url_here
+```
+
+### Run the Development Server
+
+```bash
+npm run dev
+```
+
+### The app will be available at:
+
+http://localhost:5173
+
+
+> ⚠️ This project requires the Fast Fuel backend to be running.
+>  
+> See the backend repository for setup instructions:
+> https://github.com/fabioesilveira/Back-end-FAST-FUEL
 
 ## Project Status
 
@@ -161,4 +218,3 @@ Commercial use, redistribution, or deployment for profit is not permitted withou
 Full-Stack Developer with strong focus on Frontend UI/UX  
 
 © 2026 Fabio Silveira
-```
