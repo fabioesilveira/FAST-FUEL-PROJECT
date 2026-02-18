@@ -32,30 +32,30 @@ Fast Fuel supports both authenticated users and guest checkout for a flexible re
 - Browse products through category pages or explore featured items on the Home page
 - Use the **Fast Thru** button when your order is ready for a quick and streamlined checkout
 - Search categories or individual products using the Home page search icon with dynamic feedback messages
-- Adjust cart quantities directly from the Fast Thru preview menu
+- Adjust cart quantities directly from the Fast Thru preview menu or within the checkout flow.
 - Complete checkout using:
-  - Valid email address  
+  - Email format validation (client-side)  
   - US address lookup (API-powered with address filtering)
 
 ### Order Tracking & Support
 
 - Track order status whether logged in or as a guest
-- Logged users can view their personal order history
+- Guest users can manually look up orders using email and order number
+- Logged users can view their persistent order history
 - Send messages to the store through the Contact feature
 
 ###  Admin Panel
 
-Server-side protected admin access enables real-time order management.
+Server-side protected admin access enables real-time order management and automatic message updates at short polling intervals.
 
 **Demo Admin Credentials:**
 
 ```json
 {
-  "email": "fabio.test.user@gmail.com",
+  "email": "fast-fuel@admin.com",
   "password": "FastFuel123!"
 }
 ```
-
 
 ## Overview
 

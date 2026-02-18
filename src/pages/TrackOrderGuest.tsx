@@ -463,7 +463,7 @@ export default function TrackOrderGuest() {
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
                                     mb: { xs: 1, sm: 2, md: 2 },
-                                    mt: { xs: 1.5, sm: 1.5, md: 1.3 },
+                                    mt: { xs: 1, sm: 1, md: 1.3 },
                                 }}
                             >
                                 Track Order
@@ -794,7 +794,6 @@ export default function TrackOrderGuest() {
                                                                                     textTransform: "uppercase",
                                                                                     letterSpacing: "0.08em",
 
-                                                                                    // ✅ botão menor no mobile
                                                                                     fontSize: { xs: "0.60rem", md: "0.7rem" },
                                                                                     px: { xs: 1.0, md: 1.6 },
                                                                                     minWidth: { xs: 52, md: 64 },

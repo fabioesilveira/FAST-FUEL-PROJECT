@@ -39,8 +39,18 @@ function NavbarProducts() {
   return (
     <>
       {ConfirmUI}
-
-      <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
+      <AppBar
+        position="fixed"
+        elevation={0}
+        sx={{
+          bgcolor: "#fff3e0",
+          backgroundImage: "none",
+          zIndex: (t) => t.zIndex.appBar,
+          transform: "translateZ(0)",
+          willChange: "transform",
+          backfaceVisibility: "hidden",
+        }}
+      >
         <Box sx={{ width: "100%" }}>
           <Toolbar
             disableGutters

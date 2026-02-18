@@ -486,14 +486,14 @@ export default function OrdersLogged() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: { xs: "2.25rem", sm: "2.35rem", md: "2.4rem" },
+                                    fontSize: { xs: "2.22rem", sm: "2.32rem", md: "2.37rem" },
                                     letterSpacing: { xs: "0.10em", sm: "0.12em" },
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: 1.5, sm: 2, md: 2 },
-                                    mt: { xs: 1.5, sm: 1.5, md: 1.3 },
+                                    mb: { xs: 1, sm: 2, md: 2 },
+                                    mt: { xs: 1, sm: 1, md: 1.3 },
 
                                 }}
                             >
@@ -505,7 +505,7 @@ export default function OrdersLogged() {
                                 id="ff-user-orders-tabs"
                                 activeKey={activeKey}
                                 onSelect={(k) => k && setActiveKey(k as any)}
-                                className="mb-2 ff-tabs"
+                                className="ff-tabs"
                                 fill
                             >
                                 <Tab eventKey="in_progress" title="In progress" />
@@ -642,11 +642,12 @@ export default function OrdersLogged() {
                                                         {showReceivedPrompt && (
                                                             <Box
                                                                 sx={{
-                                                                    mt: { xs: 0.7, sm: 0.9 },
-                                                                    mb: 0.8, // respiro antes do conteúdo abaixo
-                                                                    width: { xs: "100%", md: "auto" },
-                                                                    maxWidth: { xs: "100%", md: 370 },
-                                                                    p: 1.4,
+                                                                    mt: { xs: 0.6, sm: 0.8 },
+                                                                    mb: { xs: 0.6, sm: 0.8 },
+                                                                    width: { xs: "100%", sm: "auto" },
+                                                                    maxWidth: { xs: "100%", sm: 370 },
+                                                                    p: { xs: 1.0, sm: 1.6 },
+
                                                                     borderRadius: 2,
                                                                     border: "1px solid rgba(13, 71, 161, 0.22)",
                                                                     bgcolor: "rgba(255,255,255,0.75)",
@@ -656,14 +657,16 @@ export default function OrdersLogged() {
                                                                     direction={{ xs: "column", md: "row" }}
                                                                     alignItems={{ xs: "stretch", md: "center" }}
                                                                     justifyContent="space-between"
-                                                                    gap={1.1}
+
+                                                                    gap={{ xs: 0.8, sm: 1.2 }}
                                                                 >
                                                                     <Typography
                                                                         sx={{
                                                                             fontWeight: 900,
                                                                             color: "#0d47a1",
-                                                                            fontSize: { xs: "0.88rem", md: "0.97rem" },
-                                                                            lineHeight: 1.2,
+                                                                            fontSize: { xs: "0.82rem", md: "0.97rem" },
+
+                                                                            lineHeight: 1.15,
                                                                             textAlign: { xs: "center", md: "left" },
                                                                         }}
                                                                     >
@@ -672,7 +675,7 @@ export default function OrdersLogged() {
 
                                                                     <Stack
                                                                         direction="row"
-                                                                        spacing={1}
+                                                                        spacing={{ xs: 0.6, sm: 1 }}
                                                                         justifyContent={{ xs: "center", md: "flex-end" }}
                                                                         sx={{ flexShrink: 0 }}
                                                                     >
@@ -687,10 +690,12 @@ export default function OrdersLogged() {
                                                                                 fontWeight: 900,
                                                                                 textTransform: "uppercase",
                                                                                 letterSpacing: "0.08em",
-                                                                                fontSize: { xs: "0.65rem", md: "0.7rem" },
-                                                                                px: { xs: 1.4, md: 1.6 },
-                                                                                minWidth: 64,
-                                                                                height: 28,
+
+                                                                                fontSize: { xs: "0.60rem", md: "0.7rem" },
+                                                                                px: { xs: 1.0, md: 1.6 },
+                                                                                minWidth: { xs: 52, md: 64 },
+                                                                                height: { xs: 24, md: 28 },
+
                                                                                 "&:hover": { bgcolor: "#164a96" },
                                                                             }}
                                                                         >
@@ -708,11 +713,16 @@ export default function OrdersLogged() {
                                                                                 fontWeight: 900,
                                                                                 textTransform: "uppercase",
                                                                                 letterSpacing: "0.08em",
-                                                                                fontSize: { xs: "0.65rem", md: "0.7rem" },
-                                                                                px: { xs: 1.4, md: 1.6 },
-                                                                                minWidth: 64,
-                                                                                height: 28,
-                                                                                "&:hover": { borderColor: "#123b7a", color: "#123b7a" },
+
+                                                                                fontSize: { xs: "0.60rem", md: "0.7rem" },
+                                                                                px: { xs: 1.0, md: 1.6 },
+                                                                                minWidth: { xs: 52, md: 64 },
+                                                                                height: { xs: 24, md: 28 },
+
+                                                                                "&:hover": {
+                                                                                    borderColor: "#123b7a",
+                                                                                    color: "#123b7a",
+                                                                                },
                                                                             }}
                                                                         >
                                                                             No
