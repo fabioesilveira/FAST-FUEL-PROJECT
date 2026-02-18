@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api } from "../api";
 import {
     Box,
@@ -113,15 +113,16 @@ function formatPayment(method?: Sale["payment_method"], status?: Sale["payment_s
 
 
 export default function TrackOrderGuest() {
+    
     const [orderCodeFilter, setOrderCodeFilter] = useState("");
     const [emailFilter, setEmailFilter] = useState("");
-
     const [items, setItems] = useState<Sale[]>([]);
     const [loading, setLoading] = useState(false);
-
     const [hasSearched, setHasSearched] = useState(false);
 
+
     const navigate = useNavigate();
+    const inFlightRef = useRef(false);
 
     const { showAlert, AlertUI, ConfirmUI, confirmAlert } = useAppAlert({
         vertical: "top",
@@ -163,21 +164,26 @@ export default function TrackOrderGuest() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    async function fetchOrders() {
+    async function fetchOrders(opts?: { silent?: boolean }) {
+        const silent = !!opts?.silent;
+
         const code = orderCodeFilter.trim();
         const email = emailFilter.trim();
 
-        setHasSearched(true);
+        // só marca searched quando o usuário clicar em Search
+        if (!silent) setHasSearched(true);
 
         if (!code || !email) {
             setItems([]);
             return;
         }
 
-        localStorage.setItem("lastOrderCode", code);
-        localStorage.setItem("lastOrderEmail", email);
+        // evita chamadas simultâneas (isso reduz MUITO o “bug visual”)
+        if (inFlightRef.current) return;
+        inFlightRef.current = true;
 
-        setLoading(true);
+        if (!silent) setLoading(true);
+
         try {
             const res = await api.get<Sale[]>("/sales", {
                 params: { order_code: code, email },
@@ -189,12 +195,14 @@ export default function TrackOrderGuest() {
             setItems(sorted);
         } catch (e) {
             console.error(e);
-            showAlert("Failed to load your orders.", "error");
-            setItems([]);
+            if (!silent) showAlert("Failed to load your orders.", "error");
+            if (!silent) setItems([]);
         } finally {
-            setLoading(false);
+            if (!silent) setLoading(false);
+            inFlightRef.current = false;
         }
     }
+
 
 
     function statusChip(status: Sale["status"]) {
@@ -354,16 +362,19 @@ export default function TrackOrderGuest() {
     const canSearch = Boolean(orderCodeFilter.trim() && emailFilter.trim());
 
     useEffect(() => {
-        if (!hasSearched) return;
-        if (!canSearch) return;
+        if (!hasSearched || !canSearch) return;
 
-        const id = setInterval(() => {
-            fetchOrders();
-        }, 8000);
+        const tick = () => {
+            if (document.visibilityState === "visible") {
+                fetchOrders({ silent: true });
+            }
+        };
 
+        const id = setInterval(tick, 8000);
         return () => clearInterval(id);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hasSearched, canSearch]);
+
+
 
 
     return (
@@ -528,7 +539,7 @@ export default function TrackOrderGuest() {
                                     <Button
                                         variant="contained"
                                         disabled={!canSearch || loading}
-                                        onClick={fetchOrders}
+                                        onClick={() => fetchOrders()}
                                         sx={{
                                             flex: 0.6,
                                             borderRadius: 1.5,
@@ -755,7 +766,7 @@ export default function TrackOrderGuest() {
 
                                                                         <Stack
                                                                             direction="row"
-                                                                            spacing={{ xs: 0.6, sm: 1 }} 
+                                                                            spacing={{ xs: 0.6, sm: 1 }}
                                                                             justifyContent={{ xs: "center", md: "flex-end" }}
                                                                             sx={{ flexShrink: 0 }}
                                                                         >

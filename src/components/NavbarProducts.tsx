@@ -41,10 +41,8 @@ function NavbarProducts() {
       {ConfirmUI}
       <AppBar
         position="fixed"
-        elevation={0}
         sx={{
           bgcolor: "#fff3e0",
-          backgroundImage: "none",
           zIndex: (t) => t.zIndex.appBar,
           transform: "translateZ(0)",
           willChange: "transform",
