@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { api } from "../../api";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
@@ -32,6 +32,8 @@ export default function AdminMessages() {
     const [items, setItems] = useState<ContactMsg[]>([]);
     const [loading, setLoading] = useState(false);
 
+    const inFlightRef = useRef(false);
+
     const tfBlueLabelSx = {
         "& label": { color: "#0d47a1" },
         "& label.Mui-focused": { color: "#0d47a1" },
@@ -51,31 +53,44 @@ export default function AdminMessages() {
         return `${API}?${params.toString()}`;
     }, [repliedValue, emailFilter]);
 
-    async function fetchMessages() {
-        setLoading(true);
+    async function fetchMessages(opts?: { silent?: boolean }) {
+        const silent = !!opts?.silent;
+
+        // evita chamadas simultâneas tira piscadas/duplicação)
+        if (inFlightRef.current) return;
+        inFlightRef.current = true;
+
+        if (!silent) setLoading(true);
+
         try {
             const res = await api.get<ContactMsg[]>(queryUrl);
             setItems(res.data);
         } catch (e) {
             console.error(e);
-            alert("Failed to load messages");
+            if (!silent) alert("Failed to load messages");
         } finally {
-            setLoading(false);
+            if (!silent) setLoading(false);
+            inFlightRef.current = false;
         }
     }
+
 
     useEffect(() => {
         if (activeKey === "contact") return;
 
         fetchMessages();
 
-        const interval = setInterval(() => {
-            fetchMessages();
-        }, 8000);
+        const tick = () => {
+            if (document.visibilityState === "visible") {
+                fetchMessages({ silent: true });
+            }
+        };
 
+        const interval = setInterval(tick, 8000);
         return () => clearInterval(interval);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [queryUrl, activeKey]);
+
 
     async function markAsAnswered(id: number) {
         try {

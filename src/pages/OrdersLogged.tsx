@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { api } from "../api";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
@@ -121,6 +121,8 @@ function formatPayment(method?: Sale["payment_method"], status?: Sale["payment_s
 
 export default function OrdersLogged() {
     const navigate = useNavigate();
+
+    const inFlightRef = useRef(false);
 
     const { confirmAlert, showAlert, AlertUI, ConfirmUI } = useAppAlert({
         vertical: "top",
@@ -251,20 +253,22 @@ export default function OrdersLogged() {
         );
     }
 
-    async function fetchUserOrders() {
+    async function fetchUserOrders(opts?: { silent?: boolean }) {
         if (!isLogged) return;
 
-        setLoading(true);
+        const silent = !!opts?.silent;
+
+        if (inFlightRef.current) return;
+        inFlightRef.current = true;
+
+        if (!silent) setLoading(true);
+
         try {
             const params = new URLSearchParams();
             params.set("user_id", String(loggedUser!.id));
 
-            if (activeKey === "completed") {
-                params.set("status", "completed");
-            } else {
-                // “In progress” mostra as 3 fases antes de completed
-                params.set("status", "received,in_progress,sent");
-            }
+            if (activeKey === "completed") params.set("status", "completed");
+            else params.set("status", "received,in_progress,sent");
 
             if (debouncedOrderCode) params.set("order_code", debouncedOrderCode);
 
@@ -277,9 +281,10 @@ export default function OrdersLogged() {
             setItems(sorted);
         } catch (e) {
             console.error(e);
-            showAlert?.("Failed to load your orders", "error");
+            if (!silent) showAlert?.("Failed to load your orders", "error");
         } finally {
-            setLoading(false);
+            if (!silent) setLoading(false);
+            inFlightRef.current = false;
         }
     }
 
@@ -388,12 +393,16 @@ export default function OrdersLogged() {
     useEffect(() => {
         if (!isLogged) return;
 
-        const id = setInterval(() => {
-            fetchUserOrders();
-        }, 5000);
+        const tick = () => {
+            if (document.visibilityState === "visible") {
+                fetchUserOrders({ silent: true });
+            }
+        };
 
+        tick();
+
+        const id = setInterval(tick, 5000);
         return () => clearInterval(id);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLogged, activeKey, debouncedOrderCode]);
 
 
@@ -575,10 +584,6 @@ export default function OrdersLogged() {
 
                                             const deliveryText = formatAddress((o as any).delivery_address);
                                             const paymentText = formatPayment((o as any).payment_method, (o as any).payment_status);
-
-                                            console.log("RAW o.items:", o.items);
-                                            console.log("PARSED cart:", cart);
-                                            console.log("FIRST item:", Array.isArray(cart) ? cart[0] : cart);
 
                                             const lines = list.map((it: any, idx: number) => {
                                                 const rawName = String(it?.name ?? it?.product_name ?? it?.title ?? "Item");

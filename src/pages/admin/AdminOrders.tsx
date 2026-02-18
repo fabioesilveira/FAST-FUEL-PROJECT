@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { api } from "../../api";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
@@ -97,6 +97,7 @@ export default function AdminOrders() {
     const [items, setItems] = useState<Sale[]>([]);
     const [loading, setLoading] = useState(false);
 
+    const inFlightRef = useRef(false);
 
     const tfBlueLabelSx = {
         "& label": { color: "#0d47a1" },
@@ -117,8 +118,15 @@ export default function AdminOrders() {
         return () => clearTimeout(t);
     }, [orderCodeFilter, emailFilter]);
 
-    async function fetchOrders() {
-        setLoading(true);
+    async function fetchOrders(opts?: { silent?: boolean }) {
+        const silent = !!opts?.silent;
+
+        // evita chamadas simultâneas (some com as “piscadas” e duplicação)
+        if (inFlightRef.current) return;
+        inFlightRef.current = true;
+
+        if (!silent) setLoading(true);
+
         try {
             const buildParams = (status: string) => {
                 const params = new URLSearchParams();
@@ -141,17 +149,21 @@ export default function AdminOrders() {
                 );
 
                 setItems(merged);
-            } else {
-                const res = await api.get<Sale[]>(`${API}?${buildParams(activeKey)}`);
-                setItems(res.data);
+                return;
             }
+
+            const res = await api.get<Sale[]>(`${API}?${buildParams(activeKey)}`);
+            setItems(res.data);
         } catch (e) {
             console.error(e);
-            alert("Failed to load orders");
+            // no silent não mostra alert pra não incomodar
+            if (!silent) alert("Failed to load orders");
         } finally {
-            setLoading(false);
+            if (!silent) setLoading(false);
+            inFlightRef.current = false;
         }
     }
+
 
     useEffect(() => {
         fetchOrders();
@@ -159,13 +171,17 @@ export default function AdminOrders() {
     }, [activeKey, debouncedOrderCode, debouncedEmail]);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            if (!loading) fetchOrders();
-        }, 8000);
+        const tick = () => {
+            if (document.visibilityState === "visible") {
+                fetchOrders({ silent: true });
+            }
+        };
 
+        const interval = setInterval(tick, 8000);
         return () => clearInterval(interval);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [activeKey, debouncedOrderCode, debouncedEmail, loading]);
+    }, [activeKey, debouncedOrderCode, debouncedEmail]);
+
 
     async function updateStatus(id: number, status: "in_progress" | "sent") {
         try {
