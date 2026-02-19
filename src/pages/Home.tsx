@@ -875,15 +875,20 @@ export default function Home() {
             >
                 <Box
                     sx={{
-                        minHeight: "100vh",
+                        minHeight: "100dvh",
+                        boxSizing: "border-box",
+
                         display: "flex",
                         flexDirection: "column",
                         backgroundColor: "transparent",
-                        pt: { xs: "92px", md: 0 },
-                        pb: { xs: `calc(86px + env(safe-area-inset-bottom))`, sm: 0 },
+
+                        pt: { xs: `calc(${NAVBAR_H}px + 12px)`, md: 0 },
+                        pb: { xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 12px)`, sm: 0 },
+
                         overscrollBehaviorY: { xs: "none", sm: "auto" },
                     }}
                 >
+
                     <Navbar onSearch={handleSearchInput} onSearchOverlayChange={setSearchOverlayOpen} />
 
                     <CssBaseline />
@@ -1433,13 +1438,13 @@ export default function Home() {
 
                                 <style>
                                     {`
-                            @media (max-width: 899.95px){
-                             .total{
-                              grid-row: 2;
-                              justify-self: center;
-                              }
-                            }
-                           `}
+                                        @media (max-width: 899.95px){
+                                        .total{
+                                        grid-row: 2;
+                                        justify-self: center;
+                                        }
+                                        }
+                                    `}
                                 </style>
 
                                 {/* DESKTOP */}
@@ -1585,7 +1590,7 @@ export default function Home() {
                                     align="center"
                                     sx={{
                                         mb: { xs: 3, md: 3 },
-                                        mt: { xs: -3, md: -4 },
+                                        mt: { xs: 1, md: -4 },
                                         fontFamily: "Titan One",
                                         fontSize: { xs: "28px", md: "37px" },
                                         letterSpacing: "0.14em",
