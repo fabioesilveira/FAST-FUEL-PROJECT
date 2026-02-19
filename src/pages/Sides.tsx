@@ -718,7 +718,7 @@ export default function Sides() {
         px: { xs: 1, sm: 2 },
         mx: "auto",
         mt: 4,
-        mb: 15,
+        mb: 2,
       }}
     >
       {data.map((product) => (
@@ -783,12 +783,15 @@ export default function Sides() {
       >
         <Box
           sx={{
-            minHeight: "100vh",
+            minHeight: "100dvh",
+            boxSizing: "border-box",
             display: "flex",
             flexDirection: "column",
             backgroundColor: "transparent",
             pt: 0,
-            pb: 0,
+            pb: isMobile
+              ? `calc(86px + env(safe-area-inset-bottom) + 10px)`
+              : 0,
           }}
         >
 

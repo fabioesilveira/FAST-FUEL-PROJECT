@@ -760,7 +760,7 @@ export default function Burguers() {
         <Box
           sx={{
             minHeight: "100dvh",
-            boxSizing: "border-box", // ✅ ESSA LINHA resolve o gap gigante
+            boxSizing: "border-box",
             display: "flex",
             flexDirection: "column",
             backgroundColor: "transparent",
