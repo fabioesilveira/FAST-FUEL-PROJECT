@@ -693,7 +693,7 @@ export default function Burguers() {
         px: { xs: 1, sm: 2 },
         mx: "auto",
         mt: 4,
-        mb: 15,
+        mb: 2,
       }}
     >
       {data.map((product) => (
@@ -759,12 +759,15 @@ export default function Burguers() {
       >
         <Box
           sx={{
-            minHeight: "100vh",
+            minHeight: "100dvh",
+            boxSizing: "border-box", // ✅ ESSA LINHA resolve o gap gigante
             display: "flex",
             flexDirection: "column",
             backgroundColor: "transparent",
             pt: 0,
-            pb: 0
+            pb: isMobile
+              ? `calc(86px + env(safe-area-inset-bottom) + 10px)`
+              : 0,
           }}
         >
           <h2 className='h2-products-background'>BURGERS</h2>
