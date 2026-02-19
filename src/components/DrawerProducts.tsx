@@ -33,6 +33,16 @@ const ORANGE_UI = "#fa6000ff";
 const BLUE = "#0d47a1";
 const ORANGE_SOFT = "rgba(230,81,0,.18)";
 
+const ICON_OUTLINE_ORANGE = "#ff8a4c";
+
+const outlineOrangeSx = {
+  "& path": {
+    stroke: ICON_OUTLINE_ORANGE,
+    strokeWidth: 0.8,
+    paintOrder: "stroke fill",
+  },
+} as const;
+
 type DrawerItem = {
   label: string;
   icon: any;
@@ -248,9 +258,21 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
             }}
           >
             {open ? (
-              <ChevronLeftIcon sx={{ color: chevronColor, fontSize: 26 }} />
+              <ChevronLeftIcon
+                sx={{
+                  color: chevronColor,
+                  fontSize: 26,
+                  ...(isCategoriesMode ? outlineOrangeSx : {}),
+                }}
+              />
             ) : (
-              <ChevronRightIcon sx={{ color: chevronColor, fontSize: 26 }} />
+              <ChevronRightIcon
+                sx={{
+                  color: chevronColor,
+                  fontSize: 26,
+                  ...(isCategoriesMode ? outlineOrangeSx : {}),
+                }}
+              />
             )}
 
           </IconButton>
@@ -292,6 +314,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                           color: accountIconColor,
                           transition: "transform .2s ease",
                           transform: open ? "scale(1.04)" : "scale(1)",
+                          ...outlineOrangeSx,
                         }}
                       />
                     </ListItemIcon>
@@ -348,6 +371,8 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                     color: switchColor,
                     transition: "transform .2s ease",
                     transform: open ? "scale(1.04)" : "scale(1)",
+
+                    ...(isCategoriesMode ? outlineOrangeSx : {}),
                   }}
                 />
 
@@ -399,10 +424,11 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                     <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
                       <IconComp
                         sx={{
-                          fontSize: 29.5,
+                          fontSize: 30.5,
                           color: accountIconColor,
                           transition: "transform .2s ease",
                           transform: open ? "scale(1.04)" : "scale(1)",
+                          ...outlineOrangeSx,
                         }}
                       />
                     </ListItemIcon>

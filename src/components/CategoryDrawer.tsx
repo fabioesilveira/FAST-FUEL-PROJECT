@@ -26,6 +26,16 @@ const BLUE = "#0d47a1";
 const ORANGE = "#fa6000ff";
 const ORANGE_SOFT = "rgba(230,81,0,.18)";
 
+const ICON_OUTLINE_ORANGE = "#ff8a4c";
+
+const outlineOrangeSx = {
+    "& path": {
+        stroke: ICON_OUTLINE_ORANGE,
+        strokeWidth: 0.8,
+        paintOrder: "stroke fill",
+    },
+} as const;
+
 type CategoryDrawerProps = {
     onNavigate: (category: string) => void;
     onDriveThruClick?: () => void;
@@ -119,10 +129,23 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
                     }}
                 >
                     {open ? (
-                        <ChevronLeftIcon sx={{ color: BLUE, fontSize: 26 }} />
+                        <ChevronLeftIcon
+                            sx={{
+                                color: BLUE,
+                                fontSize: 26,
+                                ...outlineOrangeSx,
+                            }}
+                        />
                     ) : (
-                        <ChevronRightIcon sx={{ color: BLUE, fontSize: 26 }} />
+                        <ChevronRightIcon
+                            sx={{
+                                color: BLUE,
+                                fontSize: 26,
+                                ...outlineOrangeSx,
+                            }}
+                        />
                     )}
+
                 </IconButton>
             </DrawerHeader>
 
@@ -302,7 +325,7 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
                                                     fontWeight: 800,
                                                     fontSize: "1rem",
                                                     letterSpacing: ".08em",
-                                                    color: BLUE,
+                                                    color: ORANGE, 
                                                     textTransform: "uppercase",
                                                 },
                                             },

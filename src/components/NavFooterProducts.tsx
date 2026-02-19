@@ -64,7 +64,24 @@ const accountItems: NavItem[] = [
 
 const shrinkLabels = new Set(["CONTACT US",]);
 
-function RenderIcon({ item, color }: { item: NavItem; color: string }) {
+const outlineLabels = new Set([
+    "SIGNIN / SIGNUP",
+    "MY ORDERS",
+    "CONTACT US",
+    "DELETE ACCOUNT",
+]);
+
+
+function RenderIcon({
+    item,
+    color,
+    mode,
+}: {
+    item: NavItem;
+    color: string;
+    mode: "products" | "account";
+}) {
+    // imagens (não mexe)
     if (item.kind === "img") {
         const isBeverages = item.label === "BEVERAGES";
         return (
@@ -83,18 +100,28 @@ function RenderIcon({ item, color }: { item: NavItem; color: string }) {
     }
 
     const Icon = item.Icon;
-
     const shouldShrink = shrinkLabels.has(item.label);
+
+    const outline = mode === "account" && outlineLabels.has(item.label);
 
     return (
         <Icon
             sx={{
                 fontSize: shouldShrink ? 29.5 : 32,
                 color,
+
+                ...(outline && {
+                    "& path": {
+                        stroke: "#ff8a4c",
+                        strokeWidth: 0.8,
+                        paintOrder: "stroke fill",
+                    },
+                }),
             }}
         />
     );
 }
+
 
 export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () => void }) {
     const theme = useTheme();
@@ -204,7 +231,7 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                                 },
                             }}
                         >
-                            <RenderIcon item={item} color={iconColor} />
+                            <RenderIcon item={item} color={iconColor} mode={mode} />
                         </IconButton>
 
                     ))}
@@ -247,6 +274,13 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                             sx={{
                                 fontSize: 39,
                                 color: switchColor,
+                                ...(isProductsMode && {
+                                    "& path": {
+                                        stroke: "#ff8a4c",
+                                        strokeWidth: 0.8,
+                                        paintOrder: "stroke fill",
+                                    },
+                                }),
                             }}
                         />
                     </IconButton>
@@ -287,7 +321,7 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                                 },
                             }}
                         >
-                            <RenderIcon item={item} color={iconColor} />
+                            <RenderIcon item={item} color={iconColor} mode={mode} />
                         </IconButton>
                     ))}
                 </Box>
