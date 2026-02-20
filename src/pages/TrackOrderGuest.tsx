@@ -113,7 +113,7 @@ function formatPayment(method?: Sale["payment_method"], status?: Sale["payment_s
 
 
 export default function TrackOrderGuest() {
-    
+
     const [orderCodeFilter, setOrderCodeFilter] = useState("");
     const [emailFilter, setEmailFilter] = useState("");
     const [items, setItems] = useState<Sale[]>([]);
@@ -699,37 +699,36 @@ export default function TrackOrderGuest() {
                                                         }}
                                                     >
                                                         <Stack spacing={1}>
-                                                            {/* TOPO: Order + nome/email + chip desktop */}
+                                                            {/* HEADER: Order*/}
                                                             <Stack
                                                                 direction={{ xs: "column", sm: "row" }}
                                                                 justifyContent="space-between"
                                                                 alignItems={{ xs: "flex-start", sm: "center" }}
                                                                 gap={1}
                                                             >
-                                                                <Box sx={{ ml: { xs: 0.2 } }}>
-                                                                    <Typography sx={{ fontWeight: 900, color: "#e65100" }}>
-                                                                        Order {o.order_code}
-                                                                    </Typography>
+                                                                <Typography sx={{ fontWeight: 900, color: "#e65100" }}>
+                                                                    Order {o.order_code}
+                                                                </Typography>
 
-                                                                    <Typography sx={{ fontSize: "0.9rem" }}>
-                                                                        <b>{o.customer_name ?? "Guest"}</b>
-                                                                        {o.customer_email ? ` • ${o.customer_email}` : ""}
-                                                                    </Typography>
-                                                                    <Typography sx={{ fontSize: "0.86rem" }}>
-                                                                        <b>Delivery:</b> {deliveryText}
-                                                                    </Typography>
-
-                                                                    <Typography sx={{ fontSize: "0.86rem" }}>
-                                                                        <b>Payment:</b> {paymentText}
-                                                                    </Typography>
-
-                                                                </Box>
-
+                                                                {/* chip só no desktop */}
                                                                 <Box sx={{ display: { xs: "none", sm: "block" } }}>
                                                                     {statusChip(o.status)}
                                                                 </Box>
                                                             </Stack>
 
+                                                            {/*  Progress chips */}
+                                                            {progressLabel(o.status)}
+
+                                                            {/* Created/Accepted/Sent/Received*/}
+                                                            <Typography sx={{ color: "text.secondary", fontSize: "0.74rem", lineHeight: 1.25 }}>
+                                                                Created: {formatDate(o.created_at)}
+                                                                {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
+                                                                {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
+                                                                {o.received_confirmed_at ? ` • Received: ${formatDate(o.received_confirmed_at)}` : ""}
+                                                            </Typography>
+
+
+                                                            {/* Confirm block */}
                                                             {canConfirm && (
                                                                 <Box
                                                                     sx={{
@@ -738,7 +737,6 @@ export default function TrackOrderGuest() {
                                                                         width: { xs: "100%", sm: "auto" },
                                                                         maxWidth: { xs: "100%", sm: 370 },
                                                                         p: { xs: 1.0, sm: 1.6 },
-
                                                                         borderRadius: 2,
                                                                         border: "1px solid rgba(13, 71, 161, 0.22)",
                                                                         bgcolor: "rgba(255,255,255,0.75)",
@@ -748,7 +746,6 @@ export default function TrackOrderGuest() {
                                                                         direction={{ xs: "column", md: "row" }}
                                                                         alignItems={{ xs: "stretch", md: "center" }}
                                                                         justifyContent="space-between"
-
                                                                         gap={{ xs: 0.8, sm: 1.2 }}
                                                                     >
                                                                         <Typography
@@ -756,7 +753,6 @@ export default function TrackOrderGuest() {
                                                                                 fontWeight: 900,
                                                                                 color: "#0d47a1",
                                                                                 fontSize: { xs: "0.82rem", md: "0.97rem" },
-
                                                                                 lineHeight: 1.15,
                                                                                 textAlign: { xs: "center", md: "left" },
                                                                             }}
@@ -781,12 +777,10 @@ export default function TrackOrderGuest() {
                                                                                     fontWeight: 900,
                                                                                     textTransform: "uppercase",
                                                                                     letterSpacing: "0.08em",
-
                                                                                     fontSize: { xs: "0.60rem", md: "0.7rem" },
                                                                                     px: { xs: 1.0, md: 1.6 },
                                                                                     minWidth: { xs: 52, md: 64 },
                                                                                     height: { xs: 24, md: 28 },
-
                                                                                     "&:hover": { bgcolor: "#164a96" },
                                                                                 }}
                                                                             >
@@ -804,12 +798,10 @@ export default function TrackOrderGuest() {
                                                                                     fontWeight: 900,
                                                                                     textTransform: "uppercase",
                                                                                     letterSpacing: "0.08em",
-
                                                                                     fontSize: { xs: "0.60rem", md: "0.7rem" },
                                                                                     px: { xs: 1.0, md: 1.6 },
                                                                                     minWidth: { xs: 52, md: 64 },
                                                                                     height: { xs: 24, md: 28 },
-
                                                                                     "&:hover": {
                                                                                         borderColor: "#123b7a",
                                                                                         color: "#123b7a",
@@ -823,23 +815,21 @@ export default function TrackOrderGuest() {
                                                                 </Box>
                                                             )}
 
-
-                                                            {progressLabel(o.status)}
-
-                                                            <Typography sx={{ color: "text.secondary", fontSize: "0.82rem" }}>
-                                                                Created: {formatDate(o.created_at)}
-                                                                {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
-                                                                {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
-                                                                {o.received_confirmed_at ? ` • Received: ${formatDate(o.received_confirmed_at)}` : ""}
+                                                            {/*  Name + Email */}
+                                                            <Typography sx={{ fontSize: "0.9rem" }}>
+                                                                <b>{o.customer_name ?? "Guest"}</b>
+                                                                {o.customer_email ? ` • ${o.customer_email}` : ""}
                                                             </Typography>
 
-                                                            <Typography sx={{ fontWeight: 900, color: "#333" }}>
-                                                                Total: ${Number(o.total).toFixed(2)}
-                                                                {Number(o.discount) > 0 ? ` (Discount: -$${Number(o.discount).toFixed(2)})` : ""}
+                                                            {/* Delivery */}
+                                                            <Typography sx={{ fontSize: "0.86rem" }}>
+                                                                <b>Delivery:</b> {deliveryText}
                                                             </Typography>
 
+
+                                                            {/* Items list */}
                                                             {lines.length > 0 && (
-                                                                <Box sx={{ mt: 1 }}>
+                                                                <Box sx={{ mt: 0.4 }}>
                                                                     {lines.map((p) => (
                                                                         <Typography
                                                                             key={p.key}
@@ -850,10 +840,28 @@ export default function TrackOrderGuest() {
                                                                     ))}
                                                                 </Box>
                                                             )}
+
+                                                            {/* Payment + Total*/}
+                                                            <Stack
+                                                                direction={{ xs: "column", sm: "row" }}
+                                                                alignItems={{ xs: "flex-start", sm: "center" }}
+                                                                justifyContent="space-between"
+                                                                gap={{ xs: 0.4, sm: 1 }}
+                                                                sx={{ pt: 0.4 }}
+                                                            >
+                                                                <Typography sx={{ fontSize: "0.86rem" }}>
+                                                                    <b>Payment:</b> {paymentText}
+                                                                </Typography>
+
+                                                                <Typography sx={{ fontWeight: 900, color: "#333" }}>
+                                                                    Total: ${Number(o.total).toFixed(2)}
+                                                                    {Number(o.discount) > 0 ? ` (Discount: -$${Number(o.discount).toFixed(2)})` : ""}
+                                                                </Typography>
+                                                            </Stack>
                                                         </Stack>
                                                     </Paper>
-
                                                 );
+
                                             })}
                                         </Stack>
                                     </Box>

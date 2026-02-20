@@ -138,7 +138,6 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
   const categoryMuiIconColor = ORANGE_UI;
   const accountIconColor = BLUE;
   const switchColor = isCategoriesMode ? BLUE : ORANGE_UI;
-  const chevronColor = isCategoriesMode ? BLUE : ORANGE_UI;
   const itemAccentColor = isCategoriesMode ? BLUE : ORANGE;
 
   const { showAlert, AlertUI } = useAppAlert({
@@ -260,17 +259,17 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
             {open ? (
               <ChevronLeftIcon
                 sx={{
-                  color: chevronColor,
+                  color: BLUE,
                   fontSize: 26,
-                  ...(isCategoriesMode ? outlineOrangeSx : {}),
+                  ...outlineOrangeSx,
                 }}
               />
             ) : (
               <ChevronRightIcon
                 sx={{
-                  color: chevronColor,
+                  color: BLUE,
                   fontSize: 26,
-                  ...(isCategoriesMode ? outlineOrangeSx : {}),
+                  ...outlineOrangeSx,
                 }}
               />
             )}
