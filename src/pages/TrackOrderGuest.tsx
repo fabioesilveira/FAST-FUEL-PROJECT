@@ -206,129 +206,50 @@ export default function TrackOrderGuest() {
 
 
     function statusChip(status: Sale["status"]) {
-        if (status === "received") {
-            return (
-                <Chip
-                    label="RECEIVED"
-                    size="small"
-                    sx={{
-                        bgcolor: "rgba(46, 125, 50, 0.12)",
-                        color: "#2e7d32",
-                        fontWeight: 900,
-                        letterSpacing: "0.10em",
-                    }}
-                />
-            );
-        }
-        if (status === "in_progress") {
-            return (
-                <Chip
-                    label="IN PROGRESS"
-                    size="small"
-                    sx={{
-                        bgcolor: "rgba(30, 91, 184, 0.12)",
-                        color: "#1e5bb8",
-                        fontWeight: 900,
-                        letterSpacing: "0.10em",
-                    }}
-                />
-            );
-        }
-        if (status === "sent") {
-            return (
-                <Chip
-                    label="SENT"
-                    size="small"
-                    sx={{
-                        bgcolor: "rgba(237, 108, 2, 0.12)",
-                        color: "#ed6c02",
-                        fontWeight: 900,
-                        letterSpacing: "0.10em",
-                    }}
-                />
-            );
-        }
+        const map: Record<Sale["status"], { label: string; bg: string; color: string; border: string }> = {
+            received: {
+                label: "RECEIVED",
+                bg: "rgba(46, 125, 50, 0.12)",
+                color: "#2e7d32",
+                border: "rgba(46,125,50,0.35)",
+            },
+            in_progress: {
+                label: "IN PROGRESS",
+                bg: "rgba(30, 91, 184, 0.12)",
+                color: "#1e5bb8",
+                border: "rgba(30,91,184,0.35)",
+            },
+            sent: {
+                label: "SENT",
+                bg: "rgba(237, 108, 2, 0.12)",
+                color: "#ed6c02",
+                border: "rgba(237,108,2,0.35)",
+            },
+            completed: {
+                label: "COMPLETED",
+                bg: "rgba(0,0,0,0.08)",
+                color: "#333",
+                border: "rgba(0,0,0,0.20)",
+            },
+        };
+
+        const s = map[status];
+
         return (
             <Chip
-                label="COMPLETED"
+                label={s.label}
                 size="small"
                 sx={{
-                    bgcolor: "rgba(0,0,0,0.10)",
-                    color: "#333",
+                    bgcolor: s.bg,
+                    color: s.color,
+                    border: "1px solid",
+                    borderColor: s.border,
                     fontWeight: 900,
                     letterSpacing: "0.10em",
                 }}
             />
         );
     }
-
-    function progressLabel(status: Sale["status"]) {
-        const steps: Array<{ key: Sale["status"]; label: string }> = [
-            { key: "received", label: "Received" },
-            { key: "in_progress", label: "In progress" },
-            { key: "sent", label: "Sent" },
-            { key: "completed", label: "Completed" },
-        ];
-
-        const idx = steps.findIndex((s) => s.key === status);
-
-        return (
-            <Box
-                sx={{
-                    display: "grid",
-
-                    gridTemplateColumns: { xs: "repeat(2, max-content)", sm: "repeat(4, max-content)" },
-
-                    justifyContent: "flex-start",
-                    justifyItems: "start",
-
-                    columnGap: { xs: 0.6, sm: 0.9 },
-                    rowGap: { xs: 0.6, sm: 0 },
-
-                    // evita quebrar o layout no card
-                    alignItems: "center",
-                }}
-            >
-                {steps.map((s, i) => (
-                    <Chip
-                        key={s.key}
-                        label={s.label}
-                        size="small"
-                        sx={{
-
-                            width: { xs: 104, sm: 118 },
-                            height: { xs: 18, sm: 24 },
-                            fontSize: { xs: "0.60rem", sm: "0.68rem" },
-
-                            borderRadius: "999px",
-                            justifyContent: "center",
-                            px: 0, // não “infla” o chip
-
-                            "& .MuiChip-label": {
-                                width: "100%",
-                                textAlign: "center",
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                                textOverflow: "clip",
-                                px: { xs: 0.7, sm: 1.0 },
-                            },
-
-
-                            letterSpacing: "0.06em",
-                            textTransform: "uppercase",
-                            fontWeight: 800,
-
-                            bgcolor: i <= idx ? "rgba(13, 71, 161, 0.10)" : "rgba(0,0,0,0.06)",
-                            color: i <= idx ? "#0d47a1" : "rgba(0,0,0,0.45)",
-                            border: "1px solid",
-                            borderColor: i <= idx ? "rgba(13, 71, 161, 0.28)" : "rgba(0,0,0,0.10)",
-                        }}
-                    />
-                ))}
-            </Box>
-        );
-    }
-
 
     async function confirmReceived(o: Sale) {
         try {
@@ -402,7 +323,6 @@ export default function TrackOrderGuest() {
                             left: "50%",
                             transform: "translateX(-50%)",
                             zIndex: 0,
-
                             width: {
                                 xs: "min(98vw, 760px)",
                                 sm: "min(96vw, 1040px)",
@@ -411,25 +331,28 @@ export default function TrackOrderGuest() {
                             borderRadius: 20,
                             pointerEvents: "none",
 
+                            display: { xs: "none", sm: "block" },
+
                             backgroundImage: `
                                 linear-gradient(90deg,
-                                    rgba(255,255,255,1) 0%,
-                                    rgba(255,244,225,0.0) 14%,
-                                    rgba(255,244,225,0.0) 86%,
-                                    rgba(255,255,255,1) 100%
+                                rgba(255,255,255,1) 0%,
+                                rgba(255,244,225,0.0) 14%,
+                                rgba(255,244,225,0.0) 86%,
+                                rgba(255,255,255,1) 100%
                                 ),
                                 repeating-linear-gradient(135deg,
-                                    rgba(230,81,0,0.018) 0px,
-                                    rgba(230,81,0,0.018) 12px,
-                                    rgba(255,255,255,0.85) 12px,
-                                    rgba(255,255,255,0.85) 20px
+                                rgba(230,81,0,0.018) 0px,
+                                rgba(230,81,0,0.018) 12px,
+                                rgba(255,255,255,0.85) 12px,
+                                rgba(255,255,255,0.85) 20px
                                 )
-                                `,
+                            `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
 
                         "& > *": { position: "relative", zIndex: 1 },
+
                     }}
                 >
                     <Box
@@ -667,6 +590,9 @@ export default function TrackOrderGuest() {
                                                 const snap = safeParseItems((o as any).items_snapshot);
                                                 const cart = safeParseItems(o.items);
 
+                                                const effectiveStatus: Sale["status"] =
+                                                    o.received_confirmed_at ? "completed" : o.status;
+
                                                 const list = Array.isArray(snap) && snap.length > 0
                                                     ? snap
                                                     : (Array.isArray(cart) ? cart : []);
@@ -701,23 +627,19 @@ export default function TrackOrderGuest() {
                                                         <Stack spacing={1}>
                                                             {/* HEADER: Order*/}
                                                             <Stack
-                                                                direction={{ xs: "column", sm: "row" }}
+                                                                direction="row"
+                                                                alignItems="center"
                                                                 justifyContent="space-between"
-                                                                alignItems={{ xs: "flex-start", sm: "center" }}
                                                                 gap={1}
                                                             >
-                                                                <Typography sx={{ fontWeight: 900, color: "#e65100" }}>
-                                                                    Order {o.order_code}
+                                                                <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#e65100" }}>
+                                                                    Order: {o.order_code}
                                                                 </Typography>
 
-                                                                {/* chip só no desktop */}
-                                                                <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                                                                    {statusChip(o.status)}
-                                                                </Box>
+                                                                {statusChip(effectiveStatus)}
                                                             </Stack>
 
-                                                            {/*  Progress chips */}
-                                                            {progressLabel(o.status)}
+
 
                                                             {/* Created/Accepted/Sent/Received*/}
                                                             <Typography sx={{ color: "text.secondary", fontSize: "0.74rem", lineHeight: 1.25 }}>
@@ -815,16 +737,32 @@ export default function TrackOrderGuest() {
                                                                 </Box>
                                                             )}
 
-                                                            {/*  Name + Email */}
-                                                            <Typography sx={{ fontSize: "0.9rem" }}>
-                                                                <b>{o.customer_name ?? "Guest"}</b>
-                                                                {o.customer_email ? ` • ${o.customer_email}` : ""}
-                                                            </Typography>
 
-                                                            {/* Delivery */}
-                                                            <Typography sx={{ fontSize: "0.86rem" }}>
-                                                                <b>Delivery:</b> {deliveryText}
-                                                            </Typography>
+                                                            <Box>
+                                                                <Stack spacing={0.35}>
+                                                                    {/* Name + Email */}
+                                                                    <Typography
+                                                                        sx={{
+                                                                            fontSize: "0.9rem",
+                                                                            lineHeight: 1.25,
+                                                                        }}
+                                                                    >
+                                                                        <b>{o.customer_name ?? "Guest"}</b>
+                                                                        {o.customer_email ? ` • ${o.customer_email}` : ""}
+                                                                    </Typography>
+
+                                                                    {/* Delivery */}
+                                                                    <Typography
+                                                                        sx={{
+                                                                            fontSize: "0.86rem",
+                                                                            lineHeight: 1.25,
+                                                                        }}
+                                                                    >
+                                                                        <b>Delivery:</b> {deliveryText}
+                                                                    </Typography>
+                                                                </Stack>
+                                                            </Box>
+
 
 
                                                             {/* Items list */}
@@ -841,23 +779,23 @@ export default function TrackOrderGuest() {
                                                                 </Box>
                                                             )}
 
-                                                            {/* Payment + Total*/}
-                                                            <Stack
-                                                                direction={{ xs: "column", sm: "row" }}
-                                                                alignItems={{ xs: "flex-start", sm: "center" }}
-                                                                justifyContent="space-between"
-                                                                gap={{ xs: 0.4, sm: 1 }}
-                                                                sx={{ pt: 0.4 }}
+                                                            <Typography
+                                                                sx={{
+                                                                    fontSize: "0.88rem",
+                                                                    lineHeight: 1.35,
+                                                                    color: "#333",
+                                                                }}
                                                             >
-                                                                <Typography sx={{ fontSize: "0.86rem" }}>
-                                                                    <b>Payment:</b> {paymentText}
-                                                                </Typography>
-
-                                                                <Typography sx={{ fontWeight: 900, color: "#333" }}>
+                                                                <Box component="span" sx={{ fontWeight: 900 }}>
                                                                     Total: ${Number(o.total).toFixed(2)}
-                                                                    {Number(o.discount) > 0 ? ` (Discount: -$${Number(o.discount).toFixed(2)})` : ""}
-                                                                </Typography>
-                                                            </Stack>
+                                                                </Box>
+                                                                {Number(o.discount) > 0
+                                                                    ? ` (Discount: -$${Number(o.discount).toFixed(2)})`
+                                                                    : ""}{" "}
+                                                                • {paymentText}
+                                                            </Typography>
+
+
                                                         </Stack>
                                                     </Paper>
                                                 );
