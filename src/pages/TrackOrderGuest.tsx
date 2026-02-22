@@ -246,6 +246,14 @@ export default function TrackOrderGuest() {
                     borderColor: s.border,
                     fontWeight: 900,
                     letterSpacing: "0.10em",
+
+                    height: { xs: 22, sm: 24 },
+                    fontSize: { xs: "0.62rem", sm: "0.68rem" },
+                    px: { xs: 0.6, sm: 0.9 },
+
+                    "& .MuiChip-label": {
+                        px: { xs: 0.6, sm: 1 },
+                    },
                 }}
             />
         );
