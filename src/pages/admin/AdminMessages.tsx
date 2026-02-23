@@ -31,17 +31,12 @@ function formatPhoneUS(phone: string | null) {
     if (!digits) return "—";
 
     const d = digits.length === 11 && digits.startsWith("1") ? digits.slice(1) : digits;
-    if (d.length !== 10) return phone; 
+    if (d.length !== 10) return phone;
 
     const a = d.slice(0, 3);
     const b = d.slice(3, 6);
     const c = d.slice(6);
     return `(${a}) ${b}-${c}`;
-}
-
-function statusLabel(activeKey: "received" | "answered" | "contact") {
-    if (activeKey === "answered") return "Answered";
-    return "Received";
 }
 
 
@@ -314,7 +309,7 @@ export default function AdminMessages() {
                                                 }}
                                             >
                                                 <Stack spacing={0.7}>
-                                                    {/* LINHA 1 */}
+                                                    {/* LINHA 1: TÍTULO + AÇÃO */}
                                                     <Stack
                                                         direction="row"
                                                         justifyContent="space-between"
@@ -328,6 +323,7 @@ export default function AdminMessages() {
                                                                 color: "#e65100",
                                                                 fontSize: "0.98rem",
                                                                 lineHeight: 1.15,
+                                                                minWidth: 0,
                                                             }}
                                                             noWrap
                                                         >
@@ -345,12 +341,10 @@ export default function AdminMessages() {
                                                                     fontWeight: 900,
                                                                     textTransform: "uppercase",
                                                                     letterSpacing: "0.10em",
-
                                                                     fontSize: { xs: "0.70rem", sm: "0.78rem" },
                                                                     px: { xs: 1.3, sm: 1.9 },
                                                                     py: { xs: 0.55, sm: 0.8 },
                                                                     minHeight: { xs: 32, sm: 34 },
-
                                                                     "&:hover": { bgcolor: "#164a96" },
                                                                     flexShrink: 0,
                                                                 }}
@@ -358,41 +352,28 @@ export default function AdminMessages() {
                                                                 Mark answered
                                                             </Button>
                                                         ) : (
-                                                            <Chip
-                                                                label="Answered"
-                                                                size="small"
+                                                            <Typography
                                                                 sx={{
-                                                                    bgcolor: "rgba(30, 91, 184, 0.12)",
-                                                                    color: "#1e5bb8",
+                                                                    fontSize: "0.72rem",
+                                                                    letterSpacing: "0.10em",
+                                                                    textTransform: "uppercase",
                                                                     fontWeight: 900,
+                                                                    color: "rgba(30, 91, 184, 0.85)",
                                                                     flexShrink: 0,
                                                                 }}
-                                                            />
+                                                            >
+                                                                Answered
+                                                            </Typography>
                                                         )}
                                                     </Stack>
 
-                                                    {/* LINHA 2 */}
-                                                    <Chip
-                                                        label={statusLabel(activeKey).toUpperCase()}
-                                                        size="small"
-                                                        sx={{
-                                                            alignSelf: "flex-start",
-                                                            fontSize: "0.70rem",
-                                                            letterSpacing: "0.10em",
-                                                            fontWeight: 900,
-                                                            bgcolor: "rgba(30, 91, 184, 0.12)",
-                                                            color: "#1e5bb8",
-                                                            height: 22,
-                                                        }}
-                                                    />
-
-                                                    {/* LINHA 3: */}
+                                                    {/* LINHA 2: PROGRESS  */}
                                                     <Typography sx={{ color: "text.secondary", fontSize: "0.78rem", lineHeight: 1.25 }}>
                                                         Sent: {formatDate(m.created_at)}
                                                         {m.replied_at ? ` • Answered: ${formatDate(m.replied_at)}` : ""}
                                                     </Typography>
 
-                                                    {/* LINHA 4 */}
+                                                    {/* LINHA 3: */}
                                                     <Typography sx={{ fontSize: "0.88rem", lineHeight: 1.25 }}>
                                                         <b>{m.name}</b> • {m.email}
                                                         {" "}• <span style={{ color: "rgba(0,0,0,0.68)" }}>Phone:</span>{" "}
@@ -400,14 +381,21 @@ export default function AdminMessages() {
                                                         {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
                                                     </Typography>
 
-                                                    {/* LINHA 5 */}
-                                                    <Typography sx={{ fontSize: "0.90rem", lineHeight: 1.45, color: "#333" }}>
+                                                    {/* LINHA 4 */}
+                                                    <Typography
+                                                        sx={{
+                                                            color: "#333",
+                                                            fontSize: "0.90rem",
+                                                            lineHeight: 1.45,
+                                                            whiteSpace: "pre-wrap",
+                                                            overflowWrap: "anywhere",
+                                                        }}
+                                                    >
                                                         <b>Message:</b>{" "}
                                                         <span style={{ fontWeight: 500 }}>{m.message}</span>
                                                     </Typography>
                                                 </Stack>
                                             </Paper>
-
 
                                         ))}
                                     </Stack>

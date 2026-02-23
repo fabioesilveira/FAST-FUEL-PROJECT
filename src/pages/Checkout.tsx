@@ -401,7 +401,7 @@ export default function Checkout() {
             onConfirm: () => {
                 setOrder([]);
                 localStorage.removeItem("lsOrder");
-                showAlert("Cart cleared.", "warning"); 
+                showAlert("Cart cleared.", "warning");
             },
             onCancel: () => { },
             onDismiss: () => { },
@@ -707,22 +707,37 @@ export default function Checkout() {
                             zIndex: 0,
 
                             width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
+                            backgroundImage: {
+                                xs: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 18%,
+                                        rgba(255,255,255,0.0) 82%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.018) 0px,
+                                        rgba(13,71,161,0.018) 10px,
+                                        rgba(230,81,0,0.014) 10px,
+                                        rgba(230,81,0,0.014) 20px
+                                    )
+                                    `,
+                                md: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 14%,
+                                        rgba(255,255,255,0.0) 86%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.038) 0px,
+                                        rgba(13,71,161,0.038) 10px,
+                                        rgba(230,81,0,0.028) 10px,
+                                        rgba(230,81,0,0.028) 20px
+                                    )
+                                    `,
+                            },
 
-                            // listras sólidas no centro + fade (gradiente) nas bordas
-                            backgroundImage: `
-                                linear-gradient(90deg,
-                                    rgba(255,255,255,1) 0%,
-                                    rgba(255,255,255,0.0) 14%,
-                                    rgba(255,255,255,0.0) 86%,
-                                    rgba(255,255,255,1) 100%
-                                ),
-                                repeating-linear-gradient(135deg,
-                                    rgba(13,71,161,0.038) 0px,
-                                    rgba(13,71,161,0.038) 10px,
-                                    rgba(230,81,0,0.028) 10px,
-                                    rgba(230,81,0,0.028) 20px
-                                )
-                                `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                             borderRadius: 20,
@@ -739,11 +754,10 @@ export default function Checkout() {
                             maxWidth: { xs: 520, sm: 540 },
 
                             borderRadius: 3,
-                            border: "2px solid rgba(13, 71, 161, 0.35)",
-                            bgcolor: "background.paper",
+                            border: "1.25px solid rgba(13, 71, 161, 0.28)",
                             boxShadow:
-                                "0 4px 14px rgba(13, 71, 161, 0.25), 0 8px 24px rgba(13, 71, 161, 0.18)",
-
+                                "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
+                            bgcolor: "background.paper",
 
                             height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
                             maxHeight: 720,
