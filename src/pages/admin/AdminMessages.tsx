@@ -26,6 +26,25 @@ function formatDate(iso: string | null) {
     return new Date(iso).toLocaleString();
 }
 
+function formatPhoneUS(phone: string | null) {
+    const digits = String(phone ?? "").replace(/\D/g, "");
+    if (!digits) return "—";
+
+    const d = digits.length === 11 && digits.startsWith("1") ? digits.slice(1) : digits;
+    if (d.length !== 10) return phone; 
+
+    const a = d.slice(0, 3);
+    const b = d.slice(3, 6);
+    const c = d.slice(6);
+    return `(${a}) ${b}-${c}`;
+}
+
+function statusLabel(activeKey: "received" | "answered" | "contact") {
+    if (activeKey === "answered") return "Answered";
+    return "Received";
+}
+
+
 export default function AdminMessages() {
     const [activeKey, setActiveKey] = useState<"received" | "answered" | "contact">("received");
     const [emailFilter, setEmailFilter] = useState("");
@@ -56,7 +75,6 @@ export default function AdminMessages() {
     async function fetchMessages(opts?: { silent?: boolean }) {
         const silent = !!opts?.silent;
 
-        // evita chamadas simultâneas tira piscadas/duplicação)
         if (inFlightRef.current) return;
         inFlightRef.current = true;
 
@@ -295,8 +313,8 @@ export default function AdminMessages() {
                                                     bgcolor: "#fff4e1",
                                                 }}
                                             >
-                                                <Stack spacing={0.55}>
-                                                    {/* TOP LINE: título + ação (alinhados na mesma altura) */}
+                                                <Stack spacing={0.7}>
+                                                    {/* LINHA 1 */}
                                                     <Stack
                                                         direction="row"
                                                         justifyContent="space-between"
@@ -353,39 +371,43 @@ export default function AdminMessages() {
                                                         )}
                                                     </Stack>
 
+                                                    {/* LINHA 2 */}
+                                                    <Chip
+                                                        label={statusLabel(activeKey).toUpperCase()}
+                                                        size="small"
+                                                        sx={{
+                                                            alignSelf: "flex-start",
+                                                            fontSize: "0.70rem",
+                                                            letterSpacing: "0.10em",
+                                                            fontWeight: 900,
+                                                            bgcolor: "rgba(30, 91, 184, 0.12)",
+                                                            color: "#1e5bb8",
+                                                            height: 22,
+                                                        }}
+                                                    />
+
+                                                    {/* LINHA 3: */}
                                                     <Typography sx={{ color: "text.secondary", fontSize: "0.78rem", lineHeight: 1.25 }}>
                                                         Sent: {formatDate(m.created_at)}
                                                         {m.replied_at ? ` • Answered: ${formatDate(m.replied_at)}` : ""}
                                                     </Typography>
 
-                                                    <Typography
-                                                        sx={{
-                                                            fontSize: "0.88rem",
-                                                            lineHeight: 1.25,
-                                                            mt: 0.5,
-                                                        }}
-                                                    >
+                                                    {/* LINHA 4 */}
+                                                    <Typography sx={{ fontSize: "0.88rem", lineHeight: 1.25 }}>
                                                         <b>{m.name}</b> • {m.email}
-                                                        {m.phone ? ` • ${m.phone}` : ""}
+                                                        {" "}• <span style={{ color: "rgba(0,0,0,0.68)" }}>Phone:</span>{" "}
+                                                        {formatPhoneUS(m.phone)}
                                                         {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
                                                     </Typography>
 
-
-                                                    <Typography
-                                                        sx={{
-                                                            color: "#333",
-                                                            fontSize: "0.90rem",
-                                                            lineHeight: 1.45,
-                                                            mt: 0.35,
-                                                            fontWeight: 600,
-                                                            whiteSpace: "pre-wrap",
-                                                            overflowWrap: "anywhere",
-                                                        }}
-                                                    >
-                                                        {m.message}
+                                                    {/* LINHA 5 */}
+                                                    <Typography sx={{ fontSize: "0.90rem", lineHeight: 1.45, color: "#333" }}>
+                                                        <b>Message:</b>{" "}
+                                                        <span style={{ fontWeight: 500 }}>{m.message}</span>
                                                     </Typography>
                                                 </Stack>
                                             </Paper>
+
 
                                         ))}
                                     </Stack>
