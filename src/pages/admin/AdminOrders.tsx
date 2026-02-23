@@ -461,119 +461,126 @@ export default function AdminOrders() {
                                                         bgcolor: "#fff4e1",
                                                     }}
                                                 >
-                                                    {/* TOPO */}
-                                                    <Stack
-                                                        direction={{ xs: "column", sm: "row" }}
-                                                        justifyContent="space-between"
-                                                        alignItems={{ xs: "flex-start", sm: "center" }}
-                                                        gap={1}
-                                                        sx={{ width: "100%" }}
-                                                    >
-                                                        {/* LEFT */}
-                                                        <Box sx={{ flex: 1, minWidth: 0 }}>
-                                                            <Typography sx={{ fontWeight: 900, color: "#0d47a1" }}>
-                                                                Order: {o.order_code}
-                                                                <span style={{ color: "rgba(0,0,0,0.45)", fontWeight: 800 }}>
-                                                                    {" "}• #{o.id}
-                                                                </span>
-                                                            </Typography>
-
-                                                            <Typography sx={{ color: "text.secondary", fontSize: "0.78rem" }}>
-                                                                Created: {formatDate(o.created_at)}
-                                                                {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
-                                                                {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
-                                                                {o.received_confirmed_at ? ` • Received: ${formatDate(o.received_confirmed_at)}` : ""}
-                                                            </Typography>
-
-                                                            <Typography sx={{ fontSize: "0.9rem" }}>
-                                                                <b>{o.customer_name ?? "Guest"}</b>
-                                                                {o.customer_email ? ` • ${o.customer_email}` : ""}
-                                                                {o.user_id ? ` • User ID: ${o.user_id}` : " • Guest"}
-                                                                {count ? ` • Items: ${count}` : ""}
-                                                            </Typography>
-                                                        </Box>
-
-                                                        {/* RIGHT (somente botões OU chip quando completed) */}
-                                                        <Stack direction="row" spacing={1} alignItems="center" sx={{ flexShrink: 0 }}>
-                                                            {activeKey === "received" && o.status === "received" ? (
-                                                                <Button
-                                                                    variant="contained"
-                                                                    onClick={() => updateStatus(o.id, "in_progress")}
-                                                                    sx={{
-                                                                        borderRadius: 2,
-                                                                        bgcolor: "#1e5bb8",
-                                                                        color: "#fff",
-                                                                        fontWeight: 900,
-                                                                        textTransform: "uppercase",
-                                                                        letterSpacing: "0.10em",
-                                                                        "&:hover": { bgcolor: "#164a96" },
-                                                                        fontSize: { xs: "0.72rem", sm: "0.85rem" },
-                                                                        px: { xs: 1, sm: 1.8 },
-                                                                        py: { xs: 0.55, sm: 0.9 },
-                                                                        minHeight: { xs: 32, sm: 34 },
-                                                                    }}
-                                                                >
-                                                                    Accept
-                                                                </Button>
-                                                            ) : activeKey === "in_progress" && o.status === "in_progress" ? (
-                                                                <Button
-                                                                    variant="contained"
-                                                                    onClick={() => updateStatus(o.id, "sent")}
-                                                                    sx={{
-                                                                        borderRadius: 2,
-                                                                        bgcolor: "#1e5bb8",
-                                                                        color: "#fff",
-                                                                        fontWeight: 900,
-                                                                        textTransform: "uppercase",
-                                                                        letterSpacing: "0.10em",
-                                                                        "&:hover": { bgcolor: "#164a96" },
-                                                                        fontSize: { xs: "0.72rem", sm: "0.85rem" },
-                                                                        px: { xs: 1, sm: 1.8 },
-                                                                        py: { xs: 0.55, sm: 0.9 },
-                                                                        minHeight: { xs: 32, sm: 34 },
-                                                                    }}
-                                                                >
-                                                                    Mark sent
-                                                                </Button>
-                                                            ) : o.status === "completed" ? (
-
-                                                                statusChip("completed")
-                                                            ) : null}
-                                                        </Stack>
-                                                    </Stack>
-                                                    {/* DELIVERY */}
-                                                    <Typography
-                                                        sx={{
-                                                            fontSize: "0.86rem",
-                                                            color: "#333",
-                                                            whiteSpace: "normal",
-                                                            overflowWrap: "anywhere",
-                                                            wordBreak: "break-word",
-                                                        }}
-                                                    >
-                                                        <b>Delivery:</b> {addressLine || "-"}
-                                                    </Typography>
-
-                                                    {/* ITEMS */}
-                                                    {lines.length > 0 && (
-                                                        <Box sx={{ mt: 0.5 }}>
-                                                            {lines.map((p) => (
-                                                                <Typography key={p.key} sx={{ fontSize: "0.9rem", color: "#333", lineHeight: 1.35 }}>
-                                                                    • {p.name} <b>x{p.qty}</b>
+                                                    <Stack spacing={1}>
+                                                        {/* HEADER */}
+                                                        <Stack
+                                                            direction="row"
+                                                            alignItems="flex-start"
+                                                            justifyContent="space-between"
+                                                            gap={1.2}
+                                                            sx={{ width: "100%" }}
+                                                        >
+                                                            {/* LEFT */}
+                                                            <Box sx={{ flex: 1, minWidth: 0 }}>
+                                                                <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
+                                                                    Order: {o.order_code}
+                                                                    <span style={{ color: "rgba(0,0,0,0.45)", fontWeight: 800 }}>
+                                                                        {" "}• #{o.id}
+                                                                    </span>
                                                                 </Typography>
-                                                            ))}
-                                                        </Box>
-                                                    )}
 
-                                                    {/* TOTAL / PAYMENT */}
-                                                    <Typography sx={{ fontWeight: 900, color: "#333", mt: 0.4 }}>
-                                                        Total: ${Number(o.total).toFixed(2)}
-                                                        {Number(o.discount) > 0 ? ` (Discount: -$${Number(o.discount).toFixed(2)})` : ""}
-                                                        {" "}• {paymentStatus} • {paymentMethod}
-                                                    </Typography>
+                                                                <Typography sx={{ color: "text.secondary", fontSize: "0.78rem", mt: 0.35 }}>
+                                                                    Created: {formatDate(o.created_at)}
+                                                                    {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
+                                                                    {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
+                                                                    {o.received_confirmed_at ? ` • Received: ${formatDate(o.received_confirmed_at)}` : ""}
+                                                                </Typography>
+                                                            </Box>
 
+                                                            {/* RIGHT (botões/chip alinhados com o Order) */}
+                                                            <Stack direction="row" spacing={1} alignItems="center" sx={{ flexShrink: 0, mt: 0.15 }}>
+                                                                {activeKey === "received" && o.status === "received" ? (
+                                                                    <Button
+                                                                        variant="contained"
+                                                                        onClick={() => updateStatus(o.id, "in_progress")}
+                                                                        sx={{
+                                                                            borderRadius: 2,
+                                                                            bgcolor: "#1e5bb8",
+                                                                            color: "#fff",
+                                                                            fontWeight: 900,
+                                                                            textTransform: "uppercase",
+                                                                            letterSpacing: "0.10em",
+                                                                            "&:hover": { bgcolor: "#164a96" },
+                                                                            fontSize: { xs: "0.72rem", sm: "0.85rem" },
+                                                                            px: { xs: 1, sm: 1.8 },
+                                                                            py: { xs: 0.55, sm: 0.9 },
+                                                                            minHeight: { xs: 32, sm: 34 },
+                                                                        }}
+                                                                    >
+                                                                        Accept
+                                                                    </Button>
+                                                                ) : activeKey === "in_progress" && o.status === "in_progress" ? (
+                                                                    <Button
+                                                                        variant="contained"
+                                                                        onClick={() => updateStatus(o.id, "sent")}
+                                                                        sx={{
+                                                                            borderRadius: 2,
+                                                                            bgcolor: "#1e5bb8",
+                                                                            color: "#fff",
+                                                                            fontWeight: 900,
+                                                                            textTransform: "uppercase",
+                                                                            letterSpacing: "0.10em",
+                                                                            "&:hover": { bgcolor: "#164a96" },
+                                                                            fontSize: { xs: "0.72rem", sm: "0.85rem" },
+                                                                            px: { xs: 1, sm: 1.8 },
+                                                                            py: { xs: 0.55, sm: 0.9 },
+                                                                            minHeight: { xs: 32, sm: 34 },
+                                                                        }}
+                                                                    >
+                                                                        Mark sent
+                                                                    </Button>
+                                                                ) : o.status === "completed" ? (
+                                                                    statusChip("completed")
+                                                                ) : null}
+                                                            </Stack>
+                                                        </Stack>
+
+                                                        {/* CUSTOMER (mais espaço) */}
+                                                        <Typography sx={{ fontSize: "0.92rem", mt: 0.6, lineHeight: 1.35 }}>
+                                                            <b>{o.customer_name ?? "Guest"}</b>
+                                                            {o.customer_email ? ` • ${o.customer_email}` : ""}
+                                                            {o.user_id ? ` • User ID: ${o.user_id}` : " • Guest"}
+                                                            {count ? ` • Items: ${count}` : ""}
+                                                        </Typography>
+
+                                                        {/* DELIVERY */}
+                                                        <Typography
+                                                            sx={{
+                                                                fontSize: "0.86rem",
+                                                                color: "#333",
+                                                                whiteSpace: "normal",
+                                                                overflowWrap: "anywhere",
+                                                                wordBreak: "break-word",
+                                                            }}
+                                                        >
+                                                            <b>Delivery:</b> {addressLine || "-"}
+                                                        </Typography>
+
+                                                        {/* ITEMS */}
+                                                        {lines.length > 0 && (
+                                                            <Box sx={{ mt: 0.5 }}>
+                                                                {lines.map((p) => (
+                                                                    <Typography
+                                                                        key={p.key}
+                                                                        sx={{ fontSize: "0.9rem", color: "#333", lineHeight: 1.35 }}
+                                                                    >
+                                                                        • {p.name} <b>x{p.qty}</b>
+                                                                    </Typography>
+                                                                ))}
+                                                            </Box>
+                                                        )}
+
+                                                        {/* TOTAL */}
+                                                        <Typography sx={{ color: "#333", mt: 0.5 }}>
+                                                            <b>Total:</b> ${Number(o.total).toFixed(2)}
+                                                            {Number(o.discount) > 0 ? ` (Discount: -$${Number(o.discount).toFixed(2)})` : ""}
+                                                            {" "}• {String(paymentStatus).toLowerCase().replace(/^\w/, (c) => c.toUpperCase())}
+                                                            {" "}• {String(paymentMethod).toLowerCase().replace(/^\w/, (c) => c.toUpperCase())}
+                                                        </Typography>
+                                                    </Stack>
                                                 </Paper>
                                             );
+
                                         })}
                                     </Stack>
                                 )}
