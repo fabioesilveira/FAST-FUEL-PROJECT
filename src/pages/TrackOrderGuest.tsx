@@ -319,40 +319,42 @@ export default function TrackOrderGuest() {
                         position: "relative",
                         flexGrow: 1,
                         width: "100%",
-                        borderTop: "3px solid #e65100",
-                        boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
                         bgcolor: "#fff",
+
+                        borderTop: "3px solid #e65100",
+                        boxShadow: "0px 4px 10px rgba(0,0,0,0.10)",
 
                         "&::before": {
                             content: '""',
+
+                            display: { xs: "none", sm: "block" },
+
                             position: "absolute",
                             top: 0,
                             bottom: 0,
                             left: "50%",
                             transform: "translateX(-50%)",
                             zIndex: 0,
+
                             width: {
-                                xs: "min(98vw, 760px)",
                                 sm: "min(96vw, 1040px)",
                                 md: 1300,
                             },
                             borderRadius: 20,
                             pointerEvents: "none",
 
-                            display: { xs: "none", sm: "block" },
-
                             backgroundImage: `
                                 linear-gradient(90deg,
                                 rgba(255,255,255,1) 0%,
-                                rgba(255,244,225,0.0) 14%,
-                                rgba(255,244,225,0.0) 86%,
+                                rgba(255,255,255,0.0) 14%,
+                                rgba(255,255,255,0.0) 86%,
                                 rgba(255,255,255,1) 100%
                                 ),
                                 repeating-linear-gradient(135deg,
-                                rgba(230,81,0,0.018) 0px,
-                                rgba(230,81,0,0.018) 12px,
-                                rgba(255,255,255,0.85) 12px,
-                                rgba(255,255,255,0.85) 20px
+                                rgba(13,71,161,0.038) 0px,
+                                rgba(13,71,161,0.038) 10px,
+                                rgba(230,81,0,0.028) 10px,
+                                rgba(230,81,0,0.028) 20px
                                 )
                             `,
                             backgroundRepeat: "no-repeat, repeat",
@@ -360,7 +362,6 @@ export default function TrackOrderGuest() {
                         },
 
                         "& > *": { position: "relative", zIndex: 1 },
-
                     }}
                 >
                     <Box
@@ -381,13 +382,13 @@ export default function TrackOrderGuest() {
                                 width: "100%",
                                 maxWidth: { xs: 520, md: 980 },
                                 borderRadius: 3,
-                                border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                                border: "1.25px solid rgba(13, 71, 161, 0.28)",
+                                boxShadow:
+                                    "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
                                 height: { xs: "calc(100svh - 200px)", md: "calc(100vh - 220px)" },
                                 maxHeight: 720,
-                                boxShadow:
-                                    "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 2,

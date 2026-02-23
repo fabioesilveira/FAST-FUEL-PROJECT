@@ -191,6 +191,17 @@ export default function OrdersLogged() {
         return { label: "COMPLETED", hint: "Delivered" };
     }
 
+    const chipBaseSx = {
+        fontWeight: 900,
+        letterSpacing: "0.10em",
+        fontSize: { xs: "0.62rem", sm: "0.72rem" },
+        height: { xs: 22, sm: 26 },
+        "& .MuiChip-label": {
+            px: { xs: 0.8, sm: 1.1 },
+        },
+    };
+
+
     function userStatusChip(status: Sale["status"]) {
         const t = userStatusText(status);
 
@@ -200,10 +211,10 @@ export default function OrdersLogged() {
                     label={t.label}
                     size="small"
                     sx={{
+                        ...chipBaseSx,
                         bgcolor: "rgba(46, 125, 50, 0.12)",
                         color: "#2e7d32",
-                        fontWeight: 900,
-                        letterSpacing: "0.10em",
+
                     }}
                 />
             );
@@ -215,10 +226,9 @@ export default function OrdersLogged() {
                     label={t.label}
                     size="small"
                     sx={{
+                        ...chipBaseSx,
                         bgcolor: "rgba(30, 91, 184, 0.12)",
                         color: "#1e5bb8",
-                        fontWeight: 900,
-                        letterSpacing: "0.10em",
                     }}
                 />
             );
@@ -230,10 +240,9 @@ export default function OrdersLogged() {
                     label={t.label}
                     size="small"
                     sx={{
+                        ...chipBaseSx,
                         bgcolor: "rgba(237, 108, 2, 0.12)",
                         color: "#ed6c02",
-                        fontWeight: 900,
-                        letterSpacing: "0.10em",
                     }}
                 />
             );
@@ -244,10 +253,9 @@ export default function OrdersLogged() {
                 label={t.label}
                 size="small"
                 sx={{
+                    ...chipBaseSx,
                     bgcolor: "rgba(0,0,0,0.10)",
                     color: "#333",
-                    fontWeight: 900,
-                    letterSpacing: "0.10em",
                 }}
             />
         );
@@ -418,12 +426,16 @@ export default function OrdersLogged() {
                         position: "relative",
                         flexGrow: 1,
                         width: "100%",
-                        borderTop: "3px solid #e65100",
-                        boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
                         bgcolor: "#fff",
+
+                        borderTop: "3px solid #e65100",
+                        boxShadow: "0px 4px 10px rgba(0,0,0,0.10)",
 
                         "&::before": {
                             content: '""',
+
+                            display: { xs: "none", sm: "block" },
+
                             position: "absolute",
                             top: 0,
                             bottom: 0,
@@ -432,7 +444,6 @@ export default function OrdersLogged() {
                             zIndex: 0,
 
                             width: {
-                                xs: "min(98vw, 760px)",
                                 sm: "min(96vw, 1040px)",
                                 md: 1300,
                             },
@@ -440,19 +451,19 @@ export default function OrdersLogged() {
                             pointerEvents: "none",
 
                             backgroundImage: `
-                                                linear-gradient(90deg,
-                                                    rgba(255,255,255,1) 0%,
-                                                    rgba(255,244,225,0.0) 14%,
-                                                    rgba(255,244,225,0.0) 86%,
-                                                    rgba(255,255,255,1) 100%
-                                                ),
-                                                repeating-linear-gradient(135deg,
-                                                    rgba(230,81,0,0.018) 0px,
-                                                    rgba(230,81,0,0.018) 12px,
-                                                    rgba(255,255,255,0.85) 12px,
-                                                    rgba(255,255,255,0.85) 20px
-                                                )
-                                                `,
+                                linear-gradient(90deg,
+                                rgba(255,255,255,1) 0%,
+                                rgba(255,255,255,0.0) 14%,
+                                rgba(255,255,255,0.0) 86%,
+                                rgba(255,255,255,1) 100%
+                                ),
+                                repeating-linear-gradient(135deg,
+                                rgba(13,71,161,0.038) 0px,
+                                rgba(13,71,161,0.038) 10px,
+                                rgba(230,81,0,0.028) 10px,
+                                rgba(230,81,0,0.028) 20px
+                                )
+                            `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -460,6 +471,7 @@ export default function OrdersLogged() {
                         "& > *": { position: "relative", zIndex: 1 },
                     }}
                 >
+
                     <Box
                         component="main"
                         sx={{
@@ -478,13 +490,14 @@ export default function OrdersLogged() {
                                 width: "100%",
                                 maxWidth: { xs: 520, md: 980 },
                                 borderRadius: 3,
-                                border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                                border: "1.25px solid rgba(13, 71, 161, 0.28)",
+                                boxShadow:
+                                    "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
                                 height: { xs: "calc(100svh - 200px)", md: "calc(100vh - 220px)" },
                                 maxHeight: 720,
-                                boxShadow:
-                                    "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
+
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 2,
@@ -613,37 +626,23 @@ export default function OrdersLogged() {
                                                     }}
                                                 >
                                                     <Stack spacing={1}>
-                                                        {/* TOPO */}
-                                                        <Stack
-                                                            direction={{ xs: "column", sm: "row" }}
-                                                            justifyContent="space-between"
-                                                            alignItems={{ xs: "flex-start", sm: "center" }}
-                                                            gap={1}
-                                                        >
-                                                            <Box sx={{ ml: { xs: 0.2 } }}>
-                                                                <Typography sx={{ fontWeight: 900, color: "#e65100" }}>
-                                                                    Order {o.order_code}
-                                                                </Typography>
+                                                        {/* HEADER: Order + Status */}
+                                                        <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1}>
+                                                            <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#e65100" }}>
+                                                                Order: {o.order_code}
+                                                            </Typography>
 
-                                                                <Typography sx={{ fontSize: "0.9rem" }}>
-                                                                    <b>{o.customer_name ?? "Guest"}</b>
-                                                                    {statusHint ? ` • ${statusHint}` : ""}
-                                                                </Typography>
-
-                                                                <Typography sx={{ fontSize: "0.86rem" }}>
-                                                                    <b>Delivery:</b> {deliveryText}
-                                                                </Typography>
-
-                                                                <Typography sx={{ fontSize: "0.86rem" }}>
-                                                                    <b>Payment:</b> {paymentText}
-                                                                </Typography>
-                                                            </Box>
-
-                                                            <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                                                                {userStatusChip(o.status)}
-                                                            </Box>
+                                                            {userStatusChip(o.status)}
                                                         </Stack>
 
+                                                        <Typography sx={{ color: "text.secondary", fontSize: "0.74rem", lineHeight: 1.25 }}>
+                                                            Created: {formatDate(o.created_at)}
+                                                            {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
+                                                            {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
+                                                            {o.received_confirmed_at ? ` • Received: ${formatDate(o.received_confirmed_at)}` : ""}
+                                                        </Typography>
+
+                                                        {/* Confirm block */}
                                                         {showReceivedPrompt && (
                                                             <Box
                                                                 sx={{
@@ -652,7 +651,6 @@ export default function OrdersLogged() {
                                                                     width: { xs: "100%", sm: "auto" },
                                                                     maxWidth: { xs: "100%", sm: 370 },
                                                                     p: { xs: 1.0, sm: 1.6 },
-
                                                                     borderRadius: 2,
                                                                     border: "1px solid rgba(13, 71, 161, 0.22)",
                                                                     bgcolor: "rgba(255,255,255,0.75)",
@@ -662,7 +660,6 @@ export default function OrdersLogged() {
                                                                     direction={{ xs: "column", md: "row" }}
                                                                     alignItems={{ xs: "stretch", md: "center" }}
                                                                     justifyContent="space-between"
-
                                                                     gap={{ xs: 0.8, sm: 1.2 }}
                                                                 >
                                                                     <Typography
@@ -670,7 +667,6 @@ export default function OrdersLogged() {
                                                                             fontWeight: 900,
                                                                             color: "#0d47a1",
                                                                             fontSize: { xs: "0.82rem", md: "0.97rem" },
-
                                                                             lineHeight: 1.15,
                                                                             textAlign: { xs: "center", md: "left" },
                                                                         }}
@@ -695,12 +691,10 @@ export default function OrdersLogged() {
                                                                                 fontWeight: 900,
                                                                                 textTransform: "uppercase",
                                                                                 letterSpacing: "0.08em",
-
                                                                                 fontSize: { xs: "0.60rem", md: "0.7rem" },
                                                                                 px: { xs: 1.0, md: 1.6 },
                                                                                 minWidth: { xs: 52, md: 64 },
                                                                                 height: { xs: 24, md: 28 },
-
                                                                                 "&:hover": { bgcolor: "#164a96" },
                                                                             }}
                                                                         >
@@ -718,12 +712,10 @@ export default function OrdersLogged() {
                                                                                 fontWeight: 900,
                                                                                 textTransform: "uppercase",
                                                                                 letterSpacing: "0.08em",
-
                                                                                 fontSize: { xs: "0.60rem", md: "0.7rem" },
                                                                                 px: { xs: 1.0, md: 1.6 },
                                                                                 minWidth: { xs: 52, md: 64 },
                                                                                 height: { xs: 24, md: 28 },
-
                                                                                 "&:hover": {
                                                                                     borderColor: "#123b7a",
                                                                                     color: "#123b7a",
@@ -737,22 +729,23 @@ export default function OrdersLogged() {
                                                             </Box>
                                                         )}
 
-                                                        {/* INFO */}
-                                                        <Typography sx={{ color: "text.secondary", fontSize: "0.82rem" }}>
-                                                            Created: {formatDate(o.created_at)}
-                                                            {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
-                                                            {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
-                                                            {o.received_confirmed_at ? ` • Received: ${formatDate(o.received_confirmed_at)}` : ""}
-                                                        </Typography>
+                                                        <Box>
+                                                            <Stack spacing={0.35}>
+                                                                <Typography sx={{ fontSize: "0.9rem", lineHeight: 1.25 }}>
+                                                                    <b>{o.customer_name ?? "Guest"}</b>
+                                                                    {statusHint ? ` • ${statusHint}` : ""}
+                                                                </Typography>
 
-                                                        <Typography sx={{ fontWeight: 900, color: "#333" }}>
-                                                            Total: ${Number(o.total).toFixed(2)}
-                                                            {Number(o.discount) > 0 ? ` (Discount: -$${Number(o.discount).toFixed(2)})` : ""}
-                                                        </Typography>
+                                                                <Typography sx={{ fontSize: "0.86rem", lineHeight: 1.25 }}>
+                                                                    <b>Delivery:</b> {deliveryText}
+                                                                </Typography>
+                                                            </Stack>
+                                                        </Box>
 
-                                                        {/* ITEMS */}
+
+                                                        {/* Items */}
                                                         {lines.length > 0 && (
-                                                            <Box sx={{ mt: 0.5 }}>
+                                                            <Box sx={{ mt: 0.2 }}>
                                                                 {lines.map((p) => (
                                                                     <Typography
                                                                         key={p.key}
@@ -763,9 +756,20 @@ export default function OrdersLogged() {
                                                                 ))}
                                                             </Box>
                                                         )}
-                                                    </Stack>
 
+                                                        {/* Total */}
+                                                        <Typography sx={{ fontSize: "0.88rem", lineHeight: 1.35, color: "#333" }}>
+                                                            <Box component="span" sx={{ fontWeight: 900 }}>
+                                                                Total: ${Number(o.total).toFixed(2)}
+                                                            </Box>
+                                                            {Number(o.discount) > 0
+                                                                ? ` (Discount: -$${Number(o.discount).toFixed(2)})`
+                                                                : ""} • {paymentText}
+                                                        </Typography>
+
+                                                    </Stack>
                                                 </Paper>
+
                                             );
                                         })}
                                     </Stack>
