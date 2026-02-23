@@ -119,12 +119,16 @@ export default function AdminMessages() {
                         position: "relative",
                         flexGrow: 1,
                         width: "100%",
-                        borderTop: "3px solid #e65100",
-                        boxShadow: "0px 4px 10px rgba(230, 81, 0, 0.35)",
                         bgcolor: "#fff",
+
+                        borderTop: "3px solid #e65100",
+                        boxShadow: "0px 4px 10px rgba(0,0,0,0.10)",
 
                         "&::before": {
                             content: '""',
+
+                            display: { xs: "none", sm: "block" },
+
                             position: "absolute",
                             top: 0,
                             bottom: 0,
@@ -133,7 +137,6 @@ export default function AdminMessages() {
                             zIndex: 0,
 
                             width: {
-                                xs: "min(98vw, 760px)",
                                 sm: "min(96vw, 1040px)",
                                 md: 1300,
                             },
@@ -142,18 +145,18 @@ export default function AdminMessages() {
 
                             backgroundImage: `
                                 linear-gradient(90deg,
-                                    rgba(255,255,255,1) 0%,
-                                    rgba(255,244,225,0.0) 14%,
-                                    rgba(255,244,225,0.0) 86%,
-                                    rgba(255,255,255,1) 100%
+                                rgba(255,255,255,1) 0%,
+                                rgba(255,255,255,0.0) 14%,
+                                rgba(255,255,255,0.0) 86%,
+                                rgba(255,255,255,1) 100%
                                 ),
                                 repeating-linear-gradient(135deg,
-                                    rgba(230,81,0,0.018) 0px,
-                                    rgba(230,81,0,0.018) 12px,
-                                    rgba(255,255,255,0.85) 12px,
-                                    rgba(255,255,255,0.85) 20px
+                                rgba(13,71,161,0.038) 0px,
+                                rgba(13,71,161,0.038) 10px,
+                                rgba(230,81,0,0.028) 10px,
+                                rgba(230,81,0,0.028) 20px
                                 )
-                                `,
+                            `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -180,15 +183,14 @@ export default function AdminMessages() {
                                 width: "100%",
                                 maxWidth: { xs: 520, md: 980 },
                                 borderRadius: 3,
-                                border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                                border: "1.25px solid rgba(13, 71, 161, 0.28)",
+                                boxShadow:
+                                    "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
 
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
                                 maxHeight: 720,
-
-                                boxShadow:
-                                    "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 2,
@@ -293,24 +295,26 @@ export default function AdminMessages() {
                                                     bgcolor: "#fff4e1",
                                                 }}
                                             >
-                                                <Stack spacing={1}>
+                                                <Stack spacing={0.55}>
+                                                    {/* TOP LINE: título + ação (alinhados na mesma altura) */}
                                                     <Stack
-                                                        direction={{ xs: "column", sm: "row" }}
+                                                        direction="row"
                                                         justifyContent="space-between"
-                                                        alignItems={{ xs: "flex-start", sm: "center" }}
+                                                        alignItems="center"
                                                         gap={1}
+                                                        sx={{ width: "100%" }}
                                                     >
-                                                        <Box>
-                                                            <Typography sx={{ fontWeight: 900, color: "#e65100" }}>
-                                                                #{m.id} — {m.subject}
-                                                            </Typography>
-
-                                                            <Typography sx={{ fontSize: "0.9rem" }}>
-                                                                <b>{m.name}</b> • {m.email}
-                                                                {m.phone ? ` • ${m.phone}` : ""}
-                                                                {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
-                                                            </Typography>
-                                                        </Box>
+                                                        <Typography
+                                                            sx={{
+                                                                fontWeight: 900,
+                                                                color: "#e65100",
+                                                                fontSize: "0.98rem",
+                                                                lineHeight: 1.15,
+                                                            }}
+                                                            noWrap
+                                                        >
+                                                            #{m.id} — {m.subject}
+                                                        </Typography>
 
                                                         {activeKey === "received" ? (
                                                             <Button
@@ -324,11 +328,13 @@ export default function AdminMessages() {
                                                                     textTransform: "uppercase",
                                                                     letterSpacing: "0.10em",
 
-                                                                    fontSize: { xs: "0.72rem", sm: "0.8rem" },
-                                                                    px: { xs: 1.6, sm: 2.2 },
-                                                                    py: { xs: 0.6, sm: 0.9 },
+                                                                    fontSize: { xs: "0.70rem", sm: "0.78rem" },
+                                                                    px: { xs: 1.3, sm: 1.9 },
+                                                                    py: { xs: 0.55, sm: 0.8 },
+                                                                    minHeight: { xs: 32, sm: 34 },
 
                                                                     "&:hover": { bgcolor: "#164a96" },
+                                                                    flexShrink: 0,
                                                                 }}
                                                             >
                                                                 Mark answered
@@ -341,21 +347,46 @@ export default function AdminMessages() {
                                                                     bgcolor: "rgba(30, 91, 184, 0.12)",
                                                                     color: "#1e5bb8",
                                                                     fontWeight: 900,
+                                                                    flexShrink: 0,
                                                                 }}
                                                             />
                                                         )}
                                                     </Stack>
 
-                                                    <Typography sx={{ color: "text.secondary", fontSize: "0.82rem" }}>
+                                                    <Typography sx={{ color: "text.secondary", fontSize: "0.78rem", lineHeight: 1.25 }}>
                                                         Sent: {formatDate(m.created_at)}
                                                         {m.replied_at ? ` • Answered: ${formatDate(m.replied_at)}` : ""}
                                                     </Typography>
 
-                                                    <Typography sx={{ fontWeight: 700, color: "#333" }}>
+                                                    <Typography
+                                                        sx={{
+                                                            fontSize: "0.88rem",
+                                                            lineHeight: 1.25,
+                                                            mt: 0.5,
+                                                        }}
+                                                    >
+                                                        <b>{m.name}</b> • {m.email}
+                                                        {m.phone ? ` • ${m.phone}` : ""}
+                                                        {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
+                                                    </Typography>
+
+
+                                                    <Typography
+                                                        sx={{
+                                                            color: "#333",
+                                                            fontSize: "0.90rem",
+                                                            lineHeight: 1.45,
+                                                            mt: 0.35,
+                                                            fontWeight: 600,
+                                                            whiteSpace: "pre-wrap",
+                                                            overflowWrap: "anywhere",
+                                                        }}
+                                                    >
                                                         {m.message}
                                                     </Typography>
                                                 </Stack>
                                             </Paper>
+
                                         ))}
                                     </Stack>
                                 )}
