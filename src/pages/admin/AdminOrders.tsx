@@ -83,6 +83,10 @@ function cleanProductName(name: any) {
     return String(name ?? "Item").split("/")[0].trim();
 }
 
+function onlyStreet(v?: string) {
+    return String(v || "").split(",")[0].trim();
+}
+
 export default function AdminOrders() {
     const [activeKey, setActiveKey] = useState<"received" | "in_progress" | "completed">(
         "received"
@@ -430,17 +434,21 @@ export default function AdminOrders() {
 
                                             const addr = safeParseJson(o.delivery_address) as DeliveryAddress;
 
-                                            const addressLine = [
-                                                addr?.street?.trim(),
+                                            const street = onlyStreet(addr?.street);
+
+                                            const line1 = [
+                                                street,
                                                 addr?.apt?.trim() ? `Apt ${addr.apt.trim()}` : "",
+                                            ].filter(Boolean).join(", ");
+
+                                            const line2 = [
                                                 addr?.city?.trim(),
                                                 addr?.state?.trim(),
                                                 addr?.zip?.trim(),
-                                                addr?.country?.trim(),
-                                            ]
-                                                .filter(Boolean)
-                                                .join(", ");
+                                            ].filter(Boolean).join(", ");
 
+                                            const country = (addr?.country || "").trim();
+                                            const line3 = country && country.toUpperCase() !== "USA" ? country : "";
                                             const paymentStatus = String(o.payment_status ?? "-");
                                             const paymentMethod = String(o.payment_method ?? "-");
 
@@ -559,7 +567,9 @@ export default function AdminOrders() {
                                                                     wordBreak: "break-word",
                                                                 }}
                                                             >
-                                                                <b>Delivery:</b> {addressLine || "-"}
+                                                                <b>Delivery:</b> {line1 || "-"}
+                                                                {line2 ? <><br />{line2}</> : null}
+                                                                {line3 ? <><br />{line3}</> : null}
                                                             </Typography>
                                                         </Stack>
 
