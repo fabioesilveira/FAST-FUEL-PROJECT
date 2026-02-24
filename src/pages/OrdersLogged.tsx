@@ -74,31 +74,6 @@ function cleanProductName(name: string) {
     return String(name || "").split("/")[0].trim();
 }
 
-function formatAddress(addr: any) {
-    let a = addr;
-
-    if (typeof addr === "string") {
-        try {
-            a = JSON.parse(addr);
-        } catch {
-            a = null;
-        }
-    }
-
-    if (!a) return "-";
-
-    const street = a.street ?? a.line1 ?? "";
-    const city = a.city ?? "";
-    const state = a.state ?? a.region ?? "";
-    const zip = a.zip ?? a.postalCode ?? "";
-    const country = a.country ?? "";
-
-    const parts = [street, city, state, zip, country]
-        .map((x) => String(x || "").trim())
-        .filter(Boolean);
-
-    return parts.length ? parts.join(", ") : "-";
-}
 
 function formatPayment(method?: Sale["payment_method"], status?: Sale["payment_status"]) {
     const m = method ?? "card";
@@ -117,6 +92,57 @@ function formatPayment(method?: Sale["payment_method"], status?: Sale["payment_s
     if (m === "cash") return `Pay on delivery • Cash`;
     return `${statusLabel} • ${methodLabel}`;
 }
+
+function normalizeCountry(v?: string) {
+    const s = String(v || "").trim().toLowerCase();
+    if (!s) return "USA";
+    if (["usa", "us", "u.s.", "u.s.a."].includes(s)) return "USA";
+    if (s.includes("united states")) return "USA";
+    return String(v).trim();
+}
+
+function onlyStreet(v?: string) {
+    return String(v || "").split(",")[0].trim();
+}
+
+function addressToLines(addr: any) {
+    let a = addr;
+
+    if (typeof addr === "string") {
+        try {
+            a = JSON.parse(addr);
+        } catch {
+            a = null;
+        }
+    }
+
+    if (!a) return null;
+
+    const street = onlyStreet(a.street ?? a.line1 ?? "");
+    const aptRaw = String(a.apt ?? a.line2 ?? "").trim();
+    const apt = aptRaw
+        ? `Apt ${aptRaw.replace(/^apt\s*/i, "").trim()}`
+        : "";
+
+    const city = String(a.city ?? "").trim();
+    const state = String(a.state ?? a.region ?? "").trim();
+    const zip = String(a.zip ?? a.postalCode ?? "").trim();
+    const country = normalizeCountry(a.country ?? "");
+
+    const line1 = [street, apt].filter(Boolean).join(" • ");
+    const line2 = [city, state, zip, country].filter(Boolean).join(", ");
+
+    return {
+        line1: line1 || "-",
+        line2,
+    };
+}
+
+function addressOneLine(parts: { line1: string; line2?: string } | null) {
+    if (!parts) return "-";
+    return [parts.line1, parts.line2].filter(Boolean).join(", ");
+}
+
 
 
 export default function OrdersLogged() {
@@ -433,9 +459,7 @@ export default function OrdersLogged() {
 
                         "&::before": {
                             content: '""',
-
-                            display: { xs: "none", sm: "block" },
-
+                            display: "block",
                             position: "absolute",
                             top: 0,
                             bottom: 0,
@@ -444,26 +468,62 @@ export default function OrdersLogged() {
                             zIndex: 0,
 
                             width: {
+                                xs: "min(100vw, 1040px)",
                                 sm: "min(96vw, 1040px)",
                                 md: 1300,
                             },
+
                             borderRadius: 20,
                             pointerEvents: "none",
 
-                            backgroundImage: `
-                                linear-gradient(90deg,
-                                rgba(255,255,255,1) 0%,
-                                rgba(255,255,255,0.0) 14%,
-                                rgba(255,255,255,0.0) 86%,
-                                rgba(255,255,255,1) 100%
-                                ),
-                                repeating-linear-gradient(135deg,
-                                rgba(13,71,161,0.038) 0px,
-                                rgba(13,71,161,0.038) 10px,
-                                rgba(230,81,0,0.028) 10px,
-                                rgba(230,81,0,0.028) 20px
-                                )
-                            `,
+                            backgroundImage: {
+
+                                xs: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 18%,
+                                        rgba(255,255,255,0.0) 82%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.018) 0px,
+                                        rgba(13,71,161,0.018) 10px,
+                                        rgba(230,81,0,0.014) 10px,
+                                        rgba(230,81,0,0.014) 20px
+                                    )
+                                    `,
+
+
+                                sm: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 14%,
+                                        rgba(255,255,255,0.0) 86%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.038) 0px,
+                                        rgba(13,71,161,0.038) 10px,
+                                        rgba(230,81,0,0.028) 10px,
+                                        rgba(230,81,0,0.028) 20px
+                                    )
+                                    `,
+                                md: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 14%,
+                                        rgba(255,255,255,0.0) 86%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.038) 0px,
+                                        rgba(13,71,161,0.038) 10px,
+                                        rgba(230,81,0,0.028) 10px,
+                                        rgba(230,81,0,0.028) 20px
+                                    )
+                                    `,
+                            },
+
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -541,19 +601,6 @@ export default function OrdersLogged() {
                                 alignItems={{ xs: "stretch", sm: "center" }}
                                 justifyContent="space-between"
                             >
-                                <Chip
-                                    label={activeKey === "completed" ? "COMPLETED ORDERS" : "CURRENT ORDERS"}
-                                    size="small"
-                                    sx={{
-                                        fontSize: "0.72rem",
-                                        letterSpacing: "0.1em",
-                                        textTransform: "uppercase",
-                                        bgcolor: "#1e5bb8",
-                                        color: "#fff",
-                                        fontWeight: 800,
-                                        alignSelf: { xs: "flex-start", sm: "center" },
-                                    }}
-                                />
 
                                 <TextField
                                     size="small"
@@ -595,7 +642,8 @@ export default function OrdersLogged() {
                                                 ? snap
                                                 : (Array.isArray(cart) ? cart : []);
 
-                                            const deliveryText = formatAddress((o as any).delivery_address);
+                                            const addrLines = addressToLines((o as any).delivery_address);
+                                            const addrFull = addressOneLine(addrLines);
                                             const paymentText = formatPayment((o as any).payment_method, (o as any).payment_status);
 
                                             const lines = list.map((it: any, idx: number) => {
@@ -628,7 +676,7 @@ export default function OrdersLogged() {
                                                     <Stack spacing={1}>
                                                         {/* HEADER: Order + Status */}
                                                         <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1}>
-                                                            <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#e65100" }}>
+                                                            <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
                                                                 Order: {o.order_code}
                                                             </Typography>
 
@@ -736,8 +784,39 @@ export default function OrdersLogged() {
                                                                     {statusHint ? ` • ${statusHint}` : ""}
                                                                 </Typography>
 
-                                                                <Typography sx={{ fontSize: "0.86rem", lineHeight: 1.25 }}>
-                                                                    <b>Delivery:</b> {deliveryText}
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontSize: "0.86rem",
+                                                                        lineHeight: 1.25,
+                                                                        overflowWrap: "anywhere",
+                                                                    }}
+                                                                    title={addrFull}
+                                                                >
+                                                                    <b>Delivery:</b>{" "}
+                                                                    {/* MOBILE (2 linhas) */}
+                                                                    <Box component="span" sx={{ display: { xs: "inline", sm: "none" }, color: "rgba(0,0,0,0.72)" }}>
+                                                                        {addrLines?.line1 || "-"}
+                                                                        {addrLines?.line2 ? (
+                                                                            <>
+                                                                                <br />
+                                                                                {addrLines.line2}
+                                                                            </>
+                                                                        ) : null}
+                                                                    </Box>
+
+                                                                    {/* DESKTOP (1 linha com ellipsis) */}
+                                                                    <Box
+                                                                        component="span"
+                                                                        sx={{
+                                                                            display: { xs: "none", sm: "inline" },
+                                                                            color: "rgba(0,0,0,0.72)",
+                                                                            whiteSpace: "nowrap",
+                                                                            overflow: "hidden",
+                                                                            textOverflow: "ellipsis",
+                                                                        }}
+                                                                    >
+                                                                        {addrFull}
+                                                                    </Box>
                                                                 </Typography>
                                                             </Stack>
                                                         </Box>

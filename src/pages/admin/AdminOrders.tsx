@@ -87,6 +87,34 @@ function onlyStreet(v?: string) {
     return String(v || "").split(",")[0].trim();
 }
 
+function normalizeCountry(v?: string) {
+    const s = String(v || "").trim().toLowerCase();
+    if (!s) return "USA";
+    if (["usa", "us", "u.s.", "u.s.a."].includes(s)) return "USA";
+    if (s.includes("united states")) return "USA";
+    return String(v).trim();
+}
+
+function addressToLines(addr: any) {
+    const a = safeParseJson(addr) as DeliveryAddress | null;
+    if (!a) return null;
+
+    const street = onlyStreet(a.street ?? "");
+    const aptRaw = String(a.apt ?? "").trim();
+    const apt = aptRaw ? `Apt ${aptRaw.replace(/^apt\s*/i, "").trim()}` : "";
+
+    const city = String(a.city ?? "").trim();
+    const state = String(a.state ?? "").trim();
+    const zip = String(a.zip ?? "").trim();
+    const country = normalizeCountry(a.country ?? "");
+
+    const line1 = [street, apt].filter(Boolean).join(" • ");
+    const line2 = [city, state, zip, country].filter(Boolean).join(", ");
+
+    if (!line1 && !line2) return null;
+    return { line1: line1 || "-", line2 };
+}
+
 export default function AdminOrders() {
     const [activeKey, setActiveKey] = useState<"received" | "in_progress" | "completed">(
         "received"
@@ -483,30 +511,8 @@ export default function AdminOrders() {
                                         {items.map((o) => {
                                             const snap = safeParseJson(o.items_snapshot) as SnapshotItem[];
 
-                                            const addr = safeParseJson(o.delivery_address) as DeliveryAddress;
 
-                                            const street = onlyStreet(addr?.street);
-
-                                            const normalizeCountry = (v?: string) => {
-                                                const s = String(v || "").trim().toLowerCase();
-                                                if (!s) return "USA";
-                                                if (s === "usa" || s === "us" || s === "u.s." || s === "u.s.a.") return "USA";
-                                                if (s.includes("united states")) return "USA";
-                                                return String(v).trim();
-                                            };
-
-                                            const country = normalizeCountry(addr?.country);
-
-                                            const addressLine = [
-                                                street,
-                                                addr?.apt?.trim() ? `Apt ${addr.apt.trim()}` : "",
-                                                addr?.city?.trim(),
-                                                addr?.state?.trim(),
-                                                addr?.zip?.trim(),
-                                                country,
-                                            ]
-                                                .filter(Boolean)
-                                                .join(", ");
+                                            const addrLines = addressToLines(o.delivery_address);
 
                                             const paymentStatus = String(o.payment_status ?? "-");
                                             const paymentMethod = String(o.payment_method ?? "-");
@@ -615,28 +621,64 @@ export default function AdminOrders() {
                                                         </Stack>
 
                                                         {/* CUSTOMER + DELIVERY */}
-                                                        <Stack spacing={0.25} sx={{ mt: 0.6 }}>
-
+                                                        <Box sx={{ mt: 0.6 }}>
+                                                            {/* nome/email */}
                                                             <Typography sx={{ fontSize: "0.92rem", lineHeight: 1.3 }}>
                                                                 <b>{o.customer_name ?? "Guest"}</b>
                                                                 {o.customer_email ? ` • ${o.customer_email}` : ""}
-                                                                {o.user_id ? ` • User ID: ${o.user_id}` : " • Guest"}
-                                                                {count ? ` • Items: ${count}` : ""}
                                                             </Typography>
 
-                                                            <Typography
-                                                                sx={{
-                                                                    fontSize: "0.86rem",
-                                                                    color: "#333",
-                                                                    lineHeight: 1.25,
-                                                                    whiteSpace: "normal",
-                                                                    overflowWrap: "anywhere",
-                                                                    wordBreak: "break-word",
-                                                                }}
+
+                                                            <Stack
+                                                                direction={{ xs: "column", sm: "row" }}
+                                                                spacing={{ xs: 0.2, sm: 0.9 }}
+                                                                sx={{ mt: 0.25 }}
                                                             >
-                                                                <b>Delivery:</b> {addressLine || "-"}
-                                                            </Typography>
-                                                        </Stack>
+                                                                <Typography sx={{ fontSize: "0.86rem", color: "rgba(0,0,0,0.70)", lineHeight: 1.25 }}>
+                                                                    {o.user_id ? `User ID: ${o.user_id}` : "Guest order"}
+                                                                </Typography>
+
+                                                                <Typography sx={{ fontSize: "0.86rem", color: "rgba(0,0,0,0.70)", lineHeight: 1.25 }}>
+                                                                    {count ? `Items: ${count}` : "Items: 0"}
+                                                                </Typography>
+                                                            </Stack>
+
+                                                            {/* Delivery */}
+                                                            <Box sx={{ mt: 0.35 }}>
+                                                                {/* desktop */}
+                                                                <Typography
+                                                                    sx={{
+                                                                        display: { xs: "none", sm: "block" },
+                                                                        fontSize: "0.86rem",
+                                                                        color: "#333",
+                                                                        lineHeight: 1.25,
+                                                                        whiteSpace: "nowrap",
+                                                                        overflow: "hidden",
+                                                                        textOverflow: "ellipsis",
+                                                                    }}
+                                                                    title={addrLines ? [addrLines.line1, addrLines.line2].filter(Boolean).join(", ") : "-"}
+                                                                >
+                                                                    <b>Delivery:</b>{" "}
+                                                                    {addrLines ? [addrLines.line1, addrLines.line2].filter(Boolean).join(", ") : "-"}
+                                                                </Typography>
+
+                                                                {/* mobile */}
+                                                                <Box sx={{ display: { xs: "block", sm: "none" } }}>
+                                                                    <Typography sx={{ fontSize: "0.86rem", color: "#333", lineHeight: 1.25 }}>
+                                                                        <b>Delivery:</b>{" "}
+                                                                        <Box component="span" sx={{ fontWeight: 800 }}>
+                                                                            {addrLines?.line1 || "-"}
+                                                                        </Box>
+                                                                    </Typography>
+
+                                                                    {!!addrLines?.line2 && (
+                                                                        <Typography sx={{ fontSize: "0.84rem", color: "rgba(0,0,0,0.70)", lineHeight: 1.2, mt: 0.1 }}>
+                                                                            {addrLines.line2}
+                                                                        </Typography>
+                                                                    )}
+                                                                </Box>
+                                                            </Box>
+                                                        </Box>
 
 
                                                         {/* ITEMS */}
