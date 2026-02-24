@@ -666,7 +666,7 @@ export default function AdminOrders() {
                                                                 <Box sx={{ display: { xs: "block", sm: "none" } }}>
                                                                     <Typography sx={{ fontSize: "0.86rem", color: "#333", lineHeight: 1.25 }}>
                                                                         <b>Delivery:</b>{" "}
-                                                                        <Box component="span" sx={{ fontWeight: 800 }}>
+                                                                        <Box component="span">
                                                                             {addrLines?.line1 || "-"}
                                                                         </Box>
                                                                     </Typography>
