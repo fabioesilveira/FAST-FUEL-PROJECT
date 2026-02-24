@@ -140,7 +140,7 @@ export default function AdminMessages() {
                         "&::before": {
                             content: '""',
 
-                            display: { xs: "none", sm: "block" },
+                            display: "block",
 
                             position: "absolute",
                             top: 0,
@@ -150,26 +150,64 @@ export default function AdminMessages() {
                             zIndex: 0,
 
                             width: {
+                                xs: "min(100vw, 1040px)",
                                 sm: "min(96vw, 1040px)",
                                 md: 1300,
                             },
+
                             borderRadius: 20,
                             pointerEvents: "none",
 
-                            backgroundImage: `
-                                linear-gradient(90deg,
-                                rgba(255,255,255,1) 0%,
-                                rgba(255,255,255,0.0) 14%,
-                                rgba(255,255,255,0.0) 86%,
-                                rgba(255,255,255,1) 100%
-                                ),
-                                repeating-linear-gradient(135deg,
-                                rgba(13,71,161,0.038) 0px,
-                                rgba(13,71,161,0.038) 10px,
-                                rgba(230,81,0,0.028) 10px,
-                                rgba(230,81,0,0.028) 20px
-                                )
-                            `,
+                            backgroundImage: {
+
+                                xs: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 24%,
+                                        rgba(255,255,255,0.0) 76%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.038) 0px,
+                                        rgba(13,71,161,0.038) 10px,
+                                        rgba(230,81,0,0.028) 10px,
+                                        rgba(230,81,0,0.028) 20px
+                                    )
+                                    `,
+
+
+                                sm: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 14%,
+                                        rgba(255,255,255,0.0) 86%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.038) 0px,
+                                        rgba(13,71,161,0.038) 10px,
+                                        rgba(230,81,0,0.028) 10px,
+                                        rgba(230,81,0,0.028) 20px
+                                    )
+                                    `,
+
+
+                                md: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 14%,
+                                        rgba(255,255,255,0.0) 86%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.038) 0px,
+                                        rgba(13,71,161,0.038) 10px,
+                                        rgba(230,81,0,0.028) 10px,
+                                        rgba(230,81,0,0.028) 20px
+                                    )
+                                    `,
+                            },
+
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -250,20 +288,6 @@ export default function AdminMessages() {
                                 justifyContent="space-between"
                                 sx={{ mt: { xs: -4, sm: 0 } }}
                             >
-                                <Chip
-                                    label={activeKey === "answered" ? "Answered" : "Received"}
-                                    size="small"
-                                    sx={{
-                                        display: { xs: "none", sm: "inline-flex" },
-                                        fontSize: "0.72rem",
-                                        letterSpacing: "0.1em",
-                                        textTransform: "uppercase",
-                                        bgcolor: "#1e5bb8",
-                                        color: "#fff",
-                                        fontWeight: 800,
-                                        alignSelf: { xs: "flex-start", sm: "center" },
-                                    }}
-                                />
 
                                 <TextField
                                     size="small"
@@ -317,16 +341,8 @@ export default function AdminMessages() {
                                                         gap={1}
                                                         sx={{ width: "100%" }}
                                                     >
-                                                        <Typography
-                                                            sx={{
-                                                                fontWeight: 900,
-                                                                color: "#e65100",
-                                                                fontSize: "0.98rem",
-                                                                lineHeight: 1.15,
-                                                                minWidth: 0,
-                                                            }}
-                                                            noWrap
-                                                        >
+                                                        <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
+
                                                             #{m.id} — {m.subject}
                                                         </Typography>
 
@@ -374,7 +390,7 @@ export default function AdminMessages() {
                                                     </Typography>
 
                                                     {/* LINHA 3: */}
-                                                    <Typography sx={{ fontSize: "0.88rem", lineHeight: 1.25 }}>
+                                                    <Typography sx={{ fontSize: "0.88rem", lineHeight: 1.25, mt: 0.6 }}>
                                                         <b>{m.name}</b> • {m.email}
                                                         {" "}• <span style={{ color: "rgba(0,0,0,0.68)" }}>Phone:</span>{" "}
                                                         {formatPhoneUS(m.phone)}
@@ -385,14 +401,14 @@ export default function AdminMessages() {
                                                     <Typography
                                                         sx={{
                                                             color: "#333",
-                                                            fontSize: "0.90rem",
+                                                            fontSize: "0.92rem",
                                                             lineHeight: 1.45,
                                                             whiteSpace: "pre-wrap",
                                                             overflowWrap: "anywhere",
                                                         }}
                                                     >
                                                         <b>Message:</b>{" "}
-                                                        <span style={{ fontWeight: 500 }}>{m.message}</span>
+                                                        <span style={{ fontWeight: 300 }}>{m.message}</span>
                                                     </Typography>
                                                 </Stack>
                                             </Paper>

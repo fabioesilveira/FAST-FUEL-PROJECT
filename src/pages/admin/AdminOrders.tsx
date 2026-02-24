@@ -171,7 +171,6 @@ export default function AdminOrders() {
 
     useEffect(() => {
         fetchOrders();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeKey, debouncedOrderCode, debouncedEmail]);
 
     useEffect(() => {
@@ -183,7 +182,6 @@ export default function AdminOrders() {
 
         const interval = setInterval(tick, 8000);
         return () => clearInterval(interval);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeKey, debouncedOrderCode, debouncedEmail]);
 
 
@@ -506,7 +504,7 @@ export default function AdminOrders() {
                                                                 </Typography>
                                                             </Box>
 
-                                                            {/* RIGHT (botões/chip alinhados com o Order) */}
+                                                            {/* RIGHT */}
                                                             <Stack direction="row" spacing={1} alignItems="center" sx={{ flexShrink: 0, mt: 0.15 }}>
                                                                 {activeKey === "received" && o.status === "received" ? (
                                                                     <Button
@@ -556,7 +554,7 @@ export default function AdminOrders() {
 
                                                         {/* CUSTOMER + DELIVERY */}
                                                         <Stack spacing={0.25} sx={{ mt: 0.6 }}>
-                                                            {/* linha 1 — nome email */}
+
                                                             <Typography sx={{ fontSize: "0.92rem", lineHeight: 1.3 }}>
                                                                 <b>{o.customer_name ?? "Guest"}</b>
                                                                 {o.customer_email ? ` • ${o.customer_email}` : ""}
@@ -564,7 +562,6 @@ export default function AdminOrders() {
                                                                 {count ? ` • Items: ${count}` : ""}
                                                             </Typography>
 
-                                                            {/* linha 2 — address */}
                                                             <Typography
                                                                 sx={{
                                                                     fontSize: "0.86rem",
@@ -630,7 +627,6 @@ export default function AdminOrders() {
                         </Paper>
                     </Box>
                 </Box>
-
                 <Footer />
             </Box>
         </>
