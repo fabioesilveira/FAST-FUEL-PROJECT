@@ -12,8 +12,8 @@ type AddressResult = {
 
 type AddressOption = {
   id: string;
-  full: string;      // dropdown
-  street: string;    // input
+  full: string; // dropdown
+  street: string; // input
   city: string;
   state: string;
   postcode: string;
@@ -27,6 +27,7 @@ type AddressLookupProps = {
   onInputChange?: (value: string) => void;
 
   onInput?: (value: string) => void;
+
   onSelect: (addr: AddressResult) => void;
 
   requireZip5?: boolean;
@@ -35,6 +36,10 @@ type AddressLookupProps = {
 const GEOAPIFY_KEY = import.meta.env.VITE_GEOAPIFY_KEY as string;
 
 const isZip5 = (v: string) => /^\d{5}$/.test((v || "").trim());
+
+const streetFromFull = (full: string) => (full || "").split(",")[0]?.trim() || "";
+
+const cleanStreet = (v: string) => (v || "").split(",")[0]?.trim() || "";
 
 export default function AddressLookup({
   onSelect,
@@ -48,6 +53,7 @@ export default function AddressLookup({
   const [options, setOptions] = useState<AddressOption[]>([]);
   const [value, setValue] = useState<AddressOption | null>(null);
 
+  // uncontrolled fallback
   const [internalInput, setInternalInput] = useState("");
 
   const isControlled = controlledInputValue !== undefined;
@@ -65,6 +71,7 @@ export default function AddressLookup({
     setQuery(v);
   }, [isControlled, controlledInputValue]);
 
+  // fetch options
   useEffect(() => {
     const q = query.trim();
     if (q.length < 3) {
@@ -94,8 +101,16 @@ export default function AddressLookup({
             ).trim();
 
             const postcode = String(r.postcode ?? "").trim();
+            const hn = String(r.housenumber ?? "").trim();
+            const stName = String(r.street ?? "").trim();
+            const composed = [hn, stName].filter(Boolean).join(" ").trim();
 
-            const street = String(r.address_line1 ?? "").trim() || full;
+            const streetRaw =
+              composed ||
+              String(r.address_line1 ?? "").trim() ||
+              streetFromFull(full);
+
+            const street = cleanStreet(streetRaw);
 
             return {
               id: String(r.place_id ?? `${full}-${idx}`),
@@ -147,12 +162,14 @@ export default function AddressLookup({
         setValue(opt);
         if (!opt) return;
 
-        setShownInput(opt.street);
-        setQuery(opt.street);
-        onInput?.(opt.street);
+        const street = cleanStreet(opt.street);
+
+        setShownInput(street);
+        setQuery(street);
+        onInput?.(street);
 
         onSelect({
-          street: opt.street,
+          street,
           city: opt.city,
           state: opt.state,
           zip: opt.postcode,
@@ -180,5 +197,4 @@ export default function AddressLookup({
       )}
     />
   );
-
 }

@@ -29,9 +29,9 @@ type Props = {
 
 const GEOAPIFY_KEY = import.meta.env.VITE_GEOAPIFY_KEY as string;
 
-function streetFromFull(full: string) {
-  return (full || "").split(",")[0]?.trim() || "";
-}
+const streetFromFull = (full: string) => (full || "").split(",")[0]?.trim() || "";
+const cleanStreet = (v: string) => (v || "").split(",")[0]?.trim() || "";
+
 
 const isZip5 = (v: string) => /^\d{5}$/.test((v || "").trim());
 
@@ -45,6 +45,8 @@ export default function AddressAutocomplete({
   const [options, setOptions] = useState<AddressOption[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState<AddressOption | null>(null);
+
+
 
   useEffect(() => {
     const q = query.trim();
@@ -71,8 +73,17 @@ export default function AddressAutocomplete({
           .map((r: any, idx: number): AddressOption => {
             const full = String(r.formatted ?? "").trim();
 
-            const street =
-              String(r.address_line1 ?? "").trim() || streetFromFull(full);
+            const hn = String(r.housenumber ?? "").trim();
+            const stName = String(r.street ?? "").trim();
+            const composed = [hn, stName].filter(Boolean).join(" ").trim();
+
+            const streetRaw =
+              composed ||
+              String(r.address_line1 ?? "").trim() ||
+              streetFromFull(full);
+
+            const street = cleanStreet(streetRaw);
+
 
             const city = String(
               r.city ?? r.town ?? r.village ?? r.hamlet ?? r.suburb ?? ""
@@ -137,17 +148,20 @@ export default function AddressAutocomplete({
         setValue(opt);
         if (!opt) return;
 
-        setInputValue(opt.street); 
-        setQuery(opt.street);
-        onInput?.(opt.street);
+        const street = cleanStreet(opt.street);
+
+        setInputValue(street);
+        setQuery(street);
+        onInput?.(street);
 
         onSelect({
-          street: opt.street,
+          street,
           city: opt.city,
           state: opt.state,
           zip: opt.postcode,
           country: opt.country,
         });
+
       }}
       renderInput={(params) => (
         <TextField
