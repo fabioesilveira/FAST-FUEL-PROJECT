@@ -286,7 +286,7 @@ export default function AdminMessages() {
                                 spacing={1.2}
                                 alignItems={{ xs: "stretch", sm: "center" }}
                                 justifyContent="space-between"
-                                sx={{ mt: { xs: -4, sm: 0 } }}
+                                sx={{ mt: { xs: 1, sm: 0.5 } }}
                             >
 
                                 <TextField
@@ -311,14 +311,35 @@ export default function AdminMessages() {
                                     overscrollBehavior: "contain",
                                 }}
                             >
+
                                 {loading ? (
-                                    <Typography align="center" sx={{ color: "text.secondary", mt: 3 }}>
-                                        Loading...
-                                    </Typography>
+                                    <Box
+                                        sx={{
+                                            minHeight: "100%",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            textAlign: "center",
+                                            transform: "translateY(-10%)",
+                                            py: 4,
+                                        }}
+                                    >
+                                        <Typography sx={{ color: "text.secondary" }}>Loading...</Typography>
+                                    </Box>
                                 ) : items.length === 0 ? (
-                                    <Typography align="center" sx={{ color: "text.secondary", mt: 3 }}>
-                                        No messages found.
-                                    </Typography>
+                                    <Box
+                                        sx={{
+                                            minHeight: "100%",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            textAlign: "center",
+                                            transform: "translateY(-10%)",
+                                            py: 4,
+                                        }}
+                                    >
+                                        <Typography sx={{ color: "text.secondary" }}>No messages found.</Typography>
+                                    </Box>
                                 ) : (
                                     <Stack spacing={1.4}>
                                         {items.map((m) => (
@@ -374,7 +395,12 @@ export default function AdminMessages() {
                                                                     letterSpacing: "0.10em",
                                                                     textTransform: "uppercase",
                                                                     fontWeight: 900,
-                                                                    color: "rgba(30, 91, 184, 0.85)",
+                                                                    color: "rgba(0,0,0,0.45)",
+                                                                    bgcolor: "rgba(0,0,0,0.06)",
+                                                                    px: 1,
+                                                                    py: 0.35,
+                                                                    borderRadius: 999,
+                                                                    border: "1px solid rgba(0,0,0,0.10)",
                                                                     flexShrink: 0,
                                                                 }}
                                                             >
@@ -383,33 +409,37 @@ export default function AdminMessages() {
                                                         )}
                                                     </Stack>
 
-                                                    {/* LINHA 2: PROGRESS  */}
+                                                    {/* LINHA 2: PROGRESS */}
                                                     <Typography sx={{ color: "text.secondary", fontSize: "0.78rem", lineHeight: 1.25 }}>
                                                         Sent: {formatDate(m.created_at)}
                                                         {m.replied_at ? ` • Answered: ${formatDate(m.replied_at)}` : ""}
                                                     </Typography>
 
-                                                    {/* LINHA 3: */}
-                                                    <Typography sx={{ fontSize: "0.88rem", lineHeight: 1.25, mt: 0.6 }}>
-                                                        <b>{m.name}</b> • {m.email}
-                                                        {" "}• <span style={{ color: "rgba(0,0,0,0.68)" }}>Phone:</span>{" "}
-                                                        {formatPhoneUS(m.phone)}
-                                                        {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
-                                                    </Typography>
 
-                                                    {/* LINHA 4 */}
-                                                    <Typography
-                                                        sx={{
-                                                            color: "#333",
-                                                            fontSize: "0.92rem",
-                                                            lineHeight: 1.45,
-                                                            whiteSpace: "pre-wrap",
-                                                            overflowWrap: "anywhere",
-                                                        }}
-                                                    >
-                                                        <b>Message:</b>{" "}
-                                                        <span style={{ fontWeight: 300 }}>{m.message}</span>
-                                                    </Typography>
+                                                    <Stack spacing={0} sx={{ mt: 0.8 }}>
+                                                        {/* LINHA 3 */}
+                                                        <Typography sx={{ fontSize: "0.88rem", lineHeight: 1.25 }}>
+                                                            <b>{m.name}</b> • {m.email}
+                                                            {" "}• <span style={{ color: "rgba(0,0,0,0.68)" }}>Phone:</span>{" "}
+                                                            {formatPhoneUS(m.phone)}
+                                                            {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
+                                                        </Typography>
+
+                                                        {/* LINHA 4 */}
+                                                        <Typography
+                                                            sx={{
+                                                                color: "#333",
+                                                                fontSize: "0.92rem",
+                                                                lineHeight: 1.45,
+                                                                whiteSpace: "pre-wrap",
+                                                                overflowWrap: "anywhere",
+                                                                mt: 0,
+                                                            }}
+                                                        >
+                                                            <b>Message:</b>{" "}
+                                                            <span style={{ fontWeight: 350 }}>{m.message}</span>
+                                                        </Typography>
+                                                    </Stack>
                                                 </Stack>
                                             </Paper>
 
