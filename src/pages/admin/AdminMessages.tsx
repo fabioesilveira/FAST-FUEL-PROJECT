@@ -286,7 +286,7 @@ export default function AdminMessages() {
                                 spacing={1.2}
                                 alignItems={{ xs: "stretch", sm: "center" }}
                                 justifyContent="space-between"
-                                sx={{ mt: { xs: 1, sm: 0.5 } }}
+                                sx={{ mt: { xs: -2, sm: 0.5 } }}
                             >
 
                                 <TextField
@@ -320,7 +320,7 @@ export default function AdminMessages() {
                                             alignItems: "center",
                                             justifyContent: "center",
                                             textAlign: "center",
-                                            transform: "translateY(-10%)",
+                                            transform: "translateY(-14%)",
                                             py: 4,
                                         }}
                                     >
@@ -429,7 +429,7 @@ export default function AdminMessages() {
                                                         <Typography
                                                             sx={{
                                                                 color: "#333",
-                                                                fontSize: "0.92rem",
+                                                                fontSize: "0.97rem",
                                                                 lineHeight: 1.45,
                                                                 whiteSpace: "pre-wrap",
                                                                 overflowWrap: "anywhere",
@@ -437,7 +437,7 @@ export default function AdminMessages() {
                                                             }}
                                                         >
                                                             <b>Message:</b>{" "}
-                                                            <span style={{ fontWeight: 350 }}>{m.message}</span>
+                                                            <span style={{ fontWeight: 375 }}>{m.message}</span>
                                                         </Typography>
                                                     </Stack>
                                                 </Stack>

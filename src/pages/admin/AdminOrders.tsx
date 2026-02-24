@@ -273,7 +273,7 @@ export default function AdminOrders() {
                         "&::before": {
                             content: '""',
 
-                            display: { xs: "none", sm: "block" },
+                            display: "block",
 
                             position: "absolute",
                             top: 0,
@@ -283,26 +283,64 @@ export default function AdminOrders() {
                             zIndex: 0,
 
                             width: {
+                                xs: "min(100vw, 1040px)",
                                 sm: "min(96vw, 1040px)",
                                 md: 1300,
                             },
+
                             borderRadius: 20,
                             pointerEvents: "none",
 
-                            backgroundImage: `
-                                linear-gradient(90deg,
-                                rgba(255,255,255,1) 0%,
-                                rgba(255,255,255,0.0) 14%,
-                                rgba(255,255,255,0.0) 86%,
-                                rgba(255,255,255,1) 100%
-                                ),
-                                repeating-linear-gradient(135deg,
-                                rgba(13,71,161,0.038) 0px,
-                                rgba(13,71,161,0.038) 10px,
-                                rgba(230,81,0,0.028) 10px,
-                                rgba(230,81,0,0.028) 20px
-                                )
-                            `,
+                            backgroundImage: {
+
+                                xs: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 24%,
+                                        rgba(255,255,255,0.0) 76%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.038) 0px,
+                                        rgba(13,71,161,0.038) 10px,
+                                        rgba(230,81,0,0.028) 10px,
+                                        rgba(230,81,0,0.028) 20px
+                                    )
+                                    `,
+
+
+                                sm: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 14%,
+                                        rgba(255,255,255,0.0) 86%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.038) 0px,
+                                        rgba(13,71,161,0.038) 10px,
+                                        rgba(230,81,0,0.028) 10px,
+                                        rgba(230,81,0,0.028) 20px
+                                    )
+                                    `,
+
+
+                                md: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 14%,
+                                        rgba(255,255,255,0.0) 86%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.038) 0px,
+                                        rgba(13,71,161,0.038) 10px,
+                                        rgba(230,81,0,0.028) 10px,
+                                        rgba(230,81,0,0.028) 20px
+                                    )
+                                    `,
+                            },
+
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -376,23 +414,8 @@ export default function AdminOrders() {
                                 spacing={1.2}
                                 alignItems={{ xs: "stretch", sm: "center" }}
                                 justifyContent="space-between"
-                                sx={{ mt: { xs: -4, sm: 0 } }}
+                                sx={{ mt: { xs: -2, sm: 0.5 } }}
                             >
-                                <Chip
-                                    label={activeKey.replace("_", " ").toUpperCase()}
-                                    size="small"
-                                    sx={{
-                                        display: { xs: "none", sm: "inline-flex" },
-                                        fontSize: "0.72rem",
-                                        letterSpacing: "0.1em",
-                                        textTransform: "uppercase",
-                                        bgcolor: "#1e5bb8",
-                                        color: "#fff",
-                                        fontWeight: 800,
-                                        alignSelf: { xs: "flex-start", sm: "center" },
-                                    }}
-                                />
-
 
                                 <Stack direction={{ xs: "column", sm: "row" }} spacing={1.2}>
                                     <TextField
@@ -416,15 +439,37 @@ export default function AdminOrders() {
 
                             <Divider />
 
-                            <Box sx={{ flex: 1, overflowY: "auto", pr: 0.5 }}>
+                            <Box sx={{ flex: 1, overflowY: "auto", pr: 0.5, minHeight: 0 }}>
                                 {loading ? (
-                                    <Typography align="center" sx={{ color: "text.secondary", mt: 3 }}>
-                                        Loading...
-                                    </Typography>
+                                    <Box
+                                        sx={{
+                                            height: "100%",
+                                            minHeight: 240,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            textAlign: "center",
+                                            transform: "translateY(-10%)", 
+                                            px: 2,
+                                        }}
+                                    >
+                                        <Typography sx={{ color: "text.secondary" }}>Loading...</Typography>
+                                    </Box>
                                 ) : items.length === 0 ? (
-                                    <Typography align="center" sx={{ color: "text.secondary", mt: 3 }}>
-                                        No orders found.
-                                    </Typography>
+                                    <Box
+                                        sx={{
+                                            height: "100%",
+                                            minHeight: 240,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            textAlign: "center",
+                                            transform: "translateY(-10%)", 
+                                            px: 2,
+                                        }}
+                                    >
+                                        <Typography sx={{ color: "text.secondary" }}>No orders found.</Typography>
+                                    </Box>
                                 ) : (
                                     <Stack spacing={1.4}>
                                         {items.map((o) => {
