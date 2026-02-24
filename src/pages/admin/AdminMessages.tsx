@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, useRef } from "react";
 import { api } from "../../api";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import { Box, Paper, Typography, TextField, Button, Stack, Chip, Divider } from "@mui/material";
+import { Box, Paper, Typography, TextField, Button, Stack, Divider } from "@mui/material";
 import NavbarAdmin from "../../components/NavbarAdmin";
 import Footer from "../../components/Footer";
 
