@@ -363,7 +363,7 @@ export default function TrackOrderGuest() {
 
                         "&::before": {
                             content: '""',
-                            display: "block", 
+                            display: "block",
                             position: "absolute",
                             top: 0,
                             bottom: 0,
@@ -372,7 +372,7 @@ export default function TrackOrderGuest() {
                             zIndex: 0,
 
                             width: {
-                                xs: "min(100vw, 1040px)",   
+                                xs: "min(100vw, 1040px)",
                                 sm: "min(96vw, 1040px)",
                                 md: 1300,
                             },
@@ -686,8 +686,6 @@ export default function TrackOrderGuest() {
                                                     };
                                                 });
 
-                                                const deliveryLine = addressOneLine((o as any).delivery_address);
-
                                                 const paymentText = formatPayment((o as any).payment_method, (o as any).payment_status);
 
 
@@ -831,19 +829,61 @@ export default function TrackOrderGuest() {
                                                                         {o.customer_email ? ` • ${o.customer_email}` : ""}
                                                                     </Typography>
 
-                                                                    <Typography
-                                                                        sx={{
-                                                                            fontSize: "0.86rem",
-                                                                            lineHeight: 1.25,
-                                                                            color: "#333",
-                                                                            whiteSpace: "normal",
-                                                                            overflowWrap: "anywhere",
-                                                                            wordBreak: "break-word",
-                                                                        }}
-                                                                    >
-                                                                        <b>Delivery:</b>{" "}
-                                                                        <span style={{ color: "rgba(0,0,0,0.72)" }}>{deliveryLine}</span>
-                                                                    </Typography>
+                                                                    {(() => {
+                                                                        const addrParts = parseAddressParts((o as any).delivery_address);
+
+                                                                        return (
+                                                                            <Box sx={{ mt: 0.1 }}>
+                                                                                {/* DESKTOP — tudo em 1 linha */}
+                                                                                <Typography
+                                                                                    sx={{
+                                                                                        display: { xs: "none", sm: "block" },
+                                                                                        fontSize: "0.86rem",
+                                                                                        lineHeight: 1.25,
+                                                                                        color: "#333",
+                                                                                        whiteSpace: "nowrap",
+                                                                                        overflow: "hidden",
+                                                                                        textOverflow: "ellipsis",
+                                                                                    }}
+                                                                                    title={addressOneLine((o as any).delivery_address)}
+                                                                                >
+                                                                                    <b>Delivery:</b>{" "}
+                                                                                    <span style={{ color: "rgba(0,0,0,0.72)" }}>
+                                                                                        {addressOneLine((o as any).delivery_address)}
+                                                                                    </span>
+                                                                                </Typography>
+
+                                                                                {/* MOBILE — quebra em 2 linhas */}
+                                                                                <Box sx={{ display: { xs: "block", sm: "none" } }}>
+                                                                                    <Typography
+                                                                                        sx={{
+                                                                                            fontSize: "0.86rem",
+                                                                                            lineHeight: 1.25,
+                                                                                            color: "#333",
+                                                                                        }}
+                                                                                    >
+                                                                                        <b>Delivery:</b>{" "}
+                                                                                        <span style={{ color: "rgba(0,0,0,0.72)" }}>
+                                                                                            {addrParts?.line1 || "-"}
+                                                                                        </span>
+                                                                                    </Typography>
+
+                                                                                    {!!addrParts?.line2 && (
+                                                                                        <Typography
+                                                                                            sx={{
+                                                                                                fontSize: "0.84rem",
+                                                                                                lineHeight: 1.2,
+                                                                                                color: "rgba(0,0,0,0.70)",
+                                                                                                mt: 0.1,
+                                                                                            }}
+                                                                                        >
+                                                                                            {[addrParts.line2, addrParts.line3].filter(Boolean).join(", ")}
+                                                                                        </Typography>
+                                                                                    )}
+                                                                                </Box>
+                                                                            </Box>
+                                                                        );
+                                                                    })()}
                                                                 </Stack>
                                                             </Box>
 

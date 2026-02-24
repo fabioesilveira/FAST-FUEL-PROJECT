@@ -207,7 +207,7 @@ export default function SignIn() {
                                 width: "100%",
                                 maxWidth: { xs: 520, md: 520 },
                                 borderRadius: 3,
-                                border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                                border: "1.5px solid rgba(230, 81, 0, 0.22)",
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
 
@@ -215,8 +215,7 @@ export default function SignIn() {
                                 maxHeight: 720,
 
                                 boxShadow:
-                                    "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
-
+                                    "0 4px 12px rgba(230, 81, 0, 0.18), 0 8px 20px rgba(0,0,0,0.08)",
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 2,

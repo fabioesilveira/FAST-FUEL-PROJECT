@@ -459,7 +459,7 @@ export default function AdminMessages() {
                                                             }}
                                                         >
                                                             <b>Message:</b>{" "}
-                                                            <span style={{ fontWeight: 420 }}>{m.message}</span>
+                                                            <span style={{ fontWeight: 400 }}>{m.message}</span>
                                                         </Typography>
                                                     </Stack>
                                                 </Stack>
