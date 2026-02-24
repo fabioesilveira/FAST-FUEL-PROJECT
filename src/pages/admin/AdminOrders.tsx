@@ -195,6 +195,18 @@ export default function AdminOrders() {
         }
     }
 
+    const pillChipSx = {
+        height: 22,
+        borderRadius: 999,
+        fontWeight: 900,
+        letterSpacing: "0.10em",
+        fontSize: "0.68rem",
+        "& .MuiChip-label": {
+            px: 1,
+            py: 0,
+        },
+    };
+
     function statusChip(status: Sale["status"]) {
         if (status === "received") {
             return (
@@ -202,10 +214,10 @@ export default function AdminOrders() {
                     label="NEW"
                     size="small"
                     sx={{
+                        ...pillChipSx,
                         bgcolor: "rgba(46, 125, 50, 0.12)",
                         color: "#2e7d32",
-                        fontWeight: 900,
-                        letterSpacing: "0.10em",
+                        border: "1px solid rgba(46,125,50,0.18)",
                     }}
                 />
             );
@@ -217,10 +229,10 @@ export default function AdminOrders() {
                     label="IN PROGRESS"
                     size="small"
                     sx={{
+                        ...pillChipSx,
                         bgcolor: "rgba(30, 91, 184, 0.12)",
                         color: "#1e5bb8",
-                        fontWeight: 900,
-                        letterSpacing: "0.10em",
+                        border: "1px solid rgba(30,91,184,0.18)",
                     }}
                 />
             );
@@ -232,10 +244,10 @@ export default function AdminOrders() {
                     label="SENT"
                     size="small"
                     sx={{
+                        ...pillChipSx,
                         bgcolor: "rgba(237, 108, 2, 0.12)",
                         color: "#ed6c02",
-                        fontWeight: 900,
-                        letterSpacing: "0.10em",
+                        border: "1px solid rgba(237,108,2,0.18)",
                     }}
                 />
             );
@@ -246,10 +258,10 @@ export default function AdminOrders() {
                 label="COMPLETED"
                 size="small"
                 sx={{
-                    bgcolor: "rgba(0,0,0,0.10)",
-                    color: "#333",
-                    fontWeight: 900,
-                    letterSpacing: "0.10em",
+                    ...pillChipSx,
+                    bgcolor: "rgba(0,0,0,0.06)",
+                    color: "rgba(0,0,0,0.55)",
+                    border: "1px solid rgba(0,0,0,0.10)",
                 }}
             />
         );
@@ -272,9 +284,7 @@ export default function AdminOrders() {
 
                         "&::before": {
                             content: '""',
-
                             display: "block",
-
                             position: "absolute",
                             top: 0,
                             bottom: 0,
@@ -296,15 +306,15 @@ export default function AdminOrders() {
                                 xs: `
                                     linear-gradient(90deg,
                                         rgba(255,255,255,1) 0%,
-                                        rgba(255,255,255,0.0) 24%,
-                                        rgba(255,255,255,0.0) 76%,
+                                        rgba(255,255,255,0.0) 18%,
+                                        rgba(255,255,255,0.0) 82%,
                                         rgba(255,255,255,1) 100%
                                     ),
                                     repeating-linear-gradient(135deg,
-                                        rgba(13,71,161,0.038) 0px,
-                                        rgba(13,71,161,0.038) 10px,
-                                        rgba(230,81,0,0.028) 10px,
-                                        rgba(230,81,0,0.028) 20px
+                                        rgba(13,71,161,0.018) 0px,
+                                        rgba(13,71,161,0.018) 10px,
+                                        rgba(230,81,0,0.014) 10px,
+                                        rgba(230,81,0,0.014) 20px
                                     )
                                     `,
 
@@ -323,8 +333,6 @@ export default function AdminOrders() {
                                         rgba(230,81,0,0.028) 20px
                                     )
                                     `,
-
-
                                 md: `
                                     linear-gradient(90deg,
                                         rgba(255,255,255,1) 0%,
@@ -449,7 +457,7 @@ export default function AdminOrders() {
                                             alignItems: "center",
                                             justifyContent: "center",
                                             textAlign: "center",
-                                            transform: "translateY(-10%)", 
+                                            transform: "translateY(-10%)",
                                             px: 2,
                                         }}
                                     >
@@ -464,7 +472,7 @@ export default function AdminOrders() {
                                             alignItems: "center",
                                             justifyContent: "center",
                                             textAlign: "center",
-                                            transform: "translateY(-10%)", 
+                                            transform: "translateY(-10%)",
                                             px: 2,
                                         }}
                                     >
@@ -551,6 +559,7 @@ export default function AdminOrders() {
 
                                                             {/* RIGHT */}
                                                             <Stack direction="row" spacing={1} alignItems="center" sx={{ flexShrink: 0, mt: 0.15 }}>
+                                                                {/* TAB: RECEIVED */}
                                                                 {activeKey === "received" && o.status === "received" ? (
                                                                     <Button
                                                                         variant="contained"
@@ -571,29 +580,37 @@ export default function AdminOrders() {
                                                                     >
                                                                         Accept
                                                                     </Button>
-                                                                ) : activeKey === "in_progress" && o.status === "in_progress" ? (
-                                                                    <Button
-                                                                        variant="contained"
-                                                                        onClick={() => updateStatus(o.id, "sent")}
-                                                                        sx={{
-                                                                            borderRadius: 2,
-                                                                            bgcolor: "#1e5bb8",
-                                                                            color: "#fff",
-                                                                            fontWeight: 900,
-                                                                            textTransform: "uppercase",
-                                                                            letterSpacing: "0.10em",
-                                                                            "&:hover": { bgcolor: "#164a96" },
-                                                                            fontSize: { xs: "0.72rem", sm: "0.85rem" },
-                                                                            px: { xs: 1, sm: 1.8 },
-                                                                            py: { xs: 0.55, sm: 0.9 },
-                                                                            minHeight: { xs: 32, sm: 34 },
-                                                                        }}
-                                                                    >
-                                                                        Mark sent
-                                                                    </Button>
-                                                                ) : o.status === "completed" ? (
-                                                                    statusChip("completed")
                                                                 ) : null}
+
+                                                                {/* TAB: IN PROGRESS (mostra botão OU chip SENT) */}
+                                                                {activeKey === "in_progress" ? (
+                                                                    o.status === "in_progress" ? (
+                                                                        <Button
+                                                                            variant="contained"
+                                                                            onClick={() => updateStatus(o.id, "sent")}
+                                                                            sx={{
+                                                                                borderRadius: 2,
+                                                                                bgcolor: "#1e5bb8",
+                                                                                color: "#fff",
+                                                                                fontWeight: 900,
+                                                                                textTransform: "uppercase",
+                                                                                letterSpacing: "0.10em",
+                                                                                "&:hover": { bgcolor: "#164a96" },
+                                                                                fontSize: { xs: "0.72rem", sm: "0.85rem" },
+                                                                                px: { xs: 1, sm: 1.8 },
+                                                                                py: { xs: 0.55, sm: 0.9 },
+                                                                                minHeight: { xs: 32, sm: 34 },
+                                                                            }}
+                                                                        >
+                                                                            Mark sent
+                                                                        </Button>
+                                                                    ) : o.status === "sent" ? (
+                                                                        statusChip("sent")
+                                                                    ) : null
+                                                                ) : null}
+
+                                                                {/* TAB: COMPLETED */}
+                                                                {activeKey === "completed" && o.status === "completed" ? statusChip("completed") : null}
                                                             </Stack>
                                                         </Stack>
 

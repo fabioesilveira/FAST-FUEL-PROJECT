@@ -139,9 +139,7 @@ export default function AdminMessages() {
 
                         "&::before": {
                             content: '""',
-
                             display: "block",
-
                             position: "absolute",
                             top: 0,
                             bottom: 0,
@@ -163,15 +161,15 @@ export default function AdminMessages() {
                                 xs: `
                                     linear-gradient(90deg,
                                         rgba(255,255,255,1) 0%,
-                                        rgba(255,255,255,0.0) 24%,
-                                        rgba(255,255,255,0.0) 76%,
+                                        rgba(255,255,255,0.0) 18%,
+                                        rgba(255,255,255,0.0) 82%,
                                         rgba(255,255,255,1) 100%
                                     ),
                                     repeating-linear-gradient(135deg,
-                                        rgba(13,71,161,0.038) 0px,
-                                        rgba(13,71,161,0.038) 10px,
-                                        rgba(230,81,0,0.028) 10px,
-                                        rgba(230,81,0,0.028) 20px
+                                        rgba(13,71,161,0.018) 0px,
+                                        rgba(13,71,161,0.018) 10px,
+                                        rgba(230,81,0,0.014) 10px,
+                                        rgba(230,81,0,0.014) 20px
                                     )
                                     `,
 
@@ -190,8 +188,6 @@ export default function AdminMessages() {
                                         rgba(230,81,0,0.028) 20px
                                     )
                                     `,
-
-
                                 md: `
                                     linear-gradient(90deg,
                                         rgba(255,255,255,1) 0%,
@@ -320,7 +316,7 @@ export default function AdminMessages() {
                                             alignItems: "center",
                                             justifyContent: "center",
                                             textAlign: "center",
-                                            transform: "translateY(-14%)",
+                                            transform: "translateY(-18%)",
                                             py: 4,
                                         }}
                                     >
@@ -437,7 +433,7 @@ export default function AdminMessages() {
                                                             }}
                                                         >
                                                             <b>Message:</b>{" "}
-                                                            <span style={{ fontWeight: 375 }}>{m.message}</span>
+                                                            <span style={{ fontWeight: 390 }}>{m.message}</span>
                                                         </Typography>
                                                     </Stack>
                                                 </Stack>

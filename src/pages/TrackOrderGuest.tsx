@@ -63,32 +63,6 @@ function cleanProductName(name: string) {
     return String(name || "").split("/")[0].trim();
 }
 
-function formatAddress(addr: any) {
-    let a = addr;
-
-    // se vier string JSON do backend, tenta parse
-    if (typeof addr === "string") {
-        try {
-            a = JSON.parse(addr);
-        } catch {
-            a = null;
-        }
-    }
-
-    if (!a) return "-";
-
-    const street = a.street ?? a.line1 ?? "";
-    const city = a.city ?? "";
-    const state = a.state ?? a.region ?? "";
-    const zip = a.zip ?? a.postalCode ?? "";
-    const country = a.country ?? "";
-
-    const parts = [street, city, state, zip, country]
-        .map((x) => String(x || "").trim())
-        .filter(Boolean);
-
-    return parts.length ? parts.join(", ") : "-";
-}
 
 
 function formatPayment(method?: Sale["payment_method"], status?: Sale["payment_status"]) {
@@ -105,10 +79,75 @@ function formatPayment(method?: Sale["payment_method"], status?: Sale["payment_s
                 status === "refunded" ? "Refunded" :
                     "Approved";
 
-    // se for cash, mostra Pay on delivery / Pending
     if (m === "cash") return `Pay on delivery • Cash`;
 
     return `${statusLabel} • ${methodLabel}`;
+}
+
+type AddrParts = {
+    line1: string;
+    line2: string;
+    line3?: string;
+};
+
+function normalizeCountry(v?: string) {
+    const s = String(v || "").trim().toLowerCase();
+    if (!s) return "USA";
+    if (["usa", "us", "u.s.", "u.s.a."].includes(s)) return "USA";
+    if (s.includes("united states")) return "USA";
+    return String(v).trim();
+}
+
+function parseAddressParts(addr: any): AddrParts | null {
+    let a = addr;
+
+    if (typeof addr === "string") {
+        try {
+            a = JSON.parse(addr);
+        } catch {
+            a = null;
+        }
+    }
+
+    if (!a) return null;
+
+    const streetRaw = a.street ?? a.line1 ?? "";
+    const aptRaw = a.apt ?? a.line2 ?? "";
+    const city = a.city ?? "";
+    const state = a.state ?? a.region ?? "";
+    const zip = a.zip ?? a.postalCode ?? "";
+    const country = normalizeCountry(a.country ?? "");
+
+    const street = String(streetRaw || "").split(",")[0].trim();
+    const apt = String(aptRaw || "").trim();
+
+    const line1 = [street, apt ? `Apt ${apt.replace(/^apt\s*/i, "").trim()}` : ""]
+        .filter(Boolean)
+        .join(" • ");
+
+    const line2 = [String(city).trim(), String(state).trim(), String(zip).trim()]
+        .filter(Boolean)
+        .join(", ")
+        .replace(/,\s*,/g, ",");
+
+    const line3 = country ? country : undefined;
+
+    const safe1 = line1.trim();
+    const safe2 = line2.trim();
+
+    if (!safe1 && !safe2 && !line3) return null;
+
+    return {
+        line1: safe1 || "-",
+        line2: safe2 || "-",
+        line3,
+    };
+}
+
+function addressOneLine(addr: any) {
+    const p = parseAddressParts(addr);
+    if (!p) return "-";
+    return [p.line1, p.line2, p.line3].filter(Boolean).join(" • ");
 }
 
 
@@ -161,7 +200,6 @@ export default function TrackOrderGuest() {
         const lastEmail = localStorage.getItem("lastOrderEmail") || "";
         if (!orderCodeFilter && lastCode) setOrderCodeFilter(String(lastCode));
         if (!emailFilter && lastEmail) setEmailFilter(String(lastEmail));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function fetchOrders(opts?: { silent?: boolean }) {
@@ -178,7 +216,6 @@ export default function TrackOrderGuest() {
             return;
         }
 
-        // evita chamadas simultâneas (isso reduz MUITO o “bug visual”)
         if (inFlightRef.current) return;
         inFlightRef.current = true;
 
@@ -326,9 +363,7 @@ export default function TrackOrderGuest() {
 
                         "&::before": {
                             content: '""',
-
-                            display: { xs: "none", sm: "block" },
-
+                            display: "block", 
                             position: "absolute",
                             top: 0,
                             bottom: 0,
@@ -337,26 +372,62 @@ export default function TrackOrderGuest() {
                             zIndex: 0,
 
                             width: {
+                                xs: "min(100vw, 1040px)",   
                                 sm: "min(96vw, 1040px)",
                                 md: 1300,
                             },
+
                             borderRadius: 20,
                             pointerEvents: "none",
 
-                            backgroundImage: `
-                                linear-gradient(90deg,
-                                rgba(255,255,255,1) 0%,
-                                rgba(255,255,255,0.0) 14%,
-                                rgba(255,255,255,0.0) 86%,
-                                rgba(255,255,255,1) 100%
-                                ),
-                                repeating-linear-gradient(135deg,
-                                rgba(13,71,161,0.038) 0px,
-                                rgba(13,71,161,0.038) 10px,
-                                rgba(230,81,0,0.028) 10px,
-                                rgba(230,81,0,0.028) 20px
-                                )
-                            `,
+                            backgroundImage: {
+
+                                xs: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 18%,
+                                        rgba(255,255,255,0.0) 82%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.018) 0px,
+                                        rgba(13,71,161,0.018) 10px,
+                                        rgba(230,81,0,0.014) 10px,
+                                        rgba(230,81,0,0.014) 20px
+                                    )
+                                    `,
+
+
+                                sm: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 14%,
+                                        rgba(255,255,255,0.0) 86%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.038) 0px,
+                                        rgba(13,71,161,0.038) 10px,
+                                        rgba(230,81,0,0.028) 10px,
+                                        rgba(230,81,0,0.028) 20px
+                                    )
+                                    `,
+                                md: `
+                                    linear-gradient(90deg,
+                                        rgba(255,255,255,1) 0%,
+                                        rgba(255,255,255,0.0) 14%,
+                                        rgba(255,255,255,0.0) 86%,
+                                        rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                        rgba(13,71,161,0.038) 0px,
+                                        rgba(13,71,161,0.038) 10px,
+                                        rgba(230,81,0,0.028) 10px,
+                                        rgba(230,81,0,0.028) 20px
+                                    )
+                                    `,
+                            },
+
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -615,7 +686,8 @@ export default function TrackOrderGuest() {
                                                     };
                                                 });
 
-                                                const deliveryText = formatAddress((o as any).delivery_address);
+                                                const deliveryLine = addressOneLine((o as any).delivery_address);
+
                                                 const paymentText = formatPayment((o as any).payment_method, (o as any).payment_status);
 
 
@@ -641,13 +713,12 @@ export default function TrackOrderGuest() {
                                                                 justifyContent="space-between"
                                                                 gap={1}
                                                             >
-                                                                <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#e65100" }}>
+                                                                <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
                                                                     Order: {o.order_code}
                                                                 </Typography>
 
                                                                 {statusChip(effectiveStatus)}
                                                             </Stack>
-
 
 
                                                             {/* Created/Accepted/Sent/Received*/}
@@ -760,14 +831,18 @@ export default function TrackOrderGuest() {
                                                                         {o.customer_email ? ` • ${o.customer_email}` : ""}
                                                                     </Typography>
 
-                                                                    {/* Delivery */}
                                                                     <Typography
                                                                         sx={{
                                                                             fontSize: "0.86rem",
                                                                             lineHeight: 1.25,
+                                                                            color: "#333",
+                                                                            whiteSpace: "normal",
+                                                                            overflowWrap: "anywhere",
+                                                                            wordBreak: "break-word",
                                                                         }}
                                                                     >
-                                                                        <b>Delivery:</b> {deliveryText}
+                                                                        <b>Delivery:</b>{" "}
+                                                                        <span style={{ color: "rgba(0,0,0,0.72)" }}>{deliveryLine}</span>
                                                                     </Typography>
                                                                 </Stack>
                                                             </Box>
