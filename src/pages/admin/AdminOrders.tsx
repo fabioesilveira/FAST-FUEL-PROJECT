@@ -436,19 +436,27 @@ export default function AdminOrders() {
 
                                             const street = onlyStreet(addr?.street);
 
-                                            const line1 = [
+                                            const normalizeCountry = (v?: string) => {
+                                                const s = String(v || "").trim().toLowerCase();
+                                                if (!s) return "USA";
+                                                if (s === "usa" || s === "us" || s === "u.s." || s === "u.s.a.") return "USA";
+                                                if (s.includes("united states")) return "USA";
+                                                return String(v).trim();
+                                            };
+
+                                            const country = normalizeCountry(addr?.country);
+
+                                            const addressLine = [
                                                 street,
                                                 addr?.apt?.trim() ? `Apt ${addr.apt.trim()}` : "",
-                                            ].filter(Boolean).join(", ");
-
-                                            const line2 = [
                                                 addr?.city?.trim(),
                                                 addr?.state?.trim(),
                                                 addr?.zip?.trim(),
-                                            ].filter(Boolean).join(", ");
+                                                country,
+                                            ]
+                                                .filter(Boolean)
+                                                .join(", ");
 
-                                            const country = (addr?.country || "").trim();
-                                            const line3 = country && country.toUpperCase() !== "USA" ? country : "";
                                             const paymentStatus = String(o.payment_status ?? "-");
                                             const paymentMethod = String(o.payment_method ?? "-");
 
@@ -548,7 +556,7 @@ export default function AdminOrders() {
 
                                                         {/* CUSTOMER + DELIVERY */}
                                                         <Stack spacing={0.25} sx={{ mt: 0.6 }}>
-                                                            {/* linha 1 — nome + email */}
+                                                            {/* linha 1 — nome email */}
                                                             <Typography sx={{ fontSize: "0.92rem", lineHeight: 1.3 }}>
                                                                 <b>{o.customer_name ?? "Guest"}</b>
                                                                 {o.customer_email ? ` • ${o.customer_email}` : ""}
@@ -567,9 +575,7 @@ export default function AdminOrders() {
                                                                     wordBreak: "break-word",
                                                                 }}
                                                             >
-                                                                <b>Delivery:</b> {line1 || "-"}
-                                                                {line2 ? <><br />{line2}</> : null}
-                                                                {line3 ? <><br />{line3}</> : null}
+                                                                <b>Delivery:</b> {addressLine || "-"}
                                                             </Typography>
                                                         </Stack>
 
