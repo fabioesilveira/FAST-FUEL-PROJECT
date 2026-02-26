@@ -997,61 +997,47 @@ export default function TrackOrderGuest() {
                             sx: { fontSize: "0.78rem", lineHeight: 1.25, color: "text.secondary" },
                         }}
                         primary={
-                            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.35 }}>
-                                {/* Created */}
-                                <Typography
-                                    sx={{
-                                        fontSize: "0.78rem",
-                                        lineHeight: 1.25,
-                                        fontWeight: selectedOrder?.accepted_at ? 500 : 900,
-                                        color: "text.secondary",
-                                    }}
-                                >
-                                    Created: {formatDate(selectedOrder?.created_at ?? null)}
-                                </Typography>
+                            (() => {
+                                const currentStep =
+                                    selectedOrder?.received_confirmed_at ? "received" :
+                                        selectedOrder?.sent_at ? "sent" :
+                                            selectedOrder?.accepted_at ? "accepted" :
+                                                "created";
 
-                                {/* Accepted */}
-                                {selectedOrder?.accepted_at && (
-                                    <Typography
-                                        sx={{
-                                            fontSize: "0.78rem",
-                                            lineHeight: 1.25,
-                                            fontWeight: selectedOrder?.sent_at ? 500 : 900,
-                                            color: "text.secondary",
-                                        }}
-                                    >
-                                        Accepted: {formatDate(selectedOrder.accepted_at)}
-                                    </Typography>
-                                )}
+                                const base = { fontSize: "0.78rem", lineHeight: 1.25 };
 
-                                {/* Sent */}
-                                {selectedOrder?.sent_at && (
-                                    <Typography
-                                        sx={{
-                                            fontSize: "0.78rem",
-                                            lineHeight: 1.25,
-                                            fontWeight: selectedOrder?.received_confirmed_at ? 500 : 900,
-                                            color: "text.secondary",
-                                        }}
-                                    >
-                                        Sent: {formatDate(selectedOrder.sent_at)}
-                                    </Typography>
-                                )}
+                                const sxStep = (step: typeof currentStep) => ({
+                                    ...base,
+                                    fontWeight: currentStep === step ? 900 : 500,
+                                    color: currentStep === step ? "rgba(0,0,0,0.92)" : "rgba(0,0,0,0.68)",
+                                });
 
-                                {/* Received */}
-                                {selectedOrder?.received_confirmed_at && (
-                                    <Typography
-                                        sx={{
-                                            fontSize: "0.78rem",
-                                            lineHeight: 1.25,
-                                            fontWeight: 900,
-                                            color: "#2e7d32",
-                                        }}
-                                    >
-                                        Received: {formatDate(selectedOrder.received_confirmed_at)}
-                                    </Typography>
-                                )}
-                            </Box>
+                                return (
+                                    <Box sx={{ display: "flex", flexDirection: "column", gap: 0.35 }}>
+                                        <Typography sx={sxStep("created")}>
+                                            Created: {formatDate(selectedOrder?.created_at ?? null)}
+                                        </Typography>
+
+                                        {selectedOrder?.accepted_at && (
+                                            <Typography sx={sxStep("accepted")}>
+                                                Accepted: {formatDate(selectedOrder.accepted_at)}
+                                            </Typography>
+                                        )}
+
+                                        {selectedOrder?.sent_at && (
+                                            <Typography sx={sxStep("sent")}>
+                                                Sent: {formatDate(selectedOrder.sent_at)}
+                                            </Typography>
+                                        )}
+
+                                        {selectedOrder?.received_confirmed_at && (
+                                            <Typography sx={sxStep("received")}>
+                                                Received: {formatDate(selectedOrder.received_confirmed_at)}
+                                            </Typography>
+                                        )}
+                                    </Box>
+                                );
+                            })()
                         }
                     />
                 </MenuItem>
