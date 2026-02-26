@@ -14,6 +14,10 @@ import Footer from "../components/Footer";
 import NavbarOrders from "../components/NavbarOrders";
 import { useNavigate } from "react-router-dom";
 import { useAppAlert } from "../hooks/useAppAlert";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Menu, MenuItem, ListItemText } from "@mui/material";
+
+
 
 type Sale = {
     id: number;
@@ -158,6 +162,22 @@ export default function TrackOrderGuest() {
     const [items, setItems] = useState<Sale[]>([]);
     const [loading, setLoading] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
+
+    const [tsAnchorEl, setTsAnchorEl] = useState<null | HTMLElement>(null);
+    const [tsOrderId, setTsOrderId] = useState<number | null>(null);
+    const tsOpen = Boolean(tsAnchorEl);
+
+    const openTsMenu = (e: React.MouseEvent<HTMLElement>, orderId: number) => {
+        setTsAnchorEl(e.currentTarget);
+        setTsOrderId(orderId);
+    };
+
+    const closeTsMenu = () => {
+        setTsAnchorEl(null);
+        setTsOrderId(null);
+    };
+
+    const selectedOrder = items.find((x) => x.id === tsOrderId);
 
 
     const navigate = useNavigate();
@@ -705,27 +725,33 @@ export default function TrackOrderGuest() {
                                                     >
                                                         <Stack spacing={1}>
                                                             {/* HEADER: Order*/}
-                                                            <Stack
-                                                                direction="row"
-                                                                alignItems="center"
-                                                                justifyContent="space-between"
-                                                                gap={1}
-                                                            >
+                                                            <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1}>
                                                                 <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
                                                                     Order: {o.order_code}
                                                                 </Typography>
 
-                                                                {statusChip(effectiveStatus)}
+                                                                <Stack direction="row" alignItems="center" gap={0.6}>
+                                                                    {statusChip(effectiveStatus)}
+
+                                                                    <Button
+                                                                        size="small"
+                                                                        onClick={(e) => openTsMenu(e, o.id)}
+                                                                        endIcon={<ExpandMoreIcon />}
+                                                                        sx={{
+                                                                            minHeight: 24,
+                                                                            px: 1,
+                                                                            py: 0,
+                                                                            fontSize: "0.72rem",
+                                                                            letterSpacing: "0.08em",
+                                                                            textTransform: "uppercase",
+                                                                            fontWeight: 900,
+                                                                            color: "rgba(0,0,0,0.65)",
+                                                                        }}
+                                                                    >
+                                                                        Timeline
+                                                                    </Button>
+                                                                </Stack>
                                                             </Stack>
-
-
-                                                            {/* Created/Accepted/Sent/Received*/}
-                                                            <Typography sx={{ color: "text.secondary", fontSize: "0.74rem", lineHeight: 1.25 }}>
-                                                                Created: {formatDate(o.created_at)}
-                                                                {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
-                                                                {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
-                                                                {o.received_confirmed_at ? ` • Received: ${formatDate(o.received_confirmed_at)}` : ""}
-                                                            </Typography>
 
 
                                                             {/* Confirm block */}
@@ -935,6 +961,68 @@ export default function TrackOrderGuest() {
 
                 <Footer />
             </Box>
+            <Menu
+                anchorEl={tsAnchorEl}
+                open={tsOpen}
+                onClose={closeTsMenu}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
+                PaperProps={{
+                    sx: {
+                        borderRadius: 2,
+                        border: "1px solid rgba(0,0,0,0.12)",
+                        boxShadow: "0 8px 22px rgba(0,0,0,0.12)",
+                        px: 0.5,
+                        py: 0.6,
+                        minWidth: 260,
+                    },
+                }}
+            >
+                <Box sx={{ px: 1.2, pb: 0.6 }}>
+                    <Typography
+                        sx={{
+                            fontSize: "0.72rem",
+                            fontWeight: 900,
+                            letterSpacing: "0.10em",
+                            color: "#0d47a1",
+                        }}
+                    >
+                        TIMELINE
+                    </Typography>
+                </Box>
+
+                <MenuItem disabled sx={{ opacity: 1, alignItems: "flex-start" }}>
+                    <ListItemText
+                        primaryTypographyProps={{
+                            sx: { fontSize: "0.78rem", lineHeight: 1.25, color: "text.secondary" },
+                        }}
+                        primary={
+                            <>
+                                <b>Created:</b> {formatDate(selectedOrder?.created_at ?? null)}
+                                {selectedOrder?.accepted_at ? ` • Accepted: ${formatDate(selectedOrder.accepted_at)}` : ""}
+                                {selectedOrder?.sent_at ? ` • Sent: ${formatDate(selectedOrder.sent_at)}` : ""}
+                                {selectedOrder?.received_confirmed_at ? ` • Received: ${formatDate(selectedOrder.received_confirmed_at)}` : ""}
+                            </>
+                        }
+                    />
+                </MenuItem>
+
+                <Box sx={{ px: 1.2, pt: 0.2 }}>
+                    <Button
+                        fullWidth
+                        size="small"
+                        onClick={closeTsMenu}
+                        sx={{
+                            fontWeight: 900,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.10em",
+                            fontSize: "0.72rem",
+                        }}
+                    >
+                        Close
+                    </Button>
+                </Box>
+            </Menu>
         </>
     );
 }
