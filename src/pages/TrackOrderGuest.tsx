@@ -965,8 +965,8 @@ export default function TrackOrderGuest() {
                 anchorEl={tsAnchorEl}
                 open={tsOpen}
                 onClose={closeTsMenu}
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                transformOrigin={{ vertical: "top", horizontal: "right" }}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                transformOrigin={{ vertical: "top", horizontal: "left" }}
                 PaperProps={{
                     sx: {
                         borderRadius: 2,
@@ -997,12 +997,61 @@ export default function TrackOrderGuest() {
                             sx: { fontSize: "0.78rem", lineHeight: 1.25, color: "text.secondary" },
                         }}
                         primary={
-                            <>
-                                <b>Created:</b> {formatDate(selectedOrder?.created_at ?? null)}
-                                {selectedOrder?.accepted_at ? ` • Accepted: ${formatDate(selectedOrder.accepted_at)}` : ""}
-                                {selectedOrder?.sent_at ? ` • Sent: ${formatDate(selectedOrder.sent_at)}` : ""}
-                                {selectedOrder?.received_confirmed_at ? ` • Received: ${formatDate(selectedOrder.received_confirmed_at)}` : ""}
-                            </>
+                            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.35 }}>
+                                {/* Created */}
+                                <Typography
+                                    sx={{
+                                        fontSize: "0.78rem",
+                                        lineHeight: 1.25,
+                                        fontWeight: selectedOrder?.accepted_at ? 500 : 900,
+                                        color: "text.secondary",
+                                    }}
+                                >
+                                    Created: {formatDate(selectedOrder?.created_at ?? null)}
+                                </Typography>
+
+                                {/* Accepted */}
+                                {selectedOrder?.accepted_at && (
+                                    <Typography
+                                        sx={{
+                                            fontSize: "0.78rem",
+                                            lineHeight: 1.25,
+                                            fontWeight: selectedOrder?.sent_at ? 500 : 900,
+                                            color: "text.secondary",
+                                        }}
+                                    >
+                                        Accepted: {formatDate(selectedOrder.accepted_at)}
+                                    </Typography>
+                                )}
+
+                                {/* Sent */}
+                                {selectedOrder?.sent_at && (
+                                    <Typography
+                                        sx={{
+                                            fontSize: "0.78rem",
+                                            lineHeight: 1.25,
+                                            fontWeight: selectedOrder?.received_confirmed_at ? 500 : 900,
+                                            color: "text.secondary",
+                                        }}
+                                    >
+                                        Sent: {formatDate(selectedOrder.sent_at)}
+                                    </Typography>
+                                )}
+
+                                {/* Received */}
+                                {selectedOrder?.received_confirmed_at && (
+                                    <Typography
+                                        sx={{
+                                            fontSize: "0.78rem",
+                                            lineHeight: 1.25,
+                                            fontWeight: 900,
+                                            color: "#2e7d32",
+                                        }}
+                                    >
+                                        Received: {formatDate(selectedOrder.received_confirmed_at)}
+                                    </Typography>
+                                )}
+                            </Box>
                         }
                     />
                 </MenuItem>
