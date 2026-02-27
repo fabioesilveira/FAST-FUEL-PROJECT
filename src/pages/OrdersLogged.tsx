@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useAppAlert } from "../hooks/useAppAlert";
 import NavbarOrders from "../components/NavbarOrders";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Menu, MenuItem, ListItemText } from "@mui/material";
 
 type Sale = {
     id: number;
@@ -205,6 +207,22 @@ export default function OrdersLogged() {
     const [items, setItems] = useState<Sale[]>([]);
     const [loading, setLoading] = useState(false);
 
+    const [tsAnchorEl, setTsAnchorEl] = useState<null | HTMLElement>(null);
+    const [tsOrderId, setTsOrderId] = useState<number | null>(null);
+    const tsOpen = Boolean(tsAnchorEl);
+
+    const openTsMenu = (e: React.MouseEvent<HTMLElement>, orderId: number) => {
+        setTsAnchorEl(e.currentTarget);
+        setTsOrderId(orderId);
+    };
+
+    const closeTsMenu = () => {
+        setTsAnchorEl(null);
+        setTsOrderId(null);
+    };
+
+    const selectedOrder = items.find((x) => x.id === tsOrderId);
+
     useEffect(() => {
         const t = setTimeout(() => setDebouncedOrderCode(orderCodeFilter.trim()), 350);
         return () => clearTimeout(t);
@@ -388,6 +406,22 @@ export default function OrdersLogged() {
         );
     }
 
+    useEffect(() => {
+        if (!isLogged) return;
+
+        const tick = () => {
+            if (document.visibilityState === "visible") {
+                fetchUserOrders({ silent: true });
+            }
+        };
+
+        tick();
+
+        const id = setInterval(tick, 5000);
+        return () => clearInterval(id);
+    }, [isLogged, activeKey, debouncedOrderCode]);
+
+    
     if (!isLogged) {
         return (
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -423,22 +457,6 @@ export default function OrdersLogged() {
             </Box>
         );
     }
-
-    useEffect(() => {
-        if (!isLogged) return;
-
-        const tick = () => {
-            if (document.visibilityState === "visible") {
-                fetchUserOrders({ silent: true });
-            }
-        };
-
-        tick();
-
-        const id = setInterval(tick, 5000);
-        return () => clearInterval(id);
-    }, [isLogged, activeKey, debouncedOrderCode]);
-
 
     return (
         <>
@@ -674,21 +692,34 @@ export default function OrdersLogged() {
                                                     }}
                                                 >
                                                     <Stack spacing={1}>
-                                                        {/* HEADER: Order + Status */}
+                                                        {/* HEADER: Order*/}
                                                         <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1}>
                                                             <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
                                                                 Order: {o.order_code}
                                                             </Typography>
 
-                                                            {userStatusChip(o.status)}
-                                                        </Stack>
+                                                            <Stack direction="row" alignItems="center" gap={0.6}>
+                                                                {userStatusChip(o.status)}
 
-                                                        <Typography sx={{ color: "text.secondary", fontSize: "0.74rem", lineHeight: 1.25 }}>
-                                                            Created: {formatDate(o.created_at)}
-                                                            {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
-                                                            {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
-                                                            {o.received_confirmed_at ? ` • Received: ${formatDate(o.received_confirmed_at)}` : ""}
-                                                        </Typography>
+                                                                <Button
+                                                                    size="small"
+                                                                    onClick={(e) => openTsMenu(e, o.id)}
+                                                                    endIcon={<ExpandMoreIcon />}
+                                                                    sx={{
+                                                                        minHeight: 24,
+                                                                        px: 1,
+                                                                        py: 0,
+                                                                        fontSize: "0.72rem",
+                                                                        letterSpacing: "0.08em",
+                                                                        textTransform: "uppercase",
+                                                                        fontWeight: 900,
+                                                                        color: "rgba(0,0,0,0.65)",
+                                                                    }}
+                                                                >
+                                                                    Timeline
+                                                                </Button>
+                                                            </Stack>
+                                                        </Stack>
 
                                                         {/* Confirm block */}
                                                         {showReceivedPrompt && (
@@ -860,6 +891,103 @@ export default function OrdersLogged() {
 
                 <Footer />
             </Box>
+            <Menu
+                anchorEl={tsAnchorEl}
+                open={tsOpen}
+                onClose={closeTsMenu}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                transformOrigin={{ vertical: "top", horizontal: "left" }}
+                PaperProps={{
+                    sx: {
+                        borderRadius: 2,
+                        border: "1px solid rgba(0,0,0,0.12)",
+                        boxShadow: "0 8px 22px rgba(0,0,0,0.12)",
+                        px: 0.5,
+                        py: 0.6,
+                        minWidth: 260,
+                    },
+                }}
+            >
+                <Box sx={{ px: 1.2, pb: 0.6 }}>
+                    <Typography
+                        sx={{
+                            fontSize: "0.72rem",
+                            fontWeight: 900,
+                            letterSpacing: "0.10em",
+                            color: "#0d47a1",
+                        }}
+                    >
+                        TIMELINE
+                    </Typography>
+                </Box>
+
+                <MenuItem disabled sx={{ opacity: 1, alignItems: "flex-start" }}>
+                    <ListItemText
+                        primaryTypographyProps={{
+                            sx: { fontSize: "0.78rem", lineHeight: 1.25, color: "text.secondary" },
+                        }}
+                        primary={
+                            (() => {
+                                const currentStep =
+                                    selectedOrder?.received_confirmed_at ? "received" :
+                                        selectedOrder?.sent_at ? "sent" :
+                                            selectedOrder?.accepted_at ? "accepted" :
+                                                "created";
+
+                                const base = { fontSize: "0.78rem", lineHeight: 1.25 };
+
+                                const sxStep = (step: typeof currentStep) => ({
+                                    ...base,
+                                    fontWeight: currentStep === step ? 900 : 500,
+                                    color: currentStep === step ? "rgba(0,0,0,0.92)" : "rgba(0,0,0,0.68)",
+                                });
+
+                                return (
+                                    <Box sx={{ display: "flex", flexDirection: "column", gap: 0.35 }}>
+                                        <Typography sx={sxStep("created")}>
+                                            Created: {formatDate(selectedOrder?.created_at ?? null)}
+                                        </Typography>
+
+                                        {selectedOrder?.accepted_at && (
+                                            <Typography sx={sxStep("accepted")}>
+                                                Accepted: {formatDate(selectedOrder.accepted_at)}
+                                            </Typography>
+                                        )}
+
+                                        {selectedOrder?.sent_at && (
+                                            <Typography sx={sxStep("sent")}>
+                                                Sent: {formatDate(selectedOrder.sent_at)}
+                                            </Typography>
+                                        )}
+
+                                        {selectedOrder?.received_confirmed_at && (
+                                            <Typography sx={sxStep("received")}>
+                                                Received: {formatDate(selectedOrder.received_confirmed_at)}
+                                            </Typography>
+                                        )}
+                                    </Box>
+                                );
+                            })()
+                        }
+                    />
+                </MenuItem>
+
+                <Box sx={{ px: 1.2, pt: 0.2 }}>
+                    <Button
+                        fullWidth
+                        size="small"
+                        onClick={closeTsMenu}
+                        sx={{
+                            fontWeight: 900,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.10em",
+                            fontSize: "0.72rem",
+                        }}
+                    >
+                        Close
+                    </Button>
+                </Box>
+            </Menu>
         </>
     );
 }

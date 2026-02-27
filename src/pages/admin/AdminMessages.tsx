@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef, type MouseEvent } from "react";
 import { api } from "../../api";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import { Box, Paper, Typography, TextField, Button, Stack, Divider } from "@mui/material";
 import NavbarAdmin from "../../components/NavbarAdmin";
 import Footer from "../../components/Footer";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Menu, MenuItem, ListItemText } from "@mui/material";
 
 type ContactMsg = {
     id: number;
@@ -45,6 +47,22 @@ export default function AdminMessages() {
     const [emailFilter, setEmailFilter] = useState("");
     const [items, setItems] = useState<ContactMsg[]>([]);
     const [loading, setLoading] = useState(false);
+
+    const [tsAnchorEl, setTsAnchorEl] = useState<null | HTMLElement>(null);
+    const [tsMsgId, setTsMsgId] = useState<number | null>(null);
+
+    const tsOpen = Boolean(tsAnchorEl);
+    const selectedMsg = items.find((x) => x.id === tsMsgId);
+
+    const openTsMenu = (e: MouseEvent<HTMLElement>, msgId: number) => {
+        setTsAnchorEl(e.currentTarget);
+        setTsMsgId(msgId);
+    };
+
+    const closeTsMenu = () => {
+        setTsAnchorEl(null);
+        setTsMsgId(null);
+    };
 
     const inFlightRef = useRef(false);
 
@@ -101,7 +119,6 @@ export default function AdminMessages() {
 
         const interval = setInterval(tick, 8000);
         return () => clearInterval(interval);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [queryUrl, activeKey]);
 
 
@@ -350,7 +367,7 @@ export default function AdminMessages() {
                                                 }}
                                             >
                                                 <Stack spacing={0.7}>
-                                                    {/* LINHA 1: TÍTULO + AÇÃO */}
+                                                    {/* HEADER */}
                                                     <Stack
                                                         direction="row"
                                                         justifyContent="space-between"
@@ -358,59 +375,77 @@ export default function AdminMessages() {
                                                         gap={1}
                                                         sx={{ width: "100%" }}
                                                     >
-                                                        <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
-
+                                                        <Typography
+                                                            sx={{
+                                                                fontSize: 18,
+                                                                fontWeight: 900,
+                                                                color: "#1e5bb8",
+                                                                lineHeight: 1.1,
+                                                            }}
+                                                        >
                                                             #{m.id} — {m.subject}
                                                         </Typography>
 
-                                                        {activeKey === "received" ? (
+                                                        {/* RIGHT ACTIONS */}
+                                                        <Stack direction="row" alignItems="center" gap={0.6} sx={{ flexShrink: 0 }}>
+                                                            {activeKey === "received" ? (
+                                                                <Button
+                                                                    variant="contained"
+                                                                    onClick={() => markAsAnswered(m.id)}
+                                                                    sx={{
+                                                                        borderRadius: 2,
+                                                                        bgcolor: "#1e5bb8",
+                                                                        color: "#fff",
+                                                                        fontWeight: 900,
+                                                                        textTransform: "uppercase",
+                                                                        letterSpacing: "0.10em",
+                                                                        fontSize: { xs: "0.70rem", sm: "0.78rem" },
+                                                                        px: { xs: 1.3, sm: 1.9 },
+                                                                        py: { xs: 0.55, sm: 0.8 },
+                                                                        minHeight: { xs: 32, sm: 34 },
+                                                                        "&:hover": { bgcolor: "#164a96" },
+                                                                    }}
+                                                                >
+                                                                    Mark answered
+                                                                </Button>
+                                                            ) : (
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontSize: "0.72rem",
+                                                                        letterSpacing: "0.10em",
+                                                                        textTransform: "uppercase",
+                                                                        fontWeight: 900,
+                                                                        color: "rgba(0,0,0,0.45)",
+                                                                        bgcolor: "rgba(0,0,0,0.06)",
+                                                                        px: 1,
+                                                                        py: 0.35,
+                                                                        borderRadius: 999,
+                                                                        border: "1px solid rgba(0,0,0,0.10)",
+                                                                    }}
+                                                                >
+                                                                    Answered
+                                                                </Typography>
+                                                            )}
+
                                                             <Button
-                                                                variant="contained"
-                                                                onClick={() => markAsAnswered(m.id)}
+                                                                size="small"
+                                                                onClick={(e) => openTsMenu(e, m.id)}
+                                                                endIcon={<ExpandMoreIcon />}
                                                                 sx={{
-                                                                    borderRadius: 2,
-                                                                    bgcolor: "#1e5bb8",
-                                                                    color: "#fff",
-                                                                    fontWeight: 900,
-                                                                    textTransform: "uppercase",
-                                                                    letterSpacing: "0.10em",
-                                                                    fontSize: { xs: "0.70rem", sm: "0.78rem" },
-                                                                    px: { xs: 1.3, sm: 1.9 },
-                                                                    py: { xs: 0.55, sm: 0.8 },
-                                                                    minHeight: { xs: 32, sm: 34 },
-                                                                    "&:hover": { bgcolor: "#164a96" },
-                                                                    flexShrink: 0,
-                                                                }}
-                                                            >
-                                                                Mark answered
-                                                            </Button>
-                                                        ) : (
-                                                            <Typography
-                                                                sx={{
-                                                                    fontSize: "0.72rem",
-                                                                    letterSpacing: "0.10em",
-                                                                    textTransform: "uppercase",
-                                                                    fontWeight: 900,
-                                                                    color: "rgba(0,0,0,0.45)",
-                                                                    bgcolor: "rgba(0,0,0,0.06)",
+                                                                    minHeight: 24,
                                                                     px: 1,
-                                                                    py: 0.35,
-                                                                    borderRadius: 999,
-                                                                    border: "1px solid rgba(0,0,0,0.10)",
-                                                                    flexShrink: 0,
+                                                                    py: 0,
+                                                                    fontSize: "0.72rem",
+                                                                    letterSpacing: "0.08em",
+                                                                    textTransform: "uppercase",
+                                                                    fontWeight: 900,
+                                                                    color: "rgba(0,0,0,0.65)",
                                                                 }}
                                                             >
-                                                                Answered
-                                                            </Typography>
-                                                        )}
+                                                                Timeline
+                                                            </Button>
+                                                        </Stack>
                                                     </Stack>
-
-                                                    {/* LINHA 2: PROGRESS */}
-                                                    <Typography sx={{ color: "text.secondary", fontSize: "0.78rem", lineHeight: 1.25 }}>
-                                                        Sent: {formatDate(m.created_at)}
-                                                        {m.replied_at ? ` • Answered: ${formatDate(m.replied_at)}` : ""}
-                                                    </Typography>
-
 
                                                     <Stack spacing={0} sx={{ mt: 0.8 }}>
                                                         {/* LINHA 3 */}
@@ -425,21 +460,29 @@ export default function AdminMessages() {
                                                                     overflow: "hidden",
                                                                     textOverflow: "ellipsis",
                                                                 }}
-                                                                title={`${m.name} • ${m.email} • Phone: ${formatPhoneUS(m.phone)}${m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}`}
+                                                                title={`${m.name} • ${m.email} • Phone: ${formatPhoneUS(m.phone)}${m.orderNumber ? ` • Order: ${m.orderNumber}` : ""
+                                                                    }`}
                                                             >
-                                                                <b>{m.name}</b> • {m.email}
-                                                                {" "}• <span style={{ color: "rgba(0,0,0,0.68)" }}>Phone:</span>{" "}
+                                                                <b>{m.name}</b> • {m.email} {" "}•{" "}
+                                                                <span style={{ color: "rgba(0,0,0,0.68)" }}>Phone:</span>{" "}
                                                                 {formatPhoneUS(m.phone)}
                                                                 {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
                                                             </Typography>
 
-                                                            {/* mobile*/}
+                                                            {/* mobile */}
                                                             <Box sx={{ display: { xs: "block", sm: "none" } }}>
                                                                 <Typography sx={{ fontSize: "0.88rem", lineHeight: 1.25 }}>
                                                                     <b>{m.name}</b> • {m.email}
                                                                 </Typography>
 
-                                                                <Typography sx={{ fontSize: "0.86rem", lineHeight: 1.25, color: "rgba(0,0,0,0.70)", mt: 0.15 }}>
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontSize: "0.86rem",
+                                                                        lineHeight: 1.25,
+                                                                        color: "rgba(0,0,0,0.70)",
+                                                                        mt: 0.15,
+                                                                    }}
+                                                                >
                                                                     <span style={{ color: "rgba(0,0,0,0.68)" }}>Phone:</span>{" "}
                                                                     {formatPhoneUS(m.phone)}
                                                                     {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
@@ -464,17 +507,99 @@ export default function AdminMessages() {
                                                     </Stack>
                                                 </Stack>
                                             </Paper>
-
                                         ))}
                                     </Stack>
                                 )}
                             </Box>
                         </Paper>
                     </Box>
-                </Box>
+                </Box >
 
                 <Footer />
-            </Box>
+            </Box >
+
+            <Menu
+                anchorEl={tsAnchorEl}
+                open={tsOpen}
+                onClose={closeTsMenu}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                transformOrigin={{ vertical: "top", horizontal: "left" }}
+                PaperProps={{
+                    sx: {
+                        borderRadius: 2,
+                        border: "1px solid rgba(0,0,0,0.12)",
+                        boxShadow: "0 8px 22px rgba(0,0,0,0.12)",
+                        px: 0.5,
+                        py: 0.6,
+                        minWidth: 260,
+                    },
+                }}
+            >
+                <Box sx={{ px: 1.2, pb: 0.6 }}>
+                    <Typography
+                        sx={{
+                            fontSize: "0.72rem",
+                            fontWeight: 900,
+                            letterSpacing: "0.10em",
+                            color: "#0d47a1",
+                        }}
+                    >
+                        TIMELINE
+                    </Typography>
+                </Box>
+
+                <MenuItem disabled sx={{ opacity: 1, alignItems: "flex-start" }}>
+                    <ListItemText
+                        primaryTypographyProps={{
+                            sx: { fontSize: "0.78rem", lineHeight: 1.25, color: "text.secondary" },
+                        }}
+                        primary={
+                            (() => {
+                                const currentStep = selectedMsg?.replied_at ? "answered" : "created";
+
+                                const base = { fontSize: "0.78rem", lineHeight: 1.25 };
+
+                                const sxStep = (step: typeof currentStep) => ({
+                                    ...base,
+                                    fontWeight: currentStep === step ? 900 : 500,
+                                    color: currentStep === step ? "rgba(0,0,0,0.92)" : "rgba(0,0,0,0.68)",
+                                });
+
+                                return (
+                                    <Box sx={{ display: "flex", flexDirection: "column", gap: 0.35 }}>
+                                        <Typography sx={sxStep("created")}>
+                                            Created: {formatDate(selectedMsg?.created_at ?? null)}
+                                        </Typography>
+
+                                        {selectedMsg?.replied_at && (
+                                            <Typography sx={sxStep("answered")}>
+                                                Answered: {formatDate(selectedMsg.replied_at)}
+                                            </Typography>
+                                        )}
+                                    </Box>
+                                );
+                            })()
+                        }
+
+                    />
+                </MenuItem>
+
+                <Box sx={{ px: 1.2, pt: 0.2 }}>
+                    <Button
+                        fullWidth
+                        size="small"
+                        onClick={closeTsMenu}
+                        sx={{
+                            fontWeight: 900,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.10em",
+                            fontSize: "0.72rem",
+                        }}
+                    >
+                        Close
+                    </Button>
+                </Box>
+            </Menu>
         </>
     );
 }
