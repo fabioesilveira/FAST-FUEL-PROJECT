@@ -567,13 +567,6 @@ export default function AdminOrders() {
                                                                         {" "}• #{o.id}
                                                                     </Box>
                                                                 </Typography>
-
-                                                                <Typography sx={{ color: "text.secondary", fontSize: "0.78rem", mt: 0.35, lineHeight: 1.25 }}>
-                                                                    Created: {formatDate(o.created_at)}
-                                                                    {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
-                                                                    {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
-                                                                    {o.received_confirmed_at ? ` • Received: ${formatDate(o.received_confirmed_at)}` : ""}
-                                                                </Typography>
                                                             </Box>
 
                                                             {/* RIGHT */}
@@ -645,7 +638,6 @@ export default function AdminOrders() {
                                                             </Stack>
                                                         </Stack>
 
-                                                        {/* CUSTOMER + DELIVERY */}
                                                         <Box sx={{ mt: 0.6 }}>
                                                             <Typography sx={{ fontSize: "0.92rem", lineHeight: 1.3 }}>
                                                                 <b>{o.customer_name ?? "Guest"}</b>
