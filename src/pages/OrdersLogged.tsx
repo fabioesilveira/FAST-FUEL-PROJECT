@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useState, useRef, type MouseEvent, useMemo } from "react";
 import { api } from "../api";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
@@ -211,7 +211,7 @@ export default function OrdersLogged() {
     const [tsOrderId, setTsOrderId] = useState<number | null>(null);
     const tsOpen = Boolean(tsAnchorEl);
 
-    const openTsMenu = (e: React.MouseEvent<HTMLElement>, orderId: number) => {
+    const openTsMenu = (e: MouseEvent<HTMLElement>, orderId: number) => {
         setTsAnchorEl(e.currentTarget);
         setTsOrderId(orderId);
     };
@@ -342,7 +342,6 @@ export default function OrdersLogged() {
 
     useEffect(() => {
         fetchUserOrders();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeKey, debouncedOrderCode, isLogged]);
 
     async function confirmReceived(o: Sale) {
@@ -421,7 +420,7 @@ export default function OrdersLogged() {
         return () => clearInterval(id);
     }, [isLogged, activeKey, debouncedOrderCode]);
 
-    
+
     if (!isLogged) {
         return (
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>

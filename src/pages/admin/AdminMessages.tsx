@@ -447,7 +447,7 @@ export default function AdminMessages() {
                                                         </Stack>
                                                     </Stack>
 
-                                                    <Stack spacing={0} sx={{ mt: 0.8 }}>
+                                                    <Stack spacing={0.4} sx={{ mt: 1 }}>
                                                         {/* LINHA 3 */}
                                                         <Box sx={{ mt: 0.2 }}>
                                                             {/* desktop */}

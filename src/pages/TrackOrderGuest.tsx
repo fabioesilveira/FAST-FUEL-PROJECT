@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useRef, type MouseEvent } from "react";
 import { api } from "../api";
 import {
     Box,
@@ -167,7 +167,7 @@ export default function TrackOrderGuest() {
     const [tsOrderId, setTsOrderId] = useState<number | null>(null);
     const tsOpen = Boolean(tsAnchorEl);
 
-    const openTsMenu = (e: React.MouseEvent<HTMLElement>, orderId: number) => {
+    const openTsMenu = (e: MouseEvent<HTMLElement>, orderId: number) => {
         setTsAnchorEl(e.currentTarget);
         setTsOrderId(orderId);
     };

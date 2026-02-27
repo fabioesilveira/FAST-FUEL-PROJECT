@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, type MouseEvent } from "react";
 import { api } from "../../api";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
@@ -13,6 +13,8 @@ import {
     Divider,
 } from "@mui/material";
 import NavbarAdmin from "../../components/NavbarAdmin";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Menu, MenuItem, ListItemText } from "@mui/material";
 import Footer from "../../components/Footer";
 
 type DeliveryAddress = {
@@ -128,6 +130,22 @@ export default function AdminOrders() {
 
     const [items, setItems] = useState<Sale[]>([]);
     const [loading, setLoading] = useState(false);
+
+    const [tsAnchorEl, setTsAnchorEl] = useState<null | HTMLElement>(null);
+    const [tsOrderId, setTsOrderId] = useState<number | null>(null);
+    const tsOpen = Boolean(tsAnchorEl);
+
+    const openTsMenu = (e: MouseEvent<HTMLElement>, orderId: number) => {
+        setTsAnchorEl(e.currentTarget);
+        setTsOrderId(orderId);
+    };
+
+    const closeTsMenu = () => {
+        setTsAnchorEl(null);
+        setTsOrderId(null);
+    };
+
+    const selectedOrder = items.find((x) => x.id === tsOrderId);
 
     const inFlightRef = useRef(false);
 
@@ -537,25 +555,20 @@ export default function AdminOrders() {
                                                         bgcolor: "#fff4e1",
                                                     }}
                                                 >
+
+                                                    {/* HEADER */}
                                                     <Stack spacing={1}>
-                                                        {/* HEADER */}
-                                                        <Stack
-                                                            direction="row"
-                                                            alignItems="flex-start"
-                                                            justifyContent="space-between"
-                                                            gap={1.2}
-                                                            sx={{ width: "100%" }}
-                                                        >
+                                                        <Stack direction="row" alignItems="flex-start" justifyContent="space-between" gap={1}>
                                                             {/* LEFT */}
-                                                            <Box sx={{ flex: 1, minWidth: 0 }}>
+                                                            <Box sx={{ minWidth: 0 }}>
                                                                 <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
                                                                     Order: {o.order_code}
-                                                                    <span style={{ color: "rgba(0,0,0,0.45)", fontWeight: 800 }}>
+                                                                    <Box component="span" sx={{ color: "rgba(0,0,0,0.45)", fontWeight: 800 }}>
                                                                         {" "}• #{o.id}
-                                                                    </span>
+                                                                    </Box>
                                                                 </Typography>
 
-                                                                <Typography sx={{ color: "text.secondary", fontSize: "0.78rem", mt: 0.35 }}>
+                                                                <Typography sx={{ color: "text.secondary", fontSize: "0.78rem", mt: 0.35, lineHeight: 1.25 }}>
                                                                     Created: {formatDate(o.created_at)}
                                                                     {o.accepted_at ? ` • Accepted: ${formatDate(o.accepted_at)}` : ""}
                                                                     {o.sent_at ? ` • Sent: ${formatDate(o.sent_at)}` : ""}
@@ -564,8 +577,10 @@ export default function AdminOrders() {
                                                             </Box>
 
                                                             {/* RIGHT */}
-                                                            <Stack direction="row" spacing={1} alignItems="center" sx={{ flexShrink: 0, mt: 0.15 }}>
-                                                                {/* TAB: RECEIVED */}
+                                                            <Stack direction="row" alignItems="center" gap={0.6} sx={{ flexShrink: 0, mt: 0.15 }}>
+
+                                                                {statusChip(o.status)}
+
                                                                 {activeKey === "received" && o.status === "received" ? (
                                                                     <Button
                                                                         variant="contained"
@@ -588,41 +603,50 @@ export default function AdminOrders() {
                                                                     </Button>
                                                                 ) : null}
 
-                                                                {/* TAB: IN PROGRESS (mostra botão OU chip SENT) */}
-                                                                {activeKey === "in_progress" ? (
-                                                                    o.status === "in_progress" ? (
-                                                                        <Button
-                                                                            variant="contained"
-                                                                            onClick={() => updateStatus(o.id, "sent")}
-                                                                            sx={{
-                                                                                borderRadius: 2,
-                                                                                bgcolor: "#1e5bb8",
-                                                                                color: "#fff",
-                                                                                fontWeight: 900,
-                                                                                textTransform: "uppercase",
-                                                                                letterSpacing: "0.10em",
-                                                                                "&:hover": { bgcolor: "#164a96" },
-                                                                                fontSize: { xs: "0.72rem", sm: "0.85rem" },
-                                                                                px: { xs: 1, sm: 1.8 },
-                                                                                py: { xs: 0.55, sm: 0.9 },
-                                                                                minHeight: { xs: 32, sm: 34 },
-                                                                            }}
-                                                                        >
-                                                                            Mark sent
-                                                                        </Button>
-                                                                    ) : o.status === "sent" ? (
-                                                                        statusChip("sent")
-                                                                    ) : null
+                                                                {activeKey === "in_progress" && o.status === "in_progress" ? (
+                                                                    <Button
+                                                                        variant="contained"
+                                                                        onClick={() => updateStatus(o.id, "sent")}
+                                                                        sx={{
+                                                                            borderRadius: 2,
+                                                                            bgcolor: "#1e5bb8",
+                                                                            color: "#fff",
+                                                                            fontWeight: 900,
+                                                                            textTransform: "uppercase",
+                                                                            letterSpacing: "0.10em",
+                                                                            "&:hover": { bgcolor: "#164a96" },
+                                                                            fontSize: { xs: "0.72rem", sm: "0.85rem" },
+                                                                            px: { xs: 1, sm: 1.8 },
+                                                                            py: { xs: 0.55, sm: 0.9 },
+                                                                            minHeight: { xs: 32, sm: 34 },
+                                                                        }}
+                                                                    >
+                                                                        Mark sent
+                                                                    </Button>
                                                                 ) : null}
 
-                                                                {/* TAB: COMPLETED */}
-                                                                {activeKey === "completed" && o.status === "completed" ? statusChip("completed") : null}
+                                                                <Button
+                                                                    size="small"
+                                                                    onClick={(e) => openTsMenu(e, o.id)}
+                                                                    endIcon={<ExpandMoreIcon />}
+                                                                    sx={{
+                                                                        minHeight: 24,
+                                                                        px: 1,
+                                                                        py: 0,
+                                                                        fontSize: "0.72rem",
+                                                                        letterSpacing: "0.08em",
+                                                                        textTransform: "uppercase",
+                                                                        fontWeight: 900,
+                                                                        color: "rgba(0,0,0,0.65)",
+                                                                    }}
+                                                                >
+                                                                    Timeline
+                                                                </Button>
                                                             </Stack>
                                                         </Stack>
 
                                                         {/* CUSTOMER + DELIVERY */}
                                                         <Box sx={{ mt: 0.6 }}>
-                                                            {/* nome/email */}
                                                             <Typography sx={{ fontSize: "0.92rem", lineHeight: 1.3 }}>
                                                                 <b>{o.customer_name ?? "Guest"}</b>
                                                                 {o.customer_email ? ` • ${o.customer_email}` : ""}
@@ -693,7 +717,8 @@ export default function AdminOrders() {
                                                                     </Typography>
                                                                 ))}
                                                             </Box>
-                                                        )}
+                                                        )
+                                                        }
 
                                                         {/* TOTAL */}
                                                         <Typography
@@ -729,10 +754,107 @@ export default function AdminOrders() {
                                 )}
                             </Box>
                         </Paper>
-                    </Box>
-                </Box>
+                    </Box >
+                </Box >
                 <Footer />
-            </Box>
+            </Box >
+            <Menu
+                anchorEl={tsAnchorEl}
+                open={tsOpen}
+                onClose={closeTsMenu}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                transformOrigin={{ vertical: "top", horizontal: "left" }}
+                PaperProps={{
+                    sx: {
+                        borderRadius: 2,
+                        border: "1px solid rgba(0,0,0,0.12)",
+                        boxShadow: "0 8px 22px rgba(0,0,0,0.12)",
+                        px: 0.5,
+                        py: 0.6,
+                        minWidth: 260,
+                    },
+                }}
+            >
+                <Box sx={{ px: 1.2, pb: 0.6 }}>
+                    <Typography
+                        sx={{
+                            fontSize: "0.72rem",
+                            fontWeight: 900,
+                            letterSpacing: "0.10em",
+                            color: "#0d47a1",
+                        }}
+                    >
+                        TIMELINE
+                    </Typography>
+                </Box>
+
+                <MenuItem disabled sx={{ opacity: 1, alignItems: "flex-start" }}>
+                    <ListItemText
+                        primaryTypographyProps={{
+                            sx: { fontSize: "0.78rem", lineHeight: 1.25, color: "text.secondary" },
+                        }}
+                        primary={
+                            (() => {
+                                const currentStep =
+                                    selectedOrder?.received_confirmed_at ? "received" :
+                                        selectedOrder?.sent_at ? "sent" :
+                                            selectedOrder?.accepted_at ? "accepted" :
+                                                "created";
+
+                                const base = { fontSize: "0.78rem", lineHeight: 1.25 };
+
+                                const sxStep = (step: typeof currentStep) => ({
+                                    ...base,
+                                    fontWeight: currentStep === step ? 900 : 500,
+                                    color: currentStep === step ? "rgba(0,0,0,0.92)" : "rgba(0,0,0,0.68)",
+                                });
+
+                                return (
+                                    <Box sx={{ display: "flex", flexDirection: "column", gap: 0.35 }}>
+                                        <Typography sx={sxStep("created")}>
+                                            Created: {formatDate(selectedOrder?.created_at ?? null)}
+                                        </Typography>
+
+                                        {selectedOrder?.accepted_at && (
+                                            <Typography sx={sxStep("accepted")}>
+                                                Accepted: {formatDate(selectedOrder.accepted_at)}
+                                            </Typography>
+                                        )}
+
+                                        {selectedOrder?.sent_at && (
+                                            <Typography sx={sxStep("sent")}>
+                                                Sent: {formatDate(selectedOrder.sent_at)}
+                                            </Typography>
+                                        )}
+
+                                        {selectedOrder?.received_confirmed_at && (
+                                            <Typography sx={sxStep("received")}>
+                                                Received: {formatDate(selectedOrder.received_confirmed_at)}
+                                            </Typography>
+                                        )}
+                                    </Box>
+                                );
+                            })()
+                        }
+                    />
+                </MenuItem>
+
+                <Box sx={{ px: 1.2, pt: 0.2 }}>
+                    <Button
+                        fullWidth
+                        size="small"
+                        onClick={closeTsMenu}
+                        sx={{
+                            fontWeight: 900,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.10em",
+                            fontSize: "0.72rem",
+                        }}
+                    >
+                        Close
+                    </Button>
+                </Box>
+            </Menu>
         </>
     );
 }
