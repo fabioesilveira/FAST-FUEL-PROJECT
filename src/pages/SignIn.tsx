@@ -326,23 +326,30 @@ export default function SignIn() {
                                     <Button
                                         fullWidth
                                         size="large"
-                                        variant="outlined"
+                                        variant="contained"
                                         type="submit"
                                         sx={{
                                             mt: 0.1,
                                             height: { xs: 40, md: 42 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
-                                            border: "2px solid #0d47a1",
-                                            color: "#ffffff",
+
+                                            // mesmo border do guest
+                                            // border: "2px solid #0d47a1",
+                                            color: "white",
+
                                             letterSpacing: "0.14em",
                                             fontWeight: 700,
+
+                                            // azul opaco/mais claro
                                             bgcolor: "#1e5bb8",
-                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
-                                            fontSize: { xs: "0.85rem", sm: "0.85rem", md: "0.93rem" },
-                                            "&:hover": { bgcolor: "#164a99" },
+                                            "&:hover": { bgcolor: "#164a96" },             
+                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
+
+
+
                                             "&:active": {
-                                                bgcolor: "rgba(230, 81, 0, 0.28)",
+                                                bgcolor: "rgba(230, 81, 0, 0.18)",
                                                 boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
                                                 transform: "translateY(1px)",
                                             },
@@ -366,23 +373,32 @@ export default function SignIn() {
                                     <Button
                                         fullWidth
                                         size="large"
-                                        variant="outlined"
+                                        variant="contained"
                                         onClick={() => navigate("/sign-up")}
                                         sx={{
                                             mt: 0.1,
                                             height: { xs: 40, md: 42 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
-                                            border: "2px solid #0d47a1",
-                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
-                                            color: "#ffffff",
+
+                                            // mesmo border do guest
+                                            // border: "2px solid #0d47a1",
+                                            color: "#0d47a1",
+
                                             letterSpacing: "0.14em",
                                             fontWeight: 700,
-                                            bgcolor: "#1e5bb8",
-                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
-                                            "&:hover": { bgcolor: "#164a99" },
+
+                                            // azul opaco/mais claro
+                                            bgcolor: "rgba(13, 71, 161, 0.12)",
+                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
+
+                                            "&:hover": {
+                                                bgcolor: "rgba(13, 71, 161, 0.18)",
+                                                borderColor: "#0d47a1",
+                                                color: "#0d47a1",
+                                            },
                                             "&:active": {
-                                                bgcolor: "rgba(230, 81, 0, 0.28)",
+                                                bgcolor: "rgba(230, 81, 0, 0.18)",
                                                 boxShadow: "0 3px 8px rgba(13, 71, 161, 0.25)",
                                                 transform: "translateY(1px)",
                                             },
@@ -392,7 +408,7 @@ export default function SignIn() {
                                     </Button>
 
                                     <Button
-                                        variant="outlined"
+                                        variant="contained"
                                         fullWidth
                                         size="large"
                                         onClick={() => navigate("/")}
@@ -401,12 +417,11 @@ export default function SignIn() {
                                             height: { xs: 40, md: 42 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
-                                            border: "2px solid #0d47a1",
+                                            // border: "2px solid #0d47a1",
                                             color: "#0d47a1",
                                             letterSpacing: "0.14em",
                                             fontWeight: 700,
                                             bgcolor: "rgba(230, 81, 0, 0.14)",
-                                            boxShadow: "0 3px 8px rgba(13, 71, 161, 0.22)",
                                             fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
                                             "&:hover": {
                                                 bgcolor: "rgba(230, 81, 0, 0.22)",
