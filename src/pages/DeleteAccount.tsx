@@ -145,20 +145,21 @@ export default function DeleteAccount() {
                             zIndex: 0,
                             width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
                             borderRadius: 20,
+
                             backgroundImage: `
-                                linear-gradient(90deg,
-                                rgba(255,255,255,1) 0%,
-                                rgba(255,255,255,0.0) 14%,
-                                rgba(255,255,255,0.0) 86%,
-                                rgba(255,255,255,1) 100%
-                                ),
-                                repeating-linear-gradient(135deg,
-                                rgba(183,28,28,0.028) 0px,
-                                rgba(183,28,28,0.028) 10px,
-                                rgba(255,235,238,0.04) 10px,
-                                rgba(255,235,238,0.04) 20px
-                                )
-                            `,
+                                    linear-gradient(90deg,
+                                    rgba(255,255,255,1) 0%,
+                                    rgba(255,255,255,0.0) 18%,
+                                    rgba(255,255,255,0.0) 82%,
+                                    rgba(255,255,255,1) 100%
+                                    ),
+                                    repeating-linear-gradient(135deg,
+                                    rgba(183,28,28,0.018) 0px,
+                                    rgba(183,28,28,0.018) 12px,
+                                    rgba(255,235,238,0.025) 12px,
+                                    rgba(255,235,238,0.025) 24px
+                                    )
+                                `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -176,10 +177,12 @@ export default function DeleteAccount() {
                             borderRadius: 3,
                             maxWidth: 520,
                             mx: "auto",
-                            border: "1.5px solid rgba(230, 81, 0, 0.35)",
+                            border: "1px solid rgba(230, 81, 0, 0.22)",
+
                             bgcolor: "background.paper",
                             boxShadow:
-                                "0 4px 14px rgba(230, 81, 0, 0.35), 0 8px 24px rgba(230, 81, 0, 0.25)",
+                                "0 2px 10px rgba(0,0,0,0.06), 0 8px 22px rgba(230, 81, 0, 0.14)",
+
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
@@ -380,26 +383,17 @@ export default function DeleteAccount() {
                                 fullWidth
                                 onClick={() => navigate("/")}
                                 sx={{
-                                    mb: { md: -0.8 },
-                                    mt: 0.2,
-                                    height: { xs: 39, md: 42 },
+                                    mt: 0.1,
+                                    height: { xs: 40, md: 42 },
                                     borderRadius: 2,
                                     textTransform: "uppercase",
-                                    color: "#fff",
+                                    color: "white",
                                     letterSpacing: "0.14em",
                                     fontWeight: 700,
-                                    bgcolor: "rgba(13, 71, 161, 0.75)",
-
+                                    bgcolor: "#1e5bb8",
+                                    "&:hover": { bgcolor: "#164a96" },
                                     fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
 
-
-                                    "&:hover": {
-                                        bgcolor: "rgba(13, 71, 161, 0.92)",
-                                    },
-                                    "&:active": {
-                                        bgcolor: "rgba(230, 81, 0, 0.28)",
-                                        transform: "translateY(1px)",
-                                    },
                                 }}
                             >
                                 Cancel
