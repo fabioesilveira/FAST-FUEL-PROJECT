@@ -31,7 +31,7 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
         { label: "BURGERS", type: "mui", Icon: LunchDiningIcon, onClick: () => onNavigate("BURGERS") },
         { label: "SIDES", type: "img", src: FriesIcon, onClick: () => onNavigate("SIDES") },
         { label: "FAST_THRU", type: "fast", onClick: () => onFastThruClick?.() },
-        { label: "BEVERAGES", type: "img", src: SodaIcon, onClick: () => onNavigate("BEVERAGES") },
+        { label: "DRINKS", type: "img", src: SodaIcon, onClick: () => onNavigate("DRINKS") },
         { label: "DESSERTS", type: "mui", Icon: CookieIcon, onClick: () => onNavigate("DESSERTS") },
     ] as const;
 
@@ -113,12 +113,12 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                                     src={c.src}
                                     alt={c.label}
                                     style={{
-                                        width: c.label === "BEVERAGES" ? 42 : 38,
-                                        height: c.label === "BEVERAGES" ? 42 : 38,
+                                        width: c.label === "DRINKS" ? 42 : 38,
+                                        height: c.label === "DRINKS" ? 42 : 38,
                                         objectFit: "contain",
 
 
-                                        transform: c.label === "BEVERAGES" ? "translateY(-3px)" : "none",
+                                        transform: c.label === "DRINKS" ? "translateY(-3px)" : "none",
                                     }}
                                 />
                             ) : c.type === "mui" ? (
