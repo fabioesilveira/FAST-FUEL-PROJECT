@@ -113,7 +113,7 @@ function RenderIcon({
                 ...(outline && {
                     "& path": {
                         stroke: "#ff8a4c",
-                        strokeWidth: 0.8,
+                        strokeWidth: 0.5,
                         paintOrder: "stroke fill",
                     },
                 }),
@@ -207,7 +207,6 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                                 transition: "all 0.18s ease",
                                 WebkitTapHighlightColor: "transparent",
 
-                                // hover só desktop
                                 "@media (hover: hover) and (pointer: fine)": {
                                     "&:hover": {
                                         backgroundColor: ORANGE_SOFT,
@@ -216,7 +215,6 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                                     },
                                 },
 
-                                // mobile: não deixa ficar marcado
                                 "@media (hover: none) and (pointer: coarse)": {
                                     "&:focus, &:focus-visible, &.Mui-focusVisible": {
                                         backgroundColor: "transparent",
@@ -277,7 +275,7 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                                 ...(isProductsMode && {
                                     "& path": {
                                         stroke: "#ff8a4c",
-                                        strokeWidth: 0.8,
+                                        strokeWidth: 0.5,
                                         paintOrder: "stroke fill",
                                     },
                                 }),

@@ -38,7 +38,7 @@ const ICON_OUTLINE_ORANGE = "#ff8a4c";
 const outlineOrangeSx = {
   "& path": {
     stroke: ICON_OUTLINE_ORANGE,
-    strokeWidth: 0.8,
+    strokeWidth: 0.5,
     paintOrder: "stroke fill",
   },
 } as const;
@@ -62,7 +62,7 @@ type CategoryItem =
 const categories: CategoryItem[] = [
   { label: "BURGERS", type: "mui", Icon: LunchDiningIcon },
   { label: "SIDES", type: "img", src: FriesIcon, imgW: 32, imgH: 32 },
-  { label: "BEVERAGES", type: "img", src: SodaIcon, imgW: 36, imgH: 36 },
+  { label: "DRINKS", type: "img", src: SodaIcon, imgW: 36, imgH: 36 },
   { label: "DESSERTS", type: "mui", Icon: CookieIcon },
 ];
 

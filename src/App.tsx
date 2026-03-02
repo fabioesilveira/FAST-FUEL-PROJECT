@@ -29,7 +29,7 @@ export default function App() {
         <Route path="/burgers" element={<Burguers />} />
         <Route path="/sides" element={<Sides />} />
         <Route path="/desserts" element={<Desserts />} />
-        <Route path="/beverages" element={<Beverages />} />
+        <Route path="/drinks" element={<Beverages />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/orders" element={<OrdersPage />} />
