@@ -691,13 +691,51 @@ export default function OrdersLogged() {
                                                     }}
                                                 >
                                                     <Stack spacing={1}>
-                                                        {/* HEADER: Order*/}
-                                                        <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1}>
-                                                            <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
-                                                                Order: {o.order_code}
-                                                            </Typography>
+                                                        {/* HEADER */}
+                                                        <Box>
+                                                            {/* DESKTOP */}
+                                                            <Stack
+                                                                direction="row"
+                                                                alignItems="center"
+                                                                justifyContent="space-between"
+                                                                gap={1}
+                                                                sx={{ display: { xs: "none", sm: "flex" } }}
+                                                            >
+                                                                <Typography sx={{ fontSize: 19, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
+                                                                    Order: {o.order_code}
+                                                                </Typography>
 
-                                                            <Stack direction="row" alignItems="center" gap={0.6}>
+                                                                <Stack direction="row" alignItems="center" gap={0.6}>
+                                                                    {userStatusChip(o.status)}
+
+                                                                    <Button
+                                                                        size="small"
+                                                                        onClick={(e) => openTsMenu(e, o.id)}
+                                                                        endIcon={<ExpandMoreIcon />}
+                                                                        sx={{
+                                                                            minHeight: 24,
+                                                                            px: 1,
+                                                                            py: 0,
+                                                                            fontSize: "0.72rem",
+                                                                            letterSpacing: "0.08em",
+                                                                            textTransform: "uppercase",
+                                                                            fontWeight: 900,
+                                                                            color: "rgba(0,0,0,0.65)",
+                                                                        }}
+                                                                    >
+                                                                        Timeline
+                                                                    </Button>
+                                                                </Stack>
+                                                            </Stack>
+
+                                                            {/* MOBILE */}
+                                                            <Stack
+                                                                direction="row"
+                                                                alignItems="center"
+                                                                justifyContent="space-between"
+                                                                mt={-0.4}
+                                                                sx={{ display: { xs: "flex", sm: "none" } }}
+                                                            >
                                                                 {userStatusChip(o.status)}
 
                                                                 <Button
@@ -718,7 +756,20 @@ export default function OrdersLogged() {
                                                                     Timeline
                                                                 </Button>
                                                             </Stack>
-                                                        </Stack>
+
+                                                            <Typography
+                                                                sx={{
+                                                                    display: { xs: "block", sm: "none" },
+                                                                    fontSize: 18,
+                                                                    fontWeight: 900,
+                                                                    color: "#1e5bb8",
+                                                                    lineHeight: 1.1,
+                                                                    mt: 1.1
+                                                                }}
+                                                            >
+                                                                Order: {o.order_code}
+                                                            </Typography>
+                                                        </Box>
 
                                                         {/* Confirm block */}
                                                         {showReceivedPrompt && (

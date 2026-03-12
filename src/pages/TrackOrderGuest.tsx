@@ -724,34 +724,80 @@ export default function TrackOrderGuest() {
                                                         }}
                                                     >
                                                         <Stack spacing={1}>
-                                                            {/* HEADER: Order*/}
-                                                            <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1}>
-                                                                <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
-                                                                    Order: {o.order_code}
-                                                                </Typography>
+                                                            {/* HEADER */}
+                                                            <>
+                                                                {/* MOBILE */}
+                                                                <Box sx={{ display: { xs: "block", sm: "none" } }}>
+                                                                    <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1} mt={-0.4}>
+                                                                        {statusChip(effectiveStatus)}
 
-                                                                <Stack direction="row" alignItems="center" gap={0.6}>
-                                                                    {statusChip(effectiveStatus)}
+                                                                        <Button
+                                                                            size="small"
+                                                                            onClick={(e) => openTsMenu(e, o.id)}
+                                                                            endIcon={<ExpandMoreIcon />}
+                                                                            sx={{
+                                                                                minHeight: 24,
+                                                                                px: 1,
+                                                                                py: 0,
+                                                                                fontSize: "0.72rem",
+                                                                                letterSpacing: "0.08em",
+                                                                                textTransform: "uppercase",
+                                                                                fontWeight: 900,
+                                                                                color: "rgba(0,0,0,0.65)",
+                                                                            }}
+                                                                        >
+                                                                            Timeline
+                                                                        </Button>
+                                                                    </Stack>
 
-                                                                    <Button
-                                                                        size="small"
-                                                                        onClick={(e) => openTsMenu(e, o.id)}
-                                                                        endIcon={<ExpandMoreIcon />}
+                                                                    <Typography
                                                                         sx={{
-                                                                            minHeight: 24,
-                                                                            px: 1,
-                                                                            py: 0,
-                                                                            fontSize: "0.72rem",
-                                                                            letterSpacing: "0.08em",
-                                                                            textTransform: "uppercase",
+                                                                            mt: 1.1,
+                                                                            fontSize: 18,
                                                                             fontWeight: 900,
-                                                                            color: "rgba(0,0,0,0.65)",
+                                                                            color: "#1e5bb8",
+                                                                            lineHeight: 1.1,
                                                                         }}
                                                                     >
-                                                                        Timeline
-                                                                    </Button>
+                                                                        Order: {o.order_code}
+                                                                    </Typography>
+                                                                </Box>
+
+                                                                {/* DESKTOP */}
+                                                                <Stack
+                                                                    direction="row"
+                                                                    alignItems="center"
+                                                                    justifyContent="space-between"
+                                                                    gap={1}
+                                                                    sx={{ display: { xs: "none", sm: "flex" } }}
+                                                                >
+                                                                    <Typography sx={{ fontSize: 19, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
+                                                                        Order: {o.order_code}
+                                                                    </Typography>
+
+                                                                    <Stack direction="row" alignItems="center" gap={0.6}>
+                                                                        {statusChip(effectiveStatus)}
+
+                                                                        <Button
+                                                                            size="small"
+                                                                            onClick={(e) => openTsMenu(e, o.id)}
+                                                                            endIcon={<ExpandMoreIcon />}
+                                                                            sx={{
+                                                                                minHeight: 24,
+                                                                                px: 1,
+                                                                                py: 0,
+                                                                                fontSize: "0.72rem",
+                                                                                letterSpacing: "0.08em",
+                                                                                textTransform: "uppercase",
+                                                                                fontWeight: 900,
+                                                                                color: "rgba(0,0,0,0.65)",
+                                                                            }}
+                                                                        >
+                                                                            Timeline
+                                                                        </Button>
+                                                                    </Stack>
                                                                 </Stack>
-                                                            </Stack>
+                                                            </>
 
 
                                                             {/* Confirm block */}

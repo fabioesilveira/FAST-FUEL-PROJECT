@@ -1,7 +1,7 @@
 # Fast Fuel Project
 
-Fast Fuel is a **full-stack food ordering web application** focused on performance, UI/UX, and real-world order workflows.  
-It simulates a complete food ordering experience, from product browsing to checkout and admin order management.
+Fast Fuel is a **full-stack food ordering web application** designed to simulate a real restaurant ordering workflow.  
+The project combines a modern responsive frontend focused on **UI/UX and performance** with a structured backend API responsible for order processing, product management, and administrative controls.
 
 🔗 **Live Demo (Frontend):** https://fast-fuel-project-git-main-fabioesilveiras-projects.vercel.app/  
 📦 **Backend Repo:** https://github.com/fabioesilveira/Back-end-FAST-FUEL
@@ -150,6 +150,23 @@ This guarantees **historical accuracy**, even if products are later edited or re
 ---
 
 ## UI/UX Focus
+
+Fast Fuel was designed with an **app-like browsing experience inside the browser**.  
+The layout uses a fixed navigation header and footer to simulate the flow of a mobile application, allowing users to navigate quickly between sections while keeping key actions always accessible.
+
+A central feature of this design is the **Fast Thru mode**, represented by a prominent button in the footer navigation. This feature allows returning customers who already know the menu to skip traditional browsing and move directly into a rapid ordering interface.
+
+In Fast Thru mode:
+
+- All products are displayed as large clickable buttons
+- Items can be added to the cart instantly
+- The cart preview remains easily accessible
+- The checkout flow becomes significantly faster
+
+This creates a **"drive-thru style" online ordering experience**, where customers can place orders quickly without navigating through multiple product pages.
+
+Users who prefer a traditional browsing experience can still navigate through category pages and view full product descriptions before ordering.
+
 - Mobile-first responsive layout
 - Consistent spacing and visual hierarchy
 - Smooth animations and transitions
@@ -168,7 +185,12 @@ This guarantees **historical accuracy**, even if products are later edited or re
 - npm or yarn
 
 ### Installation
+
+Clone the repository and install dependencies:
+
 ```bash
+git clone https://github.com/fabioesilveira/FAST-FUEL-PROJECT
+cd FAST-FUEL-PROJECT
 npm install
 ```
 
@@ -188,13 +210,18 @@ npm run dev
 
 ### The app will be available at:
 
-http://localhost:5173
+#### Example:
 
+```bash
+http://localhost:5173
+```
 
 > ⚠️ This project requires the Fast Fuel backend to be running.
 >  
 > See the backend repository for setup instructions:
 > https://github.com/fabioesilveira/Back-end-FAST-FUEL
+
+---
 
 ## Project Status
 
