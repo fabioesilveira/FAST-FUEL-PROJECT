@@ -19,7 +19,6 @@ import type { Meal } from "../context/context";
 import NavFooter from "../components/NavFooter";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ButtonBase from "@mui/material/ButtonBase";
 import MobileStackCarousel from "../components/MobileStackCarousel";
 import PromoBannerCarousel from "../components/PromoBannerCarousel";
 import FloatingContact from "../components/FloatingContact";
@@ -38,60 +37,19 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import PageBg from "../components/PageBg";
 import PageBgMobile from "../components/PageBgMobile";
-
-//imgs out of Backend
-import CokeImg from "../assets/Coke.png";
-import SpriteImg from "../assets/Sprite.png";
-import DrPepperImg from "../assets/Drpepper.png";
-import FantaImg from "../assets/Fanta.png";
-import DietCokeImg from "../assets/Dietcoke.png";
-import LemonadeImg from "../assets/Lemonade.png";
-import SaladImg from "../assets/Crispsalad.png";
-import MilkshakeImg from "../assets/Milkshake.png";
-import SundaeImg from "../assets/Sundae.png";
 import { useAppAlert } from "../hooks/useAppAlert";
 
-import ComboMobile from "../assets/ComboMobile.png"
-import EmployeesMobile from "../assets/EmployesMobile.png"
+import ComboMobile from "../assets/ComboMobile.png";
+import EmployeesMobile from "../assets/EmployesMobile.png";
 
-
-
-type MiniActionCardProps = {
-    id: string;
-    image: string;
-    title?: string;
-    secondaryLabel?: string;
-    onClick: () => void;
-    onRemove?: () => void;
-    count?: number;
-};
-
-
-const imageMap: Record<string, string> = {
-    "Coke.png": CokeImg,
-    "Sprite.png": SpriteImg,
-    "Drpepper.png": DrPepperImg,
-    "Fanta.png": FantaImg,
-    "Dietcoke.png": DietCokeImg,
-    "Dietacoke.png": DietCokeImg,
-    "Lemonade.png": LemonadeImg,
-    "Crispsalad.png": SaladImg,
-    "Milkshake.png": MilkshakeImg,
-    "Sundae.png": SundaeImg,
-};
+import HomeSearchProductCard from "../components/home/HomeSearchProductCard";
+import HomeMiniCard from "../components/home/HomeMiniCard";
 
 const categoryLabelMap: Record<string, string> = {
     sandwiches: "BURGER LINEUP",
     sides: "SIDES & EXTRAS",
     beverages: "COLD DRINKS",
     desserts: "SWEET TREATS",
-};
-
-
-const normalizeImageKey = (value?: string) => {
-    if (!value) return "";
-    const last = value.split("/").pop() || value;
-    return last.split("?")[0].trim();
 };
 
 const categoryAliases: Record<string, string[]> = {
@@ -117,50 +75,6 @@ const pluralMessages = [
     "Fast Fuel options coming up ✅",
 ];
 
-
-const imageStylesByIdDesktop: Record<string, React.CSSProperties> = {
-    "1": { width: "125px", height: "120px", marginTop: "5px" },
-    "2": { width: "230px", height: "215px" },
-    "3": { width: "158px", height: "120px", marginTop: "10px" },
-    "4": { width: "200px", height: "142px" },
-    "11": { width: "145px", height: "145px" },
-    "12": { width: "165px", height: "120px" },
-    "13": { width: "140px", height: "132px", marginTop: "10px" },
-    "14": { width: "172px", height: "127px" },
-    "5": { width: "155px", height: "160px", marginTop: "4px" },
-    "6": { width: "155px", height: "160px", marginTop: "4px" },
-    "7": { width: "155px", height: "160px", marginTop: "4px" },
-    "8": { width: "155px", height: "160px", marginTop: "4px" },
-    "9": { width: "155px", height: "160px", marginTop: "4px" },
-    "10": { width: "155px", height: "160px", marginTop: "4px" },
-    "15": { width: "185px", height: "200px" },
-    "16": { width: "160px", height: "150px" },
-    "17": { width: "168px", height: "148px" },
-    "18": { width: "125px", height: "120px" },
-};
-
-const imageStylesByIdMobile: Record<string, React.CSSProperties> = {
-    "1": { width: "110px", height: "105px", marginTop: "5px" },
-    "2": { width: "185px", height: "180px" },
-    "3": { width: "140px", height: "115px", marginTop: "8px" },
-    "4": { width: "175px", height: "128px" },
-    "11": { width: "132px", height: "132px" },
-    "12": { width: "148px", height: "108px" },
-    "13": { width: "115px", height: "115px", marginTop: "8px" },
-    "14": { width: "158px", height: "111px" },
-    "5": { width: "125px", height: "134px", marginTop: "5px" },
-    "6": { width: "125px", height: "134px", marginTop: "5px" },
-    "7": { width: "125px", height: "134px", marginTop: "5px" },
-    "8": { width: "125px", height: "134px", marginTop: "5px" },
-    "9": { width: "125px", height: "134px", marginTop: "5px" },
-    "10": { width: "125px", height: "134px", marginTop: "5px" },
-    "15": { width: "190px", height: "192px" },
-    "16": { width: "120px", height: "134px" },
-    "17": { width: "138px", height: "120px" },
-    "18": { width: "105px", height: "105px" },
-};
-
-
 const mobileSlides = [
     { id: "combo", src: ComboMobile, alt: "Combo Promo" },
     { id: "rest", src: RestImg, alt: "Rest" },
@@ -169,16 +83,13 @@ const mobileSlides = [
     { id: "drive", src: Chat4, alt: "Car Drive" },
 ];
 
-
 const cleanProductName = (name: string) => name.split("/")[0].trim();
-
 
 function pickPluralMessage(seed: string) {
     let hash = 0;
     for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
     return pluralMessages[hash % pluralMessages.length];
 }
-
 
 function detectCategory(term: string) {
     const t = term.trim().toLowerCase();
@@ -193,7 +104,6 @@ function detectCategory(term: string) {
 }
 
 function pickMessage(seed: string) {
-    // mensagem “aleatória”, mas estável pro mesmo texto
     let hash = 0;
     for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
     return funMessages[hash % funMessages.length];
@@ -201,284 +111,7 @@ function pickMessage(seed: string) {
 
 const getCategoryLabel = (cat: string | null) => (cat ? categoryLabelMap[cat] ?? cat : "");
 
-
-// mantém kcal no card grande
-const getNameWithKcal = (name: string) => name.trim();
-
-
-// CARDS SEARCH
-
-function ProductCard({ product }: { product: Meal }) {
-
-    const title = getNameWithKcal(product.name);
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-    const pid = String(product.id);
-
-    const imgKey = normalizeImageKey(product.image);
-
-    const imgSrc =
-        typeof product.image === "string" && product.image.startsWith("http")
-            ? product.image
-            : imageMap[imgKey] ?? product.image;
-
-    const imgStyle =
-        (isMobile ? imageStylesByIdMobile[pid] : imageStylesByIdDesktop[pid]) ?? {
-            width: isMobile ? "160px" : "180px",
-            height: isMobile ? "130px" : "150px",
-        };
-
-    return (
-        <Box
-            sx={{
-                width: isMobile ? 260 : 300,
-                borderRadius: "13px",
-                border: "2px solid #e65100",
-                backgroundColor: "#fff3e0",
-                boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
-                p: isMobile ? 2 : 2.5,
-                display: "flex",
-                flexDirection: "column",
-                gap: isMobile ? 1.2 : 1.6,
-                transition: "transform 0.2s ease, box-shadow 0.2s ease",
-                "&:hover": {
-                    transform: "translateY(-5px)",
-                    boxShadow: "0 12px 26px rgba(230, 81, 0, 0.38)",
-                },
-            }}
-        >
-            {/* Image */}
-            <Box
-                sx={{
-                    width: "100%",
-                    height: isMobile ? 150 : 170,
-                    backgroundColor: "#fff",
-                    borderRadius: "9px",
-                    border: "2px solid #e65100",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <img
-                    src={imgSrc}
-                    alt={title}
-                    style={{
-                        ...imgStyle,
-                        maxWidth: "100%",
-                        maxHeight: "100%",
-                        objectFit: "contain",
-                        display: "block",
-                    }}
-                />
-            </Box>
-
-            {/* Title box */}
-            <Box
-                sx={{
-                    width: "100%",
-                    backgroundColor: "#ffe0c7",
-                    borderRadius: "9px",
-                    px: isMobile ? 1.5 : 2,
-                    py: isMobile ? 0.9 : 1.2,
-                    boxShadow: 2,
-                    textAlign: "center",
-                }}
-            >
-                <Typography
-                    sx={{
-                        fontSize: isMobile ? "0.92rem" : "0.98rem",
-                        fontWeight: 800,
-                        color: "#1e5bb8",
-                    }}
-                >
-                    {title}
-                </Typography>
-            </Box>
-
-            {/* Description box */}
-            <Box
-                sx={{
-                    width: "100%",
-                    backgroundColor: "#ffe0c7",
-                    borderRadius: "10px",
-                    px: isMobile ? 1.5 : 2,
-                    py: isMobile ? 1.1 : 1.5,
-                    boxShadow: 2,
-                    textAlign: "center",
-                }}
-            >
-                <Typography
-                    sx={{
-                        fontSize: isMobile ? "0.9rem" : "0.95rem",
-                        fontWeight: 400,
-                        color: "#000",
-                    }}
-                >
-                    {product.description}
-                </Typography>
-            </Box>
-        </Box>
-    );
-}
-
-// CARDS FAST THRU
-
-function MiniCard({
-    id,
-    image,
-    title,
-    secondaryLabel = "$0.00",
-    onClick,
-    count = 0,
-}: MiniActionCardProps) {
-
-    const imageStylesOrder: { [id: string]: React.CSSProperties } = {
-        "1": { width: "60px", height: "52px" },
-        "2": { width: "90px", height: "77px" },
-        "3": { width: "65px", height: "55px" },
-        "4": { width: "85px", height: "65px" },
-        "11": { width: "70px", height: "73px" },
-        "12": { width: "85px", height: "70px" },
-        "13": { width: "75px", height: "65px", marginTop: "4px" },
-        "14": { width: "65px", height: "70px" },
-        "5": { width: "77px", height: "77px" },
-        "6": { width: "77px", height: "77px" },
-        "7": { width: "77px", height: "77px" },
-        "8": { width: "77px", height: "77px" },
-        "9": { width: "77px", height: "77px" },
-        "10": { width: "77px", height: "77px" },
-        "15": { width: "200px", height: "81px" },
-        "16": { width: "82px", height: "75px" },
-        "17": { width: "78px", height: "85px" },
-        "18": { width: "60px", height: "55px" },
-    };
-
-    const imgKey = normalizeImageKey(image);
-
-    const imgSrc =
-        typeof image === "string" && image.startsWith("http")
-            ? image
-            : imageMap[imgKey] ?? image;
-    return (
-        <ButtonBase onClick={onClick} sx={{ width: 143, borderRadius: "14px", textAlign: "center" }}>
-            <Box sx={{ position: "relative", width: "100%" }}>
-
-                {/* BADGE - top-right) */}
-                {count > 0 && (
-                    <Box
-                        sx={{
-                            position: "absolute",
-                            top: -10,
-                            right: -10,
-                            zIndex: 2,
-                            minWidth: 26,
-                            height: 26,
-                            px: 0.7,
-                            borderRadius: "999px",
-                            backgroundColor: "#1e5bb8",
-                            color: "#fff",
-                            fontWeight: 900,
-                            fontSize: "0.78rem",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            boxShadow: "0px 6px 14px rgba(0,0,0,0.25)",
-                        }}
-                    >
-                        {count}
-                    </Box>
-                )}
-
-                <Box
-                    sx={{
-                        width: "100%",
-                        borderRadius: "14px",
-                        border: "2px solid #e65100",
-                        backgroundColor: "#fff3e0",
-                        boxShadow: "0 4px 10px rgba(230, 81, 0, 0.22)",
-                        p: 1.5,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        gap: 1.1,
-                        transition: "all 0.2s ease",
-                        cursor: "pointer",
-                        "&:hover": {
-                            boxShadow: "0 6px 16px rgba(230, 81, 0, 0.35)",
-                            transform: "translateY(-2px)",
-                        },
-                    }}
-                >
-                    <Box
-                        sx={{
-                            width: "100%",
-                            height: 85,
-                            backgroundColor: "#fff",
-                            borderRadius: "10px",
-                            border: "2px solid #e65100",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                    >
-                        <img
-                            src={imgSrc}
-                            alt={title || "item"}
-                            style={{
-                                ...(imageStylesOrder[id] ?? {
-                                    width: "85px",
-                                    height: "85px",
-                                    marginTop: "0px",
-                                }),
-                                objectFit: "contain",
-                                display: "block",
-                            }}
-                        />
-                    </Box>
-
-                    {title && (
-                        <Typography
-                            sx={{
-                                fontSize: "0.75rem",
-                                fontWeight: 600,
-                                color: "#1e5bb8",
-                                textAlign: "center",
-                                lineHeight: 1.2,
-                            }}
-                        >
-                            {title}
-                        </Typography>
-                    )}
-
-                    <Box
-                        sx={{
-                            width: "100%",
-                            height: 25,
-                            borderRadius: "8px",
-                            backgroundColor: "#e65100",
-                            color: "#ffe0c7",
-                            fontSize: "0.7rem",
-                            fontWeight: 600,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            textTransform: "none",
-                        }}
-                    >
-                        {secondaryLabel}
-                    </Box>
-                </Box>
-            </Box>
-        </ButtonBase>
-    );
-}
-
-// HOME COMPONENT START'S HERE
-
 export default function Home() {
-
     const [search, setSearch] = useState("");
     const [checkout, setCheckout] = useState(0);
     const [data, setData] = useState<Meal[]>([]);
@@ -501,7 +134,6 @@ export default function Home() {
         horizontal: "center",
     });
 
-
     function openCartMenu(e: React.MouseEvent<HTMLElement>) {
         if (isMobile && actionsRef.current) {
             setCartAnchorEl(actionsRef.current);
@@ -510,11 +142,9 @@ export default function Home() {
         setCartAnchorEl(e.currentTarget);
     }
 
-
     function closeCartMenu() {
         setCartAnchorEl(null);
     }
-
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -529,7 +159,6 @@ export default function Home() {
 
     const detected = detectCategory(searchTrim);
     const isCategorySearch = !!detected;
-
 
     const filteredData = data.filter((item) => {
         const name = item.name.toLowerCase();
@@ -546,11 +175,7 @@ export default function Home() {
             ? pickMessage(searchTrim)
             : pickPluralMessage(searchTrim);
 
-
-
     const hasResults = filteredData.length > 0;
-
-
 
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext();
@@ -578,8 +203,7 @@ export default function Home() {
     const showKeepTyping =
         isSearching && !hasResults && searchTrim.length > 0 && searchTrim.length < MIN_CHARS_FOR_NOT_FOUND;
 
-
-    const driveModeActive = showDriveThru; // só fast-thru manual
+    const driveModeActive = showDriveThru;
     const shouldShowCarousel = !isSearching && !driveModeActive;
     const shouldShowOrderPreview = driveModeActive;
 
@@ -612,15 +236,12 @@ export default function Home() {
         setOrder(order.filter((p) => String(p.id) !== productId));
     }
 
-
     const headlineMt = searchOverlayOpen
         ? { xs: 12, sm: 12, md: 2.7 }
         : isSearching
             ? { xs: 5, sm: 5, md: 2.7 }
             : { xs: 2, sm: 3, md: 2.7 };
 
-
-    // Init: fetch products + hydrate order from localStorage
     useEffect(() => {
         async function init() {
             try {
@@ -634,11 +255,9 @@ export default function Home() {
         init();
     }, []);
 
-
     const ignoreSearchRef = useRef(false);
 
     function scrollPageToTop() {
-
         window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 
         const se = document.scrollingElement as HTMLElement | null;
@@ -690,7 +309,6 @@ export default function Home() {
             const paddingAndDividers = 12;
             const availableForBody = paperMax - headerH - footerH - paddingAndDividers;
 
-
             const ROW_H = 66;
             const mobileCap = ROW_H * 3;
 
@@ -717,8 +335,6 @@ export default function Home() {
         };
     }, [cartOpen, isMobile, cartCount, subtotal, discount, checkout]);
 
-
-
     function handleOrder(product: Meal) {
         const existingIndex = order.findIndex((p) => String(p.id) === String(product.id));
 
@@ -739,7 +355,6 @@ export default function Home() {
         }
     }
 
-    // Discount: any 1 sandwich + 1 side + 1 beverage = $2 off
     useEffect(() => {
         let burgerCount = 0;
         let sideCount = 0;
@@ -767,8 +382,6 @@ export default function Home() {
         setDiscount(discountCalc);
         setCheckout(base);
     }, [order]);
-
-
 
     function handleCheckoutFromCart() {
         const isLogged = Boolean(localStorage.getItem("idUser"));
@@ -802,27 +415,6 @@ export default function Home() {
         });
     }
 
-
-
-    function handleRemove(product: Meal) {
-        const existing = order.find((p) => String(p.id) === String(product.id));
-        if (!existing) return;
-
-        const currentQty = existing.quantidade ?? 0;
-
-        if (currentQty <= 1) {
-            setOrder(order.filter((p) => String(p.id) !== String(product.id)));
-            return;
-        }
-
-        setOrder(
-            order.map((p) =>
-                String(p.id) === String(product.id) ? { ...p, quantidade: (p.quantidade ?? 0) - 1 } : p
-            )
-        );
-    }
-
-    // SLIDES CAROUSEL
     const desktopCarouselSlides = [
         <Carousel.Item key="slide-1">
             <img src={Combo} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -855,11 +447,9 @@ export default function Home() {
 
             if (ao !== bo) return ao - bo;
 
-            // desempate: por id dentro da categoria
             return Number(a.id) - Number(b.id);
         });
     }, [data]);
-
 
     return (
         <>
@@ -877,18 +467,14 @@ export default function Home() {
                     sx={{
                         minHeight: "100dvh",
                         boxSizing: "border-box",
-
                         display: "flex",
                         flexDirection: "column",
                         backgroundColor: "transparent",
-
                         pt: { xs: `calc(${NAVBAR_H}px + 12px)`, md: 0 },
                         pb: { xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 12px)`, sm: 0 },
-
                         overscrollBehaviorY: { xs: "none", sm: "auto" },
                     }}
                 >
-
                     <Navbar onSearch={handleSearchInput} onSearchOverlayChange={setSearchOverlayOpen} />
 
                     <CssBaseline />
@@ -935,8 +521,6 @@ export default function Home() {
                         </Box>
                     )}
 
-
-
                     <Container
                         maxWidth={false}
                         disableGutters
@@ -949,14 +533,12 @@ export default function Home() {
                             mx: "auto",
                         }}
                     >
-                        {/* DESKTOP: banner dentro do Container */}
                         {!isMobile && !hidePromos && !driveModeActive && (
                             <Box sx={{ mb: 2, mt: -1.5 }}>
                                 <PromoBannerCarousel />
                             </Box>
                         )}
 
-                        {/* DESKTOP HERO */}
                         {shouldShowCarousel && !isMobile && !hidePromos && !driveModeActive && (
                             <HeroCarousel aspectRatio="16 / 9.7">{desktopCarouselSlides}</HeroCarousel>
                         )}
@@ -969,7 +551,6 @@ export default function Home() {
                                     mb: { xs: 5, md: 6 },
                                     mt: { xs: 2.5, sm: 1, md: 2 },
                                     px: { xs: 0.5, sm: 0 },
-
                                     display: "grid",
                                     alignItems: "center",
                                     gridTemplateColumns: { xs: "1fr", md: "1fr auto 1fr" },
@@ -977,7 +558,6 @@ export default function Home() {
                                     rowGap: { xs: 1.2, md: 0 },
                                 }}
                             >
-                                {/* MOBILE + SM */}
                                 <Box
                                     sx={{
                                         justifySelf: "start",
@@ -987,7 +567,6 @@ export default function Home() {
                                     }}
                                 />
 
-                                {/* TOTAL + ACTIONS */}
                                 <Box
                                     sx={{
                                         display: "flex",
@@ -997,12 +576,10 @@ export default function Home() {
                                         gap: { xs: 1.2, md: 1.2 },
                                     }}
                                 >
-                                    {/* TOTAL */}
                                     <h2 className="total" style={{ whiteSpace: "nowrap", margin: 0 }}>
                                         TOTAL $: {checkout.toFixed(2)}
                                     </h2>
 
-                                    {/* Actions */}
                                     <Box
                                         ref={actionsRef}
                                         sx={{
@@ -1013,8 +590,6 @@ export default function Home() {
                                             mt: { xs: 0.8, md: 0 },
                                         }}
                                     >
-
-                                        {/* DROPDOWN + BADGE */}
                                         <Box sx={{ position: "relative", display: "inline-flex" }}>
                                             {cartCount > 0 && (
                                                 <Box
@@ -1051,26 +626,21 @@ export default function Home() {
                                                     borderRadius: "12px",
                                                     backgroundColor: "#fff0da",
                                                     border: "2.5px solid rgba(230, 81, 0, 0.85)",
-
                                                     transition: "all .22s ease",
                                                     display: "flex",
                                                     alignItems: "center",
                                                     justifyContent: "center",
-
                                                     "&:hover": {
                                                         backgroundColor: "rgba(230, 81, 0, 0.12)",
                                                         transform: "translateY(-1px)",
                                                     },
-
                                                     "&:active": {
                                                         backgroundColor: "rgba(230, 81, 0, 0.22)",
                                                         transform: "scale(0.97)",
                                                     },
                                                 }}
                                             >
-
                                                 <ReceiptLongIcon sx={{ color: "#164a96", fontSize: 25 }} />
-
                                             </Button>
                                         </Box>
 
@@ -1084,17 +654,14 @@ export default function Home() {
                                                 borderRadius: "12px",
                                                 backgroundColor: "#fff0da",
                                                 border: "2.5px solid rgba(230, 81, 0, 0.85)",
-
                                                 transition: "all .22s ease",
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "center",
-
                                                 "&:hover": {
                                                     backgroundColor: "rgba(230, 81, 0, 0.12)",
                                                     transform: "translateY(-1px)",
                                                 },
-
                                                 "&:active": {
                                                     backgroundColor: "rgba(230, 81, 0, 0.22)",
                                                     transform: "scale(0.97)",
@@ -1113,14 +680,12 @@ export default function Home() {
                                     transformOrigin={{ horizontal: "center", vertical: "top" }}
                                     anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
                                     sx={{ zIndex: 8000 }}
-
                                     slotProps={{
                                         backdrop: {
                                             sx: { backgroundColor: "rgba(0,0,0,0.28)" },
                                             onClick: closeCartMenu,
                                         },
                                     }}
-
                                     MenuListProps={{
                                         disablePadding: true,
                                         sx: {
@@ -1142,14 +707,12 @@ export default function Home() {
                                             overflow: "hidden",
                                             display: "flex",
                                             flexDirection: "column",
-
                                             width: { sm: 360 },
                                             maxWidth: { sm: 380 },
                                             maxHeight: {
                                                 sm: "70dvh",
                                                 md: "78vh",
                                             },
-
                                             ...(isMobile && {
                                                 position: "fixed",
                                                 left: "50%",
@@ -1157,10 +720,8 @@ export default function Home() {
                                                 transform: "translateX(-50%)",
                                                 bottom: 88,
                                                 top: "auto",
-
                                                 width: "88vw",
                                                 maxWidth: 360,
-
                                                 height: "fit-content",
                                                 minHeight: 0,
                                                 maxHeight: "calc(100svh - 190px)",
@@ -1170,9 +731,6 @@ export default function Home() {
                                         },
                                     }}
                                 >
-
-
-                                    {/* HEADER */}
                                     <Box ref={cartHeaderRef} sx={{ px: { xs: 1.5, sm: 2 }, py: { xs: 1.1, sm: 1.5 } }}>
                                         <Typography
                                             sx={{
@@ -1198,7 +756,6 @@ export default function Home() {
 
                                     <Divider />
 
-                                    {/* BODY */}
                                     {order.length === 0 ? (
                                         <Box sx={{ px: { xs: 1.5, sm: 2 }, py: 2 }}>
                                             <Typography
@@ -1213,13 +770,8 @@ export default function Home() {
                                                 flex: 1,
                                                 minHeight: 0,
                                                 overflowY: "auto",
-
-
                                                 ...(!isMobile && { maxHeight: { sm: 260, md: 300 } }),
-
-
                                                 ...(isMobile && { maxHeight: cartBodyMaxH }),
-
                                                 "&::-webkit-scrollbar": { width: 6 },
                                                 "&::-webkit-scrollbar-thumb": {
                                                     backgroundColor: "rgba(230,81,0,0.55)",
@@ -1227,7 +779,6 @@ export default function Home() {
                                                 },
                                             }}
                                         >
-
                                             <List sx={{ py: 0 }}>
                                                 {order.map((it) => {
                                                     const pid = String(it.id);
@@ -1320,7 +871,6 @@ export default function Home() {
                                         </Box>
                                     )}
 
-                                    {/* FOOTER  */}
                                     <Box
                                         ref={cartFooterRef}
                                         sx={{
@@ -1369,6 +919,7 @@ export default function Home() {
                                             <Typography sx={{ mt: 0.25, fontSize: { xs: "0.72rem", sm: "0.78rem" }, fontWeight: 800, color: "rgba(0,0,0,0.55)" }}>
                                                 {checkout >= 30 ? "You unlocked free delivery 🎉" : `Add $${(30 - checkout).toFixed(2)} more to get FREE delivery`}
                                             </Typography>
+
                                             <Typography
                                                 sx={{
                                                     mt: 0.25,
@@ -1435,26 +986,21 @@ export default function Home() {
                                     </Box>
                                 </Menu>
 
-
                                 <style>
                                     {`
                                         @media (max-width: 899.95px){
-                                        .total{
-                                        grid-row: 2;
-                                        justify-self: center;
-                                        }
+                                            .total{
+                                                grid-row: 2;
+                                                justify-self: center;
+                                            }
                                         }
                                     `}
                                 </style>
-
-                                {/* DESKTOP */}
                             </Box>
                         )}
 
-                        {/* SEARCH */}
                         {isSearching && (
                             <>
-                                {/* KEEP TYPING (1-3 chars) */}
                                 {showKeepTyping && (
                                     <Box
                                         sx={{
@@ -1484,7 +1030,6 @@ export default function Home() {
                                     </Box>
                                 )}
 
-                                {/* NOT FOUND (>= 4 chars) */}
                                 {showNotFound && (
                                     <Box
                                         sx={{
@@ -1512,10 +1057,8 @@ export default function Home() {
                                     </Box>
                                 )}
 
-                                {/* RESULTS */}
                                 {hasResults && (
                                     <>
-                                        {/* HEADLINE */}
                                         <Typography
                                             align="center"
                                             sx={{
@@ -1532,7 +1075,6 @@ export default function Home() {
                                             {headlineText}
                                         </Typography>
 
-                                        {/* READY TO ORDER */}
                                         <Box sx={{ display: "flex", justifyContent: "center", mt: 1, mb: 4 }}>
                                             <Box
                                                 onClick={enterFastThru}
@@ -1559,7 +1101,6 @@ export default function Home() {
                                             </Box>
                                         </Box>
 
-                                        {/* GRID (mesmo do seu) */}
                                         <Box
                                             sx={{
                                                 display: "grid",
@@ -1576,7 +1117,7 @@ export default function Home() {
                                             }}
                                         >
                                             {filteredData.map((e) => (
-                                                <ProductCard key={String(e.id)} product={e} />
+                                                <HomeSearchProductCard key={String(e.id)} product={e} />
                                             ))}
                                         </Box>
                                     </>
@@ -1621,8 +1162,9 @@ export default function Home() {
                                 >
                                     {fastThruData.map((product) => {
                                         const pid = String(product.id);
+
                                         return (
-                                            <MiniCard
+                                            <HomeMiniCard
                                                 key={pid}
                                                 id={pid}
                                                 image={product.image}
@@ -1630,11 +1172,10 @@ export default function Home() {
                                                 secondaryLabel={`$${Number(product.price).toFixed(2)}`}
                                                 count={qtyMap[pid] ?? 0}
                                                 onClick={() => handleOrder(product)}
-                                                onRemove={() => handleRemove(product)}
+                                                onRemove={() => removeItem(pid)}
                                             />
                                         );
                                     })}
-
                                 </Box>
                             </Box>
                         )}
@@ -1651,5 +1192,4 @@ export default function Home() {
             </PageShell>
         </>
     );
-
 }
