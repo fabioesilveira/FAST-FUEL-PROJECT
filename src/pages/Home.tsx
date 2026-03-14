@@ -13,7 +13,6 @@ import Combo from "../assets/Combo1.png";
 import Carousel from "react-bootstrap/Carousel";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/context";
-import Typography from "@mui/material/Typography";
 import CategoryDrawer from "../components/CategoryDrawer";
 import type { Meal } from "../context/context";
 import NavFooter from "../components/NavFooter";
@@ -34,9 +33,9 @@ import { useAppAlert } from "../hooks/useAppAlert";
 import ComboMobile from "../assets/ComboMobile.png";
 import EmployeesMobile from "../assets/EmployesMobile.png";
 
-import HomeSearchProductCard from "../components/home/HomeSearchProductCard";
-import HomeMiniCard from "../components/home/HomeMiniCard";
 import HomeCartMenu from "../components/home/HomeCartMenu";
+import HomeSearchSection from "../components/home/HomeSearchSection";
+import HomeFastThruSection from "../components/home/HomeFastThruSection";
 
 const categoryLabelMap: Record<string, string> = {
     sandwiches: "BURGER LINEUP",
@@ -697,186 +696,27 @@ export default function Home() {
                             </Box>
                         )}
 
-                        {isSearching && (
-                            <>
-                                {showKeepTyping && (
-                                    <Box
-                                        sx={{
-                                            minHeight: { xs: "55dvh", md: "52dvh" },
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            textAlign: "center",
-                                            px: 2,
-                                        }}
-                                    >
-                                        <Typography
-                                            align="center"
-                                            sx={{
-                                                fontFamily: "Titan One",
-                                                fontSize: { xs: "26px", md: "34px" },
-                                                letterSpacing: "0.05em",
-                                                color: "rgba(13, 71, 161, 0.65)",
-                                                textAlign: "center",
-                                            }}
-                                        >
-                                            Keep typing… ✍️ <br />
-                                            <span style={{ fontSize: "0.75em" }}>
-                                                {charsLeft} more {charsLeft === 1 ? "letter" : "letters"}
-                                            </span>
-                                        </Typography>
-                                    </Box>
-                                )}
+                        <HomeSearchSection
+                            isSearching={isSearching}
+                            showKeepTyping={showKeepTyping}
+                            showNotFound={showNotFound}
+                            hasResults={hasResults}
+                            charsLeft={charsLeft}
+                            headlineText={headlineText}
+                            isCategorySearch={isCategorySearch}
+                            headlineMt={headlineMt}
+                            filteredData={filteredData}
+                            enterFastThru={enterFastThru}
+                        />
 
-                                {showNotFound && (
-                                    <Box
-                                        sx={{
-                                            minHeight: { xs: "55dvh", md: "52dvh" },
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            textAlign: "center",
-                                            px: 2,
-                                        }}
-                                    >
-                                        <Typography
-                                            align="center"
-                                            sx={{
-                                                fontFamily: "Titan One",
-                                                fontSize: { xs: "28px", md: "35px" },
-                                                letterSpacing: "0.05em",
-                                                color: "rgba(13, 71, 161, 0.65)",
-                                                textAlign: "center",
-                                            }}
-                                        >
-                                            No products found 😕 <br />
-                                            <span style={{ fontSize: "0.75em" }}>Try a different search</span>
-                                        </Typography>
-                                    </Box>
-                                )}
-
-                                {hasResults && (
-                                    <>
-                                        <Typography
-                                            align="center"
-                                            sx={{
-                                                mb: { xs: 4.5, sm: 4.5, md: 4 },
-                                                mt: headlineMt,
-                                                fontFamily: "Titan One",
-                                                fontSize: isCategorySearch ? { xs: "35px", md: "41px" } : { xs: "29px", md: "41px" },
-                                                letterSpacing: isCategorySearch ? "0.12em" : "0.06em",
-                                                textTransform: "uppercase",
-                                                color: "#ff8a4c",
-                                                textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
-                                            }}
-                                        >
-                                            {headlineText}
-                                        </Typography>
-
-                                        <Box sx={{ display: "flex", justifyContent: "center", mt: 1, mb: 4 }}>
-                                            <Box
-                                                onClick={enterFastThru}
-                                                sx={{
-                                                    px: { xs: 3, md: 3 },
-                                                    py: { xs: 1.2, md: 1.2 },
-                                                    mb: { xs: 1.5 },
-                                                    borderRadius: "10px",
-                                                    backgroundColor: "#1e5bb8",
-                                                    color: "#fff",
-                                                    fontFamily: "Titan One",
-                                                    fontSize: { xs: "0.98rem", md: "1.1rem" },
-                                                    letterSpacing: "0.12em",
-                                                    textTransform: "uppercase",
-                                                    cursor: "pointer",
-                                                    border: "1px solid rgba(230,81,0,0.18)",
-                                                    boxShadow: 2,
-                                                    transition: "all 0.2s ease",
-                                                    "&:hover": { backgroundColor: "#163f82", transform: "translateY(-2px)" },
-                                                    "&:active": { transform: "translateY(0)", boxShadow: "0 4px 10px rgba(30, 91, 184, 0.3)" },
-                                                }}
-                                            >
-                                                READY TO ORDER
-                                            </Box>
-                                        </Box>
-
-                                        <Box
-                                            sx={{
-                                                display: "grid",
-                                                justifyContent: "center",
-                                                justifyItems: "center",
-                                                gap: 4,
-                                                mb: 2,
-                                                gridTemplateColumns: {
-                                                    xs: "repeat(1, 260px)",
-                                                    sm: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
-                                                    md: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
-                                                    lg: filteredData.length === 1 ? "repeat(1, 300px)" : "repeat(2, 300px)",
-                                                },
-                                            }}
-                                        >
-                                            {filteredData.map((e) => (
-                                                <HomeSearchProductCard key={String(e.id)} product={e} />
-                                            ))}
-                                        </Box>
-                                    </>
-                                )}
-                            </>
-                        )}
-
-                        {driveModeActive && (
-                            <Box sx={{ mb: { xs: 1.5, md: 2 } }}>
-                                <Typography
-                                    align="center"
-                                    sx={{
-                                        mb: { xs: 3, md: 3 },
-                                        mt: { xs: -2, md: -4 },
-                                        fontFamily: "Titan One",
-                                        fontSize: { xs: "28px", md: "37px" },
-                                        letterSpacing: "0.14em",
-                                        textTransform: "uppercase",
-                                        color: "#ff8a4c",
-                                        textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
-                                        opacity: 0.95,
-                                    }}
-                                >
-                                    Quick add menu
-                                </Typography>
-
-                                <h2 className="h2-driveMode-desk">
-                                    *Search by name or category, or browse the products page for full details.
-                                </h2>
-
-                                <Box
-                                    sx={{
-                                        display: "grid",
-                                        gap: 2,
-                                        justifyContent: "center",
-                                        gridTemplateColumns: {
-                                            xs: "repeat(2, 143px)",
-                                            sm: "repeat(3, 143px)",
-                                            lg: "repeat(6, 143px)",
-                                        },
-                                    }}
-                                >
-                                    {fastThruData.map((product) => {
-                                        const pid = String(product.id);
-
-                                        return (
-                                            <HomeMiniCard
-                                                key={pid}
-                                                id={pid}
-                                                image={product.image}
-                                                title={cleanProductName(product.name)}
-                                                secondaryLabel={`$${Number(product.price).toFixed(2)}`}
-                                                count={qtyMap[pid] ?? 0}
-                                                onClick={() => handleOrder(product)}
-                                                onRemove={() => removeItem(pid)}
-                                            />
-                                        );
-                                    })}
-                                </Box>
-                            </Box>
-                        )}
+                        <HomeFastThruSection
+                            driveModeActive={driveModeActive}
+                            fastThruData={fastThruData}
+                            qtyMap={qtyMap}
+                            cleanProductName={cleanProductName}
+                            onOrder={handleOrder}
+                            onRemoveItem={removeItem}
+                        />
                     </Container>
 
                     {isMobile ? <FloatingContactMobile /> : <FloatingContact />}
