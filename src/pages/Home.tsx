@@ -37,35 +37,14 @@ import HomeCartMenu from "../components/home/HomeCartMenu";
 import HomeSearchSection from "../components/home/HomeSearchSection";
 import HomeFastThruSection from "../components/home/HomeFastThruSection";
 
-const categoryLabelMap: Record<string, string> = {
-    sandwiches: "BURGER LINEUP",
-    sides: "SIDES & EXTRAS",
-    beverages: "COLD DRINKS",
-    desserts: "SWEET TREATS",
-};
+import {
+    cleanProductName,
+    detectCategory,
+    pickMessage,
+    pickPluralMessage,
+    getCategoryLabel
+} from "../utils/homeHelpers";
 
-const categoryAliases: Record<string, string[]> = {
-    sandwiches: ["burg", "sand", "burger", "burgers", "sandwich", "sandwiches"],
-    sides: ["side", "sides", "snac", "snacks"],
-    beverages: ["drin", "drink", "drinks", "beverage", "beverages", "soda", "sodas"],
-    desserts: ["swee", "dessert", "desserts", "sweet", "sweets"],
-};
-
-const funMessages = [
-    "Hmm… nice choice 😋",
-    "This one is delicious 🔥",
-    "Classic pick. Respect 👌",
-    "Fast Fuel approved ✅",
-    "You’ve got good taste 😄",
-    "Okayyy, that’s a winner 🏆",
-];
-
-const pluralMessages = [
-    "Nice! Here are some options 😋",
-    "Found a few matches 🔥",
-    "Good picks — take a look 👀",
-    "Fast Fuel options coming up ✅",
-];
 
 const mobileSlides = [
     { id: "combo", src: ComboMobile, alt: "Combo Promo" },
@@ -75,33 +54,6 @@ const mobileSlides = [
     { id: "drive", src: Chat4, alt: "Car Drive" },
 ];
 
-const cleanProductName = (name: string) => name.split("/")[0].trim();
-
-function pickPluralMessage(seed: string) {
-    let hash = 0;
-    for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
-    return pluralMessages[hash % pluralMessages.length];
-}
-
-function detectCategory(term: string) {
-    const t = term.trim().toLowerCase();
-    if (!t) return null;
-
-    for (const [category, aliases] of Object.entries(categoryAliases)) {
-        if (aliases.some((alias) => t.includes(alias))) {
-            return category;
-        }
-    }
-    return null;
-}
-
-function pickMessage(seed: string) {
-    let hash = 0;
-    for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
-    return funMessages[hash % funMessages.length];
-}
-
-const getCategoryLabel = (cat: string | null) => (cat ? categoryLabelMap[cat] ?? cat : "");
 
 export default function Home() {
     const [search, setSearch] = useState("");
