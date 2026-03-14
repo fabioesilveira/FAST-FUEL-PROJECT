@@ -14,6 +14,7 @@ type ProductsGridProps = {
     imageStylesMobile: Record<string, React.CSSProperties>;
     imageStylesDesktop: Record<string, React.CSSProperties>;
     imageStylesDesktopWide: Record<string, React.CSSProperties>;
+    imageMap?: Record<string, string>;
 };
 
 export default function ProductsGrid({
@@ -24,6 +25,7 @@ export default function ProductsGrid({
     imageStylesMobile,
     imageStylesDesktop,
     imageStylesDesktopWide,
+    imageMap,
 }: ProductsGridProps) {
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
@@ -55,6 +57,7 @@ export default function ProductsGrid({
                         imgStyle={imageStylesDesktopWide[product.id]}
                         flip={index % 2 === 0}
                         qty={order.find((p) => p.id === product.id)?.quantidade ?? 0}
+                        imageMap={imageMap}
                     />
                 ))}
             </Box>
@@ -90,6 +93,7 @@ export default function ProductsGrid({
                     isTabletOnly={isTabletOnly}
                     imgStyle={isMobile ? imageStylesMobile[product.id] : imageStylesDesktop[product.id]}
                     qty={order.find((p) => p.id === product.id)?.quantidade ?? 0}
+                    imageMap={imageMap}
                 />
             ))}
         </Box>

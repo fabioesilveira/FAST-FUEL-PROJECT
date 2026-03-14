@@ -12,10 +12,20 @@ const normalizeImageKey = (value?: string) => {
     return value.split("/").pop() || value;
 };
 
-const resolveImgSrc = (img?: string) => {
+const resolveImgSrc = (
+    img?: string,
+    imageMap?: Record<string, string>
+) => {
     if (!img) return "";
     if (img.startsWith("http")) return img;
-    return `/images/${normalizeImageKey(img)}`;
+
+    const normalized = normalizeImageKey(img);
+
+    if (imageMap && imageMap[normalized]) {
+        return imageMap[normalized];
+    }
+
+    return `/images/${normalized}`;
 };
 
 type ProductCardDesktopLandscapeProps = {
@@ -25,6 +35,7 @@ type ProductCardDesktopLandscapeProps = {
     imgStyle?: React.CSSProperties;
     flip?: boolean;
     qty?: number;
+    imageMap?: Record<string, string>;
 };
 
 export default function ProductCardDesktopLandscape({
@@ -34,6 +45,7 @@ export default function ProductCardDesktopLandscape({
     imgStyle,
     flip = false,
     qty = 0,
+    imageMap,
 }: ProductCardDesktopLandscapeProps) {
     const title = getNameWithKcal(product.name);
     const price = `$${Number(product.price).toFixed(2)}`;
@@ -55,9 +67,11 @@ export default function ProductCardDesktopLandscape({
                 pt: 2.2,
                 alignItems: "stretch",
                 transition: "transform 0.2s ease, box-shadow 0.2s ease",
-                "&:hover": {
-                    transform: "translateY(-4px)",
-                    boxShadow: "0 12px 26px rgba(230, 81, 0, 0.38)",
+                "@media (hover: hover) and (pointer: fine)": {
+                    "&:hover": {
+                        transform: "translateY(-4px)",
+                        boxShadow: "0 12px 26px rgba(230, 81, 0, 0.38)",
+                    },
                 },
             }}
         >
@@ -104,7 +118,7 @@ export default function ProductCardDesktopLandscape({
                 }}
             >
                 <img
-                    src={resolveImgSrc(product.image)}
+                    src={resolveImgSrc(product.image, imageMap)}
                     alt={product.name}
                     style={{
                         ...(imgStyle ?? {}),
@@ -214,9 +228,11 @@ export default function ProductCardDesktopLandscape({
                             justifyContent: "center",
                             cursor: "pointer",
                             transition: "all 0.16s ease",
-                            "&:hover": {
-                                bgcolor: "#1e5bb8",
-                                color: "#ffffff",
+                            "@media (hover: hover) and (pointer: fine)": {
+                                "&:hover": {
+                                    bgcolor: "#1e5bb8",
+                                    color: "#ffffff",
+                                },
                             },
                             "&:active": {
                                 bgcolor: "#163f82",
@@ -246,9 +262,11 @@ export default function ProductCardDesktopLandscape({
                             justifyContent: "center",
                             cursor: "pointer",
                             transition: "all 0.16s ease",
-                            "&:hover": {
-                                bgcolor: "#1e5bb8",
-                                color: "#ffffff",
+                            "@media (hover: hover) and (pointer: fine)": {
+                                "&:hover": {
+                                    bgcolor: "#1e5bb8",
+                                    color: "#ffffff",
+                                },
                             },
                             "&:active": {
                                 bgcolor: "#163f82",

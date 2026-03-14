@@ -13,10 +13,20 @@ const normalizeImageKey = (value?: string) => {
     return value.split("/").pop() || value;
 };
 
-const resolveImgSrc = (img?: string) => {
+const resolveImgSrc = (
+    img?: string,
+    imageMap?: Record<string, string>
+) => {
     if (!img) return "";
     if (img.startsWith("http")) return img;
-    return `/images/${normalizeImageKey(img)}`;
+
+    const normalized = normalizeImageKey(img);
+
+    if (imageMap && imageMap[normalized]) {
+        return imageMap[normalized];
+    }
+
+    return `/images/${normalized}`;
 };
 
 type ProductCardProps = {
@@ -28,6 +38,7 @@ type ProductCardProps = {
     isTabletOnly?: boolean;
     useToggle?: boolean;
     qty?: number;
+    imageMap?: Record<string, string>;
 };
 
 export default function ProductCard({
@@ -39,6 +50,7 @@ export default function ProductCard({
     isTabletOnly = false,
     useToggle = false,
     qty = 0,
+    imageMap,
 }: ProductCardProps) {
     const title = getNameWithKcal(product.name);
     const price = `$${Number(product.price).toFixed(2)}`;
@@ -111,7 +123,7 @@ export default function ProductCard({
                 }}
             >
                 <img
-                    src={resolveImgSrc(product.image)}
+                    src={resolveImgSrc(product.image, imageMap)}
                     alt={product.name}
                     style={{
                         ...(imgStyle ?? {}),
