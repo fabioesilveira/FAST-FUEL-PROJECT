@@ -1,50 +1,56 @@
-import React, { useEffect, useState, useRef } from "react";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import { api } from "../api";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Container from "@mui/material/Container";
-import Chat4 from "../assets/Fuel-Up.png";
-import Chat6 from "../assets/girl-fastFuel.png";
-import RestImg from "../assets/Restaurant3.png";
-import Employees from "../assets/Employees4.png";
-import Combo from "../assets/Combo1.png";
-import Carousel from "react-bootstrap/Carousel";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppContext } from "../context/context";
-import CategoryDrawer from "../components/CategoryDrawer";
-import type { Meal } from "../context/context";
-import NavFooter from "../components/NavFooter";
+import Carousel from "react-bootstrap/Carousel";
+
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+import CloseIcon from "@mui/icons-material/Close";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import CategoryDrawer from "../components/CategoryDrawer";
+import NavFooter from "../components/NavFooter";
 import MobileStackCarousel from "../components/MobileStackCarousel";
 import PromoBannerCarousel from "../components/PromoBannerCarousel";
 import FloatingContact from "../components/FloatingContact";
 import FloatingContactMobile from "../components/FloatingContactMobile";
 import HeroCarousel from "../components/HeroCarousel";
-import CloseIcon from "@mui/icons-material/Close";
-import Button from "@mui/material/Button";
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import PageBg from "../components/PageBg";
 import PageBgMobile from "../components/PageBgMobile";
-import { useAppAlert } from "../hooks/useAppAlert";
-
-import ComboMobile from "../assets/ComboMobile.png";
-import EmployeesMobile from "../assets/EmployesMobile.png";
 
 import HomeCartMenu from "../components/home/HomeCartMenu";
 import HomeSearchSection from "../components/home/HomeSearchSection";
 import HomeFastThruSection from "../components/home/HomeFastThruSection";
 
+import { api } from "../api";
+import { useAppContext, type Meal } from "../context/context";
+import { useAppAlert } from "../hooks/useAppAlert";
+
+import Chat4 from "../assets/Fuel-Up.png";
+import Chat6 from "../assets/girl-fastFuel.png";
+import RestImg from "../assets/Restaurant3.png";
+import Employees from "../assets/Employees4.png";
+import Combo from "../assets/Combo1.png";
+import ComboMobile from "../assets/ComboMobile.png";
+import EmployeesMobile from "../assets/EmployesMobile.png";
+
 import {
     cleanProductName,
     detectCategory,
+    getCategoryLabel,
     pickMessage,
     pickPluralMessage,
-    getCategoryLabel
 } from "../utils/homeHelpers";
 
+const NAVBAR_H = 92;
+const NAVFOOTER_H = 86;
+const GAP = 12;
+const MIN_CHARS_FOR_NOT_FOUND = 4;
 
 const mobileSlides = [
     { id: "combo", src: ComboMobile, alt: "Combo Promo" },
@@ -54,8 +60,34 @@ const mobileSlides = [
     { id: "drive", src: Chat4, alt: "Car Drive" },
 ];
 
+const desktopCarouselSlides = [
+    <Carousel.Item key="slide-1">
+        <img src={Combo} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+    </Carousel.Item>,
+    <Carousel.Item key="slide-2">
+        <img src={RestImg} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+    </Carousel.Item>,
+    <Carousel.Item key="slide-3">
+        <img src={Chat6} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+    </Carousel.Item>,
+    <Carousel.Item key="slide-4">
+        <img src={Employees} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+    </Carousel.Item>,
+    <Carousel.Item key="slide-5">
+        <img src={Chat4} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+    </Carousel.Item>,
+];
+
+const fastThruOrder: Record<string, number> = {
+    sandwiches: 1,
+    sides: 2,
+    beverages: 3,
+    desserts: 4,
+};
+
 
 export default function Home() {
+
     const [search, setSearch] = useState("");
     const [checkout, setCheckout] = useState(0);
     const [data, setData] = useState<Meal[]>([]);
@@ -65,42 +97,35 @@ export default function Home() {
     const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
 
     const [cartAnchorEl, setCartAnchorEl] = useState<null | HTMLElement>(null);
-    const cartOpen = Boolean(cartAnchorEl);
+    const [cartBodyMaxH, setCartBodyMaxH] = useState<number>(0);
+
+    /* REFS */
 
     const actionsRef = useRef<HTMLDivElement | null>(null);
-
     const cartHeaderRef = useRef<HTMLDivElement | null>(null);
     const cartFooterRef = useRef<HTMLDivElement | null>(null);
-    const [cartBodyMaxH, setCartBodyMaxH] = useState<number>(0);
+    const ignoreSearchRef = useRef(false);
+
+    /* HOOKS / CONTEXT */
+
+    const navigate = useNavigate();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const cartOpen = Boolean(cartAnchorEl);
+
+    const { order, setOrder } = useAppContext();
 
     const { confirmAlert, AlertUI, ConfirmUI } = useAppAlert({
         vertical: "top",
         horizontal: "center",
     });
 
-    function openCartMenu(e: React.MouseEvent<HTMLElement>) {
-        if (isMobile && actionsRef.current) {
-            setCartAnchorEl(actionsRef.current);
-            return;
-        }
-        setCartAnchorEl(e.currentTarget);
-    }
+    /* DERIVED VALUES */
 
-    function closeCartMenu() {
-        setCartAnchorEl(null);
-    }
-
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-    const NAVBAR_H = 92;
-    const NAVFOOTER_H = 86;
-    const GAP = 12;
 
     const PageShell = isMobile ? PageBgMobile : PageBg;
 
     const searchTrim = search.trim().toLowerCase();
-
     const detected = detectCategory(searchTrim);
     const isCategorySearch = !!detected;
 
@@ -113,20 +138,42 @@ export default function Home() {
         return name.includes(searchTrim) || category.includes(searchTrim);
     });
 
+    const hasResults = filteredData.length > 0;
+
     const headlineText = isCategorySearch
         ? getCategoryLabel(detected)
         : filteredData.length === 1
             ? pickMessage(searchTrim)
             : pickPluralMessage(searchTrim);
 
-    const hasResults = filteredData.length > 0;
+    const isSearching = searchTrim.length > 0;
+    const charsLeft = Math.max(0, MIN_CHARS_FOR_NOT_FOUND - searchTrim.length);
 
-    const navigate = useNavigate();
-    const { order, setOrder } = useAppContext();
+    const showKeepTyping =
+        isSearching &&
+        !hasResults &&
+        searchTrim.length > 0 &&
+        searchTrim.length < MIN_CHARS_FOR_NOT_FOUND;
 
-    const handleDrawerNavigate = (category: string) => {
-        navigate(`/${category.toLowerCase()}`);
-    };
+    const showNotFound =
+        isSearching &&
+        !hasResults &&
+        searchTrim.length >= MIN_CHARS_FOR_NOT_FOUND;
+
+    const driveModeActive = showDriveThru;
+    const shouldShowOrderPreview = driveModeActive;
+    const shouldShowCarousel = !isSearching && !driveModeActive;
+    const hidePromos = isSearching || driveModeActive;
+    const showMobilePromosBlock = isMobile && !hidePromos;
+
+    const stripeCenterWidthDesktop = isSearching
+        ? 800
+        : driveModeActive
+            ? 950
+            : 1250;
+
+    const cartCount = order.reduce((acc, it) => acc + (it.quantidade ?? 1), 0);
+
 
     const qtyMap = order.reduce<Record<string, number>>((acc, item) => {
         const pid = String(item.id);
@@ -135,50 +182,6 @@ export default function Home() {
         return acc;
     }, {});
 
-    const isSearching = searchTrim.length > 0;
-
-    const MIN_CHARS_FOR_NOT_FOUND = 4;
-
-    const charsLeft = Math.max(0, MIN_CHARS_FOR_NOT_FOUND - searchTrim.length);
-
-    const showNotFound =
-        isSearching && !hasResults && searchTrim.length >= MIN_CHARS_FOR_NOT_FOUND;
-
-    const showKeepTyping =
-        isSearching && !hasResults && searchTrim.length > 0 && searchTrim.length < MIN_CHARS_FOR_NOT_FOUND;
-
-    const driveModeActive = showDriveThru;
-    const shouldShowCarousel = !isSearching && !driveModeActive;
-    const shouldShowOrderPreview = driveModeActive;
-
-    const stripeCenterWidthDesktop = isSearching ? 800 : driveModeActive ? 950 : 1250;
-
-    const hidePromos = isSearching || driveModeActive;
-
-    const cartCount = order.reduce((acc, it) => acc + (it.quantidade ?? 1), 0);
-
-    const showMobilePromosBlock = isMobile && !hidePromos && !driveModeActive;
-
-    function decItem(productId: string) {
-        const existing = order.find((p) => String(p.id) === productId);
-        if (!existing) return;
-
-        const q = existing.quantidade ?? 0;
-        if (q <= 1) {
-            setOrder(order.filter((p) => String(p.id) !== productId));
-            return;
-        }
-
-        setOrder(
-            order.map((p) =>
-                String(p.id) === productId ? { ...p, quantidade: (p.quantidade ?? 0) - 1 } : p
-            )
-        );
-    }
-
-    function removeItem(productId: string) {
-        setOrder(order.filter((p) => String(p.id) !== productId));
-    }
 
     const headlineMt = searchOverlayOpen
         ? { xs: 12, sm: 12, md: 2.7 }
@@ -186,146 +189,68 @@ export default function Home() {
             ? { xs: 5, sm: 5, md: 2.7 }
             : { xs: 2, sm: 3, md: 2.7 };
 
-    useEffect(() => {
-        async function init() {
-            try {
-                const res = await api.get("/products");
-                setData(res.data);
-            } catch (err) {
-                console.error("Erro ao buscar /products:", err);
-            }
-        }
 
-        init();
-    }, []);
+    const fastThruData = useMemo(() => {
+        return [...data].sort((a, b) => {
+            const ao = fastThruOrder[(a.category || "").toLowerCase()] ?? 999;
+            const bo = fastThruOrder[(b.category || "").toLowerCase()] ?? 999;
 
-    const ignoreSearchRef = useRef(false);
+            if (ao !== bo) return ao - bo;
 
-    function scrollPageToTop() {
-        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-
-        const se = document.scrollingElement as HTMLElement | null;
-        if (se) se.scrollTo({ top: 0, left: 0, behavior: "auto" });
-
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-    }
-
-    function enterFastThru() {
-        ignoreSearchRef.current = true;
-
-        setShowDriveThru(true);
-        setSearch("");
-
-        requestAnimationFrame(() => {
-            scrollPageToTop();
-            ignoreSearchRef.current = false;
+            return Number(a.id) - Number(b.id);
         });
+    }, [data]);
+
+
+    /* NAVIGATION */
+
+    function handleDrawerNavigate(category: string) {
+        navigate(`/${category.toLowerCase()}`);
     }
 
-    function handleSearchInput(value: string) {
-        if (ignoreSearchRef.current) return;
 
-        setSearch(value);
+    /*  HANDLERS - CART MENU */
 
-        if (value.trim().length > 0) {
-            setShowDriveThru(false);
+    function openCartMenu(e: React.MouseEvent<HTMLElement>) {
+        if (isMobile && actionsRef.current) {
+            setCartAnchorEl(actionsRef.current);
+            return;
         }
+
+        setCartAnchorEl(e.currentTarget);
     }
 
-    useEffect(() => {
-        if (!cartOpen) return;
-        closeCartMenu();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isMobile]);
 
-    useEffect(() => {
-        if (!cartOpen) return;
+    function closeCartMenu() {
+        setCartAnchorEl(null);
+    }
 
-        const compute = () => {
-            const headerH = cartHeaderRef.current?.offsetHeight ?? 0;
-            const footerH = cartFooterRef.current?.offsetHeight ?? 0;
 
-            const viewportH = window.visualViewport?.height ?? window.innerHeight;
+    function decItem(productId: string) {
+        const existing = order.find((p) => String(p.id) === productId);
+        if (!existing) return;
 
-            const paperMax = viewportH - 190;
+        const q = existing.quantidade ?? 0;
 
-            const paddingAndDividers = 12;
-            const availableForBody = paperMax - headerH - footerH - paddingAndDividers;
-
-            const ROW_H = 66;
-            const mobileCap = ROW_H * 3;
-
-            const finalMax =
-                isMobile
-                    ? Math.min(availableForBody, mobileCap)
-                    : availableForBody;
-
-            setCartBodyMaxH(Math.max(120, finalMax));
-        };
-
-        compute();
-        window.addEventListener("resize", compute);
-        window.visualViewport?.addEventListener("resize", compute);
-
-        const ro = new ResizeObserver(compute);
-        if (cartHeaderRef.current) ro.observe(cartHeaderRef.current);
-        if (cartFooterRef.current) ro.observe(cartFooterRef.current);
-
-        return () => {
-            window.removeEventListener("resize", compute);
-            window.visualViewport?.removeEventListener("resize", compute);
-            ro.disconnect();
-        };
-    }, [cartOpen, isMobile, cartCount, subtotal, discount, checkout]);
-
-    function handleOrder(product: Meal) {
-        const existingIndex = order.findIndex((p) => String(p.id) === String(product.id));
-
-        if (existingIndex === -1) {
-            const newItem: Meal = {
-                ...product,
-                quantidade: 1,
-            };
-            setOrder([...order, newItem]);
-        } else {
-            const newOrder = [...order];
-            const currentQty = newOrder[existingIndex].quantidade ?? 0;
-            newOrder[existingIndex] = {
-                ...newOrder[existingIndex],
-                quantidade: currentQty + 1,
-            };
-            setOrder(newOrder);
+        if (q <= 1) {
+            setOrder(order.filter((p) => String(p.id) !== productId));
+            return;
         }
+
+        setOrder(
+            order.map((p) =>
+                String(p.id) === productId
+                    ? { ...p, quantidade: (p.quantidade ?? 0) - 1 }
+                    : p
+            )
+        );
     }
 
-    useEffect(() => {
-        let burgerCount = 0;
-        let sideCount = 0;
-        let beverageCount = 0;
-        let subtotalCalc = 0;
 
-        order.forEach((item) => {
-            const quantity = item.quantidade ?? 0;
-            const price = Number(item.price ?? 0);
-            const category = (item.category || "").toLowerCase();
+    function removeItem(productId: string) {
+        setOrder(order.filter((p) => String(p.id) !== productId));
+    }
 
-            subtotalCalc += quantity * price;
-
-            if (category === "sandwiches") burgerCount += quantity;
-            else if (category === "sides") sideCount += quantity;
-            else if (category === "beverages") beverageCount += quantity;
-        });
-
-        const sets = Math.min(burgerCount, sideCount, beverageCount);
-        const discountCalc = sets * 2;
-
-        const base = Math.max(0, subtotalCalc - discountCalc);
-
-        setSubtotal(subtotalCalc);
-        setDiscount(discountCalc);
-        setCheckout(base);
-    }, [order]);
 
     function handleCheckoutFromCart() {
         const isLogged = Boolean(localStorage.getItem("idUser"));
@@ -354,46 +279,163 @@ export default function Home() {
                 closeCartMenu();
                 navigate("/sign-in");
             },
-            onDismiss: () => {
-            },
+            onDismiss: () => { },
         });
     }
 
-    const desktopCarouselSlides = [
-        <Carousel.Item key="slide-1">
-            <img src={Combo} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        </Carousel.Item>,
-        <Carousel.Item key="slide-2">
-            <img src={RestImg} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        </Carousel.Item>,
-        <Carousel.Item key="slide-3">
-            <img src={Chat6} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        </Carousel.Item>,
-        <Carousel.Item key="slide-4">
-            <img src={Employees} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        </Carousel.Item>,
-        <Carousel.Item key="slide-5">
-            <img src={Chat4} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        </Carousel.Item>,
-    ];
 
-    const fastThruOrder: Record<string, number> = {
-        sandwiches: 1,
-        sides: 2,
-        beverages: 3,
-        desserts: 4,
-    };
+    /* HANDLERS - SEARCH / DRIVE THRU */
 
-    const fastThruData = React.useMemo(() => {
-        return [...data].sort((a, b) => {
-            const ao = fastThruOrder[(a.category || "").toLowerCase()] ?? 999;
-            const bo = fastThruOrder[(b.category || "").toLowerCase()] ?? 999;
+    function scrollPageToTop() {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 
-            if (ao !== bo) return ao - bo;
+        const se = document.scrollingElement as HTMLElement | null;
+        if (se) se.scrollTo({ top: 0, left: 0, behavior: "auto" });
 
-            return Number(a.id) - Number(b.id);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+    }
+
+
+    function enterFastThru() {
+        ignoreSearchRef.current = true;
+
+        setShowDriveThru(true);
+        setSearch("");
+
+        requestAnimationFrame(() => {
+            scrollPageToTop();
+            ignoreSearchRef.current = false;
         });
-    }, [data]);
+    }
+
+
+    function handleSearchInput(value: string) {
+        if (ignoreSearchRef.current) return;
+
+        setSearch(value);
+
+        if (value.trim().length > 0) {
+            setShowDriveThru(false);
+        }
+    }
+
+
+    /* HANDLERS - ORDER */
+
+    function handleOrder(product: Meal) {
+        const existingIndex = order.findIndex(
+            (p) => String(p.id) === String(product.id)
+        );
+
+        if (existingIndex === -1) {
+            const newItem: Meal = {
+                ...product,
+                quantidade: 1,
+            };
+
+            setOrder([...order, newItem]);
+            return;
+        }
+
+        const newOrder = [...order];
+        const currentQty = newOrder[existingIndex].quantidade ?? 0;
+
+        newOrder[existingIndex] = {
+            ...newOrder[existingIndex],
+            quantidade: currentQty + 1,
+        };
+
+        setOrder(newOrder);
+    }
+
+
+    /* EFFECTS  */
+
+    useEffect(() => {
+        async function init() {
+            try {
+                const res = await api.get("/products");
+                setData(res.data);
+            } catch (err) {
+                console.error("Erro ao buscar /products:", err);
+            }
+        }
+
+        init();
+    }, []);
+
+
+    useEffect(() => {
+        if (!cartOpen) return;
+        closeCartMenu();
+    }, [isMobile]);
+
+
+    useEffect(() => {
+        if (!cartOpen) return;
+
+        const compute = () => {
+            const headerH = cartHeaderRef.current?.offsetHeight ?? 0;
+            const footerH = cartFooterRef.current?.offsetHeight ?? 0;
+            const viewportH = window.visualViewport?.height ?? window.innerHeight;
+            const paperMax = viewportH - 190;
+            const paddingAndDividers = 12;
+            const availableForBody = paperMax - headerH - footerH - paddingAndDividers;
+
+            const ROW_H = 66;
+            const mobileCap = ROW_H * 3;
+
+            const finalMax = isMobile
+                ? Math.min(availableForBody, mobileCap)
+                : availableForBody;
+
+            setCartBodyMaxH(Math.max(120, finalMax));
+        };
+
+        compute();
+        window.addEventListener("resize", compute);
+        window.visualViewport?.addEventListener("resize", compute);
+
+        const ro = new ResizeObserver(compute);
+        if (cartHeaderRef.current) ro.observe(cartHeaderRef.current);
+        if (cartFooterRef.current) ro.observe(cartFooterRef.current);
+
+        return () => {
+            window.removeEventListener("resize", compute);
+            window.visualViewport?.removeEventListener("resize", compute);
+            ro.disconnect();
+        };
+    }, [cartOpen, isMobile, cartCount, subtotal, discount, checkout]);
+
+
+    useEffect(() => {
+        let burgerCount = 0;
+        let sideCount = 0;
+        let beverageCount = 0;
+        let subtotalCalc = 0;
+
+        order.forEach((item) => {
+            const quantity = item.quantidade ?? 0;
+            const price = Number(item.price ?? 0);
+            const category = (item.category || "").toLowerCase();
+
+            subtotalCalc += quantity * price;
+
+            if (category === "sandwiches") burgerCount += quantity;
+            else if (category === "sides") sideCount += quantity;
+            else if (category === "beverages") beverageCount += quantity;
+        });
+
+        const sets = Math.min(burgerCount, sideCount, beverageCount);
+        const discountCalc = sets * 2;
+        const base = Math.max(0, subtotalCalc - discountCalc);
+
+        setSubtotal(subtotalCalc);
+        setDiscount(discountCalc);
+        setCheckout(base);
+    }, [order]);
+
 
     return (
         <>
@@ -419,16 +461,17 @@ export default function Home() {
                         overscrollBehaviorY: { xs: "none", sm: "auto" },
                     }}
                 >
-                    <Navbar onSearch={handleSearchInput} onSearchOverlayChange={setSearchOverlayOpen} />
+                    <Navbar
+                        onSearch={handleSearchInput}
+                        onSearchOverlayChange={setSearchOverlayOpen}
+                    />
 
                     <CssBaseline />
 
                     {!isMobile && (
                         <CategoryDrawer
                             onNavigate={handleDrawerNavigate}
-                            onDriveThruClick={() => {
-                                enterFastThru();
-                            }}
+                            onDriveThruClick={enterFastThru}
                         />
                     )}
 
@@ -484,7 +527,9 @@ export default function Home() {
                         )}
 
                         {shouldShowCarousel && !isMobile && !hidePromos && !driveModeActive && (
-                            <HeroCarousel aspectRatio="16 / 9.7">{desktopCarouselSlides}</HeroCarousel>
+                            <HeroCarousel aspectRatio="16 / 9.7">
+                                {desktopCarouselSlides}
+                            </HeroCarousel>
                         )}
 
                         {shouldShowOrderPreview && (
@@ -637,13 +682,13 @@ export default function Home() {
 
                                 <style>
                                     {`
-                                        @media (max-width: 899.95px){
-                                            .total{
-                                                grid-row: 2;
-                                                justify-self: center;
-                                            }
-                                        }
-                                    `}
+                                    @media (max-width: 899.95px){
+                                    .total{
+                                        grid-row: 2;
+                                        justify-self: center;
+                                     }
+                                     }
+                                   `}
                                 </style>
                             </Box>
                         )}
@@ -674,7 +719,10 @@ export default function Home() {
                     {isMobile ? <FloatingContactMobile /> : <FloatingContact />}
 
                     {isMobile ? (
-                        <NavFooter onNavigate={handleDrawerNavigate} onFastThruClick={() => enterFastThru()} />
+                        <NavFooter
+                            onNavigate={handleDrawerNavigate}
+                            onFastThruClick={enterFastThru}
+                        />
                     ) : (
                         <Footer />
                     )}
