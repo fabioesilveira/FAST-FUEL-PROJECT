@@ -1,21 +1,21 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Box, Paper, Typography, TextField, Button, Stack, Chip } from "@mui/material";
-import { api } from "../api";
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import HistoryIcon from "@mui/icons-material/History";
+import HomeIcon from "@mui/icons-material/Home";
+import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import { useNavigate } from "react-router-dom";
+
+import { api } from "../api";
 import AddressLookup from "../components/AddressLookup";
 import Footer from "../components/Footer";
 import NavbarCheckout from "../components/NavbarCheckout";
 import { useAppContext, type Meal } from "../context/context";
 import { useAppAlert } from "../hooks/useAppAlert";
-import HistoryIcon from "@mui/icons-material/History";
-import HomeIcon from "@mui/icons-material/Home";
-import LunchDiningIcon from "@mui/icons-material/LunchDining";
 
-import IconButton from "@mui/material/IconButton";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-
-//imgs out of Backend
+// imgs out of Backend
 import CokeImg from "../assets/Coke.png";
 import SpriteImg from "../assets/Sprite.png";
 import DrPepperImg from "../assets/Drpepper.png";
@@ -25,6 +25,10 @@ import LemonadeImg from "../assets/Lemonade.png";
 import SaladImg from "../assets/Crispsalad.png";
 import MilkshakeImg from "../assets/Milkshake.png";
 import SundaeImg from "../assets/Sundae.png";
+
+/* =========================
+   CONSTANTS / HELPERS
+========================= */
 
 const imageMap: Record<string, string> = {
     "Coke.png": CokeImg,
@@ -40,22 +44,6 @@ const imageMap: Record<string, string> = {
     "CrispSalad.png": SaladImg,
     "Milkshake.png": MilkshakeImg,
     "Sundae.png": SundaeImg,
-};
-
-const normalizeImageKey = (value?: string) => {
-    if (!value) return "";
-    const last = value.split("/").pop() || value;
-    return last.split("?")[0].trim();
-};
-
-const resolveImgSrc = (img?: string) => {
-    if (!img) return "";
-    if (img.startsWith("http")) return img;
-    if (img.startsWith("/images/")) return img;
-    if (img.startsWith("images/")) return `/${img}`;
-
-    const key = normalizeImageKey(img);
-    return imageMap[key] ?? `/images/${key}`;
 };
 
 const imageStylesByIdOrderSummary: Record<string, React.CSSProperties> = {
@@ -79,6 +67,50 @@ const imageStylesByIdOrderSummary: Record<string, React.CSSProperties> = {
     "18": { width: "38px", height: "38px" },
 };
 
+const TAX_RATE = 0.09;
+const DELIVERY_FEE = 9.99;
+const FREE_DELIVERY_AT = 30;
+
+const tfBlueLabelSx = {
+    "& label": { color: "#0d47a1" },
+    "& label.Mui-focused": { color: "#0d47a1" },
+    "& .MuiOutlinedInput-root": {
+        "& fieldset": { borderColor: "#0d47a1" },
+        "&:hover fieldset": { borderColor: "#123b7a" },
+        "&.Mui-focused fieldset": { borderColor: "#0d47a1", borderWidth: 2 },
+    },
+};
+
+const normalizeImageKey = (value?: string) => {
+    if (!value) return "";
+    const last = value.split("/").pop() || value;
+    return last.split("?")[0].trim();
+};
+
+const resolveImgSrc = (img?: string) => {
+    if (!img) return "";
+    if (img.startsWith("http")) return img;
+    if (img.startsWith("/images/")) return img;
+    if (img.startsWith("images/")) return `/${img}`;
+
+    const key = normalizeImageKey(img);
+    return imageMap[key] ?? `/images/${key}`;
+};
+
+function cleanProductName(name: string) {
+    return String(name || "").split("/")[0].trim();
+}
+
+function money(n: number) {
+    return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+    }).format(n);
+}
+
+/* =========================
+   TYPES
+========================= */
 
 type LoggedUser = {
     id: number;
@@ -88,34 +120,55 @@ type LoggedUser = {
     type?: "admin" | "normal";
 };
 
-export default function Checkout() {
+type CheckoutScreen = "form" | "processing" | "confirmed";
 
+/* =========================
+   COMPONENT
+========================= */
+
+export default function Checkout() {
+    /* =========================
+       HOOKS / CONTEXT
+    ========================= */
     const navigate = useNavigate();
-    const { order, setOrder } = useAppContext(); // order: Meal[]
+    const { order, setOrder } = useAppContext();
 
     const { showAlert, confirmAlert, AlertUI, ConfirmUI } = useAppAlert({
         vertical: "top",
         horizontal: "center",
     });
 
+    /* =========================
+       REFS
+    ========================= */
     const paperRef = useRef<HTMLDivElement | null>(null);
     const stickyRef = useRef<HTMLDivElement | null>(null);
-    const [isDockedToPaperBottom, setIsDockedToPaperBottom] = useState(false);
 
+    /* =========================
+       STATE
+    ========================= */
+    const [isDockedToPaperBottom, setIsDockedToPaperBottom] = useState(false);
     const [streetText, setStreetText] = useState("");
 
+    const [screen, setScreen] = useState<CheckoutScreen>("form");
+    const [orderCode, setOrderCode] = useState("");
 
-    // controle de telas do checkout (form / processing / confirmed)
-    const [screen, setScreen] = useState<"form" | "processing" | "confirmed">("form");
-    const [orderCode, setOrderCode] = useState<string>("");
+    const [address, setAddress] = useState({
+        street: "",
+        city: "",
+        apt: "",
+        state: "",
+        zip: "",
+        country: "USA",
+    });
 
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const view = params.get("view");
-        if (view === "form" || view === "processing" || view === "confirmed") setScreen(view);
-    }, []);
+    const [fullName, setFullName] = useState("");
+    const [email, setEmail] = useState("");
+    const [submitting, setSubmitting] = useState(false);
 
-    // logged user (fallback completo)
+    /* =========================
+       DERIVED VALUES
+    ========================= */
     const loggedUser: LoggedUser | null = useMemo(() => {
         const rawAuth = localStorage.getItem("authUser");
         if (rawAuth) {
@@ -146,72 +199,13 @@ export default function Checkout() {
         return null;
     }, []);
 
-    useEffect(() => {
-        function checkDocked() {
-            if (!paperRef.current || !stickyRef.current) return;
-            const paperRect = paperRef.current.getBoundingClientRect();
-            const barRect = stickyRef.current.getBoundingClientRect();
-            const docked = Math.abs(barRect.bottom - paperRect.bottom) <= 2;
-            setIsDockedToPaperBottom(docked);
-        }
+    const isLogged =
+        Number.isFinite(Number(loggedUser?.id)) && Number(loggedUser?.id) > 0;
 
-        checkDocked();
-        window.addEventListener("scroll", checkDocked, { passive: true });
-        window.addEventListener("resize", checkDocked);
-
-        return () => {
-            window.removeEventListener("scroll", checkDocked);
-            window.removeEventListener("resize", checkDocked);
-        };
-    }, []);
-
-    const isLogged = Number.isFinite(Number(loggedUser?.id)) && Number(loggedUser?.id) > 0;
-
-    const tfBlueLabelSx = {
-        "& label": { color: "#0d47a1" },
-        "& label.Mui-focused": { color: "#0d47a1" },
-        "& .MuiOutlinedInput-root": {
-            "& fieldset": { borderColor: "#0d47a1" },
-            "&:hover fieldset": { borderColor: "#123b7a" },
-            "&.Mui-focused fieldset": { borderColor: "#0d47a1", borderWidth: 2 },
-        },
-    };
-
-    const [address, setAddress] = useState({
-        street: "",
-        city: "",
-        apt: "",
-        state: "",
-        zip: "",
-        country: "USA",
-    });
-
-    // Contact fields (guest ou logged)
-    const [fullName, setFullName] = useState("");
-    const [email, setEmail] = useState("");
-
-    // UX/state
-    const [submitting, setSubmitting] = useState(false);
-
-    // Pre-fill se logado
-    useEffect(() => {
-        if (!isLogged) return;
-
-        const name =
-            loggedUser?.userName || loggedUser?.fullName || localStorage.getItem("userName") || "";
-
-        const mail = loggedUser?.email || localStorage.getItem("emailUser") || "";
-
-        setFullName(name);
-        setEmail(mail);
-    }, [isLogged, loggedUser]);
-
-    // totals + discount 
     const { subtotal, discount, total, totalItems } = useMemo(() => {
         let burgerCount = 0;
         let sideCount = 0;
         let beverageCount = 0;
-
         let subtotalCalc = 0;
 
         (order as Meal[]).forEach((item) => {
@@ -229,8 +223,10 @@ export default function Checkout() {
         const sets = Math.min(burgerCount, sideCount, beverageCount);
         const discountCalc = sets * 2;
         const totalCalc = Math.max(0, subtotalCalc - discountCalc);
-
-        const itemsCount = (order as Meal[]).reduce((sum, it) => sum + Number(it.quantidade ?? 1), 0);
+        const itemsCount = (order as Meal[]).reduce(
+            (sum, it) => sum + Number(it.quantidade ?? 1),
+            0
+        );
 
         return {
             subtotal: subtotalCalc,
@@ -240,18 +236,9 @@ export default function Checkout() {
         };
     }, [order]);
 
-    const money = (n: number) =>
-        new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
-
     const subtotalLabel = useMemo(() => money(subtotal), [subtotal]);
     const discountLabel = useMemo(() => money(discount), [discount]);
 
-    // ---- TAX / DELIVERY / TOTAL ----
-    const TAX_RATE = 0.09;
-    const DELIVERY_FEE = 9.99;
-    const FREE_DELIVERY_AT = 30;
-
-    // Tax/Delivery 
     const tax = useMemo(() => Number((total * TAX_RATE).toFixed(2)), [total]);
 
     const deliveryFee = useMemo(() => {
@@ -259,13 +246,31 @@ export default function Checkout() {
         return total >= FREE_DELIVERY_AT ? 0 : DELIVERY_FEE;
     }, [total]);
 
-    const grandTotal = useMemo(() => Number((total + tax + deliveryFee).toFixed(2)), [total, tax, deliveryFee]);
+    const grandTotal = useMemo(
+        () => Number((total + tax + deliveryFee).toFixed(2)),
+        [total, tax, deliveryFee]
+    );
 
     const taxLabel = useMemo(() => money(tax), [tax]);
     const deliveryLabel = useMemo(() => money(deliveryFee), [deliveryFee]);
     const grandTotalLabel = useMemo(() => money(grandTotal), [grandTotal]);
 
+    const addressLine = useMemo(() => {
+        const parts = [
+            address.street?.trim(),
+            address.apt?.trim() ? `Apt ${address.apt.trim()}` : "",
+            address.city?.trim(),
+            address.state?.trim(),
+            address.zip?.trim(),
+            address.country?.trim(),
+        ].filter(Boolean);
 
+        return parts.join(", ");
+    }, [address]);
+
+    /* =========================
+       HANDLERS
+    ========================= */
     function validate() {
         if (!order || order.length === 0) return "Your cart is empty.";
 
@@ -280,88 +285,6 @@ export default function Checkout() {
         if (!address.country.trim()) return "Please fill your country.";
 
         return null;
-    }
-
-
-    function cleanProductName(name: string) {
-        return String(name || "").split("/")[0].trim();
-    }
-
-    const addressLine = useMemo(() => {
-        const parts = [
-            address.street?.trim(),
-            address.apt?.trim() ? `Apt ${address.apt.trim()}` : "",
-            address.city?.trim(),
-            address.state?.trim(),
-            address.zip?.trim(),
-            address.country?.trim(),
-        ].filter(Boolean);
-        return parts.join(", ");
-    }, [address]);
-
-    async function handlePay() {
-        const err = validate();
-        if (err) {
-            showAlert(err, "warning");
-            return;
-        }
-
-        setSubmitting(true);
-        setScreen("processing");
-
-        try {
-
-            const itemsNorm = (order as Meal[]).map((it) => ({
-                id: String(it.id),
-                qty: Number(it.quantidade ?? 1),
-            }));
-
-            const payload = {
-                user_id: isLogged ? Number(loggedUser!.id) : null,
-                customer_name: fullName.trim(),
-                customer_email: email.trim(),
-
-                // backend precisa disso (id + qty)
-                items: itemsNorm,
-
-                // endereço (vai pro delivery_address JSON no banco)
-                delivery_address: {
-                    street: address.street.trim(),
-                    apt: address.apt.trim(),
-                    city: address.city.trim(),
-                    state: address.state.trim(),
-                    zip: address.zip.trim(),
-                    country: address.country.trim() || "USA",
-                },
-
-                // simulação do payment
-                payment_status: "APPROVED",
-                payment_method: "CREDIT_CARD",
-            };
-
-
-            const res = await api.post("/sales", payload);
-            const { order_code } = res.data;
-
-            localStorage.setItem("lastOrderCode", String(order_code));
-            localStorage.setItem("lastOrderEmail", email.trim());
-
-            setOrderCode(String(order_code));
-
-            setOrder([]);
-            localStorage.removeItem("lsOrder");
-
-            await new Promise((r) => setTimeout(r, 5000));
-
-            setScreen("confirmed");
-            showAlert("Payment processed successfully.", "success");
-        } catch (e: any) {
-            console.error(e);
-            setScreen("form");
-            showAlert(e?.response?.data?.msg || "Failed to place order", "error");
-        } finally {
-            setSubmitting(false);
-        }
     }
 
     function incItem(productId: string) {
@@ -408,7 +331,66 @@ export default function Checkout() {
         });
     }
 
+    async function handlePay() {
+        const err = validate();
+        if (err) {
+            showAlert(err, "warning");
+            return;
+        }
 
+        setSubmitting(true);
+        setScreen("processing");
+
+        try {
+            const itemsNorm = (order as Meal[]).map((it) => ({
+                id: String(it.id),
+                qty: Number(it.quantidade ?? 1),
+            }));
+
+            const payload = {
+                user_id: isLogged ? Number(loggedUser!.id) : null,
+                customer_name: fullName.trim(),
+                customer_email: email.trim(),
+                items: itemsNorm,
+                delivery_address: {
+                    street: address.street.trim(),
+                    apt: address.apt.trim(),
+                    city: address.city.trim(),
+                    state: address.state.trim(),
+                    zip: address.zip.trim(),
+                    country: address.country.trim() || "USA",
+                },
+                payment_status: "APPROVED",
+                payment_method: "CREDIT_CARD",
+            };
+
+            const res = await api.post("/sales", payload);
+            const { order_code } = res.data;
+
+            localStorage.setItem("lastOrderCode", String(order_code));
+            localStorage.setItem("lastOrderEmail", email.trim());
+
+            setOrderCode(String(order_code));
+
+            setOrder([]);
+            localStorage.removeItem("lsOrder");
+
+            await new Promise((r) => setTimeout(r, 5000));
+
+            setScreen("confirmed");
+            showAlert("Payment processed successfully.", "success");
+        } catch (e: any) {
+            console.error(e);
+            setScreen("form");
+            showAlert(e?.response?.data?.msg || "Failed to place order", "error");
+        } finally {
+            setSubmitting(false);
+        }
+    }
+
+    /* =========================
+       INNER SCREENS
+    ========================= */
     function ProcessingScreen() {
         return (
             <Box
@@ -416,9 +398,7 @@ export default function Checkout() {
                     flex: 1,
                     px: { xs: 2.5, sm: 3 },
                     py: { xs: 3.5, sm: 6 },
-
                     mt: { xs: 3, sm: 3, md: 3 },
-
                     maxWidth: 500,
                     mx: "auto",
                     display: "flex",
@@ -468,8 +448,7 @@ export default function Checkout() {
                             "40%": { transform: "scale(1) rotate(-5deg)" },
                             "70%": { transform: "scale(0.92) rotate(0deg)" },
                             "100%": { transform: "scale(1) rotate(0deg)" },
-                        }
-
+                        },
                     }}
                 >
                     <LunchDiningIcon
@@ -480,7 +459,6 @@ export default function Checkout() {
                             transformOrigin: "center",
                         }}
                     />
-
                 </Box>
 
                 <Typography
@@ -506,11 +484,8 @@ export default function Checkout() {
             <Box
                 sx={{
                     flex: 1,
-
                     px: { xs: 2.5, sm: 5 },
-
                     pt: { xs: 3.5, sm: 6, md: 6 },
-
                     pb: { xs: 3.5, sm: 6 },
                     maxWidth: 500,
                     mx: "auto",
@@ -528,9 +503,7 @@ export default function Checkout() {
                         fontWeight: 900,
                         textTransform: "uppercase",
                         letterSpacing: "0.14em",
-
                         fontSize: "clamp(1.62rem, 4.8vw, 1.90rem)",
-
                         textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
                     }}
                 >
@@ -545,8 +518,8 @@ export default function Checkout() {
                         lineHeight: 1.7,
                     }}
                 >
-                    Hi <b>{firstName}</b>. Your order has been confirmed and is waiting for the store to
-                    accept and start preparing it.
+                    Hi <b>{firstName}</b>. Your order has been confirmed and is waiting for the
+                    store to accept and start preparing it.
                 </Typography>
 
                 <Typography
@@ -627,10 +600,8 @@ export default function Checkout() {
                         onClick={() => navigate("/")}
                         sx={{
                             height: { xs: 35, md: 45 },
-
                             width: { xs: "100%", sm: 160 },
                             maxWidth: { xs: 320, sm: "none" },
-
                             borderRadius: 2,
                             textTransform: "uppercase",
                             border: "2px solid #0d47a1",
@@ -653,7 +624,6 @@ export default function Checkout() {
                             height: { xs: 35, md: 45 },
                             width: { xs: "100%", sm: 160 },
                             maxWidth: { xs: 320, sm: "none" },
-
                             borderRadius: 2,
                             backgroundColor: "#e65100",
                             color: "#ffe0c7",
@@ -672,6 +642,54 @@ export default function Checkout() {
         );
     }
 
+    /* =========================
+       EFFECTS
+    ========================= */
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const view = params.get("view");
+        if (view === "form" || view === "processing" || view === "confirmed") {
+            setScreen(view);
+        }
+    }, []);
+
+    useEffect(() => {
+        function checkDocked() {
+            if (!paperRef.current || !stickyRef.current) return;
+            const paperRect = paperRef.current.getBoundingClientRect();
+            const barRect = stickyRef.current.getBoundingClientRect();
+            const docked = Math.abs(barRect.bottom - paperRect.bottom) <= 2;
+            setIsDockedToPaperBottom(docked);
+        }
+
+        checkDocked();
+        window.addEventListener("scroll", checkDocked, { passive: true });
+        window.addEventListener("resize", checkDocked);
+
+        return () => {
+            window.removeEventListener("scroll", checkDocked);
+            window.removeEventListener("resize", checkDocked);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!isLogged) return;
+
+        const name =
+            loggedUser?.userName ||
+            loggedUser?.fullName ||
+            localStorage.getItem("userName") ||
+            "";
+
+        const mail = loggedUser?.email || localStorage.getItem("emailUser") || "";
+
+        setFullName(name);
+        setEmail(mail);
+    }, [isLogged, loggedUser]);
+
+    /* =========================
+       RENDER
+    ========================= */
     return (
         <>
             {AlertUI}
@@ -680,7 +698,6 @@ export default function Checkout() {
             <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
                 <NavbarCheckout />
 
-                {/* MAIN */}
                 <Box
                     component="main"
                     sx={{
@@ -694,9 +711,7 @@ export default function Checkout() {
                         pt: { xs: "110px", md: "120px" },
                         pb: { xs: 1, md: 4 },
                         minWidth: 0,
-
                         bgcolor: "#fff",
-
                         "&::before": {
                             content: '""',
                             position: "absolute",
@@ -705,44 +720,41 @@ export default function Checkout() {
                             left: "50%",
                             transform: "translateX(-50%)",
                             zIndex: 0,
-
                             width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
                             backgroundImage: {
                                 xs: `
-                                    linear-gradient(90deg,
-                                        rgba(255,255,255,1) 0%,
-                                        rgba(255,255,255,0.0) 18%,
-                                        rgba(255,255,255,0.0) 82%,
-                                        rgba(255,255,255,1) 100%
-                                    ),
-                                    repeating-linear-gradient(135deg,
-                                        rgba(13,71,161,0.018) 0px,
-                                        rgba(13,71,161,0.018) 10px,
-                                        rgba(230,81,0,0.014) 10px,
-                                        rgba(230,81,0,0.014) 20px
-                                    )
-                                    `,
+                  linear-gradient(90deg,
+                    rgba(255,255,255,1) 0%,
+                    rgba(255,255,255,0.0) 18%,
+                    rgba(255,255,255,0.0) 82%,
+                    rgba(255,255,255,1) 100%
+                  ),
+                  repeating-linear-gradient(135deg,
+                    rgba(13,71,161,0.018) 0px,
+                    rgba(13,71,161,0.018) 10px,
+                    rgba(230,81,0,0.014) 10px,
+                    rgba(230,81,0,0.014) 20px
+                  )
+                `,
                                 md: `
-                                    linear-gradient(90deg,
-                                        rgba(255,255,255,1) 0%,
-                                        rgba(255,255,255,0.0) 14%,
-                                        rgba(255,255,255,0.0) 86%,
-                                        rgba(255,255,255,1) 100%
-                                    ),
-                                    repeating-linear-gradient(135deg,
-                                        rgba(13,71,161,0.038) 0px,
-                                        rgba(13,71,161,0.038) 10px,
-                                        rgba(230,81,0,0.028) 10px,
-                                        rgba(230,81,0,0.028) 20px
-                                    )
-                                    `,
+                  linear-gradient(90deg,
+                    rgba(255,255,255,1) 0%,
+                    rgba(255,255,255,0.0) 14%,
+                    rgba(255,255,255,0.0) 86%,
+                    rgba(255,255,255,1) 100%
+                  ),
+                  repeating-linear-gradient(135deg,
+                    rgba(13,71,161,0.038) 0px,
+                    rgba(13,71,161,0.038) 10px,
+                    rgba(230,81,0,0.028) 10px,
+                    rgba(230,81,0,0.028) 20px
+                  )
+                `,
                             },
-
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                             borderRadius: 20,
                         },
-
                         "& > .MuiPaper-root": { position: "relative", zIndex: 1 },
                     }}
                 >
@@ -752,23 +764,19 @@ export default function Checkout() {
                         sx={{
                             width: "100%",
                             maxWidth: { xs: 520, sm: 540 },
-
                             borderRadius: 3,
                             border: "1.25px solid rgba(13, 71, 161, 0.28)",
                             boxShadow:
                                 "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
                             bgcolor: "background.paper",
-
                             height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
                             maxHeight: 720,
-
                             overflow: "hidden",
                             display: "flex",
                             flexDirection: "column",
                             minHeight: 0,
                         }}
                     >
-
                         {screen === "form" && (
                             <Box sx={{ px: 5, pt: 3.5, pb: 2.5, maxWidth: 500, mx: "auto", flexShrink: 0 }}>
                                 <Typography
@@ -790,8 +798,6 @@ export default function Checkout() {
                             </Box>
                         )}
 
-                        {/* BODY COM SCROLL */}
-
                         <Box
                             sx={{
                                 flex: 1,
@@ -800,14 +806,12 @@ export default function Checkout() {
                                 minHeight: 0,
                             }}
                         >
-
                             {screen === "processing" ? (
                                 <ProcessingScreen />
                             ) : screen === "confirmed" ? (
                                 <ConfirmedScreen />
                             ) : (
                                 <>
-                                    {/* FORM */}
                                     <Box
                                         sx={{
                                             px: 5,
@@ -817,7 +821,6 @@ export default function Checkout() {
                                             pb: 2,
                                         }}
                                     >
-                                        {/* Order summary */}
                                         <Box sx={{ mb: 3 }}>
                                             <Chip
                                                 label="Order Summary"
@@ -855,7 +858,6 @@ export default function Checkout() {
                                                 </Box>
                                             )}
 
-
                                             {order.length === 0 ? (
                                                 <Typography sx={{ fontWeight: 700, color: "text.secondary" }}>
                                                     Your cart is empty.
@@ -865,9 +867,7 @@ export default function Checkout() {
                                                     {order.map((it) => {
                                                         const pid = String(it.id);
                                                         const qty = Number(it.quantidade ?? 1);
-
                                                         const imgSrc = resolveImgSrc(it.image);
-
                                                         const imgOverride = imageStylesByIdOrderSummary[pid];
 
                                                         return (
@@ -880,10 +880,9 @@ export default function Checkout() {
                                                                     p: 1.2,
                                                                     borderRadius: 2,
                                                                     border: "1px solid rgba(13, 71, 161, 0.18)",
-                                                                    bgcolor: "rgba(255, 224, 199, 0.35)"
+                                                                    bgcolor: "rgba(255, 224, 199, 0.35)",
                                                                 }}
                                                             >
-                                                                {/* container fixo */}
                                                                 <Box
                                                                     sx={{
                                                                         width: 58,
@@ -910,7 +909,6 @@ export default function Checkout() {
                                                                             ...(imgOverride ?? {}),
                                                                         }}
                                                                     />
-
                                                                 </Box>
 
                                                                 <Box sx={{ flex: 1, minWidth: 0 }}>
@@ -931,7 +929,14 @@ export default function Checkout() {
                                                                             <b>${Number(it.price).toFixed(2)}</b> each
                                                                         </Typography>
 
-                                                                        <Box sx={{ display: "flex", alignItems: "center", gap: 0.6, flexShrink: 0 }}>
+                                                                        <Box
+                                                                            sx={{
+                                                                                display: "flex",
+                                                                                alignItems: "center",
+                                                                                gap: 0.6,
+                                                                                flexShrink: 0,
+                                                                            }}
+                                                                        >
                                                                             <IconButton
                                                                                 size="small"
                                                                                 onClick={() => decItem(pid)}
@@ -976,17 +981,12 @@ export default function Checkout() {
                                                                                 <AddIcon sx={{ fontSize: 16, color: "#1e5bb8" }} />
                                                                             </IconButton>
                                                                         </Box>
-
                                                                     </Box>
                                                                 </Box>
-
-
                                                             </Stack>
                                                         );
                                                     })}
 
-
-                                                    {/* Totals breakdown */}
                                                     <Box
                                                         sx={{
                                                             mt: 2,
@@ -997,9 +997,11 @@ export default function Checkout() {
                                                         <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
                                                             Items: {totalItems}
                                                         </Typography>
+
                                                         <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
                                                             Subtotal: {subtotalLabel}
                                                         </Typography>
+
                                                         <Typography sx={{ fontSize: "0.9rem", fontWeight: 700 }}>
                                                             Discount:{" "}
                                                             {discount > 0 ? (
@@ -1019,21 +1021,33 @@ export default function Checkout() {
 
                                                         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                                                             <Box>
-                                                                <Typography sx={{ fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", color: "#0d47a1" }}>
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontSize: 12,
+                                                                        letterSpacing: "0.12em",
+                                                                        textTransform: "uppercase",
+                                                                        color: "#0d47a1",
+                                                                    }}
+                                                                >
                                                                     Total
                                                                 </Typography>
-                                                                <Typography sx={{ fontWeight: 800, color: "#0d47a1", fontSize: 18 }}>
+
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontWeight: 800,
+                                                                        color: "#0d47a1",
+                                                                        fontSize: 18,
+                                                                    }}
+                                                                >
                                                                     {grandTotalLabel}
                                                                 </Typography>
                                                             </Box>
                                                         </Box>
-
                                                     </Box>
                                                 </Stack>
                                             )}
                                         </Box>
 
-                                        {/* Contact */}
                                         <Box sx={{ mb: 3 }}>
                                             <Typography
                                                 variant="subtitle1"
@@ -1070,6 +1084,7 @@ export default function Checkout() {
                                                     onChange={(e) => setFullName(e.target.value)}
                                                     InputProps={{ readOnly: isLogged }}
                                                 />
+
                                                 <TextField
                                                     size="small"
                                                     label="Email*"
@@ -1088,12 +1103,12 @@ export default function Checkout() {
                                                     align="center"
                                                     sx={{ mt: 1.4, fontSize: "0.75rem", color: "text.secondary" }}
                                                 >
-                                                    Guest checkout: keep your <b>Order Number</b> to track your order later.
+                                                    Guest checkout: keep your <b>Order Number</b> to track your order
+                                                    later.
                                                 </Typography>
                                             )}
                                         </Box>
 
-                                        {/* Delivery */}
                                         <Box sx={{ mb: 3 }}>
                                             <Typography
                                                 variant="subtitle1"
@@ -1104,7 +1119,6 @@ export default function Checkout() {
                                                     mb: 2,
                                                     fontWeight: 700,
                                                     position: "relative",
-
                                                     "&::after": {
                                                         content: '""',
                                                         display: "block",
@@ -1118,7 +1132,6 @@ export default function Checkout() {
                                                 }}
                                             >
                                                 Delivery
-
                                                 <span
                                                     style={{
                                                         display: "block",
@@ -1133,7 +1146,6 @@ export default function Checkout() {
                                                     <b>*Important:* Type and select an address to auto-fill the fields</b>
                                                 </span>
                                             </Typography>
-
 
                                             <Stack spacing={1.6}>
                                                 <AddressLookup
@@ -1160,7 +1172,6 @@ export default function Checkout() {
                                                             }));
                                                         }
                                                     }}
-
                                                     onSelect={(addr) => {
                                                         setStreetText(addr.street);
 
@@ -1182,7 +1193,9 @@ export default function Checkout() {
                                                         fullWidth
                                                         variant="outlined"
                                                         value={address.city}
-                                                        onChange={(e) => setAddress((prev) => ({ ...prev, city: e.target.value }))}
+                                                        onChange={(e) =>
+                                                            setAddress((prev) => ({ ...prev, city: e.target.value }))
+                                                        }
                                                         sx={[tfBlueLabelSx, { flex: 6 }]}
                                                     />
 
@@ -1191,7 +1204,9 @@ export default function Checkout() {
                                                         label="Apt / Suite"
                                                         variant="outlined"
                                                         value={address.apt}
-                                                        onChange={(e) => setAddress((prev) => ({ ...prev, apt: e.target.value }))}
+                                                        onChange={(e) =>
+                                                            setAddress((prev) => ({ ...prev, apt: e.target.value }))
+                                                        }
                                                         sx={[tfBlueLabelSx, { flex: 4 }]}
                                                     />
                                                 </Stack>
@@ -1202,7 +1217,9 @@ export default function Checkout() {
                                                         label="State*"
                                                         variant="outlined"
                                                         value={address.state}
-                                                        onChange={(e) => setAddress((prev) => ({ ...prev, state: e.target.value }))}
+                                                        onChange={(e) =>
+                                                            setAddress((prev) => ({ ...prev, state: e.target.value }))
+                                                        }
                                                         sx={[tfBlueLabelSx, { flex: 4.5 }]}
                                                     />
 
@@ -1211,7 +1228,9 @@ export default function Checkout() {
                                                         label="Zipcode*"
                                                         variant="outlined"
                                                         value={address.zip}
-                                                        onChange={(e) => setAddress((prev) => ({ ...prev, zip: e.target.value }))}
+                                                        onChange={(e) =>
+                                                            setAddress((prev) => ({ ...prev, zip: e.target.value }))
+                                                        }
                                                         sx={[tfBlueLabelSx, { flex: 3 }]}
                                                     />
 
@@ -1240,7 +1259,6 @@ export default function Checkout() {
                                             </Stack>
                                         </Box>
 
-                                        {/* Payment */}
                                         <Box sx={{ mb: 1.5 }}>
                                             <Typography
                                                 variant="subtitle1"
@@ -1333,7 +1351,6 @@ export default function Checkout() {
                                         </Box>
                                     </Box>
 
-                                    {/* STICKY TOTAL BAR */}
                                     <Box
                                         ref={stickyRef}
                                         sx={{
@@ -1343,13 +1360,20 @@ export default function Checkout() {
                                             py: 1.5,
                                             zIndex: 10,
                                             backgroundColor: "#ffe0c7",
-                                            borderTop: isDockedToPaperBottom ? "2px solid rgba(13, 71, 161, 0.25)" : "none",
+                                            borderTop: isDockedToPaperBottom
+                                                ? "2px solid rgba(13, 71, 161, 0.25)"
+                                                : "none",
                                             borderBottomLeftRadius: isDockedToPaperBottom ? 12 : 0,
                                             borderBottomRightRadius: isDockedToPaperBottom ? 12 : 0,
                                             boxShadow: "none",
                                         }}
                                     >
-                                        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
+                                        <Stack
+                                            direction="row"
+                                            alignItems="center"
+                                            justifyContent="space-between"
+                                            spacing={2}
+                                        >
                                             <Box>
                                                 <Typography
                                                     sx={{
@@ -1361,6 +1385,7 @@ export default function Checkout() {
                                                 >
                                                     Total
                                                 </Typography>
+
                                                 <Typography sx={{ fontWeight: 800, color: "#0d47a1", fontSize: 18 }}>
                                                     {grandTotalLabel}
                                                 </Typography>
@@ -1395,9 +1420,7 @@ export default function Checkout() {
                                     </Box>
                                 </>
                             )}
-
                         </Box>
-
                     </Paper>
                 </Box>
 
