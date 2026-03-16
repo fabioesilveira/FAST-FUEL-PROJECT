@@ -30,6 +30,8 @@ import HomeFastThruSection from "../components/home/HomeFastThruSection";
 import { api } from "../api";
 import { useAppContext, type Meal } from "../context/context";
 import { useAppAlert } from "../hooks/useAppAlert";
+import { useHomeCart } from "../hooks/useHomeCart";
+import { useHomeSearch } from "../hooks/useHomeSearch";
 
 import Chat4 from "../assets/Fuel-Up.png";
 import Chat6 from "../assets/girl-fastFuel.png";
@@ -39,18 +41,11 @@ import Combo from "../assets/Combo1.png";
 import ComboMobile from "../assets/ComboMobile.png";
 import EmployeesMobile from "../assets/EmployesMobile.png";
 
-import {
-    cleanProductName,
-    detectCategory,
-    getCategoryLabel,
-    pickMessage,
-    pickPluralMessage,
-} from "../utils/homeHelpers";
+import { cleanProductName } from "../utils/homeHelpers";
 
 const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
 const GAP = 12;
-const MIN_CHARS_FOR_NOT_FOUND = 4;
 
 const mobileSlides = [
     { id: "combo", src: ComboMobile, alt: "Combo Promo" },
@@ -85,28 +80,15 @@ const fastThruOrder: Record<string, number> = {
     desserts: 4,
 };
 
-
 export default function Home() {
-
-    const [search, setSearch] = useState("");
-    const [checkout, setCheckout] = useState(0);
     const [data, setData] = useState<Meal[]>([]);
-    const [showDriveThru, setShowDriveThru] = useState(false);
-    const [discount, setDiscount] = useState(0);
-    const [subtotal, setSubtotal] = useState(0);
     const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
-
     const [cartAnchorEl, setCartAnchorEl] = useState<null | HTMLElement>(null);
     const [cartBodyMaxH, setCartBodyMaxH] = useState<number>(0);
-
-    /* REFS */
 
     const actionsRef = useRef<HTMLDivElement | null>(null);
     const cartHeaderRef = useRef<HTMLDivElement | null>(null);
     const cartFooterRef = useRef<HTMLDivElement | null>(null);
-    const ignoreSearchRef = useRef(false);
-
-    /* HOOKS / CONTEXT */
 
     const navigate = useNavigate();
     const theme = useTheme();
@@ -120,50 +102,37 @@ export default function Home() {
         horizontal: "center",
     });
 
-    /* DERIVED VALUES */
+    const {
+        cartCount,
+        qtyMap,
+        subtotal,
+        discount,
+        checkout,
+        handleOrder,
+        decItem,
+        removeItem,
+    } = useHomeCart({ order, setOrder });
 
+    const {
+        isCategorySearch,
+        filteredData,
+        hasResults,
+        isSearching,
+        charsLeft,
+        showKeepTyping,
+        showNotFound,
+        headlineText,
+        driveModeActive,
+        shouldShowOrderPreview,
+        shouldShowCarousel,
+        hidePromos,
+        enterFastThru,
+        exitFastThru,
+        handleSearchInput,
+    } = useHomeSearch({ data });
 
     const PageShell = isMobile ? PageBgMobile : PageBg;
 
-    const searchTrim = search.trim().toLowerCase();
-    const detected = detectCategory(searchTrim);
-    const isCategorySearch = !!detected;
-
-    const filteredData = data.filter((item) => {
-        const name = item.name.toLowerCase();
-        const category = (item.category || "").toLowerCase();
-
-        if (detected) return category === detected;
-
-        return name.includes(searchTrim) || category.includes(searchTrim);
-    });
-
-    const hasResults = filteredData.length > 0;
-
-    const headlineText = isCategorySearch
-        ? getCategoryLabel(detected)
-        : filteredData.length === 1
-            ? pickMessage(searchTrim)
-            : pickPluralMessage(searchTrim);
-
-    const isSearching = searchTrim.length > 0;
-    const charsLeft = Math.max(0, MIN_CHARS_FOR_NOT_FOUND - searchTrim.length);
-
-    const showKeepTyping =
-        isSearching &&
-        !hasResults &&
-        searchTrim.length > 0 &&
-        searchTrim.length < MIN_CHARS_FOR_NOT_FOUND;
-
-    const showNotFound =
-        isSearching &&
-        !hasResults &&
-        searchTrim.length >= MIN_CHARS_FOR_NOT_FOUND;
-
-    const driveModeActive = showDriveThru;
-    const shouldShowOrderPreview = driveModeActive;
-    const shouldShowCarousel = !isSearching && !driveModeActive;
-    const hidePromos = isSearching || driveModeActive;
     const showMobilePromosBlock = isMobile && !hidePromos;
 
     const stripeCenterWidthDesktop = isSearching
@@ -172,23 +141,11 @@ export default function Home() {
             ? 950
             : 1250;
 
-    const cartCount = order.reduce((acc, it) => acc + (it.quantidade ?? 1), 0);
-
-
-    const qtyMap = order.reduce<Record<string, number>>((acc, item) => {
-        const pid = String(item.id);
-        const q = item.quantidade ?? 1;
-        acc[pid] = (acc[pid] ?? 0) + q;
-        return acc;
-    }, {});
-
-
     const headlineMt = searchOverlayOpen
         ? { xs: 12, sm: 12, md: 2.7 }
         : isSearching
             ? { xs: 5, sm: 5, md: 2.7 }
             : { xs: 2, sm: 3, md: 2.7 };
-
 
     const fastThruData = useMemo(() => {
         return [...data].sort((a, b) => {
@@ -201,15 +158,9 @@ export default function Home() {
         });
     }, [data]);
 
-
-    /* NAVIGATION */
-
     function handleDrawerNavigate(category: string) {
         navigate(`/${category.toLowerCase()}`);
     }
-
-
-    /*  HANDLERS - CART MENU */
 
     function openCartMenu(e: React.MouseEvent<HTMLElement>) {
         if (isMobile && actionsRef.current) {
@@ -220,37 +171,9 @@ export default function Home() {
         setCartAnchorEl(e.currentTarget);
     }
 
-
     function closeCartMenu() {
         setCartAnchorEl(null);
     }
-
-
-    function decItem(productId: string) {
-        const existing = order.find((p) => String(p.id) === productId);
-        if (!existing) return;
-
-        const q = existing.quantidade ?? 0;
-
-        if (q <= 1) {
-            setOrder(order.filter((p) => String(p.id) !== productId));
-            return;
-        }
-
-        setOrder(
-            order.map((p) =>
-                String(p.id) === productId
-                    ? { ...p, quantidade: (p.quantidade ?? 0) - 1 }
-                    : p
-            )
-        );
-    }
-
-
-    function removeItem(productId: string) {
-        setOrder(order.filter((p) => String(p.id) !== productId));
-    }
-
 
     function handleCheckoutFromCart() {
         const isLogged = Boolean(localStorage.getItem("idUser"));
@@ -283,75 +206,6 @@ export default function Home() {
         });
     }
 
-
-    /* HANDLERS - SEARCH / DRIVE THRU */
-
-    function scrollPageToTop() {
-        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-
-        const se = document.scrollingElement as HTMLElement | null;
-        if (se) se.scrollTo({ top: 0, left: 0, behavior: "auto" });
-
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-    }
-
-
-    function enterFastThru() {
-        ignoreSearchRef.current = true;
-
-        setShowDriveThru(true);
-        setSearch("");
-
-        requestAnimationFrame(() => {
-            scrollPageToTop();
-            ignoreSearchRef.current = false;
-        });
-    }
-
-
-    function handleSearchInput(value: string) {
-        if (ignoreSearchRef.current) return;
-
-        setSearch(value);
-
-        if (value.trim().length > 0) {
-            setShowDriveThru(false);
-        }
-    }
-
-
-    /* HANDLERS - ORDER */
-
-    function handleOrder(product: Meal) {
-        const existingIndex = order.findIndex(
-            (p) => String(p.id) === String(product.id)
-        );
-
-        if (existingIndex === -1) {
-            const newItem: Meal = {
-                ...product,
-                quantidade: 1,
-            };
-
-            setOrder([...order, newItem]);
-            return;
-        }
-
-        const newOrder = [...order];
-        const currentQty = newOrder[existingIndex].quantidade ?? 0;
-
-        newOrder[existingIndex] = {
-            ...newOrder[existingIndex],
-            quantidade: currentQty + 1,
-        };
-
-        setOrder(newOrder);
-    }
-
-
-    /* EFFECTS  */
-
     useEffect(() => {
         async function init() {
             try {
@@ -365,12 +219,10 @@ export default function Home() {
         init();
     }, []);
 
-
     useEffect(() => {
         if (!cartOpen) return;
         closeCartMenu();
     }, [isMobile]);
-
 
     useEffect(() => {
         if (!cartOpen) return;
@@ -407,35 +259,6 @@ export default function Home() {
             ro.disconnect();
         };
     }, [cartOpen, isMobile, cartCount, subtotal, discount, checkout]);
-
-
-    useEffect(() => {
-        let burgerCount = 0;
-        let sideCount = 0;
-        let beverageCount = 0;
-        let subtotalCalc = 0;
-
-        order.forEach((item) => {
-            const quantity = item.quantidade ?? 0;
-            const price = Number(item.price ?? 0);
-            const category = (item.category || "").toLowerCase();
-
-            subtotalCalc += quantity * price;
-
-            if (category === "sandwiches") burgerCount += quantity;
-            else if (category === "sides") sideCount += quantity;
-            else if (category === "beverages") beverageCount += quantity;
-        });
-
-        const sets = Math.min(burgerCount, sideCount, beverageCount);
-        const discountCalc = sets * 2;
-        const base = Math.max(0, subtotalCalc - discountCalc);
-
-        setSubtotal(subtotalCalc);
-        setDiscount(discountCalc);
-        setCheckout(base);
-    }, [order]);
-
 
     return (
         <>
@@ -634,7 +457,7 @@ export default function Home() {
                                         </Box>
 
                                         <Button
-                                            onClick={() => setShowDriveThru(false)}
+                                            onClick={exitFastThru}
                                             sx={{
                                                 width: { xs: 39, md: 44 },
                                                 height: { xs: 39, md: 44 },
@@ -682,13 +505,13 @@ export default function Home() {
 
                                 <style>
                                     {`
-                                    @media (max-width: 899.95px){
-                                    .total{
-                                        grid-row: 2;
-                                        justify-self: center;
-                                     }
-                                     }
-                                   `}
+                                        @media (max-width: 899.95px){
+                                        .total{
+                                            grid-row: 2;
+                                            justify-self: center;
+                                        }
+                                        }
+                                    `}
                                 </style>
                             </Box>
                         )}
