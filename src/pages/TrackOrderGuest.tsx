@@ -226,7 +226,7 @@ export default function TrackOrderGuest() {
         const silent = !!opts?.silent;
 
         const code = orderCodeFilter.trim();
-        const email = emailFilter.trim();
+        const email = emailFilter.trim().toLowerCase();
 
         if (!silent) setHasSearched(true);
 
@@ -246,16 +246,20 @@ export default function TrackOrderGuest() {
                 email,
             });
 
-            // transforma um pedido em array
             setItems(res.data ? [res.data] : []);
         } catch (e: any) {
-            console.error(e);
+            console.error("TRACK ERROR:", e);
+            console.error("TRACK STATUS:", e?.response?.status);
+            console.error("TRACK DATA:", e?.response?.data);
 
             if (!silent) {
                 if (e?.response?.status === 404) {
                     setItems([]);
                 } else {
-                    showAlert("Failed to load your order.", "error");
+                    showAlert(
+                        e?.response?.data?.msg || "Failed to load your order.",
+                        "error"
+                    );
                     setItems([]);
                 }
             } else {
