@@ -15,6 +15,8 @@ import NavbarCheckout from "../components/NavbarCheckout";
 import { useAppContext, type Meal } from "../context/context";
 import { useAppAlert } from "../hooks/useAppAlert";
 
+import { useCheckoutTotals } from "../hooks/useCheckoutTotals";
+
 // imgs out of Backend
 import CokeImg from "../assets/Coke.png";
 import SpriteImg from "../assets/Sprite.png";
@@ -26,9 +28,7 @@ import SaladImg from "../assets/Crispsalad.png";
 import MilkshakeImg from "../assets/Milkshake.png";
 import SundaeImg from "../assets/Sundae.png";
 
-/* =========================
-   CONSTANTS / HELPERS
-========================= */
+/* CONSTANTS / HELPERS */
 
 const imageMap: Record<string, string> = {
     "Coke.png": CokeImg,
@@ -67,9 +67,6 @@ const imageStylesByIdOrderSummary: Record<string, React.CSSProperties> = {
     "18": { width: "38px", height: "38px" },
 };
 
-const TAX_RATE = 0.09;
-const DELIVERY_FEE = 9.99;
-const FREE_DELIVERY_AT = 30;
 
 const tfBlueLabelSx = {
     "& label": { color: "#0d47a1" },
@@ -101,12 +98,6 @@ function cleanProductName(name: string) {
     return String(name || "").split("/")[0].trim();
 }
 
-function money(n: number) {
-    return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-    }).format(n);
-}
 
 /* =========================
    TYPES
@@ -122,14 +113,9 @@ type LoggedUser = {
 
 type CheckoutScreen = "form" | "processing" | "confirmed";
 
-/* =========================
-   COMPONENT
-========================= */
 
 export default function Checkout() {
-    /* =========================
-       HOOKS / CONTEXT
-    ========================= */
+    /* HOOKS / CONTEXT */
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext();
 
@@ -138,15 +124,12 @@ export default function Checkout() {
         horizontal: "center",
     });
 
-    /* =========================
-       REFS
-    ========================= */
+    /*  REFS  */
     const paperRef = useRef<HTMLDivElement | null>(null);
     const stickyRef = useRef<HTMLDivElement | null>(null);
 
-    /* =========================
-       STATE
-    ========================= */
+    /* STATE */
+
     const [isDockedToPaperBottom, setIsDockedToPaperBottom] = useState(false);
     const [streetText, setStreetText] = useState("");
 
@@ -162,13 +145,24 @@ export default function Checkout() {
         country: "USA",
     });
 
+    const addressLine = useMemo(() => {
+        const parts = [
+            address.street?.trim(),
+            address.apt?.trim() ? `Apt ${address.apt.trim()}` : "",
+            address.city?.trim(),
+            address.state?.trim(),
+            address.zip?.trim(),
+            address.country?.trim(),
+        ].filter(Boolean);
+
+        return parts.join(", ");
+    }, [address]);
+
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [submitting, setSubmitting] = useState(false);
 
-    /* =========================
-       DERIVED VALUES
-    ========================= */
+    /* DERIVED VALUES */
     const loggedUser: LoggedUser | null = useMemo(() => {
         const rawAuth = localStorage.getItem("authUser");
         if (rawAuth) {
@@ -202,75 +196,19 @@ export default function Checkout() {
     const isLogged =
         Number.isFinite(Number(loggedUser?.id)) && Number(loggedUser?.id) > 0;
 
-    const { subtotal, discount, total, totalItems } = useMemo(() => {
-        let burgerCount = 0;
-        let sideCount = 0;
-        let beverageCount = 0;
-        let subtotalCalc = 0;
 
-        (order as Meal[]).forEach((item) => {
-            const qty = Number(item.quantidade ?? 1);
-            const price = Number(item.price ?? 0);
-            const category = String(item.category || "").toLowerCase();
+    const {
+        discount,
+        totalItems,
+        deliveryFee,
+        subtotalLabel,
+        discountLabel,
+        taxLabel,
+        deliveryLabel,
+        grandTotalLabel,
+    } = useCheckoutTotals(order);
 
-            subtotalCalc += qty * price;
-
-            if (category === "sandwiches") burgerCount += qty;
-            else if (category === "sides") sideCount += qty;
-            else if (category === "beverages") beverageCount += qty;
-        });
-
-        const sets = Math.min(burgerCount, sideCount, beverageCount);
-        const discountCalc = sets * 2;
-        const totalCalc = Math.max(0, subtotalCalc - discountCalc);
-        const itemsCount = (order as Meal[]).reduce(
-            (sum, it) => sum + Number(it.quantidade ?? 1),
-            0
-        );
-
-        return {
-            subtotal: subtotalCalc,
-            discount: discountCalc,
-            total: totalCalc,
-            totalItems: itemsCount,
-        };
-    }, [order]);
-
-    const subtotalLabel = useMemo(() => money(subtotal), [subtotal]);
-    const discountLabel = useMemo(() => money(discount), [discount]);
-
-    const tax = useMemo(() => Number((total * TAX_RATE).toFixed(2)), [total]);
-
-    const deliveryFee = useMemo(() => {
-        if (total <= 0) return 0;
-        return total >= FREE_DELIVERY_AT ? 0 : DELIVERY_FEE;
-    }, [total]);
-
-    const grandTotal = useMemo(
-        () => Number((total + tax + deliveryFee).toFixed(2)),
-        [total, tax, deliveryFee]
-    );
-
-    const taxLabel = useMemo(() => money(tax), [tax]);
-    const deliveryLabel = useMemo(() => money(deliveryFee), [deliveryFee]);
-    const grandTotalLabel = useMemo(() => money(grandTotal), [grandTotal]);
-
-    const addressLine = useMemo(() => {
-        const parts = [
-            address.street?.trim(),
-            address.apt?.trim() ? `Apt ${address.apt.trim()}` : "",
-            address.city?.trim(),
-            address.state?.trim(),
-            address.zip?.trim(),
-            address.country?.trim(),
-        ].filter(Boolean);
-
-        return parts.join(", ");
-    }, [address]);
-
-    /* =========================
-       HANDLERS
-    ========================= */
+    /* HANDLERS */
     function validate() {
         if (!order || order.length === 0) return "Your cart is empty.";
 
@@ -388,9 +326,7 @@ export default function Checkout() {
         }
     }
 
-    /* =========================
-       INNER SCREENS
-    ========================= */
+    /* INNER SCREENS */
     function ProcessingScreen() {
         return (
             <Box
@@ -642,9 +578,8 @@ export default function Checkout() {
         );
     }
 
-    /* =========================
-       EFFECTS
-    ========================= */
+    /* EFFECTS */
+
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const view = params.get("view");
@@ -687,9 +622,7 @@ export default function Checkout() {
         setEmail(mail);
     }, [isLogged, loggedUser]);
 
-    /* =========================
-       RENDER
-    ========================= */
+
     return (
         <>
             {AlertUI}
@@ -723,33 +656,33 @@ export default function Checkout() {
                             width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
                             backgroundImage: {
                                 xs: `
-                  linear-gradient(90deg,
-                    rgba(255,255,255,1) 0%,
-                    rgba(255,255,255,0.0) 18%,
-                    rgba(255,255,255,0.0) 82%,
-                    rgba(255,255,255,1) 100%
-                  ),
-                  repeating-linear-gradient(135deg,
-                    rgba(13,71,161,0.018) 0px,
-                    rgba(13,71,161,0.018) 10px,
-                    rgba(230,81,0,0.014) 10px,
-                    rgba(230,81,0,0.014) 20px
-                  )
-                `,
+                                linear-gradient(90deg,
+                                    rgba(255,255,255,1) 0%,
+                                    rgba(255,255,255,0.0) 18%,
+                                    rgba(255,255,255,0.0) 82%,
+                                    rgba(255,255,255,1) 100%
+                                ),
+                                repeating-linear-gradient(135deg,
+                                    rgba(13,71,161,0.018) 0px,
+                                    rgba(13,71,161,0.018) 10px,
+                                    rgba(230,81,0,0.014) 10px,
+                                    rgba(230,81,0,0.014) 20px
+                                )
+                                `,
                                 md: `
-                  linear-gradient(90deg,
-                    rgba(255,255,255,1) 0%,
-                    rgba(255,255,255,0.0) 14%,
-                    rgba(255,255,255,0.0) 86%,
-                    rgba(255,255,255,1) 100%
-                  ),
-                  repeating-linear-gradient(135deg,
-                    rgba(13,71,161,0.038) 0px,
-                    rgba(13,71,161,0.038) 10px,
-                    rgba(230,81,0,0.028) 10px,
-                    rgba(230,81,0,0.028) 20px
-                  )
-                `,
+                                linear-gradient(90deg,
+                                    rgba(255,255,255,1) 0%,
+                                    rgba(255,255,255,0.0) 14%,
+                                    rgba(255,255,255,0.0) 86%,
+                                    rgba(255,255,255,1) 100%
+                                ),
+                                repeating-linear-gradient(135deg,
+                                    rgba(13,71,161,0.038) 0px,
+                                    rgba(13,71,161,0.038) 10px,
+                                    rgba(230,81,0,0.028) 10px,
+                                    rgba(230,81,0,0.028) 20px
+                                )
+                                `,
                             },
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
