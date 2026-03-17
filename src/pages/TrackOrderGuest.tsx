@@ -228,7 +228,6 @@ export default function TrackOrderGuest() {
         const code = orderCodeFilter.trim();
         const email = emailFilter.trim();
 
-        // só marca searched quando o usuário clicar em Search
         if (!silent) setHasSearched(true);
 
         if (!code || !email) {
@@ -242,18 +241,26 @@ export default function TrackOrderGuest() {
         if (!silent) setLoading(true);
 
         try {
-            const res = await api.get<Sale[]>("/sales", {
-                params: { order_code: code, email },
+            const res = await api.post<Sale>("/sales/track", {
+                order_code: code,
+                email,
             });
 
-            const sorted = [...res.data].sort(
-                (a, b) => +new Date(b.created_at) - +new Date(a.created_at)
-            );
-            setItems(sorted);
-        } catch (e) {
+            // transforma um pedido em array
+            setItems(res.data ? [res.data] : []);
+        } catch (e: any) {
             console.error(e);
-            if (!silent) showAlert("Failed to load your orders.", "error");
-            if (!silent) setItems([]);
+
+            if (!silent) {
+                if (e?.response?.status === 404) {
+                    setItems([]);
+                } else {
+                    showAlert("Failed to load your order.", "error");
+                    setItems([]);
+                }
+            } else {
+                setItems([]);
+            }
         } finally {
             if (!silent) setLoading(false);
             inFlightRef.current = false;

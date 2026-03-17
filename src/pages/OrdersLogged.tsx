@@ -317,14 +317,18 @@ export default function OrdersLogged() {
 
         try {
             const params = new URLSearchParams();
-            params.set("user_id", String(loggedUser!.id));
 
-            if (activeKey === "completed") params.set("status", "completed");
-            else params.set("status", "received,in_progress,sent");
+            if (activeKey === "completed") {
+                params.set("status", "completed");
+            } else {
+                params.set("status", "received,in_progress,sent");
+            }
 
-            if (debouncedOrderCode) params.set("order_code", debouncedOrderCode);
+            if (debouncedOrderCode) {
+                params.set("order_code", debouncedOrderCode);
+            }
 
-            const res = await api.get<Sale[]>(`${API}?${params.toString()}`);
+            const res = await api.get<Sale[]>(`/sales/my-orders?${params.toString()}`);
 
             const sorted = [...res.data].sort(
                 (a, b) => +new Date(b.created_at) - +new Date(a.created_at)
