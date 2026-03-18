@@ -316,12 +316,12 @@ export default function TrackOrderGuest() {
                     fontWeight: 900,
                     letterSpacing: "0.10em",
 
-                    height: { xs: 22, sm: 24 },
+                    height: { xs: 20, sm: 22 },
                     fontSize: { xs: "0.62rem", sm: "0.68rem" },
-                    px: { xs: 0.6, sm: 0.9 },
+                    px: { xs: 0.45, sm: 0.7 },
 
                     "& .MuiChip-label": {
-                        px: { xs: 0.6, sm: 1 },
+                        px: { xs: 0.6, sm: 0.8 },
                     },
                 }}
             />
@@ -591,7 +591,7 @@ export default function TrackOrderGuest() {
                                     </Button>
 
                                     <Button
-                                        variant="outlined"
+                                        variant="contained"
                                         onClick={handleReset}
                                         disabled={loading}
                                         sx={{
@@ -599,14 +599,20 @@ export default function TrackOrderGuest() {
                                             display: { xs: "none", sm: "inline-flex" },
                                             borderRadius: 1.5,
                                             borderColor: "rgba(0,0,0,0.35)",
-                                            color: "rgba(0,0,0,0.70)",
+                                            color: "#0d47a1",
+                                            bgcolor: "rgba(230, 81, 0, 0.20)",
                                             fontWeight: 900,
                                             textTransform: "uppercase",
                                             letterSpacing: "0.10em",
                                             height: 40,
                                             "&:hover": {
-                                                borderColor: "rgba(0,0,0,0.55)",
-                                                bgcolor: "rgba(0,0,0,0.04)",
+                                                bgcolor: "rgba(230, 81, 0, 0.28)",
+                                                borderColor: "#0d47a1",
+                                                color: "#0d47a1",
+                                            },
+                                            "&:active": {
+                                                bgcolor: "rgba(230, 81, 0, 0.28)",
+                                                transform: "translateY(1px)",
                                             },
                                         }}
                                     >
@@ -735,12 +741,36 @@ export default function TrackOrderGuest() {
                                                             bgcolor: "#fff4e1",
                                                         }}
                                                     >
-                                                        <Stack spacing={1}>
+                                                        <Stack spacing={1}
+                                                            sx={{ mt: { xs: 0, sm: -0.3, md: -0.9 } }}>
                                                             {/* HEADER */}
                                                             <>
                                                                 {/* MOBILE */}
-                                                                <Box sx={{ display: { xs: "block", sm: "none" } }}>
-                                                                    <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1} mt={-0.4}>
+                                                                <Stack
+                                                                    direction="row"
+                                                                    alignItems="center"
+                                                                    justifyContent="space-between"
+                                                                    gap={1}
+                                                                    sx={{ display: { xs: "flex", sm: "none" } }}
+                                                                >
+                                                                    <Typography
+                                                                        sx={{
+                                                                            fontSize: 18.5,
+                                                                            fontWeight: 900,
+                                                                            color: "#1e5bb8",
+                                                                            lineHeight: 1.1,
+                                                                            minWidth: 0,
+                                                                        }}
+                                                                    >
+                                                                        Order: {o.order_code}
+                                                                    </Typography>
+
+                                                                    <Stack
+                                                                        direction="row"
+                                                                        alignItems="center"
+                                                                        gap={0.5}
+                                                                        sx={{ flexShrink: 0, transform: "translateY(-1px)", }}
+                                                                    >
                                                                         {statusChip(effectiveStatus)}
 
                                                                         <Button
@@ -748,11 +778,12 @@ export default function TrackOrderGuest() {
                                                                             onClick={(e) => openTsMenu(e, o.id)}
                                                                             endIcon={<ExpandMoreIcon />}
                                                                             sx={{
-                                                                                minHeight: 24,
-                                                                                px: 1,
+                                                                                minHeight: 22,
+                                                                                minWidth: "auto",
+                                                                                px: 0.4,
                                                                                 py: 0,
-                                                                                fontSize: "0.72rem",
-                                                                                letterSpacing: "0.08em",
+                                                                                fontSize: "0.64rem",
+                                                                                letterSpacing: "0.06em",
                                                                                 textTransform: "uppercase",
                                                                                 fontWeight: 900,
                                                                                 color: "rgba(0,0,0,0.65)",
@@ -761,19 +792,8 @@ export default function TrackOrderGuest() {
                                                                             Timeline
                                                                         </Button>
                                                                     </Stack>
+                                                                </Stack>
 
-                                                                    <Typography
-                                                                        sx={{
-                                                                            mt: 1.1,
-                                                                            fontSize: 18,
-                                                                            fontWeight: 900,
-                                                                            color: "#1e5bb8",
-                                                                            lineHeight: 1.1,
-                                                                        }}
-                                                                    >
-                                                                        Order: {o.order_code}
-                                                                    </Typography>
-                                                                </Box>
 
                                                                 {/* DESKTOP */}
                                                                 <Stack
@@ -787,7 +807,10 @@ export default function TrackOrderGuest() {
                                                                         Order: {o.order_code}
                                                                     </Typography>
 
-                                                                    <Stack direction="row" alignItems="center" gap={0.6}>
+                                                                    <Stack direction="row" alignItems="center" gap={0.6}
+                                                                        sx={{
+                                                                            transform: "translateY(-1px)",
+                                                                        }}>
                                                                         {statusChip(effectiveStatus)}
 
                                                                         <Button
@@ -795,7 +818,7 @@ export default function TrackOrderGuest() {
                                                                             onClick={(e) => openTsMenu(e, o.id)}
                                                                             endIcon={<ExpandMoreIcon />}
                                                                             sx={{
-                                                                                minHeight: 24,
+                                                                                minHeight: 22,
                                                                                 px: 1,
                                                                                 py: 0,
                                                                                 fontSize: "0.72rem",
@@ -914,11 +937,11 @@ export default function TrackOrderGuest() {
                                                                     </Typography>
 
                                                                     {(() => {
-                                                                        const addrParts = parseAddressParts((o as any).delivery_address);
+                                                                        const addr = addressOneLine((o as any).delivery_address);
 
                                                                         return (
                                                                             <Box sx={{ mt: 0.1 }}>
-                                                                                {/* DESKTOP — tudo em 1 linha */}
+                                                                                {/* DESKTOP */}
                                                                                 <Typography
                                                                                     sx={{
                                                                                         display: { xs: "none", sm: "block" },
@@ -929,42 +952,35 @@ export default function TrackOrderGuest() {
                                                                                         overflow: "hidden",
                                                                                         textOverflow: "ellipsis",
                                                                                     }}
-                                                                                    title={addressOneLine((o as any).delivery_address)}
+                                                                                    title={addr}
                                                                                 >
                                                                                     <b>Delivery:</b>{" "}
                                                                                     <span style={{ color: "rgba(0,0,0,0.72)" }}>
-                                                                                        {addressOneLine((o as any).delivery_address)}
+                                                                                        {addr}
                                                                                     </span>
                                                                                 </Typography>
 
-                                                                                {/* MOBILE — quebra em 2 linhas */}
-                                                                                <Box sx={{ display: { xs: "block", sm: "none" } }}>
-                                                                                    <Typography
-                                                                                        sx={{
-                                                                                            fontSize: "0.86rem",
-                                                                                            lineHeight: 1.25,
-                                                                                            color: "#333",
-                                                                                        }}
-                                                                                    >
-                                                                                        <b>Delivery:</b>{" "}
-                                                                                        <span style={{ color: "rgba(0,0,0,0.72)" }}>
-                                                                                            {addrParts?.line1 || "-"}
-                                                                                        </span>
-                                                                                    </Typography>
+                                                                                {/* MOBILE */}
+                                                                                <Typography
+                                                                                    sx={{
+                                                                                        display: { xs: "block", sm: "none" },
+                                                                                        fontSize: "0.86rem",
+                                                                                        lineHeight: 1.3,
+                                                                                        color: "#333",
 
-                                                                                    {!!addrParts?.line2 && (
-                                                                                        <Typography
-                                                                                            sx={{
-                                                                                                fontSize: "0.84rem",
-                                                                                                lineHeight: 1.2,
-                                                                                                color: "rgba(0,0,0,0.70)",
-                                                                                                mt: 0.1,
-                                                                                            }}
-                                                                                        >
-                                                                                            {[addrParts.line2, addrParts.line3].filter(Boolean).join(", ")}
-                                                                                        </Typography>
-                                                                                    )}
-                                                                                </Box>
+
+                                                                                        overflowWrap: "anywhere",
+                                                                                        wordBreak: "break-word",
+
+
+                                                                                        hyphens: "auto",
+                                                                                    }}
+                                                                                >
+                                                                                    <b>Delivery:</b>{" "}
+                                                                                    <span style={{ color: "rgba(0,0,0,0.72)" }}>
+                                                                                        {addr}
+                                                                                    </span>
+                                                                                </Typography>
                                                                             </Box>
                                                                         );
                                                                     })()}
@@ -972,18 +988,36 @@ export default function TrackOrderGuest() {
                                                             </Box>
 
 
-
-                                                            {/* Items list */}
                                                             {lines.length > 0 && (
-                                                                <Box sx={{ mt: 0.4 }}>
-                                                                    {lines.map((p) => (
-                                                                        <Typography
-                                                                            key={p.key}
-                                                                            sx={{ fontSize: "0.9rem", color: "#333", lineHeight: 1.35 }}
-                                                                        >
-                                                                            • {p.name} <b>x{p.qty}</b>
-                                                                        </Typography>
-                                                                    ))}
+                                                                <Box sx={{ mt: 0.8 }}>
+                                                                    <Typography
+                                                                        sx={{
+                                                                            fontSize: "0.6rem",
+                                                                            fontWeight: 900,
+                                                                            letterSpacing: "0.10em",
+                                                                            textTransform: "uppercase",
+                                                                            color: "rgba(0,0,0,0.55)",
+                                                                            mb: 0.3,
+                                                                            lineHeight: 1.1,
+                                                                        }}
+                                                                    >
+                                                                        Items
+                                                                    </Typography>
+
+                                                                    <Box>
+                                                                        {lines.map((p) => (
+                                                                            <Typography
+                                                                                key={p.key}
+                                                                                sx={{
+                                                                                    fontSize: "0.9rem",
+                                                                                    color: "#333",
+                                                                                    lineHeight: 1.35,
+                                                                                }}
+                                                                            >
+                                                                                • {p.name} <b>x{p.qty}</b>
+                                                                            </Typography>
+                                                                        ))}
+                                                                    </Box>
                                                                 </Box>
                                                             )}
 

@@ -18,7 +18,7 @@ import { useAppAlert } from "../hooks/useAppAlert";
 import NavbarOrders from "../components/NavbarOrders";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
-import { useDocumentTitle } from "../hooks/useDocumentTitle"; 
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 type Sale = {
     id: number;
@@ -147,10 +147,9 @@ function addressOneLine(parts: { line1: string; line2?: string } | null) {
 }
 
 
-
 export default function OrdersLogged() {
     useDocumentTitle("FastFuel • Orders");
-    
+
     const navigate = useNavigate();
 
     const inFlightRef = useRef(false);
@@ -241,10 +240,11 @@ export default function OrdersLogged() {
     const chipBaseSx = {
         fontWeight: 900,
         letterSpacing: "0.10em",
-        fontSize: { xs: "0.62rem", sm: "0.72rem" },
-        height: { xs: 22, sm: 26 },
+        fontSize: { xs: "0.62rem", sm: "0.68rem" },
+        height: { xs: 20, sm: 22 },
+        px: { xs: 0.45, sm: 0.65 },
         "& .MuiChip-label": {
-            px: { xs: 0.8, sm: 1.1 },
+            px: { xs: 0.6, sm: 0.8 },
         },
     };
 
@@ -667,7 +667,6 @@ export default function OrdersLogged() {
                                                 : (Array.isArray(cart) ? cart : []);
 
                                             const addrLines = addressToLines((o as any).delivery_address);
-                                            const addrFull = addressOneLine(addrLines);
                                             const paymentText = formatPayment((o as any).payment_method, (o as any).payment_status);
 
                                             const lines = list.map((it: any, idx: number) => {
@@ -675,7 +674,7 @@ export default function OrdersLogged() {
                                                 return {
                                                     key: `${o.id}-${idx}`,
                                                     name: cleanProductName(rawName),
-                                                    qty: Number(it?.qty ?? it?.quantity ?? it?.quantidade ?? it?.qty ?? 1),
+                                                    qty: Number(it?.qty ?? it?.quantity ?? it?.quantidade ?? 1),
                                                 };
                                             });
 
@@ -697,9 +696,58 @@ export default function OrdersLogged() {
                                                         bgcolor: "#fff4e1",
                                                     }}
                                                 >
-                                                    <Stack spacing={1}>
+                                                    <Stack spacing={1} sx={{ mt: { xs: 0, sm: -0.3, md: -0.9 } }}>
                                                         {/* HEADER */}
-                                                        <Box>
+                                                        <>
+                                                            {/* MOBILE */}
+                                                            <Stack
+                                                                direction="row"
+                                                                alignItems="center"
+                                                                justifyContent="space-between"
+                                                                gap={1}
+                                                                sx={{ display: { xs: "flex", sm: "none" } }}
+                                                            >
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontSize: 18.5,
+                                                                        fontWeight: 900,
+                                                                        color: "#1e5bb8",
+                                                                        lineHeight: 1.1,
+                                                                        minWidth: 0,
+                                                                    }}
+                                                                >
+                                                                    Order: {o.order_code}
+                                                                </Typography>
+
+                                                                <Stack
+                                                                    direction="row"
+                                                                    alignItems="center"
+                                                                    gap={0.5}
+                                                                    sx={{ flexShrink: 0, transform: "translateY(-1px)", }}
+                                                                >
+                                                                    {userStatusChip(o.status)}
+
+                                                                    <Button
+                                                                        size="small"
+                                                                        onClick={(e) => openTsMenu(e, o.id)}
+                                                                        endIcon={<ExpandMoreIcon />}
+                                                                        sx={{
+                                                                            minHeight: 22,
+                                                                            minWidth: "auto",
+                                                                            px: 0.4,
+                                                                            py: 0,
+                                                                            fontSize: "0.64rem",
+                                                                            letterSpacing: "0.06em",
+                                                                            textTransform: "uppercase",
+                                                                            fontWeight: 900,
+                                                                            color: "rgba(0,0,0,0.65)",
+                                                                        }}
+                                                                    >
+                                                                        Timeline
+                                                                    </Button>
+                                                                </Stack>
+                                                            </Stack>
+
                                                             {/* DESKTOP */}
                                                             <Stack
                                                                 direction="row"
@@ -708,11 +756,21 @@ export default function OrdersLogged() {
                                                                 gap={1}
                                                                 sx={{ display: { xs: "none", sm: "flex" } }}
                                                             >
-                                                                <Typography sx={{ fontSize: 19, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontSize: 19,
+                                                                        fontWeight: 900,
+                                                                        color: "#1e5bb8",
+                                                                        lineHeight: 1.1,
+                                                                    }}
+                                                                >
                                                                     Order: {o.order_code}
                                                                 </Typography>
 
-                                                                <Stack direction="row" alignItems="center" gap={0.6}>
+                                                                <Stack direction="row" alignItems="center" gap={0.6}
+                                                                    sx={{
+                                                                        transform: "translateY(-1px)",
+                                                                    }}>
                                                                     {userStatusChip(o.status)}
 
                                                                     <Button
@@ -720,7 +778,7 @@ export default function OrdersLogged() {
                                                                         onClick={(e) => openTsMenu(e, o.id)}
                                                                         endIcon={<ExpandMoreIcon />}
                                                                         sx={{
-                                                                            minHeight: 24,
+                                                                            minHeight: 22,
                                                                             px: 1,
                                                                             py: 0,
                                                                             fontSize: "0.72rem",
@@ -734,49 +792,7 @@ export default function OrdersLogged() {
                                                                     </Button>
                                                                 </Stack>
                                                             </Stack>
-
-                                                            {/* MOBILE */}
-                                                            <Stack
-                                                                direction="row"
-                                                                alignItems="center"
-                                                                justifyContent="space-between"
-                                                                mt={-0.4}
-                                                                sx={{ display: { xs: "flex", sm: "none" } }}
-                                                            >
-                                                                {userStatusChip(o.status)}
-
-                                                                <Button
-                                                                    size="small"
-                                                                    onClick={(e) => openTsMenu(e, o.id)}
-                                                                    endIcon={<ExpandMoreIcon />}
-                                                                    sx={{
-                                                                        minHeight: 24,
-                                                                        px: 1,
-                                                                        py: 0,
-                                                                        fontSize: "0.72rem",
-                                                                        letterSpacing: "0.08em",
-                                                                        textTransform: "uppercase",
-                                                                        fontWeight: 900,
-                                                                        color: "rgba(0,0,0,0.65)",
-                                                                    }}
-                                                                >
-                                                                    Timeline
-                                                                </Button>
-                                                            </Stack>
-
-                                                            <Typography
-                                                                sx={{
-                                                                    display: { xs: "block", sm: "none" },
-                                                                    fontSize: 18,
-                                                                    fontWeight: 900,
-                                                                    color: "#1e5bb8",
-                                                                    lineHeight: 1.1,
-                                                                    mt: 1.1
-                                                                }}
-                                                            >
-                                                                Order: {o.order_code}
-                                                            </Typography>
-                                                        </Box>
+                                                        </>
 
                                                         {/* Confirm block */}
                                                         {showReceivedPrompt && (
@@ -872,55 +888,83 @@ export default function OrdersLogged() {
                                                                     {statusHint ? ` • ${statusHint}` : ""}
                                                                 </Typography>
 
-                                                                <Typography
-                                                                    sx={{
-                                                                        fontSize: "0.86rem",
-                                                                        lineHeight: 1.25,
-                                                                        overflowWrap: "anywhere",
-                                                                    }}
-                                                                    title={addrFull}
-                                                                >
-                                                                    <b>Delivery:</b>{" "}
-                                                                    {/* MOBILE (2 linhas) */}
-                                                                    <Box component="span" sx={{ display: { xs: "inline", sm: "none" }, color: "rgba(0,0,0,0.72)" }}>
-                                                                        {addrLines?.line1 || "-"}
-                                                                        {addrLines?.line2 ? (
-                                                                            <>
-                                                                                <br />
-                                                                                {addrLines.line2}
-                                                                            </>
-                                                                        ) : null}
-                                                                    </Box>
+                                                                {(() => {
+                                                                    const addr = addressOneLine(addrLines);
 
-                                                                    {/* DESKTOP (1 linha com ellipsis) */}
-                                                                    <Box
-                                                                        component="span"
-                                                                        sx={{
-                                                                            display: { xs: "none", sm: "inline" },
-                                                                            color: "rgba(0,0,0,0.72)",
-                                                                            whiteSpace: "nowrap",
-                                                                            overflow: "hidden",
-                                                                            textOverflow: "ellipsis",
-                                                                        }}
-                                                                    >
-                                                                        {addrFull}
-                                                                    </Box>
-                                                                </Typography>
+                                                                    return (
+                                                                        <Box sx={{ mt: 0.1 }}>
+                                                                            {/* DESKTOP */}
+                                                                            <Typography
+                                                                                sx={{
+                                                                                    display: { xs: "none", sm: "block" },
+                                                                                    fontSize: "0.86rem",
+                                                                                    lineHeight: 1.25,
+                                                                                    color: "#333",
+                                                                                    whiteSpace: "nowrap",
+                                                                                    overflow: "hidden",
+                                                                                    textOverflow: "ellipsis",
+                                                                                }}
+                                                                                title={addr}
+                                                                            >
+                                                                                <b>Delivery:</b>{" "}
+                                                                                <span style={{ color: "rgba(0,0,0,0.72)" }}>
+                                                                                    {addr}
+                                                                                </span>
+                                                                            </Typography>
+
+                                                                            {/* MOBILE */}
+                                                                            <Typography
+                                                                                sx={{
+                                                                                    display: { xs: "block", sm: "none" },
+                                                                                    fontSize: "0.86rem",
+                                                                                    lineHeight: 1.3,
+                                                                                    color: "#333",
+                                                                                    overflowWrap: "anywhere",
+                                                                                    wordBreak: "break-word",
+                                                                                    hyphens: "auto",
+                                                                                }}
+                                                                            >
+                                                                                <b>Delivery:</b>{" "}
+                                                                                <span style={{ color: "rgba(0,0,0,0.72)" }}>
+                                                                                    {addr}
+                                                                                </span>
+                                                                            </Typography>
+                                                                        </Box>
+                                                                    );
+                                                                })()}
                                                             </Stack>
                                                         </Box>
 
-
-                                                        {/* Items */}
                                                         {lines.length > 0 && (
-                                                            <Box sx={{ mt: 0.2 }}>
-                                                                {lines.map((p) => (
-                                                                    <Typography
-                                                                        key={p.key}
-                                                                        sx={{ fontSize: "0.9rem", color: "#333", lineHeight: 1.35 }}
-                                                                    >
-                                                                        • {p.name} <b>x{p.qty}</b>
-                                                                    </Typography>
-                                                                ))}
+                                                            <Box sx={{ mt: 0.8 }}>
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontSize: "0.6rem",
+                                                                        fontWeight: 900,
+                                                                        letterSpacing: "0.10em",
+                                                                        textTransform: "uppercase",
+                                                                        color: "rgba(0,0,0,0.55)",
+                                                                        mb: 0.3,
+                                                                        lineHeight: 1.1,
+                                                                    }}
+                                                                >
+                                                                    Items
+                                                                </Typography>
+
+                                                                <Box>
+                                                                    {lines.map((p) => (
+                                                                        <Typography
+                                                                            key={p.key}
+                                                                            sx={{
+                                                                                fontSize: "0.9rem",
+                                                                                color: "#333",
+                                                                                lineHeight: 1.35,
+                                                                            }}
+                                                                        >
+                                                                            • {p.name} <b>x{p.qty}</b>
+                                                                        </Typography>
+                                                                    ))}
+                                                                </Box>
                                                             </Box>
                                                         )}
 
@@ -931,12 +975,11 @@ export default function OrdersLogged() {
                                                             </Box>
                                                             {Number(o.discount) > 0
                                                                 ? ` (Discount: -$${Number(o.discount).toFixed(2)})`
-                                                                : ""} • {paymentText}
+                                                                : ""}{" "}
+                                                            • {paymentText}
                                                         </Typography>
-
                                                     </Stack>
                                                 </Paper>
-
                                             );
                                         })}
                                     </Stack>
