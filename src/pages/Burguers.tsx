@@ -13,8 +13,11 @@ import NavFooterProducts from "../components/NavFooterProducts";
 import PageBg from "../components/PageBg";
 import PageBgMobile from "../components/PageBgMobile";
 import ProductsGrid from "../components/produts/ProductsGrid";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 export default function Burguers() {
+  useDocumentTitle("FastFuel • Burgers");
+
   const [data, setData] = useState<Meal[]>([]);
   const { order, setOrder } = useAppContext();
 

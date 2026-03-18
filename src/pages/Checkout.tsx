@@ -14,6 +14,7 @@ import { useAppAlert } from "../hooks/useAppAlert";
 
 import { useCheckoutTotals } from "../hooks/useCheckoutTotals";
 import CheckoutOrderSummary from "../components/CheckoutOrderSummary";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 // imgs out of Backend
 import CokeImg from "../assets/Coke.png";
@@ -110,6 +111,7 @@ type CheckoutScreen = "form" | "processing" | "confirmed";
 
 
 export default function Checkout() {
+    useDocumentTitle("FastFuel • Checkout");
 
     /* HOOKS / CONTEXT */
     const navigate = useNavigate();

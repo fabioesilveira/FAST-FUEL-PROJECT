@@ -7,6 +7,7 @@ import { api } from "../api";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import NavbarContactUs from "../components/NavbarContactUs";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 type Contact = {
     name: string;
@@ -18,6 +19,8 @@ type Contact = {
 };
 
 export default function ContactUs() {
+    useDocumentTitle("FastFuel • Contact us");
+
     const [contactForm, setContactForm] = useState<Contact>({
         name: "",
         email: "",

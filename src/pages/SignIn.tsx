@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import { useAppAlert } from "../hooks/useAppAlert";
 import NavbarExtra from "../components/NavbarExtra";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 type User = {
     email: string;
@@ -12,6 +13,7 @@ type User = {
 };
 
 export default function SignIn() {
+    useDocumentTitle("FastFuel • Sign in");
     const [signUp, setSignUp] = useState<User>({
         email: "",
         password: "",

@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppAlert } from "../hooks/useAppAlert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
-
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 
 type Sale = {
@@ -156,6 +156,7 @@ function addressOneLine(addr: any) {
 
 
 export default function TrackOrderGuest() {
+    useDocumentTitle("FastFuel • Track Order");
 
     const [orderCodeFilter, setOrderCodeFilter] = useState("");
     const [emailFilter, setEmailFilter] = useState("");

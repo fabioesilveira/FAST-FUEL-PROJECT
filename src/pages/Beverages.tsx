@@ -13,6 +13,7 @@ import NavFooterProducts from "../components/NavFooterProducts";
 import PageBgMobile from "../components/PageBgMobile";
 import PageBg from "../components/PageBg";
 import ProductsGrid from "../components/produts/ProductsGrid";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 import CokeImg from "../assets/Coke.png";
 import SpriteImg from "../assets/Sprite.png";
@@ -31,6 +32,8 @@ const imageMap: Record<string, string> = {
 };
 
 export default function Beverages() {
+  useDocumentTitle("FastFuel • Drinks");
+
   const [data, setData] = useState<Meal[]>([]);
   const { order, setOrder } = useAppContext();
 

@@ -22,6 +22,7 @@ import FloatingContactMobile from "../components/FloatingContactMobile";
 import HeroCarousel from "../components/HeroCarousel";
 import PageBg from "../components/PageBg";
 import PageBgMobile from "../components/PageBgMobile";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 import HomeCartMenu from "../components/home/HomeCartMenu";
 import HomeSearchSection from "../components/home/HomeSearchSection";
@@ -81,6 +82,8 @@ const fastThruOrder: Record<string, number> = {
 };
 
 export default function Home() {
+    useDocumentTitle("FastFuel • Home");
+
     const [data, setData] = useState<Meal[]>([]);
     const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
     const [cartAnchorEl, setCartAnchorEl] = useState<null | HTMLElement>(null);

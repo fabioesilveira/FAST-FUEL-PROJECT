@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppAlert } from "../hooks/useAppAlert";
 import AppConfirm from "../components/AppConfirm";
 import NavbarExtra from "../components/NavbarExtra";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 type User = {
     email: string;
@@ -14,6 +15,8 @@ type User = {
 };
 
 export default function DeleteAccount() {
+    useDocumentTitle("FastFuel • Delete Account");
+
     const [deleteACC, setDeleteACC] = useState<User>({
         email: "",
         password: "",

@@ -18,6 +18,7 @@ import { useAppAlert } from "../hooks/useAppAlert";
 import NavbarOrders from "../components/NavbarOrders";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
+import { useDocumentTitle } from "../hooks/useDocumentTitle"; 
 
 type Sale = {
     id: number;
@@ -148,6 +149,8 @@ function addressOneLine(parts: { line1: string; line2?: string } | null) {
 
 
 export default function OrdersLogged() {
+    useDocumentTitle("FastFuel • Orders");
+    
     const navigate = useNavigate();
 
     const inFlightRef = useRef(false);
