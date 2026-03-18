@@ -147,7 +147,7 @@ export default function Home() {
     const headlineMt = searchOverlayOpen
         ? { xs: 12, sm: 12, md: 2.7 }
         : isSearching
-            ? { xs: 5, sm: 5, md: 2.7 }
+            ? { xs: 4, sm: 4, md: 2.7 }
             : { xs: 2, sm: 3, md: 2.7 };
 
     const fastThruData = useMemo(() => {

@@ -95,24 +95,37 @@ body {
 
 .h2-products-background {
   font-family: "Racing Sans One", system-ui;
-  font-size: clamp(52px, 6vw, 70px);
+
+  /* ↓ levemente menor */
+  font-size: clamp(44px, 5vw, 60px);
+
   font-weight: 900;
-  letter-spacing: 0.2em;
+
+  /* ↓ menos espaçado */
+  letter-spacing: 0.14em;
+
   text-transform: uppercase;
 
   color: #1e5bb8;
-  text-shadow: 2.2px 2.2px 0 rgba(230, 81, 0, 0.26);
+
+  /* ↓ shadow mais elegante */
+  text-shadow: 1.4px 1.4px 0 rgba(230, 81, 0, 0.22);
 
   font-style: italic;
+
   pointer-events: none;
   user-select: none;
+
   margin: 0;
   padding: 0;
+
   line-height: 1;
 
   display: block;
   text-align: center;
-  margin-top: 110px;
+
+  /* ↓ um pouco menos alto */
+  margin-top: 108px;
 }
 
 @media (max-width: 600px) {

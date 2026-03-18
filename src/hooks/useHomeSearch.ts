@@ -1,4 +1,3 @@
-// src/hooks/useHomeSearch.ts
 import { useMemo, useRef, useState } from "react";
 import type { Meal } from "../context/context";
 import {
