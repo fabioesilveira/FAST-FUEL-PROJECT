@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import Footer from "../components/Footer";
 import { api } from "../api";
@@ -17,13 +17,20 @@ type User = {
 export default function DeleteAccount() {
     useDocumentTitle("FastFuel • Delete Account");
 
+    const navigate = useNavigate();
+
+    const [openConfirm, setOpenConfirm] = useState(false);
+
     const [deleteACC, setDeleteACC] = useState<User>({
         email: "",
         password: "",
         confirmPassword: "",
     });
 
-    const navigate = useNavigate();
+    const { showAlert, AlertUI } = useAppAlert({
+        vertical: "top",
+        horizontal: "center",
+    });
 
     function handleRequestDelete() {
         if (!deleteACC.email || !deleteACC.password || !deleteACC.confirmPassword) {
@@ -38,27 +45,6 @@ export default function DeleteAccount() {
 
         setOpenConfirm(true);
     }
-
-
-    const { showAlert, AlertUI } = useAppAlert({
-        vertical: "top",
-        horizontal: "center",
-    });
-
-    const [openConfirm, setOpenConfirm] = useState(false);
-
-    useEffect(() => {
-        const raw = localStorage.getItem("authUser");
-        if (!raw) return;
-
-        try {
-            const u = JSON.parse(raw);
-            setDeleteACC((prev) => ({
-                ...prev,
-                email: prev.email || u.email || "",
-            }));
-        } catch { }
-    }, []);
 
     async function handleDelete() {
         if (!deleteACC.email || !deleteACC.password || !deleteACC.confirmPassword) {
@@ -105,6 +91,19 @@ export default function DeleteAccount() {
             [name]: value,
         }));
     }
+
+    useEffect(() => {
+        const raw = localStorage.getItem("authUser");
+        if (!raw) return;
+
+        try {
+            const u = JSON.parse(raw);
+            setDeleteACC((prev) => ({
+                ...prev,
+                email: prev.email || u.email || "",
+            }));
+        } catch { }
+    }, []);
 
     return (
         <>

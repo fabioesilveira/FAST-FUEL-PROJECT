@@ -16,7 +16,6 @@ import { useCheckoutTotals } from "../hooks/useCheckoutTotals";
 import CheckoutOrderSummary from "../components/CheckoutOrderSummary";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
-// imgs out of Backend
 import CokeImg from "../assets/Coke.png";
 import SpriteImg from "../assets/Sprite.png";
 import DrPepperImg from "../assets/Drpepper.png";
@@ -27,8 +26,8 @@ import SaladImg from "../assets/Crispsalad.png";
 import MilkshakeImg from "../assets/Milkshake.png";
 import SundaeImg from "../assets/Sundae.png";
 
-/* CONSTANTS / HELPERS */
 
+/* CONSTANTS / HELPERS */
 const imageMap: Record<string, string> = {
     "Coke.png": CokeImg,
     "Sprite.png": SpriteImg,
@@ -98,7 +97,6 @@ function cleanProductName(name: string) {
 }
 
 /* TYPES */
-
 type LoggedUser = {
     id: number;
     userName?: string;
@@ -113,7 +111,6 @@ type CheckoutScreen = "form" | "processing" | "confirmed";
 export default function Checkout() {
     useDocumentTitle("FastFuel • Checkout");
 
-    /* HOOKS / CONTEXT */
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext();
 
@@ -122,11 +119,8 @@ export default function Checkout() {
         horizontal: "center",
     });
 
-    /*  REFS  */
     const paperRef = useRef<HTMLDivElement | null>(null);
     const stickyRef = useRef<HTMLDivElement | null>(null);
-
-    /* STATE */
 
     const [isDockedToPaperBottom, setIsDockedToPaperBottom] = useState(false);
     const [streetText, setStreetText] = useState("");
@@ -193,7 +187,6 @@ export default function Checkout() {
 
     const isLogged =
         Number.isFinite(Number(loggedUser?.id)) && Number(loggedUser?.id) > 0;
-
 
     const {
         discount,
@@ -577,7 +570,6 @@ export default function Checkout() {
     }
 
     /* EFFECTS */
-
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const view = params.get("view");

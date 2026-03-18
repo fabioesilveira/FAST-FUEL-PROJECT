@@ -21,6 +21,8 @@ type Contact = {
 export default function ContactUs() {
     useDocumentTitle("FastFuel • Contact us");
 
+    const navigate = useNavigate();
+
     const [contactForm, setContactForm] = useState<Contact>({
         name: "",
         email: "",
@@ -30,8 +32,6 @@ export default function ContactUs() {
         message: "",
     });
 
-    const navigate = useNavigate();
-
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -40,19 +40,27 @@ export default function ContactUs() {
         horizontal: "center",
     });
 
-    useEffect(() => {
-        const raw = localStorage.getItem("authUser");
-        if (!raw) return;
+    const tfSx = {
+        "& label": { color: "#0d47a1", fontWeight: 500 },
+        "& label.Mui-focused": { color: "#0d47a1" },
 
-        try {
-            const u = JSON.parse(raw);
-            setContactForm((prev) => ({
-                ...prev,
-                name: prev.name || u.userName || u.fullName || "",
-                email: prev.email || u.email || "",
-            }));
-        } catch { }
-    }, []);
+        "& .MuiInputLabel-root.MuiInputLabel-shrink": {
+            backgroundColor: "background.paper",
+            padding: "0 6px",
+            borderRadius: "8px",
+            lineHeight: 1.2,
+            zIndex: 1,
+        },
+
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": { borderColor: "#0d47a1" },
+            "&:hover fieldset": { borderColor: "#123b7a" },
+            "&.Mui-focused fieldset": {
+                borderColor: "#0d47a1",
+                borderWidth: 2,
+            },
+        },
+    };
 
     async function handleClick() {
         if (!contactForm.name || !contactForm.email || !contactForm.subject || !contactForm.message) {
@@ -93,27 +101,20 @@ export default function ContactUs() {
         }));
     }
 
-    const tfSx = {
-        "& label": { color: "#0d47a1", fontWeight: 500 },
-        "& label.Mui-focused": { color: "#0d47a1" },
 
-        "& .MuiInputLabel-root.MuiInputLabel-shrink": {
-            backgroundColor: "background.paper",
-            padding: "0 6px",
-            borderRadius: "8px",
-            lineHeight: 1.2,
-            zIndex: 1,
-        },
+    useEffect(() => {
+        const raw = localStorage.getItem("authUser");
+        if (!raw) return;
 
-        "& .MuiOutlinedInput-root": {
-            "& fieldset": { borderColor: "#0d47a1" },
-            "&:hover fieldset": { borderColor: "#123b7a" },
-            "&.Mui-focused fieldset": {
-                borderColor: "#0d47a1",
-                borderWidth: 2,
-            },
-        },
-    };
+        try {
+            const u = JSON.parse(raw);
+            setContactForm((prev) => ({
+                ...prev,
+                name: prev.name || u.userName || u.fullName || "",
+                email: prev.email || u.email || "",
+            }));
+        } catch { }
+    }, []);
 
     return (
         <>
@@ -394,7 +395,6 @@ export default function ContactUs() {
                                             Cancel
                                         </Button>
                                     )}
-
 
                                     <Box sx={{ height: { xs: 8, sm: 8 } }} />
                                 </Box>
