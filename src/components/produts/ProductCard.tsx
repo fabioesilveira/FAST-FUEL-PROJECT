@@ -93,7 +93,6 @@ export default function ProductCard({
                         borderRadius: "999px",
                         bgcolor: "#1e5bb8",
                         color: "#fff",
-                        boxShadow: "0 6px 14px rgba(13,71,161,0.30)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",

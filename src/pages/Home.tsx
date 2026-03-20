@@ -434,8 +434,8 @@ export default function Home() {
                                             <Button
                                                 onClick={openCartMenu}
                                                 sx={{
-                                                    width: { xs: 39, md: 44 },
-                                                    height: { xs: 39, md: 44 },
+                                                    width: { xs: 38, md: 44 },
+                                                    height: { xs: 38, md: 44 },
                                                     minWidth: 44,
                                                     p: 0,
                                                     borderRadius: "12px",
@@ -455,15 +455,20 @@ export default function Home() {
                                                     },
                                                 }}
                                             >
-                                                <ReceiptLongIcon sx={{ color: "#164a96", fontSize: 25 }} />
+                                                <ReceiptLongIcon
+                                                    sx={{
+                                                        color: "#164a96",
+                                                        fontSize: { xs: 22, md: 25 },
+                                                    }}
+                                                />
                                             </Button>
                                         </Box>
 
                                         <Button
                                             onClick={exitFastThru}
                                             sx={{
-                                                width: { xs: 39, md: 44 },
-                                                height: { xs: 39, md: 44 },
+                                                width: { xs: 38, md: 44 },
+                                                height: { xs: 38, md: 44 },
                                                 minWidth: 44,
                                                 p: 0,
                                                 borderRadius: "12px",
@@ -483,7 +488,12 @@ export default function Home() {
                                                 },
                                             }}
                                         >
-                                            <CloseIcon sx={{ color: "#164a96", fontSize: 25 }} />
+                                            <CloseIcon
+                                                sx={{
+                                                    color: "#164a96",
+                                                    fontSize: { xs: 22, md: 25 },
+                                                }}
+                                            />
                                         </Button>
                                     </Box>
                                 </Box>

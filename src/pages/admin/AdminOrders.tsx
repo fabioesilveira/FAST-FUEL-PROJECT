@@ -15,6 +15,7 @@ import {
 import NavbarAdmin from "../../components/NavbarAdmin";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import Footer from "../../components/Footer";
 
 type DeliveryAddress = {
@@ -118,6 +119,8 @@ function addressToLines(addr: any) {
 }
 
 export default function AdminOrders() {
+    useDocumentTitle("FastFuel • Adm - Orders");
+
     const [activeKey, setActiveKey] = useState<"received" | "in_progress" | "completed">(
         "received"
     );
@@ -242,13 +245,14 @@ export default function AdminOrders() {
     }
 
     const pillChipSx = {
-        height: 22,
+        height: { xs: 20, sm: 22 },
         borderRadius: 999,
         fontWeight: 900,
         letterSpacing: "0.10em",
-        fontSize: "0.68rem",
+        fontSize: { xs: "0.62rem", sm: "0.68rem" },
+        px: { xs: 0.45, sm: 0.9 },
         "& .MuiChip-label": {
-            px: 1,
+            px: { xs: 0.6, sm: 1 },
             py: 0,
         },
     };
@@ -555,23 +559,45 @@ export default function AdminOrders() {
                                                         bgcolor: "#fff4e1",
                                                     }}
                                                 >
+                                                    <Stack
+                                                        spacing={1}
+                                                        sx={{ mt: { xs: 0, sm: -0.3, md: -0.7 } }}
+                                                    >
+                                                        {/* MOBILE */}
+                                                        <Stack
+                                                            direction="row"
+                                                            alignItems="center"
+                                                            justifyContent="space-between"
+                                                            gap={1}
+                                                            sx={{ display: { xs: "flex", sm: "none" } }}
+                                                        >
+                                                            <Typography
+                                                                sx={{
+                                                                    fontSize: 18.5,
+                                                                    fontWeight: 900,
+                                                                    color: "#1e5bb8",
+                                                                    lineHeight: 1.1,
+                                                                    minWidth: 0,
+                                                                }}
+                                                            >
+                                                                Order: {o.order_code}
+                                                                <Box
+                                                                    component="span"
+                                                                    sx={{
+                                                                        color: "rgba(0,0,0,0.45)",
+                                                                        fontWeight: 800,
+                                                                    }}
+                                                                >
+                                                                    {" "}• #{o.id}
+                                                                </Box>
+                                                            </Typography>
 
-                                                    {/* HEADER */}
-                                                    <Stack spacing={1}>
-                                                        <Stack direction="row" alignItems="flex-start" justifyContent="space-between" gap={1}>
-                                                            {/* LEFT */}
-                                                            <Box sx={{ minWidth: 0 }}>
-                                                                <Typography sx={{ fontSize: 18, fontWeight: 900, color: "#1e5bb8", lineHeight: 1.1 }}>
-                                                                    Order: {o.order_code}
-                                                                    <Box component="span" sx={{ color: "rgba(0,0,0,0.45)", fontWeight: 800 }}>
-                                                                        {" "}• #{o.id}
-                                                                    </Box>
-                                                                </Typography>
-                                                            </Box>
-
-                                                            {/* RIGHT */}
-                                                            <Stack direction="row" alignItems="center" gap={0.6} sx={{ flexShrink: 0, mt: 0.15 }}>
-
+                                                            <Stack
+                                                                direction="row"
+                                                                alignItems="center"
+                                                                gap={0.5}
+                                                                sx={{ flexShrink: 0 }}
+                                                            >
                                                                 {statusChip(o.status)}
 
                                                                 {activeKey === "received" && o.status === "received" ? (
@@ -584,12 +610,14 @@ export default function AdminOrders() {
                                                                             color: "#fff",
                                                                             fontWeight: 900,
                                                                             textTransform: "uppercase",
-                                                                            letterSpacing: "0.10em",
+                                                                            letterSpacing: "0.08em",
                                                                             "&:hover": { bgcolor: "#164a96" },
-                                                                            fontSize: { xs: "0.72rem", sm: "0.85rem" },
-                                                                            px: { xs: 1, sm: 1.8 },
-                                                                            py: { xs: 0.55, sm: 0.9 },
-                                                                            minHeight: { xs: 32, sm: 34 },
+                                                                            fontSize: "0.58rem",
+                                                                            px: 0.9,
+                                                                            py: 0,
+                                                                            minWidth: 68,
+                                                                            height: 23,
+                                                                            lineHeight: 1,
                                                                         }}
                                                                     >
                                                                         Accept
@@ -606,12 +634,14 @@ export default function AdminOrders() {
                                                                             color: "#fff",
                                                                             fontWeight: 900,
                                                                             textTransform: "uppercase",
-                                                                            letterSpacing: "0.10em",
+                                                                            letterSpacing: "0.08em",
                                                                             "&:hover": { bgcolor: "#164a96" },
-                                                                            fontSize: { xs: "0.72rem", sm: "0.85rem" },
-                                                                            px: { xs: 1, sm: 1.8 },
-                                                                            py: { xs: 0.55, sm: 0.9 },
-                                                                            minHeight: { xs: 32, sm: 34 },
+                                                                            fontSize: "0.58rem",
+                                                                            px: 0.9,
+                                                                            py: 0,
+                                                                            minWidth: 78,
+                                                                            height: 23,
+                                                                            lineHeight: 1,
                                                                         }}
                                                                     >
                                                                         Mark sent
@@ -623,7 +653,107 @@ export default function AdminOrders() {
                                                                     onClick={(e) => openTsMenu(e, o.id)}
                                                                     endIcon={<ExpandMoreIcon />}
                                                                     sx={{
-                                                                        minHeight: 24,
+                                                                        minHeight: 22,
+                                                                        minWidth: "auto",
+                                                                        px: 0.4,
+                                                                        py: 0,
+                                                                        fontSize: "0.64rem",
+                                                                        letterSpacing: "0.06em",
+                                                                        textTransform: "uppercase",
+                                                                        fontWeight: 900,
+                                                                        color: "rgba(0,0,0,0.65)",
+                                                                    }}
+                                                                >
+                                                                    Timeline
+                                                                </Button>
+                                                            </Stack>
+                                                        </Stack>
+
+                                                        {/* DESKTOP */}
+                                                        <Stack
+                                                            direction="row"
+                                                            alignItems="center"
+                                                            justifyContent="space-between"
+                                                            gap={1}
+                                                            sx={{ display: { xs: "none", sm: "flex" } }}
+                                                        >
+                                                            <Typography
+                                                                sx={{
+                                                                    fontSize: 19,
+                                                                    fontWeight: 900,
+                                                                    color: "#1e5bb8",
+                                                                    lineHeight: 1.1,
+                                                                }}
+                                                            >
+                                                                Order: {o.order_code}
+                                                                <Box
+                                                                    component="span"
+                                                                    sx={{
+                                                                        color: "rgba(0,0,0,0.45)",
+                                                                        fontWeight: 800,
+                                                                    }}
+                                                                >
+                                                                    {" "}• #{o.id}
+                                                                </Box>
+                                                            </Typography>
+
+                                                            <Stack direction="row" alignItems="center" gap={0.6}>
+                                                                {statusChip(o.status)}
+
+                                                                {activeKey === "received" && o.status === "received" ? (
+                                                                    <Button
+                                                                        variant="contained"
+                                                                        onClick={() => updateStatus(o.id, "in_progress")}
+                                                                        sx={{
+                                                                            borderRadius: 2,
+                                                                            bgcolor: "#1e5bb8",
+                                                                            color: "#fff",
+                                                                            fontWeight: 900,
+                                                                            textTransform: "uppercase",
+                                                                            letterSpacing: "0.08em",
+                                                                            "&:hover": { bgcolor: "#164a96" },
+                                                                            fontSize: "0.68rem",
+                                                                            px: 1.3,
+                                                                            py: 0,
+                                                                            minWidth: 94,
+                                                                            height: 28,
+                                                                            lineHeight: 1,
+                                                                        }}
+                                                                    >
+                                                                        Accept
+                                                                    </Button>
+                                                                ) : null}
+
+                                                                {activeKey === "in_progress" && o.status === "in_progress" ? (
+                                                                    <Button
+                                                                        variant="contained"
+                                                                        onClick={() => updateStatus(o.id, "sent")}
+                                                                        sx={{
+                                                                            borderRadius: 2,
+                                                                            bgcolor: "#1e5bb8",
+                                                                            color: "#fff",
+                                                                            fontWeight: 900,
+                                                                            textTransform: "uppercase",
+                                                                            letterSpacing: "0.08em",
+                                                                            "&:hover": { bgcolor: "#164a96" },
+                                                                            fontSize: "0.68rem",
+                                                                            px: 1.3,
+                                                                            py: 0,
+                                                                            minWidth: 104,
+                                                                            height: 28,
+                                                                            lineHeight: 1,
+                                                                        }}
+                                                                    >
+                                                                        Mark sent
+                                                                    </Button>
+                                                                ) : null}
+
+                                                                <Button
+                                                                    size="small"
+                                                                    onClick={(e) => openTsMenu(e, o.id)}
+                                                                    endIcon={<ExpandMoreIcon />}
+                                                                    sx={{
+                                                                        minHeight: 22,
                                                                         px: 1,
                                                                         py: 0,
                                                                         fontSize: "0.72rem",
@@ -699,18 +829,33 @@ export default function AdminOrders() {
 
                                                         {/* ITEMS */}
                                                         {lines.length > 0 && (
-                                                            <Box sx={{ mt: 0.5 }}>
-                                                                {lines.map((p) => (
-                                                                    <Typography
-                                                                        key={p.key}
-                                                                        sx={{ fontSize: "0.9rem", color: "#333", lineHeight: 1.35 }}
-                                                                    >
-                                                                        • {p.name} <b>x{p.qty}</b>
-                                                                    </Typography>
-                                                                ))}
+                                                            <Box sx={{ mt: 0.8 }}>
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontSize: "0.6rem",
+                                                                        fontWeight: 900,
+                                                                        letterSpacing: "0.10em",
+                                                                        textTransform: "uppercase",
+                                                                        color: "rgba(0,0,0,0.55)",
+                                                                        mb: 0.3,
+                                                                        lineHeight: 1.1,
+                                                                    }}
+                                                                >
+                                                                    Items
+                                                                </Typography>
+
+                                                                <Box>
+                                                                    {lines.map((p) => (
+                                                                        <Typography
+                                                                            key={p.key}
+                                                                            sx={{ fontSize: "0.9rem", color: "#333", lineHeight: 1.35 }}
+                                                                        >
+                                                                            • {p.name} <b>x{p.qty}</b>
+                                                                        </Typography>
+                                                                    ))}
+                                                                </Box>
                                                             </Box>
-                                                        )
-                                                        }
+                                                        )}
 
                                                         {/* TOTAL */}
                                                         <Typography

@@ -58,18 +58,14 @@ body {
   line-height: 1.35;
   letter-spacing: 0.04em;
   text-align: center;
-  margin-top: 8px;
+  margin-top: 2px;
   opacity: 0.92;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 @media (max-width: 600px) {
   .h2-driveMode-desk {
-    display: block !important;
-    font-size: 0.64rem;
-    line-height: 1.25;
-    opacity: 0.82;
-    margin-bottom: 10px;
+    display: none
   }
 }
 
