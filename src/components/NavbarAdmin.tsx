@@ -28,7 +28,7 @@ export default function NavbarAdmin() {
 
 
     const actionBtnSx = {
-        height: { xs: 38, sm: 40, md: 45 },
+        height: { xs: 40, sm: 42, md: 45 },
         borderRadius: 2,
         backgroundColor: "#e65100",
         color: "#ffe0c7",
@@ -37,7 +37,7 @@ export default function NavbarAdmin() {
         textTransform: "uppercase",
         boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
         px: { xs: 1.4, sm: 1.6, md: 2.2 },
-        fontSize: { xs: "0.70rem", sm: "0.76rem", md: "0.84rem" },
+        fontSize: { xs: "0.74rem", sm: "0.76rem", md: "0.84rem" },
         minWidth: "unset",
         flexShrink: 0,
         WebkitTapHighlightColor: "transparent",
@@ -45,7 +45,7 @@ export default function NavbarAdmin() {
         "& .MuiButton-startIcon": {
             marginRight: { xs: "4px", sm: "6px", md: "8px" },
             "& svg": {
-                fontSize: { xs: 18, sm: 18, md: 20 },
+                fontSize: { xs: 19, sm: 19, md: 20 },
             },
         },
 

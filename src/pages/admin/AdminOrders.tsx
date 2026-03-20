@@ -561,7 +561,7 @@ export default function AdminOrders() {
                                                 >
                                                     <Stack
                                                         sx={{
-                                                            mt: { xs: 0, sm: -0.3, md: -0.7 },
+                                                            mt: { xs: 0, sm: -0.2, md: -0.2 },
                                                         }}
                                                     >
                                                         {/* HEADER MOBILE */}
