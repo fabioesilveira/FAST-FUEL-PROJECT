@@ -442,7 +442,7 @@ export default function AdminOrders() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: "2.3rem",
+                                    fontSize: { xs: "2.22rem", sm: "2.32rem", md: "2.37rem" },
                                     letterSpacing: "0.14em",
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
@@ -594,8 +594,7 @@ export default function AdminOrders() {
                                                             </Typography>
 
                                                             <Stack direction="row" alignItems="center" gap={0.5}>
-                                                                {statusChip(o.status)}
-
+                                                               
                                                                 <Button
                                                                     size="small"
                                                                     onClick={(e) => openTsMenu(e, o.id)}
@@ -765,7 +764,7 @@ export default function AdminOrders() {
                                                         </Box>
 
                                                         {/* DELIVERY */}
-                                                        <Box sx={{ mt: 0.10 }}>
+                                                        <Box sx={{ mt: -0.8 }}>
                                                             <Typography
                                                                 sx={{
                                                                     fontSize: "0.86rem",

@@ -771,7 +771,7 @@ export default function TrackOrderGuest() {
                                                                         gap={0.5}
                                                                         sx={{ flexShrink: 0, transform: "translateY(-1px)", }}
                                                                     >
-                                                                        {statusChip(effectiveStatus)}
+                                                                        
 
                                                                         <Button
                                                                             size="small"

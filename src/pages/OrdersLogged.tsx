@@ -725,7 +725,7 @@ export default function OrdersLogged() {
                                                                     gap={0.5}
                                                                     sx={{ flexShrink: 0, transform: "translateY(-1px)", }}
                                                                 >
-                                                                    {userStatusChip(o.status)}
+                                                                   
 
                                                                     <Button
                                                                         size="small"
