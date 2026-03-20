@@ -45,7 +45,7 @@ export default function NavbarAdmin() {
         "& .MuiButton-startIcon": {
             marginRight: { xs: "4px", sm: "6px", md: "8px" },
             "& svg": {
-                fontSize: { xs: 17, sm: 18, md: 20 },
+                fontSize: { xs: 18, sm: 18, md: 20 },
             },
         },
 

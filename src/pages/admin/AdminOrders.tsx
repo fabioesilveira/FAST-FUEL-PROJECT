@@ -560,10 +560,8 @@ export default function AdminOrders() {
                                                     }}
                                                 >
                                                     <Stack
-                                                        spacing={0.8}
                                                         sx={{
                                                             mt: { xs: 0, sm: -0.3, md: -0.7 },
-                                                            mb: { xs: 0.5, sm: 0.5, md: 0.5 }
                                                         }}
                                                     >
                                                         {/* HEADER MOBILE */}
@@ -597,7 +595,6 @@ export default function AdminOrders() {
                                                             </Typography>
 
                                                             <Stack direction="row" alignItems="center" gap={0.5}>
-
                                                                 <Button
                                                                     size="small"
                                                                     onClick={(e) => openTsMenu(e, o.id)}
@@ -611,11 +608,9 @@ export default function AdminOrders() {
                                                                         textTransform: "uppercase",
                                                                         fontWeight: 900,
                                                                         color: "rgba(0,0,0,0.65)",
-
-
                                                                         "& .MuiButton-endIcon": {
-                                                                            marginLeft: "2px",     // padrão é tipo 8px (muito espaço)
-                                                                            marginTop: "-2px",     // sobe levemente a seta
+                                                                            marginLeft: "2px",
+                                                                            marginTop: "-2px",
                                                                         },
                                                                     }}
                                                                 >
@@ -706,11 +701,9 @@ export default function AdminOrders() {
                                                                         textTransform: "uppercase",
                                                                         fontWeight: 900,
                                                                         color: "rgba(0,0,0,0.65)",
-
-                                                                        // ajuste fino igual mobile
                                                                         "& .MuiButton-endIcon": {
-                                                                            marginLeft: "3px",   // menor espaço (default é grande demais)
-                                                                            marginTop: "-2px",   // sobe levemente
+                                                                            marginLeft: "3px",
+                                                                            marginTop: "-2px",
                                                                         },
                                                                     }}
                                                                 >
@@ -757,30 +750,29 @@ export default function AdminOrders() {
                                                             </Stack>
                                                         </Stack>
 
-                                                        {/* CUSTOMER INFO */}
-                                                        <Box sx={{ mt: 0.6, mb: -0.8 }}>
-                                                            <Typography sx={{ fontSize: "0.92rem", lineHeight: 1.3 }}>
-                                                                <b>{o.customer_name ?? "Guest"}</b>
-                                                                {o.customer_email ? ` • ${o.customer_email}` : ""}
-                                                                {o.user_id ? ` • User ID: ${o.user_id}` : " • Guest order"}
-                                                            </Typography>
-                                                        </Box>
+                                                        {/* CUSTOMER + DELIVERY */}
+                                                        <Box sx={{ mt: 1.1 }}>
+                                                            <Stack spacing={0.15}>
+                                                                <Typography sx={{ fontSize: "0.92rem", lineHeight: 1.3 }}>
+                                                                    <b>{o.customer_name ?? "Guest"}</b>
+                                                                    {o.customer_email ? ` • ${o.customer_email}` : ""}
+                                                                    {o.user_id ? ` • User ID: ${o.user_id}` : " • Guest order"}
+                                                                </Typography>
 
-                                                        {/* DELIVERY */}
-                                                        <Box sx={{ mt: -0.8 }}>
-                                                            <Typography
-                                                                sx={{
-                                                                    fontSize: "0.86rem",
-                                                                    lineHeight: 1.3,
-                                                                    color: "#333",
-                                                                    overflowWrap: "anywhere",
-                                                                }}
-                                                            >
-                                                                <b>Delivery:</b>{" "}
-                                                                {addrLines
-                                                                    ? [addrLines.line1, addrLines.line2].filter(Boolean).join(", ")
-                                                                    : "-"}
-                                                            </Typography>
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontSize: "0.86rem",
+                                                                        lineHeight: 1.3,
+                                                                        color: "#333",
+                                                                        overflowWrap: "anywhere",
+                                                                    }}
+                                                                >
+                                                                    <b>Delivery:</b>{" "}
+                                                                    {addrLines
+                                                                        ? [addrLines.line1, addrLines.line2].filter(Boolean).join(", ")
+                                                                        : "-"}
+                                                                </Typography>
+                                                            </Stack>
                                                         </Box>
 
                                                         {/* ITEMS */}
@@ -799,38 +791,41 @@ export default function AdminOrders() {
                                                                     Items
                                                                 </Typography>
 
-                                                                {lines.map((p) => (
-                                                                    <Typography
-                                                                        key={p.key}
-                                                                        sx={{ fontSize: "0.9rem", color: "#333" }}
-                                                                    >
-                                                                        • {p.name} <b>x{p.qty}</b>
-                                                                    </Typography>
-                                                                ))}
+                                                                <Box>
+                                                                    {lines.map((p) => (
+                                                                        <Typography
+                                                                            key={p.key}
+                                                                            sx={{ fontSize: "0.9rem", color: "#333" }}
+                                                                        >
+                                                                            • {p.name} <b>x{p.qty}</b>
+                                                                        </Typography>
+                                                                    ))}
+                                                                </Box>
                                                             </Box>
                                                         )}
 
                                                         {/* TOTAL */}
-                                                        <Typography
-                                                            sx={{
-                                                                mt: 0.5,
-                                                                fontSize: "0.92rem",
-                                                                color: "#333",
-                                                            }}
-                                                        >
-                                                            <b>Total: ${Number(o.total).toFixed(2)}</b>
+                                                        <Box sx={{ mt: 1.1 }}>
+                                                            <Typography
+                                                                sx={{
+                                                                    fontSize: "0.92rem",
+                                                                    color: "#333",
+                                                                }}
+                                                            >
+                                                                <b>Total: ${Number(o.total).toFixed(2)}</b>
 
-                                                            {Number(o.discount) > 0 && (
-                                                                <span>
-                                                                    {" "} (Discount: -${Number(o.discount).toFixed(2)})
+                                                                {Number(o.discount) > 0 && (
+                                                                    <span>
+                                                                        {" "} (Discount: -${Number(o.discount).toFixed(2)})
+                                                                    </span>
+                                                                )}
+
+                                                                <span style={{ color: "rgba(0,0,0,0.65)" }}>
+                                                                    {" "}• {paymentStatus}
+                                                                    {" "}• {paymentMethod}
                                                                 </span>
-                                                            )}
-
-                                                            <span style={{ color: "rgba(0,0,0,0.65)" }}>
-                                                                {" "}• {paymentStatus}
-                                                                {" "}• {paymentMethod}
-                                                            </span>
-                                                        </Typography>
+                                                            </Typography>
+                                                        </Box>
                                                     </Stack>
                                                 </Paper>
                                             );
