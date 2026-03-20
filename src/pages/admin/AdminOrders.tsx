@@ -561,7 +561,10 @@ export default function AdminOrders() {
                                                 >
                                                     <Stack
                                                         spacing={0.8}
-                                                        sx={{ mt: { xs: 0, sm: -0.3, md: -0.7 } }}
+                                                        sx={{
+                                                            mt: { xs: 0, sm: -0.3, md: -0.7 },
+                                                            mb: { xs: 0.5, sm: 0.5, md: 0.5 }
+                                                        }}
                                                     >
                                                         {/* HEADER MOBILE */}
                                                         <Stack
@@ -594,7 +597,7 @@ export default function AdminOrders() {
                                                             </Typography>
 
                                                             <Stack direction="row" alignItems="center" gap={0.5}>
-                                                               
+
                                                                 <Button
                                                                     size="small"
                                                                     onClick={(e) => openTsMenu(e, o.id)}

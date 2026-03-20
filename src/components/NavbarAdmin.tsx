@@ -28,7 +28,7 @@ export default function NavbarAdmin() {
 
 
     const actionBtnSx = {
-        height: { xs: 36, sm: 40, md: 45 },
+        height: { xs: 38, sm: 40, md: 45 },
         borderRadius: 2,
         backgroundColor: "#e65100",
         color: "#ffe0c7",
@@ -36,7 +36,7 @@ export default function NavbarAdmin() {
         letterSpacing: "0.05em",
         textTransform: "uppercase",
         boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
-        px: { xs: 1.2, sm: 1.6, md: 2.2 },
+        px: { xs: 1.4, sm: 1.6, md: 2.2 },
         fontSize: { xs: "0.70rem", sm: "0.76rem", md: "0.84rem" },
         minWidth: "unset",
         flexShrink: 0,
