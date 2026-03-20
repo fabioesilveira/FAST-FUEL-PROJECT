@@ -28,25 +28,31 @@ export default function NavbarAdmin() {
 
 
     const actionBtnSx = {
-        height: { xs: 40, md: 45 },
+        height: { xs: 36, sm: 40, md: 45 },
         borderRadius: 2,
         backgroundColor: "#e65100",
         color: "#ffe0c7",
         fontWeight: 800,
-        letterSpacing: "0.06em",
+        letterSpacing: "0.05em",
         textTransform: "uppercase",
         boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
-        px: { xs: 1.7, md: 2.2 },
+        px: { xs: 1.2, sm: 1.6, md: 2.2 },
+        fontSize: { xs: "0.70rem", sm: "0.76rem", md: "0.84rem" },
         minWidth: "unset",
         flexShrink: 0,
         WebkitTapHighlightColor: "transparent",
 
-        // hover só desktop
+        "& .MuiButton-startIcon": {
+            marginRight: { xs: "4px", sm: "6px", md: "8px" },
+            "& svg": {
+                fontSize: { xs: 17, sm: 18, md: 20 },
+            },
+        },
+
         "@media (hover: hover) and (pointer: fine)": {
             "&:hover": { backgroundColor: "#b33f00" },
         },
 
-        // mobile: não deixa ficar marcado
         "@media (hover: none) and (pointer: coarse)": {
             "&:focus, &:focus-visible, &.Mui-focusVisible": {
                 backgroundColor: "#e65100",

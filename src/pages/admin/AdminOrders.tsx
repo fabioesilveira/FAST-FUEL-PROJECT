@@ -560,7 +560,7 @@ export default function AdminOrders() {
                                                     }}
                                                 >
                                                     <Stack
-                                                        spacing={1}
+                                                        spacing={0.8}
                                                         sx={{ mt: { xs: 0, sm: -0.3, md: -0.7 } }}
                                                     >
                                                         {/* HEADER MOBILE */}
