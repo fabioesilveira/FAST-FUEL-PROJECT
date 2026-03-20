@@ -7,6 +7,7 @@ import NavbarAdmin from "../../components/NavbarAdmin";
 import Footer from "../../components/Footer";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 type ContactMsg = {
     id: number;
@@ -43,6 +44,8 @@ function formatPhoneUS(phone: string | null) {
 
 
 export default function AdminMessages() {
+    useDocumentTitle("FastFuel • Adm - Messages");
+
     const [activeKey, setActiveKey] = useState<"received" | "answered" | "contact">("received");
     const [emailFilter, setEmailFilter] = useState("");
     const [items, setItems] = useState<ContactMsg[]>([]);
@@ -267,7 +270,7 @@ export default function AdminMessages() {
                                 align="center"
                                 sx={{
                                     letterSpacing: "0.14em",
-                                    fontSize: "2.3rem",
+                                    fontSize: { xs: "2.22rem", sm: "2.3rem", md: "2.3rem" },
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
                                     fontWeight: 800,
@@ -366,7 +369,9 @@ export default function AdminMessages() {
                                                     bgcolor: "#fff4e1",
                                                 }}
                                             >
-                                                <Stack spacing={0.7}>
+                                                <Stack
+                                                    sx={{ mt: { xs: 0, sm: -0.2, md: -0.2 } }}
+                                                >
                                                     {/* HEADER */}
                                                     <Stack
                                                         direction="row"
@@ -387,7 +392,12 @@ export default function AdminMessages() {
                                                         </Typography>
 
                                                         {/* RIGHT ACTIONS */}
-                                                        <Stack direction="row" alignItems="center" gap={0.6} sx={{ flexShrink: 0 }}>
+                                                        <Stack
+                                                            direction="row"
+                                                            alignItems="center"
+                                                            gap={0.6}
+                                                            sx={{ flexShrink: 0 }}
+                                                        >
                                                             {activeKey === "received" ? (
                                                                 <Button
                                                                     variant="contained"
@@ -398,11 +408,13 @@ export default function AdminMessages() {
                                                                         color: "#fff",
                                                                         fontWeight: 900,
                                                                         textTransform: "uppercase",
-                                                                        letterSpacing: "0.10em",
-                                                                        fontSize: { xs: "0.70rem", sm: "0.78rem" },
-                                                                        px: { xs: 1.3, sm: 1.9 },
-                                                                        py: { xs: 0.55, sm: 0.8 },
-                                                                        minHeight: { xs: 32, sm: 34 },
+                                                                        letterSpacing: "0.08em",
+                                                                        fontSize: { xs: "0.60rem", sm: "0.68rem" },
+                                                                        px: { xs: 0.9, sm: 1.3 },
+                                                                        py: 0,
+                                                                        minWidth: { xs: 92, sm: 120 },
+                                                                        height: { xs: 23, sm: 28 },
+                                                                        lineHeight: 1,
                                                                         "&:hover": { bgcolor: "#164a96" },
                                                                     }}
                                                                 >
@@ -430,9 +442,9 @@ export default function AdminMessages() {
                                                             <Button
                                                                 size="small"
                                                                 onClick={(e) => openTsMenu(e, m.id)}
-                                                                endIcon={<ExpandMoreIcon />}
+                                                                endIcon={<ExpandMoreIcon sx={{ fontSize: 18 }} />}
                                                                 sx={{
-                                                                    minHeight: 24,
+                                                                    minHeight: 22,
                                                                     px: 1,
                                                                     py: 0,
                                                                     fontSize: "0.72rem",
@@ -440,6 +452,10 @@ export default function AdminMessages() {
                                                                     textTransform: "uppercase",
                                                                     fontWeight: 900,
                                                                     color: "rgba(0,0,0,0.65)",
+                                                                    "& .MuiButton-endIcon": {
+                                                                        marginLeft: "3px",
+                                                                        marginTop: "-2px",
+                                                                    },
                                                                 }}
                                                             >
                                                                 Timeline
@@ -447,50 +463,54 @@ export default function AdminMessages() {
                                                         </Stack>
                                                     </Stack>
 
-                                                    <Stack spacing={0.4} sx={{ mt: 1 }}>
-                                                        {/* LINHA 3 */}
-                                                        <Box sx={{ mt: 0.2 }}>
-                                                            {/* desktop */}
-                                                            <Typography
-                                                                sx={{
-                                                                    display: { xs: "none", sm: "block" },
-                                                                    fontSize: "0.88rem",
-                                                                    lineHeight: 1.25,
-                                                                    whiteSpace: "nowrap",
-                                                                    overflow: "hidden",
-                                                                    textOverflow: "ellipsis",
-                                                                }}
-                                                                title={`${m.name} • ${m.email} • Phone: ${formatPhoneUS(m.phone)}${m.orderNumber ? ` • Order: ${m.orderNumber}` : ""
-                                                                    }`}
-                                                            >
-                                                                <b>{m.name}</b> • {m.email} {" "}•{" "}
-                                                                <span style={{ color: "rgba(0,0,0,0.68)" }}>Phone:</span>{" "}
-                                                                {formatPhoneUS(m.phone)}
-                                                                {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
-                                                            </Typography>
-
-                                                            {/* mobile */}
-                                                            <Box sx={{ display: { xs: "block", sm: "none" } }}>
-                                                                <Typography sx={{ fontSize: "0.88rem", lineHeight: 1.25 }}>
-                                                                    <b>{m.name}</b> • {m.email}
-                                                                </Typography>
-
+                                                    {/* NAME / EMAIL / PHONE */}
+                                                    <Box sx={{ mt: 1.1 }}>
+                                                        <Stack spacing={0.15}>
+                                                            <Box sx={{ mt: 0 }}>
+                                                                {/* desktop */}
                                                                 <Typography
                                                                     sx={{
-                                                                        fontSize: "0.86rem",
+                                                                        display: { xs: "none", sm: "block" },
+                                                                        fontSize: "0.88rem",
                                                                         lineHeight: 1.25,
-                                                                        color: "rgba(0,0,0,0.70)",
-                                                                        mt: 0.15,
+                                                                        whiteSpace: "nowrap",
+                                                                        overflow: "hidden",
+                                                                        textOverflow: "ellipsis",
                                                                     }}
+                                                                    title={`${m.name} • ${m.email} • Phone: ${formatPhoneUS(m.phone)}${m.orderNumber ? ` • Order: ${m.orderNumber}` : ""
+                                                                        }`}
                                                                 >
+                                                                    <b>{m.name}</b> • {m.email} {" "}•{" "}
                                                                     <span style={{ color: "rgba(0,0,0,0.68)" }}>Phone:</span>{" "}
                                                                     {formatPhoneUS(m.phone)}
                                                                     {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
                                                                 </Typography>
-                                                            </Box>
-                                                        </Box>
 
-                                                        {/* LINHA 4 */}
+                                                                {/* mobile */}
+                                                                <Box sx={{ display: { xs: "block", sm: "none" } }}>
+                                                                    <Typography sx={{ fontSize: "0.88rem", lineHeight: 1.25 }}>
+                                                                        <b>{m.name}</b> • {m.email}
+                                                                    </Typography>
+
+                                                                    <Typography
+                                                                        sx={{
+                                                                            fontSize: "0.86rem",
+                                                                            lineHeight: 1.25,
+                                                                            color: "rgba(0,0,0,0.70)",
+                                                                            mt: 0.15,
+                                                                        }}
+                                                                    >
+                                                                        <span style={{ color: "rgba(0,0,0,0.68)" }}>Phone:</span>{" "}
+                                                                        {formatPhoneUS(m.phone)}
+                                                                        {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
+                                                                    </Typography>
+                                                                </Box>
+                                                            </Box>
+                                                        </Stack>
+                                                    </Box>
+
+                                                    {/* MESSAGE */}
+                                                    <Box sx={{ mt: 0.9 }}>
                                                         <Typography
                                                             sx={{
                                                                 color: "#333",
@@ -504,7 +524,7 @@ export default function AdminMessages() {
                                                             <b>Message:</b>{" "}
                                                             <span style={{ fontWeight: 400 }}>{m.message}</span>
                                                         </Typography>
-                                                    </Stack>
+                                                    </Box>
                                                 </Stack>
                                             </Paper>
                                         ))}
