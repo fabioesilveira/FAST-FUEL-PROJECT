@@ -755,7 +755,7 @@ export default function AdminOrders() {
                                                         </Stack>
 
                                                         {/* CUSTOMER INFO */}
-                                                        <Box sx={{ mt: 0.6 }}>
+                                                        <Box sx={{ mt: 0.6, mb: -0.8 }}>
                                                             <Typography sx={{ fontSize: "0.92rem", lineHeight: 1.3 }}>
                                                                 <b>{o.customer_name ?? "Guest"}</b>
                                                                 {o.customer_email ? ` • ${o.customer_email}` : ""}
