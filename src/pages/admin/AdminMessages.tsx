@@ -270,7 +270,7 @@ export default function AdminMessages() {
                                 align="center"
                                 sx={{
                                     letterSpacing: "0.14em",
-                                    fontSize: { xs: "2.22rem", sm: "2.3rem", md: "2.3rem" },
+                                    fontSize: { xs: "2.20rem", sm: "2.27rem", md: "2.27rem" },
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
                                     fontWeight: 800,
@@ -396,7 +396,7 @@ export default function AdminMessages() {
                                                             direction="row"
                                                             alignItems="center"
                                                             gap={0.6}
-                                                            sx={{ flexShrink: 0 }}
+                                                            sx={{ flexShrink: 0, mt: 0.15 }}
                                                         >
                                                             {activeKey === "received" ? (
                                                                 <Button
@@ -423,16 +423,23 @@ export default function AdminMessages() {
                                                             ) : (
                                                                 <Typography
                                                                     sx={{
-                                                                        fontSize: "0.72rem",
-                                                                        letterSpacing: "0.10em",
+                                                                        display: "inline-flex",
+                                                                        alignItems: "center",
+                                                                        justifyContent: "center",
+                                                                        fontSize: { xs: "0.60rem", sm: "0.68rem" },
+                                                                        letterSpacing: "0.08em",
                                                                         textTransform: "uppercase",
                                                                         fontWeight: 900,
                                                                         color: "rgba(0,0,0,0.45)",
                                                                         bgcolor: "rgba(0,0,0,0.06)",
-                                                                        px: 1,
-                                                                        py: 0.35,
+                                                                        px: { xs: 0.9, sm: 1.3 },
+                                                                        py: 0,
+                                                                        minWidth: { xs: 92, sm: 120 },
+                                                                        height: { xs: 23, sm: 28 },
+                                                                        lineHeight: 1,
                                                                         borderRadius: 999,
                                                                         border: "1px solid rgba(0,0,0,0.10)",
+                                                                        boxSizing: "border-box",
                                                                     }}
                                                                 >
                                                                     Answered
