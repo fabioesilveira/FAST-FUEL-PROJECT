@@ -733,14 +733,19 @@ export default function OrdersLogged() {
                                                                         endIcon={<ExpandMoreIcon />}
                                                                         sx={{
                                                                             minHeight: 22,
-                                                                            minWidth: "auto",
-                                                                            px: 0.4,
+                                                                            px: 0.6,
                                                                             py: 0,
                                                                             fontSize: "0.64rem",
                                                                             letterSpacing: "0.06em",
                                                                             textTransform: "uppercase",
                                                                             fontWeight: 900,
                                                                             color: "rgba(0,0,0,0.65)",
+
+
+                                                                            "& .MuiButton-endIcon": {
+                                                                                marginLeft: "2px",     // padrão é tipo 8px (muito espaço)
+                                                                                marginTop: "-2px",     // sobe levemente a seta
+                                                                            },
                                                                         }}
                                                                     >
                                                                         Timeline
@@ -776,7 +781,7 @@ export default function OrdersLogged() {
                                                                     <Button
                                                                         size="small"
                                                                         onClick={(e) => openTsMenu(e, o.id)}
-                                                                        endIcon={<ExpandMoreIcon />}
+                                                                        endIcon={<ExpandMoreIcon sx={{ fontSize: 18 }} />}
                                                                         sx={{
                                                                             minHeight: 22,
                                                                             px: 1,
@@ -786,6 +791,11 @@ export default function OrdersLogged() {
                                                                             textTransform: "uppercase",
                                                                             fontWeight: 900,
                                                                             color: "rgba(0,0,0,0.65)",
+
+                                                                            "& .MuiButton-endIcon": {
+                                                                                marginLeft: "3px",   // menor espaço (default é grande demais)
+                                                                                marginTop: "-2px",   // sobe levemente
+                                                                            },
                                                                         }}
                                                                     >
                                                                         Timeline

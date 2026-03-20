@@ -540,7 +540,7 @@ export default function AdminOrders() {
                                             const paymentMethod = String(o.payment_method ?? "-");
 
                                             const list = Array.isArray(snap) ? snap : [];
-                                            
+
 
                                             const lines = list.map((it, idx) => ({
                                                 key: `${o.id}-${idx}`,
@@ -602,13 +602,19 @@ export default function AdminOrders() {
                                                                     endIcon={<ExpandMoreIcon />}
                                                                     sx={{
                                                                         minHeight: 22,
-                                                                        px: 0.4,
+                                                                        px: 0.6,
                                                                         py: 0,
                                                                         fontSize: "0.64rem",
                                                                         letterSpacing: "0.06em",
                                                                         textTransform: "uppercase",
                                                                         fontWeight: 900,
                                                                         color: "rgba(0,0,0,0.65)",
+
+
+                                                                        "& .MuiButton-endIcon": {
+                                                                            marginLeft: "2px",     // padrão é tipo 8px (muito espaço)
+                                                                            marginTop: "-2px",     // sobe levemente a seta
+                                                                        },
                                                                     }}
                                                                 >
                                                                     Timeline
@@ -688,7 +694,7 @@ export default function AdminOrders() {
                                                                 <Button
                                                                     size="small"
                                                                     onClick={(e) => openTsMenu(e, o.id)}
-                                                                    endIcon={<ExpandMoreIcon />}
+                                                                    endIcon={<ExpandMoreIcon sx={{ fontSize: 18 }} />}
                                                                     sx={{
                                                                         minHeight: 22,
                                                                         px: 1,
@@ -698,6 +704,12 @@ export default function AdminOrders() {
                                                                         textTransform: "uppercase",
                                                                         fontWeight: 900,
                                                                         color: "rgba(0,0,0,0.65)",
+
+                                                                        // ajuste fino igual mobile
+                                                                        "& .MuiButton-endIcon": {
+                                                                            marginLeft: "3px",   // menor espaço (default é grande demais)
+                                                                            marginTop: "-2px",   // sobe levemente
+                                                                        },
                                                                     }}
                                                                 >
                                                                     Timeline
@@ -753,7 +765,7 @@ export default function AdminOrders() {
                                                         </Box>
 
                                                         {/* DELIVERY */}
-                                                        <Box sx={{ mt: 0.35 }}>
+                                                        <Box sx={{ mt: 0.10 }}>
                                                             <Typography
                                                                 sx={{
                                                                     fontSize: "0.86rem",
