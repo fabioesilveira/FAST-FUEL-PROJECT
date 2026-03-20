@@ -270,7 +270,7 @@ export default function AdminMessages() {
                                 align="center"
                                 sx={{
                                     letterSpacing: "0.14em",
-                                    fontSize: { xs: "2.20rem", sm: "2.27rem", md: "2.27rem" },
+                                    fontSize: { xs: "2.18rem", sm: "2.27rem", md: "2.27rem" },
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
                                     fontWeight: 800,
@@ -423,7 +423,7 @@ export default function AdminMessages() {
                                                             ) : (
                                                                 <Typography
                                                                     sx={{
-                                                                        display: "inline-flex",
+                                                                        display: { xs: "none", sm: "inline-flex" },
                                                                         alignItems: "center",
                                                                         justifyContent: "center",
                                                                         fontSize: { xs: "0.60rem", sm: "0.68rem" },
@@ -449,18 +449,19 @@ export default function AdminMessages() {
                                                             <Button
                                                                 size="small"
                                                                 onClick={(e) => openTsMenu(e, m.id)}
-                                                                endIcon={<ExpandMoreIcon sx={{ fontSize: 18 }} />}
+                                                                endIcon={<ExpandMoreIcon sx={{ fontSize: { xs: 16, sm: 18 } }} />}
                                                                 sx={{
-                                                                    minHeight: 22,
-                                                                    px: 1,
+                                                                    minHeight: { xs: 20, sm: 22 },
+                                                                    minWidth: "auto",
+                                                                    px: { xs: 0.4, sm: 1 },
                                                                     py: 0,
-                                                                    fontSize: "0.72rem",
-                                                                    letterSpacing: "0.08em",
+                                                                    fontSize: { xs: "0.64rem", sm: "0.72rem" },
+                                                                    letterSpacing: { xs: "0.06em", sm: "0.08em" },
                                                                     textTransform: "uppercase",
                                                                     fontWeight: 900,
                                                                     color: "rgba(0,0,0,0.65)",
                                                                     "& .MuiButton-endIcon": {
-                                                                        marginLeft: "3px",
+                                                                        marginLeft: { xs: "2px", sm: "3px" },
                                                                         marginTop: "-2px",
                                                                     },
                                                                 }}

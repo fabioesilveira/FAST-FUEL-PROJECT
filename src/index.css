@@ -144,7 +144,8 @@ body {
   width: 100%;
   gap: 0;
   margin: 0;
-  padding: 4px; /* espaço igual dos 2 lados */
+  padding: 4px;
+  /* espaço igual dos 2 lados */
   border-radius: 999px;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.14);
@@ -164,6 +165,7 @@ body {
   white-space: nowrap;
 
   font-weight: 800;
+  font-size: 0.92rem;
   letter-spacing: 0.10em;
   text-transform: uppercase;
 
@@ -175,7 +177,6 @@ body {
 
   padding: 10px 12px;
 
-  /* garante que o hover pegue o “bloco todo” */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,7 +203,8 @@ body {
 
 /* hover no ACTIVE (opcional — pode manter igual) */
 .ff-tabs .nav-link.active:hover {
-  background: #1e5bb8 !important; /* não muda o azul */
+  background: #1e5bb8 !important;
+  /* não muda o azul */
   color: #fff !important;
 }
 
@@ -222,10 +224,10 @@ body {
   .ff-tabs {
     padding: 3px;
   }
+
   .ff-tabs .nav-link {
     letter-spacing: 0.08em;
     font-size: 0.78rem;
     padding: 9px 10px;
   }
 }
-
