@@ -584,7 +584,23 @@ export default function TrackOrderGuest() {
                                             textTransform: "uppercase",
                                             letterSpacing: "0.10em",
                                             height: 40,
-                                            "&:hover": { bgcolor: "#164a96" },
+                                            WebkitTapHighlightColor: "transparent",
+
+                                            "@media (hover: hover) and (pointer: fine)": {
+                                                "&:hover": { bgcolor: "#164a96" },
+                                            },
+
+                                            "@media (hover: none) and (pointer: coarse)": {
+                                                "&:hover": { bgcolor: "#1e5bb8" },
+                                                "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                                                    bgcolor: "#1e5bb8",
+                                                },
+                                            },
+
+                                            "&.Mui-disabled": {
+                                                bgcolor: "rgba(30, 91, 184, 0.35)",
+                                                color: "rgba(255,255,255,0.85)",
+                                            },
                                         }}
                                     >
                                         Search
