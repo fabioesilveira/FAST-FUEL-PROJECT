@@ -51,13 +51,6 @@ export default function NavbarAdmin() {
         "@media (hover: hover) and (pointer: fine)": {
             "&:hover": { backgroundColor: "#b33f00" },
         },
-
-        "@media (hover: none) and (pointer: coarse)": {
-            "&:focus, &:focus-visible, &.Mui-focusVisible": {
-                backgroundColor: "#e65100",
-                boxShadow: "0px 3px 14px rgba(0,0,0,0.22)",
-            },
-        },
     } as const;
 
 
