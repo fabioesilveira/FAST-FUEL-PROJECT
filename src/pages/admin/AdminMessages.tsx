@@ -444,7 +444,7 @@ export default function AdminMessages() {
                                                                         bgcolor: "rgba(0,0,0,0.06)",
                                                                         px: { xs: 0.45, sm: 0.9 },
                                                                         py: 0,
-                                                                        minWidth: { xs: 92, sm: 120 },
+                                                                        // minWidth: { xs: 92, sm: 120 },
                                                                         height: { xs: 20, sm: 22 },
                                                                         lineHeight: 1,
                                                                         borderRadius: 999,
@@ -532,8 +532,8 @@ export default function AdminMessages() {
                                                         <Typography
                                                             sx={{
                                                                 color: "#333",
-                                                                fontSize: "0.97rem",
-                                                                lineHeight: 1.45,
+                                                                fontSize: "0.96rem",
+                                                                lineHeight: 1.40,
                                                                 whiteSpace: "pre-wrap",
                                                                 overflowWrap: "anywhere",
                                                                 mt: 0,
