@@ -47,10 +47,6 @@ export default function NavbarAdmin() {
                 fontSize: { xs: 19, sm: 19, md: 20 },
             },
         },
-
-        "@media (hover: hover) and (pointer: fine)": {
-            "&:hover": { backgroundColor: "#b33f00" },
-        },
     } as const;
 
 

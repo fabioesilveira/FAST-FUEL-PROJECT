@@ -805,7 +805,7 @@ export default function AdminOrders() {
                                                         )}
 
                                                         {/* TOTAL */}
-                                                        <Box sx={{ mt: 1.1, mb: 0.4 }}>
+                                                        <Box sx={{ mt: 1.1, mb: 0.3 }}>
                                                             <Typography
                                                                 sx={{
                                                                     fontSize: "0.92rem",
