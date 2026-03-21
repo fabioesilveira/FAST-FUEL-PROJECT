@@ -382,7 +382,7 @@ export default function AdminMessages() {
                                                     >
                                                         <Typography
                                                             sx={{
-                                                                fontSize: 18,
+                                                                fontSize: { xs: 17, md: 18 },
                                                                 fontWeight: 900,
                                                                 color: "#1e5bb8",
                                                                 lineHeight: 1.1,
@@ -444,7 +444,7 @@ export default function AdminMessages() {
                                                                         bgcolor: "rgba(0,0,0,0.06)",
                                                                         px: { xs: 0.45, sm: 0.9 },
                                                                         py: 0,
-                                                                        // minWidth: { xs: 92, sm: 120 },
+                                                                        minWidth: { xs: 92, sm: 105 },
                                                                         height: { xs: 20, sm: 22 },
                                                                         lineHeight: 1,
                                                                         borderRadius: 999,
@@ -533,7 +533,7 @@ export default function AdminMessages() {
                                                             sx={{
                                                                 color: "#333",
                                                                 fontSize: "0.96rem",
-                                                                lineHeight: 1.40,
+                                                                lineHeight: 1.38,
                                                                 whiteSpace: "pre-wrap",
                                                                 overflowWrap: "anywhere",
                                                                 mt: 0,

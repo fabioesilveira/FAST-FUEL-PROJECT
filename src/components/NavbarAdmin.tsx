@@ -43,7 +43,7 @@ export default function NavbarAdmin() {
         WebkitTapHighlightColor: "transparent",
 
         "& .MuiButton-startIcon": {
-            marginRight: { xs: "4px", sm: "6px", md: "8px" },
+            marginRight: { xs: "2px", sm: "3px", md: "4px" },
             "& svg": {
                 fontSize: { xs: 19, sm: 19, md: 20 },
             },
