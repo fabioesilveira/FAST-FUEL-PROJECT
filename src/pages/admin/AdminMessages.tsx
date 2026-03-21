@@ -270,7 +270,7 @@ export default function AdminMessages() {
                                 align="center"
                                 sx={{
                                     letterSpacing: "0.14em",
-                                    fontSize: { xs: "2.18rem", sm: "2.27rem", md: "2.27rem" },
+                                    fontSize: { xs: "2.12rem", sm: "2.26rem", md: "2.28rem" },
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
                                     fontWeight: 800,
@@ -388,7 +388,17 @@ export default function AdminMessages() {
                                                                 lineHeight: 1.1,
                                                             }}
                                                         >
-                                                            #{m.id} — {m.subject}
+                                                            {m.subject}
+                                                            <Box
+                                                                component="span"
+                                                                sx={{
+                                                                    color: "rgba(0,0,0,0.40)",
+                                                                    fontWeight: 800,
+                                                                    fontSize: "0.84rem",
+                                                                }}
+                                                            >
+                                                                {" "}• #{m.id}
+                                                            </Box>
                                                         </Typography>
 
                                                         {/* RIGHT ACTIONS */}
@@ -426,16 +436,16 @@ export default function AdminMessages() {
                                                                         display: { xs: "none", sm: "inline-flex" },
                                                                         alignItems: "center",
                                                                         justifyContent: "center",
-                                                                        fontSize: { xs: "0.60rem", sm: "0.68rem" },
+                                                                        fontSize: { xs: "0.62rem", sm: "0.68rem" },
                                                                         letterSpacing: "0.08em",
                                                                         textTransform: "uppercase",
                                                                         fontWeight: 900,
                                                                         color: "rgba(0,0,0,0.45)",
                                                                         bgcolor: "rgba(0,0,0,0.06)",
-                                                                        px: { xs: 0.9, sm: 1.3 },
+                                                                        px: { xs: 0.45, sm: 0.9 },
                                                                         py: 0,
                                                                         minWidth: { xs: 92, sm: 120 },
-                                                                        height: { xs: 23, sm: 28 },
+                                                                        height: { xs: 20, sm: 22 },
                                                                         lineHeight: 1,
                                                                         borderRadius: 999,
                                                                         border: "1px solid rgba(0,0,0,0.10)",

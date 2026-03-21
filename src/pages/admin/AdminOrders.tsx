@@ -442,7 +442,7 @@ export default function AdminOrders() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: { xs: "2.18rem", sm: "2.27rem", md: "2.27rem" },
+                                    fontSize: { xs: "2.12rem", sm: "2.26rem", md: "2.28rem" },
                                     letterSpacing: "0.14em",
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
