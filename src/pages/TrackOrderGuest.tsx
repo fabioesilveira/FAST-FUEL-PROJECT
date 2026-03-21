@@ -1030,7 +1030,7 @@ export default function TrackOrderGuest() {
                                                             )}
 
                                                             {/* TOTAL */}
-                                                            <Box sx={{ mt: 1.1 }}>
+                                                            <Box sx={{ mt: 1.1, mb: 0.4 }}>
                                                                 <Typography
                                                                     sx={{
                                                                         fontSize: "0.88rem",

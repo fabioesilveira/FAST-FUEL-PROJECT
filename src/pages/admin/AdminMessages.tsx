@@ -445,7 +445,7 @@ export default function AdminMessages() {
                                                                         px: { xs: 0.45, sm: 0.9 },
                                                                         py: 0,
                                                                         minWidth: { xs: 92, sm: 105 },
-                                                                        height: { xs: 20, sm: 22 },
+                                                                        // height: { xs: 20, sm: 22 },
                                                                         lineHeight: 1,
                                                                         borderRadius: 999,
                                                                         border: "1px solid rgba(0,0,0,0.10)",

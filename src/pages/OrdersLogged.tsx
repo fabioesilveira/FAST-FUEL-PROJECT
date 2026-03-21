@@ -697,7 +697,7 @@ export default function OrdersLogged() {
                                                     }}
                                                 >
                                                     <Stack
-                                                        sx={{ mt: { xs: 0, sm: -0.2, md: -0.2 } }} 
+                                                        sx={{ mt: { xs: 0, sm: -0.2, md: -0.2 } }}
                                                     >
                                                         {/* HEADER */}
                                                         <>
@@ -978,7 +978,7 @@ export default function OrdersLogged() {
                                                         )}
 
                                                         {/* TOTAL */}
-                                                        <Box sx={{ mt: 1.1 }}>
+                                                        <Box sx={{ mt: 1.1, mb: 0.4 }}>
                                                             <Typography sx={{ fontSize: "0.88rem", lineHeight: 1.35, color: "#333" }}>
                                                                 <Box component="span" sx={{ fontWeight: 900 }}>
                                                                     Total: ${Number(o.total).toFixed(2)}
