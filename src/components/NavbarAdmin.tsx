@@ -136,8 +136,8 @@ export default function NavbarAdmin() {
                             alignItems: "center",
                             pr: { xs: 0.8, sm: 0.8, md: 0.8 },
                             gap: { xs: 0.7, sm: 0.8, md: 1 },
-                            flexWrap: "nowrap",
-                            overflowX: "auto",
+                            // flexWrap: "nowrap",
+                            // overflowX: "auto",
                             WebkitOverflowScrolling: "touch",
                             "&::-webkit-scrollbar": { height: 0 },
                         }}
