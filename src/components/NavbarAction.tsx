@@ -86,7 +86,7 @@ export default function NavbarAction() {
                                 textTransform: "uppercase",
 
                                 px: { xs: 1.6, sm: 1.6, md: 2.2 },
-                                fontSize: { xs: "0.72rem", sm: "0.74rem", md: "0.84rem" },
+                                fontSize: { xs: "0.73rem", sm: "0.74rem", md: "0.84rem" },
 
                                 mr: { xs: 0.8, sm: 0.8, md: 0.8 },
 
@@ -98,8 +98,9 @@ export default function NavbarAction() {
                                 // ICON menor no mobile
                                 "& .MuiButton-startIcon": {
                                     marginRight: { xs: "3px", sm: "3px", md: "4px" },
+                                    marginLeft: { xs: "3px", sm: "3px", md: "4px" },
                                     "& svg": {
-                                        fontSize: { xs: 17, sm: 18, md: 20 },
+                                        fontSize: { xs: 18, sm: 18, md: 20 },
                                     },
                                 },
 
