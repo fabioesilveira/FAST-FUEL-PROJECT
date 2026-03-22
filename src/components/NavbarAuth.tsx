@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Logo from "../assets/fast-fuel.png";
 
-function NavbarExtra() {
+function NavbarAuth() {
     return (
         <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
             <Toolbar
@@ -43,4 +43,4 @@ function NavbarExtra() {
     );
 }
 
-export default NavbarExtra;
+export default NavbarAuth;

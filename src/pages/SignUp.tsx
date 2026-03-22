@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useAppAlert } from "../hooks/useAppAlert";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
-import NavbarExtra from "../components/NavbarExtra";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import NavbarAuth from "../components/NavbarAuth";
 
 type User = {
     name: string;
@@ -184,7 +184,7 @@ export default function SignUp() {
 
     return (
         <>
-            <NavbarExtra />
+            <NavbarAuth />
             {AlertUI}
 
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>

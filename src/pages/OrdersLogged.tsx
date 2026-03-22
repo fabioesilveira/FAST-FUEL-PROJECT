@@ -15,10 +15,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useAppAlert } from "../hooks/useAppAlert";
-import NavbarOrders from "../components/NavbarOrders";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import NavbarAction from "../components/NavbarAction";
 
 type Sale = {
     id: number;
@@ -468,7 +468,7 @@ export default function OrdersLogged() {
         <>
             {AlertUI}
             {ConfirmUI}
-            <NavbarOrders />
+            <NavbarAction />
 
             <Box sx={{ minHeight: "100svh", display: "flex", flexDirection: "column" }}>
                 <Box

@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../api";
 import AddressLookup from "../components/AddressLookup";
 import Footer from "../components/Footer";
-import NavbarCheckout from "../components/NavbarCheckout";
 import { useAppContext, type Meal } from "../context/context";
 import { useAppAlert } from "../hooks/useAppAlert";
 
@@ -25,6 +24,7 @@ import LemonadeImg from "../assets/Lemonade.png";
 import SaladImg from "../assets/Crispsalad.png";
 import MilkshakeImg from "../assets/Milkshake.png";
 import SundaeImg from "../assets/Sundae.png";
+import NavbarAction from "../components/NavbarAction";
 
 
 /* CONSTANTS / HELPERS */
@@ -617,9 +617,9 @@ export default function Checkout() {
         <>
             {AlertUI}
             {ConfirmUI}
-
+            <NavbarAction />
             <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
-                <NavbarCheckout />
+
 
                 <Box
                     component="main"

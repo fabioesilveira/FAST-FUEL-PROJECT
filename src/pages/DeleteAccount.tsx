@@ -5,8 +5,8 @@ import { api } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useAppAlert } from "../hooks/useAppAlert";
 import AppConfirm from "../components/AppConfirm";
-import NavbarExtra from "../components/NavbarExtra";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import NavbarAuth from "../components/NavbarAuth";
 
 type User = {
     email: string;
@@ -107,7 +107,7 @@ export default function DeleteAccount() {
 
     return (
         <>
-            <NavbarExtra />
+            <NavbarAuth />
             {AlertUI}
 
             <AppConfirm

@@ -11,12 +11,12 @@ import {
     Divider,
 } from "@mui/material";
 import Footer from "../components/Footer";
-import NavbarOrders from "../components/NavbarOrders";
 import { useNavigate } from "react-router-dom";
 import { useAppAlert } from "../hooks/useAppAlert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import NavbarAction from "../components/NavbarAction";
 
 
 type Sale = {
@@ -380,7 +380,7 @@ export default function TrackOrderGuest() {
 
             {AlertUI}
             {ConfirmUI}
-            <NavbarOrders />
+            <NavbarAction />
 
             <Box sx={{ minHeight: "100svh", display: "flex", flexDirection: "column" }}>
                 <Box
