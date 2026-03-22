@@ -393,9 +393,20 @@ export default function DeleteAccount() {
                                     letterSpacing: "0.14em",
                                     fontWeight: 700,
                                     bgcolor: "#1e5bb8",
-                                    "&:hover": { bgcolor: "#164a96" },
+
                                     fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
 
+                                    "&:hover": {
+                                        bgcolor: "#e3f2fd",
+                                        color: "#1e5bb8",
+                                    },
+
+                                    "&:active": {
+                                        bgcolor: "#e3f2fd",
+                                        color: "#1e5bb8",
+                                        transform: "scale(0.98)",
+                                        boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
+                                    },
                                 }}
                             >
                                 Cancel
