@@ -149,18 +149,18 @@ export default function DeleteAccount() {
                             borderRadius: 20,
 
                             backgroundImage: `
-                                    linear-gradient(90deg,
+                                linear-gradient(90deg,
                                     rgba(255,255,255,1) 0%,
                                     rgba(255,255,255,0.0) 18%,
                                     rgba(255,255,255,0.0) 82%,
                                     rgba(255,255,255,1) 100%
-                                    ),
-                                    repeating-linear-gradient(135deg,
-                                    rgba(183,28,28,0.018) 0px,
-                                    rgba(183,28,28,0.018) 12px,
-                                    rgba(255,235,238,0.025) 12px,
-                                    rgba(255,235,238,0.025) 24px
-                                    )
+                                ),
+                                repeating-linear-gradient(135deg,
+                                    rgba(183,28,28,0.012) 0px,
+                                    rgba(183,28,28,0.012) 12px,
+                                    rgba(255,235,238,0.018) 12px,
+                                    rgba(255,235,238,0.018) 24px
+                                )
                                 `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",

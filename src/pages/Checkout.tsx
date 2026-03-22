@@ -846,19 +846,6 @@ export default function Checkout() {
                                                 }}
                                             >
                                                 Delivery
-                                                <span
-                                                    style={{
-                                                        display: "block",
-                                                        marginTop: "4.5px",
-                                                        fontSize: "0.75rem",
-                                                        fontWeight: 400,
-                                                        letterSpacing: "0.02em",
-                                                        textTransform: "none",
-                                                        color: "rgba(0,0,0,0.55)",
-                                                    }}
-                                                >
-                                                    <b>*Important:* Type and select an address to auto-fill the fields</b>
-                                                </span>
                                             </Typography>
 
                                             <Stack spacing={1.6}>
@@ -968,7 +955,7 @@ export default function Checkout() {
                                                     align="center"
                                                     sx={{ mt: 0.6, fontSize: "0.75rem", color: "text.secondary" }}
                                                 >
-                                                    Demo only — use any valid address (it doesn’t need to be yours).
+                                                    Start typing and select an address from the suggestions.
                                                 </Typography>
                                             </Stack>
                                         </Box>

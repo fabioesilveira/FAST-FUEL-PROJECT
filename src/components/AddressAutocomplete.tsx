@@ -169,8 +169,7 @@ export default function AddressAutocomplete({
           fullWidth
           size="small"
           label="Street"
-          placeholder="Start typing and select an address"
-          helperText="Select an address from the list"
+          placeholder="Type your address"
           sx={sx}
         />
       )}

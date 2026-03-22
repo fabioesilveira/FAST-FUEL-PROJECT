@@ -181,7 +181,7 @@ export default function AddressLookup({
           fullWidth
           size="small"
           label="Street*"
-          placeholder="Start typing and select an address"
+          placeholder="Type your address"
           sx={sx}
           inputProps={{
             ...params.inputProps,

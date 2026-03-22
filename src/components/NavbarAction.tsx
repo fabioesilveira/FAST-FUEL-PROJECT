@@ -98,7 +98,7 @@ export default function NavbarAction() {
                                 // ICON menor no mobile
                                 "& .MuiButton-startIcon": {
                                     marginRight: { xs: "3px", sm: "3px", md: "4px" },
-                                    marginLeft: { xs: "3px", sm: "3px", md: "4px" },
+                                    marginLeft: { xs: "0.3px", sm: "0", md: "0" },
                                     "& svg": {
                                         fontSize: { xs: 18, sm: 18, md: 20 },
                                     },
