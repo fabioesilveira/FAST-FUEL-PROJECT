@@ -156,10 +156,10 @@ export default function DeleteAccount() {
                                     rgba(255,255,255,1) 100%
                                 ),
                                 repeating-linear-gradient(135deg,
-                                    rgba(183,28,28,0.012) 0px,
-                                    rgba(183,28,28,0.012) 12px,
-                                    rgba(255,235,238,0.018) 12px,
-                                    rgba(255,235,238,0.018) 24px
+                                    rgba(183,28,28,0.015) 0px,
+                                    rgba(183,28,28,0.015) 12px,
+                                    rgba(255,235,238,0.022) 12px,
+                                    rgba(255,235,238,0.022) 24px
                                 )
                                 `,
                             backgroundRepeat: "no-repeat, repeat",
