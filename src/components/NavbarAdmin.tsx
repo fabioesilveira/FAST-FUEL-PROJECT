@@ -2,12 +2,12 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
 import Logo from "../assets/fast-fuel.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import HistoryIcon from "@mui/icons-material/History";
 import EmailIcon from "@mui/icons-material/Email";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Chip } from "@mui/material";
 
 export default function NavbarAdmin() {
     const navigate = useNavigate();
@@ -26,47 +26,48 @@ export default function NavbarAdmin() {
         navigate("/sign-in");
     }
 
-
     const actionBtnSx = {
-        height: { xs: 40, sm: 42, md: 45 },
+        height: { xs: 40, sm: 40, md: 45 },
+
         borderRadius: 2,
         backgroundColor: "#e65100",
         color: "#ffe0c7",
+
         fontWeight: 800,
-        letterSpacing: "0.06em",
+        letterSpacing: { xs: "0.05em", md: "0.06em" },
         textTransform: "uppercase",
-        px: { xs: 1.4, sm: 1.6, md: 2.2 },
-        fontSize: { xs: "0.74rem", sm: "0.76rem", md: "0.84rem" },
+
+        px: { xs: 1.6, sm: 1.6, md: 2.2 },
+        fontSize: { xs: "0.73rem", sm: "0.74rem", md: "0.84rem" },
+
         minWidth: "unset",
         flexShrink: 0,
+
         WebkitTapHighlightColor: "transparent",
 
         "& .MuiButton-startIcon": {
-            marginRight: { xs: "2px", sm: "3px", md: "4px" },
+            marginRight: { xs: "3px", sm: "3px", md: "4px" },
+            marginLeft: { xs: "0.3px", sm: "0", md: "0" },
             "& svg": {
-                fontSize: { xs: 19, sm: 19, md: 20 },
+                fontSize: { xs: 18, sm: 18, md: 20 },
             },
         },
 
         "@media (hover: hover) and (pointer: fine)": {
             "&:hover": { backgroundColor: "#b33f00" },
         },
-    } as const;
 
+        "@media (hover: none) and (pointer: coarse)": {
+            "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                backgroundColor: "#e65100",
+            },
+        },
+    } as const;
 
     return (
         <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
             <Box sx={{ width: "100%" }}>
-                <Toolbar
-                    disableGutters
-                    sx={{
-                        minHeight: 80,
-                        px: { xs: 1, md: 2 },
-                        gap: { xs: 1, md: 2 },
-                        flexWrap: "nowrap",
-                    }}
-                >
-                    {/* LEFT: LOGO + TITLE */}
+                <Toolbar disableGutters sx={{ minHeight: 80, px: { xs: 1, md: 2 } }}>
                     <Box
                         sx={{
                             display: "flex",
@@ -81,6 +82,7 @@ export default function NavbarAdmin() {
                             type="button"
                             onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                             onClick={() => navigate("/admin")}
+                            aria-label="Go to admin dashboard"
                             sx={{
                                 border: "none",
                                 background: "transparent",
@@ -94,9 +96,7 @@ export default function NavbarAdmin() {
                                 "&:focus": { outline: "none" },
                                 "&:focus-visible": { outline: "none" },
                             }}
-                            aria-label="Go to admin dashboard"
                         >
-
                             <Box
                                 component="img"
                                 src={Logo}
@@ -128,16 +128,14 @@ export default function NavbarAdmin() {
                         />
                     </Box>
 
-                    {/* SPACER */}
-                    <Box sx={{ flexGrow: 1, minWidth: 8 }} />
+                    <Box sx={{ flexGrow: 1 }} />
 
-                    {/* RIGHT: ACTIONS */}
                     <Box
                         sx={{
                             display: "flex",
                             alignItems: "center",
-                            pr: { xs: 0.45, sm: 0.7, md: 1 },
-                            gap: { xs: 0.7, sm: 0.9, md: 1.2 },
+                            pr: { xs: 0.8, sm: 0.8, md: 0.8 },
+                            gap: { xs: 0.7, sm: 0.8, md: 1 },
                             flexWrap: "nowrap",
                             overflowX: "auto",
                             WebkitOverflowScrolling: "touch",
@@ -173,7 +171,7 @@ export default function NavbarAdmin() {
                             onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                             onClick={handleSignout}
                             startIcon={<LogoutIcon />}
-                            sx={{ ...actionBtnSx, mr: 1 }}
+                            sx={actionBtnSx}
                         >
                             Exit
                         </Button>
