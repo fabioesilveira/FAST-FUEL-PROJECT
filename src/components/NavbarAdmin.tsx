@@ -135,9 +135,7 @@ export default function NavbarAdmin() {
                             display: "flex",
                             alignItems: "center",
                             pr: { xs: 0.8, sm: 0.8, md: 0.8 },
-                            gap: { xs: 0.7, sm: 0.8, md: 1 },
-                            // flexWrap: "nowrap",
-                            // overflowX: "auto",
+                            gap: { xs: 1, sm: 1, md: 1.5 },
                             WebkitOverflowScrolling: "touch",
                             "&::-webkit-scrollbar": { height: 0 },
                         }}
