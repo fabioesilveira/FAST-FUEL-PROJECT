@@ -27,7 +27,7 @@ export default function NavbarAdmin() {
     }
 
     const actionBtnSx = {
-        height: { xs: 40, sm: 40, md: 45 },
+        height: { xs: 40, sm: 42, md: 42 },
 
         borderRadius: 2,
         backgroundColor: "#e65100",

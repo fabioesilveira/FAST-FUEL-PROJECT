@@ -381,7 +381,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                 alignItems: "center",
                 gap: { xs: 1, md: 1.5 },
                 marginLeft: "auto",
-                paddingRight: { xs: 1, md: 2 },
+                mr: { xs: 0.8, sm: 0.8, md: 0.8 },
                 position: "relative",
               }}
             >
@@ -390,7 +390,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                 onClick={() => setShown((prev) => !prev)}
                 sx={{
                   width: { xs: 60, md: 71 },
-                  height: { xs: 42, md: 42 },
+                  height: { xs: 40, md: 42 },
                   minWidth: "unset",
                   borderRadius: 2,
                   backgroundColor: "#e65100",
@@ -435,7 +435,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                 }}
                 sx={{
                   width: { xs: 60, md: 71 },
-                  height: { xs: 42, md: 42 },
+                  height: { xs: 40, md: 42 },
                   minWidth: "unset",
                   borderRadius: 2,
                   backgroundColor: "#e65100",

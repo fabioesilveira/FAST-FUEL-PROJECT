@@ -75,7 +75,7 @@ export default function NavbarAction() {
                             onClick={handleExitCheckout}
                             startIcon={<ExitToAppIcon />}
                             sx={{
-                                height: { xs: 40, sm: 40, md: 45 },
+                                height: { xs: 40, sm: 42, md: 42 },
 
                                 borderRadius: 2,
                                 backgroundColor: "#e65100",
