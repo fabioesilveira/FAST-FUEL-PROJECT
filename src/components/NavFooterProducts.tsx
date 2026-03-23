@@ -6,10 +6,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import type { SvgIconComponent } from "@mui/icons-material";
-
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 
-// account icons
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HistoryIcon from "@mui/icons-material/History";
 import EmailIcon from "@mui/icons-material/Email";
@@ -81,9 +79,14 @@ function RenderIcon({
     color: string;
     mode: "products" | "account";
 }) {
-    // imagens (não mexe)
     if (item.kind === "img") {
-        const isBeverages = item.label === "BEVERAGES";
+        const transform =
+            item.label === "DRINKS"
+                ? "translateY(-3.5px)"
+                : item.label === "SIDES"
+                    ? "translateY(-1.8px)"
+                    : "none";
+
         return (
             <img
                 src={item.src}
@@ -93,7 +96,7 @@ function RenderIcon({
                     height: item.imgH ?? 38,
                     objectFit: "contain",
                     display: "block",
-                    transform: isBeverages ? "translateY(-3px)" : "none",
+                    transform,
                 }}
             />
         );
@@ -101,7 +104,6 @@ function RenderIcon({
 
     const Icon = item.Icon;
     const shouldShrink = shrinkLabels.has(item.label);
-
     const outline = mode === "account" && outlineLabels.has(item.label);
 
     return (
@@ -109,7 +111,6 @@ function RenderIcon({
             sx={{
                 fontSize: shouldShrink ? 29.5 : 32,
                 color,
-
                 ...(outline && {
                     "& path": {
                         stroke: "#ff8a4c",
@@ -121,6 +122,68 @@ function RenderIcon({
         />
     );
 }
+
+const navBtnSx = {
+    width: 62,
+    height: 62,
+    borderRadius: 2,
+    border: "2px solid transparent",
+    backgroundColor: "transparent",
+    transition: "all 0.18s ease",
+    WebkitTapHighlightColor: "transparent",
+
+    "@media (hover: hover) and (pointer: fine)": {
+        "&:hover": {
+            backgroundColor: ORANGE_SOFT,
+            borderColor: BLUE,
+            transform: "translateY(-2px)",
+        },
+    },
+
+    "@media (hover: none) and (pointer: coarse)": {
+        "&:focus, &:focus-visible, &.Mui-focusVisible": {
+            backgroundColor: "transparent",
+            boxShadow: "none",
+            transform: "none",
+        },
+    },
+
+    "&:active": {
+        transform: "translateY(0)",
+        backgroundColor: "rgba(230,81,0,.28)",
+    },
+} as const;
+
+const switchBtnSx = {
+    width: 70,
+    height: 70,
+    borderRadius: 2,
+    border: "2px solid transparent",
+    backgroundColor: "transparent",
+    transition: "all 0.18s ease",
+    WebkitTapHighlightColor: "transparent",
+
+    "@media (hover: hover) and (pointer: fine)": {
+        "&:hover": {
+            backgroundColor: ORANGE_SOFT,
+            borderColor: "transparent",
+            transform: "translateY(-2px)",
+        },
+    },
+
+    "@media (hover: none) and (pointer: coarse)": {
+        "&:focus, &:focus-visible, &.Mui-focusVisible": {
+            backgroundColor: "transparent",
+            boxShadow: "none",
+            transform: "none",
+        },
+    },
+
+    "&:active": {
+        transform: "translateY(0)",
+        backgroundColor: "rgba(230,81,0,.28)",
+    },
+} as const;
 
 
 export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () => void }) {
@@ -198,75 +261,16 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                             onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                             onClick={() => handleClick(item)}
                             key={item.label}
-                            sx={{
-                                width: 62,
-                                height: 62,
-                                borderRadius: 2,
-                                border: "2px solid transparent",
-                                backgroundColor: "transparent",
-                                transition: "all 0.18s ease",
-                                WebkitTapHighlightColor: "transparent",
-
-                                "@media (hover: hover) and (pointer: fine)": {
-                                    "&:hover": {
-                                        backgroundColor: ORANGE_SOFT,
-                                        borderColor: BLUE,
-                                        transform: "translateY(-2px)",
-                                    },
-                                },
-
-                                "@media (hover: none) and (pointer: coarse)": {
-                                    "&:focus, &:focus-visible, &.Mui-focusVisible": {
-                                        backgroundColor: "transparent",
-                                        boxShadow: "none",
-                                        transform: "none",
-                                    },
-                                },
-
-                                "&:active": {
-                                    transform: "translateY(0)",
-                                    backgroundColor: "rgba(230,81,0,.28)",
-                                },
-                            }}
+                            sx={navBtnSx}
                         >
                             <RenderIcon item={item} color={iconColor} mode={mode} />
                         </IconButton>
-
                     ))}
 
                     <IconButton
                         onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                         onClick={toggleMode}
-                        sx={{
-                            width: 70,
-                            height: 70,
-                            borderRadius: 2,
-                            border: "2px solid transparent",
-                            backgroundColor: "transparent",
-                            transition: "all 0.18s ease",
-                            WebkitTapHighlightColor: "transparent",
-
-                            "@media (hover: hover) and (pointer: fine)": {
-                                "&:hover": {
-                                    backgroundColor: ORANGE_SOFT,
-                                    borderColor: "transparent",
-                                    transform: "translateY(-2px)",
-                                },
-                            },
-
-                            "@media (hover: none) and (pointer: coarse)": {
-                                "&:focus, &:focus-visible, &.Mui-focusVisible": {
-                                    backgroundColor: "transparent",
-                                    boxShadow: "none",
-                                    transform: "none",
-                                },
-                            },
-
-                            "&:active": {
-                                transform: "translateY(0)",
-                                backgroundColor: "rgba(230,81,0,.28)",
-                            },
-                        }}
+                        sx={switchBtnSx}
                     >
                         <SwapHorizIcon
                             sx={{
@@ -288,36 +292,7 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                             onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                             onClick={() => handleClick(item)}
                             key={item.label}
-                            sx={{
-                                width: 62,
-                                height: 62,
-                                borderRadius: 2,
-                                border: "2px solid transparent",
-                                backgroundColor: "transparent",
-                                transition: "all 0.18s ease",
-                                WebkitTapHighlightColor: "transparent",
-
-                                "@media (hover: hover) and (pointer: fine)": {
-                                    "&:hover": {
-                                        backgroundColor: ORANGE_SOFT,
-                                        borderColor: BLUE,
-                                        transform: "translateY(-2px)",
-                                    },
-                                },
-
-                                "@media (hover: none) and (pointer: coarse)": {
-                                    "&:focus, &:focus-visible, &.Mui-focusVisible": {
-                                        backgroundColor: "transparent",
-                                        boxShadow: "none",
-                                        transform: "none",
-                                    },
-                                },
-
-                                "&:active": {
-                                    transform: "translateY(0)",
-                                    backgroundColor: "rgba(230,81,0,.28)",
-                                },
-                            }}
+                            sx={navBtnSx}
                         >
                             <RenderIcon item={item} color={iconColor} mode={mode} />
                         </IconButton>

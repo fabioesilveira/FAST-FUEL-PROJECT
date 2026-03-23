@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import { styled, Theme, CSSObject } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -8,24 +8,22 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import Box from "@mui/material/Box";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-// Assets
 import FriesIcon from "../assets/frenchFries.png";
 import SodaIcon from "../assets/soda.png";
-
-// Icons MUI
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import CookieIcon from "@mui/icons-material/Cookie";
 import type { SvgIconComponent } from "@mui/icons-material";
 
-const drawerWidth = 270; // 
+const drawerWidth = 270;
 
 const BLUE = "#0d47a1";
-const ORANGE = "#fa6000ff";
+const ORANGE = "#e65100";
+const ORANGE_UI = "#fa6000ff";
 const ORANGE_SOFT = "rgba(230,81,0,.18)";
-
 const ICON_OUTLINE_ORANGE = "#ff8a4c";
 
 const outlineOrangeSx = {
@@ -36,9 +34,10 @@ const outlineOrangeSx = {
     },
 } as const;
 
-type CategoryDrawerProps = {
+type DrawerHomeProps = {
     onNavigate: (category: string) => void;
     onDriveThruClick?: () => void;
+    isFastThruActive?: boolean;
 };
 
 type CategoryItem =
@@ -93,8 +92,11 @@ const Drawer = styled(MuiDrawer, {
         : { ...closedMixin(theme), "& .MuiDrawer-paper": closedMixin(theme) }),
 }));
 
-export default function CategoryDrawer({ onNavigate, onDriveThruClick }: CategoryDrawerProps) {
-    useTheme();
+export default function DrawerHome({
+    onNavigate,
+    onDriveThruClick,
+    isFastThruActive = false,
+}: DrawerHomeProps) {
     const [open, setOpen] = React.useState(false);
 
     return (
@@ -115,7 +117,6 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
                 },
             }}
         >
-            {/* TOGGLE */}
             <DrawerHeader>
                 <IconButton
                     onClick={() => setOpen((p) => !p)}
@@ -145,17 +146,14 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
                             }}
                         />
                     )}
-
                 </IconButton>
             </DrawerHeader>
 
             <Divider sx={{ backgroundColor: "rgba(13,71,161,.35)" }} />
 
-            {/* MENU */}
             <List sx={{ px: 1, pt: 2, pb: 2 }}>
                 {categories.map((item, index) => (
                     <React.Fragment key={item.label}>
-                        {/* NORMAL ITEMS */}
                         <ListItem disablePadding sx={{ display: "block", mb: 0.7 }}>
                             <ListItemButton
                                 onClick={() => onNavigate(item.label)}
@@ -196,7 +194,7 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
                                             }}
                                         />
                                     ) : (
-                                        <item.Icon sx={{ fontSize: 30.5, color: ORANGE }} />
+                                        <item.Icon sx={{ fontSize: 30.5, color: ORANGE_UI }} />
                                     )}
                                 </ListItemIcon>
 
@@ -218,7 +216,7 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
                             </ListItemButton>
                         </ListItem>
 
-                        {/* FAST THRU / QUICK ADD */}
+
                         {index === 1 && (
                             <ListItem disablePadding sx={{ display: "block", mb: 0.7 }}>
                                 <ListItemButton
@@ -270,7 +268,7 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
                                             {
                                                 minWidth: 0,
                                                 width: 48,
-                                                height: 48,
+                                                height: "auto",
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "center",
@@ -278,20 +276,21 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
                                             open ? { mr: 2 } : { mr: "auto" },
                                         ]}
                                     >
-                                        <div
-                                            style={{
+                                        <Box
+                                            sx={{
                                                 display: "flex",
                                                 flexDirection: "column",
                                                 alignItems: "center",
                                                 justifyContent: "center",
-                                                width: 48,
-                                                height: 48,
+                                                width: 56,
+                                                minHeight: 58,
                                                 transform: open ? "scale(1.14)" : "scale(1.08)",
                                                 transition: "transform .2s ease",
                                             }}
                                         >
-                                            <span
-                                                style={{
+                                            <Box
+                                                component="span"
+                                                sx={{
                                                     fontFamily: '"Big Shoulders Inline", sans-serif',
                                                     fontSize: 21,
                                                     fontWeight: 900,
@@ -301,9 +300,11 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
                                                 }}
                                             >
                                                 FAST
-                                            </span>
-                                            <span
-                                                style={{
+                                            </Box>
+
+                                            <Box
+                                                component="span"
+                                                sx={{
                                                     fontFamily: '"Big Shoulders Inline", sans-serif',
                                                     fontSize: 21,
                                                     fontWeight: 900,
@@ -313,8 +314,28 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
                                                 }}
                                             >
                                                 THRU
-                                            </span>
-                                        </div>
+                                            </Box>
+
+                                            {isFastThruActive && (
+                                                <Box
+                                                    component="span"
+                                                    sx={{
+                                                        mt: 0.45,
+                                                        minHeight: "0.58rem",
+                                                        fontSize: "0.58rem",
+                                                        fontWeight: 700,
+                                                        letterSpacing: ".10em",
+                                                        color: ORANGE,
+                                                        textTransform: "uppercase",
+                                                        lineHeight: 1,
+                                                        opacity: isFastThruActive ? 1 : 0,
+                                                        visibility: isFastThruActive ? "visible" : "hidden",
+                                                    }}
+                                                >
+                                                    Exit
+                                                </Box>
+                                            )}
+                                        </Box>
                                     </ListItemIcon>
 
                                     <ListItemText
@@ -325,8 +346,9 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
                                                     fontWeight: 800,
                                                     fontSize: "1rem",
                                                     letterSpacing: ".08em",
-                                                    color: ORANGE, 
+                                                    color: ORANGE,
                                                     textTransform: "uppercase",
+                                                    lineHeight: 1.02,
                                                 },
                                             },
                                             open ? { opacity: 1 } : { opacity: 0 },
@@ -341,4 +363,3 @@ export default function CategoryDrawer({ onNavigate, onDriveThruClick }: Categor
         </Drawer>
     );
 }
-

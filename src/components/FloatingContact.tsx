@@ -13,9 +13,9 @@ const FloatingWrapper = styled("button")(({ theme }) => ({
   alignItems: "center",
   gap: 10,
 
-  padding: "10px 16px 10px 14px",
-  borderTopLeftRadius: 12,
-  borderBottomLeftRadius: 12,
+  padding: "9px 15px 9px 13px",
+  borderTopLeftRadius: 10,
+  borderBottomLeftRadius: 10,
 
   backgroundColor: "#ffe0c7",
 
@@ -39,8 +39,8 @@ const FloatingWrapper = styled("button")(({ theme }) => ({
       borderBottom: "3px solid rgba(230, 81, 0, 0.45)",
       borderLeft: "3px solid rgba(230, 81, 0, 0.45)",
 
-      borderTopLeftRadius: 8,
-      borderBottomLeftRadius: 8,
+      borderTopLeftRadius: 7,
+      borderBottomLeftRadius: 7,
 
       paddingLeft: "22px",
       transform: "translateY(-2px)",
@@ -63,7 +63,7 @@ export default function FloatingContact() {
       onClick={() => navigate("/contact-us")}
       aria-label="Contact us"
     >
-      <EmailIcon sx={{ color: "#e65100", fontSize: 30 }} />
+      <EmailIcon sx={{ color: "#e65100", fontSize: 29 }} />
 
       <Typography
         sx={{

@@ -4,24 +4,27 @@ import IconButton from "@mui/material/IconButton";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
-// Ícones não-MUI
 import FriesIcon from "../assets/frenchFries.png";
 import SodaIcon from "../assets/soda.png";
-
-// Ícones MUI
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import CookieIcon from "@mui/icons-material/Cookie";
 
 type NavFooterProps = {
     onNavigate: (category: string) => void;
     onFastThruClick?: () => void;
+    isFastThruActive?: boolean;
 };
 
 const BLUE = "#0d47a1";
 const ORANGE = "#fa6000ff";
+const ORANGE_UI = "#e65100";
 const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
 
-export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProps) {
+export default function NavFooter({
+    onNavigate,
+    onFastThruClick,
+    isFastThruActive = false,
+}: NavFooterProps) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -43,17 +46,14 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                 left: 0,
                 right: 0,
                 bottom: 0,
-
                 height: `calc(86px + env(safe-area-inset-bottom))`,
                 pb: "env(safe-area-inset-bottom)",
-
                 zIndex: 1300,
                 backgroundColor: "#fff3e0",
                 borderTop: "2px solid rgba(13, 71, 161, 0.25)",
                 boxShadow: "0 -6px 18px rgba(13,71,161,.18)",
                 display: "flex",
                 alignItems: "center",
-
                 transform: "translateZ(0)",
                 willChange: "transform",
                 WebkitBackfaceVisibility: "hidden",
@@ -116,9 +116,12 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                                         width: c.label === "DRINKS" ? 42 : 38,
                                         height: c.label === "DRINKS" ? 42 : 38,
                                         objectFit: "contain",
-
-
-                                        transform: c.label === "DRINKS" ? "translateY(-3px)" : "none",
+                                        transform:
+                                            c.label === "DRINKS"
+                                                ? "translateY(-3.5px)"
+                                                : c.label === "SIDES"
+                                                    ? "translateY(-1.8px)"
+                                                    : "none",
                                     }}
                                 />
                             ) : c.type === "mui" ? (
@@ -132,15 +135,11 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                                 <Box
                                     sx={{
                                         width: 54,
-                                        height: 54,
-                                        borderRadius: 2,
-
-
+                                        minHeight: 54,
                                         display: "flex",
                                         flexDirection: "column",
                                         alignItems: "center",
                                         justifyContent: "center",
-
                                     }}
                                 >
                                     <Box
@@ -148,25 +147,44 @@ export default function NavFooter({ onNavigate, onFastThruClick }: NavFooterProp
                                             fontFamily: '"Big Shoulders Inline", sans-serif',
                                             fontSize: 23,
                                             fontWeight: 900,
-                                            color: "#0d47a1",
+                                            color: BLUE,
                                             lineHeight: 0.9,
                                             letterSpacing: "0.08em",
                                         }}
                                     >
                                         FAST
                                     </Box>
+
                                     <Box
                                         sx={{
                                             fontFamily: '"Big Shoulders Inline", sans-serif',
                                             fontSize: 23,
                                             fontWeight: 900,
-                                            color: "#0d47a1",
+                                            color: BLUE,
                                             lineHeight: 0.9,
                                             letterSpacing: "0.08em",
                                         }}
                                     >
                                         THRU
                                     </Box>
+
+                                    {isFastThruActive && (
+                                        <Box
+                                            component="span"
+                                            sx={{
+                                                mt: 0.45,
+                                                fontSize: "0.56rem",
+                                                fontWeight: 800,
+                                                letterSpacing: ".10em",
+                                                color: ORANGE_UI,
+                                                opacity: 0.78,
+                                                textTransform: "uppercase",
+                                                lineHeight: 1,
+                                            }}
+                                        >
+                                            Exit
+                                        </Box>
+                                    )}
                                 </Box>
                             )}
                         </IconButton>

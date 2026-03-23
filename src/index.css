@@ -33,7 +33,7 @@ body {
   font-family: "Titan One", sans-serif;
   font-weight: 500;
   letter-spacing: 0.08em;
-  font-size: clamp(39px, 6vw, 52px);
+  font-size: clamp(39px, 6vw, 50px);
   color: #1e5bb8;
   text-shadow:
     0 1px 2px rgba(0, 0, 0, 0.12),
@@ -53,7 +53,7 @@ body {
 }
 
 .h2-driveMode-desk {
-  font-size: clamp(0.64rem, 1.2vw, 0.82rem);
+  font-size: clamp(0.62rem, 1.2vw, 0.82rem);
   font-weight: 600;
   line-height: 1.35;
   letter-spacing: 0.04em;

@@ -6,14 +6,14 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
-import CloseIcon from "@mui/icons-material/Close";
+// import CloseIcon from "@mui/icons-material/Close";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import CategoryDrawer from "../components/CategoryDrawer";
+import DrawerHome from "../components/DrawerHome";
 import NavFooter from "../components/NavFooter";
 import MobileStackCarousel from "../components/MobileStackCarousel";
 import PromoBannerCarousel from "../components/PromoBannerCarousel";
@@ -209,6 +209,14 @@ export default function Home() {
         });
     }
 
+    function toggleFastThru() {
+        if (driveModeActive) {
+            exitFastThru();
+        } else {
+            enterFastThru();
+        }
+    }
+
     useEffect(() => {
         async function init() {
             try {
@@ -295,9 +303,10 @@ export default function Home() {
                     <CssBaseline />
 
                     {!isMobile && (
-                        <CategoryDrawer
+                        <DrawerHome
                             onNavigate={handleDrawerNavigate}
-                            onDriveThruClick={enterFastThru}
+                            onDriveThruClick={toggleFastThru}
+                            isFastThruActive={driveModeActive}
                         />
                     )}
 
@@ -464,7 +473,7 @@ export default function Home() {
                                             </Button>
                                         </Box>
 
-                                        <Button
+                                        {/* <Button
                                             onClick={exitFastThru}
                                             sx={{
                                                 width: { xs: 38, md: 44 },
@@ -494,7 +503,7 @@ export default function Home() {
                                                     fontSize: { xs: 22, md: 25 },
                                                 }}
                                             />
-                                        </Button>
+                                        </Button> */}
                                     </Box>
                                 </Box>
 
@@ -557,7 +566,8 @@ export default function Home() {
                     {isMobile ? (
                         <NavFooter
                             onNavigate={handleDrawerNavigate}
-                            onFastThruClick={enterFastThru}
+                            onFastThruClick={toggleFastThru}
+                            isFastThruActive={driveModeActive}
                         />
                     ) : (
                         <Footer />

@@ -3,14 +3,18 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import Logo from "../assets/fast-fuel.png";
 import { useAppAlert } from "../hooks/useAppAlert";
 import { useAppContext } from "../context/context";
 
 export default function NavbarAction() {
+
     const navigate = useNavigate();
+    const location = useLocation();
+    const isCheckoutPage = location.pathname === "/checkout";
+
     const { order } = useAppContext();
 
     const { confirmAlert, AlertUI, ConfirmUI } = useAppAlert({
@@ -19,6 +23,10 @@ export default function NavbarAction() {
     });
 
     function handleExitCheckout() {
+        if (!isCheckoutPage) {
+            navigate("/");
+            return;
+        }
 
         if (!order || order.length === 0) {
             navigate("/");
@@ -36,7 +44,6 @@ export default function NavbarAction() {
             onDismiss: () => { },
         });
     }
-
     return (
         <>
             {AlertUI}
@@ -95,7 +102,6 @@ export default function NavbarAction() {
 
                                 WebkitTapHighlightColor: "transparent",
 
-                                // ICON menor no mobile
                                 "& .MuiButton-startIcon": {
                                     marginRight: { xs: "3px", sm: "3px", md: "4px" },
                                     marginLeft: { xs: "0.3px", sm: "0", md: "0" },
@@ -104,12 +110,10 @@ export default function NavbarAction() {
                                     },
                                 },
 
-                                // hover só desktop
                                 "@media (hover: hover) and (pointer: fine)": {
                                     "&:hover": { backgroundColor: "#b33f00" },
                                 },
 
-                                // mobile fix (não ficar “clicado”)
                                 "@media (hover: none) and (pointer: coarse)": {
                                     "&:focus, &:focus-visible, &.Mui-focusVisible": {
                                         backgroundColor: "#e65100",

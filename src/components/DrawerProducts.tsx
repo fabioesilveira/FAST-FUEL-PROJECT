@@ -25,6 +25,7 @@ import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import CookieIcon from "@mui/icons-material/Cookie";
 import type { SvgIconComponent } from "@mui/icons-material";
+import { Box } from "@mui/material";
 
 const drawerWidth = 270;
 
@@ -137,7 +138,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
 
   const categoryMuiIconColor = ORANGE_UI;
   const accountIconColor = BLUE;
-  const switchColor = isCategoriesMode ? BLUE : ORANGE_UI;
+  const switchColor = isCategoriesMode ? BLUE : ORANGE;
   const itemAccentColor = isCategoriesMode ? BLUE : ORANGE;
 
   const { showAlert, AlertUI } = useAppAlert({
@@ -363,18 +364,38 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                 open ? { justifyContent: "initial" } : { justifyContent: "center" },
               ]}
             >
-              <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
-                <SwapHorizIcon
+              <ListItemIcon
+                sx={[
+                  {
+                    minWidth: 0,
+                    width: 48,
+                    minHeight: 58,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  },
+                  open ? { mr: 2 } : { mr: "auto" },
+                ]}
+              >
+                <Box
                   sx={{
-                    fontSize: 37.5,
-                    color: switchColor,
-                    transition: "transform .2s ease",
-                    transform: open ? "scale(1.04)" : "scale(1)",
-
-                    ...(isCategoriesMode ? outlineOrangeSx : {}),
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: 56,
+                    minHeight: 58,
                   }}
-                />
-
+                >
+                  <SwapHorizIcon
+                    sx={{
+                      fontSize: 39,
+                      color: switchColor,
+                      transition: "transform .2s ease",
+                      transform: open ? "scale(1.08)" : "scale(1.03)",
+                      ...(isCategoriesMode ? outlineOrangeSx : {}),
+                    }}
+                  />
+                </Box>
               </ListItemIcon>
 
               <ListItemText
