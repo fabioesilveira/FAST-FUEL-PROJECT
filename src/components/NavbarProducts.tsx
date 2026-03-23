@@ -107,7 +107,7 @@ function NavbarProducts() {
                 onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
                 onClick={() => navigate("/")}
                 sx={{
-                  width: { xs: 58, md: 71 },
+                  width: { xs: 60, md: 71 },
                   height: { xs: 42, md: 42 },
                   minWidth: "unset",
                   borderRadius: 2,
@@ -158,7 +158,7 @@ function NavbarProducts() {
                   });
                 }}
                 sx={{
-                  width: { xs: 60, md: 73 },
+                  width: { xs: 60, md: 71 },
                   height: { xs: 42, md: 42 },
                   minWidth: "unset",
                   borderRadius: 2,
