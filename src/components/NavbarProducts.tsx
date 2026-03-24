@@ -128,7 +128,7 @@ function NavbarProducts() {
                   },
                 }}
               >
-                <HomeIcon sx={{ fontSize: { xs: 30, md: 34.5 }, color: "#ffe0c7" }} />
+                <HomeIcon sx={{ fontSize: { xs: 28, md: 33.5 }, color: "#ffe0c7" }} />
               </Button>
               {/* CART */}
               <Button
@@ -179,7 +179,7 @@ function NavbarProducts() {
               >
                 <ShoppingCartIcon
                   sx={{
-                    fontSize: { xs: 28, md: 31 },
+                    fontSize: { xs: 26, md: 30 },
                     color: "#ffe0c7",
                   }}
                 />

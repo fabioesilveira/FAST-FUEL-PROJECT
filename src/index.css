@@ -33,7 +33,7 @@ body {
   font-family: "Titan One", sans-serif;
   font-weight: 500;
   letter-spacing: 0.08em;
-  font-size: clamp(39px, 6vw, 50px);
+  font-size: clamp(38px, 6vw, 49px);
   color: #1e5bb8;
   text-shadow:
     0 1px 2px rgba(0, 0, 0, 0.12),

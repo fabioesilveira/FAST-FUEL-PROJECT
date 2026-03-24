@@ -402,7 +402,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                 }}
               >
                 <ManageAccountsIcon
-                  sx={{ fontSize: { xs: 31, md: 34.5 }, color: "#ffe0c7" }}
+                  sx={{ fontSize: { xs: 29, md: 33.5 }, color: "#ffe0c7" }}
                 />
               </Button>
 
@@ -447,7 +447,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                 }}
               >
                 <ShoppingCartIcon
-                  sx={{ fontSize: { xs: 28, md: 31 }, color: "#ffe0c7" }}
+                  sx={{ fontSize: { xs: 26, md: 30 }, color: "#ffe0c7" }}
                 />
                 <CartBadge
                   badgeContent={badgeQuantity}

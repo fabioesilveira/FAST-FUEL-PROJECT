@@ -8,8 +8,8 @@ const MobileContactBubble = styled("button")(({ theme }) => ({
   bottom: 150,
   zIndex: 1400,
 
-  width: 54,
-  height: 54,
+  width: 53,
+  height: 53,
   borderRadius: "999px",
   display: "grid",
   placeItems: "center",

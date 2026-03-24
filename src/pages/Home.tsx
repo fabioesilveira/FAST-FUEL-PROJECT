@@ -394,13 +394,22 @@ export default function Home() {
                                 <Box
                                     sx={{
                                         display: "flex",
-                                        flexDirection: { xs: "column", md: "row" },
+                                        flexDirection: "row",
                                         alignItems: "center",
                                         justifyContent: "center",
-                                        gap: { xs: 1.2, md: 1.2 },
+                                        gap: { xs: 1, md: 1.2 },
+                                        flexWrap: "nowrap",
+                                        minWidth: 0,
                                     }}
                                 >
-                                    <h2 className="total" style={{ whiteSpace: "nowrap", margin: 0 }}>
+                                    <h2
+                                        className="total"
+                                        style={{
+                                            whiteSpace: "nowrap",
+                                            margin: 0,
+                                            flexShrink: 1,
+                                        }}
+                                    >
                                         TOTAL $: {checkout.toFixed(2)}
                                     </h2>
 
@@ -443,8 +452,8 @@ export default function Home() {
                                             <Button
                                                 onClick={openCartMenu}
                                                 sx={{
-                                                    width: { xs: 38, md: 44 },
-                                                    height: { xs: 38, md: 44 },
+                                                    width: { xs: 36, md: 44 },
+                                                    height: { xs: 36, md: 44 },
                                                     minWidth: 44,
                                                     p: 0,
                                                     borderRadius: "12px",
@@ -473,37 +482,6 @@ export default function Home() {
                                             </Button>
                                         </Box>
 
-                                        {/* <Button
-                                            onClick={exitFastThru}
-                                            sx={{
-                                                width: { xs: 38, md: 44 },
-                                                height: { xs: 38, md: 44 },
-                                                minWidth: 44,
-                                                p: 0,
-                                                borderRadius: "12px",
-                                                backgroundColor: "#fff0da",
-                                                border: "2.5px solid rgba(230, 81, 0, 0.85)",
-                                                transition: "all .22s ease",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                "&:hover": {
-                                                    backgroundColor: "rgba(230, 81, 0, 0.12)",
-                                                    transform: "translateY(-1px)",
-                                                },
-                                                "&:active": {
-                                                    backgroundColor: "rgba(230, 81, 0, 0.22)",
-                                                    transform: "scale(0.97)",
-                                                },
-                                            }}
-                                        >
-                                            <CloseIcon
-                                                sx={{
-                                                    color: "#164a96",
-                                                    fontSize: { xs: 22, md: 25 },
-                                                }}
-                                            />
-                                        </Button> */}
                                     </Box>
                                 </Box>
 
@@ -525,16 +503,6 @@ export default function Home() {
                                     onCheckout={handleCheckoutFromCart}
                                 />
 
-                                <style>
-                                    {`
-                                        @media (max-width: 899.95px){
-                                        .total{
-                                            grid-row: 2;
-                                            justify-self: center;
-                                        }
-                                        }
-                                    `}
-                                </style>
                             </Box>
                         )}
 
