@@ -28,7 +28,7 @@ export default function HomeFastThruSection({
                 align="center"
                 sx={{
                     mb: { xs: 3.5, md: 3 },
-                    mt: { xs: -2, md: -4 },
+                    mt: { xs: -2, md: -3.5 },
                     fontFamily: "Titan One",
                     fontSize: { xs: "28px", md: "35px" },
                     letterSpacing: "0.14em",

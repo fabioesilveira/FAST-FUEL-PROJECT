@@ -278,7 +278,7 @@ export default function SignIn() {
                                             fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
                                             color: "text.secondary",
                                             fontWeight: "bold",
-                                            mt: { xs: -0.5 }
+                                            mt: { xs: -0.55 }
                                         }}
                                     >
                                         Sign in to enjoy the complete Fast Fuel experience.

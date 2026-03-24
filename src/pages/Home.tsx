@@ -453,7 +453,7 @@ export default function Home() {
                                                 onClick={openCartMenu}
                                                 sx={{
                                                     width: { xs: 36, md: 44 },
-                                                    height: { xs: 36, md: 44 },
+                                                    height: { xs: 37, md: 44 },
                                                     minWidth: 44,
                                                     p: 0,
                                                     borderRadius: "12px",

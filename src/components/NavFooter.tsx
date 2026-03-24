@@ -173,7 +173,7 @@ export default function NavFooter({
                                             component="span"
                                             sx={{
                                                 mt: 0.45,
-                                                fontSize: "0.56rem",
+                                                fontSize: "0.52rem",
                                                 fontWeight: 800,
                                                 letterSpacing: ".10em",
                                                 color: ORANGE_UI,
