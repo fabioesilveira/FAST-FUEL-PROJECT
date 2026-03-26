@@ -18,6 +18,7 @@ import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import HistoryIcon from "@mui/icons-material/History";
 import EmailIcon from "@mui/icons-material/Email";
 import { useAppAlert } from "../hooks/useAppAlert";
+import { clearAuthStorage } from "../api";
 
 type DropdownItem = {
   label: string;
@@ -120,12 +121,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
   };
 
   const handleClickSignout = () => {
-    localStorage.removeItem("idUser");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userType");
-    localStorage.removeItem("emailUser");
-    localStorage.removeItem("authUser");
-
+    clearAuthStorage();
     setShown(false);
 
     showAlert("Signed out successfully", "success");
