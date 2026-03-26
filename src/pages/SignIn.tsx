@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "../api";
+import { api, clearAuthStorage } from "../api";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
@@ -14,7 +14,7 @@ type User = {
 
 export default function SignIn() {
     useDocumentTitle("FastFuel • Sign in");
-    const [signUp, setSignUp] = useState<User>({
+    const [signIn, setSignIn] = useState<User>({
         email: "",
         password: "",
     });
@@ -31,6 +31,7 @@ export default function SignIn() {
         if (!token) return;
 
         const raw = localStorage.getItem("authUser");
+
         if (raw) {
             try {
                 const u = JSON.parse(raw);
@@ -39,32 +40,45 @@ export default function SignIn() {
 
                 if (id) {
                     navigate(type === "admin" ? "/admin/orders" : "/");
+                    return;
                 }
+
+                clearAuthStorage();
                 return;
-            } catch { }
+            } catch {
+                clearAuthStorage();
+                return;
+            }
         }
 
         const id = localStorage.getItem("idUser");
         const type = localStorage.getItem("userType") ?? "normal";
-        if (id) navigate(type === "admin" ? "/admin/orders" : "/");
+
+        if (id) {
+            navigate(type === "admin" ? "/admin/orders" : "/");
+            return;
+        }
+
+        clearAuthStorage();
     }, [navigate]);
 
 
     async function handleClick() {
-        if (!signUp.email || !signUp.password) {
+        if (!signIn.email || !signIn.password) {
             showAlert("Please fill in your e-mail and password.", "warning");
             return;
         }
 
         try {
             const payload = {
-                ...signUp,
-                email: signUp.email.trim().toLowerCase(),
+                ...signIn,
+                email: signIn.email.trim().toLowerCase(),
             };
             const res = await api.post("/users/login", payload);
 
 
-            if (!res.data || !res.data.id) {
+            if (!res.data?.id || !res.data?.token) {
+                clearAuthStorage();
                 showAlert("Login failed. Please try again.", "error");
                 return;
             }
@@ -72,10 +86,12 @@ export default function SignIn() {
             const displayName =
                 res.data.fullName || res.data.userName || payload.email;
 
+            clearAuthStorage();
+
             localStorage.setItem("idUser", String(res.data.id));
             localStorage.setItem("userName", displayName);
-            localStorage.setItem("userType", res.data.type);
-            localStorage.setItem("emailUser", res.data.email);
+            localStorage.setItem("userType", res.data.type || "normal");
+            localStorage.setItem("emailUser", res.data.email || payload.email);
             localStorage.setItem("token", res.data.token);
 
             localStorage.setItem(
@@ -83,8 +99,8 @@ export default function SignIn() {
                 JSON.stringify({
                     id: res.data.id,
                     userName: displayName,
-                    email: res.data.email,
-                    type: res.data.type,
+                    email: res.data.email || payload.email,
+                    type: res.data.type || "normal",
                     token: res.data.token,
                 })
             );
@@ -109,8 +125,8 @@ export default function SignIn() {
 
     function handleChange({ target }: any) {
         const { name, value } = target;
-        setSignUp({
-            ...signUp,
+        setSignIn({
+            ...signIn,
             [name]: value,
         });
     }
@@ -297,7 +313,7 @@ export default function SignIn() {
                                             autoCorrect: "off",
                                             spellCheck: false,
                                         }}
-                                        value={signUp.email}
+                                        value={signIn.email}
                                         onChange={handleChange}
                                         size="small"
                                         fullWidth
@@ -317,7 +333,7 @@ export default function SignIn() {
                                             autoCorrect: "off",
                                             spellCheck: false,
                                         }}
-                                        value={signUp.password}
+                                        value={signIn.password}
                                         onChange={handleChange}
                                         size="small"
                                         fullWidth

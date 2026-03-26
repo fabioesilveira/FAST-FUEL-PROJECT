@@ -12,6 +12,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useNavigate } from "react-router-dom";
 import { useAppAlert } from "../hooks/useAppAlert";
+import { clearAuthStorage } from "../api";
 
 import FriesIcon from "../assets/frenchFries.png";
 import SodaIcon from "../assets/soda.png";
@@ -149,7 +150,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
   const isLogged = Boolean(localStorage.getItem("idUser"));
 
   const handleSignout = () => {
-    localStorage.clear();
+    clearAuthStorage();
     showAlert("Signed out successfully", "success");
     setTimeout(() => navigate("/sign-in"), 2000);
   };
@@ -300,7 +301,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
             </>
           ) : (
             <>
-              {/* account primeiro bloco (2 itens) */}
+
               {items.slice(0, 2).map(({ label, icon: IconComp, requiresAuth, path, action }) => (
                 <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.7 }}>
                   <ListItemButton

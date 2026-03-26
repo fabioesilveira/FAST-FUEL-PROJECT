@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "../api";
+import { api, clearAuthStorage } from "../api";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useAppAlert } from "../hooks/useAppAlert";
@@ -38,16 +38,32 @@ export default function SignUp() {
         if (!token) return;
 
         const raw = localStorage.getItem("authUser");
+
         if (raw) {
             try {
                 const u = JSON.parse(raw);
-                if (u?.id) navigate("/");
+
+                if (u?.id) {
+                    navigate("/");
+                    return;
+                }
+
+                clearAuthStorage();
                 return;
-            } catch { }
+            } catch {
+                clearAuthStorage();
+                return;
+            }
         }
 
         const id = localStorage.getItem("idUser");
-        if (id) navigate("/");
+
+        if (id) {
+            navigate("/");
+            return;
+        }
+
+        clearAuthStorage();
     }, [navigate]);
 
 
@@ -125,6 +141,7 @@ export default function SignUp() {
             });
 
             if (!loginRes.data?.id || !loginRes.data?.token) {
+                clearAuthStorage();
                 showAlert("Account created, but login failed. Please sign in.", "warning");
                 navigate("/sign-in");
                 return;
@@ -132,6 +149,8 @@ export default function SignUp() {
 
             const displayName =
                 loginRes.data.fullName || loginRes.data.userName || payload.fullName || payload.email;
+
+            clearAuthStorage();
 
             localStorage.setItem("idUser", String(loginRes.data.id));
             localStorage.setItem("userName", displayName);
