@@ -69,11 +69,18 @@ export default function Burguers() {
     fetchApi();
   }, []);
 
-  const imageStylesMobile: Record<string, React.CSSProperties> = {
+  const imageStylesGridMobile: Record<string, React.CSSProperties> = {
     "1": { width: "105px", height: "93px", marginTop: "5px" },
     "2": { width: "260px", height: "260px" },
     "3": { width: "135px", height: "100px", marginTop: "7px" },
     "4": { width: "170px", height: "120px", marginTop: "-5px" },
+  };
+
+  const imageStylesStreamMobile: Record<string, React.CSSProperties> = {
+    "1": { width: "135px", height: "118px", marginTop: "6px" },
+    "2": { width: "290px", height: "290px" },
+    "3": { width: "165px", height: "122px", marginTop: "10px" },
+    "4": { width: "210px", height: "145px", marginTop: "-2px" },
   };
 
   const imageStylesDesktop: Record<string, React.CSSProperties> = {
@@ -121,7 +128,8 @@ export default function Burguers() {
               order={order}
               onAdd={handleOrder}
               onRemove={handleRemove}
-              imageStylesMobile={imageStylesMobile}
+              imageStylesGridMobile={imageStylesGridMobile}
+              imageStylesStreamMobile={imageStylesStreamMobile}
               imageStylesDesktop={imageStylesDesktop}
               imageStylesDesktopWide={imageStylesDesktopWide}
             />

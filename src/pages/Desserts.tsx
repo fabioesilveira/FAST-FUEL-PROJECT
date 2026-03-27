@@ -80,7 +80,14 @@ export default function Desserts() {
         }
     }
 
-    const imageStylesMobile: Record<string, React.CSSProperties> = {
+    const imageStylesGridMobile: Record<string, React.CSSProperties> = {
+        "15": { transform: "scale(1.14)", marginTop: "8px" },
+        "16": { width: "140px", height: "142px" },
+        "17": { width: "133px", height: "133px" },
+        "18": { width: "106px", height: "110px" },
+    };
+
+    const imageStylesStreamMobile: Record<string, React.CSSProperties> = {
         "15": { transform: "scale(1.14)", marginTop: "8px" },
         "16": { width: "140px", height: "142px" },
         "17": { width: "133px", height: "133px" },
@@ -132,7 +139,8 @@ export default function Desserts() {
                             order={order}
                             onAdd={handleOrder}
                             onRemove={handleRemove}
-                            imageStylesMobile={imageStylesMobile}
+                            imageStylesGridMobile={imageStylesGridMobile}
+                            imageStylesStreamMobile={imageStylesStreamMobile}
                             imageStylesDesktop={imageStylesDesktop}
                             imageStylesDesktopWide={imageStylesDesktopWide}
                             imageMap={imageMap}

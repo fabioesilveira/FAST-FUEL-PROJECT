@@ -75,7 +75,14 @@ export default function Sides() {
     fetchApi();
   }, []);
 
-  const imageStylesMobile: Record<string, React.CSSProperties> = {
+  const imageStylesGridMobile: Record<string, React.CSSProperties> = {
+    "11": { width: "125px", height: "121px" },
+    "12": { width: "145px", height: "102px" },
+    "13": { width: "150px", height: "110px", marginTop: "8px" },
+    "14": { width: "140px", height: "105px" },
+  };
+
+  const imageStylesStreamMobile: Record<string, React.CSSProperties> = {
     "11": { width: "125px", height: "121px" },
     "12": { width: "145px", height: "102px" },
     "13": { width: "150px", height: "110px", marginTop: "8px" },
@@ -127,7 +134,8 @@ export default function Sides() {
               order={order}
               onAdd={handleOrder}
               onRemove={handleRemove}
-              imageStylesMobile={imageStylesMobile}
+              imageStylesGridMobile={imageStylesGridMobile}
+              imageStylesStreamMobile={imageStylesStreamMobile}
               imageStylesDesktop={imageStylesDesktop}
               imageStylesDesktopWide={imageStylesDesktopWide}
               imageMap={imageMap}

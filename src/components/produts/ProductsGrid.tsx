@@ -14,7 +14,8 @@ type ProductsGridProps = {
     order: Meal[];
     onAdd: (p: Meal) => void;
     onRemove: (p: Meal) => void;
-    imageStylesMobile: Record<string, React.CSSProperties>;
+    imageStylesGridMobile: Record<string, React.CSSProperties>;
+    imageStylesStreamMobile: Record<string, React.CSSProperties>;
     imageStylesDesktop: Record<string, React.CSSProperties>;
     imageStylesDesktopWide: Record<string, React.CSSProperties>;
     imageMap?: Record<string, string>;
@@ -25,7 +26,8 @@ export default function ProductsGrid({
     order,
     onAdd,
     onRemove,
-    imageStylesMobile,
+    imageStylesGridMobile,
+    imageStylesStreamMobile,
     imageStylesDesktop,
     imageStylesDesktopWide,
     imageMap,
@@ -97,10 +99,10 @@ export default function ProductsGrid({
                             bgcolor: "white",
                             border: "1px solid rgba(230,81,0,0.20)",
                             boxShadow: "0 6px 16px rgba(13,71,161,0.10)",
-                            px: 0.4,
-                            pt: 0.39,
-                            pb: 0.28,
-                            mb: 1,
+                            px: 0.5,
+                            pt: 0.45,
+                            pb: 0.35,
+                            mb: 1.4,
                             minWidth: 100,
                         }}
                     >
@@ -112,13 +114,15 @@ export default function ProductsGrid({
                                 gap: 0.2,
                             }}
                         >
-
                             <IconButton
                                 onClick={() => setViewMode("stream")}
                                 sx={{
                                     width: 38,
                                     height: 38,
-                                    color: viewMode === "stream" ? "#0d47a1" : "rgba(13,71,161,0.35)",
+                                    color:
+                                        viewMode === "stream"
+                                            ? "#0d47a1"
+                                            : "rgba(13,71,161,0.35)",
                                 }}
                                 aria-label="Stream view"
                             >
@@ -130,7 +134,10 @@ export default function ProductsGrid({
                                 sx={{
                                     width: 38,
                                     height: 38,
-                                    color: viewMode === "grid" ? "#0d47a1" : "rgba(13,71,161,0.35)",
+                                    color:
+                                        viewMode === "grid"
+                                            ? "#0d47a1"
+                                            : "rgba(13,71,161,0.35)",
                                 }}
                                 aria-label="Grid view"
                             >
@@ -175,7 +182,7 @@ export default function ProductsGrid({
                     justifyContent: "center",
                     justifyItems: "stretch",
                     columnGap: { xs: viewMode === "grid" ? 1.2 : 0, sm: 3 },
-                    rowGap: { xs: viewMode === "grid" ? 9 : 2.2, sm: 3 },
+                    rowGap: { xs: viewMode === "grid" ? 9 : 3.8, sm: 3 },
                 }}
             >
                 {data.map((product) => (
@@ -188,7 +195,9 @@ export default function ProductsGrid({
                         isTabletOnly={isTabletOnly}
                         imgStyle={
                             isMobile
-                                ? imageStylesMobile[product.id]
+                                ? viewMode === "stream"
+                                    ? imageStylesStreamMobile[product.id]
+                                    : imageStylesGridMobile[product.id]
                                 : imageStylesDesktop[product.id]
                         }
                         qty={order.find((p) => p.id === product.id)?.quantidade ?? 0}

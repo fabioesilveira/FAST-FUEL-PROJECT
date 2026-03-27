@@ -85,13 +85,22 @@ export default function Beverages() {
     fetchApi();
   }, []);
 
-  const imageStylesMobile: Record<string, React.CSSProperties> = {
+  const imageStylesGridMobile: Record<string, React.CSSProperties> = {
     "5": { width: "140px", height: "145px", marginTop: "10px" },
     "6": { width: "140px", height: "145px", marginTop: "10px" },
     "7": { width: "140px", height: "145px", marginTop: "10px" },
     "8": { width: "140px", height: "145px", marginTop: "10px" },
     "9": { width: "140px", height: "145px", marginTop: "10px" },
     "10": { width: "140px", height: "145px", marginTop: "10px" },
+  };
+
+  const imageStylesStreamMobile: Record<string, React.CSSProperties> = {
+    "5": { width: "165px", height: "175px", marginTop: "10px" },
+    "6": { width: "165px", height: "175px", marginTop: "10px" },
+    "7": { width: "165px", height: "175px", marginTop: "10px" },
+    "8": { width: "165px", height: "175px", marginTop: "10px" },
+    "9": { width: "165px", height: "175px", marginTop: "10px" },
+    "10": { width: "165px", height: "175px", marginTop: "10px" },
   };
 
   const imageStylesDesktop: Record<string, React.CSSProperties> = {
@@ -143,7 +152,8 @@ export default function Beverages() {
               order={order}
               onAdd={handleOrder}
               onRemove={handleRemove}
-              imageStylesMobile={imageStylesMobile}
+              imageStylesGridMobile={imageStylesGridMobile}
+              imageStylesStreamMobile={imageStylesStreamMobile}
               imageStylesDesktop={imageStylesDesktop}
               imageStylesDesktopWide={imageStylesDesktopWide}
               imageMap={imageMap}
