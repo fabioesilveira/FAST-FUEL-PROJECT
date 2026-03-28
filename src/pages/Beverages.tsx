@@ -86,12 +86,12 @@ export default function Beverages() {
   }, []);
 
   const imageStylesGridMobile: Record<string, React.CSSProperties> = {
-    "5": { width: "140px", height: "145px", marginTop: "10px" },
-    "6": { width: "140px", height: "145px", marginTop: "10px" },
-    "7": { width: "140px", height: "145px", marginTop: "10px" },
-    "8": { width: "140px", height: "145px", marginTop: "10px" },
-    "9": { width: "140px", height: "145px", marginTop: "10px" },
-    "10": { width: "140px", height: "145px", marginTop: "10px" },
+    "5": { width: "140px", height: "140px", marginTop: "10px" },
+    "6": { width: "140px", height: "140px", marginTop: "10px" },
+    "7": { width: "140px", height: "140px", marginTop: "10px" },
+    "8": { width: "140px", height: "140px", marginTop: "10px" },
+    "9": { width: "140px", height: "140px", marginTop: "10px" },
+    "10": { width: "140px", height: "140px", marginTop: "10px" },
   };
 
   const imageStylesStreamMobile: Record<string, React.CSSProperties> = {

@@ -77,10 +77,10 @@ export default function Burguers() {
   };
 
   const imageStylesStreamMobile: Record<string, React.CSSProperties> = {
-    "1": { width: "135px", height: "118px", marginTop: "6px" },
-    "2": { width: "290px", height: "290px" },
-    "3": { width: "165px", height: "122px", marginTop: "10px" },
-    "4": { width: "210px", height: "145px", marginTop: "-2px" },
+    "1": { width: "152px", height: "135px", marginTop: "6px" },
+    "2": { width: "310px", height: "290px" },
+    "3": { width: "182px", height: "147px", marginTop: "10px" },
+    "4": { width: "240px", height: "174px", marginTop: "-2px" },
   };
 
   const imageStylesDesktop: Record<string, React.CSSProperties> = {
@@ -91,7 +91,7 @@ export default function Burguers() {
   };
 
   const imageStylesDesktopWide: Record<string, React.CSSProperties> = {
-    "1": { width: "180px", height: "150px", marginTop: "5px" },
+    "1": { width: "180px", height: "150px", marginTop: "8px" },
     "2": { width: "240px", height: "225px" },
     "3": { width: "173px", height: "163px", marginTop: "12px" },
     "4": { width: "250px", height: "195px" },

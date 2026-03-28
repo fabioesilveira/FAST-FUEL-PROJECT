@@ -99,7 +99,7 @@ export default function ProductsGrid({
                             bgcolor: "white",
                             border: "1px solid rgba(230,81,0,0.20)",
                             boxShadow: "0 6px 16px rgba(13,71,161,0.10)",
-                            px: 0.5,
+                            px: 0.45,
                             pt: 0.45,
                             pb: 0.35,
                             mb: 1.4,
@@ -148,7 +148,7 @@ export default function ProductsGrid({
                         <Box
                             sx={{
                                 position: "relative",
-                                mt: 0.25,
+                                mt: 0,
                                 height: 3,
                                 borderRadius: "999px",
                                 bgcolor: "rgba(13,71,161,0.12)",
@@ -182,7 +182,7 @@ export default function ProductsGrid({
                     justifyContent: "center",
                     justifyItems: "stretch",
                     columnGap: { xs: viewMode === "grid" ? 1.2 : 0, sm: 3 },
-                    rowGap: { xs: viewMode === "grid" ? 9 : 3.8, sm: 3 },
+                    rowGap: { xs: viewMode === "grid" ? 5 : 4.5, sm: 3 },
                 }}
             >
                 {data.map((product) => (

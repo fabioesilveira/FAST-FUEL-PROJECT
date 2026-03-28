@@ -83,7 +83,7 @@ export default function ProductCard({
                     py: { xs: 2.4, sm: 3 },
                     display: "flex",
                     flexDirection: "column",
-                    gap: 1.25,
+                    gap: 1.35,
                     transition: "transform 0.2s ease, box-shadow 0.2s ease",
                     "@media (hover: hover) and (pointer: fine)": {
                         "&:hover": {
@@ -155,8 +155,11 @@ export default function ProductCard({
                         borderRadius: "10px",
                         border: "1px solid rgba(230,81,0,0.18)",
                         px: 1.6,
-                        py: 1.15,
+                        height: 46,
                         boxShadow: 2,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                         textAlign: "center",
                     }}
                 >
@@ -165,7 +168,7 @@ export default function ProductCard({
                             fontSize: "1rem",
                             color: "#0d47a1",
                             fontWeight: 900,
-                            lineHeight: 1.2,
+                            lineHeight: 1.15,
                         }}
                     >
                         {title}
@@ -207,7 +210,7 @@ export default function ProductCard({
                         justifyContent: "space-between",
                         borderRadius: "12px",
                         px: 1,
-                        height: 48,
+                        height: 46,
                         bgcolor: "#f06612",
                         border: "1px solid rgba(230,81,0,0.18)",
                         boxShadow: 2,
@@ -306,8 +309,8 @@ export default function ProductCard({
                     border: "2px solid #e65100",
                     backgroundColor: "#fff3e0",
                     boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
-                    px: useCompactMobile ? 1.8 : 2.5,  
-                    py: useCompactMobile ? 1.5 : 2.5,  
+                    px: useCompactMobile ? 1.8 : 2.5,
+                    py: useCompactMobile ? 1.5 : 2.5,
                     display: "flex",
                     flexDirection: "column",
                     gap: useCompactMobile ? 1.2 : 1.8,
@@ -480,7 +483,7 @@ export default function ProductCard({
 
                 <Box
                     sx={{
-                        mt: 0.5,
+                        mt: 0.2,
                         mb: 0.5,
                         display: "flex",
                         alignItems: "center",
