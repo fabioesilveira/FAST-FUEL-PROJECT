@@ -56,12 +56,12 @@ export default function HomeMiniCard({
     count = 0,
 }: MiniActionCardProps) {
     const imageStylesOrder: Record<string, React.CSSProperties> = {
-        "1": { width: "60px", height: "52px" },
-        "2": { width: "90px", height: "77px" },
+        "1": { width: "60px", height: "52px", marginTop: "3px" },
+        "2": { width: "90px", height: "75px" },
         "3": { width: "65px", height: "55px" },
-        "4": { width: "85px", height: "65px" },
+        "4": { width: "85px", height: "65px", marginTop: "-2px" },
         "11": { width: "70px", height: "73px" },
-        "12": { width: "85px", height: "70px" },
+        "12": { width: "82px", height: "67px" },
         "13": { width: "75px", height: "65px", marginTop: "4px" },
         "14": { width: "65px", height: "70px" },
         "5": { width: "77px", height: "77px" },
@@ -72,8 +72,8 @@ export default function HomeMiniCard({
         "10": { width: "77px", height: "77px" },
         "15": { width: "200px", height: "81px" },
         "16": { width: "82px", height: "75px" },
-        "17": { width: "78px", height: "85px" },
-        "18": { width: "60px", height: "55px" },
+        "17": { width: "75px", height: "79px" },
+        "18": { width: "60px", height: "51px" },
     };
 
     const imgKey = normalizeImageKey(image);

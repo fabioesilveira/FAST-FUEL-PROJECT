@@ -343,8 +343,8 @@ export default function SignUp() {
                                             color: "rgba(180, 63, 0, 1)",
                                             fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
                                             "&:hover": { textDecoration: "underline" },
-                                            mb: { xs: -1 },
-                                            mt: { xs: -1.5 },
+                                            mb: { xs: -0.99 },
+                                            mt: { xs: -1.49 },
                                         }}
                                     >
                                         Already have an account? Sign in to your account.

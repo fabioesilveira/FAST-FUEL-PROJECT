@@ -191,7 +191,7 @@ export default function ProductCard({
                             fontSize: "0.97rem",
                             lineHeight: 1.65,
                             color: "#2a2a2a",
-                            fontWeight: 500,
+                            fontWeight: 450,
                             display: "-webkit-box",
                             WebkitLineClamp: 5,
                             WebkitBoxOrient: "vertical",
@@ -586,7 +586,7 @@ export default function ProductCard({
                     sx: {
                         borderRadius: "16px",
                         backgroundColor: "#fff3e0",
-                        border: "2px solid #e65100",
+                        border: "2px solid rgba(230, 81, 0, 0.28)",
                         boxShadow: "0 18px 40px rgba(230,81,0,0.22)",
                         overflow: "hidden",
                     },
@@ -598,8 +598,7 @@ export default function ProductCard({
                         color: "#0d47a1",
                         fontWeight: 900,
                         fontSize: "1.02rem",
-                        backgroundColor: "#ffe0c7",
-                        borderBottom: "1px solid rgba(230,81,0,0.20)",
+                        backgroundColor: "#fff3e0",
                     }}
                 >
                     {title}
@@ -624,7 +623,7 @@ export default function ProductCard({
                             height: 180,
                             backgroundColor: "#ffffff",
                             borderRadius: "10px",
-                            border: "2px solid #e65100",
+                            border: "2px solid rgba(230, 81, 0, 0.28)",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -652,7 +651,7 @@ export default function ProductCard({
                             color: "#222",
                             fontSize: "0.98rem",
                             lineHeight: 1.7,
-                            fontWeight: 500,
+                            fontWeight: 450,
                         }}
                     >
                         {product.description}
