@@ -109,7 +109,7 @@ export default function ProductCardDesktopLandscape({
                     height: 260,
                     backgroundColor: "#fff",
                     borderRadius: "9px",
-                    border: "2px solid rgba(230,81,0,0.75)",
+                    border: "2px solid rgba(230,81,0,0.55)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
