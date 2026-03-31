@@ -17,6 +17,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import NavbarAction from "../components/NavbarAction";
+import OrderReviewModal, {
+    type ReviewEligibleItem,
+} from "../components/OrderReviewModal";
 
 
 type Sale = {
@@ -164,9 +167,18 @@ export default function TrackOrderGuest() {
     const [loading, setLoading] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
 
+    const [reviewOpen, setReviewOpen] = useState(false);
+    const [eligibleItems, setEligibleItems] = useState<ReviewEligibleItem[]>([]);
+    const [reviewIndex, setReviewIndex] = useState(0);
+    const [reviewRating, setReviewRating] = useState(0);
+    const [reviewComment, setReviewComment] = useState("");
+    const [reviewSubmitting, setReviewSubmitting] = useState(false);
+
     const [tsAnchorEl, setTsAnchorEl] = useState<null | HTMLElement>(null);
     const [tsOrderId, setTsOrderId] = useState<number | null>(null);
     const tsOpen = Boolean(tsAnchorEl);
+
+    const currentReviewItem = eligibleItems[reviewIndex] ?? null;
 
     const openTsMenu = (e: MouseEvent<HTMLElement>, orderId: number) => {
         setTsAnchorEl(e.currentTarget);
@@ -214,6 +226,7 @@ export default function TrackOrderGuest() {
         setOrderCodeFilter("");
         setItems([]);
         setHasSearched(false);
+        resetReviewFlow();
     }
 
     useEffect(() => {
@@ -335,8 +348,13 @@ export default function TrackOrderGuest() {
                 email: o.customer_email ?? emailFilter.trim(),
             });
 
-            showAlert("Thanks! Marked as received.", "success");
-            await fetchOrders();
+            await loadEligibleReviewsForOrder({
+                ...o,
+                status: "completed",
+                received_confirmed_at: new Date().toISOString(),
+            });
+
+            await fetchOrders({ silent: true });
         } catch (e) {
             console.error(e);
             showAlert("Failed to confirm receipt", "error");
@@ -373,7 +391,100 @@ export default function TrackOrderGuest() {
     }, [hasSearched, canSearch]);
 
 
+    function resetReviewFlow() {
+        setReviewOpen(false);
+        setEligibleItems([]);
+        setReviewIndex(0);
+        setReviewRating(0);
+        setReviewComment("");
+        setReviewSubmitting(false);
+    }
 
+    function goToNextReviewItem() {
+        const nextIndex = reviewIndex + 1;
+
+        if (nextIndex >= eligibleItems.length) {
+            resetReviewFlow();
+            showAlert("Thanks for your feedback!", "success");
+            return;
+        }
+
+        setReviewIndex(nextIndex);
+        setReviewRating(0);
+        setReviewComment("");
+    }
+
+    function handleReviewSuggestionClick(text: string) {
+        const clean = text.trim();
+        if (!clean) return;
+
+        setReviewComment((prev) => {
+            const base = prev.trim();
+
+            if (!base) return `${clean}.`;
+            if (base.toLowerCase().includes(clean.toLowerCase())) return prev;
+
+            return `${base} ${clean}.`;
+        });
+    }
+
+    async function loadEligibleReviewsForOrder(order: Sale) {
+        try {
+            const email = (order.customer_email ?? emailFilter).trim().toLowerCase();
+
+            const res = await api.get("/reviews/eligible", {
+                params: {
+                    sale_id: order.id,
+                    customer_email: email,
+                },
+            });
+
+            const items = Array.isArray(res.data?.eligible_items)
+                ? res.data.eligible_items
+                : [];
+
+            if (items.length > 0) {
+                setEligibleItems(items);
+                setReviewIndex(0);
+                setReviewRating(0);
+                setReviewComment("");
+                setReviewOpen(true);
+            }
+        } catch (e: any) {
+            console.error("ELIGIBLE REVIEWS ERROR:", e);
+            console.error("ELIGIBLE REVIEWS DATA:", e?.response?.data);
+        }
+    }
+
+    async function handleReviewSubmit() {
+        const currentItem = eligibleItems[reviewIndex];
+        if (!currentItem) return;
+        if (reviewRating < 1) return;
+
+        setReviewSubmitting(true);
+
+        try {
+            await api.post("/reviews", {
+                sale_id: currentItem.sale_id,
+                product_id: currentItem.product_id,
+                rating: reviewRating,
+                comment: reviewComment.trim() || null,
+                customer_email: String(items[0]?.customer_email ?? emailFilter).trim().toLowerCase(),
+            });
+
+            goToNextReviewItem();
+        } catch (e: any) {
+            console.error("CREATE REVIEW ERROR:", e);
+            console.error("CREATE REVIEW DATA:", e?.response?.data);
+            showAlert(e?.response?.data?.msg || "Failed to send review.", "error");
+        } finally {
+            setReviewSubmitting(false);
+        }
+    }
+
+    function handleReviewSkip() {
+        goToNextReviewItem();
+    }
 
     return (
         <>
@@ -1175,6 +1286,22 @@ export default function TrackOrderGuest() {
                     </Button>
                 </Box>
             </Menu>
+
+            <OrderReviewModal
+                open={reviewOpen}
+                item={currentReviewItem}
+                currentIndex={reviewIndex}
+                totalItems={eligibleItems.length}
+                rating={reviewRating}
+                comment={reviewComment}
+                loading={reviewSubmitting}
+                onClose={resetReviewFlow}
+                onSkip={handleReviewSkip}
+                onRatingChange={setReviewRating}
+                onCommentChange={setReviewComment}
+                onSuggestionClick={handleReviewSuggestionClick}
+                onSubmit={handleReviewSubmit}
+            />
         </>
     );
 }

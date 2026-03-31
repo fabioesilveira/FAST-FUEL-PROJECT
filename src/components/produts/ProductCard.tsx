@@ -190,12 +190,13 @@ export default function ProductCard({
                         sx={{
                             fontSize: "0.97rem",
                             lineHeight: 1.65,
-                            color: "#2a2a2a",
-                            fontWeight: 450,
+                            fontWeight: 400,
                             display: "-webkit-box",
                             WebkitLineClamp: 5,
                             WebkitBoxOrient: "vertical",
                             overflow: "hidden",
+                            fontFamily: "Inter, sans-serif",
+                            color: "rgba(20,20,20,0.78)",
                         }}
                     >
                         {product.description}
@@ -210,7 +211,7 @@ export default function ProductCard({
                         justifyContent: "space-between",
                         borderRadius: "12px",
                         px: 1,
-                        height: 46,
+                        height: 44,
                         bgcolor: "#f06612",
                         border: "1px solid rgba(230,81,0,0.18)",
                         boxShadow: 2,
@@ -219,8 +220,8 @@ export default function ProductCard({
                     <Box
                         onClick={() => onRemove(product)}
                         sx={{
-                            width: 34,
-                            height: 34,
+                            width: 32,
+                            height: 32,
                             borderRadius: "50%",
                             bgcolor: "#ffffff",
                             color: "#0d47a1",
@@ -264,8 +265,8 @@ export default function ProductCard({
                     <Box
                         onClick={() => onAdd(product)}
                         sx={{
-                            width: 34,
-                            height: 34,
+                            width: 32,
+                            height: 32,
                             borderRadius: "50%",
                             bgcolor: "#ffffff",
                             color: "#0d47a1",
@@ -499,8 +500,8 @@ export default function ProductCard({
                     <Box
                         onClick={() => onRemove(product)}
                         sx={{
-                            width: 30,
-                            height: 30,
+                            width: 29,
+                            height: 29,
                             borderRadius: "50%",
                             bgcolor: "#ffffff",
                             color: "#0d47a1",
@@ -544,8 +545,8 @@ export default function ProductCard({
                     <Box
                         onClick={() => onAdd(product)}
                         sx={{
-                            width: 30,
-                            height: 30,
+                            width: 29,
+                            height: 29,
                             borderRadius: "50%",
                             bgcolor: "#ffffff",
                             color: "#0d47a1",
@@ -648,10 +649,11 @@ export default function ProductCard({
 
                     <Typography
                         sx={{
-                            color: "#222",
+                            fontFamily: "Inter, sans-serif",
+                            color: "rgba(20,20,20,0.78)",
                             fontSize: "0.98rem",
                             lineHeight: 1.7,
-                            fontWeight: 450,
+                            fontWeight: 400,
                         }}
                     >
                         {product.description}
