@@ -414,19 +414,6 @@ export default function TrackOrderGuest() {
         setReviewComment("");
     }
 
-    function handleReviewSuggestionClick(text: string) {
-        const clean = text.trim();
-        if (!clean) return;
-
-        setReviewComment((prev) => {
-            const base = prev.trim();
-
-            if (!base) return `${clean}.`;
-            if (base.toLowerCase().includes(clean.toLowerCase())) return prev;
-
-            return `${base} ${clean}.`;
-        });
-    }
 
     async function loadEligibleReviewsForOrder(order: Sale) {
         try {
@@ -454,7 +441,7 @@ export default function TrackOrderGuest() {
             console.error("ELIGIBLE REVIEWS ERROR:", e);
             console.error("ELIGIBLE REVIEWS DATA:", e?.response?.data);
         }
-        
+
     }
 
     async function handleReviewSubmit() {
@@ -1300,7 +1287,6 @@ export default function TrackOrderGuest() {
                 onSkip={handleReviewSkip}
                 onRatingChange={setReviewRating}
                 onCommentChange={setReviewComment}
-                onSuggestionClick={handleReviewSuggestionClick}
                 onSubmit={handleReviewSubmit}
             />
         </>

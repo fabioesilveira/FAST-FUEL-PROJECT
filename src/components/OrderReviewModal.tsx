@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Zoom from "@mui/material/Zoom";
 import Backdrop from "@mui/material/Backdrop";
-import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import type { TransitionProps } from "@mui/material/transitions";
@@ -40,21 +39,12 @@ type OrderReviewModalProps = {
     rating: number;
     comment: string;
     loading?: boolean;
-    suggestionChips?: string[];
     onClose: () => void;
     onSkip: () => void;
     onRatingChange: (value: number) => void;
     onCommentChange: (value: string) => void;
-    onSuggestionClick: (value: string) => void;
     onSubmit: () => void;
 };
-
-const defaultSuggestions = [
-    "Very tasty",
-    "Fresh",
-    "Great portion",
-    "Would order again",
-];
 
 export default function OrderReviewModal({
     open,
@@ -64,12 +54,10 @@ export default function OrderReviewModal({
     rating,
     comment,
     loading = false,
-    suggestionChips = defaultSuggestions,
     onClose,
     onSkip,
     onRatingChange,
     onCommentChange,
-    onSuggestionClick,
     onSubmit,
 }: OrderReviewModalProps) {
     const isLast = currentIndex >= totalItems - 1;
@@ -344,7 +332,7 @@ export default function OrderReviewModal({
                                     lineHeight: 1.35,
                                 }}
                             >
-                                Tap a star to rate this item
+                                How would you rate this item?
                             </Typography>
                         </Box>
 
@@ -369,33 +357,6 @@ export default function OrderReviewModal({
                             >
                                 Add a comment
                             </Typography>
-
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    flexWrap: "wrap",
-                                    gap: 0.8,
-                                    mb: 1.1,
-                                }}
-                            >
-                                {suggestionChips.map((text) => (
-                                    <Chip
-                                        key={text}
-                                        label={text}
-                                        onClick={() => onSuggestionClick(text)}
-                                        sx={{
-                                            borderRadius: "999px",
-                                            bgcolor: "#f2f2f2",
-                                            color: "#333",
-                                            fontWeight: 800,
-                                            border: "1px solid rgba(0,0,0,0.08)",
-                                            "&:hover": {
-                                                bgcolor: "#ebebeb",
-                                            },
-                                        }}
-                                    />
-                                ))}
-                            </Box>
 
                             <TextField
                                 multiline
