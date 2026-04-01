@@ -95,15 +95,16 @@ export default function ProductsGrid({
                             display: "inline-flex",
                             flexDirection: "column",
                             alignItems: "stretch",
-                            borderRadius: "12px",
+
                             bgcolor: "white",
                             border: "1px solid rgba(230,81,0,0.20)",
                             boxShadow: "0 6px 16px rgba(13,71,161,0.10)",
-                            px: 0.45,
-                            pt: 0.45,
-                            pb: 0.35,
-                            mb: 3,
-                            minWidth: 100,
+                            px: 0.35,
+                            pt: 0.35,
+                            pb: 0.25,
+                            mb: 2.6, // antes 3
+                            minWidth: 92, // antes 100
+                            borderRadius: "10px", // antes 12
                         }}
                     >
                         <Box
@@ -117,8 +118,8 @@ export default function ProductsGrid({
                             <IconButton
                                 onClick={() => setViewMode("stream")}
                                 sx={{
-                                    width: 38,
-                                    height: 38,
+                                    width: 34,
+                                    height: 34,
                                     color:
                                         viewMode === "stream"
                                             ? "#0d47a1"
@@ -132,8 +133,8 @@ export default function ProductsGrid({
                             <IconButton
                                 onClick={() => setViewMode("grid")}
                                 sx={{
-                                    width: 38,
-                                    height: 38,
+                                    width: 34,
+                                    height: 34,
                                     color:
                                         viewMode === "grid"
                                             ? "#0d47a1"

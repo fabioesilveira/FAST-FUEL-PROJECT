@@ -25,6 +25,11 @@ import SaladImg from "../assets/Crispsalad.png";
 import MilkshakeImg from "../assets/Milkshake.png";
 import SundaeImg from "../assets/Sundae.png";
 import NavbarAction from "../components/NavbarAction";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
+import CheckoutMobileFooter from "../components/checkout/CheckoutMobileFooter";
+import CheckoutProcessingScreen from "../components/checkout/CheckoutProcessingScreen";
 
 
 /* CONSTANTS / HELPERS */
@@ -113,6 +118,9 @@ export default function Checkout() {
 
     const navigate = useNavigate();
     const { order, setOrder } = useAppContext();
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const { showAlert, confirmAlert, AlertUI, ConfirmUI } = useAppAlert({
         vertical: "top",
@@ -612,6 +620,676 @@ export default function Checkout() {
         setEmail(mail);
     }, [isLogged, loggedUser]);
 
+    function MobileProcessingScreen() {
+        return (
+            <Box
+                sx={{
+                    minHeight: "100dvh",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    px: 3,
+                    pt: "96px",
+                    pb: "calc(40px + env(safe-area-inset-bottom))",
+                    textAlign: "center",
+                    bgcolor: "#fff",
+                }}
+            >
+                <Typography
+                    sx={{
+                        color: "#0d47a1",
+                        fontWeight: 900,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.14em",
+                        fontSize: "clamp(1.10rem, 4.4vw, 1.55rem)",
+                    }}
+                >
+                    Processing your payment
+                </Typography>
+
+                <Typography
+                    sx={{
+                        maxWidth: 420,
+                        mt: 2,
+                        color: "text.secondary",
+                        fontSize: "clamp(0.88rem, 3.6vw, 0.96rem)",
+                        lineHeight: 1.65,
+                    }}
+                >
+                    Please don’t refresh or close this page.
+                </Typography>
+
+                <Box
+                    sx={{
+                        mt: 3,
+                        width: 72,
+                        height: 72,
+                        display: "grid",
+                        placeItems: "center",
+                        "@keyframes ffPulseWobble": {
+                            "0%": { transform: "scale(1) rotate(0deg)" },
+                            "10%": { transform: "scale(1.18) rotate(6deg)" },
+                            "20%": { transform: "scale(1) rotate(-6deg)" },
+                            "30%": { transform: "scale(1.16) rotate(5deg)" },
+                            "40%": { transform: "scale(1) rotate(-5deg)" },
+                            "70%": { transform: "scale(0.92) rotate(0deg)" },
+                            "100%": { transform: "scale(1) rotate(0deg)" },
+                        },
+                    }}
+                >
+                    <LunchDiningIcon
+                        sx={{
+                            fontSize: 54,
+                            color: "#e65100",
+                            animation: "ffPulseWobble 1.6s ease-in-out infinite",
+                            transformOrigin: "center",
+                        }}
+                    />
+                </Box>
+
+                <Typography
+                    sx={{
+                        mt: 2,
+                        fontSize: "0.76rem",
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase",
+                        color: "rgba(13, 71, 161, 0.7)",
+                        fontWeight: 800,
+                    }}
+                >
+                    Checkout simulation
+                </Typography>
+            </Box>
+        );
+    }
+
+    function MobileConfirmedScreen() {
+        const firstName = (fullName || "there").trim().split(" ")[0];
+
+        return (
+            <Box
+                sx={{
+                    minHeight: "100dvh",
+                    display: "flex",
+                    flexDirection: "column",
+                    px: 2,
+                    pt: "96px",
+                    pb: "calc(24px + env(safe-area-inset-bottom))",
+                    bgcolor: "#fff",
+                    position: "relative",
+                    "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        top: 0,
+                        bottom: 0,
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        zIndex: 0,
+                        width: "min(98vw, 720px)",
+                        backgroundImage: `
+                        linear-gradient(90deg,
+                            rgba(255,255,255,1) 0%,
+                            rgba(255,255,255,0.0) 18%,
+                            rgba(255,255,255,0.0) 82%,
+                            rgba(255,255,255,1) 100%
+                        ),
+                        repeating-linear-gradient(135deg,
+                            rgba(13,71,161,0.018) 0px,
+                            rgba(13,71,161,0.018) 10px,
+                            rgba(230,81,0,0.014) 10px,
+                            rgba(230,81,0,0.014) 20px
+                        )
+                    `,
+                        backgroundRepeat: "no-repeat, repeat",
+                        backgroundSize: "100% 100%, auto",
+                    },
+                }}
+            >
+                <Box
+                    sx={{
+                        position: "relative",
+                        zIndex: 1,
+                        width: "100%",
+                        maxWidth: 520,
+                        mx: "auto",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 2,
+                        textAlign: "center",
+                    }}
+                >
+                    <Typography
+                        sx={{
+                            color: "#0d47a1",
+                            fontWeight: 900,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.14em",
+                            fontSize: "clamp(1.45rem, 6vw, 1.85rem)",
+                            textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
+                        }}
+                    >
+                        Order confirmed
+                    </Typography>
+
+                    <Typography
+                        sx={{
+                            color: "text.secondary",
+                            fontSize: "clamp(0.92rem, 3.8vw, 1rem)",
+                            lineHeight: 1.7,
+                        }}
+                    >
+                        Hi <b>{firstName}</b>. Your order has been confirmed and is waiting for the
+                        store to accept and start preparing it.
+                    </Typography>
+
+                    <Typography
+                        sx={{
+                            color: "text.secondary",
+                            fontSize: "clamp(0.88rem, 3.6vw, 0.95rem)",
+                            lineHeight: 1.7,
+                        }}
+                    >
+                        It will be delivered to: <b>{addressLine || "the address you entered"}</b>.
+                        <br />
+                        Average wait time: <b>30 minutes</b>.
+                    </Typography>
+
+                    <Box
+                        sx={{
+                            mt: 1,
+                            p: 1.6,
+                            borderRadius: 2.2,
+                            border: "1px solid rgba(13, 71, 161, 0.22)",
+                            bgcolor: "rgba(255,255,255,0.82)",
+                        }}
+                    >
+                        <Typography
+                            sx={{
+                                fontWeight: 900,
+                                color: "#0d47a1",
+                                mb: 0.7,
+                                fontSize: "0.98rem",
+                            }}
+                        >
+                            Your Order Number
+                        </Typography>
+
+                        <Typography
+                            sx={{
+                                fontWeight: 900,
+                                color: "#e65100",
+                                letterSpacing: "0.14em",
+                                fontSize: "1.12rem",
+                            }}
+                        >
+                            {orderCode || "-"}
+                        </Typography>
+
+                        <Typography
+                            sx={{
+                                mt: 1.1,
+                                fontSize: "0.80rem",
+                                color: "text.secondary",
+                                lineHeight: 1.6,
+                            }}
+                        >
+                            Please save your <b>Order Number</b> to check status on the Orders page.
+                            {isLogged ? (
+                                <> Since you’re logged in, it’s saved in your account too.</>
+                            ) : (
+                                <> As a guest, you’ll need it (and your email) to track your order.</>
+                            )}
+                        </Typography>
+                    </Box>
+
+                    <Stack spacing={1.2} sx={{ mt: 1.2 }}>
+                        <Button
+                            variant="outlined"
+                            startIcon={<HomeIcon />}
+                            onClick={() => navigate("/")}
+                            sx={{
+                                height: 46,
+                                width: "100%",
+                                borderRadius: 2,
+                                textTransform: "uppercase",
+                                border: "2px solid #0d47a1",
+                                color: "#0d47a1",
+                                letterSpacing: "0.12em",
+                                fontWeight: 900,
+                                "&:hover": { borderColor: "#123b7a", color: "#123b7a" },
+                            }}
+                        >
+                            Home
+                        </Button>
+
+                        <Button
+                            variant="contained"
+                            startIcon={<HistoryIcon />}
+                            onClick={() => navigate("/orders")}
+                            sx={{
+                                height: 46,
+                                width: "100%",
+                                borderRadius: 2,
+                                backgroundColor: "#e65100",
+                                color: "#ffe0c7",
+                                fontWeight: 900,
+                                letterSpacing: "0.08em",
+                                textTransform: "uppercase",
+                                "&:hover": { backgroundColor: "#b33f00" },
+                            }}
+                        >
+                            Orders
+                        </Button>
+                    </Stack>
+                </Box>
+            </Box>
+        );
+    }
+
+
+    function MobileCheckoutForm() {
+        return (
+            <Box
+                sx={{
+                    minHeight: "100dvh",
+                    display: "flex",
+                    flexDirection: "column",
+                    bgcolor: "#fff",
+                    position: "relative",
+                    "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        top: 0,
+                        bottom: 0,
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        zIndex: 0,
+                        width: "min(98vw, 720px)",
+                        backgroundImage: `
+                        linear-gradient(90deg,
+                            rgba(255,255,255,1) 0%,
+                            rgba(255,255,255,0.0) 18%,
+                            rgba(255,255,255,0.0) 82%,
+                            rgba(255,255,255,1) 100%
+                        ),
+                        repeating-linear-gradient(135deg,
+                            rgba(13,71,161,0.018) 0px,
+                            rgba(13,71,161,0.018) 10px,
+                            rgba(230,81,0,0.014) 10px,
+                            rgba(230,81,0,0.014) 20px
+                        )
+                    `,
+                        backgroundRepeat: "no-repeat, repeat",
+                        backgroundSize: "100% 100%, auto",
+                    },
+                }}
+            >
+                <Box
+                    sx={{
+                        position: "relative",
+                        zIndex: 1,
+                        px: 2,
+                        pt: "98px",
+                        pb: "calc(110px + env(safe-area-inset-bottom))",
+                        width: "100%",
+                        maxWidth: 560,
+                        mx: "auto",
+                    }}
+                >
+                    <Box sx={{ px: 0.3, pt: 1.5, pb: 2.5 }}>
+                        <Typography
+                            variant="h4"
+                            align="center"
+                            sx={{
+                                mb: 0,
+                                fontSize: "clamp(1.95rem, 7vw, 2.25rem)",
+                                letterSpacing: "0.12em",
+                                textTransform: "uppercase",
+                                color: "#0d47a1",
+                                fontWeight: 700,
+                                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
+                            }}
+                        >
+                            Checkout
+                        </Typography>
+                    </Box>
+
+                    <Box sx={{ pb: 2 }}>
+                        <CheckoutOrderSummary
+                            order={order}
+                            totalItems={totalItems}
+                            subtotalLabel={subtotalLabel}
+                            discount={discount}
+                            discountLabel={discountLabel}
+                            taxLabel={taxLabel}
+                            deliveryFee={deliveryFee}
+                            deliveryLabel={deliveryLabel}
+                            grandTotalLabel={grandTotalLabel}
+                            resolveImgSrc={resolveImgSrc}
+                            imageStylesByIdOrderSummary={imageStylesByIdOrderSummary}
+                            cleanProductName={cleanProductName}
+                            incItem={incItem}
+                            decItem={decItem}
+                            handleClearCart={handleClearCart}
+                        />
+                    </Box>
+
+                    <Box sx={{ mb: 3.2 }}>
+                        <Typography
+                            variant="subtitle1"
+                            align="center"
+                            sx={{
+                                textTransform: "uppercase",
+                                letterSpacing: "0.16em",
+                                mb: 2,
+                                fontWeight: 700,
+                                position: "relative",
+                                "&::after": {
+                                    content: '""',
+                                    display: "block",
+                                    width: 52,
+                                    height: 3,
+                                    borderRadius: 999,
+                                    bgcolor: "#0d47a1",
+                                    mx: "auto",
+                                    mt: 0.8,
+                                },
+                            }}
+                        >
+                            Contact Info
+                        </Typography>
+
+                        <Stack spacing={1.6}>
+                            <TextField
+                                size="small"
+                                label="Full Name*"
+                                fullWidth
+                                variant="outlined"
+                                sx={tfBlueLabelSx}
+                                value={fullName}
+                                onChange={(e) => setFullName(e.target.value)}
+                                InputProps={{ readOnly: isLogged }}
+                            />
+
+                            <TextField
+                                size="small"
+                                label="Email*"
+                                type="email"
+                                fullWidth
+                                variant="outlined"
+                                sx={tfBlueLabelSx}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                InputProps={{ readOnly: isLogged }}
+                            />
+                        </Stack>
+
+                        {!isLogged && (
+                            <Typography
+                                align="center"
+                                sx={{ mt: 1.4, fontSize: "0.75rem", color: "text.secondary" }}
+                            >
+                                Guest checkout: keep your <b>Order Number</b> to track your order later.
+                            </Typography>
+                        )}
+                    </Box>
+
+                    <Box sx={{ mb: 3.2 }}>
+                        <Typography
+                            variant="subtitle1"
+                            align="center"
+                            sx={{
+                                textTransform: "uppercase",
+                                letterSpacing: "0.16em",
+                                mb: 2,
+                                fontWeight: 700,
+                                position: "relative",
+                                "&::after": {
+                                    content: '""',
+                                    display: "block",
+                                    width: 52,
+                                    height: 3,
+                                    borderRadius: 999,
+                                    bgcolor: "#0d47a1",
+                                    mx: "auto",
+                                    mt: 0.9,
+                                },
+                            }}
+                        >
+                            Delivery
+                        </Typography>
+
+                        <Stack spacing={1.6}>
+                            <AddressLookup
+                                sx={tfBlueLabelSx}
+                                requireZip5
+                                inputValue={streetText}
+                                onInputChange={(v) => {
+                                    setStreetText(v);
+
+                                    setAddress((prev) => ({
+                                        ...prev,
+                                        street: v,
+                                    }));
+
+                                    if (!v.trim()) {
+                                        setAddress((prev) => ({
+                                            ...prev,
+                                            street: "",
+                                            city: "",
+                                            apt: "",
+                                            state: "",
+                                            zip: "",
+                                            country: "USA",
+                                        }));
+                                    }
+                                }}
+                                onSelect={(addr) => {
+                                    setStreetText(addr.street);
+
+                                    setAddress((prev) => ({
+                                        ...prev,
+                                        street: addr.street,
+                                        city: addr.city,
+                                        state: addr.state,
+                                        zip: addr.zip,
+                                        country: "USA",
+                                    }));
+                                }}
+                            />
+
+                            <TextField
+                                size="small"
+                                label="City*"
+                                fullWidth
+                                variant="outlined"
+                                value={address.city}
+                                onChange={(e) =>
+                                    setAddress((prev) => ({ ...prev, city: e.target.value }))
+                                }
+                                sx={tfBlueLabelSx}
+                            />
+
+                            <TextField
+                                size="small"
+                                label="Apt / Suite"
+                                fullWidth
+                                variant="outlined"
+                                value={address.apt}
+                                onChange={(e) =>
+                                    setAddress((prev) => ({ ...prev, apt: e.target.value }))
+                                }
+                                sx={tfBlueLabelSx}
+                            />
+
+                            <Stack direction="row" spacing={1.2}>
+                                <TextField
+                                    size="small"
+                                    label="State*"
+                                    variant="outlined"
+                                    value={address.state}
+                                    onChange={(e) =>
+                                        setAddress((prev) => ({ ...prev, state: e.target.value }))
+                                    }
+                                    sx={[tfBlueLabelSx, { flex: 1 }]}
+                                />
+
+                                <TextField
+                                    size="small"
+                                    label="Zipcode*"
+                                    variant="outlined"
+                                    value={address.zip}
+                                    onChange={(e) =>
+                                        setAddress((prev) => ({ ...prev, zip: e.target.value }))
+                                    }
+                                    sx={[tfBlueLabelSx, { flex: 1 }]}
+                                />
+                            </Stack>
+
+                            <TextField
+                                size="small"
+                                label="Country*"
+                                placeholder="USA"
+                                variant="outlined"
+                                value={address.country}
+                                onChange={(e) =>
+                                    setAddress((prev) => ({
+                                        ...prev,
+                                        country: e.target.value,
+                                    }))
+                                }
+                                sx={tfBlueLabelSx}
+                            />
+
+                            <Typography
+                                align="center"
+                                sx={{ mt: 0.3, fontSize: "0.75rem", color: "text.secondary" }}
+                            >
+                                Start typing and select an address from the suggestions.
+                            </Typography>
+                        </Stack>
+                    </Box>
+
+                    <Box sx={{ mb: 1 }}>
+                        <Typography
+                            variant="subtitle1"
+                            align="center"
+                            sx={{
+                                textTransform: "uppercase",
+                                letterSpacing: "0.16em",
+                                mb: 2,
+                                fontWeight: 700,
+                                position: "relative",
+                                "&::after": {
+                                    content: '""',
+                                    display: "block",
+                                    width: 52,
+                                    height: 3,
+                                    borderRadius: 999,
+                                    bgcolor: "#0d47a1",
+                                    mx: "auto",
+                                    mt: 0.8,
+                                },
+                            }}
+                        >
+                            Payment
+                        </Typography>
+
+                        <Stack spacing={1.6}>
+                            <TextField
+                                size="small"
+                                label="Name on Card*"
+                                value="Fast Fuel Payment Simulation"
+                                fullWidth
+                                variant="outlined"
+                                sx={[
+                                    tfBlueLabelSx,
+                                    { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                ]}
+                                InputProps={{ readOnly: true }}
+                            />
+
+                            <TextField
+                                size="small"
+                                label="Card Number*"
+                                value="4242 4242 4242 4242"
+                                fullWidth
+                                variant="outlined"
+                                sx={[
+                                    tfBlueLabelSx,
+                                    { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                ]}
+                                InputProps={{ readOnly: true }}
+                            />
+
+                            <Stack direction="row" spacing={1.2}>
+                                <TextField
+                                    size="small"
+                                    label="Valid Through*"
+                                    value="12/30"
+                                    fullWidth
+                                    variant="outlined"
+                                    sx={[
+                                        tfBlueLabelSx,
+                                        { flex: 1 },
+                                        { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                    ]}
+                                    InputProps={{ readOnly: true }}
+                                />
+
+                                <TextField
+                                    size="small"
+                                    label="CVV*"
+                                    value="123"
+                                    fullWidth
+                                    variant="outlined"
+                                    sx={[
+                                        tfBlueLabelSx,
+                                        { flex: 1 },
+                                        { "& .MuiOutlinedInput-root": { bgcolor: "rgba(13, 71, 161, 0.06)" } },
+                                    ]}
+                                    InputProps={{ readOnly: true }}
+                                />
+                            </Stack>
+
+                            <Typography
+                                align="center"
+                                sx={{ mt: 0.5, fontSize: "0.75rem", color: "text.secondary" }}
+                            >
+                                This is a portfolio demo — no real payment is processed.
+                            </Typography>
+                        </Stack>
+                    </Box>
+                </Box>
+
+                <CheckoutMobileFooter
+                    grandTotalLabel={grandTotalLabel}
+                    submitting={submitting}
+                    orderLength={order.length}
+                    onPay={handlePay}
+                />
+            </Box>
+        );
+    }
+
+    if (isMobile) {
+        return (
+            <>
+                {AlertUI}
+                {ConfirmUI}
+                <NavbarAction />
+
+                {screen === "processing" ? (
+                    <MobileProcessingScreen />
+                ) : screen === "confirmed" ? (
+                    <MobileConfirmedScreen />
+                ) : (
+                    <MobileCheckoutForm />
+                )}
+            </>
+        );
+    }
 
     return (
         <>
@@ -619,8 +1297,6 @@ export default function Checkout() {
             {ConfirmUI}
             <NavbarAction />
             <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
-
-
                 <Box
                     component="main"
                     sx={{
@@ -646,33 +1322,33 @@ export default function Checkout() {
                             width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
                             backgroundImage: {
                                 xs: `
-                                linear-gradient(90deg,
-                                    rgba(255,255,255,1) 0%,
-                                    rgba(255,255,255,0.0) 18%,
-                                    rgba(255,255,255,0.0) 82%,
-                                    rgba(255,255,255,1) 100%
-                                ),
-                                repeating-linear-gradient(135deg,
-                                    rgba(13,71,161,0.018) 0px,
-                                    rgba(13,71,161,0.018) 10px,
-                                    rgba(230,81,0,0.014) 10px,
-                                    rgba(230,81,0,0.014) 20px
-                                )
-                                `,
+                            linear-gradient(90deg,
+                                rgba(255,255,255,1) 0%,
+                                rgba(255,255,255,0.0) 18%,
+                                rgba(255,255,255,0.0) 82%,
+                                rgba(255,255,255,1) 100%
+                            ),
+                            repeating-linear-gradient(135deg,
+                                rgba(13,71,161,0.018) 0px,
+                                rgba(13,71,161,0.018) 10px,
+                                rgba(230,81,0,0.014) 10px,
+                                rgba(230,81,0,0.014) 20px
+                            )
+                            `,
                                 md: `
-                                linear-gradient(90deg,
-                                    rgba(255,255,255,1) 0%,
-                                    rgba(255,255,255,0.0) 14%,
-                                    rgba(255,255,255,0.0) 86%,
-                                    rgba(255,255,255,1) 100%
-                                ),
-                                repeating-linear-gradient(135deg,
-                                    rgba(13,71,161,0.038) 0px,
-                                    rgba(13,71,161,0.038) 10px,
-                                    rgba(230,81,0,0.028) 10px,
-                                    rgba(230,81,0,0.028) 20px
-                                )
-                                `,
+                            linear-gradient(90deg,
+                                rgba(255,255,255,1) 0%,
+                                rgba(255,255,255,0.0) 14%,
+                                rgba(255,255,255,0.0) 86%,
+                                rgba(255,255,255,1) 100%
+                            ),
+                            repeating-linear-gradient(135deg,
+                                rgba(13,71,161,0.038) 0px,
+                                rgba(13,71,161,0.038) 10px,
+                                rgba(230,81,0,0.028) 10px,
+                                rgba(230,81,0,0.028) 20px
+                            )
+                            `,
                             },
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
