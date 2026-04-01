@@ -686,7 +686,7 @@ export default function OrdersLogged() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: { xs: "2.22rem", sm: "2.32rem", md: "2.37rem" },
+                                    fontSize: "clamp(2rem, 5.3vw, 2.10rem)",
                                     letterSpacing: { xs: "0.10em", sm: "0.12em" },
                                     textTransform: "uppercase",
                                     color: "#0d47a1",

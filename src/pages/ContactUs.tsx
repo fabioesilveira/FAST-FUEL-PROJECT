@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useAppAlert } from "../hooks/useAppAlert";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import Footer from "../components/Footer";
-
 import { api } from "../api";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import NavbarAction from "../components/NavbarAction";
+import ProductsTitleBar from "../components/ProductsTitleBar";
 
 type Contact = {
     name: string;
@@ -21,8 +20,6 @@ type Contact = {
 
 export default function ContactUs() {
     useDocumentTitle("FastFuel • Contact us");
-
-
 
     const [contactForm, setContactForm] = useState<Contact>({
         name: "",
@@ -102,7 +99,6 @@ export default function ContactUs() {
         }));
     }
 
-
     useEffect(() => {
         const raw = localStorage.getItem("authUser");
         if (!raw) return;
@@ -117,13 +113,159 @@ export default function ContactUs() {
         } catch { }
     }, []);
 
+    if (isMobile) {
+        return (
+            <>
+                <NavbarAction />
+                {AlertUI}
+                <ProductsTitleBar title="Contact Us" />
+
+                <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column", bgcolor: "#fff" }}>
+                    <Box
+                        component="main"
+                        sx={{
+                            width: "100%",
+                            maxWidth: 490,
+                            mx: "auto",
+                            px: 2.5,
+                            pt: "170px",
+                            pb: "48px",
+                            flex: 1,
+                        }}
+                    >
+                        <Box
+                            component="form"
+                            noValidate
+                            autoComplete="off"
+                            sx={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 1.8,
+                            }}
+                        >
+                            <TextField
+                                variant="outlined"
+                                label="Full Name*"
+                                name="name"
+                                value={contactForm.name}
+                                onChange={handleChange}
+                                size="small"
+                                fullWidth
+                                sx={tfSx}
+                            />
+
+                            <TextField
+                                variant="outlined"
+                                label="Email*"
+                                type="email"
+                                name="email"
+                                value={contactForm.email}
+                                onChange={handleChange}
+                                size="small"
+                                fullWidth
+                                sx={tfSx}
+                            />
+
+                            <Box sx={{ display: "flex", gap: 1.2 }}>
+                                <TextField
+                                    variant="outlined"
+                                    size="small"
+                                    label="Order Number"
+                                    name="orderNumber"
+                                    value={contactForm.orderNumber || ""}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    sx={tfSx}
+                                />
+                                <TextField
+                                    variant="outlined"
+                                    size="small"
+                                    label="Phone Number"
+                                    name="phone"
+                                    value={contactForm.phone}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    sx={tfSx}
+                                />
+                            </Box>
+
+                            <TextField
+                                variant="outlined"
+                                size="small"
+                                label="Subject*"
+                                name="subject"
+                                value={contactForm.subject}
+                                onChange={handleChange}
+                                fullWidth
+                                sx={tfSx}
+                            />
+
+                            <Box>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        display: "block",
+                                        textAlign: "right",
+                                        mb: 0.5,
+                                        mt: -0.4,
+                                        color: "rgba(180, 63, 0, 1)",
+                                        fontSize: "0.72rem",
+                                    }}
+                                >
+                                    {contactForm.message.length} / 300
+                                </Typography>
+
+                                <TextField
+                                    size="small"
+                                    label="Message*"
+                                    name="message"
+                                    value={contactForm.message}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    multiline
+                                    minRows={4}
+                                    maxRows={7}
+                                    inputProps={{ maxLength: 300 }}
+                                    sx={tfSx}
+                                />
+                            </Box>
+
+                            <Button
+                                fullWidth
+                                size="large"
+                                variant="contained"
+                                onClick={handleClick}
+                                sx={{
+                                    mt: 0.2,
+                                    height: 42,
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    color: "white",
+                                    letterSpacing: "0.14em",
+                                    fontWeight: 700,
+                                    bgcolor: "#1e5bb8",
+                                    "&:hover": { bgcolor: "#164a96" },
+                                    fontSize: "0.84rem",
+                                }}
+                            >
+                                Send Message
+                            </Button>
+                        </Box>
+                    </Box>
+
+                    <Footer />
+                </Box>
+            </>
+        );
+    }
+
     return (
         <>
             <NavbarAction />
             {AlertUI}
 
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-                {/* BACKGROUND */}
                 <Box
                     sx={{
                         position: "relative",
@@ -141,7 +283,6 @@ export default function ContactUs() {
                             left: "50%",
                             transform: "translateX(-50%)",
                             zIndex: 0,
-
                             width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
                             borderRadius: 20,
                             pointerEvents: "none",
@@ -158,7 +299,7 @@ export default function ContactUs() {
                                     rgba(255,255,255,0.85) 12px,
                                     rgba(255,255,255,0.85) 20px
                                 )
-                                `,
+                            `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -169,7 +310,6 @@ export default function ContactUs() {
                         },
                     }}
                 >
-                    {/* Main */}
                     <Box
                         component="main"
                         sx={{
@@ -189,12 +329,10 @@ export default function ContactUs() {
                             sx={{
                                 width: "100%",
                                 maxWidth: { xs: 520, md: 520 },
-
                                 borderRadius: 3,
                                 border: "1.5px solid rgba(230, 81, 0, 0.22)",
                                 bgcolor: "background.paper",
                                 p: { xs: 2.25, sm: 2.75, md: 4 },
-
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
                                 maxHeight: 720,
                                 boxShadow:
@@ -209,14 +347,14 @@ export default function ContactUs() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: "clamp(2.10rem, 5.3vw, 2.40rem)",
+                                    fontSize: "clamp(2rem, 5.3vw, 2.10rem)",
                                     letterSpacing: "clamp(0.08em, 0.9vw, 0.12em)",
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -1.4, sm: -0.7, md: -0.2 },
-                                    mt: { xs: 1.0, sm: 1.5, md: 1.6 },
+                                    mb: { xs: -1.4, sm: -0.7, md: -0.4 },
+
                                 }}
                             >
                                 Contact Us
@@ -230,9 +368,7 @@ export default function ContactUs() {
                                     display: "flex",
                                     justifyContent: "center",
                                     px: 1,
-
                                     pt: { xs: 0.9, sm: 0 },
-
                                     pb: {
                                         xs: `calc(120px + env(safe-area-inset-bottom))`,
                                         sm: 4,
@@ -245,10 +381,7 @@ export default function ContactUs() {
                                     autoComplete="off"
                                     sx={{
                                         width: "100%",
-
-
                                         maxWidth: "min(380px, 100%)",
-
                                         display: "flex",
                                         flexDirection: "column",
                                         gap: { xs: 1.8, sm: 2 },
@@ -335,10 +468,8 @@ export default function ContactUs() {
                                             onChange={handleChange}
                                             fullWidth
                                             multiline
-
                                             minRows={isMobile ? 3 : 5}
                                             maxRows={isMobile ? 6 : 8}
-
                                             inputProps={{ maxLength: 300 }}
                                             sx={tfSx}
                                         />
@@ -351,7 +482,7 @@ export default function ContactUs() {
                                         onClick={handleClick}
                                         sx={{
                                             mt: 0.1,
-                                            height: { xs: 40, md: 42 },
+                                            height: { xs: 38, md: 40 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
                                             color: "white",
@@ -359,14 +490,11 @@ export default function ContactUs() {
                                             fontWeight: 700,
                                             bgcolor: "#1e5bb8",
                                             "&:hover": { bgcolor: "#164a96" },
-                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
-
+                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.90rem" },
                                         }}
                                     >
                                         Send Message
                                     </Button>
-
-
 
                                     <Box sx={{ height: { xs: 8, sm: 8 } }} />
                                 </Box>
@@ -379,5 +507,4 @@ export default function ContactUs() {
             </Box>
         </>
     );
-
 }

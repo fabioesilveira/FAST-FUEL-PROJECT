@@ -385,11 +385,11 @@ export default function Checkout() {
                     sx={{
                         position: "relative",
                         zIndex: 1,
-                        px: 2,
+                        px: 2.5,
                         pt: "160px",
                         pb: "calc(110px + env(safe-area-inset-bottom))",
                         width: "100%",
-                        maxWidth: 560,
+                        maxWidth: 490,
                         mx: "auto",
                     }}
                 >
@@ -568,7 +568,7 @@ export default function Checkout() {
                                     sx={{
                                         mb: -1,
                                         mt: 1,
-                                        fontSize: "clamp(2.05rem, 5vw, 2.3rem)",
+                                        fontSize: "clamp(2rem, 5.3vw, 2.10rem)",
                                         letterSpacing: "0.12em",
                                         textTransform: "uppercase",
                                         color: "#0d47a1",
