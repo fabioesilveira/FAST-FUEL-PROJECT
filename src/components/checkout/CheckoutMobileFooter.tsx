@@ -23,20 +23,23 @@ export default function CheckoutMobileFooter({
                 right: 0,
                 bottom: 0,
                 zIndex: 1300,
-                height: "calc(82px + env(safe-area-inset-bottom))", 
-                pb: "env(safe-area-inset-bottom)",
+                height: "calc(86px + env(safe-area-inset-bottom))",
+                paddingBottom: "max(env(safe-area-inset-bottom), 8px)",
                 bgcolor: "#ffe0c7",
+                backgroundColor: "#ffe0c7",
                 borderTop: "2px solid rgba(13, 71, 161, 0.25)",
                 boxShadow: "0 -5px 16px rgba(13,71,161,.16)",
                 display: "flex",
                 alignItems: "center",
                 transform: "translateZ(0)",
+                WebkitBackfaceVisibility: "hidden",
+                backfaceVisibility: "hidden",
             }}
         >
             <Box
                 sx={{
                     width: "100%",
-                    px: 1.6, 
+                    px: 1.6,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
@@ -61,7 +64,7 @@ export default function CheckoutMobileFooter({
                         sx={{
                             fontWeight: 900,
                             color: "#0d47a1",
-                            fontSize: "1.12rem", 
+                            fontSize: "1.14rem",
                             lineHeight: 1.2,
                             mt: 0.15,
                             whiteSpace: "nowrap",
@@ -76,8 +79,8 @@ export default function CheckoutMobileFooter({
                     disabled={submitting || orderLength === 0}
                     onClick={onPay}
                     sx={{
-                        minWidth: 135, 
-                        height: 40, 
+                        minWidth: 136,
+                        height: 42,
                         borderRadius: 2,
                         textTransform: "uppercase",
                         border: "2px solid #0d47a1",

@@ -293,14 +293,14 @@ export default function SignUp() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: "clamp(2rem, 5.3vw, 2.15rem)",
+                                    fontSize: "clamp(1.75rem, 5.3vw, 2.15rem)",
                                     letterSpacing: "clamp(0.08em, 0.9vw, 0.12em)",
                                     textTransform: "uppercase",
                                     color: "#0d47a1",
                                     fontWeight: 700,
                                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -1.6, sm: -1, md: -1 },
-                                    mt: { xs: 1.0, sm: 1.5, md: 1.6 },
+                                    mb: { xs: -1.8, sm: -1.2, md: -1.2 },
+                                    mt: { xs: 0.5, sm: 0.5, md: 0.5 },
                                 }}
                             >
                                 Sign Up
@@ -437,7 +437,7 @@ export default function SignUp() {
                                         type="submit"
                                         sx={{
                                             mt: 0.1,
-                                            height: { xs: 40, md: 42 },
+                                            height: { xs: 38, md: 40 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
                                             color: "white",
@@ -445,7 +445,7 @@ export default function SignUp() {
                                             fontWeight: 700,
                                             bgcolor: "#1e5bb8",
                                             "&:hover": { bgcolor: "#164a96" },
-                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
+                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.90rem" },
 
                                         }}
                                     >
@@ -459,7 +459,7 @@ export default function SignUp() {
                                         onClick={() => navigate("/")}
                                         sx={{
                                             mt: -0.2,
-                                            height: { xs: 40, md: 42 },
+                                            height: { xs: 38, md: 40 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
 
@@ -467,7 +467,7 @@ export default function SignUp() {
                                             letterSpacing: "0.14em",
                                             fontWeight: 700,
                                             bgcolor: "rgba(230, 81, 0, 0.20)",
-                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
+                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.90rem" },
                                             "&:hover": {
                                                 bgcolor: "rgba(230, 81, 0, 0.28)",
                                                 borderColor: "#0d47a1",
