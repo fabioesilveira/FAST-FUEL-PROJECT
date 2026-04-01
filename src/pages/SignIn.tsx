@@ -245,7 +245,7 @@ export default function SignIn() {
                                 variant="h4"
                                 align="center"
                                 sx={{
-                                    fontSize: { xs: "2.20rem", sm: "2.45rem", md: "2.6rem" },
+                                    fontSize: "clamp(2rem, 5.3vw, 2.15rem)",
                                     letterSpacing: "clamp(0.08em, 0.9vw, 0.12em)",
                                     textTransform: "uppercase",
                                     color: "#0d47a1",

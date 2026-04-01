@@ -23,27 +23,24 @@ export default function CheckoutMobileFooter({
                 right: 0,
                 bottom: 0,
                 zIndex: 1300,
-                height: "calc(94px + env(safe-area-inset-bottom))",
+                height: "calc(82px + env(safe-area-inset-bottom))", 
                 pb: "env(safe-area-inset-bottom)",
                 bgcolor: "#ffe0c7",
                 borderTop: "2px solid rgba(13, 71, 161, 0.25)",
-                boxShadow: "0 -6px 18px rgba(13,71,161,.18)",
+                boxShadow: "0 -5px 16px rgba(13,71,161,.16)",
                 display: "flex",
                 alignItems: "center",
                 transform: "translateZ(0)",
-                willChange: "transform",
-                WebkitBackfaceVisibility: "hidden",
-                backfaceVisibility: "hidden",
             }}
         >
             <Box
                 sx={{
                     width: "100%",
-                    px: 1.75,
+                    px: 1.6, 
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    gap: 1.5,
+                    gap: 1.2,
                 }}
             >
                 <Box sx={{ minWidth: 0 }}>
@@ -64,7 +61,7 @@ export default function CheckoutMobileFooter({
                         sx={{
                             fontWeight: 900,
                             color: "#0d47a1",
-                            fontSize: "1.16rem",
+                            fontSize: "1.12rem", 
                             lineHeight: 1.2,
                             mt: 0.15,
                             whiteSpace: "nowrap",
@@ -79,8 +76,8 @@ export default function CheckoutMobileFooter({
                     disabled={submitting || orderLength === 0}
                     onClick={onPay}
                     sx={{
-                        minWidth: 140,
-                        height: 40,
+                        minWidth: 135, 
+                        height: 40, 
                         borderRadius: 2,
                         textTransform: "uppercase",
                         border: "2px solid #0d47a1",
@@ -88,7 +85,8 @@ export default function CheckoutMobileFooter({
                         letterSpacing: "0.12em",
                         fontWeight: 900,
                         bgcolor: "#1e5bb8",
-                        px: 2.2,
+                        px: 2,
+                        fontSize: "0.82rem",
                         whiteSpace: "nowrap",
                         "&:hover": { bgcolor: "#164a99" },
                         "&.Mui-disabled": {

@@ -48,46 +48,54 @@ export default function CheckoutOrderSummary({
 
     return (
         <Box sx={{ mb: 3 }}>
-            <Chip
-                label="Order Summary"
-                size="small"
+            <Box
                 sx={{
-                    mb: isMobile ? 2.4 : 3,
-                    height: isMobile ? 24 : 32,
-                    fontSize: isMobile ? "0.62rem" : "0.7rem",
-                    letterSpacing: isMobile ? "0.08em" : "0.1em",
-                    textTransform: "uppercase",
-                    bgcolor: "#0d47a1",
-                    color: "#fff",
-                    fontWeight: 800,
-                    "& .MuiChip-label": {
-                        px: isMobile ? 0.9 : 1.25,
-                    },
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 1,
+                    mb: isMobile ? 1.4 : 1.8,
                 }}
-            />
+            >
+                <Chip
+                    label="Order Summary"
+                    size="small"
+                    sx={{
+                        height: isMobile ? 24 : 30,
+                        fontSize: isMobile ? "0.62rem" : "0.66rem",
+                        letterSpacing: isMobile ? "0.08em" : "0.095em",
+                        textTransform: "uppercase",
+                        bgcolor: "#0d47a1",
+                        color: "#fff",
+                        fontWeight: 800,
+                        "& .MuiChip-label": {
+                            px: isMobile ? 0.9 : 1.1,
+                        },
+                    }}
+                />
 
-            {order.length > 0 && (
-                <Box sx={{ display: "flex", justifyContent: "flex-end", mt: -2, mb: 1 }}>
+                {order.length > 0 && (
                     <Button
                         onClick={handleClearCart}
                         size="small"
                         sx={{
                             textTransform: "uppercase",
-                            letterSpacing: "0.10em",
+                            letterSpacing: "0.08em",
                             fontWeight: 900,
-                            fontSize: "0.72rem",
+                            fontSize: isMobile ? "0.64rem" : "0.72rem",
                             color: "#b71c1c",
-                            border: "1px solid rgba(183, 28, 28, 0.28)",
+                            border: "1px solid rgba(183, 28, 28, 0.22)",
                             borderRadius: 2,
-                            px: 1.2,
-                            py: 0.5,
+                            px: isMobile ? 1 : 1.2,
+                            py: 0.45,
+                            minWidth: "unset",
                             "&:hover": { bgcolor: "rgba(183, 28, 28, 0.08)" },
                         }}
                     >
                         Clear cart
                     </Button>
-                </Box>
-            )}
+                )}
+            </Box>
 
             {order.length === 0 ? (
                 <Typography sx={{ fontWeight: 700, color: "text.secondary" }}>
