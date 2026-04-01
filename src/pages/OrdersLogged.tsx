@@ -19,6 +19,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import NavbarAction from "../components/NavbarAction";
+import OrderReviewModal, {
+    type ReviewEligibleItem,
+} from "../components/OrderReviewModal";
 
 type Sale = {
     id: number;
@@ -151,6 +154,15 @@ export default function OrdersLogged() {
     useDocumentTitle("FastFuel • Orders");
 
     const navigate = useNavigate();
+
+    const [reviewOpen, setReviewOpen] = useState(false);
+    const [eligibleItems, setEligibleItems] = useState<ReviewEligibleItem[]>([]);
+    const [reviewIndex, setReviewIndex] = useState(0);
+    const [reviewRating, setReviewRating] = useState(0);
+    const [reviewComment, setReviewComment] = useState("");
+    const [reviewSubmitting, setReviewSubmitting] = useState(false);
+
+    const currentReviewItem = eligibleItems[reviewIndex] ?? null;
 
     const inFlightRef = useRef(false);
 
@@ -353,15 +365,17 @@ export default function OrdersLogged() {
 
     async function confirmReceived(o: Sale) {
         try {
-            await api.patch(
-                `${API}/${o.id}/confirm-received`,
-                {
-                    order_code: o.order_code,
-                    email: o.customer_email,
-                }
-            );
+            await api.patch(`${API}/${o.id}/confirm-received`, {
+                order_code: o.order_code,
+                email: o.customer_email,
+            });
 
-            showAlert?.("Thanks! Marked as received.", "success");
+            await loadEligibleReviewsForOrder({
+                ...o,
+                status: "completed",
+                received_confirmed_at: new Date().toISOString(),
+            });
+
             await fetchUserOrders();
         } catch (e) {
             console.error(e);
@@ -462,6 +476,86 @@ export default function OrdersLogged() {
                 <Footer />
             </Box>
         );
+    }
+
+    function resetReviewFlow() {
+        setReviewOpen(false);
+        setEligibleItems([]);
+        setReviewIndex(0);
+        setReviewRating(0);
+        setReviewComment("");
+        setReviewSubmitting(false);
+    }
+
+    function goToNextReviewItem() {
+        const nextIndex = reviewIndex + 1;
+
+        if (nextIndex >= eligibleItems.length) {
+            resetReviewFlow();
+            showAlert?.("Thanks for your feedback!", "success");
+            return;
+        }
+
+        setReviewIndex(nextIndex);
+        setReviewRating(0);
+        setReviewComment("");
+    }
+
+    async function loadEligibleReviewsForOrder(order: Sale) {
+        try {
+            const res = await api.get("/reviews/eligible", {
+                params: {
+                    sale_id: order.id,
+                },
+            });
+
+            const eligible = Array.isArray(res.data?.eligible_items)
+                ? res.data.eligible_items
+                : [];
+
+            if (eligible.length > 0) {
+                setEligibleItems(eligible);
+                setReviewIndex(0);
+                setReviewRating(0);
+                setReviewComment("");
+                setReviewOpen(true);
+            } else {
+                showAlert?.("No items available for review in this order.", "info");
+            }
+        } catch (e: any) {
+            console.error("ELIGIBLE REVIEWS ERROR:", e);
+            console.error("ELIGIBLE REVIEWS DATA:", e?.response?.data);
+            showAlert?.(e?.response?.data?.msg || "Failed to load review items.", "error");
+        }
+    }
+
+    async function handleReviewSubmit() {
+        const currentItem = eligibleItems[reviewIndex];
+        if (!currentItem) return;
+        if (reviewRating < 1) return;
+
+        setReviewSubmitting(true);
+
+        try {
+            await api.post("/reviews", {
+                sale_id: currentItem.sale_id,
+                product_id: currentItem.product_id,
+                rating: reviewRating,
+                comment: reviewComment.trim() || null,
+            });
+
+            goToNextReviewItem();
+        } catch (e: any) {
+            console.error("CREATE REVIEW ERROR:", e);
+            console.error("CREATE REVIEW DATA:", e?.response?.data);
+            showAlert?.(e?.response?.data?.msg || "Failed to send review.", "error");
+        } finally {
+            setReviewSubmitting(false);
+        }
+    }
+
+    function handleReviewSkip() {
+        goToNextReviewItem();
     }
 
     return (
@@ -1099,6 +1193,21 @@ export default function OrdersLogged() {
                     </Button>
                 </Box>
             </Menu>
+
+            <OrderReviewModal
+                open={reviewOpen}
+                item={currentReviewItem}
+                currentIndex={reviewIndex}
+                totalItems={eligibleItems.length}
+                rating={reviewRating}
+                comment={reviewComment}
+                loading={reviewSubmitting}
+                onClose={resetReviewFlow}
+                onSkip={handleReviewSkip}
+                onRatingChange={setReviewRating}
+                onCommentChange={setReviewComment}
+                onSubmit={handleReviewSubmit}
+            />
         </>
     );
 }
