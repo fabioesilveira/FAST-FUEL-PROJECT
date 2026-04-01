@@ -68,7 +68,7 @@ export default function FloatingContact() {
       <Typography
         sx={{
           fontWeight: 700,
-          fontSize: "1.10rem",
+          fontSize: "1.07rem",
           color: "#0d47a1",
           letterSpacing: "0.08em",
           textTransform: "uppercase",

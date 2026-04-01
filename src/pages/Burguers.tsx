@@ -14,6 +14,7 @@ import PageBg from "../components/PageBg";
 import PageBgMobile from "../components/PageBgMobile";
 import ProductsGrid from "../components/produts/ProductsGrid";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import ProductsTitleBar from "../components/ProductsTitleBar";
 
 export default function Burguers() {
   useDocumentTitle("FastFuel • Burgers");
@@ -100,6 +101,7 @@ export default function Burguers() {
   return (
     <>
       <NavbarProducts />
+      <ProductsTitleBar title="Burgers" />
       {!isMobile && <DrawerProducts />}
 
       <PageShell
@@ -116,11 +118,10 @@ export default function Burguers() {
             display: "flex",
             flexDirection: "column",
             backgroundColor: "transparent",
-            pt: 0,
+            pt: { xs: "130px", md: "150px" },
             pb: isMobile ? `calc(86px + env(safe-area-inset-bottom) + 10px)` : 0,
           }}
         >
-          <h2 className="h2-products-background">BURGERS</h2>
 
           <Container fixed sx={{ pb: { xs: 1, sm: 1.5 } }}>
             <ProductsGrid

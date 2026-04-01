@@ -21,6 +21,7 @@ import DrPepperImg from "../assets/Drpepper.png";
 import FantaImg from "../assets/Fanta.png";
 import DietCokeImg from "../assets/Dietcoke.png";
 import LemonadeImg from "../assets/Lemonade.png";
+import ProductsTitleBar from "../components/ProductsTitleBar";
 
 const imageMap: Record<string, string> = {
   "Coke.png": CokeImg,
@@ -124,6 +125,7 @@ export default function Beverages() {
   return (
     <>
       <NavbarProducts />
+      <ProductsTitleBar title="Drinks" />
       {!isMobile && <DrawerProducts />}
 
       <PageShell
@@ -140,11 +142,10 @@ export default function Beverages() {
             display: "flex",
             flexDirection: "column",
             backgroundColor: "transparent",
-            pt: 0,
+            pt: { xs: "130px", md: "150px" },
             pb: isMobile ? `calc(86px + env(safe-area-inset-bottom) + 10px)` : 0,
           }}
         >
-          <h2 className="h2-products-background">DRINKS</h2>
 
           <Container fixed sx={{ pb: { xs: 1, sm: 1.5 } }}>
             <ProductsGrid

@@ -17,6 +17,7 @@ import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 import MilkshakeImg from "../assets/Milkshake.png";
 import SundaeImg from "../assets/Sundae.png";
+import ProductsTitleBar from "../components/ProductsTitleBar";
 
 const imageMap: Record<string, string> = {
     "Milkshake.png": MilkshakeImg,
@@ -111,6 +112,7 @@ export default function Desserts() {
     return (
         <>
             <NavbarProducts />
+            <ProductsTitleBar title="Desserts" />
             {!isMobile && <DrawerProducts />}
 
             <PageShell
@@ -127,11 +129,10 @@ export default function Desserts() {
                         display: "flex",
                         flexDirection: "column",
                         backgroundColor: "transparent",
-                        pt: 0,
+                        pt: { xs: "130px", md: "150px" },
                         pb: isMobile ? `calc(86px + env(safe-area-inset-bottom) + 10px)` : 0,
                     }}
                 >
-                    <h2 className="h2-products-background">DESSERTS</h2>
 
                     <Container fixed sx={{ pb: { xs: 1, sm: 1.5 } }}>
                         <ProductsGrid

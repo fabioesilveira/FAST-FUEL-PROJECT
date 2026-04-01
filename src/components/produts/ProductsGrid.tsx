@@ -102,7 +102,7 @@ export default function ProductsGrid({
                             px: 0.45,
                             pt: 0.45,
                             pb: 0.35,
-                            mb: 1.4,
+                            mb: 3,
                             minWidth: 100,
                         }}
                     >

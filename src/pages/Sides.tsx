@@ -16,6 +16,7 @@ import ProductsGrid from "../components/produts/ProductsGrid";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 import SaladImg from "../assets/Crispsalad.png";
+import ProductsTitleBar from "../components/ProductsTitleBar";
 
 const imageMap: Record<string, string> = {
   "Crispsalad.png": SaladImg,
@@ -106,6 +107,7 @@ export default function Sides() {
   return (
     <>
       <NavbarProducts />
+      <ProductsTitleBar title="Sides" />
       {!isMobile && <DrawerProducts />}
 
       <PageShell
@@ -122,11 +124,10 @@ export default function Sides() {
             display: "flex",
             flexDirection: "column",
             backgroundColor: "transparent",
-            pt: 0,
+            pt: { xs: "130px", md: "150px" },
             pb: isMobile ? `calc(86px + env(safe-area-inset-bottom) + 10px)` : 0,
           }}
         >
-          <h2 className="h2-products-background">SIDES</h2>
 
           <Container fixed sx={{ pb: { xs: 1, sm: 1.5 } }}>
             <ProductsGrid
