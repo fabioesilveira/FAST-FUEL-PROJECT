@@ -12,7 +12,7 @@ import DrawerProducts from "../components/DrawerProducts";
 import NavFooterProducts from "../components/NavFooterProducts";
 import PageBgMobile from "../components/PageBgMobile";
 import PageBg from "../components/PageBg";
-import ProductsGrid from "../components/produts/ProductsGrid";
+import ProductsGrid from "../components/products/ProductsGrid";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 import MilkshakeImg from "../assets/Milkshake.png";

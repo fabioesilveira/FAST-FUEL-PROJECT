@@ -3,7 +3,9 @@ import { Box, Typography, Stack, Button, Chip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { type Meal } from "../context/context";
+import { type Meal } from "../../context/context";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 type CheckoutOrderSummaryProps = {
     order: Meal[];
@@ -40,18 +42,27 @@ export default function CheckoutOrderSummary({
     decItem,
     handleClearCart,
 }: CheckoutOrderSummaryProps) {
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
     return (
         <Box sx={{ mb: 3 }}>
             <Chip
                 label="Order Summary"
                 size="small"
                 sx={{
-                    mb: 3,
-                    fontSize: "0.7rem",
-                    letterSpacing: "0.1em",
+                    mb: isMobile ? 2.4 : 3,
+                    height: isMobile ? 24 : 32,
+                    fontSize: isMobile ? "0.62rem" : "0.7rem",
+                    letterSpacing: isMobile ? "0.08em" : "0.1em",
                     textTransform: "uppercase",
                     bgcolor: "#0d47a1",
                     color: "#fff",
+                    fontWeight: 800,
+                    "& .MuiChip-label": {
+                        px: isMobile ? 0.9 : 1.25,
+                    },
                 }}
             />
 

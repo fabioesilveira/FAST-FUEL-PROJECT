@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import { useAppContext, type Meal } from "../context/context";
 import { useAppAlert } from "../hooks/useAppAlert";
 import { useCheckoutTotals } from "../hooks/useCheckoutTotals";
-import CheckoutOrderSummary from "../components/CheckoutOrderSummary";
+import CheckoutOrderSummary from "../components/checkout/CheckoutOrderSummary";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 import CokeImg from "../assets/Coke.png";
@@ -28,6 +28,7 @@ import CheckoutConfirmedScreen from "../components/checkout/CheckoutConfirmedScr
 import CheckoutContactSection from "../components/checkout/CheckoutContactSection";
 import CheckoutPaymentSection from "../components/checkout/CheckoutPaymentSection";
 import CheckoutDeliverySection from "../components/checkout/CheckoutDeliverySection";
+import ProductsTitleBar from "../components/ProductsTitleBar";
 
 
 const imageMap: Record<string, string> = {
@@ -368,6 +369,7 @@ export default function Checkout() {
 
     function MobileCheckoutForm() {
         return (
+
             <Box
                 sx={{
                     minHeight: "100dvh",
@@ -375,63 +377,23 @@ export default function Checkout() {
                     flexDirection: "column",
                     bgcolor: "#fff",
                     position: "relative",
-                    "&::before": {
-                        content: '""',
-                        position: "absolute",
-                        top: 0,
-                        bottom: 0,
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        zIndex: 0,
-                        width: "min(98vw, 720px)",
-                        backgroundImage: `
-                        linear-gradient(90deg,
-                            rgba(255,255,255,1) 0%,
-                            rgba(255,255,255,0.0) 18%,
-                            rgba(255,255,255,0.0) 82%,
-                            rgba(255,255,255,1) 100%
-                        ),
-                        repeating-linear-gradient(135deg,
-                            rgba(13,71,161,0.018) 0px,
-                            rgba(13,71,161,0.018) 10px,
-                            rgba(230,81,0,0.014) 10px,
-                            rgba(230,81,0,0.014) 20px
-                        )
-                    `,
-                        backgroundRepeat: "no-repeat, repeat",
-                        backgroundSize: "100% 100%, auto",
-                    },
                 }}
             >
+                <ProductsTitleBar title="Checkout" />
+               
                 <Box
                     sx={{
                         position: "relative",
                         zIndex: 1,
                         px: 2,
-                        pt: "98px",
+                        pt: "160px",
                         pb: "calc(110px + env(safe-area-inset-bottom))",
                         width: "100%",
                         maxWidth: 560,
                         mx: "auto",
                     }}
                 >
-                    <Box sx={{ px: 0.3, pt: 1.5, pb: 2.5 }}>
-                        <Typography
-                            variant="h4"
-                            align="center"
-                            sx={{
-                                mb: 0,
-                                fontSize: "clamp(1.95rem, 7vw, 2.25rem)",
-                                letterSpacing: "0.12em",
-                                textTransform: "uppercase",
-                                color: "#0d47a1",
-                                fontWeight: 700,
-                                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                            }}
-                        >
-                            Checkout
-                        </Typography>
-                    </Box>
+
 
                     <Box sx={{ pb: 2 }}>
                         <CheckoutOrderSummary

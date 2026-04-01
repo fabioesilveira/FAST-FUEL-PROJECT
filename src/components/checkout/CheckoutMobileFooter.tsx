@@ -49,7 +49,7 @@ export default function CheckoutMobileFooter({
                 <Box sx={{ minWidth: 0 }}>
                     <Typography
                         sx={{
-                            fontSize: "0.72rem",
+                            fontSize: "0.76rem",
                             letterSpacing: "0.12em",
                             textTransform: "uppercase",
                             color: "#0d47a1",
@@ -64,7 +64,7 @@ export default function CheckoutMobileFooter({
                         sx={{
                             fontWeight: 900,
                             color: "#0d47a1",
-                            fontSize: "1.12rem",
+                            fontSize: "1.16rem",
                             lineHeight: 1.2,
                             mt: 0.15,
                             whiteSpace: "nowrap",
@@ -79,8 +79,8 @@ export default function CheckoutMobileFooter({
                     disabled={submitting || orderLength === 0}
                     onClick={onPay}
                     sx={{
-                        minWidth: 168,
-                        height: 48,
+                        minWidth: 140,
+                        height: 40,
                         borderRadius: 2,
                         textTransform: "uppercase",
                         border: "2px solid #0d47a1",
