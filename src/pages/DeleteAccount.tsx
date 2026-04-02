@@ -7,6 +7,9 @@ import { useAppAlert } from "../hooks/useAppAlert";
 import AppConfirm from "../components/AppConfirm";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import NavbarAuth from "../components/NavbarAuth";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import ProductsTitleBar from "../components/ProductsTitleBar";
 
 type User = {
     email: string;
@@ -18,6 +21,8 @@ export default function DeleteAccount() {
     useDocumentTitle("FastFuel • Delete Account");
 
     const navigate = useNavigate();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -65,7 +70,6 @@ export default function DeleteAccount() {
                 return;
             }
 
-            // limpar sessão
             localStorage.removeItem("authUser");
             localStorage.removeItem("idUser");
             localStorage.removeItem("userName");
@@ -105,6 +109,205 @@ export default function DeleteAccount() {
         } catch { }
     }, []);
 
+    const deleteFieldSx = {
+        "& .MuiInputLabel-root": {
+            color: "#000",
+        },
+        "& .MuiInputLabel-root.Mui-focused": {
+            color: "#000",
+        },
+        "& .MuiInputLabel-root.MuiInputLabel-shrink": {
+            backgroundColor: "background.paper",
+            padding: "0 6px",
+            borderRadius: "8px",
+            lineHeight: 1.2,
+            zIndex: 1,
+        },
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+                borderColor: "#000",
+            },
+            "&:hover fieldset": {
+                borderColor: "#000",
+            },
+            "&.Mui-focused fieldset": {
+                borderColor: "#000",
+                borderWidth: 1.5,
+            },
+        },
+        "& .MuiOutlinedInput-input": {
+            color: "#000",
+            WebkitTextFillColor: "#000",
+        },
+    };
+
+    if (isMobile) {
+        return (
+            <>
+                <NavbarAuth />
+                {AlertUI}
+
+                <AppConfirm
+                    open={openConfirm}
+                    title="Delete account?"
+                    message="Are you sure you want to permanently delete your account? This action cannot be undone."
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    onCancel={() => setOpenConfirm(false)}
+                    onDismiss={() => setOpenConfirm(false)}
+                    onConfirm={() => {
+                        setOpenConfirm(false);
+                        handleDelete();
+                    }}
+                />
+
+                <ProductsTitleBar title="Delete Account" />
+
+                <Box
+                    sx={{
+                        minHeight: "100dvh",
+                        display: "flex",
+                        flexDirection: "column",
+                        bgcolor: "#fff",
+                    }}
+                >
+                    <Box
+                        component="main"
+                        sx={{
+                            width: "100%",
+                            maxWidth: 490,
+                            mx: "auto",
+                            px: 2.5,
+                            pt: "170px",
+                            pb: "48px",
+                            flex: 1,
+                        }}
+                    >
+                        <Typography
+                            align="center"
+                            sx={{
+                                fontSize: "0.84rem",
+                                color: "text.secondary",
+                                fontWeight: "bold",
+                                mb: 2.2,
+                                mt: -0.3,
+                            }}
+                        >
+                            This action is permanent and cannot be undone.
+                        </Typography>
+
+                        <Box
+                            sx={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 1.8,
+                            }}
+                        >
+                            <TextField
+                                size="small"
+                                label="Email Address*"
+                                fullWidth
+                                type="email"
+                                variant="outlined"
+                                name="email"
+                                value={deleteACC.email}
+                                onChange={handleChange}
+                                InputProps={{ readOnly: true }}
+                                sx={deleteFieldSx}
+                            />
+
+                            <TextField
+                                size="small"
+                                label="Password*"
+                                fullWidth
+                                type="password"
+                                variant="outlined"
+                                name="password"
+                                value={deleteACC.password}
+                                onChange={handleChange}
+                                sx={deleteFieldSx}
+                            />
+
+                            <TextField
+                                size="small"
+                                label="Confirm Password*"
+                                fullWidth
+                                type="password"
+                                variant="outlined"
+                                name="confirmPassword"
+                                value={deleteACC.confirmPassword}
+                                onChange={handleChange}
+                                sx={deleteFieldSx}
+                            />
+
+                            <Button
+                                fullWidth
+                                size="large"
+                                variant="contained"
+                                onClick={handleRequestDelete}
+                                sx={{
+                                    mt: 0.2,
+                                    height: 40,
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    bgcolor: "#b71c1c",
+                                    color: "#fff",
+                                    letterSpacing: "0.12em",
+                                    fontWeight: 700,
+                                    fontSize: "0.82rem",
+                                    "&:hover": {
+                                        bgcolor: "#ffebee",
+                                        color: "#b71c1c",
+                                    },
+                                    "&:active": {
+                                        bgcolor: "#ffebee",
+                                        color: "#b71c1c",
+                                        transform: "scale(0.98)",
+                                        boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
+                                    },
+                                }}
+                            >
+                                Delete Account
+                            </Button>
+
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                onClick={() => navigate("/")}
+                                sx={{
+                                    mt: -0.1,
+                                    height: 40,
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    color: "white",
+                                    letterSpacing: "0.12em",
+                                    fontWeight: 700,
+                                    bgcolor: "#1e5bb8",
+                                    fontSize: "0.82rem",
+                                    "&:hover": {
+                                        bgcolor: "#e3f2fd",
+                                        color: "#1e5bb8",
+                                    },
+                                    "&:active": {
+                                        bgcolor: "#e3f2fd",
+                                        color: "#1e5bb8",
+                                        transform: "scale(0.98)",
+                                        boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
+                                    },
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                        </Box>
+                    </Box>
+
+                    <Footer />
+                </Box>
+            </>
+        );
+    }
+
     return (
         <>
             <NavbarAuth />
@@ -123,6 +326,7 @@ export default function DeleteAccount() {
                     handleDelete();
                 }}
             />
+
             <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
                 <Box
                     component="main"
@@ -161,7 +365,7 @@ export default function DeleteAccount() {
                                     rgba(255,235,238,0.022) 12px,
                                     rgba(255,235,238,0.022) 24px
                                 )
-                                `,
+                            `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -180,26 +384,21 @@ export default function DeleteAccount() {
                             maxWidth: 520,
                             mx: "auto",
                             border: "1px solid rgba(230, 81, 0, 0.22)",
-
                             bgcolor: "background.paper",
                             boxShadow:
                                 "0 2px 10px rgba(0,0,0,0.06), 0 8px 22px rgba(230, 81, 0, 0.14)",
-
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
                         }}
                     >
-
                         <Typography
                             variant="h4"
                             align="center"
                             sx={{
                                 mb: 2.5,
-
                                 fontSize: { xs: "2.10rem", sm: "2.15rem", md: "2.15rem" },
                                 letterSpacing: { xs: "0.10em", sm: "0.12em" },
-
                                 textTransform: "uppercase",
                                 color: "#b71c1c",
                                 fontWeight: 700,
@@ -242,32 +441,7 @@ export default function DeleteAccount() {
                                 value={deleteACC.email}
                                 onChange={handleChange}
                                 InputProps={{ readOnly: true }}
-                                sx={{
-                                    "& .MuiInputLabel-root": {
-                                        color: "#000",
-                                    },
-                                    "& .MuiInputLabel-root.Mui-focused": {
-                                        color: "#000",
-                                    },
-
-                                    "& .MuiOutlinedInput-root": {
-                                        "& fieldset": {
-                                            borderColor: "#000",
-                                        },
-                                        "&:hover fieldset": {
-                                            borderColor: "#000",
-                                        },
-                                        "&.Mui-focused fieldset": {
-                                            borderColor: "#000",
-                                            borderWidth: 1.5,
-                                        },
-                                    },
-
-                                    "& .MuiOutlinedInput-input": {
-                                        color: "#000",
-                                        WebkitTextFillColor: "#000",
-                                    },
-                                }}
+                                sx={deleteFieldSx}
                             />
 
                             <TextField
@@ -276,37 +450,10 @@ export default function DeleteAccount() {
                                 fullWidth
                                 type="password"
                                 variant="outlined"
-                                className="text-field-orange"
                                 name="password"
                                 value={deleteACC.password}
                                 onChange={handleChange}
-                                sx={{
-                                    "& .MuiInputLabel-root": {
-                                        color: "#000",
-                                    },
-                                    "& .MuiInputLabel-root.Mui-focused": {
-                                        color: "#000",
-                                    },
-
-                                    "& .MuiOutlinedInput-root": {
-                                        "& fieldset": {
-                                            borderColor: "#000",
-                                        },
-                                        "&:hover fieldset": {
-                                            borderColor: "#000",
-                                        },
-                                        "&.Mui-focused fieldset": {
-                                            borderColor: "#000",
-                                            borderWidth: 1.5,
-                                        },
-                                    },
-
-                                    "& .MuiOutlinedInput-input": {
-                                        color: "#000",
-                                        WebkitTextFillColor: "#000",
-                                    },
-                                }}
-
+                                sx={deleteFieldSx}
                             />
 
                             <TextField
@@ -315,40 +462,12 @@ export default function DeleteAccount() {
                                 fullWidth
                                 type="password"
                                 variant="outlined"
-                                className="text-field-orange"
                                 name="confirmPassword"
                                 value={deleteACC.confirmPassword}
                                 onChange={handleChange}
-                                sx={{
-                                    "& .MuiInputLabel-root": {
-                                        color: "#000",
-                                    },
-                                    "& .MuiInputLabel-root.Mui-focused": {
-                                        color: "#000",
-                                    },
-
-                                    "& .MuiOutlinedInput-root": {
-                                        "& fieldset": {
-                                            borderColor: "#000",
-                                        },
-                                        "&:hover fieldset": {
-                                            borderColor: "#000",
-                                        },
-                                        "&.Mui-focused fieldset": {
-                                            borderColor: "#000",
-                                            borderWidth: 1.5,
-                                        },
-                                    },
-
-                                    "& .MuiOutlinedInput-input": {
-                                        color: "#000",
-                                        WebkitTextFillColor: "#000",
-                                    },
-                                }}
-
+                                sx={deleteFieldSx}
                             />
 
-                            {/* DELETE BUTTON */}
                             <Button
                                 fullWidth
                                 size="large"
@@ -362,9 +481,7 @@ export default function DeleteAccount() {
                                     color: "#fff",
                                     letterSpacing: "0.16em",
                                     fontWeight: 700,
-
                                     fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
-
                                     "&:hover": {
                                         bgcolor: "#ffebee",
                                         color: "#b71c1c",
@@ -393,14 +510,11 @@ export default function DeleteAccount() {
                                     letterSpacing: "0.14em",
                                     fontWeight: 700,
                                     bgcolor: "#1e5bb8",
-
                                     fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
-
                                     "&:hover": {
                                         bgcolor: "#e3f2fd",
                                         color: "#1e5bb8",
                                     },
-
                                     "&:active": {
                                         bgcolor: "#e3f2fd",
                                         color: "#1e5bb8",

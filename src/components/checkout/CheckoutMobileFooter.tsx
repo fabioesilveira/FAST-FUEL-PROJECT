@@ -89,7 +89,7 @@ export default function CheckoutMobileFooter({
                         fontWeight: 900,
                         bgcolor: "#1e5bb8",
                         px: 2,
-                        fontSize: "0.82rem",
+                        fontSize: "0.85rem",
                         whiteSpace: "nowrap",
                         "&:hover": { bgcolor: "#164a99" },
                         "&.Mui-disabled": {

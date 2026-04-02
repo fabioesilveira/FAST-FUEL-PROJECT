@@ -65,7 +65,7 @@ export default function CheckoutOrderSummary({
                         fontSize: isMobile ? "0.62rem" : "0.66rem",
                         letterSpacing: isMobile ? "0.08em" : "0.095em",
                         textTransform: "uppercase",
-                        bgcolor: "#0d47a1",
+                        bgcolor: "#1e5bb8",
                         color: "#fff",
                         fontWeight: 800,
                         "& .MuiChip-label": {

@@ -1174,15 +1174,19 @@ export default function TrackOrderGuest() {
                                     size="small"
                                     sx={{
                                         mb: 1.4,
-                                        height: { xs: 22, sm: 26 },
-                                        fontSize: { xs: "0.60rem", sm: "0.70rem" },
-                                        letterSpacing: { xs: "0.07em", sm: "0.11em" },
+                                        height: { xs: 26, sm: 26 },
+                                        fontSize: { xs: "0.64rem", sm: "0.70rem" },
+                                        letterSpacing: { xs: "0.09em", sm: "0.11em" },
                                         textTransform: "uppercase",
                                         bgcolor: "#1e5bb8",
                                         color: "#fff",
                                         fontWeight: 800,
+
+                                        display: "inline-flex",
+                                        alignItems: "center",
+
                                         "& .MuiChip-label": {
-                                            px: { xs: 0.85, sm: 1.05 },
+                                            px: { xs: 1.0, sm: 1.05 },
                                         },
                                     }}
                                 />
