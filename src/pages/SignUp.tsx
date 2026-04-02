@@ -6,6 +6,9 @@ import { useAppAlert } from "../hooks/useAppAlert";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import NavbarAuth from "../components/NavbarAuth";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import ProductsTitleBar from "../components/ProductsTitleBar";
 
 type User = {
     name: string;
@@ -27,6 +30,8 @@ export default function SignUp() {
     });
 
     const navigate = useNavigate();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const { showAlert, AlertUI } = useAppAlert({
         vertical: "top",
@@ -65,7 +70,6 @@ export default function SignUp() {
 
         clearAuthStorage();
     }, [navigate]);
-
 
     function handleChange({ target }: any) {
         const { name, value } = target;
@@ -131,10 +135,8 @@ export default function SignUp() {
                 password: signUp.password,
             };
 
-            //  Register
             await api.post("/users/register", payload);
 
-            // Auto login (get token)
             const loginRes = await api.post("/users/login", {
                 email: payload.email,
                 password: payload.password,
@@ -201,13 +203,208 @@ export default function SignUp() {
         },
     };
 
+    if (isMobile) {
+        return (
+            <>
+                <NavbarAuth />
+                {AlertUI}
+                <ProductsTitleBar title="Sign Up" />
+
+                <Box
+                    sx={{
+                        minHeight: "100dvh",
+                        display: "flex",
+                        flexDirection: "column",
+                        bgcolor: "#fff",
+                    }}
+                >
+                    <Box
+                        component="main"
+                        sx={{
+                            width: "100%",
+                            maxWidth: 490,
+                            mx: "auto",
+                            px: 2.5,
+                            pt: "150px",
+                            pb: "36px",
+                            flex: 1,
+                        }}
+                    >
+                        <Box
+                            component="form"
+                            noValidate
+                            autoComplete="on"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                handleClick();
+                            }}
+                            sx={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 2,
+                            }}
+                        >
+                            <Button
+                                variant="text"
+                                onClick={() => navigate("/sign-in")}
+                                sx={{
+                                    textTransform: "none",
+                                    color: "rgba(180, 63, 0, 1)",
+                                    fontSize: "0.82rem",
+                                    "&:hover": { textDecoration: "underline" },
+                                    mt: -1.42,
+                                    mb: -0.7,
+                                    alignSelf: "center",
+                                }}
+                            >
+                                Already have an account? Sign in to your account.
+                            </Button>
+
+                            <TextField
+                                id="name"
+                                label="Full Name*"
+                                name="name"
+                                autoComplete="name"
+                                value={signUp.name}
+                                onChange={handleChange}
+                                fullWidth
+                                size="small"
+                                sx={tfSx}
+                            />
+
+                            <TextField
+                                id="email"
+                                label="Email Address*"
+                                name="email"
+                                type="email"
+                                autoComplete="email"
+                                inputProps={{
+                                    inputMode: "email",
+                                    autoCapitalize: "none",
+                                    autoCorrect: "off",
+                                    spellCheck: false,
+                                }}
+                                value={signUp.email}
+                                onChange={handleChange}
+                                fullWidth
+                                size="small"
+                                sx={tfSx}
+                            />
+
+                            <TextField
+                                id="tel"
+                                label="Phone Number*"
+                                name="number"
+                                type="tel"
+                                autoComplete="tel-national"
+                                inputProps={{
+                                    inputMode: "tel",
+                                    autoCapitalize: "none",
+                                    autoCorrect: "off",
+                                }}
+                                value={signUp.number}
+                                onChange={handleChange}
+                                fullWidth
+                                size="small"
+                                sx={tfSx}
+                            />
+
+                            <TextField
+                                id="new-password"
+                                label="Password*"
+                                type="password"
+                                name="password"
+                                autoComplete="new-password"
+                                value={signUp.password}
+                                onChange={handleChange}
+                                fullWidth
+                                size="small"
+                                sx={tfSx}
+                            />
+
+                            <TextField
+                                id="confirm-password"
+                                label="Confirm Password*"
+                                type="password"
+                                name="confirmPassword"
+                                autoComplete="new-password"
+                                inputProps={{
+                                    autoCapitalize: "none",
+                                    autoCorrect: "off",
+                                    spellCheck: false,
+                                }}
+                                value={signUp.confirmPassword}
+                                onChange={handleChange}
+                                fullWidth
+                                size="small"
+                                sx={tfSx}
+                            />
+
+                            <Button
+                                fullWidth
+                                size="large"
+                                variant="contained"
+                                type="submit"
+                                sx={{
+                                    mt: 0.2,
+                                    height: 40,
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    color: "white",
+                                    letterSpacing: "0.12em",
+                                    fontWeight: 700,
+                                    bgcolor: "#1e5bb8",
+                                    "&:hover": { bgcolor: "#164a96" },
+                                    fontSize: "0.82rem",
+                                }}
+                            >
+                                Sign up
+                            </Button>
+
+                            <Button
+                                variant="contained"
+                                size="large"
+                                fullWidth
+                                onClick={() => navigate("/")}
+                                sx={{
+                                    mt: -0.1,
+                                    height: 40,
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    color: "#0d47a1",
+                                    letterSpacing: "0.12em",
+                                    fontWeight: 700,
+                                    bgcolor: "rgba(230, 81, 0, 0.20)",
+                                    fontSize: "0.82rem",
+                                    "&:hover": {
+                                        bgcolor: "rgba(230, 81, 0, 0.28)",
+                                        borderColor: "#0d47a1",
+                                        color: "#0d47a1",
+                                    },
+                                    "&:active": {
+                                        bgcolor: "rgba(230, 81, 0, 0.28)",
+                                        transform: "translateY(1px)",
+                                    },
+                                }}
+                            >
+                                Continue as guest
+                            </Button>
+                        </Box>
+                    </Box>
+
+                    <Footer />
+                </Box>
+            </>
+        );
+    }
+
     return (
         <>
             <NavbarAuth />
             {AlertUI}
 
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-                {/* BACKGROUND */}
                 <Box
                     sx={{
                         position: "relative",
@@ -253,7 +450,6 @@ export default function SignUp() {
                         },
                     }}
                 >
-                    {/* Main */}
                     <Box
                         component="main"
                         sx={{
@@ -277,10 +473,8 @@ export default function SignUp() {
                                 border: "1.5px solid rgba(230, 81, 0, 0.22)",
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
-
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
                                 maxHeight: 720,
-
                                 boxShadow:
                                     "0 4px 12px rgba(230, 81, 0, 0.18), 0 8px 20px rgba(0,0,0,0.08)",
                                 display: "flex",
@@ -446,7 +640,6 @@ export default function SignUp() {
                                             bgcolor: "#1e5bb8",
                                             "&:hover": { bgcolor: "#164a96" },
                                             fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.90rem" },
-
                                         }}
                                     >
                                         Sign up
@@ -462,7 +655,6 @@ export default function SignUp() {
                                             height: { xs: 38, md: 40 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
-
                                             color: "#0d47a1",
                                             letterSpacing: "0.14em",
                                             fontWeight: 700,

@@ -6,6 +6,9 @@ import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import { useAppAlert } from "../hooks/useAppAlert";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import NavbarAuth from "../components/NavbarAuth";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import ProductsTitleBar from "../components/ProductsTitleBar";
 
 type User = {
     email: string;
@@ -14,12 +17,15 @@ type User = {
 
 export default function SignIn() {
     useDocumentTitle("FastFuel • Sign in");
+
     const [signIn, setSignIn] = useState<User>({
         email: "",
         password: "",
     });
 
     const navigate = useNavigate();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const { showAlert, AlertUI } = useAppAlert({
         vertical: "top",
@@ -62,7 +68,6 @@ export default function SignIn() {
         clearAuthStorage();
     }, [navigate]);
 
-
     async function handleClick() {
         if (!signIn.email || !signIn.password) {
             showAlert("Please fill in your e-mail and password.", "warning");
@@ -74,8 +79,8 @@ export default function SignIn() {
                 ...signIn,
                 email: signIn.email.trim().toLowerCase(),
             };
-            const res = await api.post("/users/login", payload);
 
+            const res = await api.post("/users/login", payload);
 
             if (!res.data?.id || !res.data?.token) {
                 clearAuthStorage();
@@ -112,7 +117,6 @@ export default function SignIn() {
             } else {
                 navigate("/");
             }
-
         } catch (error: any) {
             if (error.response?.status === 401) {
                 showAlert("Invalid email or password.", "error");
@@ -125,10 +129,10 @@ export default function SignIn() {
 
     function handleChange({ target }: any) {
         const { name, value } = target;
-        setSignIn({
-            ...signIn,
+        setSignIn((prev) => ({
+            ...prev,
             [name]: value,
-        });
+        }));
     }
 
     const tfSx = {
@@ -150,14 +154,197 @@ export default function SignIn() {
         },
     };
 
+    if (isMobile) {
+        return (
+            <>
+                <NavbarAuth />
+                {AlertUI}
+                <ProductsTitleBar title="Sign In" />
+
+                <Box
+                    sx={{
+                        minHeight: "100dvh",
+                        display: "flex",
+                        flexDirection: "column",
+                        bgcolor: "#fff",
+                    }}
+                >
+                    <Box
+                        component="main"
+                        sx={{
+                            width: "100%",
+                            maxWidth: 490,
+                            mx: "auto",
+                            px: 2.5,
+                            pt: "150px",
+                            pb: "36px",
+                            flex: 1,
+                        }}
+                    >
+                        <Box
+                            component="form"
+                            noValidate
+                            autoComplete="on"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                handleClick();
+                            }}
+                            sx={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 2,
+                            }}
+                        >
+                            <Typography
+                                align="center"
+                                sx={{
+                                    fontSize: "0.84rem",
+                                    color: "text.secondary",
+                                    fontWeight: "bold",
+                                    mt: -0.56,
+                                    mb: 0.3,
+                                }}
+                            >
+                                Sign in to enjoy the complete Fast Fuel experience.
+                            </Typography>
+
+                            <TextField
+                                id="email"
+                                label="Email Address*"
+                                variant="outlined"
+                                name="email"
+                                type="email"
+                                autoComplete="email"
+                                inputProps={{
+                                    inputMode: "email",
+                                    autoCapitalize: "none",
+                                    autoCorrect: "off",
+                                    spellCheck: false,
+                                }}
+                                value={signIn.email}
+                                onChange={handleChange}
+                                size="small"
+                                fullWidth
+                                sx={tfSx}
+                            />
+
+                            <TextField
+                                id="password"
+                                label="Password*"
+                                variant="outlined"
+                                type="password"
+                                name="password"
+                                autoComplete="current-password"
+                                inputProps={{
+                                    autoCapitalize: "none",
+                                    autoCorrect: "off",
+                                    spellCheck: false,
+                                }}
+                                value={signIn.password}
+                                onChange={handleChange}
+                                size="small"
+                                fullWidth
+                                sx={tfSx}
+                            />
+
+                            <Button
+                                fullWidth
+                                size="large"
+                                variant="contained"
+                                type="submit"
+                                sx={{
+                                    mt: 0.2,
+                                    height: 40,
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    color: "white",
+                                    letterSpacing: "0.12em",
+                                    fontWeight: 700,
+                                    bgcolor: "#1e5bb8",
+                                    "&:hover": { bgcolor: "#164a96" },
+                                    fontSize: "0.82rem",
+                                }}
+                            >
+                                Sign in
+                            </Button>
+
+                            <Typography
+                                align="center"
+                                sx={{
+                                    mt: 0.1,
+                                    fontSize: "0.82rem",
+                                    color: "rgba(180, 63, 0, 1)",
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                OR
+                            </Typography>
+
+                            <Button
+                                fullWidth
+                                size="large"
+                                variant="contained"
+                                onClick={() => navigate("/sign-up")}
+                                sx={{
+                                    mt: 0.1,
+                                    height: 40,
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    color: "white",
+                                    letterSpacing: "0.12em",
+                                    fontWeight: 700,
+                                    bgcolor: "#1e5bb8",
+                                    "&:hover": { bgcolor: "#164a96" },
+                                    fontSize: "0.82rem",
+                                }}
+                            >
+                                Create new account
+                            </Button>
+
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                size="large"
+                                onClick={() => navigate("/")}
+                                sx={{
+                                    mt: -0.1,
+                                    height: 40,
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    color: "#0d47a1",
+                                    letterSpacing: "0.12em",
+                                    fontWeight: 700,
+                                    bgcolor: "rgba(230, 81, 0, 0.20)",
+                                    fontSize: "0.82rem",
+                                    "&:hover": {
+                                        bgcolor: "rgba(230, 81, 0, 0.28)",
+                                        borderColor: "#0d47a1",
+                                        color: "#0d47a1",
+                                    },
+                                    "&:active": {
+                                        bgcolor: "rgba(230, 81, 0, 0.28)",
+                                        transform: "translateY(1px)",
+                                    },
+                                }}
+                            >
+                                Continue as guest
+                            </Button>
+                        </Box>
+                    </Box>
+
+                    <Footer />
+                </Box>
+            </>
+        );
+    }
+
     return (
         <>
             <NavbarAuth />
             {AlertUI}
 
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-
-                {/* BACKGROUND */}
                 <Box
                     sx={{
                         position: "relative",
@@ -175,7 +362,6 @@ export default function SignIn() {
                             left: "50%",
                             transform: "translateX(-50%)",
                             zIndex: 0,
-
                             width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
                             borderRadius: 20,
                             pointerEvents: "none",
@@ -192,7 +378,7 @@ export default function SignIn() {
                                     rgba(255,255,255,0.85) 12px,
                                     rgba(255,255,255,0.85) 20px
                                 )
-                                `,
+                            `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -203,7 +389,6 @@ export default function SignIn() {
                         },
                     }}
                 >
-                    {/* Main */}
                     <Box
                         component="main"
                         sx={{
@@ -218,7 +403,6 @@ export default function SignIn() {
                             zIndex: 1,
                         }}
                     >
-
                         <Paper
                             elevation={0}
                             sx={{
@@ -228,10 +412,8 @@ export default function SignIn() {
                                 border: "1.5px solid rgba(230, 81, 0, 0.22)",
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
-
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
                                 maxHeight: 720,
-
                                 boxShadow:
                                     "0 4px 12px rgba(230, 81, 0, 0.18), 0 8px 20px rgba(0,0,0,0.08)",
                                 display: "flex",
@@ -240,7 +422,6 @@ export default function SignIn() {
                                 overflow: "hidden",
                             }}
                         >
-
                             <Typography
                                 variant="h4"
                                 align="center"
@@ -258,7 +439,6 @@ export default function SignIn() {
                                 Sign In
                             </Typography>
 
-                            {/* SCROLL AREA */}
                             <Box
                                 sx={{
                                     flex: 1,
@@ -294,7 +474,7 @@ export default function SignIn() {
                                             fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
                                             color: "text.secondary",
                                             fontWeight: "bold",
-                                            mt: { xs: -0.55 }
+                                            mt: { xs: -0.55 },
                                         }}
                                     >
                                         Sign in to enjoy the complete Fast Fuel experience.
@@ -320,7 +500,6 @@ export default function SignIn() {
                                         sx={tfSx}
                                     />
 
-
                                     <TextField
                                         id="password"
                                         label="Password*"
@@ -340,7 +519,6 @@ export default function SignIn() {
                                         sx={tfSx}
                                     />
 
-
                                     <Button
                                         fullWidth
                                         size="large"
@@ -357,7 +535,6 @@ export default function SignIn() {
                                             bgcolor: "#1e5bb8",
                                             "&:hover": { bgcolor: "#164a96" },
                                             fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.90rem" },
-
                                         }}
                                     >
                                         Sign in
@@ -386,15 +563,12 @@ export default function SignIn() {
                                             borderRadius: 2,
                                             textTransform: "uppercase",
                                             color: "white",
-
                                             letterSpacing: "0.14em",
                                             fontWeight: 700,
-
                                             bgcolor: "#1e5bb8",
                                             "&:hover": { bgcolor: "#164a96" },
                                             fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.90rem" },
                                         }}
-
                                     >
                                         Create new Account
                                     </Button>
@@ -409,7 +583,6 @@ export default function SignIn() {
                                             height: { xs: 38, md: 40 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
-
                                             color: "#0d47a1",
                                             letterSpacing: "0.14em",
                                             fontWeight: 700,

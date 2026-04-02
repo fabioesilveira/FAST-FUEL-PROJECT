@@ -144,6 +144,20 @@ export default function ContactUs() {
                                 gap: 1.8,
                             }}
                         >
+                            <Typography
+                                align="center"
+                                sx={{
+                                    fontSize: "0.82rem",
+                                    color: "text.secondary",
+                                    fontWeight: "bold",
+                                    mt: -3.1,
+                                    mb: 0.35,
+                                    lineHeight: 1.45,
+                                }}
+                            >
+                                Need help? Send us a message and we’ll reply by email.
+                            </Typography>
+
                             <TextField
                                 variant="outlined"
                                 label="Full Name*"
@@ -238,15 +252,15 @@ export default function ContactUs() {
                                 onClick={handleClick}
                                 sx={{
                                     mt: 0.2,
-                                    height: 42,
+                                    height: 40,
                                     borderRadius: 2,
                                     textTransform: "uppercase",
                                     color: "white",
-                                    letterSpacing: "0.14em",
+                                    letterSpacing: "0.12em",
                                     fontWeight: 700,
                                     bgcolor: "#1e5bb8",
                                     "&:hover": { bgcolor: "#164a96" },
-                                    fontSize: "0.84rem",
+                                    fontSize: "0.82rem",
                                 }}
                             >
                                 Send Message

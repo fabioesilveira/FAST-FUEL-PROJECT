@@ -564,9 +564,10 @@ export default function TrackOrderGuest() {
                                             bgcolor: "#1e5bb8",
                                             color: "#fff",
                                             fontWeight: 900,
+                                            fontSize: "0.74rem",
                                             textTransform: "uppercase",
                                             letterSpacing: "0.10em",
-                                            height: 40,
+                                            height: 37,
                                             "&.Mui-disabled": {
                                                 bgcolor: "rgba(30, 91, 184, 0.35)",
                                                 color: "rgba(255,255,255,0.85)",
@@ -588,7 +589,8 @@ export default function TrackOrderGuest() {
                                             fontWeight: 900,
                                             textTransform: "uppercase",
                                             letterSpacing: "0.10em",
-                                            height: 40,
+                                            fontSize: "0.74rem",
+                                            height: 37,
                                             "&:hover": {
                                                 bgcolor: "rgba(230, 81, 0, 0.28)",
                                                 color: "#0d47a1",
@@ -1230,17 +1232,19 @@ export default function TrackOrderGuest() {
                                         disabled={!canSearch || loading}
                                         onClick={() => fetchOrders()}
                                         sx={{
-                                            flex: 0.6,
+                                            flex: { xs: "unset", sm: 0.6 },
+                                            width: { xs: "auto", sm: "auto" },
+                                            alignSelf: { xs: "flex-start", sm: "auto" },
+                                            minWidth: { xs: 88, sm: 110 },
                                             borderRadius: 1.5,
                                             bgcolor: "#1e5bb8",
                                             color: "#fff",
                                             fontWeight: 900,
                                             textTransform: "uppercase",
-                                            letterSpacing: { xs: "0.08em", sm: "0.10em" },
-                                            height: { xs: 35, sm: 40 },
-                                            fontSize: { xs: "0.70rem", sm: "0.78rem" },
+                                            letterSpacing: { xs: "0.06em", sm: "0.10em" },
+                                            height: { xs: 30, sm: 40 },
+                                            fontSize: { xs: "0.66rem", sm: "0.78rem" },
                                             px: { xs: 1.2, sm: 1.6 },
-
                                             WebkitTapHighlightColor: "transparent",
 
                                             "@media (hover: hover) and (pointer: fine)": {
@@ -1268,17 +1272,18 @@ export default function TrackOrderGuest() {
                                         onClick={handleReset}
                                         disabled={loading}
                                         sx={{
-                                            flex: 0.6,
+                                            flex: { xs: "unset", sm: 0.6 },
                                             display: { xs: "none", sm: "inline-flex" },
+                                            minWidth: { xs: 88, sm: 110 },
                                             borderRadius: 1.5,
                                             borderColor: "rgba(0,0,0,0.35)",
                                             color: "#0d47a1",
                                             bgcolor: "rgba(230, 81, 0, 0.20)",
                                             fontWeight: 900,
                                             textTransform: "uppercase",
-                                            letterSpacing: { xs: "0.08em", sm: "0.10em" },
-                                            height: { xs: 35, sm: 40 },
-                                            fontSize: { xs: "0.70rem", sm: "0.78rem" },
+                                            letterSpacing: { xs: "0.06em", sm: "0.10em" },
+                                            height: { xs: 30, sm: 40 },
+                                            fontSize: { xs: "0.66rem", sm: "0.78rem" },
                                             px: { xs: 1.2, sm: 1.6 },
 
                                             "&:hover": {
