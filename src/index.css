@@ -189,11 +189,19 @@ body {
     padding: 3px;
     gap: 5px;
   }
+}
 
+@media (max-width: 600px) {
   .ff-tabs .nav-link {
     letter-spacing: 0.04em;
-    font-size: 0.74rem;
-    padding: 8px 8px;
+    font-size: 0.78rem;
+
+    padding: 11px 10px;   /* ↑ aumenta altura */
+    min-height: 38px;     /* garante altura mínima */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
