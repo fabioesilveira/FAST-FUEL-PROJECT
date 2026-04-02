@@ -399,10 +399,11 @@ export default function OrdersLogged() {
                 sx={{
                     flex: 1,
                     display: "flex",
-                    alignItems: "center",
+                    alignItems: { xs: "flex-start", sm: "center" },
                     justifyContent: "center",
                     px: 3,
                     textAlign: "center",
+                    pt: { xs: 10, sm: 0 },
                     pb: { xs: 6, md: 10 },
                 }}
             >
