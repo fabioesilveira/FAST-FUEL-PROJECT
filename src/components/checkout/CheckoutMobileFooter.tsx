@@ -50,7 +50,7 @@ export default function CheckoutMobileFooter({
                     <Typography
                         sx={{
                             fontSize: "0.76rem",
-                            letterSpacing: "0.12em",
+                            letterSpacing: "0.15em",
                             textTransform: "uppercase",
                             color: "#0d47a1",
                             fontWeight: 800,
@@ -64,7 +64,7 @@ export default function CheckoutMobileFooter({
                         sx={{
                             fontWeight: 900,
                             color: "#0d47a1",
-                            fontSize: "1.14rem",
+                            fontSize: "1.17rem",
                             lineHeight: 1.2,
                             mt: 0.15,
                             whiteSpace: "nowrap",
