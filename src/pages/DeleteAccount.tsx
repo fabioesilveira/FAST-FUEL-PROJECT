@@ -190,7 +190,7 @@ export default function DeleteAccount() {
                                 color: "text.secondary",
                                 fontWeight: "bold",
                                 mb: 2.2,
-                                mt: -0.3,
+                                mt: -2.3,
                             }}
                         >
                             This action is permanent and cannot be undone.

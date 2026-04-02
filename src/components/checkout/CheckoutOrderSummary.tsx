@@ -55,7 +55,7 @@ export default function CheckoutOrderSummary({
                     justifyContent: "space-between",
                     gap: 1,
                     mb: isMobile ? 1.4 : 1.8,
-                    mt: isMobile ? -1 : 0,
+                    mt: isMobile ? -1.1 : 0,
                 }}
             >
                 <Chip
