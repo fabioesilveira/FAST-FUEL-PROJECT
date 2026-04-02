@@ -515,13 +515,17 @@ export default function TrackOrderGuest() {
                                 label="Guest Order Tracking"
                                 size="small"
                                 sx={{
-                                    mb: 1.4,
-                                    fontSize: "0.68rem",
-                                    letterSpacing: "0.1em",
+                                    mb: 1.5,
+                                    height: 24,
+                                    fontSize: "0.62rem",
+                                    letterSpacing: "0.08em",
                                     textTransform: "uppercase",
                                     bgcolor: "#1e5bb8",
                                     color: "#fff",
                                     fontWeight: 800,
+                                    "& .MuiChip-label": {
+                                        px: 0.9,
+                                    },
                                 }}
                             />
 
