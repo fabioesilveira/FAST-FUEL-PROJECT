@@ -77,19 +77,16 @@ export default function CheckoutDeliverySection({
                         onAddressChange((prev) => ({
                             ...prev,
                             street: v,
+                            ...(v.trim()
+                                ? {}
+                                : {
+                                    city: "",
+                                    apt: "",
+                                    state: "",
+                                    zip: "",
+                                    country: "USA",
+                                }),
                         }));
-
-                        if (!v.trim()) {
-                            onAddressChange((prev) => ({
-                                ...prev,
-                                street: "",
-                                city: "",
-                                apt: "",
-                                state: "",
-                                zip: "",
-                                country: "USA",
-                            }));
-                        }
                     }}
                     onSelect={(addr: AddressLookupResult) => {
                         onStreetTextChange(addr.street);

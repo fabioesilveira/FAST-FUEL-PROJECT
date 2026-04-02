@@ -22,13 +22,13 @@ import NavbarAction from "../components/NavbarAction";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-import CheckoutMobileFooter from "../components/checkout/CheckoutMobileFooter";
 import CheckoutProcessingScreen from "../components/checkout/CheckoutProcessingScreen";
 import CheckoutConfirmedScreen from "../components/checkout/CheckoutConfirmedScreen";
 import CheckoutContactSection from "../components/checkout/CheckoutContactSection";
 import CheckoutPaymentSection from "../components/checkout/CheckoutPaymentSection";
 import CheckoutDeliverySection from "../components/checkout/CheckoutDeliverySection";
-import ProductsTitleBar from "../components/ProductsTitleBar";
+
+import CheckoutMobileForm from "../components/checkout/CheckoutMobileForm";
 
 
 const imageMap: Record<string, string> = {
@@ -367,88 +367,6 @@ export default function Checkout() {
     }, [isLogged, loggedUser]);
 
 
-    function MobileCheckoutForm() {
-        return (
-
-            <Box
-                sx={{
-                    minHeight: "100dvh",
-                    display: "flex",
-                    flexDirection: "column",
-                    bgcolor: "#fff",
-                    position: "relative",
-                }}
-            >
-                <ProductsTitleBar title="Checkout" />
-               
-                <Box
-                    sx={{
-                        position: "relative",
-                        zIndex: 1,
-                        px: 2.5,
-                        pt: "160px",
-                        pb: "calc(110px + env(safe-area-inset-bottom))",
-                        width: "100%",
-                        maxWidth: 490,
-                        mx: "auto",
-                    }}
-                >
-
-
-                    <Box sx={{ pb: 2 }}>
-                        <CheckoutOrderSummary
-                            order={order}
-                            totalItems={totalItems}
-                            subtotalLabel={subtotalLabel}
-                            discount={discount}
-                            discountLabel={discountLabel}
-                            taxLabel={taxLabel}
-                            deliveryFee={deliveryFee}
-                            deliveryLabel={deliveryLabel}
-                            grandTotalLabel={grandTotalLabel}
-                            resolveImgSrc={resolveImgSrc}
-                            imageStylesByIdOrderSummary={imageStylesByIdOrderSummary}
-                            cleanProductName={cleanProductName}
-                            incItem={incItem}
-                            decItem={decItem}
-                            handleClearCart={handleClearCart}
-                        />
-                    </Box>
-
-                    <CheckoutContactSection
-                        fullName={fullName}
-                        email={email}
-                        isLogged={isLogged}
-                        tfBlueLabelSx={tfBlueLabelSx}
-                        onFullNameChange={setFullName}
-                        onEmailChange={setEmail}
-                    />
-
-                    <CheckoutDeliverySection
-                        address={address}
-                        streetText={streetText}
-                        tfBlueLabelSx={tfBlueLabelSx}
-                        mobile
-                        onStreetTextChange={setStreetText}
-                        onAddressChange={setAddress}
-                    />
-
-                    <CheckoutPaymentSection
-                        tfBlueLabelSx={tfBlueLabelSx}
-                        mobile
-                    />
-                </Box>
-
-                <CheckoutMobileFooter
-                    grandTotalLabel={grandTotalLabel}
-                    submitting={submitting}
-                    orderLength={order.length}
-                    onPay={handlePay}
-                />
-            </Box>
-        );
-    }
-
     if (isMobile) {
         return (
             <>
@@ -469,7 +387,36 @@ export default function Checkout() {
                         onGoOrders={() => navigate("/orders")}
                     />
                 ) : (
-                    <MobileCheckoutForm />
+                    <CheckoutMobileForm
+                        order={order}
+                        totalItems={totalItems}
+                        subtotalLabel={subtotalLabel}
+                        discount={discount}
+                        discountLabel={discountLabel}
+                        taxLabel={taxLabel}
+                        deliveryFee={deliveryFee}
+                        deliveryLabel={deliveryLabel}
+                        grandTotalLabel={grandTotalLabel}
+                        resolveImgSrc={resolveImgSrc}
+                        imageStylesByIdOrderSummary={imageStylesByIdOrderSummary}
+                        cleanProductName={cleanProductName}
+                        incItem={incItem}
+                        decItem={decItem}
+                        handleClearCart={handleClearCart}
+                        fullName={fullName}
+                        email={email}
+                        isLogged={isLogged}
+                        tfBlueLabelSx={tfBlueLabelSx}
+                        onFullNameChange={setFullName}
+                        onEmailChange={setEmail}
+                        address={address}
+                        streetText={streetText}
+                        onStreetTextChange={setStreetText}
+                        onAddressChange={setAddress}
+                        submitting={submitting}
+                        orderLength={order.length}
+                        onPay={handlePay}
+                    />
                 )}
             </>
         );

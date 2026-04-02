@@ -51,7 +51,8 @@ export default function ProductsTitleBar({
                 transition: "transform 220ms ease",
                 bgcolor: "rgba(255, 243, 224, 0.78)",
                 backdropFilter: "blur(10px)",
-                borderBottom: "1px solid rgba(0,0,0,0.05)"
+                borderBottom: "1px solid rgba(0,0,0,0.05)",
+                pointerEvents: "none",
             }}
         >
             <Box
@@ -70,7 +71,7 @@ export default function ProductsTitleBar({
                         textTransform: "uppercase",
                         fontSize: { xs: "1.05rem", md: "1.20rem" },
                         textShadow: "1px 1px 0 rgba(230, 81, 0, 0.18)",
-                        marginLeft:{xs: -0.1, md: -1.5}
+                        marginLeft: { xs: -0.1, md: -1.5 }
                     }}
                 >
                     {title}
