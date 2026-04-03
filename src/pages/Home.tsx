@@ -6,7 +6,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
-// import CloseIcon from "@mui/icons-material/Close";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -23,7 +22,7 @@ import HeroCarousel from "../components/HeroCarousel";
 import PageBg from "../components/PageBg";
 import PageBgMobile from "../components/PageBgMobile";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-
+import FastThruTitle from "../components/FastThruTitle";
 import HomeCartMenu from "../components/home/HomeCartMenu";
 import HomeSearchSection from "../components/home/HomeSearchSection";
 import HomeFastThruSection from "../components/home/HomeFastThruSection";
@@ -135,7 +134,6 @@ export default function Home() {
     } = useHomeSearch({ data });
 
     const PageShell = isMobile ? PageBgMobile : PageBg;
-
     const showMobilePromosBlock = isMobile && !hidePromos;
 
     const stripeCenterWidthDesktop = isSearching
@@ -156,7 +154,6 @@ export default function Home() {
             const bo = fastThruOrder[(b.category || "").toLowerCase()] ?? 999;
 
             if (ao !== bo) return ao - bo;
-
             return Number(a.id) - Number(b.id);
         });
     }, [data]);
@@ -166,8 +163,8 @@ export default function Home() {
     }
 
     function openCartMenu(e: React.MouseEvent<HTMLElement>) {
-        if (isMobile && actionsRef.current) {
-            setCartAnchorEl(actionsRef.current);
+        if (isMobile) {
+            setCartAnchorEl(actionsRef.current ?? e.currentTarget);
             return;
         }
 
@@ -343,12 +340,21 @@ export default function Home() {
                         </Box>
                     )}
 
+                    {isMobile && driveModeActive && (
+                        <FastThruTitle
+                            total={checkout}
+                            cartCount={cartCount}
+                            onReceiptClick={openCartMenu}
+                            onExit={exitFastThru}
+                        />
+                    )}
+
                     <Container
                         maxWidth={false}
                         disableGutters
                         sx={{
                             flexGrow: 2,
-                            mt: { xs: 0, md: "100px" },
+                            mt: { xs: driveModeActive ? "72px" : 0, md: "100px" },
                             mb: { xs: 2, md: "60px" },
                             px: { xs: 2, md: 3 },
                             maxWidth: 1200,
@@ -367,7 +373,7 @@ export default function Home() {
                             </HeroCarousel>
                         )}
 
-                        {shouldShowOrderPreview && (
+                        {shouldShowOrderPreview && !(isMobile && driveModeActive) && (
                             <Box
                                 sx={{
                                     maxWidth: { xs: "100%", md: "938px" },
@@ -481,30 +487,28 @@ export default function Home() {
                                                 />
                                             </Button>
                                         </Box>
-
                                     </Box>
                                 </Box>
-
-                                <HomeCartMenu
-                                    anchorEl={cartAnchorEl}
-                                    open={cartOpen}
-                                    onClose={closeCartMenu}
-                                    isMobile={isMobile}
-                                    cartCount={cartCount}
-                                    order={order}
-                                    subtotal={subtotal}
-                                    discount={discount}
-                                    checkout={checkout}
-                                    cartBodyMaxH={cartBodyMaxH}
-                                    cartHeaderRef={cartHeaderRef}
-                                    cartFooterRef={cartFooterRef}
-                                    onDecItem={decItem}
-                                    onRemoveItem={removeItem}
-                                    onCheckout={handleCheckoutFromCart}
-                                />
-
                             </Box>
                         )}
+
+                        <HomeCartMenu
+                            anchorEl={cartAnchorEl}
+                            open={cartOpen}
+                            onClose={closeCartMenu}
+                            isMobile={isMobile}
+                            cartCount={cartCount}
+                            order={order}
+                            subtotal={subtotal}
+                            discount={discount}
+                            checkout={checkout}
+                            cartBodyMaxH={cartBodyMaxH}
+                            cartHeaderRef={cartHeaderRef}
+                            cartFooterRef={cartFooterRef}
+                            onDecItem={decItem}
+                            onRemoveItem={removeItem}
+                            onCheckout={handleCheckoutFromCart}
+                        />
 
                         <HomeSearchSection
                             isSearching={isSearching}
