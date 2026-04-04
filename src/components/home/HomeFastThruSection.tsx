@@ -28,17 +28,17 @@ export default function HomeFastThruSection({
                 align="center"
                 sx={{
                     mb: { xs: 3.5, md: 3 },
-                    mt: { xs: -2, md: -3.5 },
+                    mt: { xs: 0, md: -3.5 },
                     fontFamily: "Titan One",
-                    fontSize: { xs: "28px", md: "35px" },
+                    fontSize: { xs: "22px", md: "35px" },
                     letterSpacing: "0.14em",
                     textTransform: "uppercase",
                     color: "#ff8a4c",
-                    textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+                    textShadow: "0 1px 2px rgba(30, 91, 184, 0.35)",
                     opacity: 0.95,
                 }}
             >
-                Quick add menu
+                Click to add menu
             </Typography>
 
             <h2 className="h2-driveMode-desk">

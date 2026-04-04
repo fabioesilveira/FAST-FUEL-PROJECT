@@ -8,8 +8,8 @@ const MobileContactBubble = styled("button")(({ theme }) => ({
   bottom: 150,
   zIndex: 1400,
 
-  width: 53,
-  height: 53,
+  width: 52,
+  height: 52,
   borderRadius: "999px",
   display: "grid",
   placeItems: "center",
@@ -52,7 +52,7 @@ export default function FloatingContactMobile() {
       onClick={() => navigate("/contact-us")}
       aria-label="Contact us"
     >
-      <EmailIcon sx={{ color: "#ffe0c7", fontSize: 26 }} />
+      <EmailIcon sx={{ color: "#ffe0c7", fontSize: 25.5 }} />
     </MobileContactBubble>
   );
 }

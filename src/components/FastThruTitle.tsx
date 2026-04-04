@@ -65,8 +65,8 @@ export default function FastThruTitle({
                         top: { xs: 4, md: 5 },
                         right: { xs: 10, md: 12 },
                         minWidth: 0,
-                        width: 31,
-                        height: 31,
+                        width: 30.5,
+                        height: 30.5,
                         p: 0,
                         borderRadius: "999px",
                         color: "#0d47a1",
@@ -78,44 +78,52 @@ export default function FastThruTitle({
                         },
                     }}
                 >
-                    <CloseIcon sx={{ fontSize: 21 }} />
+                    <CloseIcon sx={{ fontSize: 20.5 }} />
                 </Button>
+
 
                 <Box
                     sx={{
                         display: "flex",
                         alignItems: "center",
-                        gap: 1.05,
+                        gap: 1.1, // diminui aqui pra trazer mais perto do total
                         minWidth: 0,
                     }}
                 >
-
                     <Typography
                         sx={{
                             color: "#0d47a1",
                             fontWeight: 900,
-                            letterSpacing: "0.09em",
+                            letterSpacing: "0.08em",
                             textTransform: "uppercase",
-                            fontSize: { xs: "1.25rem", md: "1.25rem" },
-                            textShadow: "1px 1px 0 rgba(230, 81, 0, 0.18)",
-                            whiteSpace: "nowrap",
+                            fontSize: "clamp(1.02rem, 5vw, 1.45rem)",
                             lineHeight: 1,
-                            pr: 4,
+                            whiteSpace: "nowrap",
                         }}
                     >
-                        Total: ${total.toFixed(2)}
+                        TOTAL: ${total.toFixed(2)}
                     </Typography>
 
-                    <Box sx={{ position: "relative", display: "inline-flex" }}>
+                    <Box
+                        sx={{
+                            position: "relative",
+                            display: "inline-flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "flex-start",
+                            lineHeight: 1,
+                            ml: -0.2, // ajuste fino
+                        }}
+                    >
                         {cartCount > 0 && (
                             <Box
                                 sx={{
                                     position: "absolute",
-                                    top: -4,
-                                    right: -8,
-                                    minWidth: 15,
-                                    height: 15,
-                                    px: 0.45,
+                                    top: 0,
+                                    right: -6,
+                                    minWidth: 14,
+                                    height: 14,
+                                    px: 0.42,
                                     borderRadius: "999px",
                                     bgcolor: "#1e5bb8",
                                     color: "#fff",
@@ -141,10 +149,10 @@ export default function FastThruTitle({
                                 display: "flex",
                                 flexDirection: "column",
                                 alignItems: "center",
-                                justifyContent: "center",
+                                justifyContent: "flex-start",
                                 gap: 0,
-                                color: "#164a96",
                                 lineHeight: 1,
+                                color: "#164a96",
                                 backgroundColor: "transparent",
                                 "&:hover": {
                                     backgroundColor: "transparent",
@@ -154,17 +162,19 @@ export default function FastThruTitle({
                         >
                             <ReceiptLongIcon
                                 sx={{
-                                    fontSize: 26,
                                     color: "#164a96",
+                                    fontSize: 25,
                                     lineHeight: 1,
+                                    mt: 1 , // esse cara alinha o ícone com o meio do TOTAL
                                 }}
                             />
 
                             <KeyboardArrowDownIcon
                                 sx={{
-                                    fontSize: 14,
-                                    color: "rgba(13, 71, 161, 0.82)",
+                                    color: "rgba(13,71,161,0.82)",
+                                    fontSize: 13,
                                     mt: -0.45,
+                                    lineHeight: 1,
                                 }}
                             />
                         </Button>

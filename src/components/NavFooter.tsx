@@ -17,13 +17,11 @@ type NavFooterProps = {
 
 const BLUE = "#0d47a1";
 const ORANGE = "#fa6000ff";
-const ORANGE_UI = "#e65100";
 const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
 
 export default function NavFooter({
     onNavigate,
     onFastThruClick,
-    isFastThruActive = false,
 }: NavFooterProps) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -167,24 +165,6 @@ export default function NavFooter({
                                     >
                                         THRU
                                     </Box>
-
-                                    {isFastThruActive && (
-                                        <Box
-                                            component="span"
-                                            sx={{
-                                                mt: 0.45,
-                                                fontSize: "0.52rem",
-                                                fontWeight: 800,
-                                                letterSpacing: ".10em",
-                                                color: ORANGE_UI,
-                                                opacity: 0.78,
-                                                textTransform: "uppercase",
-                                                lineHeight: 1,
-                                            }}
-                                        >
-                                            Exit
-                                        </Box>
-                                    )}
                                 </Box>
                             )}
                         </IconButton>
