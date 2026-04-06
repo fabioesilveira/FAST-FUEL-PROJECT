@@ -99,16 +99,18 @@ export default function HomeSearchSection({
                     <Typography
                         align="center"
                         sx={{
-                            mb: { xs: 3.7, sm: 3.7 , md: 3.2 },
+                            mb: { xs: 4.5, sm: 4.5, md: 4.5 },
                             mt: headlineMt,
                             fontFamily: "Titan One",
                             fontSize: isCategorySearch
-                                ? { xs: "32px", md: "35px" }
-                                : { xs: "29px", md: "32px" },
-                            letterSpacing: isCategorySearch ? "0.12em" : "0.06em",
+                                ? { xs: "25px", sm: "28px", md: "33px" }
+                                : { xs: "23px", sm: "26px", md: "30px" },
+                            letterSpacing: isCategorySearch ? "0.08em" : "0.04em",
+                            lineHeight: 1.12,
                             textTransform: "uppercase",
                             color: "#ff8a4c",
-                            textShadow: "0 1px 3px rgba(30, 91, 184, 0.35)",
+                            textShadow: "0 1px 2px rgba(30, 91, 184, 0.22)",
+                            px: { xs: 1, sm: 0 },
                         }}
                     >
                         {headlineText}

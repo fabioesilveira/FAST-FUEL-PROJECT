@@ -109,7 +109,7 @@ export default function HomeSearchProductCard({
             sx={{
                 width: isMobile ? 260 : 300,
                 borderRadius: "13px",
-                border: "2px solid #e65100",
+                border: "2px solid rgba(230,81,0,0.75)",
                 backgroundColor: "#fff3e0",
                 boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
                 p: isMobile ? 2 : 2.5,
@@ -129,7 +129,7 @@ export default function HomeSearchProductCard({
                     height: isMobile ? 150 : 170,
                     backgroundColor: "#fff",
                     borderRadius: "9px",
-                    border: "2px solid #e65100",
+                    border: "2px solid rgba(230,81,0,0.55)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",

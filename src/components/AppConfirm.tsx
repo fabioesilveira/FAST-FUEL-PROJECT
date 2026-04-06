@@ -98,7 +98,7 @@ export default function AppConfirm({
           pt: { xs: 2.2, md: 3 },
           letterSpacing: "0.06em",
           textTransform: "uppercase",
-          fontSize: { xs: "0.95rem", sm: "1rem", md: "1.05rem" },
+          fontSize: { xs: "0.92rem", sm: "1rem", md: "1.02rem" },
         }}
       >
         {title}
