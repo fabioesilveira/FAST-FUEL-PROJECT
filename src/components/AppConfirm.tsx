@@ -83,29 +83,35 @@ export default function AppConfirm({
           border: "1.5px solid rgba(0,0,0,0.14)",
           boxShadow: "0 18px 40px rgba(0,0,0,0.18)",
           backgroundColor: "#ffffff",
-          pb: { xs: 2, md: 2 },
-          pt: { xs: 1, md: 1 },
+          pt: 0,
+          pb: 0,
           willChange: "transform, opacity",
         },
       }}
     >
-
       <DialogTitle
         sx={{
           fontWeight: 900,
           color: "#111111",
           textAlign: "center",
-          pt: { xs: 2.2, md: 3 },
-          mb: { xs: -0.2, md: -0.2 },
           letterSpacing: "0.06em",
           textTransform: "uppercase",
           fontSize: { xs: "0.92rem", sm: "1rem", md: "1.02rem" },
+          px: { xs: 2.2, sm: 2.6, md: 3 },
+          pt: { xs: 2.4, md: 2.7 },
+          pb: { xs: 1.25, md: 1.35 },
         }}
       >
         {title}
       </DialogTitle>
 
-      <DialogContent sx={{ pt: { xs: -0.5, md: 1 }, pb: { xs: 1, md: 1.5 }, mt: { xs: -0.3, md: 0 } }}>
+      <DialogContent
+        sx={{
+          px: { xs: 2.2, sm: 2.6, md: 3 },
+          pt: 0,
+          pb: { xs: 1.25, md: 1.35 },
+        }}
+      >
         <Typography
           sx={{
             fontWeight: 600,
@@ -121,9 +127,9 @@ export default function AppConfirm({
 
       <DialogActions
         sx={{
-          p: { xs: 1.5, md: 2 },
-          pt: 1,
-          pb: { xs: 1.8, md: 2.4 },
+          px: { xs: 2.2, sm: 2.6, md: 3 },
+          pt: 0,
+          pb: { xs: 2.4, md: 2.7 },
           justifyContent: "center",
         }}
       >
@@ -135,6 +141,7 @@ export default function AppConfirm({
             alignItems: "center",
             justifyContent: "center",
             gap: { xs: 1.1, md: 1.3 },
+            pb: { xs: 0.7, md: 0.5 },
             mx: "auto",
           }}
         >
@@ -174,7 +181,6 @@ export default function AppConfirm({
           </Button>
         </Box>
       </DialogActions>
-
     </Dialog>
   );
 }

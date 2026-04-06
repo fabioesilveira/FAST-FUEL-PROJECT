@@ -58,8 +58,8 @@ export default function CheckoutConfirmedScreen({
                             alignItems: "center",
                             textAlign: "center",
                             px: 2.6,
-                            pt: 3.4,
-                            pb: 3,
+                            pt: 3,
+                            pb: 3.2,
                         }}
                     >
 
