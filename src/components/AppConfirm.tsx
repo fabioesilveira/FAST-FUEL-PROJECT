@@ -41,14 +41,17 @@ export default function AppConfirm({
   const actionButtonSx = {
     width: "100%",
     minWidth: { xs: "unset", sm: 130, md: 140 },
-    height: { xs: "auto", sm: 36, md: 38 },
-    py: { xs: 1.15, sm: 0.9, md: 0.8 },
+    height: { xs: 40, sm: 38, md: 38 },
+    py: 0,
     px: { xs: 2.2, sm: 2.4 },
     borderRadius: "10px",
     fontWeight: 900,
     letterSpacing: { xs: "0.06em", sm: "0.08em" },
     fontSize: { xs: "0.68rem", sm: "0.75rem", md: "0.8rem" },
     whiteSpace: "nowrap",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   };
 
   return (
