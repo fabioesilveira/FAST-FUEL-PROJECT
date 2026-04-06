@@ -96,6 +96,7 @@ export default function AppConfirm({
           color: "#111111",
           textAlign: "center",
           pt: { xs: 2.2, md: 3 },
+          mb: { xs: -0.2, md: -0.2 },
           letterSpacing: "0.06em",
           textTransform: "uppercase",
           fontSize: { xs: "0.92rem", sm: "1rem", md: "1.02rem" },
@@ -104,7 +105,7 @@ export default function AppConfirm({
         {title}
       </DialogTitle>
 
-      <DialogContent sx={{ pt: { xs: 0.5, md: 1 }, pb: { xs: 1, md: 1.5 } }}>
+      <DialogContent sx={{ pt: { xs: -0.5, md: 1 }, pb: { xs: 1, md: 1.5 }, mt: { xs: -0.3, md: 0 } }}>
         <Typography
           sx={{
             fontWeight: 600,

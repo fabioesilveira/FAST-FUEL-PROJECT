@@ -32,176 +32,186 @@ export default function CheckoutConfirmedScreen({
                 sx={{
                     minHeight: "100dvh",
                     display: "flex",
-                    flexDirection: "column",
-                    px: 2,
-                    pt: "96px",
-                    pb: "calc(24px + env(safe-area-inset-bottom))",
+                    justifyContent: "center",
+                    px: 0,
+                    pt: "calc(102px + env(safe-area-inset-top))",
+                    pb: "calc(22px + env(safe-area-inset-bottom))",
                     bgcolor: "#fff",
-                    position: "relative",
-                    "&::before": {
-                        content: '""',
-                        position: "absolute",
-                        top: 0,
-                        bottom: 0,
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        zIndex: 0,
-                        width: "min(98vw, 720px)",
-                        backgroundImage: `
-              linear-gradient(90deg,
-                  rgba(255,255,255,1) 0%,
-                  rgba(255,255,255,0.0) 18%,
-                  rgba(255,255,255,0.0) 82%,
-                  rgba(255,255,255,1) 100%
-              ),
-              repeating-linear-gradient(135deg,
-                  rgba(13,71,161,0.018) 0px,
-                  rgba(13,71,161,0.018) 10px,
-                  rgba(230,81,0,0.014) 10px,
-                  rgba(230,81,0,0.014) 20px
-              )
-            `,
-                        backgroundRepeat: "no-repeat, repeat",
-                        backgroundSize: "100% 100%, auto",
-                    },
                 }}
             >
                 <Box
                     sx={{
-                        position: "relative",
-                        zIndex: 1,
                         width: "100%",
-                        maxWidth: 520,
-                        mx: "auto",
+                        maxWidth: 460,
+                        px: { xs: 2.4, sm: 3 },
                         display: "flex",
-                        flexDirection: "column",
-                        gap: 2,
-                        textAlign: "center",
+                        justifyContent: "center",
                     }}
                 >
-                    <Typography
-                        sx={{
-                            color: "#0d47a1",
-                            fontWeight: 900,
-                            textTransform: "uppercase",
-                            letterSpacing: "0.14em",
-                            fontSize: "clamp(1.45rem, 6vw, 1.85rem)",
-                            textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
-                        }}
-                    >
-                        Order confirmed
-                    </Typography>
-
-                    <Typography
-                        sx={{
-                            color: "text.secondary",
-                            fontSize: "clamp(0.92rem, 3.8vw, 1rem)",
-                            lineHeight: 1.7,
-                        }}
-                    >
-                        Hi <b>{firstName}</b>. Your order has been confirmed and is waiting for the
-                        store to accept and start preparing it.
-                    </Typography>
-
-                    <Typography
-                        sx={{
-                            color: "text.secondary",
-                            fontSize: "clamp(0.88rem, 3.6vw, 0.95rem)",
-                            lineHeight: 1.7,
-                        }}
-                    >
-                        It will be delivered to: <b>{addressLine || "the address you entered"}</b>.
-                        <br />
-                        Average wait time: <b>30 minutes</b>.
-                    </Typography>
-
                     <Box
                         sx={{
-                            mt: 1,
-                            p: 1.6,
-                            borderRadius: 2.2,
-                            border: "1px solid rgba(13, 71, 161, 0.22)",
-                            bgcolor: "rgba(255,255,255,0.82)",
+                            width: "100%",
+                            minHeight: "calc(100dvh - 130px - env(safe-area-inset-bottom))",
+                            bgcolor: "#fff",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            textAlign: "center",
+                            px: 2.6,
+                            pt: 3.4,
+                            pb: 3,
                         }}
                     >
+
                         <Typography
                             sx={{
-                                fontWeight: 900,
                                 color: "#0d47a1",
-                                mb: 0.7,
-                                fontSize: "0.98rem",
-                            }}
-                        >
-                            Your Order Number
-                        </Typography>
-
-                        <Typography
-                            sx={{
                                 fontWeight: 900,
-                                color: "#e65100",
-                                letterSpacing: "0.14em",
-                                fontSize: "1.12rem",
+                                textTransform: "uppercase",
+                                letterSpacing: "0.11em",
+                                fontSize: "clamp(1.2rem, 5.2vw, 1.55rem)",
+                                textShadow: "1px 1px 0 rgba(230, 81, 0, 0.18)",
                             }}
                         >
-                            {orderCode || "-"}
+                            Order confirmed
                         </Typography>
 
                         <Typography
                             sx={{
-                                mt: 1.1,
-                                fontSize: "0.80rem",
+                                mt: 1.6,
                                 color: "text.secondary",
-                                lineHeight: 1.6,
+                                fontSize: "clamp(0.9rem, 3.6vw, 0.98rem)",
+                                lineHeight: 1.68,
+                                maxWidth: 310,
                             }}
                         >
-                            Please save your <b>Order Number</b> to check status on the Orders page.
-                            {isLogged ? (
-                                <> Since you’re logged in, it’s saved in your account too.</>
-                            ) : (
-                                <> As a guest, you’ll need it (and your email) to track your order.</>
-                            )}
+                            Hi <b>{firstName}</b>. Your order has been confirmed and is waiting for the
+                            store to accept and start preparing it.
+                        </Typography>
+
+                        <Typography
+                            sx={{
+                                mt: 1.2,
+                                color: "text.secondary",
+                                fontSize: "clamp(0.88rem, 3.4vw, 0.95rem)",
+                                lineHeight: 1.68,
+                                maxWidth: 315,
+                            }}
+                        >
+                            It will be delivered to: <b>{addressLine || "the address you entered"}</b>.
+                            <br />
+                            Average wait time: <b>30 minutes</b>.
+                        </Typography>
+
+                        <Box
+                            sx={{
+                                mt: 1.9,
+                                p: 1.6,
+                                borderRadius: 2,
+                                border: "1px solid rgba(13, 71, 161, 0.20)",
+                                bgcolor: "rgba(255,255,255,0.96)",
+                                width: "100%",
+                            }}
+                        >
+                            <Typography
+                                sx={{
+                                    fontWeight: 900,
+                                    color: "#0d47a1",
+                                    mb: 0.7,
+                                    fontSize: "0.94rem",
+                                }}
+                            >
+                                Your Order Number
+                            </Typography>
+
+                            <Typography
+                                sx={{
+                                    fontWeight: 900,
+                                    color: "#e65100",
+                                    letterSpacing: "0.14em",
+                                    fontSize: "1.08rem",
+                                }}
+                            >
+                                {orderCode || "-"}
+                            </Typography>
+
+                            <Typography
+                                sx={{
+                                    mt: 1,
+                                    fontSize: "0.79rem",
+                                    color: "text.secondary",
+                                    lineHeight: 1.6,
+                                }}
+                            >
+                                Please save your <b>Order Number</b> to check status on the Orders page.
+                                {isLogged ? (
+                                    <> Since you’re logged in, it’s saved in your account too.</>
+                                ) : (
+                                    <> As a guest, you’ll need it (and your email) to track your order.</>
+                                )}
+                            </Typography>
+                        </Box>
+
+                        <Stack spacing={1.1} sx={{ mt: 1.5, width: "100%" }}>
+                            <Button
+                                variant="outlined"
+                                startIcon={<HomeIcon />}
+                                onClick={onGoHome}
+                                sx={{
+                                    height: 38,
+                                    width: "100%",
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    border: "2px solid #0d47a1",
+                                    color: "#0d47a1",
+                                    letterSpacing: "0.09em",
+                                    fontWeight: 900,
+                                    fontSize: "0.82rem",
+                                    "&:hover": {
+                                        borderColor: "#123b7a",
+                                        color: "#123b7a",
+                                    },
+                                }}
+                            >
+                                Home
+                            </Button>
+
+                            <Button
+                                variant="contained"
+                                startIcon={<HistoryIcon />}
+                                onClick={onGoOrders}
+                                sx={{
+                                    height: 38,
+                                    width: "100%",
+                                    borderRadius: 2,
+                                    backgroundColor: "#e65100",
+                                    color: "#ffe0c7",
+                                    fontWeight: 900,
+                                    fontSize: "0.82rem",
+                                    letterSpacing: "0.08em",
+                                    textTransform: "uppercase",
+                                    "&:hover": { backgroundColor: "#b33f00" },
+                                }}
+                            >
+                                Orders
+                            </Button>
+                        </Stack>
+
+                        <Box sx={{ flex: 1 }} />
+
+                        <Typography
+                            sx={{
+                                mt: 3,
+                                fontSize: "0.72rem",
+                                letterSpacing: "0.12em",
+                                textTransform: "uppercase",
+                                fontWeight: 800,
+                                color: "rgba(230, 81, 0, 0.78)",
+                            }}
+                        >
+                            © FastFuel
                         </Typography>
                     </Box>
-
-                    <Stack spacing={1.2} sx={{ mt: 1.2 }}>
-                        <Button
-                            variant="outlined"
-                            startIcon={<HomeIcon />}
-                            onClick={onGoHome}
-                            sx={{
-                                height: 46,
-                                width: "100%",
-                                borderRadius: 2,
-                                textTransform: "uppercase",
-                                border: "2px solid #0d47a1",
-                                color: "#0d47a1",
-                                letterSpacing: "0.12em",
-                                fontWeight: 900,
-                                "&:hover": { borderColor: "#123b7a", color: "#123b7a" },
-                            }}
-                        >
-                            Home
-                        </Button>
-
-                        <Button
-                            variant="contained"
-                            startIcon={<HistoryIcon />}
-                            onClick={onGoOrders}
-                            sx={{
-                                height: 46,
-                                width: "100%",
-                                borderRadius: 2,
-                                backgroundColor: "#e65100",
-                                color: "#ffe0c7",
-                                fontWeight: 900,
-                                letterSpacing: "0.08em",
-                                textTransform: "uppercase",
-                                "&:hover": { backgroundColor: "#b33f00" },
-                            }}
-                        >
-                            Orders
-                        </Button>
-                    </Stack>
                 </Box>
             </Box>
         );
