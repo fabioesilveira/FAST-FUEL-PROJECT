@@ -24,21 +24,13 @@ type DropdownItem = {
   label: string;
   icon: any;
   path?: string;
-  requiresAuth?: boolean;
   action?: () => void;
 };
 
-
-const dropdownItems: DropdownItem[] = [
+const guestDropdownItems: DropdownItem[] = [
   { label: "Signin / Signup", icon: AccountCircleIcon, path: "/sign-in" },
   { label: "My Orders", icon: HistoryIcon, path: "/orders" },
   { label: "Contact Us", icon: EmailIcon, path: "/contact-us" },
-  {
-    label: "Delete Account",
-    icon: NoAccountsIcon,
-    path: "/deleteaccount",
-    requiresAuth: true,
-  },
 ];
 
 const IconHit = styled("button")(() => ({
@@ -76,7 +68,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
 
   const [shown, setShown] = useState(false);
   const [dropdownItemsChange, setDropDownChange] =
-    useState<DropdownItem[]>(dropdownItems);
+    useState<DropdownItem[]>(guestDropdownItems);
   const [badgeQuantity, setBadgeQuantity] = useState(0);
 
   const [searchOpen, setSearchOpen] = useState(false);
@@ -125,7 +117,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
     setShown(false);
 
     showAlert("Signed out successfully", "success");
-    setDropDownChange(dropdownItems);
+    setDropDownChange(guestDropdownItems);
 
     setTimeout(() => {
       navigate("/sign-in");
@@ -144,15 +136,13 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
           label: "Delete Account",
           icon: NoAccountsIcon,
           path: "/deleteaccount",
-          requiresAuth: true,
         },
       ]);
     } else {
-      setDropDownChange(dropdownItems);
+      setDropDownChange(guestDropdownItems);
     }
 
     setBadgeQuantity(order.length);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [order]);
 
   useEffect(() => {
@@ -163,7 +153,6 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
     setBadgeQuantity(qtdTotal);
   }, [order]);
 
-  // fecha dropdown/search em clique fora (SEM limpar search)
   useEffect(() => {
     function handlePointerDownOutside(event: PointerEvent) {
       const target = event.target as Node;
@@ -189,7 +178,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
-        if (searchOpen) closeSearchOnly(); // ESC só fecha overlay
+        if (searchOpen) closeSearchOnly();
         if (shown) setShown(false);
       }
     }
@@ -471,7 +460,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                   }}
                 >
                   {dropdownItemsChange.map((item) => {
-                    const { label, icon: Icon, path, requiresAuth } = item as any;
+                    const { label, icon: Icon, path } = item as any;
                     const action = (item as any).action as undefined | (() => void);
                     const isAction = Boolean(action);
 
@@ -528,16 +517,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                         key={label}
                         component={Link}
                         to={path}
-                        onClick={(e) => {
-                          const isLogged = Boolean(localStorage.getItem("idUser"));
-
-                          if (requiresAuth && !isLogged) {
-                            e.preventDefault();
-                            showAlert("Please sign in to delete your account", "warning");
-                            setShown(false);
-                            return;
-                          }
-
+                        onClick={() => {
                           setShown(false);
                         }}
                         sx={commonSx}
