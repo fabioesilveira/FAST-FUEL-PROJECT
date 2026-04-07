@@ -35,7 +35,7 @@ export default function CheckoutConfirmedScreen({
                     justifyContent: "center",
                     px: 0,
                     pt: "calc(102px + env(safe-area-inset-top))",
-                    pb: "calc(22px + env(safe-area-inset-bottom))",
+                    pb: "calc(24.5px + env(safe-area-inset-bottom))",
                     bgcolor: "#fff",
                 }}
             >
@@ -240,7 +240,8 @@ export default function CheckoutConfirmedScreen({
                     fontWeight: 900,
                     textTransform: "uppercase",
                     letterSpacing: "0.14em",
-                    fontSize: "clamp(1.62rem, 4.8vw, 1.90rem)",
+                    fontSize: "clamp(1.62rem, 4.8vw, 1.80rem)",
+                    mt: -0.5,
                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
                 }}
             >

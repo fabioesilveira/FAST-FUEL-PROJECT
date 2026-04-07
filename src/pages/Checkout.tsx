@@ -367,6 +367,12 @@ export default function Checkout() {
         setEmail(mail);
     }, [isLogged, loggedUser]);
 
+    const desktopTitle =
+        screen === "processing"
+            ? "..."
+            : screen === "confirmed"
+                ? "Thank you"
+                : "Checkout";
 
     if (isMobile) {
         return (
@@ -428,7 +434,7 @@ export default function Checkout() {
             {AlertUI}
             {ConfirmUI}
             <NavbarAction />
-            <ProductsTitleBar title="Checkout" />
+            <ProductsTitleBar title={desktopTitle} />
             <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
                 <Box
                     component="main"
