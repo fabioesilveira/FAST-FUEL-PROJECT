@@ -16,8 +16,8 @@ export default function PageBgMobile({ children }: PageBgMobileProps) {
             90deg,
             #ffffff 0px,
             #ffffff 32px,
-            rgba(255, 248, 235, 0.36) 32px,
-            rgba(255, 248, 235, 0.36) 52px
+            rgba(255, 248, 235, 0.34) 32px,
+            rgba(255, 248, 235, 0.34) 52px
           )
         `,
       }}
