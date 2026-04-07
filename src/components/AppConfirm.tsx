@@ -41,7 +41,7 @@ export default function AppConfirm({
   const actionButtonSx = {
     width: "100%",
     minWidth: { xs: "unset", sm: 130, md: 140 },
-    height: { xs: 40, sm: 38, md: 38 },
+    height: { xs: 40, sm: 38, md: 36 },
     py: 0,
     px: { xs: 2.2, sm: 2.4 },
     borderRadius: "10px",

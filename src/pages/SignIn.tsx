@@ -342,6 +342,7 @@ export default function SignIn() {
     return (
         <>
             <NavbarAuth />
+            <ProductsTitleBar title="Sign In" />
             {AlertUI}
 
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -397,8 +398,8 @@ export default function SignIn() {
                             display: "flex",
                             justifyContent: "center",
                             px: 2,
-                            pt: { xs: "110px", md: "120px" },
-                            pb: { xs: 1, md: 4 },
+                            pt: { xs: "110px", md: "140px" },
+                            pb: { xs: 1, md: 6 },
                             minHeight: 0,
                             zIndex: 1,
                         }}
@@ -407,13 +408,15 @@ export default function SignIn() {
                             elevation={0}
                             sx={{
                                 width: "100%",
-                                maxWidth: { xs: 520, md: 520 },
                                 borderRadius: 3,
                                 border: "1.5px solid rgba(230, 81, 0, 0.22)",
                                 bgcolor: "background.paper",
-                                p: { xs: 2.5, md: 4 },
-                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
-                                maxHeight: 720,
+                                maxWidth: { xs: 520, md: 540 },
+                                p: { xs: 2.5, md: 3.2 },
+                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
+                                maxHeight: 640,
+                                mt: { sm: 6.5, md: 3.5 },
+                                mb: { md: 1 },
                                 boxShadow:
                                     "0 4px 12px rgba(230, 81, 0, 0.18), 0 8px 20px rgba(0,0,0,0.08)",
                                 display: "flex",
@@ -422,22 +425,6 @@ export default function SignIn() {
                                 overflow: "hidden",
                             }}
                         >
-                            <Typography
-                                variant="h4"
-                                align="center"
-                                sx={{
-                                    fontSize: "clamp(1.75rem, 5.3vw, 2.15rem)",
-                                    letterSpacing: "clamp(0.08em, 0.9vw, 0.12em)",
-                                    textTransform: "uppercase",
-                                    color: "#0d47a1",
-                                    fontWeight: 700,
-                                    textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -1.8, sm: -1.2, md: -1.2 },
-                                    mt: { xs: 0.5, sm: 0.5, md: 0.5 },
-                                }}
-                            >
-                                Sign In
-                            </Typography>
 
                             <Box
                                 sx={{
@@ -447,8 +434,8 @@ export default function SignIn() {
                                     display: "flex",
                                     justifyContent: "center",
                                     px: 1,
-                                    pt: { xs: 1, sm: 0 },
-                                    pb: { xs: `calc(96px + env(safe-area-inset-bottom))`, sm: 4 },
+                                    pt: { xs: 1, sm: 1.2, md: 1.4 },
+                                    pb: { xs: `calc(96px + env(safe-area-inset-bottom))`, sm: 3.2 },
                                 }}
                             >
                                 <Box
@@ -465,16 +452,17 @@ export default function SignIn() {
                                         display: "flex",
                                         flexDirection: "column",
                                         gap: 2,
-                                        pt: { xs: 1.0, sm: 2.5 },
+                                        pt: { xs: 1.0, sm: 1.2, md: 1.4 },
                                     }}
                                 >
                                     <Typography
                                         align="center"
                                         sx={{
-                                            fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
+                                            fontSize: { xs: "0.82rem", sm: "0.92rem", md: "0.94rem" },
                                             color: "text.secondary",
                                             fontWeight: "bold",
-                                            mt: { xs: -0.55 },
+                                            mt: { xs: -0.85, sm: -0.6, md: -1 },
+                                            mb: { sm: 0.7, md: 1 }
                                         }}
                                     >
                                         Sign in to enjoy the complete Fast Fuel experience.
@@ -526,7 +514,7 @@ export default function SignIn() {
                                         type="submit"
                                         sx={{
                                             mt: 0.1,
-                                            height: { xs: 38, md: 40 },
+                                            height: { xs: 38, md: 38 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
                                             color: "white",
@@ -559,7 +547,7 @@ export default function SignIn() {
                                         onClick={() => navigate("/sign-up")}
                                         sx={{
                                             mt: 0.1,
-                                            height: { xs: 38, md: 40 },
+                                            height: { xs: 38, md: 38 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
                                             color: "white",
@@ -580,7 +568,7 @@ export default function SignIn() {
                                         onClick={() => navigate("/")}
                                         sx={{
                                             mt: -0.2,
-                                            height: { xs: 38, md: 40 },
+                                            height: { xs: 38, md: 38 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
                                             color: "#0d47a1",

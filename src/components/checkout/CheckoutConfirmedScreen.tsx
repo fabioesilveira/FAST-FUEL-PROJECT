@@ -158,7 +158,7 @@ export default function CheckoutConfirmedScreen({
                                 startIcon={<HomeIcon />}
                                 onClick={onGoHome}
                                 sx={{
-                                    height: 38,
+                                    height: 39,
                                     width: "100%",
                                     borderRadius: 2,
                                     textTransform: "uppercase",
@@ -181,7 +181,7 @@ export default function CheckoutConfirmedScreen({
                                 startIcon={<HistoryIcon />}
                                 onClick={onGoOrders}
                                 sx={{
-                                    height: 38,
+                                    height: 39,
                                     width: "100%",
                                     borderRadius: 2,
                                     backgroundColor: "#e65100",
@@ -241,7 +241,7 @@ export default function CheckoutConfirmedScreen({
                     textTransform: "uppercase",
                     letterSpacing: "0.14em",
                     fontSize: "clamp(1.62rem, 4.8vw, 1.80rem)",
-                    mt: -0.5,
+                    mt: -0.9,
                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
                 }}
             >
@@ -337,7 +337,7 @@ export default function CheckoutConfirmedScreen({
                     startIcon={<HomeIcon />}
                     onClick={onGoHome}
                     sx={{
-                        height: { xs: 35, md: 45 },
+                        height: { xs: 37, md: 42 },
                         width: { xs: "100%", sm: 160 },
                         maxWidth: { xs: 320, sm: "none" },
                         borderRadius: 2,
@@ -359,7 +359,7 @@ export default function CheckoutConfirmedScreen({
                     startIcon={<HistoryIcon />}
                     onClick={onGoOrders}
                     sx={{
-                        height: { xs: 35, md: 45 },
+                        height: { xs: 37, md: 42 },
                         width: { xs: "100%", sm: 160 },
                         maxWidth: { xs: 320, sm: "none" },
                         borderRadius: 2,
