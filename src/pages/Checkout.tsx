@@ -29,6 +29,7 @@ import CheckoutPaymentSection from "../components/checkout/CheckoutPaymentSectio
 import CheckoutDeliverySection from "../components/checkout/CheckoutDeliverySection";
 
 import CheckoutMobileForm from "../components/checkout/CheckoutMobileForm";
+import ProductsTitleBar from "../components/ProductsTitleBar";
 
 
 const imageMap: Record<string, string> = {
@@ -427,6 +428,7 @@ export default function Checkout() {
             {AlertUI}
             {ConfirmUI}
             <NavbarAction />
+            <ProductsTitleBar title="Checkout" />
             <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
                 <Box
                     component="main"
@@ -438,8 +440,8 @@ export default function Checkout() {
                         justifyContent: "center",
                         alignItems: "flex-start",
                         px: 2,
-                        pt: { xs: "110px", md: "120px" },
-                        pb: { xs: 1, md: 4 },
+                        pt: { xs: "110px", md: "140px" },
+                        pb: { xs: 1, md: 6 },
                         minWidth: 0,
                         bgcolor: "#fff",
                         "&::before": {
@@ -493,40 +495,22 @@ export default function Checkout() {
                         ref={paperRef}
                         sx={{
                             width: "100%",
-                            maxWidth: { xs: 520, sm: 540 },
+                            maxWidth: { xs: 520, sm: 560, md: 570 },
                             borderRadius: 3,
                             border: "1.25px solid rgba(13, 71, 161, 0.28)",
                             boxShadow:
                                 "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
                             bgcolor: "background.paper",
-                            height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
-                            maxHeight: 720,
+                            height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
+                            maxHeight: 680,
                             overflow: "hidden",
                             display: "flex",
                             flexDirection: "column",
+                            mt: { sm: 4.5, md: 2 },
+                            mb: { md: 1 },
                             minHeight: 0,
                         }}
                     >
-                        {screen === "form" && (
-                            <Box sx={{ px: 5, pt: 3.5, pb: 2.5, maxWidth: 500, mx: "auto", flexShrink: 0 }}>
-                                <Typography
-                                    variant="h4"
-                                    align="center"
-                                    sx={{
-                                        mb: -1,
-                                        mt: 1,
-                                        fontSize: "clamp(2rem, 5.3vw, 2.10rem)",
-                                        letterSpacing: "0.12em",
-                                        textTransform: "uppercase",
-                                        color: "#0d47a1",
-                                        fontWeight: 700,
-                                        textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    }}
-                                >
-                                    Checkout
-                                </Typography>
-                            </Box>
-                        )}
 
                         <Box
                             sx={{
@@ -551,11 +535,11 @@ export default function Checkout() {
                                 <>
                                     <Box
                                         sx={{
-                                            px: 5,
-                                            py: 3.5,
-                                            maxWidth: 500,
-                                            mx: "auto",
+                                            px: 6.5,
+                                            pt: 3.8,
                                             pb: 2,
+                                            maxWidth: 580,
+                                            mx: "auto",
                                         }}
                                     >
                                         <CheckoutOrderSummary
@@ -603,7 +587,7 @@ export default function Checkout() {
                                         sx={{
                                             position: "sticky",
                                             bottom: 0,
-                                            px: { xs: 2, sm: 3 },
+                                            px: { xs: 2, sm: 3, md: 3.5 },
                                             py: 1.5,
                                             zIndex: 10,
                                             backgroundColor: "#ffe0c7",

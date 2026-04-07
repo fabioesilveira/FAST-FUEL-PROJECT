@@ -57,9 +57,8 @@ export default function ProductsTitleBar({
         >
             <Box
                 sx={{
-                    maxWidth: 1400,
-                    mx: "auto",
-                    px: { xs: 2.1, md: 3 },
+                    width: "100%",
+                    px: { xs: 2.1, sm: 2.1, md: 3.1 },
                     py: { xs: 1.3, md: 1.4 }
                 }}
             >
@@ -71,7 +70,7 @@ export default function ProductsTitleBar({
                         textTransform: "uppercase",
                         fontSize: { xs: "1.05rem", md: "1.20rem" },
                         textShadow: "1px 1px 0 rgba(230, 81, 0, 0.18)",
-                        marginLeft: { xs: -0.1, md: -1.5 }
+                        marginLeft: 0,
                     }}
                 >
                     {title}

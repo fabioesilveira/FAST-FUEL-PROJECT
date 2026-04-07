@@ -62,7 +62,7 @@ export default function CheckoutOrderSummary({
                     label="Order Summary"
                     size="small"
                     sx={{
-                        height: isMobile ? 24 : 30,
+                        height: isMobile ? 24 : 28,
                         fontSize: isMobile ? "0.62rem" : "0.66rem",
                         letterSpacing: isMobile ? "0.08em" : "0.095em",
                         textTransform: "uppercase",
