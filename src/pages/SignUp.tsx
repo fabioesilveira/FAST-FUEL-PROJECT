@@ -3,7 +3,7 @@ import { api, clearAuthStorage } from "../api";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useAppAlert } from "../hooks/useAppAlert";
-import { Box, Paper, Typography, TextField, Button } from "@mui/material";
+import { Box, Paper, TextField, Button } from "@mui/material";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import NavbarAuth from "../components/NavbarAuth";
 import { useTheme } from "@mui/material/styles";
