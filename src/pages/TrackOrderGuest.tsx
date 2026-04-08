@@ -515,7 +515,7 @@ export default function TrackOrderGuest() {
                                 label="Guest Order Tracking"
                                 size="small"
                                 sx={{
-                                    mb: 1.5,
+                                    mb: 1.9,
                                     height: 24,
                                     fontSize: "0.62rem",
                                     letterSpacing: "0.08em",
@@ -1037,6 +1037,7 @@ export default function TrackOrderGuest() {
             {AlertUI}
             {ConfirmUI}
             <NavbarAction />
+            <ProductsTitleBar title="Track Order" />
 
             <Box sx={{ minHeight: "100svh", display: "flex", flexDirection: "column" }}>
                 <Box
@@ -1130,8 +1131,8 @@ export default function TrackOrderGuest() {
                             display: "flex",
                             justifyContent: "center",
                             px: 2,
-                            pt: { xs: "110px", md: "120px" },
-                            pb: { xs: 1, md: 4 },
+                            pt: { xs: "110px", md: "140px" },
+                            pb: { xs: 1, md: 6 },
                             minHeight: 0,
                         }}
                     >
@@ -1146,30 +1147,17 @@ export default function TrackOrderGuest() {
                                     "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
-                                height: { xs: "calc(100svh - 200px)", md: "calc(100vh - 220px)" },
-                                maxHeight: 720,
+                                height: { xs: "calc(100svh - 200px)", md: "calc(100vh - 240px)" },
+                                maxHeight: 660,
+                                mt: { sm: 5, md: 2 },
+                                mb: { md: 1 },
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 2,
                                 overflow: "hidden",
                             }}
                         >
-                            <Typography
-                                variant="h4"
-                                align="center"
-                                sx={{
-                                    fontSize: "clamp(2rem, 5.3vw, 2.10rem)",
-                                    letterSpacing: { xs: "0.10em", sm: "0.12em" },
-                                    textTransform: "uppercase",
-                                    color: "#0d47a1",
-                                    fontWeight: 700,
-                                    textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: 1, sm: 2, md: 2 },
-                                    mt: { xs: 0.5, sm: 0.5, md: 0.5 }
-                                }}
-                            >
-                                Track Order
-                            </Typography>
+
 
                             {/* Filters */}
                             <Box>
@@ -1177,10 +1165,12 @@ export default function TrackOrderGuest() {
                                     label="GUEST ORDER TRACKING"
                                     size="small"
                                     sx={{
-                                        mb: 1.4,
-                                        height: { xs: 26, sm: 26 },
-                                        fontSize: { xs: "0.64rem", sm: "0.70rem" },
-                                        letterSpacing: { xs: "0.09em", sm: "0.11em" },
+                                        mb: 2,
+                                        mt: { sm: 0.8, md: 0 },
+                                        height: 22,
+                                        fontSize: "0.66rem",
+                                        letterSpacing: "0.08em",
+
                                         textTransform: "uppercase",
                                         bgcolor: "#1e5bb8",
                                         color: "#fff",
@@ -1190,7 +1180,7 @@ export default function TrackOrderGuest() {
                                         alignItems: "center",
 
                                         "& .MuiChip-label": {
-                                            px: { xs: 1.0, sm: 1.05 },
+                                            px: 0.90,
                                         },
                                     }}
                                 />
