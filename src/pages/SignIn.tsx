@@ -448,7 +448,7 @@ export default function SignIn() {
                                     }}
                                     sx={{
                                         width: "100%",
-                                        maxWidth: 360,
+                                        maxWidth: 380,
                                         display: "flex",
                                         flexDirection: "column",
                                         gap: 2,

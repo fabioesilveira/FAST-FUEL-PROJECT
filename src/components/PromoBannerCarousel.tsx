@@ -104,15 +104,15 @@ export default function PromoBannerCarousel({
                     sx={{
                         width: "88%",
                         mx: "auto",
-                        fontSize: { xs: "1.3rem", sm: "1.9rem", md: "2.5rem" },
+                        fontSize: { xs: "1.3rem", sm: "1.9rem", md: "2.2rem" },
                         lineHeight: 0.7,
                         letterSpacing: "0.08em",
                         textTransform: "uppercase",
                         color: "#0d47a1",
                         textShadow: `
-              1px 1px 0 #ffe0c7,
-              2px 2px 0 rgba(230, 81, 0, 0.35)
-            `,
+                            1px 1px 0 #ffe0c7,
+                            2px 2px 0 rgba(230, 81, 0, 0.35)
+                            `,
                     }}
                 >
                     {b.title}
