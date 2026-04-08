@@ -618,6 +618,7 @@ export default function TrackOrderGuest() {
                                     textAlign: "center",
                                     px: 1,
                                     py: 8,
+                                    pt: 12
                                 }}
                             >
                                 <Typography
@@ -1322,11 +1323,12 @@ export default function TrackOrderGuest() {
                                         sx={{
                                             flex: 1,
                                             display: "flex",
-                                            alignItems: "center",
+                                            alignItems: { xs: "center", md: "flex-start" },
                                             justifyContent: "center",
                                             px: 3,
                                             textAlign: "center",
-                                            pb: { xs: 10, md: 10 },
+                                            pt: { xs: 2, sm: 2, md: 21 },
+                                            pb: { xs: 2, sm: 25, md: 2 },
                                         }}
                                     >
                                         <Typography

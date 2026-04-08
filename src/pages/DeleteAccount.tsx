@@ -311,6 +311,7 @@ export default function DeleteAccount() {
     return (
         <>
             <NavbarAuth />
+            <ProductsTitleBar title="Delete Account" />
             {AlertUI}
 
             <AppConfirm
@@ -337,7 +338,7 @@ export default function DeleteAccount() {
                         justifyContent: "center",
                         alignItems: "flex-start",
                         px: 2,
-                        pt: "200px",
+                        pt: "220px",
                         pb: { xs: 2, md: 4 },
                         bgcolor: "#fff",
 
@@ -378,8 +379,8 @@ export default function DeleteAccount() {
                         sx={{
                             width: "100%",
                             p: { xs: 2.5, sm: 3, md: 3.5 },
-                            pb: { xs: 4.5, sm: 5, md: 7 },
-                            pt: { xs: 4, sm: 5, md: 6 },
+                            pb: { xs: 4.5, sm: 4.5, md: 4.8 },
+                            pt: { xs: 4, sm: 4.9, md: 5.4 },
                             borderRadius: 3,
                             maxWidth: 520,
                             mx: "auto",
@@ -392,28 +393,13 @@ export default function DeleteAccount() {
                             alignItems: "center",
                         }}
                     >
-                        <Typography
-                            variant="h4"
-                            align="center"
-                            sx={{
-                                mb: 2.5,
-                                fontSize: { xs: "2.10rem", sm: "2.15rem", md: "2.15rem" },
-                                letterSpacing: { xs: "0.10em", sm: "0.12em" },
-                                textTransform: "uppercase",
-                                color: "#b71c1c",
-                                fontWeight: 700,
-                                textShadow: "1px 1px 0 rgba(183, 28, 28, 0.25)",
-                                mt: { xs: 0.8, sm: 1, md: 0 },
-                            }}
-                        >
-                            Delete Account
-                        </Typography>
+
 
                         <Typography
                             align="center"
                             sx={{
-                                mb: 2,
-                                fontSize: { xs: "0.82rem", sm: "0.88rem", md: "0.9rem" },
+                                mb: { sm: 2.8, md: 3.3 },
+                                fontSize: { xs: "0.82rem", sm: "0.92rem", md: "0.94rem" },
                                 color: "text.secondary",
                                 fontWeight: "bold",
                             }}
@@ -424,7 +410,7 @@ export default function DeleteAccount() {
                         <Box
                             sx={{
                                 width: "100%",
-                                maxWidth: 360,
+                                maxWidth: 380,
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 1.5,
@@ -481,6 +467,7 @@ export default function DeleteAccount() {
                                     color: "#fff",
                                     letterSpacing: "0.16em",
                                     fontWeight: 700,
+                                    height: { xs: 40, md: 39 },
                                     fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
                                     "&:hover": {
                                         bgcolor: "#ffebee",
@@ -503,7 +490,7 @@ export default function DeleteAccount() {
                                 onClick={() => navigate("/")}
                                 sx={{
                                     mt: 0.1,
-                                    height: { xs: 40, md: 42 },
+                                    height: { xs: 40, md: 39 },
                                     borderRadius: 2,
                                     textTransform: "uppercase",
                                     color: "white",

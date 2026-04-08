@@ -130,6 +130,8 @@ body {
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.14);
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.10);
+  margin-top: 10px;
+  margin-bottom: -5px;
 }
 
 .ff-tabs .nav-item {

@@ -403,8 +403,8 @@ export default function OrdersLogged() {
                     justifyContent: "center",
                     px: 3,
                     textAlign: "center",
-                    pt: { xs: 10, sm: 0 },
-                    pb: { xs: 6, md: 10 },
+                    pt: { xs: 13, sm: 0 },
+                    pb: { xs: 6, sm: 15, md: 15 },
                 }}
             >
                 <Typography
@@ -1074,6 +1074,7 @@ export default function OrdersLogged() {
             {AlertUI}
             {ConfirmUI}
             <NavbarAction />
+            <ProductsTitleBar title="Orders" />
 
             <Box sx={{ minHeight: "100svh", display: "flex", flexDirection: "column" }}>
                 <Box
@@ -1157,8 +1158,8 @@ export default function OrdersLogged() {
                             display: "flex",
                             justifyContent: "center",
                             px: 2,
-                            pt: { xs: "110px", md: "120px" },
-                            pb: { xs: 1, md: 4 },
+                            pt: { xs: "110px", md: "140px" },
+                            pb: { xs: 1, md: 6 },
                             minHeight: 0,
                         }}
                     >
@@ -1173,30 +1174,17 @@ export default function OrdersLogged() {
                                     "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
-                                height: { xs: "calc(100svh - 200px)", md: "calc(100vh - 220px)" },
-                                maxHeight: 720,
+                                height: { xs: "calc(100svh - 200px)", md: "calc(100vh - 240px)" },
+                                maxHeight: 660,
+                                mt: { sm: 5, md: 2.2 },
+                                mb: { md: 1 },
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 2,
                                 overflow: "hidden",
                             }}
                         >
-                            <Typography
-                                variant="h4"
-                                align="center"
-                                sx={{
-                                    fontSize: "clamp(2rem, 5.3vw, 2.10rem)",
-                                    letterSpacing: { xs: "0.10em", sm: "0.12em" },
-                                    textTransform: "uppercase",
-                                    color: "#0d47a1",
-                                    fontWeight: 700,
-                                    textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: 1, sm: 2, md: 2 },
-                                    mt: { xs: 1, sm: 1, md: 1.3 },
-                                }}
-                            >
-                                Orders
-                            </Typography>
+
 
                             <Tabs
                                 id="ff-user-orders-tabs"
@@ -1219,9 +1207,17 @@ export default function OrdersLogged() {
                                     size="small"
                                     label="Search by Order Number"
                                     value={orderCodeFilter}
-                                    onChange={(e) => setOrderCodeFilter(e.target.value.replace(/\D/g, ""))}
+                                    onChange={(e) =>
+                                        setOrderCodeFilter(e.target.value.replace(/\D/g, ""))
+                                    }
                                     inputProps={{ maxLength: 6, inputMode: "numeric" }}
-                                    sx={[tfBlueLabelSx, { width: { xs: "100%", sm: 260 } }]}
+                                    sx={[
+                                        tfBlueLabelSx,
+                                        {
+                                            width: 320,
+                                           
+                                        },
+                                    ]}
                                 />
                             </Stack>
 
