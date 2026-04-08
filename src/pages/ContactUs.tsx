@@ -277,6 +277,7 @@ export default function ContactUs() {
     return (
         <>
             <NavbarAction />
+            <ProductsTitleBar title="Contact Us" />
             {AlertUI}
 
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -332,8 +333,8 @@ export default function ContactUs() {
                             display: "flex",
                             justifyContent: "center",
                             px: 2,
-                            pt: { xs: "110px", md: "120px" },
-                            pb: { xs: 1, md: 4 },
+                            pt: { xs: "110px", md: "140px" },
+                            pb: { xs: 1, md: 6 },
                             minHeight: 0,
                             zIndex: 1,
                         }}
@@ -342,13 +343,15 @@ export default function ContactUs() {
                             elevation={0}
                             sx={{
                                 width: "100%",
-                                maxWidth: { xs: 520, md: 520 },
                                 borderRadius: 3,
                                 border: "1.5px solid rgba(230, 81, 0, 0.22)",
                                 bgcolor: "background.paper",
-                                p: { xs: 2.25, sm: 2.75, md: 4 },
-                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
-                                maxHeight: 720,
+                                maxWidth: { xs: 520, md: 540 },
+                                p: { xs: 2.25, sm: 2.75, md: 3.2 },
+                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
+                                maxHeight: 640,
+                                mt: { sm: 6.5, md: 3.5 },
+                                mb: { md: 1 },
                                 boxShadow:
                                     "0 4px 12px rgba(230, 81, 0, 0.18), 0 8px 20px rgba(0,0,0,0.08)",
                                 display: "flex",
@@ -357,22 +360,7 @@ export default function ContactUs() {
                                 overflow: "hidden",
                             }}
                         >
-                            <Typography
-                                variant="h4"
-                                align="center"
-                                sx={{
-                                    fontSize: "clamp(2rem, 5.3vw, 2.10rem)",
-                                    letterSpacing: "clamp(0.08em, 0.9vw, 0.12em)",
-                                    textTransform: "uppercase",
-                                    color: "#0d47a1",
-                                    fontWeight: 700,
-                                    textShadow: "1px 1px 0 rgba(230, 81, 0, 0.25)",
-                                    mb: { xs: -1.4, sm: -0.7, md: -0.4 },
 
-                                }}
-                            >
-                                Contact Us
-                            </Typography>
 
                             <Box
                                 sx={{
@@ -382,10 +370,10 @@ export default function ContactUs() {
                                     display: "flex",
                                     justifyContent: "center",
                                     px: 1,
-                                    pt: { xs: 0.9, sm: 0 },
+                                    pt: { xs: 0.9, sm: 1.2, md: 1.4 },
                                     pb: {
                                         xs: `calc(120px + env(safe-area-inset-bottom))`,
-                                        sm: 4,
+                                        sm: 3.2,
                                     },
                                 }}
                             >
@@ -395,13 +383,28 @@ export default function ContactUs() {
                                     autoComplete="off"
                                     sx={{
                                         width: "100%",
-                                        maxWidth: "min(380px, 100%)",
+                                        maxWidth: "min(390px, 100%)",
+                                        pt: { xs: 1.2, sm: 1.2, md: 1.4 },
                                         display: "flex",
                                         flexDirection: "column",
                                         gap: { xs: 1.8, sm: 2 },
-                                        pt: { xs: 1.2, sm: 2 },
+
                                     }}
                                 >
+                                    <Typography
+                                        align="center"
+                                        sx={{
+                                            fontSize: { xs: "0.82rem", sm: "0.92rem", md: "0.94rem" },
+                                            color: "text.secondary",
+                                            fontWeight: "bold",
+                                            mt: { xs: -0.8, sm: -0.6, md: -1 },
+                                            mb: { xs: 0.2, sm: 0.7, md: 1 },
+                                            lineHeight: 1.45,
+                                        }}
+                                    >
+                                        Need help? Send us a message and we’ll reply by email.
+                                    </Typography>
+
                                     <TextField
                                         variant="outlined"
                                         label="Full Name*"
@@ -496,7 +499,7 @@ export default function ContactUs() {
                                         onClick={handleClick}
                                         sx={{
                                             mt: 0.1,
-                                            height: { xs: 38, md: 40 },
+                                            height: { xs: 38, md: 38 },
                                             borderRadius: 2,
                                             textTransform: "uppercase",
                                             color: "white",
