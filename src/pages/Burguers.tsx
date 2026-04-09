@@ -71,15 +71,15 @@ export default function Burguers() {
   }, []);
 
   const imageStylesGridMobile: Record<string, React.CSSProperties> = {
-    "1": { width: "105px", height: "93px", marginTop: "5px" },
-    "2": { width: "260px", height: "260px" },
-    "3": { width: "135px", height: "100px", marginTop: "7px" },
-    "4": { width: "170px", height: "120px", marginTop: "-5px" },
+    "1": { width: "170px", height: "85px", marginTop: "5px" },
+    "2": { width: "130px", height: "125px" },
+    "3": { width: "140px", height: "90px", marginTop: "7px" },
+    "4": { width: "170px", height: "110px", marginTop: "-5px" },
   };
 
   const imageStylesStreamMobile: Record<string, React.CSSProperties> = {
-    "1": { width: "152px", height: "135px", marginTop: "6px" },
-    "2": { width: "310px", height: "290px" },
+    "1": { width: "152px", height: "128px", marginTop: "6px" },
+    "2": { width: "210px", height: "190px" },
     "3": { width: "182px", height: "147px", marginTop: "10px" },
     "4": { width: "240px", height: "174px", marginTop: "-2px" },
   };

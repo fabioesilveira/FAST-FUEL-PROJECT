@@ -82,10 +82,10 @@ export default function Desserts() {
     }
 
     const imageStylesGridMobile: Record<string, React.CSSProperties> = {
-        "15": { transform: "scale(1.14)", marginTop: "8px" },
-        "16": { width: "140px", height: "142px" },
-        "17": { width: "133px", height: "133px" },
-        "18": { width: "106px", height: "110px" },
+        "15": { transform: "scale(1.04)", marginTop: "8px" },
+        "16": { width: "130px", height: "122px" },
+        "17": { width: "113px", height: "123px" },
+        "18": { width: "90px", height: "90px" },
     };
 
     const imageStylesStreamMobile: Record<string, React.CSSProperties> = {
