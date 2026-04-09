@@ -37,7 +37,7 @@ type NavItem =
     };
 
 const BLUE = "#1e5bb8";
-const ORANGE_UI = "#e65100";
+const ORANGE_UI = "#ec5504";
 const ORANGE = "#fa6000ff";
 const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
 
