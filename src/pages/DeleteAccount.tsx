@@ -382,7 +382,7 @@ export default function DeleteAccount() {
                             pb: { xs: 4.5, sm: 4.5, md: 4.8 },
                             pt: { xs: 4, sm: 4.9, md: 5.4 },
                             borderRadius: 3,
-                            maxWidth: 520,
+                            maxWidth: 510,
                             mx: "auto",
                             border: "1px solid rgba(230, 81, 0, 0.22)",
                             bgcolor: "background.paper",

@@ -89,10 +89,10 @@ export default function Desserts() {
     };
 
     const imageStylesStreamMobile: Record<string, React.CSSProperties> = {
-        "15": { transform: "scale(1.14)", marginTop: "8px" },
-        "16": { width: "140px", height: "142px" },
-        "17": { width: "133px", height: "133px" },
-        "18": { width: "106px", height: "110px" },
+        "15": { transform: "scale(1.07)", marginTop: "8px" },
+        "16": { width: "150px", height: "186px" },
+        "17": { width: "158px", height: "158px" },
+        "18": { width: "129px", height: "129px",marginTop: "4px" },
     };
 
     const imageStylesDesktop: Record<string, React.CSSProperties> = {
