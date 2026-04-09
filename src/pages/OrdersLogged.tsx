@@ -404,7 +404,7 @@ export default function OrdersLogged() {
                     px: 3,
                     textAlign: "center",
                     pt: { xs: 13, sm: 0 },
-                    pb: { xs: 6, sm: 15, md: 15 },
+                    pb: { xs: 6, sm: 22, md: 22 },
                 }}
             >
                 <Typography

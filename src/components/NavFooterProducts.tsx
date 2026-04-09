@@ -37,6 +37,7 @@ type NavItem =
     };
 
 const BLUE = "#1e5bb8";
+const ORANGE_UI = "#e65100";
 const ORANGE = "#fa6000ff";
 const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
 
@@ -275,14 +276,7 @@ export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () =>
                         <SwapHorizIcon
                             sx={{
                                 fontSize: 39,
-                                color: switchColor,
-                                ...(isProductsMode && {
-                                    "& path": {
-                                        stroke: "#ff8a4c",
-                                        strokeWidth: 0.5,
-                                        paintOrder: "stroke fill",
-                                    },
-                                }),
+                                color: switchColor === ORANGE ? ORANGE_UI : switchColor,
                             }}
                         />
                     </IconButton>

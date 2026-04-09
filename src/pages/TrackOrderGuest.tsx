@@ -1327,7 +1327,7 @@ export default function TrackOrderGuest() {
                                             justifyContent: "center",
                                             px: 3,
                                             textAlign: "center",
-                                            pt: { xs: 2, sm: 2, md: 18 },
+                                            pt: { xs: 2, sm: 2, md: 15 },
                                             pb: { xs: 2, sm: 29, md: 2 },
                                         }}
                                     >

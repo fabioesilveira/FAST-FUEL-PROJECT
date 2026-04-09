@@ -158,7 +158,7 @@ export default function ProductCardDesktopLandscape({
                             color: "#0d47a1",
                             fontWeight: 700,
                             letterSpacing: "0.02em",
-                            fontSize: "0.95rem",
+                            fontSize: "0.90rem",
                         }}
                     >
                         {title}
