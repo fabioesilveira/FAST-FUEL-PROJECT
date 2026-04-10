@@ -17,6 +17,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import Footer from "../../components/Footer";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import ProductsTitleBar from "../../components/ProductsTitleBar";
 
 type DeliveryAddress = {
     street?: string;
@@ -45,8 +48,8 @@ type Sale = {
     customer_name: string | null;
     customer_email: string | null;
 
-    items: any; // [{id, qty}] ou string JSON
-    items_snapshot: any; // [{id,name,price,category,image,qty}] ou string JSON
+    items: any; 
+    items_snapshot: any; 
 
     subtotal: number;
     discount: number;
@@ -137,6 +140,9 @@ export default function AdminOrders() {
     const [tsAnchorEl, setTsAnchorEl] = useState<null | HTMLElement>(null);
     const [tsOrderId, setTsOrderId] = useState<number | null>(null);
     const tsOpen = Boolean(tsAnchorEl);
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const openTsMenu = (e: MouseEvent<HTMLElement>, orderId: number) => {
         setTsAnchorEl(e.currentTarget);
@@ -317,9 +323,562 @@ export default function AdminOrders() {
         );
     }
 
+    if (isMobile) {
+        return (
+            <>
+                <NavbarAdmin />
+                <ProductsTitleBar title="Orders" />
+
+                <Box
+                    sx={{
+                        minHeight: "100dvh",
+                        display: "flex",
+                        flexDirection: "column",
+                        bgcolor: "#fff",
+                    }}
+                >
+                    <Box
+                        component="main"
+                        sx={{
+                            width: "100%",
+                            maxWidth: 560,
+                            mx: "auto",
+                            px: 2.4,
+                            pt: "150px",
+                            pb: "calc(100px + env(safe-area-inset-bottom))",
+                            flex: 1,
+                        }}
+                    >
+                        <Tabs
+                            id="ff-admin-orders-tabs-mobile"
+                            activeKey={activeKey}
+                            onSelect={(k) => k && setActiveKey(k as any)}
+                            className="ff-tabs"
+                            fill
+                        >
+                            <Tab eventKey="received" title="Received" />
+                            <Tab eventKey="in_progress" title="In progress" />
+                            <Tab eventKey="completed" title="Completed" />
+                        </Tabs>
+
+                        <Box sx={{ mt: 1.5 }}>
+                            <Stack direction="column" spacing={1.2}>
+                                <TextField
+                                    size="small"
+                                    label="Filter by Order Code"
+                                    value={orderCodeFilter}
+                                    onChange={(e) =>
+                                        setOrderCodeFilter(e.target.value.replace(/\D/g, ""))
+                                    }
+                                    inputProps={{ maxLength: 6, inputMode: "numeric" }}
+                                    sx={tfBlueLabelSx}
+                                    fullWidth
+                                />
+
+                                <TextField
+                                    size="small"
+                                    label="Filter by email"
+                                    value={emailFilter}
+                                    onChange={(e) => setEmailFilter(e.target.value)}
+                                    sx={tfBlueLabelSx}
+                                    fullWidth
+                                />
+                            </Stack>
+                        </Box>
+
+                        <Divider sx={{ my: 1.6, borderColor: "rgba(0, 0, 0, 0.45)" }} />
+
+                        {loading ? (
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    textAlign: "center",
+                                    py: 10,
+                                }}
+                            >
+                                <Typography sx={{ color: "text.secondary" }}>
+                                    Loading...
+                                </Typography>
+                            </Box>
+                        ) : items.length === 0 ? (
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    textAlign: "center",
+                                    py: 10,
+                                    px: 2,
+                                }}
+                            >
+                                <Typography
+                                    sx={{
+                                        color: "text.secondary",
+                                        fontSize: "0.98rem",
+                                        lineHeight: 1.6,
+                                    }}
+                                >
+                                    No orders found.
+                                </Typography>
+                            </Box>
+                        ) : (
+                            <Stack spacing={1.2}>
+                                {items.map((o) => {
+                                    const snap = safeParseJson(o.items_snapshot) as SnapshotItem[];
+                                    const addrLines = addressToLines(o.delivery_address);
+                                    const paymentStatus = String(o.payment_status ?? "-");
+                                    const paymentMethod = String(o.payment_method ?? "-");
+                                    const list = Array.isArray(snap) ? snap : [];
+
+                                    const lines = list.map((it, idx) => ({
+                                        key: `${o.id}-${idx}`,
+                                        name: cleanProductName(it?.name),
+                                        qty: Number(it?.qty ?? 1),
+                                    }));
+
+
+                                    return (
+                                        <Paper
+                                            key={o.id}
+                                            elevation={0}
+                                            sx={{
+                                                p: 2,
+                                                borderRadius: 2,
+                                                border: "1px solid rgba(230, 81, 0, 0.28)",
+                                                bgcolor: "#fff4e1",
+                                            }}
+                                        >
+                                            <Stack sx={{ mt: { xs: 0, sm: -0.2, md: -0.2 } }}>
+
+                                                {/* HEADER MOBILE */}
+                                                <Stack
+                                                    sx={{
+                                                        display: { xs: "flex", sm: "none" },
+                                                        gap: 0.8,
+                                                    }}
+                                                >
+                                                    {/* chip em cima */}
+                                                    <Box sx={{ display: { xs: "none", sm: "block" } }}>
+                                                        {statusChip(o.status)}
+                                                    </Box>
+
+                                                    {/* linha principal */}
+                                                    <Stack
+                                                        direction="row"
+                                                        alignItems="center"
+                                                        justifyContent="space-between"
+                                                        gap={1}
+                                                    >
+                                                        {/* esquerda */}
+                                                        <Typography
+                                                            sx={{
+                                                                fontSize: 18.5,
+                                                                fontWeight: 900,
+                                                                color: "#1e5bb8",
+                                                                lineHeight: 1.1,
+                                                                minWidth: 0,
+                                                                flex: 1,
+                                                            }}
+                                                        >
+                                                            Order: {o.order_code}
+                                                            <Box
+                                                                component="span"
+                                                                sx={{
+                                                                    color: "rgba(0,0,0,0.40)",
+                                                                    fontWeight: 800,
+                                                                    fontSize: "0.78rem",
+                                                                }}
+                                                            >
+                                                                {" "}• #{o.id}
+                                                            </Box>
+                                                        </Typography>
+
+                                                        {/* direita */}
+                                                        <Stack
+                                                            direction="row"
+                                                            alignItems="center"
+                                                            gap={0.5}
+                                                            sx={{ flexShrink: 0 }}
+                                                        >
+
+
+                                                            <Button
+                                                                size="small"
+                                                                onClick={(e) => openTsMenu(e, o.id)}
+                                                                endIcon={<ExpandMoreIcon />}
+                                                                sx={{
+                                                                    minHeight: 22,
+                                                                    px: 0.6,
+                                                                    py: 0,
+                                                                    fontSize: "0.64rem",
+                                                                    letterSpacing: "0.06em",
+                                                                    textTransform: "uppercase",
+                                                                    fontWeight: 900,
+                                                                    color: "rgba(0,0,0,0.65)",
+                                                                    "& .MuiButton-endIcon": {
+                                                                        marginLeft: "2px",
+                                                                        marginTop: "-2px",
+                                                                    },
+                                                                }}
+                                                            >
+                                                                Timeline
+                                                            </Button>
+
+                                                            {activeKey === "received" && o.status === "received" && (
+                                                                <Button
+                                                                    variant="contained"
+                                                                    onClick={() => updateStatus(o.id, "in_progress")}
+                                                                    sx={{
+                                                                        borderRadius: 2,
+                                                                        bgcolor: "#1e5bb8",
+                                                                        fontWeight: 900,
+                                                                        textTransform: "uppercase",
+                                                                        fontSize: "0.60rem",
+                                                                        letterSpacing: "0.06em",
+                                                                        px: 1,
+                                                                        minWidth: 70,
+                                                                        height: 25,
+                                                                        "&:hover": { bgcolor: "#164a96" },
+                                                                    }}
+                                                                >
+                                                                    Accept
+                                                                </Button>
+                                                            )}
+
+                                                            {activeKey === "in_progress" && o.status === "in_progress" && (
+                                                                <Button
+                                                                    variant="contained"
+                                                                    onClick={() => updateStatus(o.id, "sent")}
+                                                                    sx={{
+                                                                        borderRadius: 2,
+                                                                        bgcolor: "#1e5bb8",
+                                                                        fontWeight: 900,
+                                                                        textTransform: "uppercase",
+                                                                        fontSize: "0.60rem",
+                                                                        letterSpacing: "0.06em",
+                                                                        px: 1,
+                                                                        minWidth: 82,
+                                                                        height: 25,
+                                                                        "&:hover": { bgcolor: "#164a96" },
+                                                                    }}
+                                                                >
+                                                                    Mark sent
+                                                                </Button>
+                                                            )}
+                                                        </Stack>
+                                                    </Stack>
+                                                </Stack>
+
+                                                {/* HEADER DESKTOP */}
+                                                <Stack
+                                                    direction="row"
+                                                    alignItems="center"
+                                                    justifyContent="space-between"
+                                                    gap={1}
+                                                    sx={{ display: { xs: "none", sm: "flex" } }}
+                                                >
+                                                    <Typography
+                                                        sx={{
+                                                            fontSize: 19,
+                                                            fontWeight: 900,
+                                                            color: "#1e5bb8",
+                                                        }}
+                                                    >
+                                                        Order: {o.order_code}
+                                                        <Box
+                                                            component="span"
+                                                            sx={{
+                                                                color: "rgba(0,0,0,0.40)",
+                                                                fontWeight: 800,
+                                                                fontSize: "0.84rem",
+                                                            }}
+                                                        >
+                                                            {" "}• #{o.id}
+                                                        </Box>
+                                                    </Typography>
+
+                                                    <Stack direction="row" alignItems="center" gap={0.6}>
+                                                        {statusChip(o.status)}
+
+                                                        <Button
+                                                            size="small"
+                                                            onClick={(e) => openTsMenu(e, o.id)}
+                                                            endIcon={<ExpandMoreIcon sx={{ fontSize: 18 }} />}
+                                                            sx={{
+                                                                minHeight: 22,
+                                                                px: 1,
+                                                                py: 0,
+                                                                fontSize: "0.72rem",
+                                                                letterSpacing: "0.08em",
+                                                                textTransform: "uppercase",
+                                                                fontWeight: 900,
+                                                                color: "rgba(0,0,0,0.65)",
+                                                                "& .MuiButton-endIcon": {
+                                                                    marginLeft: "3px",
+                                                                    marginTop: "-2px",
+                                                                },
+                                                            }}
+                                                        >
+                                                            Timeline
+                                                        </Button>
+
+                                                        {activeKey === "received" && o.status === "received" && (
+                                                            <Button
+                                                                variant="contained"
+                                                                onClick={() => updateStatus(o.id, "in_progress")}
+                                                                sx={{
+                                                                    borderRadius: 2,
+                                                                    bgcolor: "#1e5bb8",
+                                                                    fontWeight: 900,
+                                                                    textTransform: "uppercase",
+                                                                    fontSize: "0.68rem",
+                                                                    px: 1.3,
+                                                                    minWidth: 94,
+                                                                    height: 28,
+                                                                }}
+                                                            >
+                                                                Accept
+                                                            </Button>
+                                                        )}
+
+                                                        {activeKey === "in_progress" && o.status === "in_progress" && (
+                                                            <Button
+                                                                variant="contained"
+                                                                onClick={() => updateStatus(o.id, "sent")}
+                                                                sx={{
+                                                                    borderRadius: 2,
+                                                                    bgcolor: "#1e5bb8",
+                                                                    fontWeight: 900,
+                                                                    textTransform: "uppercase",
+                                                                    fontSize: "0.68rem",
+                                                                    px: 1.3,
+                                                                    minWidth: 104,
+                                                                    height: 28,
+                                                                }}
+                                                            >
+                                                                Mark sent
+                                                            </Button>
+                                                        )}
+                                                    </Stack>
+                                                </Stack>
+
+                                                {/* CUSTOMER + DELIVERY */}
+                                                <Box sx={{ mt: 1.1 }}>
+                                                    <Stack spacing={0.15}>
+                                                        <Typography sx={{ fontSize: "0.92rem", lineHeight: 1.3 }}>
+                                                            <b>{o.customer_name ?? "Guest"}</b>
+                                                            {o.customer_email ? ` • ${o.customer_email}` : ""}
+                                                            {o.user_id ? ` • User ID: ${o.user_id}` : " • Guest order"}
+                                                        </Typography>
+
+                                                        <Typography
+                                                            sx={{
+                                                                fontSize: "0.86rem",
+                                                                lineHeight: 1.3,
+                                                                color: "#333",
+                                                                overflowWrap: "anywhere",
+                                                            }}
+                                                        >
+                                                            <b>Delivery:</b>{" "}
+                                                            {addrLines
+                                                                ? [addrLines.line1, addrLines.line2].filter(Boolean).join(", ")
+                                                                : "-"}
+                                                        </Typography>
+                                                    </Stack>
+                                                </Box>
+
+                                                {/* ITEMS */}
+                                                {lines.length > 0 && (
+                                                    <Box sx={{ mt: 0.8 }}>
+                                                        <Typography
+                                                            sx={{
+                                                                fontSize: "0.6rem",
+                                                                fontWeight: 900,
+                                                                letterSpacing: "0.10em",
+                                                                textTransform: "uppercase",
+                                                                color: "rgba(0,0,0,0.55)",
+                                                                mb: 0.3,
+                                                            }}
+                                                        >
+                                                            Items
+                                                        </Typography>
+
+                                                        <Box>
+                                                            {lines.map((p) => (
+                                                                <Typography
+                                                                    key={p.key}
+                                                                    sx={{ fontSize: "0.9rem", color: "#333" }}
+                                                                >
+                                                                    • {p.name} <b>x{p.qty}</b>
+                                                                </Typography>
+                                                            ))}
+                                                        </Box>
+                                                    </Box>
+                                                )}
+
+                                                {/* TOTAL */}
+                                                <Box sx={{ mt: 1.1, mb: 0.3 }}>
+                                                    <Typography
+                                                        sx={{
+                                                            fontSize: "0.92rem",
+                                                            color: "#333",
+                                                        }}
+                                                    >
+                                                        <b>Total: ${Number(o.total).toFixed(2)}</b>
+
+                                                        {Number(o.discount) > 0 && (
+                                                            <span>
+                                                                {" "} (Discount: -${Number(o.discount).toFixed(2)})
+                                                            </span>
+                                                        )}
+
+                                                        <span style={{ color: "rgba(0,0,0,0.65)" }}>
+                                                            {" "}• {paymentStatus} • {paymentMethod}
+                                                        </span>
+                                                    </Typography>
+                                                </Box>
+                                            </Stack>
+                                        </Paper>
+                                    );
+                                })}
+                            </Stack>
+                        )}
+                    </Box>
+
+                    <Footer />
+                </Box>
+
+                <Menu
+                    anchorEl={tsAnchorEl}
+                    open={tsOpen}
+                    onClose={closeTsMenu}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                    transformOrigin={{ vertical: "top", horizontal: "left" }}
+                    PaperProps={{
+                        sx: {
+                            borderRadius: 2,
+                            border: "1px solid rgba(0,0,0,0.12)",
+                            boxShadow: "0 8px 22px rgba(0,0,0,0.12)",
+                            px: 0.5,
+                            py: 0.6,
+                            minWidth: 260,
+                        },
+                    }}
+                >
+                    <Box sx={{ px: 1.2, pb: 0.6 }}>
+                        <Typography
+                            sx={{
+                                fontSize: "0.72rem",
+                                fontWeight: 900,
+                                letterSpacing: "0.10em",
+                                color: "#0d47a1",
+                            }}
+                        >
+                            TIMELINE
+                        </Typography>
+                    </Box>
+
+                    <MenuItem disabled sx={{ opacity: 1, alignItems: "flex-start" }}>
+                        <ListItemText
+                            primaryTypographyProps={{
+                                sx: {
+                                    fontSize: "0.78rem",
+                                    lineHeight: 1.25,
+                                    color: "text.secondary",
+                                },
+                            }}
+                            primary={
+                                (() => {
+                                    const currentStep =
+                                        selectedOrder?.received_confirmed_at
+                                            ? "received"
+                                            : selectedOrder?.sent_at
+                                                ? "sent"
+                                                : selectedOrder?.accepted_at
+                                                    ? "accepted"
+                                                    : "created";
+
+                                    const base = {
+                                        fontSize: "0.78rem",
+                                        lineHeight: 1.25,
+                                    };
+
+                                    const sxStep = (step: typeof currentStep) => ({
+                                        ...base,
+                                        fontWeight: currentStep === step ? 900 : 500,
+                                        color:
+                                            currentStep === step
+                                                ? "rgba(0,0,0,0.92)"
+                                                : "rgba(0,0,0,0.68)",
+                                    });
+
+                                    return (
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                gap: 0.35,
+                                            }}
+                                        >
+                                            <Typography sx={sxStep("created")}>
+                                                Created:{" "}
+                                                {formatDate(selectedOrder?.created_at ?? null)}
+                                            </Typography>
+
+                                            {selectedOrder?.accepted_at && (
+                                                <Typography sx={sxStep("accepted")}>
+                                                    Accepted:{" "}
+                                                    {formatDate(selectedOrder.accepted_at)}
+                                                </Typography>
+                                            )}
+
+                                            {selectedOrder?.sent_at && (
+                                                <Typography sx={sxStep("sent")}>
+                                                    Sent: {formatDate(selectedOrder.sent_at)}
+                                                </Typography>
+                                            )}
+
+                                            {selectedOrder?.received_confirmed_at && (
+                                                <Typography sx={sxStep("received")}>
+                                                    Received:{" "}
+                                                    {formatDate(
+                                                        selectedOrder.received_confirmed_at
+                                                    )}
+                                                </Typography>
+                                            )}
+                                        </Box>
+                                    );
+                                })()
+                            }
+                        />
+                    </MenuItem>
+
+                    <Box sx={{ px: 1.2, pt: 0.2 }}>
+                        <Button
+                            fullWidth
+                            size="small"
+                            onClick={closeTsMenu}
+                            sx={{
+                                fontWeight: 900,
+                                textTransform: "uppercase",
+                                letterSpacing: "0.10em",
+                                fontSize: "0.72rem",
+                            }}
+                        >
+                            Close
+                        </Button>
+                    </Box>
+                </Menu>
+            </>
+        );
+    }
+
     return (
         <>
             <NavbarAdmin />
+            <ProductsTitleBar title="Orders" />
 
             <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column", overflow: "hidden" }}>
                 <Box
@@ -430,30 +989,15 @@ export default function AdminOrders() {
                                     "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
-                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
-                                maxHeight: 720,
+                                mt: { sm: 4, md: 6 },
+                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 200px)" },
+                                maxHeight: 640,
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 2,
                                 overflow: "hidden",
                             }}
                         >
-                            <Typography
-                                variant="h4"
-                                align="center"
-                                sx={{
-                                    fontSize: { xs: "2.12rem", sm: "2.26rem", md: "2.28rem" },
-                                    letterSpacing: "0.14em",
-                                    textTransform: "uppercase",
-                                    color: "#0d47a1",
-                                    fontWeight: 800,
-                                    textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
-                                    mt: { xs: 1, sm: 1, md: 1 },
-                                    mb: { xs: 1, sm: 1, md: 1 },
-                                }}
-                            >
-                                Orders
-                            </Typography>
 
                             <Tabs
                                 id="ff-admin-orders-tabs"

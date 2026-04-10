@@ -93,7 +93,7 @@ export default function Burguers() {
 
   const imageStylesDesktopWide: Record<string, React.CSSProperties> = {
     "1": { width: "180px", height: "150px", marginTop: "8px" },
-    "2": { width: "240px", height: "225px" },
+    "2": { width: "240px", height: "216px" },
     "3": { width: "173px", height: "163px", marginTop: "12px" },
     "4": { width: "250px", height: "195px" },
   };

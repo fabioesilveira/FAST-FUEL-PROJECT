@@ -106,7 +106,7 @@ export default function Desserts() {
         "15": { width: "260px", height: "260px", marginTop: "10px" },
         "16": { width: "220px", height: "230px" },
         "17": { width: "203px", height: "213px" },
-        "18": { width: "170px", height: "170px" },
+        "18": { width: "170px", height: "168px" },
     };
 
     return (

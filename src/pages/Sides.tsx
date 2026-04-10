@@ -99,7 +99,7 @@ export default function Sides() {
 
   const imageStylesDesktopWide: Record<string, React.CSSProperties> = {
     "11": { width: "220px", height: "194px", marginTop: "5px" },
-    "12": { width: "220px", height: "215px" },
+    "12": { width: "220px", height: "210px" },
     "13": { width: "172px", height: "168px", marginTop: "12px" },
     "14": { width: "200px", height: "167px" },
   };
