@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Stack, Button, Chip } from "@mui/material";
+import { Box, Typography, Stack, Button } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -58,22 +58,16 @@ export default function CheckoutOrderSummary({
                     mt: isMobile ? -1.2 : 0,
                 }}
             >
-                <Chip
-                    label="Order Summary"
-                    size="small"
+                <Typography
                     sx={{
-                        height: isMobile ? 24 : 24,
-                        fontSize: isMobile ? "0.62rem" : "0.66rem",
-                        letterSpacing: isMobile ? "0.08em" : "0.095em",
-                        textTransform: "uppercase",
-                        bgcolor: "#1e5bb8",
-                        color: "#fff",
-                        fontWeight: 800,
-                        "& .MuiChip-label": {
-                            px: isMobile ? 0.9 : 0.9,
-                        },
+                        fontWeight: 900,
+                        letterSpacing: "0.08em",
+                        fontSize: "0.85rem",
+                        color: "#1e5bb8",
                     }}
-                />
+                >
+                    ORDER SUMMARY
+                </Typography>
 
                 {order.length > 0 && (
                     <Button
@@ -81,16 +75,28 @@ export default function CheckoutOrderSummary({
                         size="small"
                         sx={{
                             textTransform: "uppercase",
-                            letterSpacing: "0.08em",
-                            fontWeight: 900,
-                            fontSize: isMobile ? "0.64rem" : "0.72rem",
-                            color: "#b71c1c",
-                            border: "1px solid rgba(183, 28, 28, 0.22)",
-                            borderRadius: 2,
-                            px: isMobile ? 1 : 1.2,
-                            py: 0.45,
+                            letterSpacing: "0.06em",
+                            fontWeight: 700,
+                            fontSize: isMobile ? "0.62rem" : "0.7rem",
+
+                            color: "rgba(183, 28, 28, 0.85)",
+                            border: "1px solid rgba(183, 28, 28, 0.18)",
+                            borderRadius: "999px",
+
+                            px: isMobile ? 1.1 : 1.4,
+                            py: 0.35,
                             minWidth: "unset",
-                            "&:hover": { bgcolor: "rgba(183, 28, 28, 0.08)" },
+
+                            transition: "all 0.18s ease",
+
+                            "&:hover": {
+                                bgcolor: "rgba(183, 28, 28, 0.06)",
+                                borderColor: "rgba(183, 28, 28, 0.35)",
+                            },
+
+                            "&:active": {
+                                transform: "scale(0.97)",
+                            },
                         }}
                     >
                         Clear cart

@@ -79,15 +79,15 @@ export default function Sides() {
   const imageStylesGridMobile: Record<string, React.CSSProperties> = {
     "11": { width: "110px", height: "106px" },
     "12": { width: "120px", height: "92px" },
-    "13": { width: "140px", height: "100px", marginTop: "8px" },
-    "14": { width: "120px", height: "95px" },
+    "13": { width: "98px", height: "100px", marginTop: "8px" },
+    "14": { width: "100px", height: "90px" },
   };
 
   const imageStylesStreamMobile: Record<string, React.CSSProperties> = {
     "11": { width: "162px", height: "157px" },
     "12": { width: "180px", height: "152px", marginTop: "8px" },
     "13": { width: "183px", height: "140px", marginTop: "11px" },
-    "14": { width: "170px", height: "135px" },
+    "14": { width: "150px", height: "132px" },
   };
 
   const imageStylesDesktop: Record<string, React.CSSProperties> = {
@@ -100,8 +100,8 @@ export default function Sides() {
   const imageStylesDesktopWide: Record<string, React.CSSProperties> = {
     "11": { width: "220px", height: "194px", marginTop: "5px" },
     "12": { width: "220px", height: "215px" },
-    "13": { width: "183px", height: "178px", marginTop: "12px" },
-    "14": { width: "230px", height: "176px" },
+    "13": { width: "172px", height: "168px", marginTop: "12px" },
+    "14": { width: "200px", height: "167px" },
   };
 
   return (

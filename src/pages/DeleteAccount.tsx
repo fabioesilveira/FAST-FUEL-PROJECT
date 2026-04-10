@@ -380,7 +380,7 @@ export default function DeleteAccount() {
                             width: "100%",
                             p: { xs: 2.5, sm: 3, md: 3.5 },
                             pb: { xs: 4.5, sm: 4.5, md: 4.8 },
-                            pt: { xs: 4, sm: 4.9, md: 5.4 },
+                            pt: { xs: 4, sm: 5.2, md: 5.4 },
                             borderRadius: 3,
                             maxWidth: 510,
                             mx: "auto",
