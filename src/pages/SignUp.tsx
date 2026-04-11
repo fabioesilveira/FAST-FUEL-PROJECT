@@ -429,18 +429,18 @@ export default function SignUp() {
                             pointerEvents: "none",
                             backgroundImage: `
                                 linear-gradient(90deg,
-                                rgba(255,255,255,1) 0%,
-                                rgba(255,244,225,0.0) 14%,
-                                rgba(255,244,225,0.0) 86%,
-                                rgba(255,255,255,1) 100%
+                                    rgba(255,255,255,1) 0%,
+                                    rgba(255,255,255,0.35) 18%,
+                                    rgba(255,255,255,0.35) 82%,
+                                    rgba(255,255,255,1) 100%
                                 ),
                                 repeating-linear-gradient(135deg,
-                                rgba(230,81,0,0.018) 0px,
-                                rgba(230,81,0,0.018) 12px,
-                                rgba(255,255,255,0.85) 12px,
-                                rgba(255,255,255,0.85) 20px
+                                    rgba(230,81,0,0.015) 0px,
+                                    rgba(230,81,0,0.015) 10px,
+                                    rgba(255,255,255,0.88) 10px,
+                                    rgba(255,255,255,0.88) 20px
                                 )
-                            `,
+                                `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -470,12 +470,16 @@ export default function SignUp() {
                             sx={{
                                 width: "100%",
                                 borderRadius: 3,
-                                border: "1.5px solid rgba(230, 81, 0, 0.22)",
+                                border: "1px solid rgba(230, 81, 0, 0.10)", 
                                 bgcolor: "background.paper",
                                 maxWidth: { xs: 520, md: 540 },
                                 p: { xs: 2.5, md: 3.2 },
-                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
-                                maxHeight: 640,
+                                height: {
+                                    xs: "calc(100dvh - 200px)",
+                                    sm: "calc(100vh - 360px)", 
+                                    md: "calc(100vh - 240px)",
+                                },
+                                maxHeight: { xs: 546, sm: 525, md: 546 },
                                 mt: { sm: 6.5, md: 3.5 },
                                 mb: { md: 1 },
                                 boxShadow:
@@ -525,7 +529,7 @@ export default function SignUp() {
                                             fontSize: { xs: "0.82rem", sm: "0.92rem", md: "0.94rem" },
                                             "&:hover": { textDecoration: "underline" },
                                             mb: { sm: -0.3, md: -0.14 },
-                                            mt: { xs: -0.85, sm: -1.6, md: -1.86 },
+                                            mt: { xs: -0.85, sm: -0.2, md: -0.1 },
                                         }}
                                     >
                                         Already have an account? Sign in to your account.
@@ -626,7 +630,7 @@ export default function SignUp() {
                                             fontWeight: 700,
                                             bgcolor: "#1e5bb8",
                                             "&:hover": { bgcolor: "#164a96" },
-                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.90rem" },
+                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
                                         }}
                                     >
                                         Sign up
@@ -646,7 +650,7 @@ export default function SignUp() {
                                             letterSpacing: "0.14em",
                                             fontWeight: 700,
                                             bgcolor: "rgba(230, 81, 0, 0.20)",
-                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.90rem" },
+                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
                                             "&:hover": {
                                                 bgcolor: "rgba(230, 81, 0, 0.28)",
                                                 borderColor: "#0d47a1",

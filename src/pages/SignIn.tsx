@@ -369,17 +369,17 @@ export default function SignIn() {
                             backgroundImage: `
                                 linear-gradient(90deg,
                                     rgba(255,255,255,1) 0%,
-                                    rgba(255,244,225,0.0) 14%,
-                                    rgba(255,244,225,0.0) 86%,
+                                    rgba(255,255,255,0.35) 18%,
+                                    rgba(255,255,255,0.35) 82%,
                                     rgba(255,255,255,1) 100%
                                 ),
                                 repeating-linear-gradient(135deg,
-                                    rgba(230,81,0,0.018) 0px,
-                                    rgba(230,81,0,0.018) 12px,
-                                    rgba(255,255,255,0.85) 12px,
-                                    rgba(255,255,255,0.85) 20px
+                                    rgba(230,81,0,0.015) 0px,
+                                    rgba(230,81,0,0.015) 10px,
+                                    rgba(255,255,255,0.88) 10px,
+                                    rgba(255,255,255,0.88) 20px
                                 )
-                            `,
+                                `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -409,12 +409,12 @@ export default function SignIn() {
                             sx={{
                                 width: "100%",
                                 borderRadius: 3,
-                                border: "1.5px solid rgba(230, 81, 0, 0.22)",
+                                border: "1px solid rgba(230, 81, 0, 0.10)", 
                                 bgcolor: "background.paper",
                                 maxWidth: { xs: 520, md: 540 },
                                 p: { xs: 2.5, md: 3.2 },
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
-                                maxHeight: 640,
+                                maxHeight: { sm: 448, md: 467 },
                                 mt: { sm: 6.5, md: 3.5 },
                                 mb: { md: 1 },
                                 boxShadow:
@@ -461,7 +461,7 @@ export default function SignIn() {
                                             fontSize: { xs: "0.82rem", sm: "0.92rem", md: "0.94rem" },
                                             color: "text.secondary",
                                             fontWeight: "bold",
-                                            mt: { xs: -0.85, sm: -0.6, md: -1 },
+                                            mt: { xs: -0.85, sm: 0.8, md: 0.8 },
                                             mb: { sm: 0.7, md: 1 }
                                         }}
                                     >
@@ -522,7 +522,7 @@ export default function SignIn() {
                                             fontWeight: 700,
                                             bgcolor: "#1e5bb8",
                                             "&:hover": { bgcolor: "#164a96" },
-                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.90rem" },
+                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
                                         }}
                                     >
                                         Sign in
@@ -555,7 +555,7 @@ export default function SignIn() {
                                             fontWeight: 700,
                                             bgcolor: "#1e5bb8",
                                             "&:hover": { bgcolor: "#164a96" },
-                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.90rem" },
+                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
                                         }}
                                     >
                                         Create new Account
@@ -575,7 +575,7 @@ export default function SignIn() {
                                             letterSpacing: "0.14em",
                                             fontWeight: 700,
                                             bgcolor: "rgba(230, 81, 0, 0.20)",
-                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.90rem" },
+                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
                                             "&:hover": {
                                                 bgcolor: "rgba(230, 81, 0, 0.28)",
                                                 borderColor: "#0d47a1",
