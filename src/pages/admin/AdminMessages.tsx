@@ -8,6 +8,9 @@ import Footer from "../../components/Footer";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import ProductsTitleBar from "../../components/ProductsTitleBar";
 
 type ContactMsg = {
     id: number;
@@ -53,6 +56,9 @@ export default function AdminMessages() {
 
     const [tsAnchorEl, setTsAnchorEl] = useState<null | HTMLElement>(null);
     const [tsMsgId, setTsMsgId] = useState<number | null>(null);
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const tsOpen = Boolean(tsAnchorEl);
     const selectedMsg = items.find((x) => x.id === tsMsgId);
@@ -135,9 +141,358 @@ export default function AdminMessages() {
         }
     }
 
+    if (isMobile) {
+        return (
+            <>
+                <NavbarAdmin />
+                <ProductsTitleBar title="Messages" />
+
+                <Box
+                    sx={{
+                        minHeight: "100dvh",
+                        display: "flex",
+                        flexDirection: "column",
+                        bgcolor: "#fff",
+                    }}
+                >
+                    <Box
+                        component="main"
+                        sx={{
+                            width: "100%",
+                            maxWidth: 560,
+                            mx: "auto",
+                            px: 2.4,
+                            pt: "150px",
+                            pb: "calc(100px + env(safe-area-inset-bottom))",
+                            flex: 1,
+                        }}
+                    >
+                        <Tabs
+                            id="ff-admin-tabs-mobile"
+                            activeKey={activeKey}
+                            onSelect={(k) => {
+                                if (!k) return;
+                                setActiveKey(k as any);
+                            }}
+                            className="ff-tabs"
+                            fill
+                        >
+                            <Tab eventKey="received" title="Received" />
+                            <Tab eventKey="answered" title="Answered" />
+                            <Tab eventKey="contact" title="Contact-us" disabled />
+                        </Tabs>
+
+                        <Box sx={{ mt: 1.5 }}>
+                            <TextField
+                                size="small"
+                                label="Filter by email"
+                                value={emailFilter}
+                                onChange={(e) => setEmailFilter(e.target.value)}
+                                sx={tfBlueLabelSx}
+                                fullWidth
+                            />
+                        </Box>
+
+                        <Divider sx={{ my: 1.6, borderColor: "rgba(0, 0, 0, 0.45)" }} />
+
+                        {loading ? (
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    textAlign: "center",
+                                    py: 10,
+                                }}
+                            >
+                                <Typography sx={{ color: "text.secondary" }}>
+                                    Loading...
+                                </Typography>
+                            </Box>
+                        ) : items.length === 0 ? (
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    textAlign: "center",
+                                    py: 10,
+                                    px: 2,
+                                }}
+                            >
+                                <Typography
+                                    sx={{
+                                        color: "text.secondary",
+                                        fontSize: "0.98rem",
+                                        lineHeight: 1.6,
+                                    }}
+                                >
+                                    No messages found.
+                                </Typography>
+                            </Box>
+                        ) : (
+                            <Stack spacing={1.2}>
+                                {items.map((m) => (
+                                    <Paper
+                                        key={m.id}
+                                        elevation={0}
+                                        sx={{
+                                            p: 2,
+                                            borderRadius: 2,
+                                            border: "1px solid rgba(230, 81, 0, 0.28)",
+                                            bgcolor: "#fff4e1",
+                                        }}
+                                    >
+                                        <Stack sx={{ gap: 0.8 }}>
+                                            <Stack
+                                                direction="row"
+                                                alignItems="center"
+                                                justifyContent="space-between"
+                                                gap={1}
+                                            >
+                                                <Typography
+                                                    sx={{
+                                                        fontSize: 17.5,
+                                                        fontWeight: 900,
+                                                        color: "#1e5bb8",
+                                                        lineHeight: 1.1,
+                                                        minWidth: 0,
+                                                        flex: 1,
+                                                    }}
+                                                >
+                                                    {m.subject}
+                                                    <Box
+                                                        component="span"
+                                                        sx={{
+                                                            color: "rgba(0,0,0,0.40)",
+                                                            fontWeight: 800,
+                                                            fontSize: "0.78rem",
+                                                        }}
+                                                    >
+                                                        {" "}• #{m.id}
+                                                    </Box>
+                                                </Typography>
+
+                                                <Stack
+                                                    direction="row"
+                                                    alignItems="center"
+                                                    gap={0.5}
+                                                    sx={{ flexShrink: 0 }}
+                                                >
+
+
+                                                    <Button
+                                                        size="small"
+                                                        onClick={(e) => openTsMenu(e, m.id)}
+                                                        endIcon={<ExpandMoreIcon />}
+                                                        sx={{
+                                                            minHeight: 22,
+                                                            px: 0.6,
+                                                            py: 0,
+                                                            fontSize: "0.64rem",
+                                                            letterSpacing: "0.06em",
+                                                            textTransform: "uppercase",
+                                                            fontWeight: 900,
+                                                            color: "rgba(0,0,0,0.65)",
+                                                            flexShrink: 0,
+                                                            "& .MuiButton-endIcon": {
+                                                                marginLeft: "2px",
+                                                                marginTop: "-2px",
+                                                            },
+                                                        }}
+                                                    >
+                                                        Timeline
+                                                    </Button>
+
+                                                    {activeKey === "received" ? (
+                                                        <Button
+                                                            variant="contained"
+                                                            onClick={() => markAsAnswered(m.id)}
+                                                            sx={{
+                                                                borderRadius: 2,
+                                                                bgcolor: "#1e5bb8",
+                                                                color: "#fff",
+                                                                fontWeight: 900,
+                                                                textTransform: "uppercase",
+                                                                letterSpacing: "0.06em",
+                                                                fontSize: "0.60rem",
+                                                                px: 1,
+                                                                minWidth: 92,
+                                                                height: 25,
+                                                                "&:hover": { bgcolor: "#164a96" },
+                                                            }}
+                                                        >
+                                                            Mark answered
+                                                        </Button>
+                                                    ) : (
+                                                        <Typography
+                                                            sx={{
+                                                                display: "inline-flex",
+                                                                alignItems: "center",
+                                                                justifyContent: "center",
+                                                                fontSize: "0.62rem",
+                                                                letterSpacing: "0.08em",
+                                                                textTransform: "uppercase",
+                                                                fontWeight: 900,
+                                                                color: "rgba(0,0,0,0.45)",
+                                                                bgcolor: "rgba(0,0,0,0.06)",
+                                                                px: 0.8,
+                                                                minWidth: 90,
+                                                                height: 23,
+                                                                lineHeight: 1,
+                                                                borderRadius: 999,
+                                                                border: "1px solid rgba(0,0,0,0.10)",
+                                                                boxSizing: "border-box",
+                                                            }}
+                                                        >
+                                                            Answered
+                                                        </Typography>
+                                                    )}
+                                                </Stack>
+                                            </Stack>
+
+                                            <Box sx={{ mt: 0.2 }}>
+                                                <Typography
+                                                    sx={{
+                                                        fontSize: "0.88rem",
+                                                        lineHeight: 1.25,
+                                                        overflowWrap: "anywhere",
+                                                        wordBreak: "break-word",
+                                                        hyphens: "auto",
+                                                    }}
+                                                >
+                                                    <b>{m.name}</b> • {m.email}
+                                                </Typography>
+
+                                                <Typography
+                                                    sx={{
+                                                        fontSize: "0.85rem",
+                                                        lineHeight: 1.28,
+                                                        color: "rgba(0,0,0,0.72)",
+                                                        mt: 0.15,
+                                                    }}
+                                                >
+                                                    <span style={{ color: "rgba(0,0,0,0.68)" }}>
+                                                        Phone:
+                                                    </span>{" "}
+                                                    {formatPhoneUS(m.phone)}
+                                                    {m.orderNumber ? ` • Order: ${m.orderNumber}` : ""}
+                                                </Typography>
+                                            </Box>
+
+                                            <Box sx={{ mt: 0.2 }}>
+                                                <Typography
+                                                    sx={{
+                                                        color: "#333",
+                                                        fontSize: "0.94rem",
+                                                        lineHeight: 1.4,
+                                                        whiteSpace: "pre-wrap",
+                                                        overflowWrap: "anywhere",
+                                                    }}
+                                                >
+                                                    <b>Message:</b>{" "}
+                                                    <span style={{ fontWeight: 400 }}>{m.message}</span>
+                                                </Typography>
+                                            </Box>
+                                        </Stack>
+                                    </Paper>
+                                ))}
+                            </Stack>
+                        )}
+                    </Box>
+
+                    <Footer />
+                </Box>
+
+                <Menu
+                    anchorEl={tsAnchorEl}
+                    open={tsOpen}
+                    onClose={closeTsMenu}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                    transformOrigin={{ vertical: "top", horizontal: "left" }}
+                    PaperProps={{
+                        sx: {
+                            borderRadius: 2,
+                            border: "1px solid rgba(0,0,0,0.12)",
+                            boxShadow: "0 8px 22px rgba(0,0,0,0.12)",
+                            px: 0.5,
+                            py: 0.6,
+                            minWidth: 260,
+                        },
+                    }}
+                >
+                    <Box sx={{ px: 1.2, pb: 0.6 }}>
+                        <Typography
+                            sx={{
+                                fontSize: "0.72rem",
+                                fontWeight: 900,
+                                letterSpacing: "0.10em",
+                                color: "#0d47a1",
+                            }}
+                        >
+                            TIMELINE
+                        </Typography>
+                    </Box>
+
+                    <MenuItem disabled sx={{ opacity: 1, alignItems: "flex-start" }}>
+                        <ListItemText
+                            primaryTypographyProps={{
+                                sx: { fontSize: "0.78rem", lineHeight: 1.25, color: "text.secondary" },
+                            }}
+                            primary={
+                                (() => {
+                                    const currentStep = selectedMsg?.replied_at ? "answered" : "created";
+
+                                    const base = { fontSize: "0.78rem", lineHeight: 1.25 };
+
+                                    const sxStep = (step: typeof currentStep) => ({
+                                        ...base,
+                                        fontWeight: currentStep === step ? 900 : 500,
+                                        color: currentStep === step ? "rgba(0,0,0,0.92)" : "rgba(0,0,0,0.68)",
+                                    });
+
+                                    return (
+                                        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.35 }}>
+                                            <Typography sx={sxStep("created")}>
+                                                Created: {formatDate(selectedMsg?.created_at ?? null)}
+                                            </Typography>
+
+                                            {selectedMsg?.replied_at && (
+                                                <Typography sx={sxStep("answered")}>
+                                                    Answered: {formatDate(selectedMsg.replied_at)}
+                                                </Typography>
+                                            )}
+                                        </Box>
+                                    );
+                                })()
+                            }
+                        />
+                    </MenuItem>
+
+                    <Box sx={{ px: 1.2, pt: 0.2 }}>
+                        <Button
+                            fullWidth
+                            size="small"
+                            onClick={closeTsMenu}
+                            sx={{
+                                fontWeight: 900,
+                                textTransform: "uppercase",
+                                letterSpacing: "0.10em",
+                                fontSize: "0.72rem",
+                            }}
+                        >
+                            Close
+                        </Button>
+                    </Box>
+                </Menu>
+            </>
+        );
+    }
+
     return (
         <>
             <NavbarAdmin />
+            <ProductsTitleBar title="Messages" />
 
             <Box
                 sx={{
@@ -256,8 +611,9 @@ export default function AdminMessages() {
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
 
-                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 220px)" },
-                                maxHeight: 720,
+                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
+                                maxHeight: 640,
+                                mt: { sm: 4, md: 6 },
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 2,
@@ -265,22 +621,7 @@ export default function AdminMessages() {
                                 minHeight: 0,
                             }}
                         >
-                            <Typography
-                                variant="h4"
-                                align="center"
-                                sx={{
-                                    letterSpacing: "0.14em",
-                                    fontSize: { xs: "2.12rem", sm: "2.26rem", md: "2.28rem" },
-                                    textTransform: "uppercase",
-                                    color: "#0d47a1",
-                                    fontWeight: 800,
-                                    textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
-                                    mt: { xs: 1, sm: 1, md: 1 },
-                                    mb: { xs: 1, sm: 1, md: 1 },
-                                }}
-                            >
-                                Messages
-                            </Typography>
+
 
                             <Tabs
                                 id="ff-admin-tabs"
