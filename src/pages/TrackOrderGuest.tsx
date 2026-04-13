@@ -1071,51 +1071,50 @@ export default function TrackOrderGuest() {
                             pointerEvents: "none",
 
                             backgroundImage: {
-
                                 xs: `
                                     linear-gradient(90deg,
-                                        rgba(255,255,255,1) 0%,
-                                        rgba(255,255,255,0.0) 18%,
-                                        rgba(255,255,255,0.0) 82%,
-                                        rgba(255,255,255,1) 100%
+                                    rgba(255,255,255,1) 0%,
+                                    rgba(255,255,255,0.0) 18%,
+                                    rgba(255,255,255,0.0) 82%,
+                                    rgba(255,255,255,1) 100%
                                     ),
                                     repeating-linear-gradient(135deg,
-                                        rgba(13,71,161,0.018) 0px,
-                                        rgba(13,71,161,0.018) 10px,
-                                        rgba(230,81,0,0.014) 10px,
-                                        rgba(230,81,0,0.014) 20px
+                                    rgba(13,71,161,0.012) 0px,
+                                    rgba(13,71,161,0.012) 10px,
+                                    rgba(230,81,0,0.010) 10px,
+                                    rgba(230,81,0,0.010) 20px
                                     )
-                                    `,
-
+                                `,
 
                                 sm: `
                                     linear-gradient(90deg,
-                                        rgba(255,255,255,1) 0%,
-                                        rgba(255,255,255,0.0) 14%,
-                                        rgba(255,255,255,0.0) 86%,
-                                        rgba(255,255,255,1) 100%
+                                    rgba(255,255,255,1) 0%,
+                                    rgba(255,255,255,0.0) 16%,
+                                    rgba(255,255,255,0.0) 84%,
+                                    rgba(255,255,255,1) 100%
                                     ),
                                     repeating-linear-gradient(135deg,
-                                        rgba(13,71,161,0.038) 0px,
-                                        rgba(13,71,161,0.038) 10px,
-                                        rgba(230,81,0,0.028) 10px,
-                                        rgba(230,81,0,0.028) 20px
+                                    rgba(13,71,161,0.020) 0px,
+                                    rgba(13,71,161,0.020) 10px,
+                                    rgba(230,81,0,0.015) 10px,
+                                    rgba(230,81,0,0.015) 20px
                                     )
-                                    `,
+                                `,
+
                                 md: `
                                     linear-gradient(90deg,
-                                        rgba(255,255,255,1) 0%,
-                                        rgba(255,255,255,0.0) 14%,
-                                        rgba(255,255,255,0.0) 86%,
-                                        rgba(255,255,255,1) 100%
+                                    rgba(255,255,255,1) 0%,
+                                    rgba(255,255,255,0.0) 16%,
+                                    rgba(255,255,255,0.0) 84%,
+                                    rgba(255,255,255,1) 100%
                                     ),
                                     repeating-linear-gradient(135deg,
-                                        rgba(13,71,161,0.038) 0px,
-                                        rgba(13,71,161,0.038) 10px,
-                                        rgba(230,81,0,0.028) 10px,
-                                        rgba(230,81,0,0.028) 20px
+                                    rgba(13,71,161,0.022) 0px,
+                                    rgba(13,71,161,0.022) 10px,
+                                    rgba(230,81,0,0.016) 10px,
+                                    rgba(230,81,0,0.016) 20px
                                     )
-                                    `,
+                                `,
                             },
 
                             backgroundRepeat: "no-repeat, repeat",
@@ -1143,7 +1142,7 @@ export default function TrackOrderGuest() {
                                 width: "100%",
                                 maxWidth: { xs: 520, md: 980 },
                                 borderRadius: 3,
-                                border: "1.25px solid rgba(13, 71, 161, 0.28)",
+                                border: "1px solid rgba(13, 71, 161, 0.15)",
                                 boxShadow:
                                     "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
                                 bgcolor: "background.paper",
@@ -1242,7 +1241,7 @@ export default function TrackOrderGuest() {
                                             textTransform: "uppercase",
                                             letterSpacing: { xs: "0.06em", sm: "0.10em" },
                                             height: { xs: 30, sm: 40 },
-                                            fontSize: { xs: "0.66rem", sm: "0.78rem" },
+                                            fontSize: { xs: "0.66rem", sm: "0.82rem" },
                                             px: { xs: 1.2, sm: 1.6 },
                                             WebkitTapHighlightColor: "transparent",
 
@@ -1282,7 +1281,7 @@ export default function TrackOrderGuest() {
                                             textTransform: "uppercase",
                                             letterSpacing: { xs: "0.06em", sm: "0.10em" },
                                             height: { xs: 30, sm: 40 },
-                                            fontSize: { xs: "0.66rem", sm: "0.78rem" },
+                                            fontSize: { xs: "0.66rem", sm: "0.82rem" },
                                             px: { xs: 1.2, sm: 1.6 },
 
                                             "&:hover": {

@@ -470,7 +470,7 @@ export default function SignUp() {
                             sx={{
                                 width: "100%",
                                 borderRadius: 3,
-                                border: "1px solid rgba(230, 81, 0, 0.10)", 
+                                border: "1px solid rgba(230, 81, 0, 0.15)", 
                                 bgcolor: "background.paper",
                                 maxWidth: { xs: 520, md: 540 },
                                 p: { xs: 2.5, md: 3.2 },

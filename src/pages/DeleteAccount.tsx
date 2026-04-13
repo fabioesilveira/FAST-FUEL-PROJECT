@@ -379,18 +379,19 @@ export default function DeleteAccount() {
                         sx={{
                             width: "100%",
                             p: { xs: 2.5, sm: 3, md: 3.5 },
-                            pb: { xs: 4.5, sm: 4.5, md: 4.8 },
-                            pt: { xs: 4, sm: 5.2, md: 5.4 },
+                            pb: { xs: 4.5, sm: 4.5, md: 5.3 },
+                            pt: { xs: 4, sm: 5.2, md: 5.7 },
                             borderRadius: 3,
-                            maxWidth: 510,
+                            maxWidth: 514,
                             mx: "auto",
-                            border: "1px solid rgba(230, 81, 0, 0.22)",
+                            border: "1px solid rgba(230, 81, 0, 0.20)",
                             bgcolor: "background.paper",
                             boxShadow:
                                 "0 2px 10px rgba(0,0,0,0.06), 0 8px 22px rgba(230, 81, 0, 0.14)",
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
+                            mt: -3.5
                         }}
                     >
 
@@ -468,7 +469,7 @@ export default function DeleteAccount() {
                                     letterSpacing: "0.16em",
                                     fontWeight: 700,
                                     height: { xs: 40, md: 39 },
-                                    fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
+                                    fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
                                     "&:hover": {
                                         bgcolor: "#ffebee",
                                         color: "#b71c1c",
@@ -497,7 +498,7 @@ export default function DeleteAccount() {
                                     letterSpacing: "0.14em",
                                     fontWeight: 700,
                                     bgcolor: "#1e5bb8",
-                                    fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.92rem" },
+                                    fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
                                     "&:hover": {
                                         bgcolor: "#e3f2fd",
                                         color: "#1e5bb8",

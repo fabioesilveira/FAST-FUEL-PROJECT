@@ -304,17 +304,17 @@ export default function ContactUs() {
                             backgroundImage: `
                                 linear-gradient(90deg,
                                     rgba(255,255,255,1) 0%,
-                                    rgba(255,244,225,0.0) 14%,
-                                    rgba(255,244,225,0.0) 86%,
+                                    rgba(255,255,255,0.35) 18%,
+                                    rgba(255,255,255,0.35) 82%,
                                     rgba(255,255,255,1) 100%
                                 ),
                                 repeating-linear-gradient(135deg,
-                                    rgba(230,81,0,0.018) 0px,
-                                    rgba(230,81,0,0.018) 12px,
-                                    rgba(255,255,255,0.85) 12px,
-                                    rgba(255,255,255,0.85) 20px
+                                    rgba(230,81,0,0.015) 0px,
+                                    rgba(230,81,0,0.015) 10px,
+                                    rgba(255,255,255,0.88) 10px,
+                                    rgba(255,255,255,0.88) 20px
                                 )
-                            `,
+                                `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -344,12 +344,12 @@ export default function ContactUs() {
                             sx={{
                                 width: "100%",
                                 borderRadius: 3,
-                                border: "1.5px solid rgba(230, 81, 0, 0.22)",
+                                border: "1px solid rgba(230, 81, 0, 0.15)",
                                 bgcolor: "background.paper",
                                 maxWidth: { xs: 520, md: 540 },
                                 p: { xs: 2.25, sm: 2.75, md: 3.2 },
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
-                                maxHeight: 640,
+                                maxHeight: { sm: 586, md: 598 },
                                 mt: { sm: 6.5, md: 3.5 },
                                 mb: { md: 1 },
                                 boxShadow:
@@ -397,7 +397,7 @@ export default function ContactUs() {
                                             fontSize: { xs: "0.82rem", sm: "0.92rem", md: "0.94rem" },
                                             color: "text.secondary",
                                             fontWeight: "bold",
-                                            mt: { xs: -0.8, sm: -0.6, md: -1 },
+                                            mt: { xs: -0.85, sm: 0.8, md: 0.6 },
                                             mb: { xs: 0.2, sm: 0.7, md: 1 },
                                             lineHeight: 1.45,
                                         }}
@@ -507,7 +507,7 @@ export default function ContactUs() {
                                             fontWeight: 700,
                                             bgcolor: "#1e5bb8",
                                             "&:hover": { bgcolor: "#164a96" },
-                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.90rem" },
+                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
                                         }}
                                     >
                                         Send Message

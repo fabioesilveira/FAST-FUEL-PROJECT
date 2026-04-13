@@ -409,12 +409,12 @@ export default function SignIn() {
                             sx={{
                                 width: "100%",
                                 borderRadius: 3,
-                                border: "1px solid rgba(230, 81, 0, 0.10)", 
+                                border: "1px solid rgba(230, 81, 0, 0.15)", 
                                 bgcolor: "background.paper",
                                 maxWidth: { xs: 520, md: 540 },
                                 p: { xs: 2.5, md: 3.2 },
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
-                                maxHeight: { sm: 448, md: 467 },
+                                maxHeight: { sm: 448, md: 469 },
                                 mt: { sm: 6.5, md: 3.5 },
                                 mb: { md: 1 },
                                 boxShadow:
