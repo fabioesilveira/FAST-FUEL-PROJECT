@@ -27,10 +27,10 @@ export default function HomeFastThruSection({
             <Typography
                 align="center"
                 sx={{
-                    mb: { xs: 3.5, md: 3 },
-                    mt: { xs: 0, md: -3.5 },
+                    mb: { xs: 3.5, md: 3.2 },
+                    mt: { xs: 0, md: -2.8 },
                     fontFamily: "Titan One",
-                    fontSize: { xs: "22px", md: "35px" },
+                    fontSize: { xs: "22px", sm: "24px", md: "27px" },
                     letterSpacing: "0.14em",
                     textTransform: "uppercase",
                     color: "#ff8a4c",

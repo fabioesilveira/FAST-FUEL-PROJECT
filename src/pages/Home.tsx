@@ -354,7 +354,7 @@ export default function Home() {
                         disableGutters
                         sx={{
                             flexGrow: 2,
-                            mt: { xs: driveModeActive ? "72px" : 0, md: "100px" },
+                            mt: { xs: driveModeActive ? "10px" : 0, md: "100px" },
                             mb: { xs: 2, md: "60px" },
                             px: { xs: 2, md: 3 },
                             maxWidth: 1200,
@@ -458,8 +458,8 @@ export default function Home() {
                                             <Button
                                                 onClick={openCartMenu}
                                                 sx={{
-                                                    width: { xs: 36, md: 44 },
-                                                    height: { xs: 37, md: 44 },
+                                                    width: { xs: 36, md: 40 },
+                                                    height: { xs: 37, md: 40 },
                                                     minWidth: 44,
                                                     p: 0,
                                                     borderRadius: "12px",
