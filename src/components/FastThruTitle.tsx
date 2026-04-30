@@ -62,7 +62,7 @@ export default function FastThruTitle({
                     onClick={onExit}
                     sx={{
                         position: "absolute",
-                        top: { xs: 4, md: 5 },
+                        top: { xs: 9, md: 5 },
                         right: { xs: 10, md: 12 },
                         minWidth: 0,
                         width: 30.5,
@@ -78,7 +78,7 @@ export default function FastThruTitle({
                         },
                     }}
                 >
-                    <CloseIcon sx={{ fontSize: 20.5 }} />
+                    <CloseIcon sx={{ fontSize: 21.5 }} />
                 </Button>
 
 

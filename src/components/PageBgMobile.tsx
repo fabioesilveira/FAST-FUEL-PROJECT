@@ -15,9 +15,9 @@ export default function PageBgMobile({ children }: PageBgMobileProps) {
           repeating-linear-gradient(
             90deg,
             #ffffff 0px,
-            #ffffff 32px,
-            rgba(255, 248, 235, 0.32) 32px,
-            rgba(255, 248, 235, 0.32) 52px
+            #ffffff 26px,
+            rgba(255, 248, 235, 0.32) 26px,
+            rgba(255, 248, 235, 0.32) 44px
           )
         `,
       }}
