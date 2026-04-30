@@ -49,7 +49,7 @@ export default function CheckoutMobileFooter({
                 <Box sx={{ minWidth: 0 }}>
                     <Typography
                         sx={{
-                            fontSize: "0.76rem",
+                            fontSize: "0.79rem",
                             letterSpacing: "0.15em",
                             textTransform: "uppercase",
                             color: "#0d47a1",
@@ -64,7 +64,7 @@ export default function CheckoutMobileFooter({
                         sx={{
                             fontWeight: 900,
                             color: "#0d47a1",
-                            fontSize: "1.17rem",
+                            fontSize: "1.20rem",
                             lineHeight: 1.2,
                             mt: 0.15,
                             whiteSpace: "nowrap",
@@ -89,7 +89,7 @@ export default function CheckoutMobileFooter({
                         fontWeight: 900,
                         bgcolor: "#1e5bb8",
                         px: 2,
-                        fontSize: "0.85rem",
+                        fontSize: "0.87rem",
                         whiteSpace: "nowrap",
                         "&:hover": { bgcolor: "#164a99" },
                         "&.Mui-disabled": {
