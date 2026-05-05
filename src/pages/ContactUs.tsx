@@ -346,10 +346,10 @@ export default function ContactUs() {
                                 borderRadius: 3,
                                 border: "1px solid rgba(230, 81, 0, 0.15)",
                                 bgcolor: "background.paper",
-                                maxWidth: { xs: 520, md: 540 },
+                                maxWidth: { xs: 520, md: 530 },
                                 p: { xs: 2.25, sm: 2.75, md: 3.2 },
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
-                                maxHeight: { sm: 586, md: 598 },
+                                maxHeight: { sm: 580, md: 588 },
                                 mt: { sm: 6.5, md: 3.5 },
                                 mb: { md: 1 },
                                 boxShadow:
@@ -397,7 +397,7 @@ export default function ContactUs() {
                                             fontSize: { xs: "0.82rem", sm: "0.92rem", md: "0.94rem" },
                                             color: "text.secondary",
                                             fontWeight: "bold",
-                                            mt: { xs: -0.85, sm: 0.8, md: 0.6 },
+                                            mt: { xs: -0.85, sm: 0.4, md: -0.1 },
                                             mb: { xs: 0.2, sm: 0.7, md: 1 },
                                             lineHeight: 1.45,
                                         }}
