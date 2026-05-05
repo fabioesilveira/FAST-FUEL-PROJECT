@@ -17,12 +17,49 @@ type User = {
     confirmPassword: string;
 };
 
+const deleteFieldSx = {
+    "& .MuiInputLabel-root": {
+        color: "#000",
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+        color: "#000",
+    },
+    "& .MuiInputLabel-root.MuiInputLabel-shrink": {
+        backgroundColor: "background.paper",
+        padding: "0 6px",
+        borderRadius: "8px",
+        lineHeight: 1.2,
+        zIndex: 1,
+    },
+    "& .MuiOutlinedInput-root": {
+        "& fieldset": {
+            borderColor: "#000",
+        },
+        "&:hover fieldset": {
+            borderColor: "#000",
+        },
+        "&.Mui-focused fieldset": {
+            borderColor: "#000",
+            borderWidth: 1.5,
+        },
+    },
+    "& .MuiOutlinedInput-input": {
+        color: "#000",
+        WebkitTextFillColor: "#000",
+    },
+};
+
 export default function DeleteAccount() {
     useDocumentTitle("FastFuel • Delete Account");
 
     const navigate = useNavigate();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+    const { showAlert, AlertUI } = useAppAlert({
+        vertical: "top",
+        horizontal: "center",
+    });
 
     const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -32,35 +69,48 @@ export default function DeleteAccount() {
         confirmPassword: "",
     });
 
-    const { showAlert, AlertUI } = useAppAlert({
-        vertical: "top",
-        horizontal: "center",
-    });
-
-    function handleRequestDelete() {
+    function validateDeleteForm() {
         if (!deleteACC.email || !deleteACC.password || !deleteACC.confirmPassword) {
             showAlert("Please fill in all fields.", "warning");
-            return;
+            return false;
         }
 
         if (deleteACC.password !== deleteACC.confirmPassword) {
             showAlert("The passwords entered don’t match. Please try again.", "error");
-            return;
+            return false;
         }
 
+        return true;
+    }
+
+    function handleRequestDelete() {
+        if (!validateDeleteForm()) return;
         setOpenConfirm(true);
     }
 
-    async function handleDelete() {
-        if (!deleteACC.email || !deleteACC.password || !deleteACC.confirmPassword) {
-            showAlert("Please fill in all fields.", "warning");
-            return;
-        }
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const { name, value } = event.target;
 
-        if (deleteACC.password !== deleteACC.confirmPassword) {
-            showAlert("The passwords entered don’t match. Please try again.", "error");
-            return;
-        }
+        setDeleteACC((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
+
+    function clearAuthStorage() {
+        localStorage.removeItem("authUser");
+        localStorage.removeItem("idUser");
+        localStorage.removeItem("userName");
+        localStorage.removeItem("emailUser");
+        localStorage.removeItem("userType");
+        localStorage.removeItem("user");
+        localStorage.removeItem("lsOrder");
+        localStorage.removeItem("lastOrderCode");
+        localStorage.removeItem("lastOrderEmail");
+    }
+
+    async function handleDelete() {
+        if (!validateDeleteForm()) return;
 
         try {
             const res = await api.delete("/users/removeUser", { data: deleteACC });
@@ -70,15 +120,7 @@ export default function DeleteAccount() {
                 return;
             }
 
-            localStorage.removeItem("authUser");
-            localStorage.removeItem("idUser");
-            localStorage.removeItem("userName");
-            localStorage.removeItem("emailUser");
-            localStorage.removeItem("userType");
-            localStorage.removeItem("user");
-            localStorage.removeItem("lsOrder");
-            localStorage.removeItem("lastOrderCode");
-            localStorage.removeItem("lastOrderEmail");
+            clearAuthStorage();
 
             showAlert("Account deleted successfully.", "success");
             navigate("/sign-in");
@@ -88,58 +130,19 @@ export default function DeleteAccount() {
         }
     }
 
-    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-        const { name, value } = event.target;
-        setDeleteACC((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    }
-
     useEffect(() => {
         const raw = localStorage.getItem("authUser");
         if (!raw) return;
 
         try {
             const u = JSON.parse(raw);
+
             setDeleteACC((prev) => ({
                 ...prev,
                 email: prev.email || u.email || "",
             }));
         } catch { }
     }, []);
-
-    const deleteFieldSx = {
-        "& .MuiInputLabel-root": {
-            color: "#000",
-        },
-        "& .MuiInputLabel-root.Mui-focused": {
-            color: "#000",
-        },
-        "& .MuiInputLabel-root.MuiInputLabel-shrink": {
-            backgroundColor: "background.paper",
-            padding: "0 6px",
-            borderRadius: "8px",
-            lineHeight: 1.2,
-            zIndex: 1,
-        },
-        "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-                borderColor: "#000",
-            },
-            "&:hover fieldset": {
-                borderColor: "#000",
-            },
-            "&.Mui-focused fieldset": {
-                borderColor: "#000",
-                borderWidth: 1.5,
-            },
-        },
-        "& .MuiOutlinedInput-input": {
-            color: "#000",
-            WebkitTextFillColor: "#000",
-        },
-    };
 
     if (isMobile) {
         return (
@@ -391,11 +394,9 @@ export default function DeleteAccount() {
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
-                            mt: -5
+                            mt: -5,
                         }}
                     >
-
-
                         <Typography
                             align="center"
                             sx={{
