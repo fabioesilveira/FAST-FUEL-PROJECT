@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, type MouseEvent } from "react";
-import { api } from "../api";
+import { api } from "../../api";
 import {
     Box,
     Paper,
@@ -10,19 +10,19 @@ import {
     Chip,
     Divider,
 } from "@mui/material";
-import Footer from "../components/layout/footer/Footer";
+import Footer from "../../components/layout/footer/Footer";
 import { useNavigate } from "react-router-dom";
-import { useAppAlert } from "../hooks/useAppAlert";
+import { useAppAlert } from "../../hooks/useAppAlert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
-import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import NavbarAction from "../components/layout/navbar/NavbarAction";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
+import NavbarAction from "../../components/layout/navbar/NavbarAction";
 import OrderReviewModal, {
     type ReviewEligibleItem,
-} from "../components/OrderReviewModal";
+} from "../../components/OrderReviewModal";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ProductsTitleBar from "../components/ProductsTitleBar";
+import ProductsTitleBar from "../../components/TitleBar";
 
 
 type Sale = {

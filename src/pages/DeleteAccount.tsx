@@ -9,7 +9,7 @@ import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import NavbarAuth from "../components/layout/navbar/NavbarAuth";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ProductsTitleBar from "../components/ProductsTitleBar";
+import ProductsTitleBar from "../components/TitleBar";
 
 type User = {
     email: string;

@@ -7,7 +7,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import NavbarAction from "../components/layout/navbar/NavbarAction";
-import ProductsTitleBar from "../components/ProductsTitleBar";
+import ProductsTitleBar from "../components/TitleBar";
 
 type Contact = {
     name: string;

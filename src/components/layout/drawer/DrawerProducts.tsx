@@ -11,11 +11,11 @@ import ListItemText from "@mui/material/ListItemText";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useNavigate } from "react-router-dom";
-import { useAppAlert } from "../hooks/useAppAlert";
-import { clearAuthStorage } from "../api";
+import { useAppAlert } from "../../../hooks/useAppAlert";
+import { clearAuthStorage } from "../../../api";
 
-import FriesIcon from "../assets/frenchFries.png";
-import SodaIcon from "../assets/soda.png";
+import FriesIcon from "../../../assets/frenchFries.png";
+import SodaIcon from "../../../assets/soda.png";
 
 // ícones account
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";

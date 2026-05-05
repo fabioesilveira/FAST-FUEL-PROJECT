@@ -1,23 +1,29 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { api } from "../api";
+import { api } from "../../api";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Footer from "../components/layout/footer/Footer";
-import { useAppContext, type Meal } from "../context/context";
-import NavbarProducts from "../components/layout/navbar/NavbarProducts";
+import Footer from "../../components/layout/footer/Footer";
+import { useAppContext, type Meal } from "../../context/context";
+import NavbarProducts from "../../components/layout/navbar/NavbarProducts";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import DrawerProducts from "../components/DrawerProducts";
-import NavFooterProducts from "../components/layout/footer/NavFooterProducts";
-import PageBg from "../components/PageBg";
-import PageBgMobile from "../components/PageBgMobile";
-import ProductsGrid from "../components/products/ProductsGrid";
-import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import ProductsTitleBar from "../components/ProductsTitleBar";
+import DrawerProducts from "../../components/layout/drawer/DrawerProducts";
+import NavFooterProducts from "../../components/layout/footer/NavFooterProducts";
+import PageBgMobile from "../../components/layout/background/PageBgMobile";
+import PageBg from "../../components/layout/background/PageBg";
+import ProductsGrid from "../../components/products/ProductsGrid";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
-export default function Burguers() {
-  useDocumentTitle("FastFuel • Burgers");
+import SaladImg from "../../assets/Crispsalad.png";
+import ProductsTitleBar from "../../components/TitleBar";
+
+const imageMap: Record<string, string> = {
+  "Crispsalad.png": SaladImg,
+};
+
+export default function Sides() {
+  useDocumentTitle("FastFuel • Sides");
 
   const [data, setData] = useState<Meal[]>([]);
   const { order, setOrder } = useAppContext();
@@ -64,44 +70,44 @@ export default function Burguers() {
 
   useEffect(() => {
     async function fetchApi() {
-      const req = await api.get("/products/category/sandwiches");
+      const req = await api.get("/products/category/sides");
       setData(req.data);
     }
     fetchApi();
   }, []);
 
   const imageStylesGridMobile: Record<string, React.CSSProperties> = {
-    "1": { width: "170px", height: "85px", marginTop: "5px" },
-    "2": { width: "130px", height: "125px" },
-    "3": { width: "140px", height: "90px", marginTop: "7px" },
-    "4": { width: "170px", height: "110px", marginTop: "-5px" },
+    "11": { width: "110px", height: "106px" },
+    "12": { width: "120px", height: "92px" },
+    "13": { width: "98px", height: "100px", marginTop: "8px" },
+    "14": { width: "100px", height: "90px" },
   };
 
   const imageStylesStreamMobile: Record<string, React.CSSProperties> = {
-    "1": { width: "152px", height: "128px", marginTop: "6px" },
-    "2": { width: "210px", height: "190px" },
-    "3": { width: "182px", height: "147px", marginTop: "10px" },
-    "4": { width: "240px", height: "174px", marginTop: "-2px" },
+    "11": { width: "162px", height: "157px" },
+    "12": { width: "180px", height: "152px", marginTop: "8px" },
+    "13": { width: "183px", height: "140px", marginTop: "11px" },
+    "14": { width: "150px", height: "132px" },
   };
 
   const imageStylesDesktop: Record<string, React.CSSProperties> = {
-    "1": { width: "130px", height: "120px", marginTop: "10px" },
-    "2": { width: "210px", height: "200px" },
-    "3": { width: "158px", height: "118px", marginTop: "10px" },
-    "4": { width: "200px", height: "145px" },
+    "11": { width: "150px", height: "145px" },
+    "12": { width: "170px", height: "130px" },
+    "13": { width: "170px", height: "138px", marginTop: "8px" },
+    "14": { width: "175px", height: "130px" },
   };
 
   const imageStylesDesktopWide: Record<string, React.CSSProperties> = {
-    "1": { width: "180px", height: "150px", marginTop: "8px" },
-    "2": { width: "240px", height: "216px" },
-    "3": { width: "173px", height: "163px", marginTop: "12px" },
-    "4": { width: "250px", height: "195px" },
+    "11": { width: "220px", height: "194px", marginTop: "5px" },
+    "12": { width: "220px", height: "210px" },
+    "13": { width: "172px", height: "168px", marginTop: "12px" },
+    "14": { width: "200px", height: "167px" },
   };
 
   return (
     <>
       <NavbarProducts />
-      <ProductsTitleBar title="Burgers" />
+      <ProductsTitleBar title="Sides" />
       {!isMobile && <DrawerProducts />}
 
       <PageShell
@@ -133,6 +139,7 @@ export default function Burguers() {
               imageStylesStreamMobile={imageStylesStreamMobile}
               imageStylesDesktop={imageStylesDesktop}
               imageStylesDesktopWide={imageStylesDesktopWide}
+              imageMap={imageMap}
             />
           </Container>
         </Box>

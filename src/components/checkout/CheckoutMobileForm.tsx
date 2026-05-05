@@ -4,7 +4,7 @@ import CheckoutContactSection from "./CheckoutContactSection";
 import CheckoutDeliverySection from "./CheckoutDeliverySection";
 import CheckoutPaymentSection from "./CheckoutPaymentSection";
 import CheckoutMobileFooter from "./CheckoutMobileFooter";
-import ProductsTitleBar from "../ProductsTitleBar";
+import ProductsTitleBar from "../TitleBar";
 import type { Meal } from "../../context/context";
 
 type AddressState = {

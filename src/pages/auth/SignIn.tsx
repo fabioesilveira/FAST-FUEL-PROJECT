@@ -1,32 +1,26 @@
 import { useEffect, useState } from "react";
-import { api, clearAuthStorage } from "../api";
+import { api, clearAuthStorage } from "../../api";
 import { useNavigate } from "react-router-dom";
-import Footer from "../components/layout/footer/Footer";
-import { useAppAlert } from "../hooks/useAppAlert";
-import { Box, Paper, TextField, Button } from "@mui/material";
-import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import NavbarAuth from "../components/layout/navbar/NavbarAuth";
+import Footer from "../../components/layout/footer/Footer";
+import { Box, Paper, Typography, TextField, Button } from "@mui/material";
+import { useAppAlert } from "../../hooks/useAppAlert";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
+import NavbarAuth from "../../components/layout/navbar/NavbarAuth";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ProductsTitleBar from "../components/ProductsTitleBar";
+import ProductsTitleBar from "../../components/TitleBar";
 
 type User = {
-    name: string;
     email: string;
-    number: string;
     password: string;
-    confirmPassword: string;
 };
 
-export default function SignUp() {
-    useDocumentTitle("FastFuel • Sign up");
+export default function SignIn() {
+    useDocumentTitle("FastFuel • Sign in");
 
-    const [signUp, setSignUp] = useState<User>({
-        name: "",
+    const [signIn, setSignIn] = useState<User>({
         email: "",
-        number: "",
         password: "",
-        confirmPassword: "",
     });
 
     const navigate = useNavigate();
@@ -47,9 +41,11 @@ export default function SignUp() {
         if (raw) {
             try {
                 const u = JSON.parse(raw);
+                const type = u?.type ?? localStorage.getItem("userType") ?? "normal";
+                const id = u?.id ? String(u.id) : localStorage.getItem("idUser");
 
-                if (u?.id) {
-                    navigate("/");
+                if (id) {
+                    navigate(type === "admin" ? "/admin/orders" : "/");
                     return;
                 }
 
@@ -62,126 +58,81 @@ export default function SignUp() {
         }
 
         const id = localStorage.getItem("idUser");
+        const type = localStorage.getItem("userType") ?? "normal";
 
         if (id) {
-            navigate("/");
+            navigate(type === "admin" ? "/admin/orders" : "/");
             return;
         }
 
         clearAuthStorage();
     }, [navigate]);
 
-    function handleChange({ target }: any) {
-        const { name, value } = target;
-        setSignUp((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    }
-
-    function isValidEmail(email: string) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
-    }
-
-    function isValidPassword(password: string) {
-        return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
-    }
-
-    function isValidUSPhone(phone: string) {
-        const digits = phone.replace(/\D/g, "");
-        return /^\d{10}$/.test(digits);
-    }
-
     async function handleClick() {
-        if (
-            !signUp.name ||
-            !signUp.email ||
-            !signUp.number ||
-            !signUp.password ||
-            !signUp.confirmPassword
-        ) {
-            showAlert("Please fill in all fields.", "warning");
-            return;
-        }
-
-        if (!isValidEmail(signUp.email)) {
-            showAlert("Please enter a valid email address.", "warning");
-            return;
-        }
-
-        if (!isValidUSPhone(signUp.number)) {
-            showAlert("Please enter a valid US phone number (10 digits).", "warning");
-            return;
-        }
-
-        if (!isValidPassword(signUp.password)) {
-            showAlert(
-                "Password must be at least 8 characters long and contain at least one number and one letter.",
-                "warning"
-            );
-            return;
-        }
-
-        if (signUp.password !== signUp.confirmPassword) {
-            showAlert("Passwords do not match.", "error");
+        if (!signIn.email || !signIn.password) {
+            showAlert("Please fill in your e-mail and password.", "warning");
             return;
         }
 
         try {
             const payload = {
-                fullName: signUp.name.trim(),
-                phone: signUp.number,
-                email: signUp.email.trim().toLowerCase(),
-                password: signUp.password,
+                ...signIn,
+                email: signIn.email.trim().toLowerCase(),
             };
 
-            await api.post("/users/register", payload);
+            const res = await api.post("/users/login", payload);
 
-            const loginRes = await api.post("/users/login", {
-                email: payload.email,
-                password: payload.password,
-            });
-
-            if (!loginRes.data?.id || !loginRes.data?.token) {
+            if (!res.data?.id || !res.data?.token) {
                 clearAuthStorage();
-                showAlert("Account created, but login failed. Please sign in.", "warning");
-                navigate("/sign-in");
+                showAlert("Login failed. Please try again.", "error");
                 return;
             }
 
             const displayName =
-                loginRes.data.fullName || loginRes.data.userName || payload.fullName || payload.email;
+                res.data.fullName || res.data.userName || payload.email;
 
             clearAuthStorage();
 
-            localStorage.setItem("idUser", String(loginRes.data.id));
+            localStorage.setItem("idUser", String(res.data.id));
             localStorage.setItem("userName", displayName);
-            localStorage.setItem("userType", loginRes.data.type || "normal");
-            localStorage.setItem("emailUser", loginRes.data.email || payload.email);
-            localStorage.setItem("token", loginRes.data.token);
+            localStorage.setItem("userType", res.data.type || "normal");
+            localStorage.setItem("emailUser", res.data.email || payload.email);
+            localStorage.setItem("token", res.data.token);
 
             localStorage.setItem(
                 "authUser",
                 JSON.stringify({
-                    id: loginRes.data.id,
+                    id: res.data.id,
                     userName: displayName,
-                    email: loginRes.data.email || payload.email,
-                    type: loginRes.data.type || "normal",
-                    token: loginRes.data.token,
+                    email: res.data.email || payload.email,
+                    type: res.data.type || "normal",
+                    token: res.data.token,
                 })
             );
 
-            showAlert("Account created successfully!", "success");
-            navigate("/");
-        } catch (error: any) {
-            console.error("error to send the data", error);
+            showAlert("Login successful!", "success");
 
-            if (error.response?.status === 409) {
-                showAlert("This email is already in use.", "error");
+            if (res.data.type === "admin") {
+                navigate("/admin/orders");
             } else {
-                showAlert("Error creating account. Please try again.", "error");
+                navigate("/");
             }
+        } catch (error: any) {
+            if (error.response?.status === 401) {
+                showAlert("Invalid email or password.", "error");
+            } else {
+                showAlert("Login failed. Please try again.", "error");
+            }
+            console.error("error to send the data", error);
         }
+    }
+
+    function handleChange({ target }: any) {
+        const { name, value } = target;
+        setSignIn((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     }
 
     const tfSx = {
@@ -208,7 +159,7 @@ export default function SignUp() {
             <>
                 <NavbarAuth />
                 {AlertUI}
-                <ProductsTitleBar title="Sign Up" />
+                <ProductsTitleBar title="Sign In" />
 
                 <Box
                     sx={{
@@ -245,37 +196,23 @@ export default function SignUp() {
                                 gap: 2,
                             }}
                         >
-                            <Button
-                                variant="text"
-                                onClick={() => navigate("/sign-in")}
+                            <Typography
+                                align="center"
                                 sx={{
-                                    textTransform: "none",
-                                    color: "rgba(180, 63, 0, 1)",
-                                    fontSize: "0.82rem",
-                                    "&:hover": { textDecoration: "underline" },
-                                    mt: -1.42,
-                                    mb: -0.7,
-                                    alignSelf: "center",
+                                    fontSize: "0.84rem",
+                                    color: "text.secondary",
+                                    fontWeight: "bold",
+                                    mt: -0.53,
+                                    mb: 0.2,
                                 }}
                             >
-                                Already have an account? Sign in to your account.
-                            </Button>
-
-                            <TextField
-                                id="name"
-                                label="Full Name*"
-                                name="name"
-                                autoComplete="name"
-                                value={signUp.name}
-                                onChange={handleChange}
-                                fullWidth
-                                size="small"
-                                sx={tfSx}
-                            />
+                                Sign in to enjoy the complete Fast Fuel experience.
+                            </Typography>
 
                             <TextField
                                 id="email"
                                 label="Email Address*"
+                                variant="outlined"
                                 name="email"
                                 type="email"
                                 autoComplete="email"
@@ -285,59 +222,29 @@ export default function SignUp() {
                                     autoCorrect: "off",
                                     spellCheck: false,
                                 }}
-                                value={signUp.email}
+                                value={signIn.email}
                                 onChange={handleChange}
-                                fullWidth
                                 size="small"
+                                fullWidth
                                 sx={tfSx}
                             />
 
                             <TextField
-                                id="tel"
-                                label="Phone Number*"
-                                name="number"
-                                type="tel"
-                                autoComplete="tel-national"
-                                inputProps={{
-                                    inputMode: "tel",
-                                    autoCapitalize: "none",
-                                    autoCorrect: "off",
-                                }}
-                                value={signUp.number}
-                                onChange={handleChange}
-                                fullWidth
-                                size="small"
-                                sx={tfSx}
-                            />
-
-                            <TextField
-                                id="new-password"
+                                id="password"
                                 label="Password*"
+                                variant="outlined"
                                 type="password"
                                 name="password"
-                                autoComplete="new-password"
-                                value={signUp.password}
-                                onChange={handleChange}
-                                fullWidth
-                                size="small"
-                                sx={tfSx}
-                            />
-
-                            <TextField
-                                id="confirm-password"
-                                label="Confirm Password*"
-                                type="password"
-                                name="confirmPassword"
-                                autoComplete="new-password"
+                                autoComplete="current-password"
                                 inputProps={{
                                     autoCapitalize: "none",
                                     autoCorrect: "off",
                                     spellCheck: false,
                                 }}
-                                value={signUp.confirmPassword}
+                                value={signIn.password}
                                 onChange={handleChange}
-                                fullWidth
                                 size="small"
+                                fullWidth
                                 sx={tfSx}
                             />
 
@@ -359,13 +266,46 @@ export default function SignUp() {
                                     fontSize: "0.82rem",
                                 }}
                             >
-                                Sign up
+                                Sign in
+                            </Button>
+
+                            <Typography
+                                align="center"
+                                sx={{
+                                    mt: 0.1,
+                                    fontSize: "0.82rem",
+                                    color: "rgba(180, 63, 0, 1)",
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                OR
+                            </Typography>
+
+                            <Button
+                                fullWidth
+                                size="large"
+                                variant="contained"
+                                onClick={() => navigate("/sign-up")}
+                                sx={{
+                                    mt: 0.1,
+                                    height: 40,
+                                    borderRadius: 2,
+                                    textTransform: "uppercase",
+                                    color: "white",
+                                    letterSpacing: "0.12em",
+                                    fontWeight: 700,
+                                    bgcolor: "#1e5bb8",
+                                    "&:hover": { bgcolor: "#164a96" },
+                                    fontSize: "0.82rem",
+                                }}
+                            >
+                                Create new account
                             </Button>
 
                             <Button
                                 variant="contained"
-                                size="large"
                                 fullWidth
+                                size="large"
                                 onClick={() => navigate("/")}
                                 sx={{
                                     mt: -0.1,
@@ -402,7 +342,7 @@ export default function SignUp() {
     return (
         <>
             <NavbarAuth />
-            <ProductsTitleBar title="Sign Up" />
+            <ProductsTitleBar title="Sign In" />
             {AlertUI}
 
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -423,7 +363,6 @@ export default function SignUp() {
                             left: "50%",
                             transform: "translateX(-50%)",
                             zIndex: 0,
-
                             width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
                             borderRadius: 20,
                             pointerEvents: "none",
@@ -474,12 +413,8 @@ export default function SignUp() {
                                 bgcolor: "background.paper",
                                 maxWidth: { xs: 520, md: 530 },
                                 p: { xs: 2.5, md: 3.2 },
-                                height: {
-                                    xs: "calc(100dvh - 200px)",
-                                    sm: "calc(100vh - 360px)", 
-                                    md: "calc(100vh - 240px)",
-                                },
-                                maxHeight: { xs: 520, sm: 523, md: 532 },
+                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
+                                maxHeight: { sm: 445, md: 455 },
                                 mt: { sm: 6.5, md: 5 },
                                 mb: { md: 1 },
                                 boxShadow:
@@ -513,43 +448,30 @@ export default function SignUp() {
                                     }}
                                     sx={{
                                         width: "100%",
+                                        maxWidth: 380,
                                         display: "flex",
                                         flexDirection: "column",
                                         gap: 2,
-                                        maxWidth: 380,
                                         pt: { xs: 1.0, sm: 1.2, md: 1.4 },
                                     }}
                                 >
-                                    <Button
-                                        variant="text"
-                                        onClick={() => navigate("/sign-in")}
+                                    <Typography
+                                        align="center"
                                         sx={{
-                                            textTransform: "none",
-                                            color: "rgba(180, 63, 0, 1)",
                                             fontSize: { xs: "0.82rem", sm: "0.92rem", md: "0.94rem" },
-                                            "&:hover": { textDecoration: "underline" },
-                                            mb: { sm: -0.3, md: -0.14 },
-                                            mt: { xs: -0.85, sm: -0.6, md: -1.1 },
+                                            color: "text.secondary",
+                                            fontWeight: "bold",
+                                            mt: { xs: -0.85, sm: 0.4, md: -0.28 },
+                                            mb: { sm: 0.7, md: 1 }
                                         }}
                                     >
-                                        Already have an account? Sign in to your account.
-                                    </Button>
-
-                                    <TextField
-                                        id="name"
-                                        label="Full Name*"
-                                        name="name"
-                                        autoComplete="name"
-                                        value={signUp.name}
-                                        onChange={handleChange}
-                                        fullWidth
-                                        size="small"
-                                        sx={tfSx}
-                                    />
+                                        Sign in to enjoy the complete Fast Fuel experience.
+                                    </Typography>
 
                                     <TextField
                                         id="email"
                                         label="Email Address*"
+                                        variant="outlined"
                                         name="email"
                                         type="email"
                                         autoComplete="email"
@@ -559,59 +481,29 @@ export default function SignUp() {
                                             autoCorrect: "off",
                                             spellCheck: false,
                                         }}
-                                        value={signUp.email}
+                                        value={signIn.email}
                                         onChange={handleChange}
-                                        fullWidth
                                         size="small"
+                                        fullWidth
                                         sx={tfSx}
                                     />
 
                                     <TextField
-                                        id="tel"
-                                        label="Phone Number*"
-                                        name="number"
-                                        type="tel"
-                                        autoComplete="tel-national"
-                                        inputProps={{
-                                            inputMode: "tel",
-                                            autoCapitalize: "none",
-                                            autoCorrect: "off",
-                                        }}
-                                        value={signUp.number}
-                                        onChange={handleChange}
-                                        fullWidth
-                                        size="small"
-                                        sx={tfSx}
-                                    />
-
-                                    <TextField
-                                        id="new-password"
+                                        id="password"
                                         label="Password*"
+                                        variant="outlined"
                                         type="password"
                                         name="password"
-                                        autoComplete="new-password"
-                                        value={signUp.password}
-                                        onChange={handleChange}
-                                        fullWidth
-                                        size="small"
-                                        sx={tfSx}
-                                    />
-
-                                    <TextField
-                                        id="confirm-password"
-                                        label="Confirm Password*"
-                                        type="password"
-                                        name="confirmPassword"
-                                        autoComplete="new-password"
+                                        autoComplete="current-password"
                                         inputProps={{
                                             autoCapitalize: "none",
                                             autoCorrect: "off",
                                             spellCheck: false,
                                         }}
-                                        value={signUp.confirmPassword}
+                                        value={signIn.password}
                                         onChange={handleChange}
-                                        fullWidth
                                         size="small"
+                                        fullWidth
                                         sx={tfSx}
                                     />
 
@@ -633,13 +525,46 @@ export default function SignUp() {
                                             fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
                                         }}
                                     >
-                                        Sign up
+                                        Sign in
+                                    </Button>
+
+                                    <Typography
+                                        align="center"
+                                        sx={{
+                                            mt: 0.1,
+                                            fontSize: { xs: "0.82rem", sm: "0.83rem", md: "0.85rem" },
+                                            color: "rgba(180, 63, 0, 1)",
+                                            fontWeight: "bold",
+                                        }}
+                                    >
+                                        OR
+                                    </Typography>
+
+                                    <Button
+                                        fullWidth
+                                        size="large"
+                                        variant="contained"
+                                        onClick={() => navigate("/sign-up")}
+                                        sx={{
+                                            mt: 0.1,
+                                            height: { xs: 38, md: 38 },
+                                            borderRadius: 2,
+                                            textTransform: "uppercase",
+                                            color: "white",
+                                            letterSpacing: "0.14em",
+                                            fontWeight: 700,
+                                            bgcolor: "#1e5bb8",
+                                            "&:hover": { bgcolor: "#164a96" },
+                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
+                                        }}
+                                    >
+                                        Create new Account
                                     </Button>
 
                                     <Button
                                         variant="contained"
-                                        size="large"
                                         fullWidth
+                                        size="large"
                                         onClick={() => navigate("/")}
                                         sx={{
                                             mt: -0.2,

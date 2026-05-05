@@ -29,7 +29,7 @@ import CheckoutPaymentSection from "../components/checkout/CheckoutPaymentSectio
 import CheckoutDeliverySection from "../components/checkout/CheckoutDeliverySection";
 
 import CheckoutMobileForm from "../components/checkout/CheckoutMobileForm";
-import ProductsTitleBar from "../components/ProductsTitleBar";
+import ProductsTitleBar from "../components/TitleBar";
 
 
 const imageMap: Record<string, string> = {

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import OrdersLogged from "./OrdersLogged";
+import OrdersLogged from "./TrackOrderLogged";
 import TrackOrderGuest from "./TrackOrderGuest";
 
 type LoggedUser = {
@@ -13,7 +13,7 @@ type LoggedUser = {
 
 export default function OrdersPage() {
     const loggedUser: LoggedUser | null = useMemo(() => {
-       
+
         const rawAuth = localStorage.getItem("authUser");
         if (rawAuth) {
             try {

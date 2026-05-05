@@ -1,27 +1,27 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { api } from "../api";
+import { api } from "../../api";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Footer from "../components/layout/footer/Footer";
-import { useAppContext, type Meal } from "../context/context";
-import NavbarProducts from "../components/layout/navbar/NavbarProducts";
+import Footer from "../../components/layout/footer/Footer";
+import { useAppContext, type Meal } from "../../context/context";
+import NavbarProducts from "../../components/layout/navbar/NavbarProducts";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import DrawerProducts from "../components/DrawerProducts";
-import NavFooterProducts from "../components/layout/footer/NavFooterProducts";
-import PageBgMobile from "../components/PageBgMobile";
-import PageBg from "../components/PageBg";
-import ProductsGrid from "../components/products/ProductsGrid";
-import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import DrawerProducts from "../../components/layout/drawer/DrawerProducts";
+import NavFooterProducts from "../../components/layout/footer/NavFooterProducts";
+import PageBgMobile from "../../components/layout/background/PageBgMobile";
+import PageBg from "../../components/layout/background/PageBg";
+import ProductsGrid from "../../components/products/ProductsGrid";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
-import CokeImg from "../assets/Coke.png";
-import SpriteImg from "../assets/Sprite.png";
-import DrPepperImg from "../assets/Drpepper.png";
-import FantaImg from "../assets/Fanta.png";
-import DietCokeImg from "../assets/Dietcoke.png";
-import LemonadeImg from "../assets/Lemonade.png";
-import ProductsTitleBar from "../components/ProductsTitleBar";
+import CokeImg from "../../assets/Coke.png";
+import SpriteImg from "../../assets/Sprite.png";
+import DrPepperImg from "../../assets/Drpepper.png";
+import FantaImg from "../../assets/Fanta.png";
+import DietCokeImg from "../../assets/Dietcoke.png";
+import LemonadeImg from "../../assets/Lemonade.png";
+import ProductsTitleBar from "../../components/TitleBar";
 
 const imageMap: Record<string, string> = {
   "Coke.png": CokeImg,

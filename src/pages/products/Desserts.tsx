@@ -1,23 +1,23 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { api } from "../api";
+import { api } from "../../api";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Footer from "../components/layout/footer/Footer";
-import { useAppContext, type Meal } from "../context/context";
-import NavbarProducts from "../components/layout/navbar/NavbarProducts";
+import Footer from "../../components/layout/footer/Footer";
+import { useAppContext, type Meal } from "../../context/context";
+import NavbarProducts from "../../components/layout/navbar/NavbarProducts";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import DrawerProducts from "../components/DrawerProducts";
-import NavFooterProducts from "../components/layout/footer/NavFooterProducts";
-import PageBgMobile from "../components/PageBgMobile";
-import PageBg from "../components/PageBg";
-import ProductsGrid from "../components/products/ProductsGrid";
-import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import DrawerProducts from "../../components/layout/drawer/DrawerProducts";
+import NavFooterProducts from "../../components/layout/footer/NavFooterProducts";
+import PageBgMobile from "../../components/layout/background/PageBgMobile";
+import PageBg from "../../components/layout/background/PageBg";
+import ProductsGrid from "../../components/products/ProductsGrid";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
-import MilkshakeImg from "../assets/Milkshake.png";
-import SundaeImg from "../assets/Sundae.png";
-import ProductsTitleBar from "../components/ProductsTitleBar";
+import MilkshakeImg from "../../assets/Milkshake.png";
+import SundaeImg from "../../assets/Sundae.png";
+import ProductsTitleBar from "../../components/TitleBar";
 
 const imageMap: Record<string, string> = {
     "Milkshake.png": MilkshakeImg,

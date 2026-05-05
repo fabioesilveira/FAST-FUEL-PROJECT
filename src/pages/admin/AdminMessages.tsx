@@ -10,7 +10,7 @@ import { Menu, MenuItem, ListItemText } from "@mui/material";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ProductsTitleBar from "../../components/ProductsTitleBar";
+import ProductsTitleBar from "../../components/TitleBar";
 
 type ContactMsg = {
     id: number;

@@ -12,8 +12,8 @@ import Box from "@mui/material/Box";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-import FriesIcon from "../assets/frenchFries.png";
-import SodaIcon from "../assets/soda.png";
+import FriesIcon from "../../../assets/frenchFries.png";
+import SodaIcon from "../../../assets/soda.png";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import CookieIcon from "@mui/icons-material/Cookie";
 import type { SvgIconComponent } from "@mui/icons-material";

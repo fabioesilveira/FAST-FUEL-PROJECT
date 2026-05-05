@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, type MouseEvent, useMemo } from "react";
-import { api } from "../api";
+import { api } from "../../api";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import {
@@ -13,18 +13,18 @@ import {
     Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Footer from "../components/layout/footer/Footer";
-import { useAppAlert } from "../hooks/useAppAlert";
+import Footer from "../../components/layout/footer/Footer";
+import { useAppAlert } from "../../hooks/useAppAlert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
-import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import NavbarAction from "../components/layout/navbar/NavbarAction";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
+import NavbarAction from "../../components/layout/navbar/NavbarAction";
 import OrderReviewModal, {
     type ReviewEligibleItem,
-} from "../components/OrderReviewModal";
+} from "../../components/OrderReviewModal";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ProductsTitleBar from "../components/ProductsTitleBar";
+import ProductsTitleBar from "../../components/TitleBar";
 
 type Sale = {
     id: number;

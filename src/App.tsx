@@ -1,20 +1,20 @@
 import { Route, Routes } from "react-router-dom";
-import SignUp from "./pages/SignUp";
-import SignIn from "./pages/SignIn";
+import SignUp from "./pages/auth/SignUp.tsx";
+import SignIn from "./pages/auth/SignIn.tsx";
 import Home from "./pages/Home";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Burguers from "./pages/Burguers";
-import Desserts from "./pages/Desserts";
-import Beverages from "./pages/Beverages";
-import Sides from "./pages/Sides";
+import Burguers from "./pages/products/Burgers.tsx";
+import Desserts from "./pages/products/Desserts.tsx";
+import Beverages from "./pages/products/Beverages.tsx";
+import Sides from "./pages/products/Sides.tsx";
 import Checkout from "./pages/Checkout";
 import DeleteAccount from "./pages/DeleteAccount";
-import ContactUs from "./pages/ContactUs";
+import ContactUs from "./pages/Contact.tsx";
 import AdminMessages from "./pages/admin/AdminMessages.tsx";
 import AdminOrders from "./pages/admin/AdminOrders";
-import OrdersLogged from "./pages/OrdersLogged";
-import TrackOrderGuest from "./pages/TrackOrderGuest";
-import OrdersPage from "./pages/OrdersPage";
+import OrdersLogged from "./pages/orders/TrackOrderLogged.tsx";
+import TrackOrderGuest from "./pages/orders/TrackOrderGuest.tsx";
+import OrdersPage from "./pages/orders/OrdersEntry.tsx";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import { RequireAuth, RequireAdmin } from "./routes/RequireAuth.tsx"
 
