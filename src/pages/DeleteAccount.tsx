@@ -391,7 +391,7 @@ export default function DeleteAccount() {
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
-                            mt: -3.5
+                            mt: -5
                         }}
                     >
 
