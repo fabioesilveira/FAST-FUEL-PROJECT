@@ -49,7 +49,7 @@ export default function CheckoutMobileFooter({
                 <Box sx={{ minWidth: 0 }}>
                     <Typography
                         sx={{
-                            fontSize: "0.79rem",
+                            fontSize: "0.78rem",
                             letterSpacing: "0.15em",
                             textTransform: "uppercase",
                             color: "#0d47a1",
