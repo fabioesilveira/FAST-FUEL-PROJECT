@@ -40,7 +40,7 @@ export function DescriptionBox({
                 gap: 1.2,
             }}
         >
-            {/* TOGGLE */}
+
             <Box
                 sx={{
                     width: "100%",
@@ -83,7 +83,7 @@ export function DescriptionBox({
                 </IconButton>
             </Box>
 
-            {/* TEXT */}
+
             <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
                 <Typography
                     sx={{
@@ -103,7 +103,7 @@ export function DescriptionBox({
                         overflowWrap: "break-word",
                     }}
                 >
-                    {/* fechado */}
+
                     {!open ? (
                         <Box
                             component="span"
@@ -118,7 +118,7 @@ export function DescriptionBox({
                         </Box>
                     ) : null}
 
-                    {/* aberto */}
+
                     <Collapse in={open} timeout={220}>
                         <Box component="span">{text}</Box>
                     </Collapse>

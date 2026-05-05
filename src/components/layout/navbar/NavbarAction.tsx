@@ -5,9 +5,9 @@ import Button from "@mui/material/Button";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import Logo from "../assets/fast-fuel.png";
-import { useAppAlert } from "../hooks/useAppAlert";
-import { useAppContext } from "../context/context";
+import Logo from "../../../assets/fast-fuel.png";
+import { useAppAlert } from "../../../hooks/useAppAlert";
+import { useAppContext } from "../../../context/context";
 
 export default function NavbarAction() {
 

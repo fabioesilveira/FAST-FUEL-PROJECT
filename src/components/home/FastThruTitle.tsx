@@ -86,7 +86,7 @@ export default function FastThruTitle({
                     sx={{
                         display: "flex",
                         alignItems: "center",
-                        gap: 1.1, // diminui aqui pra trazer mais perto do total
+                        gap: 1.1,
                         minWidth: 0,
                     }}
                 >
@@ -112,7 +112,7 @@ export default function FastThruTitle({
                             alignItems: "center",
                             justifyContent: "flex-start",
                             lineHeight: 1,
-                            ml: -0.2, // ajuste fino
+                            ml: -0.2,
                         }}
                     >
                         {cartCount > 0 && (
@@ -165,7 +165,7 @@ export default function FastThruTitle({
                                     color: "#164a96",
                                     fontSize: 25,
                                     lineHeight: 1,
-                                    mt: 1 , // esse cara alinha o ícone com o meio do TOTAL
+                                    mt: 1,
                                 }}
                             />
 

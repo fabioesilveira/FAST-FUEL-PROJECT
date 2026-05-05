@@ -14,10 +14,10 @@ import EmailIcon from "@mui/icons-material/Email";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import CookieIcon from "@mui/icons-material/Cookie";
-import FriesIcon from "../assets/frenchFries.png";
-import SodaIcon from "../assets/soda.png";
+import FriesIcon from "../../../assets/frenchFries.png";
+import SodaIcon from "../../../assets/soda.png";
 
-import { useAppAlert } from "../hooks/useAppAlert";
+import { useAppAlert } from "../../../hooks/useAppAlert";
 
 type NavItem =
     | {

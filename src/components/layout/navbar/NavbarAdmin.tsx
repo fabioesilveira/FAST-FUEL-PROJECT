@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import Logo from "../assets/fast-fuel.png";
+import Logo from "../../../assets/fast-fuel.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import HistoryIcon from "@mui/icons-material/History";
 import EmailIcon from "@mui/icons-material/Email";

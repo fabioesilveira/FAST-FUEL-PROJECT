@@ -6,19 +6,19 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
-import Logo from "../assets/fast-fuel.png";
+import Logo from "../../../assets/fast-fuel.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Badge, { badgeClasses } from "@mui/material/Badge";
-import { useAppContext } from "../context/context";
+import { useAppContext } from "../../../context/context";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import HistoryIcon from "@mui/icons-material/History";
 import EmailIcon from "@mui/icons-material/Email";
-import { useAppAlert } from "../hooks/useAppAlert";
-import { clearAuthStorage } from "../api";
+import { useAppAlert } from "../../../hooks/useAppAlert";
+import { clearAuthStorage } from "../../../api";
 
 type DropdownItem = {
   label: string;

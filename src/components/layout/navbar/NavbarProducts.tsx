@@ -3,14 +3,14 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
-import Logo from "../assets/fast-fuel.png";
+import Logo from "../../../assets/fast-fuel.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import HomeIcon from "@mui/icons-material/Home";
 import Badge, { badgeClasses } from "@mui/material/Badge";
-import { useAppContext } from "../context/context";
-import { useAppAlert } from "../hooks/useAppAlert";
+import { useAppContext } from "../../../context/context";
+import { useAppAlert } from "../../../hooks/useAppAlert";
 
 const CartBadge = styled(Badge)`
   & .${badgeClasses.badge} {

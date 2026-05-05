@@ -1,7 +1,7 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Logo from "../assets/fast-fuel.png";
+import Logo from "../../../assets/fast-fuel.png";
 
 function NavbarAuth() {
     return (

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { api, clearAuthStorage } from "../api";
 import { useNavigate } from "react-router-dom";
-import Footer from "../components/Footer";
+import Footer from "../components/layout/footer/Footer";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import { useAppAlert } from "../hooks/useAppAlert";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import NavbarAuth from "../components/NavbarAuth";
+import NavbarAuth from "../components/layout/navbar/NavbarAuth";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ProductsTitleBar from "../components/ProductsTitleBar";
@@ -415,7 +415,7 @@ export default function SignIn() {
                                 p: { xs: 2.5, md: 3.2 },
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
                                 maxHeight: { sm: 445, md: 455 },
-                                mt: { sm: 6.5, md: 3.5 },
+                                mt: { sm: 6.5, md: 5 },
                                 mb: { md: 1 },
                                 boxShadow:
                                     "0 4px 12px rgba(230, 81, 0, 0.18), 0 8px 20px rgba(0,0,0,0.08)",

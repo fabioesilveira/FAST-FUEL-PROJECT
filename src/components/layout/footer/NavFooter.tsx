@@ -4,8 +4,8 @@ import IconButton from "@mui/material/IconButton";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
-import FriesIcon from "../assets/frenchFries.png";
-import SodaIcon from "../assets/soda.png";
+import FriesIcon from "../../../assets/frenchFries.png";
+import SodaIcon from "../../../assets/soda.png";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import CookieIcon from "@mui/icons-material/Cookie";
 

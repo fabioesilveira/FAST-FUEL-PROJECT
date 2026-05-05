@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useAppAlert } from "../hooks/useAppAlert";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
-import Footer from "../components/Footer";
+import Footer from "../components/layout/footer/Footer";
 import { api } from "../api";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import NavbarAction from "../components/NavbarAction";
+import NavbarAction from "../components/layout/navbar/NavbarAction";
 import ProductsTitleBar from "../components/ProductsTitleBar";
 
 type Contact = {
@@ -350,7 +350,7 @@ export default function ContactUs() {
                                 p: { xs: 2.25, sm: 2.75, md: 3.2 },
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
                                 maxHeight: { sm: 580, md: 588 },
-                                mt: { sm: 6.5, md: 3.5 },
+                                mt: { sm: 6.5, md: 5 },
                                 mb: { md: 1 },
                                 boxShadow:
                                     "0 4px 12px rgba(230, 81, 0, 0.18), 0 8px 20px rgba(0,0,0,0.08)",

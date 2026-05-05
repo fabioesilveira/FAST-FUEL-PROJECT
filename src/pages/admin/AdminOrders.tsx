@@ -12,11 +12,11 @@ import {
     Chip,
     Divider,
 } from "@mui/material";
-import NavbarAdmin from "../../components/NavbarAdmin";
+import NavbarAdmin from "../../components/layout/navbar/NavbarAdmin";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
-import Footer from "../../components/Footer";
+import Footer from "../../components/layout/footer/Footer";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ProductsTitleBar from "../../components/ProductsTitleBar";

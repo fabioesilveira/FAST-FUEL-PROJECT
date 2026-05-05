@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Box, Paper, Typography, Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
-import Footer from "../components/Footer";
+import Footer from "../components/layout/footer/Footer";
 import { useAppContext, type Meal } from "../context/context";
 import { useAppAlert } from "../hooks/useAppAlert";
 import { useCheckoutTotals } from "../hooks/useCheckoutTotals";
@@ -18,7 +18,7 @@ import LemonadeImg from "../assets/Lemonade.png";
 import SaladImg from "../assets/Crispsalad.png";
 import MilkshakeImg from "../assets/Milkshake.png";
 import SundaeImg from "../assets/Sundae.png";
-import NavbarAction from "../components/NavbarAction";
+import NavbarAction from "../components/layout/navbar/NavbarAction";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 

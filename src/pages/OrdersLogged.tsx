@@ -13,12 +13,12 @@ import {
     Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Footer from "../components/Footer";
+import Footer from "../components/layout/footer/Footer";
 import { useAppAlert } from "../hooks/useAppAlert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Menu, MenuItem, ListItemText } from "@mui/material";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import NavbarAction from "../components/NavbarAction";
+import NavbarAction from "../components/layout/navbar/NavbarAction";
 import OrderReviewModal, {
     type ReviewEligibleItem,
 } from "../components/OrderReviewModal";
