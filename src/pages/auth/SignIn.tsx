@@ -15,13 +15,32 @@ type User = {
     password: string;
 };
 
+const initialSignIn: User = {
+    email: "",
+    password: "",
+};
+
+const tfSx = {
+    "& label": { color: "#0d47a1", fontWeight: 500 },
+    "& label.Mui-focused": { color: "#0d47a1" },
+
+    "& .MuiInputLabel-root.MuiInputLabel-shrink": {
+        backgroundColor: "background.paper",
+        padding: "0 6px",
+        borderRadius: "8px",
+        lineHeight: 1.2,
+        zIndex: 1,
+    },
+
+    "& .MuiOutlinedInput-root": {
+        "& fieldset": { borderColor: "#0d47a1" },
+        "&:hover fieldset": { borderColor: "#123b7a" },
+        "&.Mui-focused fieldset": { borderColor: "#0d47a1", borderWidth: 2 },
+    },
+};
+
 export default function SignIn() {
     useDocumentTitle("FastFuel • Sign in");
-
-    const [signIn, setSignIn] = useState<User>({
-        email: "",
-        password: "",
-    });
 
     const navigate = useNavigate();
     const theme = useTheme();
@@ -31,6 +50,89 @@ export default function SignIn() {
         vertical: "top",
         horizontal: "center",
     });
+
+    const [signIn, setSignIn] = useState<User>(initialSignIn);
+
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const { name, value } = event.target;
+
+        setSignIn((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
+
+    function validateSignInForm() {
+        if (!signIn.email || !signIn.password) {
+            showAlert("Please fill in your e-mail and password.", "warning");
+            return false;
+        }
+
+        return true;
+    }
+
+    function saveAuthData(data: any, fallbackEmail: string) {
+        const displayName = data.fullName || data.userName || fallbackEmail;
+
+        clearAuthStorage();
+
+        localStorage.setItem("idUser", String(data.id));
+        localStorage.setItem("userName", displayName);
+        localStorage.setItem("userType", data.type || "normal");
+        localStorage.setItem("emailUser", data.email || fallbackEmail);
+        localStorage.setItem("token", data.token);
+
+        localStorage.setItem(
+            "authUser",
+            JSON.stringify({
+                id: data.id,
+                userName: displayName,
+                email: data.email || fallbackEmail,
+                type: data.type || "normal",
+                token: data.token,
+            })
+        );
+    }
+
+    function redirectByUserType(type?: string) {
+        if (type === "admin") {
+            navigate("/admin/orders");
+        } else {
+            navigate("/");
+        }
+    }
+
+    async function handleClick() {
+        if (!validateSignInForm()) return;
+
+        try {
+            const payload = {
+                ...signIn,
+                email: signIn.email.trim().toLowerCase(),
+            };
+
+            const res = await api.post("/users/login", payload);
+
+            if (!res.data?.id || !res.data?.token) {
+                clearAuthStorage();
+                showAlert("Login failed. Please try again.", "error");
+                return;
+            }
+
+            saveAuthData(res.data, payload.email);
+
+            showAlert("Login successful!", "success");
+            redirectByUserType(res.data.type);
+        } catch (error: any) {
+            if (error.response?.status === 401) {
+                showAlert("Invalid email or password.", "error");
+            } else {
+                showAlert("Login failed. Please try again.", "error");
+            }
+
+            console.error("error to send the data", error);
+        }
+    }
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -67,92 +169,6 @@ export default function SignIn() {
 
         clearAuthStorage();
     }, [navigate]);
-
-    async function handleClick() {
-        if (!signIn.email || !signIn.password) {
-            showAlert("Please fill in your e-mail and password.", "warning");
-            return;
-        }
-
-        try {
-            const payload = {
-                ...signIn,
-                email: signIn.email.trim().toLowerCase(),
-            };
-
-            const res = await api.post("/users/login", payload);
-
-            if (!res.data?.id || !res.data?.token) {
-                clearAuthStorage();
-                showAlert("Login failed. Please try again.", "error");
-                return;
-            }
-
-            const displayName =
-                res.data.fullName || res.data.userName || payload.email;
-
-            clearAuthStorage();
-
-            localStorage.setItem("idUser", String(res.data.id));
-            localStorage.setItem("userName", displayName);
-            localStorage.setItem("userType", res.data.type || "normal");
-            localStorage.setItem("emailUser", res.data.email || payload.email);
-            localStorage.setItem("token", res.data.token);
-
-            localStorage.setItem(
-                "authUser",
-                JSON.stringify({
-                    id: res.data.id,
-                    userName: displayName,
-                    email: res.data.email || payload.email,
-                    type: res.data.type || "normal",
-                    token: res.data.token,
-                })
-            );
-
-            showAlert("Login successful!", "success");
-
-            if (res.data.type === "admin") {
-                navigate("/admin/orders");
-            } else {
-                navigate("/");
-            }
-        } catch (error: any) {
-            if (error.response?.status === 401) {
-                showAlert("Invalid email or password.", "error");
-            } else {
-                showAlert("Login failed. Please try again.", "error");
-            }
-            console.error("error to send the data", error);
-        }
-    }
-
-    function handleChange({ target }: any) {
-        const { name, value } = target;
-        setSignIn((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    }
-
-    const tfSx = {
-        "& label": { color: "#0d47a1", fontWeight: 500 },
-        "& label.Mui-focused": { color: "#0d47a1" },
-
-        "& .MuiInputLabel-root.MuiInputLabel-shrink": {
-            backgroundColor: "background.paper",
-            padding: "0 6px",
-            borderRadius: "8px",
-            lineHeight: 1.2,
-            zIndex: 1,
-        },
-
-        "& .MuiOutlinedInput-root": {
-            "& fieldset": { borderColor: "#0d47a1" },
-            "&:hover fieldset": { borderColor: "#123b7a" },
-            "&.Mui-focused fieldset": { borderColor: "#0d47a1", borderWidth: 2 },
-        },
-    };
 
     if (isMobile) {
         return (
@@ -409,7 +425,7 @@ export default function SignIn() {
                             sx={{
                                 width: "100%",
                                 borderRadius: 3,
-                                border: "1px solid rgba(230, 81, 0, 0.15)", 
+                                border: "1px solid rgba(230, 81, 0, 0.15)",
                                 bgcolor: "background.paper",
                                 maxWidth: { xs: 520, md: 530 },
                                 p: { xs: 2.5, md: 3.2 },
@@ -425,7 +441,6 @@ export default function SignIn() {
                                 overflow: "hidden",
                             }}
                         >
-
                             <Box
                                 sx={{
                                     flex: 1,
@@ -462,7 +477,7 @@ export default function SignIn() {
                                             color: "text.secondary",
                                             fontWeight: "bold",
                                             mt: { xs: -0.85, sm: 0.4, md: -0.28 },
-                                            mb: { sm: 0.7, md: 1 }
+                                            mb: { sm: 0.7, md: 1 },
                                         }}
                                     >
                                         Sign in to enjoy the complete Fast Fuel experience.
