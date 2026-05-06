@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useAppAlert } from "../hooks/useAppAlert";
 import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import Footer from "../components/layout/footer/Footer";
 import { api } from "../api";
@@ -8,6 +7,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import NavbarAction from "../components/layout/navbar/NavbarAction";
 import ProductsTitleBar from "../components/TitleBar";
+import { useAppAlert } from "../hooks/useAppAlert";
 
 type Contact = {
     name: string;
@@ -18,17 +18,39 @@ type Contact = {
     message: string;
 };
 
-export default function ContactUs() {
-    useDocumentTitle("FastFuel • Contact us");
+const initialContactForm: Contact = {
+    name: "",
+    email: "",
+    orderNumber: 0,
+    phone: "",
+    subject: "",
+    message: "",
+};
 
-    const [contactForm, setContactForm] = useState<Contact>({
-        name: "",
-        email: "",
-        orderNumber: 0,
-        phone: "",
-        subject: "",
-        message: "",
-    });
+const tfSx = {
+    "& label": { color: "#0d47a1", fontWeight: 500 },
+    "& label.Mui-focused": { color: "#0d47a1" },
+
+    "& .MuiInputLabel-root.MuiInputLabel-shrink": {
+        backgroundColor: "background.paper",
+        padding: "0 6px",
+        borderRadius: "8px",
+        lineHeight: 1.2,
+        zIndex: 1,
+    },
+
+    "& .MuiOutlinedInput-root": {
+        "& fieldset": { borderColor: "#0d47a1" },
+        "&:hover fieldset": { borderColor: "#123b7a" },
+        "&.Mui-focused fieldset": {
+            borderColor: "#0d47a1",
+            borderWidth: 2,
+        },
+    },
+};
+
+export default function Contact() {
+    useDocumentTitle("FastFuel • Contact us");
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -38,33 +60,35 @@ export default function ContactUs() {
         horizontal: "center",
     });
 
-    const tfSx = {
-        "& label": { color: "#0d47a1", fontWeight: 500 },
-        "& label.Mui-focused": { color: "#0d47a1" },
+    const [contactForm, setContactForm] = useState<Contact>(initialContactForm);
 
-        "& .MuiInputLabel-root.MuiInputLabel-shrink": {
-            backgroundColor: "background.paper",
-            padding: "0 6px",
-            borderRadius: "8px",
-            lineHeight: 1.2,
-            zIndex: 1,
-        },
+    function validateContactForm() {
+        if (
+            !contactForm.name ||
+            !contactForm.email ||
+            !contactForm.subject ||
+            !contactForm.message
+        ) {
+            showAlert("Please fill in all required * fields.", "warning");
+            return false;
+        }
 
-        "& .MuiOutlinedInput-root": {
-            "& fieldset": { borderColor: "#0d47a1" },
-            "&:hover fieldset": { borderColor: "#123b7a" },
-            "&.Mui-focused fieldset": {
-                borderColor: "#0d47a1",
-                borderWidth: 2,
-            },
-        },
-    };
+        return true;
+    }
+
+    function handleChange(
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) {
+        const { name, value } = event.target;
+
+        setContactForm((prev) => ({
+            ...prev,
+            [name]: name === "orderNumber" ? Number(value) || 0 : value,
+        }));
+    }
 
     async function handleClick() {
-        if (!contactForm.name || !contactForm.email || !contactForm.subject || !contactForm.message) {
-            showAlert("Please fill in all required * fields.", "warning");
-            return;
-        }
+        if (!validateContactForm()) return;
 
         try {
             const res = await api.post("/contact-us", contactForm);
@@ -90,21 +114,13 @@ export default function ContactUs() {
         }
     }
 
-    function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-        const { name, value } = event.target;
-
-        setContactForm((prev) => ({
-            ...prev,
-            [name]: name === "orderNumber" ? Number(value) || 0 : value,
-        }));
-    }
-
     useEffect(() => {
         const raw = localStorage.getItem("authUser");
         if (!raw) return;
 
         try {
             const u = JSON.parse(raw);
+
             setContactForm((prev) => ({
                 ...prev,
                 name: prev.name || u.userName || u.fullName || "",
@@ -120,7 +136,14 @@ export default function ContactUs() {
                 {AlertUI}
                 <ProductsTitleBar title="Contact Us" />
 
-                <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column", bgcolor: "#fff" }}>
+                <Box
+                    sx={{
+                        minHeight: "100dvh",
+                        display: "flex",
+                        flexDirection: "column",
+                        bgcolor: "#fff",
+                    }}
+                >
                     <Box
                         component="main"
                         sx={{
@@ -192,6 +215,7 @@ export default function ContactUs() {
                                     fullWidth
                                     sx={tfSx}
                                 />
+
                                 <TextField
                                     variant="outlined"
                                     size="small"
@@ -314,7 +338,7 @@ export default function ContactUs() {
                                     rgba(255,255,255,0.88) 10px,
                                     rgba(255,255,255,0.88) 20px
                                 )
-                                `,
+                            `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -360,8 +384,6 @@ export default function ContactUs() {
                                 overflow: "hidden",
                             }}
                         >
-
-
                             <Box
                                 sx={{
                                     flex: 1,
@@ -388,7 +410,6 @@ export default function ContactUs() {
                                         display: "flex",
                                         flexDirection: "column",
                                         gap: { xs: 1.8, sm: 2 },
-
                                     }}
                                 >
                                     <Typography
@@ -439,6 +460,7 @@ export default function ContactUs() {
                                             fullWidth
                                             sx={tfSx}
                                         />
+
                                         <TextField
                                             variant="outlined"
                                             size="small"
