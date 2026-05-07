@@ -240,25 +240,31 @@ export default function Reviews() {
                                     direction={{ xs: "column", sm: "row" }}
                                     spacing={1.2}
                                     alignItems="stretch"
+                                    sx={{ width: "100%" }}
                                 >
                                     <Button
-                                        variant="contained"
+                                        variant="outlined"
                                         onClick={openFilterMenu}
                                         endIcon={<ExpandMoreIcon />}
                                         sx={{
-                                            minWidth: { xs: "100%", sm: 180 },
-                                            borderRadius: 1.5,
-                                            bgcolor: "rgba(230, 81, 0, 0.20)",
+                                            width: { xs: "100%", sm: 180 },
+                                            flexShrink: 0,
+                                            borderRadius: 1,
+
+                                            bgcolor: "#f8efe4",
+                                            borderColor: "rgba(230, 81, 0, 0.30)",
                                             color: "#0d47a1",
+
                                             fontWeight: 900,
                                             textTransform: "uppercase",
                                             letterSpacing: "0.08em",
                                             height: 40,
                                             fontSize: "0.78rem",
                                             justifyContent: "space-between",
+
                                             "&:hover": {
-                                                bgcolor: "rgba(230, 81, 0, 0.28)",
-                                                color: "#0d47a1",
+                                                bgcolor: "#f1e4d5",
+                                                borderColor: "#e65100",
                                             },
                                         }}
                                     >
@@ -270,13 +276,64 @@ export default function Reviews() {
                                         label="Search Reviews"
                                         value={search}
                                         onChange={(e) => setSearch(e.target.value)}
-                                        sx={[tfBlueLabelSx, { flex: 1 }]}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <SearchIcon sx={{ color: "#1e5bb8", fontSize: 21 }} />
-                                            ),
-                                        }}
+                                        sx={[
+                                            tfBlueLabelSx,
+                                            {
+                                                flex: 1,
+                                                minWidth: 0,
+                                            },
+                                        ]}
+
                                     />
+
+                                    <Button
+                                        variant="contained"
+                                        sx={{
+                                            width: { xs: "100%", sm: 130 },
+                                            flexShrink: 0,
+                                            height: 40,
+                                            borderRadius: 1.5,
+                                            bgcolor: "#1e5bb8",
+                                            color: "#fff",
+                                            fontWeight: 900,
+                                            fontSize: "0.76rem",
+                                            letterSpacing: "0.08em",
+                                            textTransform: "uppercase",
+                                            "&:hover": {
+                                                bgcolor: "#123b7a",
+                                            },
+                                        }}
+                                    >
+                                        Search
+                                    </Button>
+
+                                    <Button
+                                        variant="contained"
+                                        onClick={() => {
+                                            setSearch("");
+                                            setSelectedCategory("All Categories");
+                                            closeAllMenus();
+                                        }}
+                                        sx={{
+                                            width: { xs: "100%", sm: 130 },
+                                            flexShrink: 0,
+                                            height: 40,
+                                            borderRadius: 1.5,
+                                            bgcolor: "rgba(230, 81, 0, 0.20)",
+                                            color: "#0d47a1",
+                                            fontWeight: 900,
+                                            fontSize: "0.76rem",
+                                            letterSpacing: "0.08em",
+                                            textTransform: "uppercase",
+                                            whiteSpace: "nowrap",
+                                            "&:hover": {
+                                                bgcolor: "rgba(230, 81, 0, 0.28)",
+                                                color: "#0d47a1",
+                                            },
+                                        }}
+                                    >
+                                        Clear Filters
+                                    </Button>
                                 </Stack>
                             </Box>
 
