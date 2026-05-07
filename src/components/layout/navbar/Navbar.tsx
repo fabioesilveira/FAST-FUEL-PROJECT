@@ -472,7 +472,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                       alignItems: "center",
                       justifyContent: "flex-start",
                       gap: 1.2,
-                      height: 40,
+                      height: 41,
                       width: "100%",
                       px: 1.5,
                       py: 0.8,
