@@ -82,6 +82,7 @@ export default function Reviews() {
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const hideActionButtons = useMediaQuery(theme.breakpoints.down("md"));
 
     const [search, setSearch] = useState("");
 
@@ -199,13 +200,13 @@ export default function Reviews() {
                         },
                     ]}
                     InputProps={{
-                        endAdornment: isMobile ? (
+                        endAdornment: hideActionButtons ? (
                             <SearchIcon sx={{ color: "#1e5bb8", fontSize: 21 }} />
                         ) : undefined,
                     }}
                 />
 
-                {!isMobile && (
+                {!hideActionButtons && (
                     <>
                         <Button
                             variant="contained"
@@ -529,11 +530,15 @@ export default function Reviews() {
                     <ExpandMoreIcon sx={{ transform: "rotate(-90deg)", fontSize: 19 }} />
                 </MenuItem>
 
-                <Divider sx={{ my: 0.6 }} />
+                {isMobile && (
+                    <>
+                        <Divider sx={{ my: 0.6 }} />
 
-                <MenuItem onClick={handleClearFilters}>
-                    <ListItemText primary="Clear Filters" />
-                </MenuItem>
+                        <MenuItem onClick={handleClearFilters}>
+                            <ListItemText primary="Clear Filters" />
+                        </MenuItem>
+                    </>
+                )}
             </Menu>
 
             <Menu
