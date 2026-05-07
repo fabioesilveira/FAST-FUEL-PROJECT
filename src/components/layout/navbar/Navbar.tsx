@@ -10,6 +10,7 @@ import Logo from "../../../assets/fast-fuel.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import StarIcon from '@mui/icons-material/Star';
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Badge, { badgeClasses } from "@mui/material/Badge";
 import { useAppContext } from "../../../context/context";
@@ -30,6 +31,7 @@ type DropdownItem = {
 const guestDropdownItems: DropdownItem[] = [
   { label: "Signin / Signup", icon: AccountCircleIcon, path: "/sign-in" },
   { label: "My Orders", icon: HistoryIcon, path: "/orders" },
+  { label: "Reviews", icon: StarIcon, path: "/reviews" },
   { label: "Contact Us", icon: EmailIcon, path: "/contact-us" },
 ];
 
@@ -131,6 +133,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
       setDropDownChange([
         { label: "Signout", icon: AccountCircleIcon, action: handleClickSignout },
         { label: "My Orders", icon: HistoryIcon, path: "/orders" },
+        { label: "Reviews", icon: StarIcon, path: "/reviews" },
         { label: "Contact Us", icon: EmailIcon, path: "/contact-us" },
         {
           label: "Delete Account",
@@ -469,6 +472,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                       alignItems: "center",
                       justifyContent: "flex-start",
                       gap: 1.2,
+                      height: 40,
                       width: "100%",
                       px: 1.5,
                       py: 0.8,
@@ -505,7 +509,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                           sx={commonSx}
                         >
                           <Box sx={{ width: 24, display: "flex" }}>
-                            <Icon sx={{ color: "#e85f10" }} />
+                            <Icon sx={{ color: "#e85f10", fontSize: 24 }} />
                           </Box>
                           {label}
                         </Button>
@@ -523,7 +527,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                         sx={commonSx}
                       >
                         <Box sx={{ width: 24, display: "flex" }}>
-                          <Icon sx={{ color: "#e85f10" }} />
+                          <Icon sx={{ color: "#e85f10", fontSize: 24 }} />
                         </Box>
                         {label}
                       </Button>

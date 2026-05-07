@@ -3,7 +3,7 @@ import SignUp from "./pages/auth/SignUp.tsx";
 import SignIn from "./pages/auth/SignIn.tsx";
 import Home from "./pages/Home";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Burguers from "./pages/products/Burgers.tsx";
+import Burgers from "./pages/products/Burgers.tsx";
 import Desserts from "./pages/products/Desserts.tsx";
 import Beverages from "./pages/products/Beverages.tsx";
 import Sides from "./pages/products/Sides.tsx";
@@ -17,6 +17,7 @@ import TrackOrderGuest from "./pages/orders/TrackOrderGuest.tsx";
 import OrdersPage from "./pages/orders/OrdersEntry.tsx";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import { RequireAuth, RequireAdmin } from "./routes/RequireAuth.tsx"
+import Reviews from "./pages/Reviews.tsx";
 
 export default function App() {
   return (
@@ -26,7 +27,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/burgers" element={<Burguers />} />
+        <Route path="/burgers" element={<Burgers />} />
         <Route path="/sides" element={<Sides />} />
         <Route path="/desserts" element={<Desserts />} />
         <Route path="/drinks" element={<Beverages />} />
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/TrackOrderGuest" element={<TrackOrderGuest />} />
+        <Route path="/reviews" element={<Reviews />} />
 
         <Route element={<RequireAuth />}>
           <Route path="/deleteaccount" element={<DeleteAccount />} />

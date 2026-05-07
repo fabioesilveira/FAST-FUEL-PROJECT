@@ -18,16 +18,35 @@ type User = {
     confirmPassword: string;
 };
 
+const initialSignUp: User = {
+    name: "",
+    email: "",
+    number: "",
+    password: "",
+    confirmPassword: "",
+};
+
+const tfSx = {
+    "& label": { color: "#0d47a1", fontWeight: 500 },
+    "& label.Mui-focused": { color: "#0d47a1" },
+
+    "& .MuiInputLabel-root.MuiInputLabel-shrink": {
+        backgroundColor: "background.paper",
+        padding: "0 6px",
+        borderRadius: "8px",
+        lineHeight: 1.2,
+        zIndex: 1,
+    },
+
+    "& .MuiOutlinedInput-root": {
+        "& fieldset": { borderColor: "#0d47a1" },
+        "&:hover fieldset": { borderColor: "#123b7a" },
+        "&.Mui-focused fieldset": { borderColor: "#0d47a1", borderWidth: 2 },
+    },
+};
+
 export default function SignUp() {
     useDocumentTitle("FastFuel • Sign up");
-
-    const [signUp, setSignUp] = useState<User>({
-        name: "",
-        email: "",
-        number: "",
-        password: "",
-        confirmPassword: "",
-    });
 
     const navigate = useNavigate();
     const theme = useTheme();
@@ -37,6 +56,132 @@ export default function SignUp() {
         vertical: "top",
         horizontal: "center",
     });
+
+    const [signUp, setSignUp] = useState<User>(initialSignUp);
+
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const { name, value } = event.target;
+
+        setSignUp((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
+
+    function isValidEmail(email: string) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    }
+
+    function isValidPassword(password: string) {
+        return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
+    }
+
+    function isValidUSPhone(phone: string) {
+        const digits = phone.replace(/\D/g, "");
+        return /^\d{10}$/.test(digits);
+    }
+
+    function validateSignUpForm() {
+        if (
+            !signUp.name ||
+            !signUp.email ||
+            !signUp.number ||
+            !signUp.password ||
+            !signUp.confirmPassword
+        ) {
+            showAlert("Please fill in all fields.", "warning");
+            return false;
+        }
+
+        if (!isValidEmail(signUp.email)) {
+            showAlert("Please enter a valid email address.", "warning");
+            return false;
+        }
+
+        if (!isValidUSPhone(signUp.number)) {
+            showAlert("Please enter a valid US phone number (10 digits).", "warning");
+            return false;
+        }
+
+        if (!isValidPassword(signUp.password)) {
+            showAlert(
+                "Password must be at least 8 characters long and contain at least one number and one letter.",
+                "warning"
+            );
+            return false;
+        }
+
+        if (signUp.password !== signUp.confirmPassword) {
+            showAlert("Passwords do not match.", "error");
+            return false;
+        }
+
+        return true;
+    }
+
+    function saveAuthData(data: any, fallbackName: string, fallbackEmail: string) {
+        const displayName =
+            data.fullName || data.userName || fallbackName || fallbackEmail;
+
+        clearAuthStorage();
+
+        localStorage.setItem("idUser", String(data.id));
+        localStorage.setItem("userName", displayName);
+        localStorage.setItem("userType", data.type || "normal");
+        localStorage.setItem("emailUser", data.email || fallbackEmail);
+        localStorage.setItem("token", data.token);
+
+        localStorage.setItem(
+            "authUser",
+            JSON.stringify({
+                id: data.id,
+                userName: displayName,
+                email: data.email || fallbackEmail,
+                type: data.type || "normal",
+                token: data.token,
+            })
+        );
+    }
+
+    async function handleClick() {
+        if (!validateSignUpForm()) return;
+
+        try {
+            const payload = {
+                fullName: signUp.name.trim(),
+                phone: signUp.number,
+                email: signUp.email.trim().toLowerCase(),
+                password: signUp.password,
+            };
+
+            await api.post("/users/register", payload);
+
+            const loginRes = await api.post("/users/login", {
+                email: payload.email,
+                password: payload.password,
+            });
+
+            if (!loginRes.data?.id || !loginRes.data?.token) {
+                clearAuthStorage();
+                showAlert("Account created, but login failed. Please sign in.", "warning");
+                navigate("/sign-in");
+                return;
+            }
+
+            saveAuthData(loginRes.data, payload.fullName, payload.email);
+
+            showAlert("Account created successfully!", "success");
+            navigate("/");
+        } catch (error: any) {
+            console.error("error to send the data", error);
+
+            if (error.response?.status === 409) {
+                showAlert("This email is already in use.", "error");
+            } else {
+                showAlert("Error creating account. Please try again.", "error");
+            }
+        }
+    }
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -70,138 +215,6 @@ export default function SignUp() {
 
         clearAuthStorage();
     }, [navigate]);
-
-    function handleChange({ target }: any) {
-        const { name, value } = target;
-        setSignUp((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    }
-
-    function isValidEmail(email: string) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
-    }
-
-    function isValidPassword(password: string) {
-        return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
-    }
-
-    function isValidUSPhone(phone: string) {
-        const digits = phone.replace(/\D/g, "");
-        return /^\d{10}$/.test(digits);
-    }
-
-    async function handleClick() {
-        if (
-            !signUp.name ||
-            !signUp.email ||
-            !signUp.number ||
-            !signUp.password ||
-            !signUp.confirmPassword
-        ) {
-            showAlert("Please fill in all fields.", "warning");
-            return;
-        }
-
-        if (!isValidEmail(signUp.email)) {
-            showAlert("Please enter a valid email address.", "warning");
-            return;
-        }
-
-        if (!isValidUSPhone(signUp.number)) {
-            showAlert("Please enter a valid US phone number (10 digits).", "warning");
-            return;
-        }
-
-        if (!isValidPassword(signUp.password)) {
-            showAlert(
-                "Password must be at least 8 characters long and contain at least one number and one letter.",
-                "warning"
-            );
-            return;
-        }
-
-        if (signUp.password !== signUp.confirmPassword) {
-            showAlert("Passwords do not match.", "error");
-            return;
-        }
-
-        try {
-            const payload = {
-                fullName: signUp.name.trim(),
-                phone: signUp.number,
-                email: signUp.email.trim().toLowerCase(),
-                password: signUp.password,
-            };
-
-            await api.post("/users/register", payload);
-
-            const loginRes = await api.post("/users/login", {
-                email: payload.email,
-                password: payload.password,
-            });
-
-            if (!loginRes.data?.id || !loginRes.data?.token) {
-                clearAuthStorage();
-                showAlert("Account created, but login failed. Please sign in.", "warning");
-                navigate("/sign-in");
-                return;
-            }
-
-            const displayName =
-                loginRes.data.fullName || loginRes.data.userName || payload.fullName || payload.email;
-
-            clearAuthStorage();
-
-            localStorage.setItem("idUser", String(loginRes.data.id));
-            localStorage.setItem("userName", displayName);
-            localStorage.setItem("userType", loginRes.data.type || "normal");
-            localStorage.setItem("emailUser", loginRes.data.email || payload.email);
-            localStorage.setItem("token", loginRes.data.token);
-
-            localStorage.setItem(
-                "authUser",
-                JSON.stringify({
-                    id: loginRes.data.id,
-                    userName: displayName,
-                    email: loginRes.data.email || payload.email,
-                    type: loginRes.data.type || "normal",
-                    token: loginRes.data.token,
-                })
-            );
-
-            showAlert("Account created successfully!", "success");
-            navigate("/");
-        } catch (error: any) {
-            console.error("error to send the data", error);
-
-            if (error.response?.status === 409) {
-                showAlert("This email is already in use.", "error");
-            } else {
-                showAlert("Error creating account. Please try again.", "error");
-            }
-        }
-    }
-
-    const tfSx = {
-        "& label": { color: "#0d47a1", fontWeight: 500 },
-        "& label.Mui-focused": { color: "#0d47a1" },
-
-        "& .MuiInputLabel-root.MuiInputLabel-shrink": {
-            backgroundColor: "background.paper",
-            padding: "0 6px",
-            borderRadius: "8px",
-            lineHeight: 1.2,
-            zIndex: 1,
-        },
-
-        "& .MuiOutlinedInput-root": {
-            "& fieldset": { borderColor: "#0d47a1" },
-            "&:hover fieldset": { borderColor: "#123b7a" },
-            "&.Mui-focused fieldset": { borderColor: "#0d47a1", borderWidth: 2 },
-        },
-    };
 
     if (isMobile) {
         return (
@@ -424,7 +437,11 @@ export default function SignUp() {
                             transform: "translateX(-50%)",
                             zIndex: 0,
 
-                            width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
+                            width: {
+                                xs: "min(98vw, 720px)",
+                                sm: "min(96vw, 820px)",
+                                md: 900,
+                            },
                             borderRadius: 20,
                             pointerEvents: "none",
                             backgroundImage: `
@@ -440,7 +457,7 @@ export default function SignUp() {
                                     rgba(255,255,255,0.88) 10px,
                                     rgba(255,255,255,0.88) 20px
                                 )
-                                `,
+                            `,
                             backgroundRepeat: "no-repeat, repeat",
                             backgroundSize: "100% 100%, auto",
                         },
@@ -470,13 +487,13 @@ export default function SignUp() {
                             sx={{
                                 width: "100%",
                                 borderRadius: 3,
-                                border: "1px solid rgba(230, 81, 0, 0.15)", 
+                                border: "1px solid rgba(230, 81, 0, 0.15)",
                                 bgcolor: "background.paper",
                                 maxWidth: { xs: 520, md: 530 },
                                 p: { xs: 2.5, md: 3.2 },
                                 height: {
                                     xs: "calc(100dvh - 200px)",
-                                    sm: "calc(100vh - 360px)", 
+                                    sm: "calc(100vh - 360px)",
                                     md: "calc(100vh - 240px)",
                                 },
                                 maxHeight: { xs: 520, sm: 523, md: 532 },
@@ -490,7 +507,6 @@ export default function SignUp() {
                                 overflow: "hidden",
                             }}
                         >
-
                             <Box
                                 sx={{
                                     flex: 1,
@@ -500,7 +516,10 @@ export default function SignUp() {
                                     justifyContent: "center",
                                     px: 1,
                                     pt: { xs: 1, sm: 1.2, md: 1.4 },
-                                    pb: { xs: `calc(96px + env(safe-area-inset-bottom))`, sm: 3.2 },
+                                    pb: {
+                                        xs: `calc(96px + env(safe-area-inset-bottom))`,
+                                        sm: 3.2,
+                                    },
                                 }}
                             >
                                 <Box
@@ -526,7 +545,11 @@ export default function SignUp() {
                                         sx={{
                                             textTransform: "none",
                                             color: "rgba(180, 63, 0, 1)",
-                                            fontSize: { xs: "0.82rem", sm: "0.92rem", md: "0.94rem" },
+                                            fontSize: {
+                                                xs: "0.82rem",
+                                                sm: "0.92rem",
+                                                md: "0.94rem",
+                                            },
                                             "&:hover": { textDecoration: "underline" },
                                             mb: { sm: -0.3, md: -0.14 },
                                             mt: { xs: -0.85, sm: -0.6, md: -1.1 },
@@ -630,7 +653,11 @@ export default function SignUp() {
                                             fontWeight: 700,
                                             bgcolor: "#1e5bb8",
                                             "&:hover": { bgcolor: "#164a96" },
-                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
+                                            fontSize: {
+                                                xs: "0.82rem",
+                                                sm: "0.85rem",
+                                                md: "0.89rem",
+                                            },
                                         }}
                                     >
                                         Sign up
@@ -650,7 +677,11 @@ export default function SignUp() {
                                             letterSpacing: "0.14em",
                                             fontWeight: 700,
                                             bgcolor: "rgba(230, 81, 0, 0.20)",
-                                            fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
+                                            fontSize: {
+                                                xs: "0.82rem",
+                                                sm: "0.85rem",
+                                                md: "0.89rem",
+                                            },
                                             "&:hover": {
                                                 bgcolor: "rgba(230, 81, 0, 0.28)",
                                                 borderColor: "#0d47a1",

@@ -16,7 +16,7 @@ import ProductsGrid from "../../components/products/ProductsGrid";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import ProductsTitleBar from "../../components/TitleBar";
 
-export default function Burguers() {
+export default function Burgers() {
   useDocumentTitle("FastFuel • Burgers");
 
   const [data, setData] = useState<Meal[]>([]);
