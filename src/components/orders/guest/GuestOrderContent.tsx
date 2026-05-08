@@ -125,7 +125,7 @@ export default function GuestOrderContent({
                         justifyContent: "center",
                         px: 3,
                         textAlign: "center",
-                        pt: { xs: 2, sm: 2, md: 15 },
+                        pt: { xs: 2, sm: 2, md: 17 },
                         pb: { xs: 2, sm: 29, md: 2 },
                     }}
                 >

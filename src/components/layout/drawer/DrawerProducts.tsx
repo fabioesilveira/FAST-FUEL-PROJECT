@@ -19,7 +19,7 @@ import SodaIcon from "../../../assets/soda.png";
 
 // ícones account
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import NoAccountsIcon from "@mui/icons-material/NoAccounts";
+import StarIcon from "@mui/icons-material/Star";
 import HistoryIcon from "@mui/icons-material/History";
 import EmailIcon from "@mui/icons-material/Email";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
@@ -162,24 +162,13 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
         : { label: "SIGNIN / SIGNUP", icon: AccountCircleIcon, path: "/sign-in" },
 
       { label: "MY ORDERS", icon: HistoryIcon, path: "/orders" },
+      { label: "REVIEWS", icon: StarIcon, path: "/reviews" },
       { label: "CONTACT US", icon: EmailIcon, path: "/contact-us" },
-      {
-        label: "DELETE ACCOUNT",
-        icon: NoAccountsIcon,
-        path: "/deleteaccount",
-        requiresAuth: true,
-      },
     ],
     [isLogged]
   );
 
   const handleItemClick = (item: DrawerItem) => {
-    const logged = Boolean(localStorage.getItem("idUser"));
-
-    if (item.requiresAuth && !logged) {
-      showAlert("Please sign in to delete your account", "warning");
-      return;
-    }
     if (item.action) return item.action();
     if (item.path) navigate(item.path);
   };
@@ -393,7 +382,6 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                       color: switchColor,
                       transition: "transform .2s ease",
                       transform: open ? "scale(1.08)" : "scale(1.03)",
-                      ...(isCategoriesMode ? outlineOrangeSx : {}),
                     }}
                   />
                 </Box>
@@ -445,7 +433,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
                     <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
                       <IconComp
                         sx={{
-                          fontSize: 30.5,
+                          fontSize: label === "CONTACT US" ? 29 : 30.5,
                           color: accountIconColor,
                           transition: "transform .2s ease",
                           transform: open ? "scale(1.04)" : "scale(1)",

@@ -1,4 +1,4 @@
-import { useState, type MouseEvent } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import {
     Box,
     Paper,
@@ -92,9 +92,9 @@ export default function Reviews() {
 
     const [selectedCategory, setSelectedCategory] = useState<string>("All Categories");
 
-    const filterOpen = Boolean(filterAnchorEl);
-    const categoryOpen = Boolean(categoryAnchorEl);
-    const productOpen = Boolean(productAnchorEl);
+    const filterOpen = Boolean(filterAnchorEl && document.body.contains(filterAnchorEl));
+    const categoryOpen = Boolean(categoryAnchorEl && document.body.contains(categoryAnchorEl));
+    const productOpen = Boolean(productAnchorEl && document.body.contains(productAnchorEl));
 
     const selectedCategoryData = categories.find((c) => c.label === selectedCategory);
 
@@ -113,6 +113,20 @@ export default function Reviews() {
         setSelectedCategory("All Categories");
         closeAllMenus();
     }
+
+    useEffect(() => {
+        function handleResize() {
+            setFilterAnchorEl(null);
+            setCategoryAnchorEl(null);
+            setProductAnchorEl(null);
+        }
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     const filtersHeader = (
         <Box sx={{ mb: isMobile ? 2 : 0 }}>

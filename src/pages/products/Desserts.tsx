@@ -92,7 +92,7 @@ export default function Desserts() {
         "15": { transform: "scale(1.07)", marginTop: "8px" },
         "16": { width: "150px", height: "186px" },
         "17": { width: "158px", height: "158px" },
-        "18": { width: "129px", height: "129px",marginTop: "4px" },
+        "18": { width: "129px", height: "129px", marginTop: "4px" },
     };
 
     const imageStylesDesktop: Record<string, React.CSSProperties> = {
@@ -116,11 +116,11 @@ export default function Desserts() {
             {!isMobile && <DrawerProducts />}
 
             <PageShell
-                stripeCenterWidth={800}
-                stripeWidth={10}
-                gapWidth={18}
-                stripeAlpha={0.14}
-                centerBgAlpha={0.92}
+                {...(!isMobile && {
+                    stripeWidth: 26,
+                    gapWidth: 24,
+                    stripeAlpha: 0.25,
+                })}
             >
                 <Box
                     sx={{

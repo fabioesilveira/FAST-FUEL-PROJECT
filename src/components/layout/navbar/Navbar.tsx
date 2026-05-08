@@ -509,7 +509,12 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                           sx={commonSx}
                         >
                           <Box sx={{ width: 24, display: "flex" }}>
-                            <Icon sx={{ color: "#e85f10", fontSize: 24 }} />
+                            <Icon
+                              sx={{
+                                color: "#e85f10",
+                                fontSize: label === "Contact Us" ? 23 : 24,
+                              }}
+                            />
                           </Box>
                           {label}
                         </Button>
@@ -527,7 +532,12 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                         sx={commonSx}
                       >
                         <Box sx={{ width: 24, display: "flex" }}>
-                          <Icon sx={{ color: "#e85f10", fontSize: 24 }} />
+                          <Icon
+                            sx={{
+                              color: "#e85f10",
+                              fontSize: label === "Contact Us" ? 23 : 24,
+                            }}
+                          />
                         </Box>
                         {label}
                       </Button>

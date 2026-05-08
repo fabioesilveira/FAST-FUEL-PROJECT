@@ -134,12 +134,6 @@ export default function Home() {
     const PageShell = isMobile ? PageBgMobile : PageBg;
     const showMobilePromosBlock = isMobile && !hidePromos;
 
-    const stripeCenterWidthDesktop = isSearching
-        ? 800
-        : driveModeActive
-            ? 950
-            : 1250;
-
     const headlineMt = searchOverlayOpen
         ? { xs: 12, sm: 12, md: 2.7 }
         : isSearching
@@ -272,11 +266,11 @@ export default function Home() {
             {ConfirmUI}
 
             <PageShell
-                {...(!isMobile && { stripeCenterWidth: stripeCenterWidthDesktop })}
-                stripeWidth={10}
-                gapWidth={18}
-                stripeAlpha={0.14}
-                centerBgAlpha={0.92}
+                {...(!isMobile && {
+                    stripeWidth: 26,
+                    gapWidth: 24,
+                    stripeAlpha: 0.25,
+                })}
             >
                 <Box
                     sx={{
