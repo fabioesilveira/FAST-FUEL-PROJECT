@@ -11,7 +11,7 @@ type PageBgProps = {
 export default function PageBg({
     children,
     stripeWidth = 56,
-    gapWidth = 52,
+    gapWidth = 54,
     stripeAlpha = 0.36,
 }: PageBgProps) {
     const period = stripeWidth + gapWidth;

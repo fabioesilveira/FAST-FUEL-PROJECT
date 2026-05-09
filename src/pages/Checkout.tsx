@@ -125,10 +125,11 @@ export default function Checkout() {
         horizontal: "center",
     });
 
-    const paperRef = useRef<HTMLDivElement | null>(null);
-    const stickyRef = useRef<HTMLDivElement | null>(null);
 
-    const [isDockedToPaperBottom, setIsDockedToPaperBottom] = useState(false);
+    const scrollBoxRef = useRef<HTMLDivElement | null>(null);
+
+    const [checkoutBarFloating, setCheckoutBarFloating] = useState(false);
+
     const [streetText, setStreetText] = useState("");
 
     const [screen, setScreen] = useState<CheckoutScreen>("form");
@@ -334,25 +335,6 @@ export default function Checkout() {
     }, []);
 
     useEffect(() => {
-        function checkDocked() {
-            if (!paperRef.current || !stickyRef.current) return;
-            const paperRect = paperRef.current.getBoundingClientRect();
-            const barRect = stickyRef.current.getBoundingClientRect();
-            const docked = Math.abs(barRect.bottom - paperRect.bottom) <= 2;
-            setIsDockedToPaperBottom(docked);
-        }
-
-        checkDocked();
-        window.addEventListener("scroll", checkDocked, { passive: true });
-        window.addEventListener("resize", checkDocked);
-
-        return () => {
-            window.removeEventListener("scroll", checkDocked);
-            window.removeEventListener("resize", checkDocked);
-        };
-    }, []);
-
-    useEffect(() => {
         if (!isLogged) return;
 
         const name =
@@ -366,6 +348,31 @@ export default function Checkout() {
         setFullName(name);
         setEmail(mail);
     }, [isLogged, loggedUser]);
+
+    useEffect(() => {
+        function checkScroll() {
+            const el = scrollBoxRef.current;
+            if (!el) return;
+
+            const hasScroll = el.scrollHeight > el.clientHeight + 2;
+            const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 4;
+
+            setCheckoutBarFloating(hasScroll && !atBottom);
+        }
+
+        checkScroll();
+
+        const el = scrollBoxRef.current;
+        if (!el) return;
+
+        el.addEventListener("scroll", checkScroll, { passive: true });
+        window.addEventListener("resize", checkScroll);
+
+        return () => {
+            el.removeEventListener("scroll", checkScroll);
+            window.removeEventListener("resize", checkScroll);
+        };
+    }, []);
 
     const desktopTitle =
         screen === "processing"
@@ -515,7 +522,6 @@ export default function Checkout() {
                 >
                     <Paper
                         elevation={0}
-                        ref={paperRef}
                         sx={{
                             width: "100%",
                             maxWidth: { xs: 520, sm: 560, md: 570 },
@@ -536,6 +542,7 @@ export default function Checkout() {
                     >
 
                         <Box
+                            ref={scrollBoxRef}
                             sx={{
                                 flex: 1,
                                 overflowY: "auto",
@@ -606,7 +613,6 @@ export default function Checkout() {
                                     </Box>
 
                                     <Box
-                                        ref={stickyRef}
                                         sx={{
                                             position: "sticky",
                                             bottom: 0,
@@ -614,12 +620,18 @@ export default function Checkout() {
                                             py: 1.5,
                                             zIndex: 10,
                                             backgroundColor: "#ffe0c7",
-                                            borderTop: isDockedToPaperBottom
-                                                ? "2px solid rgba(13, 71, 161, 0.25)"
+                                            boxShadow: checkoutBarFloating
+                                                ? "0 8px 18px rgba(0,0,0,0.12)"
                                                 : "none",
-                                            borderBottomLeftRadius: isDockedToPaperBottom ? 12 : 0,
-                                            borderBottomRightRadius: isDockedToPaperBottom ? 12 : 0,
-                                            boxShadow: "none",
+
+                                            borderTop: checkoutBarFloating
+                                                ? "1px solid rgba(13, 71, 161, 0.12)"
+                                                : "2px solid rgba(13, 71, 161, 0.25)",
+
+                                            borderRadius: checkoutBarFloating ? 2 : "0 0 12px 12px",
+
+                                            transition:
+                                                "transform .22s ease, box-shadow .22s ease, border-radius .22s ease, border-top .22s ease",
                                         }}
                                     >
                                         <Stack

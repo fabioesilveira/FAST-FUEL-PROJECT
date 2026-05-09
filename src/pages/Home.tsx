@@ -24,6 +24,7 @@ import FastThruTitle from "../components/home/FastThruTitle";
 import HomeCartMenu from "../components/home/HomeCartMenu";
 import HomeSearchSection from "../components/home/HomeSearchSection";
 import HomeFastThruSection from "../components/home/HomeFastThruSection";
+import PortfolioTips from "../components/portfolio/PortfolioTips";
 
 import { api } from "../api";
 import { useAppContext, type Meal } from "../context/context";
@@ -524,6 +525,7 @@ export default function Home() {
                             onRemoveItem={removeItem}
                         />
                     </Container>
+                    {!isMobile && <PortfolioTips />}
 
                     {isMobile ? <FloatingContactMobile /> : <FloatingContact />}
 
