@@ -9,6 +9,7 @@ import NavbarAuth from "../../components/layout/navbar/NavbarAuth";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ProductsTitleBar from "../../components/TitleBar";
+import SignInDemoTip from "../../components/portfolio/SignInDemoTip";
 
 type User = {
     email: string;
@@ -611,6 +612,8 @@ export default function SignIn() {
                         </Paper>
                     </Box>
                 </Box>
+
+                {!isMobile && <SignInDemoTip />}
 
                 <Footer />
             </Box>
