@@ -12,6 +12,7 @@ import {
     MenuItem,
     ListItemText,
 } from "@mui/material";
+import { api } from "../api";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -21,6 +22,18 @@ import NavbarAction from "../components/layout/navbar/NavbarAction";
 import Footer from "../components/layout/footer/Footer";
 import ProductsTitleBar from "../components/TitleBar";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+
+type Review = {
+    id: number;
+    product_id: number;
+    product_name: string;
+    product_image?: string;
+    category: string;
+    display_name: string;
+    rating: number;
+    comment: string | null;
+    created_at: string;
+};
 
 const tfBlueLabelSx = {
     "& label": { color: "#0d47a1" },
@@ -40,42 +53,25 @@ const tfBlueLabelSx = {
 };
 
 const categories = [
-    {
-        label: "Burgers",
-        products: ["Classic Burger", "Double Burger", "Cheese Burger"],
-    },
-    {
-        label: "Sides",
-        products: ["Fries", "Onion Rings", "Chicken Nuggets"],
-    },
-    {
-        label: "Drinks",
-        products: ["Coke", "Sprite", "Iced Tea"],
-    },
-    {
-        label: "Desserts",
-        products: ["Milkshake", "Brownie", "Ice Cream"],
-    },
+    { label: "Burgers", value: "sandwiches" },
+    { label: "Sides", value: "sides" },
+    { label: "Drinks", value: "beverages" },
+    { label: "Desserts", value: "desserts" },
 ];
 
-const mockReviews = [
-    {
-        id: 1,
-        customer: "Guest",
-        product: "Classic Burger",
-        rating: 5,
-        comment: "Great flavor, fast delivery, and the burger was fresh.",
-        date: "May 2026",
-    },
-    {
-        id: 2,
-        customer: "Customer",
-        product: "Fries",
-        rating: 4,
-        comment: "Crispy and tasty. I would order again.",
-        date: "May 2026",
-    },
-];
+function formatReviewDate(date: string) {
+    return new Date(date).toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+    });
+}
+
+function cleanProductName(name: string) {
+    return String(name || "")
+        .replace(/\/\s*\d+\s*kcal/i, "")
+        .replace(/•\s*\d+\s*kcal/i, "")
+        .trim();
+}
 
 export default function Reviews() {
     useDocumentTitle("FastFuel • Reviews");
@@ -90,13 +86,17 @@ export default function Reviews() {
     const [categoryAnchorEl, setCategoryAnchorEl] = useState<HTMLElement | null>(null);
     const [productAnchorEl, setProductAnchorEl] = useState<HTMLElement | null>(null);
 
-    const [selectedCategory, setSelectedCategory] = useState<string>("All Categories");
+    const [reviews, setReviews] = useState<Review[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+    const [selectedCategory, setSelectedCategory] = useState<string>("all");
+    const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
+    const [dateAnchorEl, setDateAnchorEl] = useState<HTMLElement | null>(null);
 
     const filterOpen = Boolean(filterAnchorEl && document.body.contains(filterAnchorEl));
     const categoryOpen = Boolean(categoryAnchorEl && document.body.contains(categoryAnchorEl));
     const productOpen = Boolean(productAnchorEl && document.body.contains(productAnchorEl));
-
-    const selectedCategoryData = categories.find((c) => c.label === selectedCategory);
+    const dateOpen = Boolean(dateAnchorEl && document.body.contains(dateAnchorEl));
 
     function openFilterMenu(e: MouseEvent<HTMLElement>) {
         setFilterAnchorEl(e.currentTarget);
@@ -106,19 +106,77 @@ export default function Reviews() {
         setFilterAnchorEl(null);
         setCategoryAnchorEl(null);
         setProductAnchorEl(null);
+        setDateAnchorEl(null);
     }
 
     function handleClearFilters() {
         setSearch("");
-        setSelectedCategory("All Categories");
+        setSelectedCategory("all");
+        setSelectedProductId(null);
+        setSortOrder("newest");
         closeAllMenus();
     }
 
     useEffect(() => {
+        async function fetchReviews() {
+            setLoading(true);
+
+            try {
+                const res = await api.get("/reviews");
+                setReviews(res.data?.reviews ?? []);
+            } catch (err) {
+                console.error("Failed to load reviews:", err);
+                setReviews([]);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchReviews();
+    }, []);
+
+    const productOptions = Array.from(
+        new Map(
+            reviews.map((review) => [
+                review.product_id,
+                {
+                    id: review.product_id,
+                    name: review.product_name,
+                    category: review.category,
+                    image: review.product_image,
+                },
+            ])
+        ).values()
+    );
+
+    const filteredReviews = reviews
+        .filter((review) => {
+            const matchesCategory =
+                selectedCategory === "all" || review.category === selectedCategory;
+
+            const matchesProduct =
+                selectedProductId === null || review.product_id === selectedProductId;
+
+            const q = search.trim().toLowerCase();
+
+            const matchesSearch =
+                !q ||
+                review.product_name?.toLowerCase().includes(q) ||
+                review.display_name?.toLowerCase().includes(q) ||
+                review.comment?.toLowerCase().includes(q);
+
+            return matchesCategory && matchesProduct && matchesSearch;
+        })
+        .sort((a, b) => {
+            const da = new Date(a.created_at).getTime();
+            const db = new Date(b.created_at).getTime();
+
+            return sortOrder === "newest" ? db - da : da - db;
+        });
+
+    useEffect(() => {
         function handleResize() {
-            setFilterAnchorEl(null);
-            setCategoryAnchorEl(null);
-            setProductAnchorEl(null);
+            closeAllMenus();
         }
 
         window.addEventListener("resize", handleResize);
@@ -275,76 +333,86 @@ export default function Reviews() {
 
     const reviewsContent = (
         <Stack spacing={1.4}>
-            {mockReviews.map((review) => (
-                <Paper
-                    key={review.id}
-                    elevation={0}
-                    sx={{
-                        p: 2,
-                        borderRadius: 2,
-                        border: "1px solid rgba(230, 81, 0, 0.28)",
-                        bgcolor: "#fff4e1",
-                    }}
-                >
-                    <Stack spacing={0.8}>
-                        <Stack
-                            direction="row"
-                            alignItems="center"
-                            justifyContent="space-between"
-                            gap={1}
-                        >
-                            <Box>
-                                <Typography
-                                    sx={{
-                                        fontSize: isMobile ? 18.5 : 18,
-                                        fontWeight: 900,
-                                        color: "#1e5bb8",
-                                        lineHeight: 1.1,
-                                    }}
-                                >
-                                    {review.product}
-                                </Typography>
-
-                                <Typography
-                                    sx={{
-                                        mt: 0.35,
-                                        fontSize: "0.82rem",
-                                        color: "rgba(0,0,0,0.62)",
-                                        fontWeight: 700,
-                                    }}
-                                >
-                                    {review.customer} • {review.date}
-                                </Typography>
-                            </Box>
-
-                            <Stack direction="row" spacing={0.15} sx={{ flexShrink: 0 }}>
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                    <StarIcon
-                                        key={star}
+            {loading ? (
+                <Typography sx={{ color: "text.secondary", textAlign: "center", mt: 4 }}>
+                    Loading reviews...
+                </Typography>
+            ) : filteredReviews.length === 0 ? (
+                <Typography sx={{ color: "text.secondary", textAlign: "center", mt: 4 }}>
+                    No reviews found.
+                </Typography>
+            ) : (
+                filteredReviews.map((review) => (
+                    <Paper
+                        key={review.id}
+                        elevation={0}
+                        sx={{
+                            p: 2,
+                            borderRadius: 2,
+                            border: "1px solid rgba(230, 81, 0, 0.28)",
+                            bgcolor: "#fff4e1",
+                        }}
+                    >
+                        <Stack spacing={0.8}>
+                            <Stack
+                                direction="row"
+                                alignItems="center"
+                                justifyContent="space-between"
+                                gap={1}
+                            >
+                                <Box>
+                                    <Typography
                                         sx={{
-                                            fontSize: isMobile ? 19 : 20,
-                                            color:
-                                                star <= review.rating
-                                                    ? "#e65100"
-                                                    : "rgba(0,0,0,0.18)",
+                                            fontSize: isMobile ? 18.5 : 18,
+                                            fontWeight: 900,
+                                            color: "#1e5bb8",
+                                            lineHeight: 1.1,
                                         }}
-                                    />
-                                ))}
-                            </Stack>
-                        </Stack>
+                                    >
+                                        {cleanProductName(review.product_name)}
+                                    </Typography>
 
-                        <Typography
-                            sx={{
-                                fontSize: "0.92rem",
-                                lineHeight: 1.45,
-                                color: "#333",
-                            }}
-                        >
-                            {review.comment}
-                        </Typography>
-                    </Stack>
-                </Paper>
-            ))}
+                                    <Typography
+                                        sx={{
+                                            mt: 0.35,
+                                            fontSize: "0.82rem",
+                                            color: "rgba(0,0,0,0.62)",
+                                            fontWeight: 700,
+                                        }}
+                                    >
+                                        {review.display_name} • {formatReviewDate(review.created_at)}
+                                    </Typography>
+                                </Box>
+
+                                <Stack direction="row" spacing={0.15} sx={{ flexShrink: 0 }}>
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <StarIcon
+                                            key={star}
+                                            sx={{
+                                                fontSize: isMobile ? 19 : 20,
+                                                color:
+                                                    star <= review.rating
+                                                        ? "#e65100"
+                                                        : "rgba(0,0,0,0.18)",
+                                            }}
+                                        />
+                                    ))}
+                                </Stack>
+                            </Stack>
+
+                            <Typography
+                                sx={{
+                                    fontSize: "0.92rem",
+                                    lineHeight: 1.45,
+                                    color: "#333",
+                                }}
+                            >
+                                {review.comment || "No comment provided."}
+                            </Typography>
+                        </Stack>
+                    </Paper>
+                ))
+            )}
         </Stack>
     );
 
@@ -544,6 +612,11 @@ export default function Reviews() {
                     <ExpandMoreIcon sx={{ transform: "rotate(-90deg)", fontSize: 19 }} />
                 </MenuItem>
 
+                <MenuItem onClick={(e) => setDateAnchorEl(e.currentTarget)}>
+                    <ListItemText primary="Date" />
+                    <ExpandMoreIcon sx={{ transform: "rotate(-90deg)", fontSize: 19 }} />
+                </MenuItem>
+
                 {isMobile && (
                     <>
                         <Divider sx={{ my: 0.6 }} />
@@ -566,7 +639,8 @@ export default function Reviews() {
                     <MenuItem
                         key={cat.label}
                         onClick={() => {
-                            setSelectedCategory(cat.label);
+                            setSelectedCategory(cat.value);
+                            setSelectedProductId(null);
                             closeAllMenus();
                         }}
                     >
@@ -582,13 +656,44 @@ export default function Reviews() {
                 anchorOrigin={{ vertical: "top", horizontal: "right" }}
                 transformOrigin={{ vertical: "top", horizontal: "left" }}
             >
-                {(selectedCategoryData?.products ?? categories.flatMap((c) => c.products)).map(
-                    (product) => (
-                        <MenuItem key={product} onClick={closeAllMenus}>
-                            {product}
-                        </MenuItem>
-                    )
-                )}
+                {productOptions.map((product) => (
+                    <MenuItem
+                        key={product.id}
+                        onClick={() => {
+                            setSelectedProductId(product.id);
+                            setSelectedCategory("all");
+                            closeAllMenus();
+                        }}
+                    >
+                        {cleanProductName(product.name)}
+                    </MenuItem>
+                ))}
+            </Menu>
+
+            <Menu
+                anchorEl={dateAnchorEl}
+                open={dateOpen}
+                onClose={() => setDateAnchorEl(null)}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "left" }}
+            >
+                <MenuItem
+                    onClick={() => {
+                        setSortOrder("newest");
+                        closeAllMenus();
+                    }}
+                >
+                    Newest
+                </MenuItem>
+
+                <MenuItem
+                    onClick={() => {
+                        setSortOrder("oldest");
+                        closeAllMenus();
+                    }}
+                >
+                    Oldest
+                </MenuItem>
             </Menu>
         </>
     );
