@@ -159,7 +159,7 @@ export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
     () => [
       isLogged
         ? { label: "SIGN OUT", icon: AccountCircleIcon, action: handleSignout }
-        : { label: "SIGNIN / SIGNUP", icon: AccountCircleIcon, path: "/sign-in" },
+        : { label: "SIGN IN / SIGN UP", icon: AccountCircleIcon, path: "/sign-in" },
 
       { label: "MY ORDERS", icon: HistoryIcon, path: "/orders" },
       { label: "REVIEWS", icon: StarIcon, path: "/reviews" },

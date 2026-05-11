@@ -22,6 +22,7 @@ import NavbarAction from "../components/layout/navbar/NavbarAction";
 import Footer from "../components/layout/footer/Footer";
 import ProductsTitleBar from "../components/TitleBar";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import ProductPreviewPopover from "../components/reviews/ProductPreviewPopover";
 
 type Review = {
     id: number;
@@ -73,6 +74,8 @@ function cleanProductName(name: string) {
         .trim();
 }
 
+
+
 export default function Reviews() {
     useDocumentTitle("FastFuel • Reviews");
 
@@ -92,6 +95,12 @@ export default function Reviews() {
     const [selectedCategory, setSelectedCategory] = useState<string>("all");
     const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
     const [dateAnchorEl, setDateAnchorEl] = useState<HTMLElement | null>(null);
+
+    const [previewAnchorEl, setPreviewAnchorEl] =
+        useState<HTMLElement | null>(null);
+
+    const [previewProduct, setPreviewProduct] =
+        useState<Review | null>(null);
 
     const filterOpen = Boolean(filterAnchorEl && document.body.contains(filterAnchorEl));
     const categoryOpen = Boolean(categoryAnchorEl && document.body.contains(categoryAnchorEl));
@@ -115,6 +124,11 @@ export default function Reviews() {
         setSelectedProductId(null);
         setSortOrder("newest");
         closeAllMenus();
+    }
+
+    function closeProductPreview() {
+        setPreviewAnchorEl(null);
+        setPreviewProduct(null);
     }
 
     useEffect(() => {
@@ -282,27 +296,6 @@ export default function Reviews() {
                     <>
                         <Button
                             variant="contained"
-                            sx={{
-                                width: 130,
-                                flexShrink: 0,
-                                height: 40,
-                                borderRadius: 1.5,
-                                bgcolor: "#1e5bb8",
-                                color: "#fff",
-                                fontWeight: 900,
-                                fontSize: "0.76rem",
-                                letterSpacing: "0.08em",
-                                textTransform: "uppercase",
-                                "&:hover": {
-                                    bgcolor: "#0f4698",
-                                },
-                            }}
-                        >
-                            Search
-                        </Button>
-
-                        <Button
-                            variant="contained"
                             onClick={handleClearFilters}
                             sx={{
                                 width: 130,
@@ -310,16 +303,15 @@ export default function Reviews() {
                                 height: 40,
                                 borderRadius: 1.5,
 
-                                color: "#0d47a1",
-                                bgcolor: "rgba(230, 81, 0, 0.20)",
+                                bgcolor: "#1e5bb8",
+                                color: "#fff",
                                 fontWeight: 900,
                                 fontSize: "0.76rem",
                                 letterSpacing: "0.08em",
                                 textTransform: "uppercase",
                                 whiteSpace: "nowrap",
                                 "&:hover": {
-                                    bgcolor: "rgba(230, 81, 0, 0.28)",
-                                    color: "#0d47a1",
+                                    bgcolor: "#0f4698",
                                 },
                             }}
                         >
@@ -334,11 +326,11 @@ export default function Reviews() {
     const reviewsContent = (
         <Stack spacing={1.4}>
             {loading ? (
-                <Typography sx={{ color: "text.secondary", textAlign: "center", mt: 4 }}>
+                <Typography sx={{ color: "text.secondary", textAlign: "center", pt: 17 }}>
                     Loading reviews...
                 </Typography>
             ) : filteredReviews.length === 0 ? (
-                <Typography sx={{ color: "text.secondary", textAlign: "center", mt: 4 }}>
+                <Typography sx={{ color: "text.secondary", textAlign: "center", pt: 17 }}>
                     No reviews found.
                 </Typography>
             ) : (
@@ -362,10 +354,15 @@ export default function Reviews() {
                             >
                                 <Box>
                                     <Typography
+                                        onClick={(e) => {
+                                            setPreviewAnchorEl(e.currentTarget);
+                                            setPreviewProduct(review);
+                                        }}
                                         sx={{
                                             fontSize: isMobile ? 18.5 : 18,
                                             fontWeight: 900,
                                             color: "#1e5bb8",
+                                            cursor: "pointer",
                                             lineHeight: 1.1,
                                         }}
                                     >
@@ -695,6 +692,12 @@ export default function Reviews() {
                     Oldest
                 </MenuItem>
             </Menu>
+
+            <ProductPreviewPopover
+                anchorEl={previewAnchorEl}
+                product={previewProduct}
+                onClose={closeProductPreview}
+            />
         </>
     );
 }

@@ -29,7 +29,7 @@ type DropdownItem = {
 };
 
 const guestDropdownItems: DropdownItem[] = [
-  { label: "Signin / Signup", icon: AccountCircleIcon, path: "/sign-in" },
+  { label: "Sign In / Sign Up", icon: AccountCircleIcon, path: "/sign-in" },
   { label: "My Orders", icon: HistoryIcon, path: "/orders" },
   { label: "Reviews", icon: StarIcon, path: "/reviews" },
   { label: "Contact Us", icon: EmailIcon, path: "/contact-us" },
