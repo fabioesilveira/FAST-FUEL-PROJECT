@@ -92,7 +92,7 @@ const Transition = React.forwardRef(function Transition(
 const imageStylesOrder: Record<string, React.CSSProperties> = {
     "1": { width: "52px", height: "52px", marginTop: "3px" },
     "2": { width: "70px", height: "75px" },
-    "3": { width: "55px", height: "51px" },
+    "3": { width: "55px", height: "51px", marginTop:"2px" },
     "4": { width: "85px", height: "57px", marginTop: "-2px" },
 
     "5": { width: "76px", height: "67px", marginTop: "4px" },
@@ -103,7 +103,7 @@ const imageStylesOrder: Record<string, React.CSSProperties> = {
     "10": { width: "76px", height: "67px", marginTop: "4px" },
 
     "11": { width: "60px", height: "63px" },
-    "12": { width: "64px", height: "67px" },
+    "12": { width: "64px", height: "68px" },
     "13": { width: "52px", height: "65px", marginTop: "4px" },
     "14": { width: "64px", height: "52px" },
 

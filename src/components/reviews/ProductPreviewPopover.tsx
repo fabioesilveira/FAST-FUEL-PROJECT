@@ -1,5 +1,15 @@
 import { Box, Popover, Stack, Typography } from "@mui/material";
 
+import CokeImg from "../../assets/Coke.png";
+import SpriteImg from "../../assets/Sprite.png";
+import DrPepperImg from "../../assets/Drpepper.png";
+import FantaImg from "../../assets/Fanta.png";
+import DietCokeImg from "../../assets/Dietcoke.png";
+import LemonadeImg from "../../assets/Lemonade.png";
+import SaladImg from "../../assets/Crispsalad.png";
+import MilkshakeImg from "../../assets/Milkshake.png";
+import SundaeImg from "../../assets/Sundae.png";
+
 type PreviewProduct = {
     product_id: number;
     product_name: string;
@@ -11,6 +21,65 @@ type ProductPreviewPopoverProps = {
     anchorEl: HTMLElement | null;
     product: PreviewProduct | null;
     onClose: () => void;
+};
+
+const imageMap: Record<string, string> = {
+    "Coke.png": CokeImg,
+    "Sprite.png": SpriteImg,
+    "Drpepper.png": DrPepperImg,
+    "DrPepper.png": DrPepperImg,
+    "Fanta.png": FantaImg,
+    "Dietcoke.png": DietCokeImg,
+    "DietCoke.png": DietCokeImg,
+    "Lemonade.png": LemonadeImg,
+    "Crispsalad.png": SaladImg,
+    "CrispSalad.png": SaladImg,
+    "Milkshake.png": MilkshakeImg,
+    "Sundae.png": SundaeImg,
+};
+
+const normalizeImageKey = (value?: string) => {
+    if (!value) return "";
+
+    const last = value.split("/").pop() || value;
+
+    return last.split("?")[0].trim();
+};
+
+const resolveImgSrc = (img?: string) => {
+    if (!img) return "";
+
+    if (img.startsWith("http")) return img;
+
+    if (img.startsWith("/images/")) return img;
+
+    if (img.startsWith("images/")) return `/${img}`;
+
+    const key = normalizeImageKey(img);
+
+    return imageMap[key] ?? `/images/${key}`;
+};
+
+
+const imageStylesOrder: Record<string, React.CSSProperties> = {
+    "1": { width: "52px", height: "52px", marginTop: "1px" },
+    "2": { width: "80px", height: "68px", marginTop: "-1px" },
+    "3": { width: "60px", height: "51px" },
+    "4": { width: "85px", height: "57px", marginTop: "-2px" },
+    "11": { width: "58px", height: "68px" },
+    "12": { width: "65px", height: "60px" },
+    "13": { width: "50px", height: "60px", marginTop: "4px" },
+    "14": { width: "50px", height: "50px" },
+    "5": { width: "67px", height: "67px", marginTop: "4px" },
+    "6": { width: "67px", height: "67px", marginTop: "4px" },
+    "7": { width: "67px", height: "67px", marginTop: "4px" },
+    "8": { width: "67px", height: "67px", marginTop: "4px" },
+    "9": { width: "67px", height: "67px", marginTop: "4px" },
+    "10": { width: "67px", height: "67px", marginTop: "4px" },
+    "15": { width: "80px", height: "73px", marginTop: "3px" },
+    "16": { width: "72px", height: "68px" },
+    "17": { width: "59px", height: "79px" },
+    "18": { width: "48px", height: "51px" },
 };
 
 function formatCategory(category: string) {
@@ -31,27 +100,6 @@ function formatCategory(category: string) {
             return category;
     }
 }
-
-const imageStylesOrder: Record<string, React.CSSProperties> = {
-    "1": { width: "60px", height: "52px", marginTop: "3px" },
-    "2": { width: "90px", height: "75px" },
-    "3": { width: "65px", height: "55px" },
-    "4": { width: "85px", height: "65px", marginTop: "-2px" },
-    "11": { width: "70px", height: "73px" },
-    "12": { width: "82px", height: "67px" },
-    "13": { width: "75px", height: "65px", marginTop: "4px" },
-    "14": { width: "65px", height: "70px" },
-    "5": { width: "77px", height: "77px" },
-    "6": { width: "77px", height: "77px" },
-    "7": { width: "77px", height: "77px" },
-    "8": { width: "77px", height: "77px" },
-    "9": { width: "77px", height: "77px" },
-    "10": { width: "77px", height: "77px" },
-    "15": { width: "200px", height: "81px" },
-    "16": { width: "82px", height: "75px" },
-    "17": { width: "75px", height: "79px" },
-    "18": { width: "60px", height: "51px" },
-};
 
 export default function ProductPreviewPopover({
     anchorEl,
@@ -104,7 +152,7 @@ export default function ProductPreviewPopover({
                     >
                         <Box
                             component="img"
-                            src={product.product_image}
+                            src={resolveImgSrc(product.product_image)}
                             alt={product.product_name}
                             style={
                                 imageStylesOrder[String(product.product_id)] ?? {
