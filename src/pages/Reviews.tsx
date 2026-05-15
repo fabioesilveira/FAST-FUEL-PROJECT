@@ -60,6 +60,7 @@ const categories = [
     { label: "Desserts", value: "desserts" },
 ];
 
+
 function formatReviewDate(date: string) {
     return new Date(date).toLocaleDateString("en-US", {
         month: "long",
@@ -73,7 +74,6 @@ function cleanProductName(name: string) {
         .replace(/•\s*\d+\s*kcal/i, "")
         .trim();
 }
-
 
 
 export default function Reviews() {

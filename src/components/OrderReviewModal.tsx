@@ -15,12 +15,16 @@ import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & { children: React.ReactElement<any, any> },
-    ref: React.Ref<unknown>
-) {
-    return <Zoom ref={ref} {...props} />;
-});
+import CokeImg from "../assets/Coke.png";
+import SpriteImg from "../assets/Sprite.png";
+import DrPepperImg from "../assets/Drpepper.png";
+import FantaImg from "../assets/Fanta.png";
+import DietCokeImg from "../assets/Dietcoke.png";
+import LemonadeImg from "../assets/Lemonade.png";
+import SaladImg from "../assets/Crispsalad.png";
+import MilkshakeImg from "../assets/Milkshake.png";
+import SundaeImg from "../assets/Sundae.png";
+
 
 export type ReviewEligibleItem = {
     sale_id: number;
@@ -44,6 +48,69 @@ type OrderReviewModalProps = {
     onRatingChange: (value: number) => void;
     onCommentChange: (value: string) => void;
     onSubmit: () => void;
+};
+
+const imageMap: Record<string, string> = {
+    "Coke.png": CokeImg,
+    "Sprite.png": SpriteImg,
+    "Drpepper.png": DrPepperImg,
+    "DrPepper.png": DrPepperImg,
+    "Fanta.png": FantaImg,
+    "Dietcoke.png": DietCokeImg,
+    "DietCoke.png": DietCokeImg,
+    "Lemonade.png": LemonadeImg,
+    "Crispsalad.png": SaladImg,
+    "CrispSalad.png": SaladImg,
+    "Milkshake.png": MilkshakeImg,
+    "Sundae.png": SundaeImg,
+};
+
+const normalizeImageKey = (value?: string | null) => {
+    if (!value) return "";
+    const last = value.split("/").pop() || value;
+    return last.split("?")[0].trim();
+};
+
+const resolveImgSrc = (img?: string | null) => {
+    if (!img) return "";
+    if (img.startsWith("http")) return img;
+    if (img.startsWith("/images/")) return img;
+    if (img.startsWith("images/")) return `/${img}`;
+
+    const key = normalizeImageKey(img);
+    return imageMap[key] ?? `/images/${key}`;
+};
+
+
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & { children: React.ReactElement<any, any> },
+    ref: React.Ref<unknown>
+) {
+    return <Zoom ref={ref} {...props} />;
+});
+
+const imageStylesOrder: Record<string, React.CSSProperties> = {
+    "1": { width: "52px", height: "52px", marginTop: "3px" },
+    "2": { width: "70px", height: "75px" },
+    "3": { width: "55px", height: "51px" },
+    "4": { width: "85px", height: "57px", marginTop: "-2px" },
+
+    "5": { width: "76px", height: "67px", marginTop: "4px" },
+    "6": { width: "76px", height: "67px", marginTop: "4px" },
+    "7": { width: "76px", height: "67px", marginTop: "4px" },
+    "8": { width: "76px", height: "67px", marginTop: "4px" },
+    "9": { width: "76px", height: "67px", marginTop: "4px" },
+    "10": { width: "76px", height: "67px", marginTop: "4px" },
+
+    "11": { width: "60px", height: "63px" },
+    "12": { width: "64px", height: "67px" },
+    "13": { width: "52px", height: "65px", marginTop: "4px" },
+    "14": { width: "64px", height: "52px" },
+
+    "15": { width: "90px", height: "72px", marginTop: "5px" },
+    "16": { width: "72px", height: "68px" },
+    "17": { width: "60px", height: "60px" },
+    "18": { width: "50px", height: "51px" },
 };
 
 export default function OrderReviewModal({
@@ -230,11 +297,15 @@ export default function OrderReviewModal({
                                 {item.image ? (
                                     <Box
                                         component="img"
-                                        src={item.image}
+                                        src={resolveImgSrc(item.image)}
                                         alt={item.name}
+                                        style={
+                                            imageStylesOrder[String(item.product_id)] ?? {
+                                                width: "64px",
+                                                height: "64px",
+                                            }
+                                        }
                                         sx={{
-                                            maxWidth: "100%",
-                                            maxHeight: "100%",
                                             objectFit: "contain",
                                             display: "block",
                                         }}

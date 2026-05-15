@@ -1,6 +1,7 @@
 import { Box, Popover, Stack, Typography } from "@mui/material";
 
 type PreviewProduct = {
+    product_id: number;
     product_name: string;
     product_image?: string;
     category: string;
@@ -30,6 +31,27 @@ function formatCategory(category: string) {
             return category;
     }
 }
+
+const imageStylesOrder: Record<string, React.CSSProperties> = {
+    "1": { width: "60px", height: "52px", marginTop: "3px" },
+    "2": { width: "90px", height: "75px" },
+    "3": { width: "65px", height: "55px" },
+    "4": { width: "85px", height: "65px", marginTop: "-2px" },
+    "11": { width: "70px", height: "73px" },
+    "12": { width: "82px", height: "67px" },
+    "13": { width: "75px", height: "65px", marginTop: "4px" },
+    "14": { width: "65px", height: "70px" },
+    "5": { width: "77px", height: "77px" },
+    "6": { width: "77px", height: "77px" },
+    "7": { width: "77px", height: "77px" },
+    "8": { width: "77px", height: "77px" },
+    "9": { width: "77px", height: "77px" },
+    "10": { width: "77px", height: "77px" },
+    "15": { width: "200px", height: "81px" },
+    "16": { width: "82px", height: "75px" },
+    "17": { width: "75px", height: "79px" },
+    "18": { width: "60px", height: "51px" },
+};
 
 export default function ProductPreviewPopover({
     anchorEl,
@@ -66,20 +88,36 @@ export default function ProductPreviewPopover({
             {product && (
                 <Stack direction="row" spacing={1.2} alignItems="center">
                     <Box
-                        component="img"
-                        src={product.product_image}
-                        alt={product.product_name}
                         sx={{
-                            width: 68,
-                            height: 68,
-                            objectFit: "contain",
+                            width: 72,
+                            height: 72,
+                            flexShrink: 0,
                             borderRadius: 1.5,
                             bgcolor: "#fff",
                             border: "1px solid rgba(230,81,0,0.25)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            overflow: "hidden",
                             p: 0.6,
-                            flexShrink: 0,
                         }}
-                    />
+                    >
+                        <Box
+                            component="img"
+                            src={product.product_image}
+                            alt={product.product_name}
+                            style={
+                                imageStylesOrder[String(product.product_id)] ?? {
+                                    width: "68px",
+                                    height: "68px",
+                                }
+                            }
+                            sx={{
+                                objectFit: "contain",
+                                display: "block",
+                            }}
+                        />
+                    </Box>
 
                     <Box sx={{ minWidth: 0 }}>
                         <Typography
