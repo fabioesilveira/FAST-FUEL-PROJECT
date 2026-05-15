@@ -1,5 +1,4 @@
 import { Box, Popover, Stack, Typography } from "@mui/material";
-
 import CokeImg from "../../assets/Coke.png";
 import SpriteImg from "../../assets/Sprite.png";
 import DrPepperImg from "../../assets/Drpepper.png";

@@ -75,6 +75,10 @@ function cleanProductName(name: string) {
         .trim();
 }
 
+function shuffleReviews(list: Review[]) {
+    return [...list].sort(() => Math.random() - 0.5);
+}
+
 
 export default function Reviews() {
     useDocumentTitle("FastFuel • Reviews");
@@ -88,10 +92,10 @@ export default function Reviews() {
     const [filterAnchorEl, setFilterAnchorEl] = useState<HTMLElement | null>(null);
     const [categoryAnchorEl, setCategoryAnchorEl] = useState<HTMLElement | null>(null);
     const [productAnchorEl, setProductAnchorEl] = useState<HTMLElement | null>(null);
+    const [sortOrder, setSortOrder] = useState<"random" | "newest" | "oldest">("random");
 
     const [reviews, setReviews] = useState<Review[]>([]);
     const [loading, setLoading] = useState(false);
-    const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
     const [selectedCategory, setSelectedCategory] = useState<string>("all");
     const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
     const [dateAnchorEl, setDateAnchorEl] = useState<HTMLElement | null>(null);
@@ -122,7 +126,8 @@ export default function Reviews() {
         setSearch("");
         setSelectedCategory("all");
         setSelectedProductId(null);
-        setSortOrder("newest");
+        setSortOrder("random");
+        setReviews((prev) => shuffleReviews(prev));
         closeAllMenus();
     }
 
@@ -137,7 +142,8 @@ export default function Reviews() {
 
             try {
                 const res = await api.get("/reviews");
-                setReviews(res.data?.reviews ?? []);
+                const loadedReviews = res.data?.reviews ?? [];
+                setReviews(shuffleReviews(loadedReviews));
             } catch (err) {
                 console.error("Failed to load reviews:", err);
                 setReviews([]);
@@ -182,6 +188,8 @@ export default function Reviews() {
             return matchesCategory && matchesProduct && matchesSearch;
         })
         .sort((a, b) => {
+            if (sortOrder === "random") return 0;
+
             const da = new Date(a.created_at).getTime();
             const db = new Date(b.created_at).getTime();
 
@@ -191,12 +199,15 @@ export default function Reviews() {
     useEffect(() => {
         function handleResize() {
             closeAllMenus();
+            closeProductPreview();
         }
 
         window.addEventListener("resize", handleResize);
+        window.visualViewport?.addEventListener("resize", handleResize);
 
         return () => {
             window.removeEventListener("resize", handleResize);
+            window.visualViewport?.removeEventListener("resize", handleResize);
         };
     }, []);
 
@@ -636,8 +647,10 @@ export default function Reviews() {
                     <MenuItem
                         key={cat.label}
                         onClick={() => {
-                            setSelectedCategory(cat.value);
+                            setSearch("");
                             setSelectedProductId(null);
+                            setSelectedCategory(cat.value);
+                            setSortOrder("newest");
                             closeAllMenus();
                         }}
                     >
@@ -657,8 +670,10 @@ export default function Reviews() {
                     <MenuItem
                         key={product.id}
                         onClick={() => {
-                            setSelectedProductId(product.id);
+                            setSearch("");
                             setSelectedCategory("all");
+                            setSelectedProductId(product.id);
+                            setSortOrder("newest");
                             closeAllMenus();
                         }}
                     >
@@ -676,6 +691,9 @@ export default function Reviews() {
             >
                 <MenuItem
                     onClick={() => {
+                        setSearch("");
+                        setSelectedCategory("all");
+                        setSelectedProductId(null);
                         setSortOrder("newest");
                         closeAllMenus();
                     }}
@@ -685,6 +703,9 @@ export default function Reviews() {
 
                 <MenuItem
                     onClick={() => {
+                        setSearch("");
+                        setSelectedCategory("all");
+                        setSelectedProductId(null);
                         setSortOrder("oldest");
                         closeAllMenus();
                     }}
