@@ -128,7 +128,7 @@ export default function Checkout() {
 
     const scrollBoxRef = useRef<HTMLDivElement | null>(null);
 
-    const [checkoutBarFloating, setCheckoutBarFloating] = useState(false);
+    const [checkoutBarFloating, setCheckoutBarFloating] = useState(true);
 
     const [streetText, setStreetText] = useState("");
 
@@ -619,7 +619,7 @@ export default function Checkout() {
                                             px: { xs: 2, sm: 3, md: 3.5 },
                                             py: 1.5,
                                             zIndex: 10,
-                                            backgroundColor: "#ffe0c7",
+                                            backgroundColor: checkoutBarFloating ? "#ffe0c7" : "#fffaf2",
                                             boxShadow: checkoutBarFloating
                                                 ? "0 8px 18px rgba(0,0,0,0.12)"
                                                 : "none",
@@ -631,7 +631,7 @@ export default function Checkout() {
                                             borderRadius: checkoutBarFloating ? 2 : "0 0 12px 12px",
 
                                             transition:
-                                                "transform .22s ease, box-shadow .22s ease, border-radius .22s ease, border-top .22s ease",
+                                                "background-color .22s ease, transform .22s ease, box-shadow .22s ease, border-radius .22s ease, border-top .22s ease",
                                         }}
                                     >
                                         <Stack

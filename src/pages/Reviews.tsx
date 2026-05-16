@@ -11,6 +11,7 @@ import {
     Menu,
     MenuItem,
     ListItemText,
+    Pagination,
 } from "@mui/material";
 import { api } from "../api";
 import { useTheme } from "@mui/material/styles";
@@ -88,11 +89,14 @@ export default function Reviews() {
     const hideActionButtons = useMediaQuery(theme.breakpoints.down("md"));
 
     const [search, setSearch] = useState("");
+    const REVIEWS_PER_PAGE = 20;
 
     const [filterAnchorEl, setFilterAnchorEl] = useState<HTMLElement | null>(null);
     const [categoryAnchorEl, setCategoryAnchorEl] = useState<HTMLElement | null>(null);
     const [productAnchorEl, setProductAnchorEl] = useState<HTMLElement | null>(null);
     const [sortOrder, setSortOrder] = useState<"random" | "newest" | "oldest">("random");
+
+    const [page, setPage] = useState(1);
 
     const [reviews, setReviews] = useState<Review[]>([]);
     const [loading, setLoading] = useState(false);
@@ -128,6 +132,7 @@ export default function Reviews() {
         setSelectedProductId(null);
         setSortOrder("random");
         setReviews((prev) => shuffleReviews(prev));
+        setPage(1);
         closeAllMenus();
     }
 
@@ -195,6 +200,14 @@ export default function Reviews() {
 
             return sortOrder === "newest" ? db - da : da - db;
         });
+
+
+    const pageCount = Math.ceil(filteredReviews.length / REVIEWS_PER_PAGE);
+
+    const paginatedReviews = filteredReviews.slice(
+        (page - 1) * REVIEWS_PER_PAGE,
+        page * REVIEWS_PER_PAGE
+    );
 
     useEffect(() => {
         function handleResize() {
@@ -285,7 +298,10 @@ export default function Reviews() {
                     size="small"
                     label="Search Reviews"
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => {
+                        setSearch(e.target.value);
+                        setPage(1);
+                    }}
                     sx={[
                         tfBlueLabelSx,
                         {
@@ -345,7 +361,7 @@ export default function Reviews() {
                     No reviews found.
                 </Typography>
             ) : (
-                filteredReviews.map((review) => (
+                paginatedReviews.map((review) => (
                     <Paper
                         key={review.id}
                         elevation={0}
@@ -368,6 +384,7 @@ export default function Reviews() {
                                         onClick={(e) => {
                                             setPreviewAnchorEl(e.currentTarget);
                                             setPreviewProduct(review);
+
                                         }}
                                         sx={{
                                             fontSize: isMobile ? 18.5 : 18,
@@ -421,6 +438,33 @@ export default function Reviews() {
                     </Paper>
                 ))
             )}
+            {pageCount > 1 && (
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        pt: 1.5,
+                        pb: isMobile ? 6 : 1.5,
+                    }}
+                >
+                    <Pagination
+                        count={pageCount}
+                        page={page}
+                        onChange={(_, value) => setPage(value)}
+                        size={isMobile ? "small" : "medium"}
+                        sx={{
+                            "& .MuiPaginationItem-root": {
+                                color: "#0d47a1",
+                                fontWeight: 800,
+                            },
+                            "& .Mui-selected": {
+                                bgcolor: "rgba(230,81,0,0.18) !important",
+                                color: "#0d47a1",
+                            },
+                        }}
+                    />
+                </Box>
+            )}
         </Stack>
     );
 
@@ -446,7 +490,7 @@ export default function Reviews() {
                             mx: "auto",
                             px: 2.5,
                             pt: "150px",
-                            pb: "32px",
+                            pb: pageCount > 1 ? "110px" : "88px",
                             flex: 1,
                         }}
                     >
@@ -652,6 +696,7 @@ export default function Reviews() {
                             setSelectedCategory(cat.value);
                             setSortOrder("newest");
                             closeAllMenus();
+                            setPage(1);
                         }}
                     >
                         {cat.label}
@@ -675,6 +720,7 @@ export default function Reviews() {
                             setSelectedProductId(product.id);
                             setSortOrder("newest");
                             closeAllMenus();
+                            setPage(1);
                         }}
                     >
                         {cleanProductName(product.name)}
@@ -696,6 +742,7 @@ export default function Reviews() {
                         setSelectedProductId(null);
                         setSortOrder("newest");
                         closeAllMenus();
+                        setPage(1);
                     }}
                 >
                     Newest
@@ -708,6 +755,7 @@ export default function Reviews() {
                         setSelectedProductId(null);
                         setSortOrder("oldest");
                         closeAllMenus();
+                        setPage(1);
                     }}
                 >
                     Oldest
