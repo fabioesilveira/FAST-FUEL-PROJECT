@@ -48,8 +48,8 @@ type Sale = {
     customer_name: string | null;
     customer_email: string | null;
 
-    items: any; 
-    items_snapshot: any; 
+    items: any;
+    items_snapshot: any;
 
     subtotal: number;
     discount: number;
@@ -911,51 +911,50 @@ export default function AdminOrders() {
                             pointerEvents: "none",
 
                             backgroundImage: {
-
                                 xs: `
                                     linear-gradient(90deg,
-                                        rgba(255,255,255,1) 0%,
-                                        rgba(255,255,255,0.0) 18%,
-                                        rgba(255,255,255,0.0) 82%,
-                                        rgba(255,255,255,1) 100%
+                                    rgba(255,255,255,1) 0%,
+                                    rgba(255,255,255,0.0) 18%,
+                                    rgba(255,255,255,0.0) 82%,
+                                    rgba(255,255,255,1) 100%
                                     ),
                                     repeating-linear-gradient(135deg,
-                                        rgba(13,71,161,0.018) 0px,
-                                        rgba(13,71,161,0.018) 10px,
-                                        rgba(230,81,0,0.014) 10px,
-                                        rgba(230,81,0,0.014) 20px
+                                    rgba(13,71,161,0.012) 0px,
+                                    rgba(13,71,161,0.012) 10px,
+                                    rgba(230,81,0,0.010) 10px,
+                                    rgba(230,81,0,0.010) 20px
                                     )
-                                    `,
-
+                                `,
 
                                 sm: `
                                     linear-gradient(90deg,
-                                        rgba(255,255,255,1) 0%,
-                                        rgba(255,255,255,0.0) 14%,
-                                        rgba(255,255,255,0.0) 86%,
-                                        rgba(255,255,255,1) 100%
+                                    rgba(255,255,255,1) 0%,
+                                    rgba(255,255,255,0.0) 16%,
+                                    rgba(255,255,255,0.0) 84%,
+                                    rgba(255,255,255,1) 100%
                                     ),
                                     repeating-linear-gradient(135deg,
-                                        rgba(13,71,161,0.038) 0px,
-                                        rgba(13,71,161,0.038) 10px,
-                                        rgba(230,81,0,0.028) 10px,
-                                        rgba(230,81,0,0.028) 20px
+                                    rgba(13,71,161,0.020) 0px,
+                                    rgba(13,71,161,0.020) 10px,
+                                    rgba(230,81,0,0.015) 10px,
+                                    rgba(230,81,0,0.015) 20px
                                     )
-                                    `,
+                                `,
+
                                 md: `
                                     linear-gradient(90deg,
-                                        rgba(255,255,255,1) 0%,
-                                        rgba(255,255,255,0.0) 14%,
-                                        rgba(255,255,255,0.0) 86%,
-                                        rgba(255,255,255,1) 100%
+                                    rgba(255,255,255,1) 0%,
+                                    rgba(255,255,255,0.0) 16%,
+                                    rgba(255,255,255,0.0) 84%,
+                                    rgba(255,255,255,1) 100%
                                     ),
                                     repeating-linear-gradient(135deg,
-                                        rgba(13,71,161,0.038) 0px,
-                                        rgba(13,71,161,0.038) 10px,
-                                        rgba(230,81,0,0.028) 10px,
-                                        rgba(230,81,0,0.028) 20px
+                                    rgba(13,71,161,0.022) 0px,
+                                    rgba(13,71,161,0.022) 10px,
+                                    rgba(230,81,0,0.016) 10px,
+                                    rgba(230,81,0,0.016) 20px
                                     )
-                                    `,
+                                `,
                             },
 
                             backgroundRepeat: "no-repeat, repeat",
@@ -968,14 +967,16 @@ export default function AdminOrders() {
                     <Box
                         component="main"
                         sx={{
-                            flexGrow: 1,
+                            position: "relative",
+                            flex: 1,
+                            minHeight: "100dvh",
                             display: "flex",
                             justifyContent: "center",
+                            alignItems: "flex-start",
                             px: 2,
-                            pt: { xs: "110px", md: "120px" },
-                            pb: { xs: 4, md: 4 },
-                            overflow: "hidden",
-                            minHeight: 0,
+                            pt: { xs: "110px", md: "140px" },
+                            pb: { xs: 1, md: 6 },
+                            minWidth: 0,
                         }}
                     >
                         <Paper
@@ -984,14 +985,15 @@ export default function AdminOrders() {
                                 width: "100%",
                                 maxWidth: { xs: 520, md: 980 },
                                 borderRadius: 3,
-                                border: "1.25px solid rgba(13, 71, 161, 0.28)",
+                                border: "1px solid rgba(13, 71, 161, 0.15)",
                                 boxShadow:
                                     "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
                                 bgcolor: "background.paper",
                                 p: { xs: 2.5, md: 4 },
-                                mt: { sm: 4, md: 6 },
-                                height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 200px)" },
-                                maxHeight: 640,
+                                height: { xs: "calc(100svh - 200px)", md: "calc(100vh - 240px)" },
+                                maxHeight: 660,
+                                mt: { sm: 5, md: 2 },
+                                mb: { md: 1 },
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: 2,

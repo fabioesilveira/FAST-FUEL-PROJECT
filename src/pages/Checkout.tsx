@@ -349,7 +349,13 @@ export default function Checkout() {
         setEmail(mail);
     }, [isLogged, loggedUser]);
 
+
     useEffect(() => {
+        if (isMobile) {
+            setCheckoutBarFloating(true);
+            return;
+        }
+
         function checkScroll() {
             const el = scrollBoxRef.current;
             if (!el) return;
@@ -360,7 +366,7 @@ export default function Checkout() {
             setCheckoutBarFloating(hasScroll && !atBottom);
         }
 
-        checkScroll();
+        requestAnimationFrame(checkScroll);
 
         const el = scrollBoxRef.current;
         if (!el) return;
@@ -372,7 +378,7 @@ export default function Checkout() {
             el.removeEventListener("scroll", checkScroll);
             window.removeEventListener("resize", checkScroll);
         };
-    }, []);
+    }, [isMobile, screen]);
 
     const desktopTitle =
         screen === "processing"
