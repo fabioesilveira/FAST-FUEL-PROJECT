@@ -71,6 +71,7 @@ export default function ProductsTitleBar({
                         fontSize: { xs: "1.05rem", md: "1.20rem" },
                         textShadow: "1px 1px 0 rgba(230, 81, 0, 0.18)",
                         marginLeft: 0,
+                        mt: { xs: 0.35, md: 0 },
                     }}
                 >
                     {title}

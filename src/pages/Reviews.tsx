@@ -17,13 +17,13 @@ import { api } from "../api";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import StarIcon from "@mui/icons-material/Star";
 import SearchIcon from "@mui/icons-material/Search";
 import NavbarAction from "../components/layout/navbar/NavbarAction";
 import Footer from "../components/layout/footer/Footer";
 import ProductsTitleBar from "../components/TitleBar";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import ProductPreviewPopover from "../components/reviews/ProductPreviewPopover";
+import ReviewCard from "../components/reviews/ReviewCard";
 
 type Review = {
     id: number;
@@ -62,12 +62,6 @@ const categories = [
 ];
 
 
-function formatReviewDate(date: string) {
-    return new Date(date).toLocaleDateString("en-US", {
-        month: "long",
-        year: "numeric",
-    });
-}
 
 function cleanProductName(name: string) {
     return String(name || "")
@@ -80,6 +74,7 @@ function shuffleReviews(list: Review[]) {
     return [...list].sort(() => Math.random() - 0.5);
 }
 
+const REVIEWS_PER_PAGE = 20;
 
 export default function Reviews() {
     useDocumentTitle("FastFuel • Reviews");
@@ -89,14 +84,12 @@ export default function Reviews() {
     const hideActionButtons = useMediaQuery(theme.breakpoints.down("md"));
 
     const [search, setSearch] = useState("");
-    const REVIEWS_PER_PAGE = 20;
+    const [page, setPage] = useState(1);
 
     const [filterAnchorEl, setFilterAnchorEl] = useState<HTMLElement | null>(null);
     const [categoryAnchorEl, setCategoryAnchorEl] = useState<HTMLElement | null>(null);
     const [productAnchorEl, setProductAnchorEl] = useState<HTMLElement | null>(null);
     const [sortOrder, setSortOrder] = useState<"random" | "newest" | "oldest">("random");
-
-    const [page, setPage] = useState(1);
 
     const [reviews, setReviews] = useState<Review[]>([]);
     const [loading, setLoading] = useState(false);
@@ -139,6 +132,14 @@ export default function Reviews() {
     function closeProductPreview() {
         setPreviewAnchorEl(null);
         setPreviewProduct(null);
+    }
+
+    function handlePreviewOpen(
+        event: React.MouseEvent<HTMLElement>,
+        review: Review
+    ) {
+        setPreviewAnchorEl(event.currentTarget);
+        setPreviewProduct(review);
     }
 
     useEffect(() => {
@@ -362,80 +363,12 @@ export default function Reviews() {
                 </Typography>
             ) : (
                 paginatedReviews.map((review) => (
-                    <Paper
+                    <ReviewCard
                         key={review.id}
-                        elevation={0}
-                        sx={{
-                            p: 2,
-                            borderRadius: 2,
-                            border: "1px solid rgba(230, 81, 0, 0.28)",
-                            bgcolor: "#fff4e1",
-                        }}
-                    >
-                        <Stack spacing={0.8}>
-                            <Stack
-                                direction="row"
-                                alignItems="center"
-                                justifyContent="space-between"
-                                gap={1}
-                            >
-                                <Box>
-                                    <Typography
-                                        onClick={(e) => {
-                                            setPreviewAnchorEl(e.currentTarget);
-                                            setPreviewProduct(review);
-
-                                        }}
-                                        sx={{
-                                            fontSize: isMobile ? 18.5 : 18,
-                                            fontWeight: 900,
-                                            color: "#1e5bb8",
-                                            cursor: "pointer",
-                                            lineHeight: 1.1,
-                                        }}
-                                    >
-                                        {cleanProductName(review.product_name)}
-                                    </Typography>
-
-                                    <Typography
-                                        sx={{
-                                            mt: 0.35,
-                                            fontSize: "0.82rem",
-                                            color: "rgba(0,0,0,0.62)",
-                                            fontWeight: 700,
-                                        }}
-                                    >
-                                        {review.display_name} • {formatReviewDate(review.created_at)}
-                                    </Typography>
-                                </Box>
-
-                                <Stack direction="row" spacing={0.15} sx={{ flexShrink: 0 }}>
-                                    {[1, 2, 3, 4, 5].map((star) => (
-                                        <StarIcon
-                                            key={star}
-                                            sx={{
-                                                fontSize: isMobile ? 19 : 20,
-                                                color:
-                                                    star <= review.rating
-                                                        ? "#e65100"
-                                                        : "rgba(0,0,0,0.18)",
-                                            }}
-                                        />
-                                    ))}
-                                </Stack>
-                            </Stack>
-
-                            <Typography
-                                sx={{
-                                    fontSize: "0.92rem",
-                                    lineHeight: 1.45,
-                                    color: "#333",
-                                }}
-                            >
-                                {review.comment || "No comment provided."}
-                            </Typography>
-                        </Stack>
-                    </Paper>
+                        review={review}
+                        isMobile={isMobile}
+                        onPreviewOpen={handlePreviewOpen}
+                    />
                 ))
             )}
             {pageCount > 1 && (
