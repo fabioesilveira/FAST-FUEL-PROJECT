@@ -423,7 +423,7 @@ export default function Reviews() {
                             mx: "auto",
                             px: 2.5,
                             pt: "150px",
-                            pb: pageCount > 1 ? "38px" : "44px",
+                            pb: pageCount > 1 ? "38px" : "88px",
                             flex: 1,
                         }}
                     >
