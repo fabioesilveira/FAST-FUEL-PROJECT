@@ -51,7 +51,6 @@ type Sale = {
 
 const API = "/sales";
 
-
 export default function AdminOrders() {
     useDocumentTitle("FastFuel • Adm - Orders");
 
@@ -75,16 +74,6 @@ export default function AdminOrders() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const openTsMenu = (e: MouseEvent<HTMLElement>, orderId: number) => {
-        setTsAnchorEl(e.currentTarget);
-        setTsOrderId(orderId);
-    };
-
-    const closeTsMenu = () => {
-        setTsAnchorEl(null);
-        setTsOrderId(null);
-    };
-
     const selectedOrder = items.find((x) => x.id === tsOrderId);
 
     const inFlightRef = useRef(false);
@@ -99,19 +88,20 @@ export default function AdminOrders() {
         },
     };
 
-    useEffect(() => {
-        const t = setTimeout(() => {
-            setDebouncedOrderCode(orderCodeFilter.trim());
-            setDebouncedEmail(emailFilter.trim());
-        }, 400);
+    const openTsMenu = (e: MouseEvent<HTMLElement>, orderId: number) => {
+        setTsAnchorEl(e.currentTarget);
+        setTsOrderId(orderId);
+    };
 
-        return () => clearTimeout(t);
-    }, [orderCodeFilter, emailFilter]);
+    const closeTsMenu = () => {
+        setTsAnchorEl(null);
+        setTsOrderId(null);
+    };
+
 
     async function fetchOrders(opts?: { silent?: boolean }) {
         const silent = !!opts?.silent;
 
-        // evita chamadas simultâneas (some com as “piscadas” e duplicação)
         if (inFlightRef.current) return;
         inFlightRef.current = true;
 
@@ -146,7 +136,6 @@ export default function AdminOrders() {
             setItems(res.data);
         } catch (e) {
             console.error(e);
-            // no silent não mostra alert pra não incomodar
             if (!silent) alert("Failed to load orders");
         } finally {
             if (!silent) setLoading(false);
@@ -158,6 +147,17 @@ export default function AdminOrders() {
     useEffect(() => {
         fetchOrders();
     }, [activeKey, debouncedOrderCode, debouncedEmail]);
+
+
+    useEffect(() => {
+        const t = setTimeout(() => {
+            setDebouncedOrderCode(orderCodeFilter.trim());
+            setDebouncedEmail(emailFilter.trim());
+        }, 400);
+
+        return () => clearTimeout(t);
+    }, [orderCodeFilter, emailFilter]);
+
 
     useEffect(() => {
         const tick = () => {
@@ -315,7 +315,13 @@ export default function AdminOrders() {
             <NavbarAdmin />
             <ProductsTitleBar title="Orders" />
 
-            <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+            <Box
+                sx={{
+                    minHeight: "100svh",
+                    display: "flex",
+                    flexDirection: "column",
+                }}
+            >
                 <Box
                     sx={{
                         position: "relative",
@@ -402,16 +408,13 @@ export default function AdminOrders() {
                     <Box
                         component="main"
                         sx={{
-                            position: "relative",
-                            flex: 1,
-                            minHeight: "100dvh",
+                            flexGrow: 1,
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "flex-start",
                             px: 2,
                             pt: { xs: "110px", md: "140px" },
                             pb: { xs: 1, md: 6 },
-                            minWidth: 0,
+                            minHeight: 0,
                         }}
                     >
                         <Paper
@@ -427,7 +430,7 @@ export default function AdminOrders() {
                                 p: { xs: 2.5, md: 4 },
                                 height: { xs: "calc(100svh - 200px)", md: "calc(100vh - 240px)" },
                                 maxHeight: 660,
-                                mt: { sm: 5, md: 2 },
+                                mt: { sm: 5, md: 2.2 },
                                 mb: { md: 1 },
                                 display: "flex",
                                 flexDirection: "column",
