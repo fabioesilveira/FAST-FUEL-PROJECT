@@ -125,6 +125,8 @@ export default function Burgers() {
 
           <Container fixed sx={{ pb: { xs: 1, sm: 1.5 } }}>
             <ProductsGrid
+              category="sandwiches"
+              categoryTitle="Burgers"
               data={data}
               order={order}
               onAdd={handleOrder}
