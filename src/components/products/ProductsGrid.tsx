@@ -2,7 +2,6 @@ import * as React from "react";
 import { api } from "../../api";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Drawer from "@mui/material/Drawer";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -10,7 +9,6 @@ import Divider from "@mui/material/Divider";
 import Rating from "@mui/material/Rating";
 import LinearProgress from "@mui/material/LinearProgress";
 import CircularProgress from "@mui/material/CircularProgress";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import GridViewIcon from "@mui/icons-material/GridView";
 import ViewStreamIcon from "@mui/icons-material/ViewStream";
 import { useTheme } from "@mui/material/styles";
@@ -18,6 +16,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import type { Meal } from "../../context/context";
 import ProductCard from "./ProductCard";
 import ProductCardDesktopLandscape from "./ProductCardDesktopLandscape";
+import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 type CategoryInsightProduct = {
     id: number | string;
@@ -60,6 +60,12 @@ type ProductsGridProps = {
     category?: string;
     categoryTitle?: string;
 };
+
+function cleanProductName(name: string) {
+    return String(name)
+        .split("/")[0]
+        .trim();
+}
 
 export default function ProductsGrid({
     data,
@@ -156,30 +162,29 @@ export default function ProductsGrid({
                 >
                     <Button
                         onClick={openInsightsDrawer}
-                        startIcon={<InfoOutlinedIcon />}
+                        startIcon={<BarChartRoundedIcon />}
                         sx={{
-                            mt: 0.35,
-                            height: 34,
+                            height: 44,
+                            minWidth: 86,
+                            mt: 0,
                             borderRadius: "10px",
                             bgcolor: "white",
                             border: "1px solid rgba(230,81,0,0.20)",
                             boxShadow: "0 6px 16px rgba(13,71,161,0.10)",
                             color: "#0d47a1",
                             fontWeight: 900,
-                            fontSize: "0.68rem",
+                            fontSize: "0.75rem",
                             letterSpacing: "0.08em",
                             textTransform: "uppercase",
                             px: 1.15,
-                            "&:hover": {
-                                bgcolor: "#fff4e1",
-                            },
-                            "& .MuiButton-startIcon": {
-                                mr: 0.45,
-                            },
+                            "&:hover": { bgcolor: "#fff4e1" },
+                            "& .MuiButton-startIcon": { mr: 0.45 },
                         }}
                     >
                         Insights
                     </Button>
+
+
 
                     <Box
                         sx={{
@@ -298,10 +303,13 @@ export default function ProductsGrid({
                 ))}
             </Box>
 
-            <Drawer
+            <SwipeableDrawer
                 anchor="left"
                 open={insightsOpen}
+                onOpen={() => setInsightsOpen(true)}
                 onClose={() => setInsightsOpen(false)}
+                disableDiscovery={false}
+                swipeAreaWidth={24}
                 PaperProps={{
                     sx: {
                         width: "90vw",
@@ -372,7 +380,7 @@ export default function ProductsGrid({
                             overflowY: "auto",
                             px: 2,
                             py: 1.7,
-                            pb: "calc(24px + env(safe-area-inset-bottom))",
+                            pb: "calc(110px + env(safe-area-inset-bottom))",
                         }}
                     >
                         {insightsLoading ? (
@@ -518,7 +526,7 @@ export default function ProductsGrid({
                                                                 fontWeight: 800,
                                                             }}
                                                         >
-                                                            {r.product_name}
+                                                            {cleanProductName(r.product_name)}
                                                         </Typography>
                                                     </Stack>
 
@@ -601,7 +609,7 @@ export default function ProductsGrid({
                                                             whiteSpace: "nowrap",
                                                         }}
                                                     >
-                                                        {p.name}
+                                                        {cleanProductName(p.name)}
                                                     </Typography>
 
                                                     <Typography
@@ -636,7 +644,7 @@ export default function ProductsGrid({
                         )}
                     </Box>
                 </Box>
-            </Drawer>
-        </Box>
+            </SwipeableDrawer>
+        </Box >
     );
 }

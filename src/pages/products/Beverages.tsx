@@ -151,6 +151,8 @@ export default function Beverages() {
             <ProductsGrid
               data={data}
               order={order}
+              category="beverages"
+              categoryTitle="Drinks"
               onAdd={handleOrder}
               onRemove={handleRemove}
               imageStylesGridMobile={imageStylesGridMobile}

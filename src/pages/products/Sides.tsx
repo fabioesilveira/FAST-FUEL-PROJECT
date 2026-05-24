@@ -133,6 +133,8 @@ export default function Sides() {
             <ProductsGrid
               data={data}
               order={order}
+              category="sides"
+              categoryTitle="Sides"
               onAdd={handleOrder}
               onRemove={handleRemove}
               imageStylesGridMobile={imageStylesGridMobile}

@@ -138,6 +138,8 @@ export default function Desserts() {
                         <ProductsGrid
                             data={data}
                             order={order}
+                            category="desserts"
+                            categoryTitle="Desserts"
                             onAdd={handleOrder}
                             onRemove={handleRemove}
                             imageStylesGridMobile={imageStylesGridMobile}
