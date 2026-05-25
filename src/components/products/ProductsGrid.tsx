@@ -62,9 +62,7 @@ type ProductsGridProps = {
 };
 
 function cleanProductName(name: string) {
-    return String(name)
-        .split("/")[0]
-        .trim();
+    return String(name).split("/")[0].trim();
 }
 
 export default function ProductsGrid({
@@ -108,47 +106,15 @@ export default function ProductsGrid({
         }
     }
 
-    if (isDesktop) {
-        return (
-            <Box
-                sx={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(2, 560px)",
-                    justifyContent: "center",
-                    columnGap: 4,
-                    rowGap: 4,
-                    mt: 4,
-                    mb: 10,
-                    px: 2,
-                    mx: "auto",
-                    maxWidth: 1120,
-                }}
-            >
-                {data.map((product, index) => (
-                    <ProductCardDesktopLandscape
-                        key={product.id}
-                        product={product}
-                        onAdd={onAdd}
-                        onRemove={onRemove}
-                        imgStyle={imageStylesDesktopWide[product.id]}
-                        flip={index % 2 === 0}
-                        qty={order.find((p) => p.id === product.id)?.quantidade ?? 0}
-                        imageMap={imageMap}
-                    />
-                ))}
-            </Box>
-        );
-    }
-
     return (
         <Box
             sx={{
                 width: "100%",
-                maxWidth: { xs: 490, sm: 680 },
-                px: { xs: 1, sm: 2 },
+                maxWidth: isDesktop ? 1120 : { xs: 490, sm: 680 },
+                px: isDesktop ? 2 : { xs: 1, sm: 2 },
                 mx: "auto",
                 mt: 4,
-                mb: 2,
+                mb: isDesktop ? 10 : 2,
             }}
         >
             {isMobile && (
@@ -184,8 +150,6 @@ export default function ProductsGrid({
                         Insights
                     </Button>
 
-
-
                     <Box
                         sx={{
                             display: "inline-flex",
@@ -202,23 +166,13 @@ export default function ProductsGrid({
                             borderRadius: "10px",
                         }}
                     >
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                gap: 0.2,
-                            }}
-                        >
+                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 0.2 }}>
                             <IconButton
                                 onClick={() => setViewMode("stream")}
                                 sx={{
                                     width: 34,
                                     height: 34,
-                                    color:
-                                        viewMode === "stream"
-                                            ? "#0d47a1"
-                                            : "rgba(13,71,161,0.35)",
+                                    color: viewMode === "stream" ? "#0d47a1" : "rgba(13,71,161,0.35)",
                                 }}
                                 aria-label="Stream view"
                             >
@@ -230,10 +184,7 @@ export default function ProductsGrid({
                                 sx={{
                                     width: 34,
                                     height: 34,
-                                    color:
-                                        viewMode === "grid"
-                                            ? "#0d47a1"
-                                            : "rgba(13,71,161,0.35)",
+                                    color: viewMode === "grid" ? "#0d47a1" : "rgba(13,71,161,0.35)",
                                 }}
                                 aria-label="Grid view"
                             >
@@ -271,40 +222,85 @@ export default function ProductsGrid({
             <Box
                 sx={{
                     display: "grid",
-                    gridTemplateColumns: {
-                        xs: viewMode === "grid" ? "repeat(2, 1fr)" : "1fr",
-                        sm: "repeat(2, 300px)",
-                    },
+                    gridTemplateColumns: isDesktop
+                        ? "repeat(2, 560px)"
+                        : {
+                            xs: viewMode === "grid" ? "repeat(2, 1fr)" : "1fr",
+                            sm: "repeat(2, 300px)",
+                        },
                     justifyContent: "center",
                     justifyItems: "stretch",
-                    columnGap: { xs: viewMode === "grid" ? 1.2 : 0, sm: 3 },
-                    rowGap: { xs: viewMode === "grid" ? 5 : 4.5, sm: 3 },
+                    columnGap: isDesktop ? 4 : { xs: viewMode === "grid" ? 1.2 : 0, sm: 3 },
+                    rowGap: isDesktop ? 4 : { xs: viewMode === "grid" ? 5 : 4.5, sm: 3 },
                 }}
             >
-                {data.map((product) => (
-                    <ProductCard
-                        key={product.id}
-                        product={product}
-                        onAdd={onAdd}
-                        onRemove={onRemove}
-                        isMobile={isMobile}
-                        isTabletOnly={isTabletOnly}
-                        imgStyle={
-                            isMobile
-                                ? viewMode === "stream"
-                                    ? imageStylesStreamMobile[product.id]
-                                    : imageStylesGridMobile[product.id]
-                                : imageStylesDesktop[product.id]
-                        }
-                        qty={order.find((p) => p.id === product.id)?.quantidade ?? 0}
-                        imageMap={imageMap}
-                        viewMode={viewMode}
-                    />
-                ))}
+                {data.map((product, index) =>
+                    isDesktop ? (
+                        <ProductCardDesktopLandscape
+                            key={product.id}
+                            product={product}
+                            onAdd={onAdd}
+                            onRemove={onRemove}
+                            imgStyle={imageStylesDesktopWide[product.id]}
+                            flip={index % 2 === 0}
+                            qty={order.find((p) => p.id === product.id)?.quantidade ?? 0}
+                            imageMap={imageMap}
+                        />
+                    ) : (
+                        <ProductCard
+                            key={product.id}
+                            product={product}
+                            onAdd={onAdd}
+                            onRemove={onRemove}
+                            isMobile={isMobile}
+                            isTabletOnly={isTabletOnly}
+                            imgStyle={
+                                isMobile
+                                    ? viewMode === "stream"
+                                        ? imageStylesStreamMobile[product.id]
+                                        : imageStylesGridMobile[product.id]
+                                    : imageStylesDesktop[product.id]
+                            }
+                            qty={order.find((p) => p.id === product.id)?.quantidade ?? 0}
+                            imageMap={imageMap}
+                            viewMode={viewMode}
+                        />
+                    )
+                )}
             </Box>
 
+            {!isMobile && (
+                <Button
+                    onClick={openInsightsDrawer}
+                    startIcon={<BarChartRoundedIcon />}
+                    sx={{
+                        position: "fixed",
+                        top: "30%",
+                        right: 26,
+                        transform: "translateY(-50%)",
+                        zIndex: 1800,
+                        height: 52,
+                        minWidth: 118,
+                        borderRadius: "14px",
+                        bgcolor: "white",
+                        border: "1px solid rgba(230,81,0,0.25)",
+                        boxShadow: "0 8px 22px rgba(13,71,161,0.14)",
+                        color: "#0d47a1",
+                        fontWeight: 900,
+                        fontSize: "0.72rem",
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        px: 1.5,
+                        "&:hover": { bgcolor: "#fff4e1" },
+                        "& .MuiButton-startIcon": { mr: 0.6 },
+                    }}
+                >
+                    Insights
+                </Button>
+            )}
+
             <SwipeableDrawer
-                anchor="left"
+                anchor={isMobile ? "left" : "right"}
                 open={insightsOpen}
                 onOpen={() => setInsightsOpen(true)}
                 onClose={() => setInsightsOpen(false)}
@@ -312,22 +308,24 @@ export default function ProductsGrid({
                 swipeAreaWidth={24}
                 PaperProps={{
                     sx: {
-                        width: "90vw",
-                        maxWidth: 430,
-                        borderTopRightRadius: 18,
-                        borderBottomRightRadius: 18,
+                        width: {
+                            xs: "90vw",
+                            md: "min(52vw, 560px)",
+                        },
+                        maxWidth: {
+                            xs: 430,
+                            md: 760,
+                        },
                         bgcolor: "#fffaf4",
                         overflow: "hidden",
+                        borderTopRightRadius: { xs: 18, md: 0 },
+                        borderBottomRightRadius: { xs: 18, md: 0 },
+                        borderTopLeftRadius: { xs: 0, md: 22 },
+                        borderBottomLeftRadius: { xs: 0, md: 22 },
                     },
                 }}
             >
-                <Box
-                    sx={{
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                    }}
-                >
+                <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
                     <Box
                         sx={{
                             px: 2,
@@ -337,41 +335,30 @@ export default function ProductsGrid({
                             bgcolor: "#fff",
                         }}
                     >
-                        <Box>
-                            <Typography
-                                sx={{
-                                    fontSize: "1.42rem",
-                                    fontWeight: 950,
-                                    color: "#0d47a1",
-                                    lineHeight: 1.1,
-                                }}
-                            >
-                                {categoryTitle}{" "}
+                        <Typography
+                            sx={{
+                                fontSize: "1.42rem",
+                                fontWeight: 950,
+                                color: "#0d47a1",
+                                lineHeight: 1.1,
+                            }}
+                        >
+                            {categoryTitle} Insights
+                        </Typography>
 
-                                <Box
-                                    component="span"
-                                    sx={{
-                                        color: "#0d47a1",
-                                    }}
-                                >
-                                    Insights
-                                </Box>
-                            </Typography>
-
-                            <Typography
-                                sx={{
-                                    mt: 0.46,
-                                    ml: 0.2,
-                                    fontSize: "0.75rem",
-                                    color: "rgba(0,0,0,0.52)",
-                                    lineHeight: 1.2,
-                                    fontWeight: 700,
-                                    letterSpacing: "0.02em",
-                                }}
-                            >
-                                Ratings, reviews & popularity.
-                            </Typography>
-                        </Box>
+                        <Typography
+                            sx={{
+                                mt: 0.46,
+                                ml: 0.2,
+                                fontSize: "0.75rem",
+                                color: "rgba(0,0,0,0.52)",
+                                lineHeight: 1.2,
+                                fontWeight: 700,
+                                letterSpacing: "0.02em",
+                            }}
+                        >
+                            Ratings, reviews & popularity.
+                        </Typography>
                     </Box>
 
                     <Box
@@ -380,18 +367,14 @@ export default function ProductsGrid({
                             overflowY: "auto",
                             px: 2,
                             py: 1.7,
-                            pb: "calc(110px + env(safe-area-inset-bottom))",
+                            pb: {
+                                xs: "calc(115px + env(safe-area-inset-bottom))",
+                                md: "80px",
+                            },
                         }}
                     >
                         {insightsLoading ? (
-                            <Box
-                                sx={{
-                                    height: 280,
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                }}
-                            >
+                            <Box sx={{ height: 280, display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <CircularProgress size={28} />
                             </Box>
                         ) : !insights ? (
@@ -426,39 +409,20 @@ export default function ProductsGrid({
                                                     boxShadow: "0 5px 12px rgba(13,71,161,0.06)",
                                                 }}
                                             >
-                                                <Typography
-                                                    sx={{
-                                                        fontSize: "0.95rem",
-                                                        fontWeight: 900,
-                                                        color: "#1e5bb8",
-                                                        lineHeight: 1.2,
-                                                    }}
-                                                >
+                                                <Typography sx={{ fontSize: "0.95rem", fontWeight: 900, color: "#1e5bb8", lineHeight: 1.2 }}>
                                                     {p.name}
                                                 </Typography>
 
                                                 <Stack direction="row" alignItems="center" spacing={0.8}>
-                                                    <Rating
-                                                        value={Number(p.average_rating || 0)}
-                                                        precision={0.1}
-                                                        readOnly
-                                                        size="small"
-                                                    />
-
-                                                    <Typography
-                                                        sx={{
-                                                            fontSize: "0.78rem",
-                                                            fontWeight: 800,
-                                                            color: "rgba(0,0,0,0.62)",
-                                                        }}
-                                                    >
+                                                    <Rating value={Number(p.average_rating || 0)} precision={0.1} readOnly size="small" />
+                                                    <Typography sx={{ fontSize: "0.78rem", fontWeight: 800, color: "rgba(0,0,0,0.62)" }}>
                                                         {p.average_rating || 0}
                                                     </Typography>
                                                 </Stack>
 
                                                 <Typography
                                                     component="a"
-                                                    href={`/reviews?category=${p.category}`}
+                                                    href={`/reviews?category=${p.category}&product_id=${p.id}`}
                                                     sx={{
                                                         mt: 0.2,
                                                         display: "inline-block",
@@ -492,12 +456,7 @@ export default function ProductsGrid({
                                     </Typography>
 
                                     {insights.random_reviews.length === 0 ? (
-                                        <Typography
-                                            sx={{
-                                                fontSize: "0.86rem",
-                                                color: "text.secondary",
-                                            }}
-                                        >
+                                        <Typography sx={{ fontSize: "0.86rem", color: "text.secondary" }}>
                                             No customer reviews yet.
                                         </Typography>
                                     ) : (
@@ -513,42 +472,17 @@ export default function ProductsGrid({
                                                     }}
                                                 >
                                                     <Stack direction="row" alignItems="center" spacing={0.6}>
-                                                        <Rating
-                                                            value={Number(r.rating || 0)}
-                                                            readOnly
-                                                            size="small"
-                                                        />
-
-                                                        <Typography
-                                                            sx={{
-                                                                fontSize: "0.74rem",
-                                                                color: "rgba(0,0,0,0.55)",
-                                                                fontWeight: 800,
-                                                            }}
-                                                        >
+                                                        <Rating value={Number(r.rating || 0)} readOnly size="small" />
+                                                        <Typography sx={{ fontSize: "0.74rem", color: "rgba(0,0,0,0.55)", fontWeight: 800 }}>
                                                             {cleanProductName(r.product_name)}
                                                         </Typography>
                                                     </Stack>
 
-                                                    <Typography
-                                                        sx={{
-                                                            mt: 0.45,
-                                                            fontSize: "0.86rem",
-                                                            lineHeight: 1.35,
-                                                            color: "#333",
-                                                        }}
-                                                    >
+                                                    <Typography sx={{ mt: 0.45, fontSize: "0.86rem", lineHeight: 1.35, color: "#333" }}>
                                                         “{r.comment}”
                                                     </Typography>
 
-                                                    <Typography
-                                                        sx={{
-                                                            mt: 0.45,
-                                                            fontSize: "0.74rem",
-                                                            color: "rgba(0,0,0,0.48)",
-                                                            fontWeight: 700,
-                                                        }}
-                                                    >
+                                                    <Typography sx={{ mt: 0.45, fontSize: "0.74rem", color: "rgba(0,0,0,0.48)", fontWeight: 700 }}>
                                                         — {r.display_name || "Fast Fuel customer"}
                                                     </Typography>
                                                 </Box>
@@ -592,12 +526,7 @@ export default function ProductsGrid({
                                     <Stack spacing={1.05}>
                                         {insights.products.map((p) => (
                                             <Box key={p.id}>
-                                                <Stack
-                                                    direction="row"
-                                                    alignItems="center"
-                                                    justifyContent="space-between"
-                                                    sx={{ mb: 0.35 }}
-                                                >
+                                                <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 0.35 }}>
                                                     <Typography
                                                         sx={{
                                                             fontSize: "0.82rem",
@@ -612,13 +541,7 @@ export default function ProductsGrid({
                                                         {cleanProductName(p.name)}
                                                     </Typography>
 
-                                                    <Typography
-                                                        sx={{
-                                                            fontSize: "0.78rem",
-                                                            fontWeight: 900,
-                                                            color: "#e65100",
-                                                        }}
-                                                    >
+                                                    <Typography sx={{ fontSize: "0.78rem", fontWeight: 900, color: "#e65100" }}>
                                                         {p.sales_percentage}%
                                                     </Typography>
                                                 </Stack>
@@ -645,6 +568,6 @@ export default function ProductsGrid({
                     </Box>
                 </Box>
             </SwipeableDrawer>
-        </Box >
+        </Box>
     );
 }

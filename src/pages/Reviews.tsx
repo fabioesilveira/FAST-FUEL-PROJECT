@@ -24,6 +24,7 @@ import ProductsTitleBar from "../components/TitleBar";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import ProductPreviewPopover from "../components/reviews/ProductPreviewPopover";
 import ReviewCard from "../components/reviews/ReviewCard";
+import { useSearchParams } from "react-router-dom";
 
 type Review = {
     id: number;
@@ -78,6 +79,8 @@ const REVIEWS_PER_PAGE = 20;
 
 export default function Reviews() {
     useDocumentTitle("FastFuel • Reviews");
+
+    const [searchParams] = useSearchParams();
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -160,6 +163,23 @@ export default function Reviews() {
 
         fetchReviews();
     }, []);
+
+    useEffect(() => {
+        const category = searchParams.get("category");
+        const productId = searchParams.get("product_id");
+
+        if (category) {
+            setSelectedCategory(category);
+        }
+
+        if (productId) {
+            setSelectedProductId(Number(productId));
+        }
+
+        if (category || productId) {
+            setSortOrder("newest");
+        }
+    }, [searchParams]);
 
     const productOptions = Array.from(
         new Map(
