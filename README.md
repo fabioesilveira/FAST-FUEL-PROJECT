@@ -9,6 +9,7 @@ The project combines a modern responsive frontend focused on **UI/UX and perform
 ---
 
 ## Table of Contents
+
 - Overview
 - Usage
 - Tech Stack
@@ -71,6 +72,7 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 ## Tech Stack
 
 ### Frontend
+
 - React
 - TypeScript
 - Material UI (MUI)
@@ -78,12 +80,14 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 - Vite
 
 ### Backend
+
 - Node.js
 - Express
 - MySQL
 - MVC + Service Layer Architecture
 
 ### Other
+
 - JWT Authentication
 - bcrypt (password hashing)
 - REST API
@@ -94,19 +98,41 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 ## Features
 
 ### User
+
 - Category-based product browsing
 - Persistent shopping cart (localStorage)
 - Guest and authenticated checkout
 - Address auto-fill support
 - Order status tracking
+- Product reviews and ratings
+- Verified purchase review system
+- Contact form for customer support and feedback
+- Dynamic product search with feedback messages
 
 ### Checkout
+
 - Full order lifecycle:  
   **received → in progress → sent → completed**
 - Tax, delivery fee, discounts, and total calculation
 - Order confirmation with unique order code
+- Real-time quantity updates
+- Cart preview menu
+- Automatic combo discounts
+- Free delivery threshold
+
+### Product Insights
+
+Products include category analytics to help customers make decisions.
+
+Insights include:
+
+- Average product rating
+- Number of reviews
+- Sales distribution within the category
+- Random customer reviews
 
 ### Admin Dashboard
+
 - Secure admin authentication
 - Order management by status
 - Real-time lifecycle updates
@@ -127,6 +153,7 @@ This guarantees **historical accuracy**, even if products are later edited or re
 ---
 
 ## Authentication & Security
+
 - Password hashing with **bcrypt**
 - Token-based authentication using **JWT**
 - Protected admin routes
@@ -137,11 +164,15 @@ This guarantees **historical accuracy**, even if products are later edited or re
 ## Architecture
 
 ### Frontend
+
 - Component-driven structure
+- Context API state management
+- Reusable UI components
 - Mobile-first responsive design
-- Clear separation of UI, hooks, and services
+- Clear separation of pages, components, hooks, and services
 
 ### Backend
+
 - MVC pattern
 - Service layer abstraction
 - Clear separation of concerns
@@ -181,6 +212,7 @@ Users who prefer a traditional browsing experience can still navigate through ca
 ## Getting Started (Frontend)
 
 ### Prerequisites
+
 - Node.js v18+
 - npm or yarn
 
