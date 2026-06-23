@@ -277,3 +277,14 @@ Commercial use, redistribution, or deployment for profit is not permitted withou
 Full-Stack Developer with strong focus on Frontend UI/UX  
 
 © 2026 Fabio Silveira
+
+## Design Process
+
+The Fast Fuel project was planned through four stages:
+
+- Idea
+- App Flow
+- Architecture
+- Data Relationships
+
+![Fast Fuel Design Process](/src/assets/Figma.png)
