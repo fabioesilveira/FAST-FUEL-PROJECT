@@ -275,24 +275,40 @@ export default function ProductsGrid({
                     startIcon={<BarChartRoundedIcon />}
                     sx={{
                         position: "fixed",
-                        top: "30%",
-                        right: 26,
+                        top: "78%",
                         transform: "translateY(-50%)",
-                        zIndex: 1800,
+
+                        right: 0,
                         height: 52,
-                        minWidth: 118,
-                        borderRadius: "14px",
+
+                        zIndex: 1300,
+
                         bgcolor: "white",
-                        border: "1px solid rgba(230,81,0,0.25)",
-                        boxShadow: "0 8px 22px rgba(13,71,161,0.14)",
                         color: "#0d47a1",
-                        fontWeight: 900,
+
+                        border: "2px solid rgba(13,71,161,0.20)",
+                        boxShadow: "0 10px 22px rgba(13,71,161,0.18)",
+
+                        borderTopLeftRadius: 12,
+                        borderBottomLeftRadius: 12,
+
+                        fontWeight: 800,
                         fontSize: "0.72rem",
                         letterSpacing: "0.08em",
                         textTransform: "uppercase",
+
                         px: 1.5,
-                        "&:hover": { bgcolor: "#fff4e1" },
-                        "& .MuiButton-startIcon": { mr: 0.6 },
+
+                        transition: "all .2s ease",
+
+                        "&:hover": {
+                            bgcolor: "#fff4e1",
+                            transform: "translateY(-50%) translateX(-2px)",
+                        },
+
+                        "& .MuiButton-startIcon": {
+                            mr: 0.6,
+                        },
                     }}
                 >
                     Insights
