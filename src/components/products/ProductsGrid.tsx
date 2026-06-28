@@ -275,39 +275,76 @@ export default function ProductsGrid({
                     startIcon={<BarChartRoundedIcon />}
                     sx={{
                         position: "fixed",
-                        top: "78%",
-                        transform: "translateY(-50%)",
-
                         right: 0,
-                        height: 52,
-
+                        bottom: 170,
                         zIndex: 1300,
+
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+
+                        width: 182,
+                        boxSizing: "border-box",
+                        justifyContent: "center",
+
+                        height: "auto",
+                        padding: "7.5px 15px 7.5px 13px",
+
+                        borderTopLeftRadius: 11,
+                        borderBottomLeftRadius: 11,
 
                         bgcolor: "white",
                         color: "#0d47a1",
 
-                        border: "2px solid rgba(13,71,161,0.20)",
-                        boxShadow: "0 10px 22px rgba(13,71,161,0.18)",
+                        borderTop: "3px solid rgba(13,71,161,0.20)",
+                        borderBottom: "3px solid rgba(13,71,161,0.20)",
+                        borderLeft: "3px solid rgba(13,71,161,0.20)",
+                        borderRight: "none",
 
-                        borderTopLeftRadius: 12,
-                        borderBottomLeftRadius: 12,
+                        boxShadow: "0 8px 22px rgba(13,71,161,0.18)",
+                        cursor: "pointer",
 
-                        fontWeight: 800,
-                        fontSize: "0.72rem",
+                        fontWeight: 700,
+                        fontSize: "1.05rem",
                         letterSpacing: "0.08em",
                         textTransform: "uppercase",
+                        whiteSpace: "nowrap",
 
-                        px: 1.5,
+                        outline: "none",
+                        WebkitTapHighlightColor: "transparent",
+                        appearance: "none",
 
-                        transition: "all .2s ease",
+                        transition: "width .22s ease, padding .22s ease, box-shadow .22s ease, background-color .22s ease",
 
-                        "&:hover": {
-                            bgcolor: "#fff4e1",
-                            transform: "translateY(-50%) translateX(-2px)",
+                        "@media (hover: hover) and (pointer: fine)": {
+                            "&:hover": {
+                                bgcolor: "#fff4e1",
+                                borderTop: "3px solid rgba(13,71,161,0.45)",
+                                borderBottom: "3px solid rgba(13,71,161,0.45)",
+                                borderLeft: "3px solid rgba(13,71,161,0.45)",
+
+                                borderTopLeftRadius: 7,
+                                borderBottomLeftRadius: 7,
+
+                                width: 194,
+                                paddingLeft: "24px",
+                                transform: "none",
+                                boxShadow: "0 10px 26px rgba(13,71,161,0.18)",
+                            },
+                        },
+
+                        "&:active": {
+                            transform: "none",
                         },
 
                         "& .MuiButton-startIcon": {
-                            mr: 0.6,
+                            mr: 0,
+                            ml: 0,
+                            color: "#e65100",
+                        },
+
+                        "& svg": {
+                            fontSize: 33,
                         },
                     }}
                 >

@@ -63,7 +63,7 @@ export default function FloatingContact() {
       onClick={() => navigate("/contact-us")}
       aria-label="Contact us"
     >
-      <EmailIcon sx={{ color: "#e65100", fontSize: 29 }} />
+      <EmailIcon sx={{ color: "#e65100", fontSize: 25 }} />
 
       <Typography
         sx={{
