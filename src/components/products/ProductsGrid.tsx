@@ -272,7 +272,6 @@ export default function ProductsGrid({
             {!isMobile && (
                 <Button
                     onClick={openInsightsDrawer}
-                    startIcon={<BarChartRoundedIcon />}
                     sx={{
                         position: "fixed",
                         right: 0,
@@ -287,7 +286,7 @@ export default function ProductsGrid({
                         boxSizing: "border-box",
                         justifyContent: "center",
 
-                        height: "auto",
+                        height: "50.5px",
                         padding: "7.5px 15px 7.5px 13px",
 
                         borderTopLeftRadius: 11,
@@ -304,21 +303,16 @@ export default function ProductsGrid({
                         boxShadow: "0 8px 22px rgba(13,71,161,0.18)",
                         cursor: "pointer",
 
-                        fontWeight: 700,
-                        fontSize: "1.05rem",
-                        letterSpacing: "0.08em",
-                        textTransform: "uppercase",
-                        whiteSpace: "nowrap",
-
                         outline: "none",
                         WebkitTapHighlightColor: "transparent",
                         appearance: "none",
 
-                        transition: "width .22s ease, padding .22s ease, box-shadow .22s ease, background-color .22s ease",
+                        transition: "all .22s ease",
 
                         "@media (hover: hover) and (pointer: fine)": {
                             "&:hover": {
                                 bgcolor: "#fff4e1",
+
                                 borderTop: "3px solid rgba(13,71,161,0.45)",
                                 borderBottom: "3px solid rgba(13,71,161,0.45)",
                                 borderLeft: "3px solid rgba(13,71,161,0.45)",
@@ -327,28 +321,37 @@ export default function ProductsGrid({
                                 borderBottomLeftRadius: 7,
 
                                 width: 194,
-                                paddingLeft: "24px",
-                                transform: "none",
-                                boxShadow: "0 10px 26px rgba(13,71,161,0.18)",
+
+                                boxShadow:
+                                    "0 10px 26px rgba(13,71,161,0.18)",
                             },
                         },
 
                         "&:active": {
-                            transform: "none",
-                        },
-
-                        "& .MuiButton-startIcon": {
-                            mr: 0,
-                            ml: 0,
-                            color: "#e65100",
-                        },
-
-                        "& svg": {
-                            fontSize: 33,
+                            transform: "translateY(0)",
                         },
                     }}
                 >
-                    Insights
+                    <BarChartRoundedIcon
+                        sx={{
+                            color: "#e65100",
+                            fontSize: 28,
+                        }}
+                    />
+
+                    <Typography
+                        sx={{
+                            fontWeight: 700,
+                            fontSize: "1.07rem",
+                            color: "#0d47a1",
+                            letterSpacing: "0.08em",
+                            textTransform: "uppercase",
+                            whiteSpace: "nowrap",
+                            lineHeight: 1,
+                        }}
+                    >
+                        Insights
+                    </Typography>
                 </Button>
             )}
 

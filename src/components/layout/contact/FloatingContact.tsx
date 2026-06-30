@@ -13,6 +13,9 @@ const FloatingWrapper = styled("button")(({ theme }) => ({
   alignItems: "center",
   gap: 10,
 
+  width: 185,
+  boxSizing: "border-box",
+  justifyContent: "center",
   padding: "9px 15px 9px 13px",
   borderTopLeftRadius: 10,
   borderBottomLeftRadius: 10,
@@ -35,6 +38,7 @@ const FloatingWrapper = styled("button")(({ theme }) => ({
   "@media (hover: hover) and (pointer: fine)": {
     "&:hover": {
       backgroundColor: "rgba(230, 81, 0, 0.12)",
+
       borderTop: "3px solid rgba(230, 81, 0, 0.45)",
       borderBottom: "3px solid rgba(230, 81, 0, 0.45)",
       borderLeft: "3px solid rgba(230, 81, 0, 0.45)",
@@ -42,8 +46,9 @@ const FloatingWrapper = styled("button")(({ theme }) => ({
       borderTopLeftRadius: 7,
       borderBottomLeftRadius: 7,
 
-      paddingLeft: "22px",
-      transform: "translateY(-2px)",
+      width: 198,
+
+
       boxShadow: "0 10px 26px rgba(0,0,0,0.18)",
     },
   },
