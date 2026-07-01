@@ -218,7 +218,7 @@ export default function AdminOrders() {
                             mx: "auto",
                             px: 2.4,
                             pt: "150px",
-                            pb: "calc(80px + env(safe-area-inset-bottom))",
+                            pb: "calc(85px + env(safe-area-inset-bottom))",
                             flex: 1,
                         }}
                     >
