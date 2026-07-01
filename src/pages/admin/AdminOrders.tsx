@@ -218,7 +218,7 @@ export default function AdminOrders() {
                             mx: "auto",
                             px: 2.4,
                             pt: "150px",
-                            pb: "calc(100px + env(safe-area-inset-bottom))",
+                            pb: "calc(80px + env(safe-area-inset-bottom))",
                             flex: 1,
                         }}
                     >
@@ -309,7 +309,7 @@ export default function AdminOrders() {
                                 ))}
 
                                 {pageCount > 1 && (
-                                    <Box sx={{ display: "flex", justifyContent: "center", pt: 1.5, pb: -1.5 }}>
+                                    <Box sx={{ display: "flex", justifyContent: "center", pt: 1.5, pb: 0 }}>
                                         <Pagination
                                             count={pageCount}
                                             page={page}
