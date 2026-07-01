@@ -158,7 +158,7 @@ export default function AdminMessages() {
                             mx: "auto",
                             px: 2.4,
                             pt: "150px",
-                            pb: "calc(100px + env(safe-area-inset-bottom))",
+                            pb: "calc(85px + env(safe-area-inset-bottom))",
                             flex: 1,
                         }}
                     >
