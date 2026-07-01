@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, useRef, type MouseEvent } from "react";
 import { api } from "../../api";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import { Box, Paper, Typography, TextField, Stack, Divider } from "@mui/material";
+import { Box, Paper, Typography, TextField, Stack, Divider, Pagination } from "@mui/material";
 import NavbarAdmin from "../../components/layout/navbar/NavbarAdmin";
 import Footer from "../../components/layout/footer/Footer";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
@@ -38,11 +38,21 @@ export default function AdminMessages() {
     const [tsAnchorEl, setTsAnchorEl] = useState<null | HTMLElement>(null);
     const [tsMsgId, setTsMsgId] = useState<number | null>(null);
 
+    const MESSAGES_PER_PAGE = 15;
+    const [page, setPage] = useState(1);
+
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const tsOpen = Boolean(tsAnchorEl);
     const selectedMsg = items.find((x) => x.id === tsMsgId);
+
+    const pageCount = Math.ceil(items.length / MESSAGES_PER_PAGE);
+
+    const paginatedItems = items.slice(
+        (page - 1) * MESSAGES_PER_PAGE,
+        page * MESSAGES_PER_PAGE
+    );
 
     const openTsMenu = (e: MouseEvent<HTMLElement>, msgId: number) => {
         setTsAnchorEl(e.currentTarget);
@@ -110,6 +120,10 @@ export default function AdminMessages() {
         const interval = setInterval(tick, 8000);
         return () => clearInterval(interval);
     }, [queryUrl, activeKey]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [activeKey, emailFilter]);
 
 
     async function markAsAnswered(id: number) {
@@ -213,7 +227,7 @@ export default function AdminMessages() {
                             </Box>
                         ) : (
                             <Stack spacing={1.2}>
-                                {items.map((m) => (
+                                {paginatedItems.map((m) => (
                                     <AdminMessageCard
                                         key={m.id}
                                         message={m}
@@ -222,6 +236,26 @@ export default function AdminMessages() {
                                         onMarkAsAnswered={markAsAnswered}
                                     />
                                 ))}
+                                {pageCount > 1 && (
+                                    <Box sx={{ display: "flex", justifyContent: "center", pt: 1.5, pb: 0 }}>
+                                        <Pagination
+                                            count={pageCount}
+                                            page={page}
+                                            onChange={(_, value) => setPage(value)}
+                                            size="small"
+                                            sx={{
+                                                "& .MuiPaginationItem-root": {
+                                                    color: "#0d47a1",
+                                                    fontWeight: 800,
+                                                },
+                                                "& .Mui-selected": {
+                                                    bgcolor: "rgba(230,81,0,0.18) !important",
+                                                    color: "#0d47a1",
+                                                },
+                                            }}
+                                        />
+                                    </Box>
+                                )}
                             </Stack>
                         )}
                     </Box>
@@ -448,7 +482,7 @@ export default function AdminMessages() {
                                     </Box>
                                 ) : (
                                     <Stack spacing={1.4}>
-                                        {items.map((m) => (
+                                        {paginatedItems.map((m) => (
                                             <AdminMessageCard
                                                 key={m.id}
                                                 message={m}
@@ -457,6 +491,26 @@ export default function AdminMessages() {
                                                 onMarkAsAnswered={markAsAnswered}
                                             />
                                         ))}
+                                        {pageCount > 1 && (
+                                            <Box sx={{ display: "flex", justifyContent: "center", pt: 1.5, pb: 1 }}>
+                                                <Pagination
+                                                    count={pageCount}
+                                                    page={page}
+                                                    onChange={(_, value) => setPage(value)}
+                                                    size="medium"
+                                                    sx={{
+                                                        "& .MuiPaginationItem-root": {
+                                                            color: "#0d47a1",
+                                                            fontWeight: 800,
+                                                        },
+                                                        "& .Mui-selected": {
+                                                            bgcolor: "rgba(230,81,0,0.18) !important",
+                                                            color: "#0d47a1",
+                                                        },
+                                                    }}
+                                                />
+                                            </Box>
+                                        )}
                                     </Stack>
                                 )}
                             </Box>
