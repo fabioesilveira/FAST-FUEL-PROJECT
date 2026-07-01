@@ -9,6 +9,7 @@ import {
     TextField,
     Stack,
     Divider,
+    Pagination,
 } from "@mui/material";
 import NavbarAdmin from "../../components/layout/navbar/NavbarAdmin";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
@@ -69,12 +70,21 @@ export default function AdminOrders() {
 
     const [tsAnchorEl, setTsAnchorEl] = useState<null | HTMLElement>(null);
     const [tsOrderId, setTsOrderId] = useState<number | null>(null);
+    const ORDERS_PER_PAGE = 10;
+    const [page, setPage] = useState(1);
     const tsOpen = Boolean(tsAnchorEl);
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const selectedOrder = items.find((x) => x.id === tsOrderId);
+
+    const pageCount = Math.ceil(items.length / ORDERS_PER_PAGE);
+
+    const paginatedItems = items.slice(
+        (page - 1) * ORDERS_PER_PAGE,
+        page * ORDERS_PER_PAGE
+    );
 
     const inFlightRef = useRef(false);
 
@@ -168,6 +178,10 @@ export default function AdminOrders() {
 
         const interval = setInterval(tick, 8000);
         return () => clearInterval(interval);
+    }, [activeKey, debouncedOrderCode, debouncedEmail]);
+
+    useEffect(() => {
+        setPage(1);
     }, [activeKey, debouncedOrderCode, debouncedEmail]);
 
 
@@ -284,7 +298,7 @@ export default function AdminOrders() {
                             </Box>
                         ) : (
                             <Stack spacing={1.2}>
-                                {items.map((o) => (
+                                {paginatedItems.map((o) => (
                                     <AdminOrderCard
                                         key={o.id}
                                         order={o}
@@ -293,6 +307,27 @@ export default function AdminOrders() {
                                         onUpdateStatus={updateStatus}
                                     />
                                 ))}
+
+                                {pageCount > 1 && (
+                                    <Box sx={{ display: "flex", justifyContent: "center", pt: 1.5, pb: 2 }}>
+                                        <Pagination
+                                            count={pageCount}
+                                            page={page}
+                                            onChange={(_, value) => setPage(value)}
+                                            size="small"
+                                            sx={{
+                                                "& .MuiPaginationItem-root": {
+                                                    color: "#0d47a1",
+                                                    fontWeight: 800,
+                                                },
+                                                "& .Mui-selected": {
+                                                    bgcolor: "rgba(230,81,0,0.18) !important",
+                                                    color: "#0d47a1",
+                                                },
+                                            }}
+                                        />
+                                    </Box>
+                                )}
                             </Stack>
                         )}
                     </Box>
@@ -514,7 +549,7 @@ export default function AdminOrders() {
                                     </Box>
                                 ) : (
                                     <Stack spacing={1.4}>
-                                        {items.map((o) => (
+                                        {paginatedItems.map((o) => (
                                             <AdminOrderCard
                                                 key={o.id}
                                                 order={o}
@@ -523,6 +558,27 @@ export default function AdminOrders() {
                                                 onUpdateStatus={updateStatus}
                                             />
                                         ))}
+
+                                        {pageCount > 1 && (
+                                            <Box sx={{ display: "flex", justifyContent: "center", pt: 1.5, pb: 2 }}>
+                                                <Pagination
+                                                    count={pageCount}
+                                                    page={page}
+                                                    onChange={(_, value) => setPage(value)}
+                                                    size="medium"
+                                                    sx={{
+                                                        "& .MuiPaginationItem-root": {
+                                                            color: "#0d47a1",
+                                                            fontWeight: 800,
+                                                        },
+                                                        "& .Mui-selected": {
+                                                            bgcolor: "rgba(230,81,0,0.18) !important",
+                                                            color: "#0d47a1",
+                                                        },
+                                                    }}
+                                                />
+                                            </Box>
+                                        )}
                                     </Stack>
                                 )}
                             </Box>

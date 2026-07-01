@@ -286,18 +286,18 @@ export default function ProductsGrid({
                         boxSizing: "border-box",
                         justifyContent: "center",
 
-                        height: "50.5px",
+                        height: "50px",
                         padding: "7.5px 15px 7.5px 13px",
 
-                        borderTopLeftRadius: 11,
-                        borderBottomLeftRadius: 11,
+                        borderTopLeftRadius: 10,
+                        borderBottomLeftRadius: 10,
 
                         bgcolor: "white",
                         color: "#0d47a1",
 
-                        borderTop: "3px solid rgba(13,71,161,0.20)",
-                        borderBottom: "3px solid rgba(13,71,161,0.20)",
-                        borderLeft: "3px solid rgba(13,71,161,0.20)",
+                        borderTop: "3px solid rgba(13,71,161,0.45)",
+                        borderBottom: "3px solid rgba(13,71,161,0.45)",
+                        borderLeft: "3px solid rgba(13,71,161,0.45)",
                         borderRight: "none",
 
                         boxShadow: "0 8px 22px rgba(13,71,161,0.18)",
@@ -311,11 +311,13 @@ export default function ProductsGrid({
 
                         "@media (hover: hover) and (pointer: fine)": {
                             "&:hover": {
-                                bgcolor: "#fff4e1",
+                                bgcolor: "#fff7ed",
 
-                                borderTop: "3px solid rgba(13,71,161,0.45)",
-                                borderBottom: "3px solid rgba(13,71,161,0.45)",
-                                borderLeft: "3px solid rgba(13,71,161,0.45)",
+
+
+                                borderTop: "3px solid rgba(13,71,161,0.20)",
+                                borderBottom: "3px solid rgba(13,71,161,0.20)",
+                                borderLeft: "3px solid rgba(13,71,161,0.20)",
 
                                 borderTopLeftRadius: 7,
                                 borderBottomLeftRadius: 7,
@@ -335,14 +337,14 @@ export default function ProductsGrid({
                     <BarChartRoundedIcon
                         sx={{
                             color: "#e65100",
-                            fontSize: 28,
+                            fontSize: 27,
                         }}
                     />
 
                     <Typography
                         sx={{
                             fontWeight: 700,
-                            fontSize: "1.07rem",
+                            fontSize: "1.06rem",
                             color: "#0d47a1",
                             letterSpacing: "0.08em",
                             textTransform: "uppercase",
