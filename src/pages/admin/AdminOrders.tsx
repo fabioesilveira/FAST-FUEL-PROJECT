@@ -309,7 +309,7 @@ export default function AdminOrders() {
                                 ))}
 
                                 {pageCount > 1 && (
-                                    <Box sx={{ display: "flex", justifyContent: "center", pt: 1.5, pb: 0 }}>
+                                    <Box sx={{ display: "flex", justifyContent: "center", pt: 1.5, pb: -0.5 }}>
                                         <Pagination
                                             count={pageCount}
                                             page={page}
