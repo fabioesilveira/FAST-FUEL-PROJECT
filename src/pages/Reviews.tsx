@@ -397,7 +397,7 @@ export default function Reviews() {
                         display: "flex",
                         justifyContent: "center",
                         pt: 1.5,
-                        pb: isMobile ? 6 : 1.5,
+                        pb: isMobile ? 6 : 1.2,
                     }}
                 >
                     <Pagination
