@@ -472,12 +472,12 @@ export default function Reviews() {
                                         color: "#0d47a1",
                                         fontWeight: 800,
                                         px: 0,
-                                        ..(pageNumber === page && {
+                                        ...(pageNumber === page && {
                                             bgcolor: "rgba(230,81,0,0.18)",
                                         }),
                                     }}
                                 >
-                                    {isLastVisible ? `${pageNumber}...` : pageNumber}
+                                    {isLastVisible ? `${pageNumber}..` : pageNumber}
                                 </Button>
                             );
                         })}
