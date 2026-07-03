@@ -401,7 +401,12 @@ export default function Reviews() {
     );
 
     function getVisiblePages() {
-        const start = Math.floor((page - 1) / 3) * 3 + 1;
+        let start = 1;
+
+        if (page >= 3) {
+            start = page;
+        }
+
         const end = Math.min(start + 2, pageCount);
 
         return Array.from({ length: end - start + 1 }, (_, i) => start + i);
@@ -459,11 +464,7 @@ export default function Reviews() {
                             return (
                                 <Button
                                     key={pageNumber}
-                                    onClick={() =>
-                                        isLastVisible
-                                            ? setPage(Math.min(pageNumber + 1, pageCount))
-                                            : setPage(pageNumber)
-                                    }
+                                    onClick={() => setPage(pageNumber)}
                                     sx={{
                                         minWidth: 32,
                                         minHeight: 32,
@@ -471,7 +472,7 @@ export default function Reviews() {
                                         color: "#0d47a1",
                                         fontWeight: 800,
                                         px: 0,
-                                        ...(pageNumber === page && {
+                                        ..(pageNumber === page && {
                                             bgcolor: "rgba(230,81,0,0.18)",
                                         }),
                                     }}
