@@ -451,32 +451,35 @@ export default function Reviews() {
                             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
                         />
 
-                        {getVisiblePages().map((pageNumber) => (
-                            <PaginationItem
-                                key={pageNumber}
-                                page={pageNumber}
-                                selected={pageNumber === page}
-                                onClick={() => setPage(pageNumber)}
-                                sx={{
-                                    color: "#0d47a1",
-                                    fontWeight: 800,
-                                    "&.Mui-selected": {
-                                        bgcolor: "rgba(230,81,0,0.18) !important",
-                                        color: "#0d47a1",
-                                    },
-                                }}
-                            />
-                        ))}
+                        {getVisiblePages().map((pageNumber, index) => {
+                            const isLastVisible =
+                                index === getVisiblePages().length - 1 &&
+                                pageNumber < pageCount;
 
-                        {getVisiblePages()[getVisiblePages().length - 1] < pageCount && (
-                            <PaginationItem
-                                type="end-ellipsis"
-                                style={{ cursor: "pointer" }}
-                                onClick={() =>
-                                    setPage(Math.min(getVisiblePages()[getVisiblePages().length - 1] + 1, pageCount))
-                                }
-                            />
-                        )}
+                            return (
+                                <Button
+                                    key={pageNumber}
+                                    onClick={() =>
+                                        isLastVisible
+                                            ? setPage(Math.min(pageNumber + 1, pageCount))
+                                            : setPage(pageNumber)
+                                    }
+                                    sx={{
+                                        minWidth: 32,
+                                        minHeight: 32,
+                                        borderRadius: "50%",
+                                        color: "#0d47a1",
+                                        fontWeight: 800,
+                                        px: 0,
+                                        ...(pageNumber === page && {
+                                            bgcolor: "rgba(230,81,0,0.18)",
+                                        }),
+                                    }}
+                                >
+                                    {isLastVisible ? `${pageNumber}...` : pageNumber}
+                                </Button>
+                            );
+                        })}
 
                         <PaginationItem
                             type="next"
