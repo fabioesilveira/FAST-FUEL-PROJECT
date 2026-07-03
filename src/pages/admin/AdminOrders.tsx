@@ -9,7 +9,8 @@ import {
     TextField,
     Stack,
     Divider,
-    Pagination,
+    Button,
+    PaginationItem,
 } from "@mui/material";
 import NavbarAdmin from "../../components/layout/navbar/NavbarAdmin";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
@@ -108,6 +109,12 @@ export default function AdminOrders() {
         setTsOrderId(null);
     };
 
+    function getVisiblePages() {
+        const start = page < 3 ? 1 : page;
+        const end = Math.min(start + 2, pageCount);
+
+        return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    }
 
     async function fetchOrders(opts?: { silent?: boolean }) {
         const silent = !!opts?.silent;
@@ -310,22 +317,61 @@ export default function AdminOrders() {
 
                                 {pageCount > 1 && (
                                     <Box sx={{ display: "flex", justifyContent: "center", pt: 1.5, pb: 0 }}>
-                                        <Pagination
-                                            count={pageCount}
-                                            page={page}
-                                            onChange={(_, value) => setPage(value)}
-                                            size="small"
-                                            sx={{
-                                                "& .MuiPaginationItem-root": {
-                                                    color: "#0d47a1",
-                                                    fontWeight: 800,
-                                                },
-                                                "& .Mui-selected": {
-                                                    bgcolor: "rgba(230,81,0,0.18) !important",
-                                                    color: "#0d47a1",
-                                                },
-                                            }}
-                                        />
+                                        <Stack direction="row" spacing={0.5} alignItems="center">
+                                            <PaginationItem
+                                                type="first"
+                                                page={1}
+                                                disabled={page === 1}
+                                                onClick={() => setPage(1)}
+                                            />
+
+                                            <PaginationItem
+                                                type="previous"
+                                                page={page - 1}
+                                                disabled={page === 1}
+                                                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                                            />
+
+                                            {getVisiblePages().map((pageNumber, index) => {
+                                                const isLastVisible =
+                                                    index === getVisiblePages().length - 1 &&
+                                                    pageNumber < pageCount;
+
+                                                return (
+                                                    <Button
+                                                        key={pageNumber}
+                                                        onClick={() => setPage(pageNumber)}
+                                                        sx={{
+                                                            minWidth: 32,
+                                                            minHeight: 32,
+                                                            borderRadius: "50%",
+                                                            color: "#0d47a1",
+                                                            fontWeight: 800,
+                                                            px: 0,
+                                                            ...(pageNumber === page && {
+                                                                bgcolor: "rgba(230,81,0,0.18)",
+                                                            }),
+                                                        }}
+                                                    >
+                                                        {isLastVisible ? `${pageNumber}..` : pageNumber}
+                                                    </Button>
+                                                );
+                                            })}
+
+                                            <PaginationItem
+                                                type="next"
+                                                page={page + 1}
+                                                disabled={page === pageCount}
+                                                onClick={() => setPage((prev) => Math.min(prev + 1, pageCount))}
+                                            />
+
+                                            <PaginationItem
+                                                type="last"
+                                                page={pageCount}
+                                                disabled={page === pageCount}
+                                                onClick={() => setPage(pageCount)}
+                                            />
+                                        </Stack>
                                     </Box>
                                 )}
                             </Stack>
@@ -561,22 +607,62 @@ export default function AdminOrders() {
 
                                         {pageCount > 1 && (
                                             <Box sx={{ display: "flex", justifyContent: "center", pt: 1.5, pb: 1 }}>
-                                                <Pagination
-                                                    count={pageCount}
-                                                    page={page}
-                                                    onChange={(_, value) => setPage(value)}
-                                                    size="medium"
-                                                    sx={{
-                                                        "& .MuiPaginationItem-root": {
-                                                            color: "#0d47a1",
-                                                            fontWeight: 800,
-                                                        },
-                                                        "& .Mui-selected": {
-                                                            bgcolor: "rgba(230,81,0,0.18) !important",
-                                                            color: "#0d47a1",
-                                                        },
-                                                    }}
-                                                />
+
+                                                <Stack direction="row" spacing={0.5} alignItems="center">
+                                                    <PaginationItem
+                                                        type="first"
+                                                        page={1}
+                                                        disabled={page === 1}
+                                                        onClick={() => setPage(1)}
+                                                    />
+
+                                                    <PaginationItem
+                                                        type="previous"
+                                                        page={page - 1}
+                                                        disabled={page === 1}
+                                                        onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                                                    />
+
+                                                    {getVisiblePages().map((pageNumber, index) => {
+                                                        const isLastVisible =
+                                                            index === getVisiblePages().length - 1 &&
+                                                            pageNumber < pageCount;
+
+                                                        return (
+                                                            <Button
+                                                                key={pageNumber}
+                                                                onClick={() => setPage(pageNumber)}
+                                                                sx={{
+                                                                    minWidth: 32,
+                                                                    minHeight: 32,
+                                                                    borderRadius: "50%",
+                                                                    color: "#0d47a1",
+                                                                    fontWeight: 800,
+                                                                    px: 0,
+                                                                    ...(pageNumber === page && {
+                                                                        bgcolor: "rgba(230,81,0,0.18)",
+                                                                    }),
+                                                                }}
+                                                            >
+                                                                {isLastVisible ? `${pageNumber}..` : pageNumber}
+                                                            </Button>
+                                                        );
+                                                    })}
+
+                                                    <PaginationItem
+                                                        type="next"
+                                                        page={page + 1}
+                                                        disabled={page === pageCount}
+                                                        onClick={() => setPage((prev) => Math.min(prev + 1, pageCount))}
+                                                    />
+
+                                                    <PaginationItem
+                                                        type="last"
+                                                        page={pageCount}
+                                                        disabled={page === pageCount}
+                                                        onClick={() => setPage(pageCount)}
+                                                    />
+                                                </Stack>
                                             </Box>
                                         )}
                                     </Stack>
