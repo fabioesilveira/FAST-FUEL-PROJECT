@@ -11,7 +11,7 @@ import {
     Menu,
     MenuItem,
     ListItemText,
-    Pagination,
+    PaginationItem,
 } from "@mui/material";
 import { api } from "../api";
 import { useTheme } from "@mui/material/styles";
@@ -61,8 +61,6 @@ const categories = [
     { label: "Drinks", value: "beverages" },
     { label: "Desserts", value: "desserts" },
 ];
-
-
 
 function cleanProductName(name: string) {
     return String(name || "")
@@ -402,6 +400,13 @@ export default function Reviews() {
         </Box>
     );
 
+    function getVisiblePages() {
+        const start = Math.floor((page - 1) / 3) * 3 + 1;
+        const end = Math.min(start + 2, pageCount);
+
+        return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    }
+
     const reviewsContent = (
         <Stack spacing={1.4}>
             {loading ? (
@@ -431,26 +436,62 @@ export default function Reviews() {
                         pb: isMobile ? 6 : 1.2,
                     }}
                 >
-                    <Pagination
-                        count={pageCount}
-                        page={page}
-                        onChange={(_, value) => setPage(value)}
-                        size={isMobile ? "small" : "medium"}
-                        siblingCount={0}
-                        boundaryCount={1}
-                        showFirstButton
-                        showLastButton
-                        sx={{
-                            "& .MuiPaginationItem-root": {
-                                color: "#0d47a1",
-                                fontWeight: 800,
-                            },
-                            "& .Mui-selected": {
-                                bgcolor: "rgba(230,81,0,0.18) !important",
-                                color: "#0d47a1",
-                            },
-                        }}
-                    />
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                        <PaginationItem
+                            type="first"
+                            page={1}
+                            disabled={page === 1}
+                            onClick={() => setPage(1)}
+                        />
+
+                        <PaginationItem
+                            type="previous"
+                            page={page - 1}
+                            disabled={page === 1}
+                            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                        />
+
+                        {getVisiblePages().map((pageNumber) => (
+                            <PaginationItem
+                                key={pageNumber}
+                                page={pageNumber}
+                                selected={pageNumber === page}
+                                onClick={() => setPage(pageNumber)}
+                                sx={{
+                                    color: "#0d47a1",
+                                    fontWeight: 800,
+                                    "&.Mui-selected": {
+                                        bgcolor: "rgba(230,81,0,0.18) !important",
+                                        color: "#0d47a1",
+                                    },
+                                }}
+                            />
+                        ))}
+
+                        {getVisiblePages()[getVisiblePages().length - 1] < pageCount && (
+                            <PaginationItem
+                                type="end-ellipsis"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                    setPage(Math.min(getVisiblePages()[getVisiblePages().length - 1] + 1, pageCount))
+                                }
+                            />
+                        )}
+
+                        <PaginationItem
+                            type="next"
+                            page={page + 1}
+                            disabled={page === pageCount}
+                            onClick={() => setPage((prev) => Math.min(prev + 1, pageCount))}
+                        />
+
+                        <PaginationItem
+                            type="last"
+                            page={pageCount}
+                            disabled={page === pageCount}
+                            onClick={() => setPage(pageCount)}
+                        />
+                    </Stack>
                 </Box>
             )}
         </Stack>
