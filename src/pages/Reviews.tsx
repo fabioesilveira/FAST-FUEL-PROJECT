@@ -92,7 +92,15 @@ export default function Reviews() {
     const [filterAnchorEl, setFilterAnchorEl] = useState<HTMLElement | null>(null);
     const [categoryAnchorEl, setCategoryAnchorEl] = useState<HTMLElement | null>(null);
     const [productAnchorEl, setProductAnchorEl] = useState<HTMLElement | null>(null);
-    const [sortOrder, setSortOrder] = useState<"random" | "newest" | "oldest">("random");
+    const [ratingAnchorEl, setRatingAnchorEl] =
+        useState<HTMLElement | null>(null);
+
+    const ratingOpen = Boolean(
+        ratingAnchorEl && document.body.contains(ratingAnchorEl)
+    );
+    const [sortOrder, setSortOrder] = useState<
+        "random" | "newest" | "oldest" | "highest" | "lowest"
+    >("random");
 
     const [reviews, setReviews] = useState<Review[]>([]);
     const [loading, setLoading] = useState(false);
@@ -120,6 +128,7 @@ export default function Reviews() {
         setCategoryAnchorEl(null);
         setProductAnchorEl(null);
         setDateAnchorEl(null);
+        setRatingAnchorEl(null);
     }
 
     function handleClearFilters() {
@@ -214,12 +223,34 @@ export default function Reviews() {
             return matchesCategory && matchesProduct && matchesSearch;
         })
         .sort((a, b) => {
-            if (sortOrder === "random") return 0;
-
             const da = new Date(a.created_at).getTime();
             const db = new Date(b.created_at).getTime();
 
-            return sortOrder === "newest" ? db - da : da - db;
+            if (sortOrder === "random") return 0;
+
+            if (sortOrder === "newest") {
+                return db - da;
+            }
+
+            if (sortOrder === "oldest") {
+                return da - db;
+            }
+
+            if (sortOrder === "highest") {
+                if (b.rating !== a.rating) {
+                    return b.rating - a.rating;
+                }
+                return db - da; // empate mais recente
+            }
+
+            if (sortOrder === "lowest") {
+                if (a.rating !== b.rating) {
+                    return a.rating - b.rating;
+                }
+                return db - da; // empate mais recente
+            }
+
+            return 0;
         });
 
 
@@ -405,6 +436,10 @@ export default function Reviews() {
                         page={page}
                         onChange={(_, value) => setPage(value)}
                         size={isMobile ? "small" : "medium"}
+                        siblingCount={0}
+                        boundaryCount={1}
+                        showFirstButton
+                        showLastButton
                         sx={{
                             "& .MuiPaginationItem-root": {
                                 color: "#0d47a1",
@@ -622,6 +657,13 @@ export default function Reviews() {
                     <ExpandMoreIcon sx={{ transform: "rotate(-90deg)", fontSize: 19 }} />
                 </MenuItem>
 
+                <MenuItem onClick={(e) => setRatingAnchorEl(e.currentTarget)}>
+                    <ListItemText primary="Rating" />
+                    <ExpandMoreIcon
+                        sx={{ transform: "rotate(-90deg)", fontSize: 19 }}
+                    />
+                </MenuItem>
+
                 {isMobile && (
                     <>
                         <Divider sx={{ my: 0.6 }} />
@@ -712,6 +754,40 @@ export default function Reviews() {
                     }}
                 >
                     Oldest
+                </MenuItem>
+            </Menu>
+
+            <Menu
+                anchorEl={ratingAnchorEl}
+                open={ratingOpen}
+                onClose={() => setRatingAnchorEl(null)}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "left" }}
+            >
+                <MenuItem
+                    onClick={() => {
+                        setSearch("");
+                        setSelectedCategory("all");
+                        setSelectedProductId(null);
+                        setSortOrder("highest");
+                        closeAllMenus();
+                        setPage(1);
+                    }}
+                >
+                    Highest Rated
+                </MenuItem>
+
+                <MenuItem
+                    onClick={() => {
+                        setSearch("");
+                        setSelectedCategory("all");
+                        setSelectedProductId(null);
+                        setSortOrder("lowest");
+                        closeAllMenus();
+                        setPage(1);
+                    }}
+                >
+                    Lowest Rated
                 </MenuItem>
             </Menu>
 
