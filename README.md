@@ -293,7 +293,7 @@ The Fast Fuel project was planned through four stages:
 
 ![Home](/src/assets/Screenshot-Deployed1.png)
 
-![Products](src/assets/Screenshot-Deployed2.png)
+![Search](src/assets/Screenshot-Deployed10.png)
 
 ![FastThru](src/assets/Screenshot-Deployed3.png)
 
@@ -306,3 +306,13 @@ The Fast Fuel project was planned through four stages:
 ![TrackOrders](src/assets/Screenshot-Deployed7.png)
 
 ![ReviewModal](src/assets/Screenshot-Deployed8.png)
+
+![Reviews](src/assets/Screenshot-Deployed9.png)
+
+![Products](src/assets/Screenshot-Deployed2.png)
+
+![Products](src/assets/Screenshot-Deployed11.png)
+
+![Products](src/assets/Screenshot-Deployed12.png)
+
+![Products](src/assets/Screenshot-Deployed13.png)
