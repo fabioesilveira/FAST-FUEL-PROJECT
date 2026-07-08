@@ -291,4 +291,6 @@ The Fast Fuel project was planned through four stages:
 
 ## Application Screenshots
 
-![Home](/src/assets/)
+![Home](/src/assets/Screenshot-Deployed1.png)
+
+![Products](src/assets/Screenshot-Deployed2.png)
