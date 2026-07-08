@@ -298,3 +298,7 @@ The Fast Fuel project was planned through four stages:
 ![FastThru](src/assets/Screenshot-Deployed3.png)
 
 ![Checkout](src/assets/Screenshot-Deployed4.png)
+
+![OrderConfirmation](src/assets/Screenshot-Deployed5.png)
+
+![AdmDashboardOrders](src/assets/Screenshot-Deployed6.png)
