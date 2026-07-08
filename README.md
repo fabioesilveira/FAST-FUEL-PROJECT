@@ -288,3 +288,7 @@ The Fast Fuel project was planned through four stages:
 - Data Relationships
 
 ![Fast Fuel Design Process](/src/assets/Figma.png)
+
+## Application Screenshots
+
+![Home](/src/assets/)
