@@ -119,6 +119,10 @@ export default function Reviews() {
 
     function openFilterMenu(e: MouseEvent<HTMLElement>) {
         setFilterAnchorEl(e.currentTarget);
+
+        setTimeout(() => {
+            e.currentTarget.blur();
+        }, 0);
     }
 
     function closeAllMenus() {
@@ -127,6 +131,8 @@ export default function Reviews() {
         setProductAnchorEl(null);
         setDateAnchorEl(null);
         setRatingAnchorEl(null);
+
+        (document.activeElement as HTMLElement)?.blur();
     }
 
     function handleClearFilters() {
