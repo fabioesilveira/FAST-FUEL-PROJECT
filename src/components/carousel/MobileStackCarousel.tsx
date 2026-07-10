@@ -34,6 +34,13 @@ export default function MobileCarouselSingle({
   const safeSlides = useMemo(() => slides.filter(Boolean), [slides]);
   const count = safeSlides.length;
 
+  useEffect(() => {
+    safeSlides.forEach((slide) => {
+      const img = new Image();
+      img.src = slide.src;
+    });
+  }, [safeSlides]);
+
   const [idx, setIdx] = useState(0);
   const [nextIdx, setNextIdx] = useState<number | null>(null);
   const [fading, setFading] = useState(false);
@@ -109,11 +116,6 @@ export default function MobileCarouselSingle({
     startTimer();
     return clearTimer;
   }, [count, startTimer, clearTimer]);
-
-  useEffect(() => {
-    startTimer();
-    return clearTimer;
-  }, [startTimer, clearTimer]);
 
   if (count === 0) return null;
 
@@ -237,6 +239,8 @@ function FadeSlide({
         component="img"
         src={slide.src}
         alt={slide.alt ?? ""}
+        loading="eager"
+        decoding="async"
         sx={{
           width: "100%",
           height: "100%",
