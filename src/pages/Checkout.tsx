@@ -2,13 +2,11 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Box, Paper, Typography, Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
-import Footer from "../components/layout/footer/Footer";
 import { useAppContext, type Meal } from "../context/context";
 import { useAppAlert } from "../hooks/useAppAlert";
 import { useCheckoutTotals } from "../hooks/useCheckoutTotals";
 import CheckoutOrderSummary from "../components/checkout/CheckoutOrderSummary";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-
 import CokeImg from "../assets/Coke.png";
 import SpriteImg from "../assets/Sprite.png";
 import DrPepperImg from "../assets/Drpepper.png";
@@ -694,9 +692,30 @@ export default function Checkout() {
                             )}
                         </Box>
                     </Paper>
-                </Box>
 
-                <Footer />
+                    <Typography
+                        aria-hidden="true"
+                        sx={{
+                            display: { xs: "none", sm: "block", md: "block" },
+                            position: "absolute",
+                            left: "50%",
+                            bottom: 18,
+                            transform: "translateX(-50%)",
+                            zIndex: 1,
+                            pointerEvents: "none",
+                            userSelect: "none",
+                            whiteSpace: "nowrap",
+
+                            fontSize: 13,
+                            fontWeight: 600,
+                            letterSpacing: "0.08em",
+                            color: "rgba(13, 71, 161, 0.18)",
+                        }}
+                    >
+                        Copyright © Fast Fuel 2026.
+                    </Typography>
+
+                </Box>
             </Box>
         </>
     );

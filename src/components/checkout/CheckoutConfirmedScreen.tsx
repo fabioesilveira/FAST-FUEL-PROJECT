@@ -202,14 +202,14 @@ export default function CheckoutConfirmedScreen({
                         <Typography
                             sx={{
                                 mt: 3,
-                                fontSize: "0.72rem",
+                                fontSize: "0.70rem",
                                 letterSpacing: "0.12em",
                                 textTransform: "uppercase",
                                 fontWeight: 800,
                                 color: "rgba(230, 81, 0, 0.78)",
                             }}
                         >
-                            © FastFuel
+                            Copyright © Fast Fuel 2026.
                         </Typography>
                     </Box>
                 </Box>
