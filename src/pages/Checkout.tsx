@@ -699,7 +699,7 @@ export default function Checkout() {
                             display: { xs: "none", sm: "block", md: "block" },
                             position: "absolute",
                             left: "50%",
-                            bottom: 18,
+                            bottom: 28,
                             transform: "translateX(-50%)",
                             zIndex: 1,
                             pointerEvents: "none",
