@@ -4,6 +4,20 @@ import type { Meal } from "../../context/context";
 import HomeMiniCard from "./HomeMiniCard";
 import HomeMiniCardMobile from "./HomeMiniCardMobile";
 
+const mobileProductNames: Record<string, string> = {
+    "1": "Pit Stop",
+    "2": "Turbo Bacon",
+    "3": "Double Gear",
+    "4": "Monster",
+    "11": "Fries",
+    "12": "Onion Rings",
+    "13": "Salad",
+    "14": "Cheese Sticks",
+    "15": "Milkshake",
+    "16": "Sundae",
+    "17": "Cookies",
+};
+
 type Props = {
     isMobile: boolean;
     driveModeActive: boolean;
@@ -94,7 +108,12 @@ export default function HomeFastThruSection({
                             key={pid}
                             id={pid}
                             image={product.image}
-                            title={cleanProductName(product.name)}
+                            title={
+                                isMobile
+                                    ? mobileProductNames[pid] ?? cleanProductName(product.name)
+                                    : cleanProductName(product.name)
+                            }
+
                             secondaryLabel={`$${Number(product.price).toFixed(2)}`}
                             count={qtyMap[pid] ?? 0}
                             onClick={() => onOrder(product)}

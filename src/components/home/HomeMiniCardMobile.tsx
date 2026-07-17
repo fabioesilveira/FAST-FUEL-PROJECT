@@ -53,15 +53,15 @@ export default function HomeMiniCardMobile({
     count = 0,
 }: HomeMiniCardMobileProps) {
     const imageStyles: Record<string, React.CSSProperties> = {
-        "1": { width: 46, height: 40 },
-        "2": { width: 65, height: 52 },
-        "3": { width: 48, height: 42 },
-        "4": { width: 62, height: 48 },
+        "1": { width: 47, height: 41 },
+        "2": { width: 69, height: 59 },
+        "3": { width: 48, height: 43 },
+        "4": { width: 62, height: 50 },
 
-        "11": { width: 50, height: 52 },
-        "12": { width: 58, height: 48 },
-        "13": { width: 54, height: 47 },
-        "14": { width: 48, height: 50 },
+        "11": { width: 53, height: 52, marginTop: -2 },
+        "12": { width: 60, height: 50 },
+        "13": { width: 54, height: 47, marginTop: 2 },
+        "14": { width: 47, height: 50 },
 
         "5": { width: 55, height: 55 },
         "6": { width: 55, height: 55 },
@@ -71,9 +71,9 @@ export default function HomeMiniCardMobile({
         "10": { width: 55, height: 55 },
 
         "15": { width: 95, height: 58 },
-        "16": { width: 58, height: 54 },
-        "17": { width: 54, height: 56 },
-        "18": { width: 46, height: 40 },
+        "16": { width: 58, height: 54, marginTop: -2 },
+        "17": { width: 52, height: 56 },
+        "18": { width: 45, height: 40 },
     };
 
     const imgKey = normalizeImageKey(image);
@@ -176,7 +176,7 @@ export default function HomeMiniCardMobile({
                         <Typography
                             sx={{
                                 width: "100%",
-                                minHeight: 28,
+                                minHeight: 18,
                                 fontSize: "0.66rem",
                                 fontWeight: 700,
                                 color: "#1e5bb8",
