@@ -517,6 +517,7 @@ export default function Home() {
                         />
 
                         <HomeFastThruSection
+                            isMobile={isMobile}
                             driveModeActive={driveModeActive}
                             fastThruData={fastThruData}
                             qtyMap={qtyMap}

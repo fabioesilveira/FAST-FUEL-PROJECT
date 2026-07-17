@@ -2,8 +2,10 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import type { Meal } from "../../context/context";
 import HomeMiniCard from "./HomeMiniCard";
+import HomeMiniCardMobile from "./HomeMiniCardMobile";
 
 type Props = {
+    isMobile: boolean;
     driveModeActive: boolean;
     fastThruData: Meal[];
     qtyMap: Record<string, number>;
@@ -13,6 +15,7 @@ type Props = {
 };
 
 export default function HomeFastThruSection({
+    isMobile,
     driveModeActive,
     fastThruData,
     qtyMap,
@@ -21,6 +24,10 @@ export default function HomeFastThruSection({
     onRemoveItem,
 }: Props) {
     if (!driveModeActive) return null;
+
+    const MiniCard = isMobile
+        ? HomeMiniCardMobile
+        : HomeMiniCard;
 
     return (
         <Box sx={{ mb: { xs: 1.5, md: 2 } }}>
@@ -48,12 +55,34 @@ export default function HomeFastThruSection({
             <Box
                 sx={{
                     display: "grid",
-                    gap: 2,
                     justifyContent: "center",
+                    width: "100%",
+                    mx: "auto",
+
                     gridTemplateColumns: {
-                        xs: "repeat(2, 143px)",
+                        xs: "repeat(3, minmax(0, 1fr))",
                         sm: "repeat(3, 143px)",
                         lg: "repeat(6, 143px)",
+                    },
+
+                    columnGap: {
+                        xs: "clamp(8px, 2.5vw, 14px)",
+                        sm: 2,
+                    },
+
+                    rowGap: {
+                        xs: 1.5,
+                        sm: 2,
+                    },
+
+                    maxWidth: {
+                        xs: 430,
+                        sm: "none",
+                    },
+
+                    px: {
+                        xs: 0.5,
+                        sm: 0,
                     },
                 }}
             >
@@ -61,7 +90,7 @@ export default function HomeFastThruSection({
                     const pid = String(product.id);
 
                     return (
-                        <HomeMiniCard
+                        <MiniCard
                             key={pid}
                             id={pid}
                             image={product.image}

@@ -13,13 +13,12 @@ import SaladImg from "../../assets/Crispsalad.png";
 import MilkshakeImg from "../../assets/Milkshake.png";
 import SundaeImg from "../../assets/Sundae.png";
 
-type MiniActionCardProps = {
+type HomeMiniCardMobileProps = {
     id: string;
     image: string;
     title?: string;
     secondaryLabel?: string;
     onClick: () => void;
-    onRemove?: () => void;
     count?: number;
 };
 
@@ -39,72 +38,87 @@ const imageMap: Record<string, string> = {
 
 const normalizeImageKey = (value?: string) => {
     if (!value) return "";
+
     const last = value.split("/").pop() || value;
+
     return last.split("?")[0].trim();
 };
 
-export function cleanProductName(name: string) {
-    return name.split("/")[0].trim();
-}
-
-export default function HomeMiniCard({
+export default function HomeMiniCardMobile({
     id,
     image,
     title,
     secondaryLabel = "$0.00",
     onClick,
     count = 0,
-}: MiniActionCardProps) {
-    const imageStylesOrder: Record<string, React.CSSProperties> = {
-        "1": { width: "60px", height: "52px", marginTop: "3px" },
-        "2": { width: "90px", height: "75px" },
-        "3": { width: "65px", height: "55px" },
-        "4": { width: "85px", height: "65px", marginTop: "-2px" },
-        "11": { width: "70px", height: "73px" },
-        "12": { width: "82px", height: "67px" },
-        "13": { width: "75px", height: "65px", marginTop: "4px" },
-        "14": { width: "65px", height: "70px" },
-        "5": { width: "77px", height: "77px" },
-        "6": { width: "77px", height: "77px" },
-        "7": { width: "77px", height: "77px" },
-        "8": { width: "77px", height: "77px" },
-        "9": { width: "77px", height: "77px" },
-        "10": { width: "77px", height: "77px" },
-        "15": { width: "200px", height: "81px" },
-        "16": { width: "82px", height: "75px" },
-        "17": { width: "75px", height: "79px" },
-        "18": { width: "60px", height: "51px" },
+}: HomeMiniCardMobileProps) {
+    const imageStyles: Record<string, React.CSSProperties> = {
+        "1": { width: 46, height: 40 },
+        "2": { width: 65, height: 52 },
+        "3": { width: 48, height: 42 },
+        "4": { width: 62, height: 48 },
+
+        "11": { width: 50, height: 52 },
+        "12": { width: 58, height: 48 },
+        "13": { width: 54, height: 47 },
+        "14": { width: 48, height: 50 },
+
+        "5": { width: 55, height: 55 },
+        "6": { width: 55, height: 55 },
+        "7": { width: 55, height: 55 },
+        "8": { width: 55, height: 55 },
+        "9": { width: 55, height: 55 },
+        "10": { width: 55, height: 55 },
+
+        "15": { width: 95, height: 58 },
+        "16": { width: 58, height: 54 },
+        "17": { width: 54, height: 56 },
+        "18": { width: 46, height: 40 },
     };
 
     const imgKey = normalizeImageKey(image);
 
     const imgSrc =
-        typeof image === "string" && image.startsWith("http")
+        image.startsWith("http")
             ? image
             : imageMap[imgKey] ?? image;
 
     return (
-        <ButtonBase onClick={onClick} sx={{ width: 143, borderRadius: "14px", textAlign: "center" }}>
-            <Box sx={{ position: "relative", width: "100%" }}>
+        <ButtonBase
+            onClick={onClick}
+            sx={{
+                width: "100%",
+                borderRadius: "12px",
+                textAlign: "center",
+                display: "block",
+            }}
+        >
+            <Box
+                sx={{
+                    position: "relative",
+                    width: "100%",
+                    minWidth: 0,
+                }}
+            >
                 {count > 0 && (
                     <Box
                         sx={{
                             position: "absolute",
-                            top: -10,
-                            right: -10,
+                            top: -7,
+                            right: -5,
                             zIndex: 2,
-                            minWidth: 26,
-                            height: 26,
-                            px: 0.7,
+                            minWidth: 22,
+                            height: 22,
+                            px: 0.5,
                             borderRadius: "999px",
-                            backgroundColor: "#1e5bb8",
+                            bgcolor: "#1e5bb8",
                             color: "#fff",
                             fontWeight: 900,
-                            fontSize: "0.78rem",
+                            fontSize: "0.68rem",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            boxShadow: "0px 6px 14px rgba(0,0,0,0.25)",
+                            boxShadow: "0 4px 10px rgba(0,0,0,0.22)",
                         }}
                     >
                         {count}
@@ -114,43 +128,43 @@ export default function HomeMiniCard({
                 <Box
                     sx={{
                         width: "100%",
-                        borderRadius: "14px",
-                        border: "2px solid #e65100",
-                        backgroundColor: "#fff3e0",
-                        boxShadow: "0 4px 10px rgba(230, 81, 0, 0.22)",
-                        p: 1.5,
+                        borderRadius: "12px",
+                        border: "1.5px solid #e65100",
+                        bgcolor: "#fff3e0",
+                        boxShadow: "0 3px 8px rgba(230,81,0,0.18)",
+                        p: 1.4,
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
-                        gap: 1.1,
-                        transition: "all 0.2s ease",
-                        cursor: "pointer",
-                        "&:hover": {
-                            boxShadow: "0 6px 16px rgba(230, 81, 0, 0.35)",
-                            transform: "translateY(-2px)",
+                        gap: 0.65,
+                        transition: "transform 0.18s ease",
+                        WebkitTapHighlightColor: "transparent",
+
+                        "&:active": {
+                            transform: "scale(0.97)",
                         },
                     }}
                 >
                     <Box
                         sx={{
                             width: "100%",
-                            height: 85,
-                            backgroundColor: "#fff",
-                            borderRadius: "10px",
-                            border: "2px solid rgba(230, 81, 0, 0.75)",
+                            height: 64,
+                            bgcolor: "#fff",
+                            borderRadius: "8px",
+                            border: "1.5px solid rgba(230, 81, 0, 0.70)",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
+                            overflow: "hidden",
                         }}
                     >
                         <img
                             src={imgSrc}
                             alt={title || "item"}
                             style={{
-                                ...(imageStylesOrder[id] ?? {
-                                    width: "85px",
-                                    height: "85px",
-                                    marginTop: "0px",
+                                ...(imageStyles[id] ?? {
+                                    width: 58,
+                                    height: 58,
                                 }),
                                 objectFit: "contain",
                                 display: "block",
@@ -161,11 +175,17 @@ export default function HomeMiniCard({
                     {title && (
                         <Typography
                             sx={{
-                                fontSize: "0.75rem",
-                                fontWeight: 600,
+                                width: "100%",
+                                minHeight: 28,
+                                fontSize: "0.66rem",
+                                fontWeight: 700,
                                 color: "#1e5bb8",
                                 textAlign: "center",
-                                lineHeight: 1.2,
+                                lineHeight: 1.15,
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical",
+                                overflow: "hidden",
                             }}
                         >
                             {title}
@@ -175,16 +195,17 @@ export default function HomeMiniCard({
                     <Box
                         sx={{
                             width: "100%",
-                            height: 25,
-                            borderRadius: "8px",
-                            backgroundColor: "#e65100",
+                            height: 23,
+                            borderRadius: "7px",
+                            bgcolor: "#e65100",
                             color: "#ffe0c7",
-                            fontSize: "0.7rem",
-                            fontWeight: 600,
+                            fontSize: "0.64rem",
+                            fontWeight: 700,
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            textTransform: "none",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
                         }}
                     >
                         {secondaryLabel}
