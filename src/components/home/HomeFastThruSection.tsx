@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import type { Meal } from "../../context/context";
 import HomeMiniCard from "./HomeMiniCard";
 import HomeMiniCardMobile from "./HomeMiniCardMobile";
+import { Divider, Typography } from "@mui/material";
 
 const mobileProductNames: Record<string, string> = {
     "1": "Pit Stop",
@@ -45,27 +45,48 @@ export default function HomeFastThruSection({
 
     return (
         <Box sx={{ mb: { xs: 1.5, md: 2 } }}>
-            <Typography
-                align="center"
+            <Box
                 sx={{
-                    mb: { xs: 3.5, md: 3.2 },
-                    mt: { xs: 8.1, sm: -1, md: -2.8 },
-                    fontFamily: "Titan One",
-                    fontSize: { xs: "22px", sm: "24px", md: "27px" },
-                    letterSpacing: "0.14em",
-                    textTransform: "uppercase",
-                    color: "#ff8a4c",
-                    textShadow: "0 1px 2px rgba(30, 91, 184, 0.35)",
-                    opacity: 0.95,
+                    width: "100%",
+                    maxWidth: {
+                        xs: 430,
+                        sm: 938,
+                    },
+                    mx: "auto",
+                    mb: 2,
+
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
                 }}
             >
-                Click to add menu
-            </Typography>
+                <Divider
+                    sx={{
+                        width: 20,
+                        borderColor: "rgba(13,71,161,.18)",
+                    }}
+                />
 
-            <h2 className="h2-driveMode-desk">
-                *Search by name or category, or browse the products page for full details.
-            </h2>
+                <Typography
+                    sx={{
+                        fontSize: "0.75rem",
+                        fontWeight: 800,
+                        letterSpacing: "0.12em",
+                        color: "#0d47a1",
+                        textTransform: "uppercase",
+                        whiteSpace: "nowrap",
+                    }}
+                >
+                    Menu
+                </Typography>
 
+                <Divider
+                    sx={{
+                        flex: 1,
+                        borderColor: "rgba(13,71,161,.18)",
+                    }}
+                />
+            </Box>
             <Box
                 sx={{
                     display: "grid",
@@ -121,6 +142,26 @@ export default function HomeFastThruSection({
                         />
                     );
                 })}
+            </Box>
+            <Box
+                sx={{
+                    mt: 5,
+                    mb: -4,
+                    display: "flex",
+                    justifyContent: "center",
+                }}
+            >
+                <Typography
+                    sx={{
+                        color: "#e65100",
+                        fontSize: "0.82rem",
+                        fontWeight: 700,
+                        letterSpacing: "0.05em",
+                        opacity: 0.9,
+                    }}
+                >
+                    © 2026 Fast Fuel. All rights reserved.
+                </Typography>
             </Box>
         </Box>
     );

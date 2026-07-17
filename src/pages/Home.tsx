@@ -2,10 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Footer from "../components/layout/footer/Footer";
@@ -25,6 +23,7 @@ import HomeCartMenu from "../components/home/HomeCartMenu";
 import HomeSearchSection from "../components/home/HomeSearchSection";
 import HomeFastThruSection from "../components/home/HomeFastThruSection";
 import PortfolioTips from "../components/portfolio/PortfolioTips";
+import FastThruOrderPanel from "../components/home/FastThruOrderPanel";
 
 import { api } from "../api";
 import { useAppContext, type Meal } from "../context/context";
@@ -366,122 +365,23 @@ export default function Home() {
                             </HeroCarousel>
                         )}
 
-                        {shouldShowOrderPreview && !(isMobile && driveModeActive) && (
+                        {shouldShowOrderPreview && !isMobile && driveModeActive && (
                             <Box
                                 sx={{
-                                    maxWidth: { xs: "100%", md: "938px" },
-                                    mx: "auto",
-                                    mb: { xs: 5, md: 6 },
-                                    mt: { xs: 2.5, sm: 1, md: 2 },
-                                    px: { xs: 0.5, sm: 0 },
-                                    display: "grid",
-                                    alignItems: "center",
-                                    gridTemplateColumns: { xs: "1fr", md: "1fr auto 1fr" },
-                                    gridTemplateRows: { xs: "auto auto", md: "auto" },
-                                    rowGap: { xs: 1.2, md: 0 },
+                                    mt: 2,
+                                    mb: 2,
                                 }}
                             >
-                                <Box
-                                    sx={{
-                                        justifySelf: "start",
-                                        width: { md: 52 },
-                                        height: { md: 52 },
-                                        visibility: "hidden",
-                                    }}
+                                <FastThruOrderPanel
+                                    cartCount={cartCount}
+                                    order={order}
+                                    subtotal={subtotal}
+                                    discount={discount}
+                                    checkout={checkout}
+                                    onDecItem={decItem}
+                                    onRemoveItem={removeItem}
+                                    onCheckout={handleCheckoutFromCart}
                                 />
-
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        gap: { xs: 1, md: 1.2 },
-                                        flexWrap: "nowrap",
-                                        minWidth: 0,
-                                    }}
-                                >
-                                    <h2
-                                        className="total"
-                                        style={{
-                                            whiteSpace: "nowrap",
-                                            margin: 0,
-                                            flexShrink: 1,
-                                        }}
-                                    >
-                                        TOTAL $: {checkout.toFixed(2)}
-                                    </h2>
-
-                                    <Box
-                                        ref={actionsRef}
-                                        sx={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            gap: 1.1,
-                                            mt: { xs: 0.8, md: 0 },
-                                        }}
-                                    >
-                                        <Box sx={{ position: "relative", display: "inline-flex" }}>
-                                            {cartCount > 0 && (
-                                                <Box
-                                                    sx={{
-                                                        position: "absolute",
-                                                        top: -9,
-                                                        right: -9,
-                                                        minWidth: 22,
-                                                        height: 22,
-                                                        px: 0.6,
-                                                        borderRadius: "999px",
-                                                        backgroundColor: "#1e5bb8",
-                                                        color: "#fff",
-                                                        fontWeight: 900,
-                                                        fontSize: "0.7rem",
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                                                        zIndex: 2,
-                                                    }}
-                                                >
-                                                    {cartCount}
-                                                </Box>
-                                            )}
-
-                                            <Button
-                                                onClick={openCartMenu}
-                                                sx={{
-                                                    width: { xs: 36, md: 40 },
-                                                    height: { xs: 37, md: 40 },
-                                                    minWidth: 44,
-                                                    p: 0,
-                                                    borderRadius: "12px",
-                                                    backgroundColor: "#fff0da",
-                                                    border: "2.5px solid rgba(230, 81, 0, 0.85)",
-                                                    transition: "all .22s ease",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    "&:hover": {
-                                                        backgroundColor: "rgba(230, 81, 0, 0.12)",
-                                                        transform: "translateY(-1px)",
-                                                    },
-                                                    "&:active": {
-                                                        backgroundColor: "rgba(230, 81, 0, 0.22)",
-                                                        transform: "scale(0.97)",
-                                                    },
-                                                }}
-                                            >
-                                                <ReceiptLongIcon
-                                                    sx={{
-                                                        color: "#164a96",
-                                                        fontSize: { xs: 22, md: 25 },
-                                                    }}
-                                                />
-                                            </Button>
-                                        </Box>
-                                    </Box>
-                                </Box>
                             </Box>
                         )}
 
@@ -537,7 +437,7 @@ export default function Home() {
                             isFastThruActive={driveModeActive}
                         />
                     ) : (
-                        <Footer />
+                        !driveModeActive && <Footer />
                     )}
                 </Box>
             </PageShell>
