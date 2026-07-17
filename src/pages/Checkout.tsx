@@ -27,7 +27,7 @@ import CheckoutPaymentSection from "../components/checkout/CheckoutPaymentSectio
 import CheckoutDeliverySection from "../components/checkout/CheckoutDeliverySection";
 
 import CheckoutMobileForm from "../components/checkout/CheckoutMobileForm";
-import ProductsTitleBar from "../components/TitleBar";
+import CheckoutTitleBar from "../components/CheckoutTitleBar";
 
 
 const imageMap: Record<string, string> = {
@@ -380,7 +380,7 @@ export default function Checkout() {
 
     const desktopTitle =
         screen === "processing"
-            ? "..."
+            ? "Processing"
             : screen === "confirmed"
                 ? "Thank you"
                 : "Checkout";
@@ -444,8 +444,8 @@ export default function Checkout() {
         <>
             {AlertUI}
             {ConfirmUI}
-            <NavbarAction />
-            <ProductsTitleBar title={desktopTitle} />
+            <CheckoutTitleBar title={desktopTitle} />
+
             <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
                 <Box
                     component="main"
@@ -457,8 +457,8 @@ export default function Checkout() {
                         justifyContent: "center",
                         alignItems: "flex-start",
                         px: 2,
-                        pt: { xs: "110px", md: "140px" },
-                        pb: { xs: 1, md: 6 },
+                        pt: { xs: "110px", md: "110px" },
+                        pb: { xs: 1, md: 3 },
                         minWidth: 0,
                         bgcolor: "#fff",
                         "&::before": {
@@ -528,18 +528,18 @@ export default function Checkout() {
                         elevation={0}
                         sx={{
                             width: "100%",
-                            maxWidth: { xs: 520, sm: 560, md: 570 },
+                            maxWidth: { xs: 520, sm: 560, md: 600 },
                             borderRadius: 3,
                             border: "1px solid rgba(13, 71, 161, 0.15)",
                             boxShadow:
                                 "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
                             bgcolor: "background.paper",
-                            height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
-                            maxHeight: 680,
+                            height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 100px)" },
+                            maxHeight: 720,
                             overflow: "hidden",
                             display: "flex",
                             flexDirection: "column",
-                            mt: { sm: 4.5, md: 2 },
+                            mt: { sm: 1, md: 1 },
                             mb: { md: 1 },
                             minHeight: 0,
                         }}
@@ -572,7 +572,7 @@ export default function Checkout() {
                                             px: 6.5,
                                             pt: 3.8,
                                             pb: 2,
-                                            maxWidth: 580,
+                                            maxWidth: 600,
                                             mx: "auto",
                                         }}
                                     >
