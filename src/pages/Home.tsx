@@ -528,7 +528,7 @@ export default function Home() {
                     </Container>
                     {!isMobile && <PortfolioTips />}
 
-                    {isMobile ? <FloatingContactMobile /> : <FloatingContact />}
+                    {isMobile ? <FloatingContactMobile driveModeActive={driveModeActive} /> : <FloatingContact />}
 
                     {isMobile ? (
                         <NavFooter
