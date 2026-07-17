@@ -380,17 +380,32 @@ export default function Checkout() {
 
     const desktopTitle =
         screen === "processing"
-            ? "Processing"
+            ? ""
             : screen === "confirmed"
                 ? "Thank you"
                 : "Checkout";
 
     if (isMobile) {
+        const mobileTitle =
+            screen === "processing"
+                ? ""
+                : screen === "confirmed"
+                    ? "Thank you"
+                    : "Checkout";
+
         return (
             <>
                 {AlertUI}
                 {ConfirmUI}
-                <NavbarAction />
+
+                {screen === "form" ? (
+                    <NavbarAction />
+                ) : (
+                    <CheckoutTitleBar
+                        title={mobileTitle}
+                        showExit={false}
+                    />
+                )}
 
                 {screen === "processing" ? (
                     <CheckoutProcessingScreen mobile />
@@ -416,7 +431,9 @@ export default function Checkout() {
                         deliveryLabel={deliveryLabel}
                         grandTotalLabel={grandTotalLabel}
                         resolveImgSrc={resolveImgSrc}
-                        imageStylesByIdOrderSummary={imageStylesByIdOrderSummary}
+                        imageStylesByIdOrderSummary={
+                            imageStylesByIdOrderSummary
+                        }
                         cleanProductName={cleanProductName}
                         incItem={incItem}
                         decItem={decItem}
@@ -444,7 +461,10 @@ export default function Checkout() {
         <>
             {AlertUI}
             {ConfirmUI}
-            <CheckoutTitleBar title={desktopTitle} />
+            <CheckoutTitleBar
+                title={desktopTitle}
+                showExit={screen === "form"}
+            />
 
             <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
                 <Box
