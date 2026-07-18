@@ -165,7 +165,7 @@ export default function ProductCard({
                 >
                     <Typography
                         sx={{
-                            fontSize: "1rem",
+                            fontSize: "0.96rem",
                             color: "#0d47a1",
                             fontWeight: 900,
                             lineHeight: 1.15,
@@ -188,7 +188,7 @@ export default function ProductCard({
                 >
                     <Typography
                         sx={{
-                            fontSize: "0.97rem",
+                            fontSize: "0.93rem",
                             lineHeight: 1.65,
                             fontWeight: 400,
                             display: "-webkit-box",
@@ -254,7 +254,7 @@ export default function ProductCard({
                     <Typography
                         sx={{
                             fontWeight: 900,
-                            fontSize: "1rem",
+                            fontSize: "0.98rem",
                             letterSpacing: "0.04em",
                             color: "#ffffff",
                         }}
