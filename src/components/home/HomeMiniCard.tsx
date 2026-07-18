@@ -71,7 +71,7 @@ export default function HomeMiniCard({
         "9": { width: "77px", height: "77px" },
         "10": { width: "77px", height: "77px" },
         "15": { width: "200px", height: "81px" },
-        "16": { width: "82px", height: "75px" },
+        "16": { width: "82px", height: "73px" },
         "17": { width: "75px", height: "79px" },
         "18": { width: "60px", height: "51px" },
     };

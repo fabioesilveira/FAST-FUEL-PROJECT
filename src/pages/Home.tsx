@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import Box from "@mui/material/Box";
@@ -18,7 +18,6 @@ import HeroCarousel from "../components/carousel/HeroCarousel";
 import PageBg from "../components/layout/background/PageBg";
 import PageBgMobile from "../components/layout/background/PageBgMobile";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import FastThruTitle from "../components/home/FastThruTitle";
 import HomeCartMenu from "../components/home/HomeCartMenu";
 import HomeSearchSection from "../components/home/HomeSearchSection";
 import HomeFastThruSection from "../components/home/HomeFastThruSection";
@@ -86,7 +85,6 @@ export default function Home() {
     const [cartAnchorEl, setCartAnchorEl] = useState<null | HTMLElement>(null);
     const [cartBodyMaxH, setCartBodyMaxH] = useState<number>(0);
 
-    const actionsRef = useRef<HTMLDivElement | null>(null);
     const cartHeaderRef = useRef<HTMLDivElement | null>(null);
     const cartFooterRef = useRef<HTMLDivElement | null>(null);
 
@@ -154,14 +152,6 @@ export default function Home() {
         navigate(`/${category.toLowerCase()}`);
     }
 
-    function openCartMenu(e: React.MouseEvent<HTMLElement>) {
-        if (isMobile) {
-            setCartAnchorEl(actionsRef.current ?? e.currentTarget);
-            return;
-        }
-
-        setCartAnchorEl(e.currentTarget);
-    }
 
     function closeCartMenu() {
         setCartAnchorEl(null);
@@ -332,15 +322,6 @@ export default function Home() {
                         </Box>
                     )}
 
-                    {isMobile && driveModeActive && (
-                        <FastThruTitle
-                            total={checkout}
-                            cartCount={cartCount}
-                            onReceiptClick={openCartMenu}
-                            onExit={exitFastThru}
-                        />
-                    )}
-
                     <Container
                         maxWidth={false}
                         disableGutters
@@ -365,11 +346,11 @@ export default function Home() {
                             </HeroCarousel>
                         )}
 
-                        {shouldShowOrderPreview && !isMobile && driveModeActive && (
+                        {shouldShowOrderPreview && driveModeActive && (
                             <Box
                                 sx={{
-                                    mt: 2,
-                                    mb: 2,
+                                    mt: { xs: 0.5, md: 2, },
+                                    mb: { xs: 2.5, md: 2 }
                                 }}
                             >
                                 <FastThruOrderPanel

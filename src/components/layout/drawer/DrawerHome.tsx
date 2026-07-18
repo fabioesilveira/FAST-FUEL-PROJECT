@@ -95,7 +95,6 @@ const Drawer = styled(MuiDrawer, {
 export default function DrawerHome({
     onNavigate,
     onDriveThruClick,
-    isFastThruActive = false,
 }: DrawerHomeProps) {
     const [open, setOpen] = React.useState(false);
 
@@ -315,26 +314,6 @@ export default function DrawerHome({
                                             >
                                                 THRU
                                             </Box>
-
-                                            {isFastThruActive && (
-                                                <Box
-                                                    component="span"
-                                                    sx={{
-                                                        mt: 0.45,
-                                                        minHeight: "0.58rem",
-                                                        fontSize: "0.58rem",
-                                                        fontWeight: 700,
-                                                        letterSpacing: ".10em",
-                                                        color: ORANGE,
-                                                        textTransform: "uppercase",
-                                                        lineHeight: 1,
-                                                        opacity: isFastThruActive ? 1 : 0,
-                                                        visibility: isFastThruActive ? "visible" : "hidden",
-                                                    }}
-                                                >
-                                                    Exit
-                                                </Box>
-                                            )}
                                         </Box>
                                     </ListItemIcon>
 

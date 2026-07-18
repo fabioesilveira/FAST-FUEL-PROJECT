@@ -145,8 +145,8 @@ export default function HomeFastThruSection({
             </Box>
             <Box
                 sx={{
-                    mt: 5,
-                    mb: -4,
+                    mt: { xs: 3, md: 5 },
+                    mb: { xs: -1, md: -4 },
                     display: "flex",
                     justifyContent: "center",
                 }}
