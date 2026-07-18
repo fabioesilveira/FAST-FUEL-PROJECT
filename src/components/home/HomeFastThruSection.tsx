@@ -58,7 +58,7 @@ export default function HomeFastThruSection({
                     },
 
                     mx: "auto",
-                    mb: 2,
+                    mb: { xs: 2, md: 1.3 },
 
                     display: "flex",
                     alignItems: "center",
@@ -159,8 +159,8 @@ export default function HomeFastThruSection({
             </Box>
             <Box
                 sx={{
-                    mt: { xs: 3, md: 5 },
-                    mb: { xs: -1, md: -4 },
+                    mt: { xs: 3, md: 4.5 },
+                    mb: { xs: -1, md: -4.7 },
                     display: "flex",
                     justifyContent: "center",
                 }}

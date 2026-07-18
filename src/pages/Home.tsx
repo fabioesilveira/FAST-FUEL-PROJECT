@@ -349,8 +349,8 @@ export default function Home() {
                         {shouldShowOrderPreview && driveModeActive && (
                             <Box
                                 sx={{
-                                    mt: { xs: 0.5, md: 2, },
-                                    mb: { xs: 2.5, md: 2 }
+                                    mt: { xs: 0.5, md: 1.5, },
+                                    mb: { xs: 2.5, md: 1.5 }
                                 }}
                             >
                                 <FastThruOrderPanel

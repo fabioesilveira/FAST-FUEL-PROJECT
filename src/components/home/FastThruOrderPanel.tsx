@@ -1,8 +1,12 @@
+import { useState, type MouseEvent } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+
+import FastThruOrderInfoMenu from "./FastThruOrderInfoMenu";
 
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -34,6 +38,23 @@ export default function FastThruOrderPanel({
     onRemoveItem,
     onCheckout,
 }: FastThruOrderPanelProps) {
+
+
+    const [infoAnchorEl, setInfoAnchorEl] =
+        useState<HTMLElement | null>(null);
+
+    const infoOpen = Boolean(infoAnchorEl);
+
+    const handleOpenInfo = (
+        event: MouseEvent<HTMLButtonElement>
+    ) => {
+        setInfoAnchorEl(event.currentTarget);
+    };
+
+    const handleCloseInfo = () => {
+        setInfoAnchorEl(null);
+    };
+
     return (
         <Box
             sx={{
@@ -87,21 +108,59 @@ export default function FastThruOrderPanel({
                     YOUR ORDER
                 </Typography>
 
-                <Typography
-                    sx={{
-                        fontSize: {
-                            xs: "0.72rem",
-                            sm: "0.82rem",
-                        },
-                        color: "text.secondary",
-                        fontWeight: 800,
-                        textAlign: "right",
-                    }}
-                >
-                    {cartCount === 0
-                        ? "No items added yet."
-                        : `${cartCount} item(s)`}
-                </Typography>
+                {cartCount === 0 ? (
+                    <Typography
+                        sx={{
+                            fontSize: {
+                                xs: "0.72rem",
+                                sm: "0.82rem",
+                            },
+                            color: "text.secondary",
+                            fontWeight: 800,
+                            textAlign: "right",
+                        }}
+                    >
+                        No items added yet.
+                    </Typography>
+                ) : (
+                    <Button
+                        size="small"
+                        onClick={handleOpenInfo}
+                        endIcon={
+                            <InfoOutlinedIcon
+                                sx={{
+                                    fontSize: "16px !important",
+                                }}
+                            />
+                        }
+                        sx={{
+                            minWidth: 0,
+                            p: 0,
+                            color: "#0d47a1",
+                            fontWeight: 900,
+
+                            fontSize: {
+                                xs: "0.70rem",
+                                sm: "0.78rem",
+                            },
+
+                            letterSpacing: "0.06em",
+                            textTransform: "uppercase",
+
+                            "& .MuiButton-endIcon": {
+                                marginLeft: "3px",
+                                marginRight: 0,
+                            },
+
+                            "&:hover": {
+                                bgcolor: "transparent",
+                                color: "#1e5bb8",
+                            },
+                        }}
+                    >
+                        Info
+                    </Button>
+                )}
             </Box>
 
             <Divider />
@@ -501,7 +560,7 @@ export default function FastThruOrderPanel({
 
                             fontSize: {
                                 xs: "0.62rem",
-                                sm: "0.72rem",
+                                sm: "0.70rem",
                             },
                         }}
                     >
@@ -515,7 +574,7 @@ export default function FastThruOrderPanel({
 
                             fontSize: {
                                 xs: "0.95rem",
-                                sm: "1.10rem",
+                                sm: "1.05rem",
                             },
 
                             whiteSpace: "nowrap",
@@ -530,9 +589,10 @@ export default function FastThruOrderPanel({
                     onClick={onCheckout}
                     disabled={order.length === 0}
                     sx={{
-                        gridColumn: {
-                            xs: "1 / -1",
-                            md: "auto",
+                        display: {
+                            xs: "none",
+                            sm: "none",
+                            md: "flex",
                         },
 
                         width: "100%",
@@ -568,96 +628,13 @@ export default function FastThruOrderPanel({
                 </Button>
             </Box>
 
-
-            {/* ORDER INFORMATION */}
-            <Box
-                sx={{
-                    px: {
-                        xs: 1.5,
-                        sm: 2.5,
-                    },
-
-                    py: {
-                        xs: 0.65,
-                        sm: 0.65,
-                    },
-
-                    bgcolor: "#fffefe",
-                    borderTop:
-                        "1px solid rgba(230, 81, 0, 0.16)",
-
-                    display: "flex",
-
-                    flexDirection: {
-                        xs: "column",
-                        sm: "row",
-                    },
-
-                    alignItems: {
-                        xs: "flex-start",
-                        sm: "center",
-                    },
-
-                    justifyContent: {
-                        xs: "flex-start",
-                        sm: "space-between",
-                    },
-
-                    gap: {
-                        xs: 0,
-                        sm: 2,
-                    },
-
-                    flexShrink: 0,
-                }}
-            >
-                <Typography
-                    sx={{
-                        display: {
-                            xs: "none",
-                            sm: "block",
-                        },
-
-                        fontSize: "0.65rem",
-                        fontWeight: 800,
-                        color: "rgba(0,0,0,0.55)",
-                    }}
-                >
-                    Taxes and delivery calculated at checkout.
-                </Typography>
-
-                <Typography
-                    sx={{
-                        fontSize: "0.65rem",
-                        fontWeight: 800,
-                        color: "rgba(0,0,0,0.55)",
-                    }}
-                >
-                    {checkout >= 30
-                        ? "You unlocked free delivery 🎉"
-                        : `Add $${Math.max(
-                            0,
-                            30 - checkout
-                        ).toFixed(
-                            2
-                        )} more to get FREE delivery`}
-                </Typography>
-
-                <Typography
-                    sx={{
-                        display: {
-                            xs: "none",
-                            sm: "block",
-                        },
-
-                        fontSize: "0.65rem",
-                        fontWeight: 800,
-                        color: "rgba(0,0,0,0.55)",
-                    }}
-                >
-                    $2 combo discount applied at checkout.
-                </Typography>
-            </Box>
+            <FastThruOrderInfoMenu
+                anchorEl={infoAnchorEl}
+                open={infoOpen}
+                onClose={handleCloseInfo}
+                cartCount={cartCount}
+                checkout={checkout}
+            />
         </Box>
     );
 }
