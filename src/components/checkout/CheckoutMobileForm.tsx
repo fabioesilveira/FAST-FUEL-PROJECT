@@ -45,6 +45,7 @@ type CheckoutMobileFormProps = {
     submitting: boolean;
     orderLength: number;
     onPay: () => void;
+    isEditingForm: boolean;
 };
 
 export default function CheckoutMobileForm({
@@ -76,6 +77,7 @@ export default function CheckoutMobileForm({
     submitting,
     orderLength,
     onPay,
+    isEditingForm
 }: CheckoutMobileFormProps) {
     return (
         <Box
@@ -95,7 +97,9 @@ export default function CheckoutMobileForm({
                     zIndex: 1,
                     px: 2.5,
                     pt: "160px",
-                    pb: "calc(110px + env(safe-area-inset-bottom))",
+                    pb: isEditingForm
+                        ? 2
+                        : "calc(110px + env(safe-area-inset-bottom))",
                     width: "100%",
                     maxWidth: 490,
                     mx: "auto",
@@ -150,6 +154,7 @@ export default function CheckoutMobileForm({
                 submitting={submitting}
                 orderLength={orderLength}
                 onPay={onPay}
+                isEditingForm={isEditingForm}
             />
         </Box>
     );

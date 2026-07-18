@@ -127,6 +127,7 @@ export default function Checkout() {
     const scrollBoxRef = useRef<HTMLDivElement | null>(null);
 
     const [checkoutBarFloating, setCheckoutBarFloating] = useState(true);
+    const [isEditingForm, setIsEditingForm] = useState(false);
 
     const [streetText, setStreetText] = useState("");
 
@@ -378,6 +379,35 @@ export default function Checkout() {
         };
     }, [isMobile, screen]);
 
+    useEffect(() => {
+        const isFormField = (element: Element | null) =>
+            element instanceof HTMLInputElement ||
+            element instanceof HTMLTextAreaElement ||
+            element instanceof HTMLSelectElement;
+
+        const handleFocusIn = (event: FocusEvent) => {
+            if (isFormField(event.target as Element)) {
+                setIsEditingForm(true);
+            }
+        };
+
+        const handleFocusOut = () => {
+            setTimeout(() => {
+                if (!isFormField(document.activeElement)) {
+                    setIsEditingForm(false);
+                }
+            }, 100);
+        };
+
+        document.addEventListener("focusin", handleFocusIn);
+        document.addEventListener("focusout", handleFocusOut);
+
+        return () => {
+            document.removeEventListener("focusin", handleFocusIn);
+            document.removeEventListener("focusout", handleFocusOut);
+        };
+    }, []);
+
     const desktopTitle =
         screen === "processing"
             ? ""
@@ -424,6 +454,7 @@ export default function Checkout() {
                         order={order}
                         totalItems={totalItems}
                         subtotalLabel={subtotalLabel}
+                        isEditingForm={isEditingForm}
                         discount={discount}
                         discountLabel={discountLabel}
                         taxLabel={taxLabel}

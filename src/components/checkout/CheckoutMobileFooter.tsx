@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -8,6 +7,7 @@ type CheckoutMobileFooterProps = {
     submitting: boolean;
     orderLength: number;
     onPay: () => void;
+    isEditingForm: boolean;
 };
 
 export default function CheckoutMobileFooter({
@@ -15,38 +15,8 @@ export default function CheckoutMobileFooter({
     submitting,
     orderLength,
     onPay,
+    isEditingForm,
 }: CheckoutMobileFooterProps) {
-
-    const [isEditingForm, setIsEditingForm] = useState(false);
-
-    useEffect(() => {
-        const isFormField = (element: Element | null) =>
-            element instanceof HTMLInputElement ||
-            element instanceof HTMLTextAreaElement ||
-            element instanceof HTMLSelectElement;
-
-        const handleFocusIn = (event: FocusEvent) => {
-            if (isFormField(event.target as Element)) {
-                setIsEditingForm(true);
-            }
-        };
-
-        const handleFocusOut = () => {
-            setTimeout(() => {
-                if (!isFormField(document.activeElement)) {
-                    setIsEditingForm(false);
-                }
-            }, 100);
-        };
-
-        document.addEventListener("focusin", handleFocusIn);
-        document.addEventListener("focusout", handleFocusOut);
-
-        return () => {
-            document.removeEventListener("focusin", handleFocusIn);
-            document.removeEventListener("focusout", handleFocusOut);
-        };
-    }, []);
 
 
     if (isEditingForm) {
