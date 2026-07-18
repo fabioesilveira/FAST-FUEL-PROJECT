@@ -53,7 +53,7 @@ export default function FastThruOrderPanel({
                 flexDirection: "column",
             }}
         >
-            {/* HEADER */}
+
             <Box
                 sx={{
                     px: {
@@ -106,7 +106,6 @@ export default function FastThruOrderPanel({
 
             <Divider />
 
-            {/* PRODUCTS — ONLY SCROLLABLE AREA */}
             <Box
                 sx={{
                     height: {
@@ -414,7 +413,7 @@ export default function FastThruOrderPanel({
 
                     gridTemplateColumns: {
                         xs: "1fr 1fr 1.2fr",
-                        sm: "130px 130px 1fr 145px",
+                        md: "130px 130px 1fr 145px",
                     },
 
                     alignItems: "center",
@@ -533,7 +532,7 @@ export default function FastThruOrderPanel({
                     sx={{
                         gridColumn: {
                             xs: "1 / -1",
-                            sm: "auto",
+                            md: "auto",
                         },
 
                         width: "100%",
@@ -569,7 +568,7 @@ export default function FastThruOrderPanel({
                 </Button>
             </Box>
 
-            
+
             {/* ORDER INFORMATION */}
             <Box
                 sx={{

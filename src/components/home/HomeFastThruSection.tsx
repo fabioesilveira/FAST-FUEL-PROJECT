@@ -47,11 +47,16 @@ export default function HomeFastThruSection({
         <Box sx={{ mb: { xs: 1.5, md: 2 } }}>
             <Box
                 sx={{
-                    width: "100%",
+                    width: {
+                        xs: "calc(100% - 32px)",
+                        sm: "calc(100% - 48px)",
+                    },
+
                     maxWidth: {
                         xs: 430,
                         sm: 938,
                     },
+
                     mx: "auto",
                     mb: 2,
 
@@ -62,19 +67,27 @@ export default function HomeFastThruSection({
             >
                 <Divider
                     sx={{
-                        width: 20,
+                        width: {
+                            xs: 20,
+                            sm: 28,
+                        },
+                        flexShrink: 0,
                         borderColor: "rgba(13,71,161,.18)",
                     }}
                 />
 
                 <Typography
                     sx={{
-                        fontSize: "0.75rem",
+                        fontSize: {
+                            xs: "0.75rem",
+                            sm: "0.78rem",
+                        },
                         fontWeight: 800,
                         letterSpacing: "0.12em",
                         color: "#0d47a1",
                         textTransform: "uppercase",
                         whiteSpace: "nowrap",
+                        flexShrink: 0,
                     }}
                 >
                     Menu
@@ -83,6 +96,7 @@ export default function HomeFastThruSection({
                 <Divider
                     sx={{
                         flex: 1,
+                        minWidth: 0,
                         borderColor: "rgba(13,71,161,.18)",
                     }}
                 />
