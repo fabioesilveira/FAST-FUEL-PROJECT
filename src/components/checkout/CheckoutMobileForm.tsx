@@ -98,7 +98,7 @@ export default function CheckoutMobileForm({
                     px: 2.5,
                     pt: "160px",
                     pb: isEditingForm
-                        ? 2
+                        ? 1
                         : "calc(110px + env(safe-area-inset-bottom))",
                     width: "100%",
                     maxWidth: 490,

@@ -349,7 +349,7 @@ export default function Home() {
                         {shouldShowOrderPreview && driveModeActive && (
                             <Box
                                 sx={{
-                                    mt: { xs: 0.5, md: 1.5, },
+                                    mt: { xs: 0.2, md: 1.5, },
                                     mb: { xs: 2.5, md: 1.5 }
                                 }}
                             >
