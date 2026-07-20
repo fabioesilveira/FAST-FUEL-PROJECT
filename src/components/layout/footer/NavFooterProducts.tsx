@@ -11,7 +11,7 @@ import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HistoryIcon from "@mui/icons-material/History";
 import EmailIcon from "@mui/icons-material/Email";
-import NoAccountsIcon from "@mui/icons-material/NoAccounts";
+import StarIcon from "@mui/icons-material/Star";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import CookieIcon from "@mui/icons-material/Cookie";
 import FriesIcon from "../../../assets/frenchFries.png";
@@ -51,14 +51,13 @@ const productItems: NavItem[] = [
 const accountItems: NavItem[] = [
     { label: "SIGNIN / SIGNUP", kind: "mui", Icon: AccountCircleIcon, path: "/sign-in" },
     { label: "MY ORDERS", kind: "mui", Icon: HistoryIcon, path: "/orders" },
-    { label: "CONTACT US", kind: "mui", Icon: EmailIcon, path: "/contact-us" },
     {
-        label: "DELETE ACCOUNT",
+        label: "REVIEWS",
         kind: "mui",
-        Icon: NoAccountsIcon,
-        path: "/deleteaccount",
-        requiresAuth: true,
+        Icon: StarIcon,
+        path: "/reviews",
     },
+    { label: "CONTACT US", kind: "mui", Icon: EmailIcon, path: "/contact-us" },
 ];
 
 const shrinkLabels = new Set(["CONTACT US",]);
@@ -67,7 +66,7 @@ const outlineLabels = new Set([
     "SIGNIN / SIGNUP",
     "MY ORDERS",
     "CONTACT US",
-    "DELETE ACCOUNT",
+    "REVIEWS",
 ]);
 
 
