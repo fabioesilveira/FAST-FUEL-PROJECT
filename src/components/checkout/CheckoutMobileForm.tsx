@@ -1,10 +1,11 @@
-import Box from "@mui/material/Box";
 import CheckoutOrderSummary from "./CheckoutOrderSummary";
 import CheckoutContactSection from "./CheckoutContactSection";
 import CheckoutDeliverySection from "./CheckoutDeliverySection";
 import CheckoutPaymentSection from "./CheckoutPaymentSection";
 import CheckoutMobileFooter from "./CheckoutMobileFooter";
 import ProductsTitleBar from "../TitleBar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import type { Meal } from "../../context/context";
 
 type AddressState = {
@@ -98,7 +99,7 @@ export default function CheckoutMobileForm({
                     px: 2.5,
                     pt: "160px",
                     pb: isEditingForm
-                        ? 1
+                        ? 2
                         : "calc(110px + env(safe-area-inset-bottom))",
                     width: "100%",
                     maxWidth: 490,
@@ -147,6 +148,43 @@ export default function CheckoutMobileForm({
                     tfBlueLabelSx={tfBlueLabelSx}
                     mobile
                 />
+                <CheckoutPaymentSection
+                    tfBlueLabelSx={tfBlueLabelSx}
+                    mobile
+                />
+
+                {isEditingForm && (
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        disabled={submitting || orderLength === 0}
+                        onClick={onPay}
+                        sx={{
+                            mt: 2,
+                            height: 46,
+                            borderRadius: 2,
+                            textTransform: "uppercase",
+                            bgcolor: "#1e5bb8",
+                            color: "#fff",
+                            letterSpacing: "0.12em",
+                            fontWeight: 900,
+                            fontSize: "0.84rem",
+
+                            "&:hover": {
+                                bgcolor: "#164a99",
+                            },
+
+                            "&.Mui-disabled": {
+                                bgcolor: "rgba(30, 91, 184, 0.35)",
+                                color: "rgba(255,255,255,0.75)",
+                            },
+                        }}
+                    >
+                        {submitting
+                            ? "Processing..."
+                            : `Submit Payment ${grandTotalLabel}`}
+                    </Button>
+                )}
             </Box>
 
             <CheckoutMobileFooter
