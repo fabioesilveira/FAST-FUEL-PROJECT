@@ -58,6 +58,16 @@ export default function CheckoutTitleBar({
                     backdropFilter: "blur(10px)",
                     borderBottom: "1px solid rgba(13, 71, 161, 0.08)",
                     boxShadow: "0 2px 8px rgba(13, 71, 161, 0.06)",
+
+                    "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        left: 0,
+                        right: 0,
+                        bottom: "100%",
+                        height: "env(safe-area-inset-top)",
+                        bgcolor: "rgba(255, 248, 238, 0.93)",
+                    },
                 }}
             >
                 <Toolbar
