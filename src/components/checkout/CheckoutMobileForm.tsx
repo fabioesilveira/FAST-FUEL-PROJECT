@@ -148,10 +148,6 @@ export default function CheckoutMobileForm({
                     tfBlueLabelSx={tfBlueLabelSx}
                     mobile
                 />
-                <CheckoutPaymentSection
-                    tfBlueLabelSx={tfBlueLabelSx}
-                    mobile
-                />
 
                 {isEditingForm && (
                     <Button
