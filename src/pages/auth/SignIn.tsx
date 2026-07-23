@@ -53,6 +53,7 @@ export default function SignIn() {
     });
 
     const [signIn, setSignIn] = useState<User>(initialSignIn);
+    const [isEditingForm, setIsEditingForm] = useState(false);
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -350,7 +351,7 @@ export default function SignIn() {
                         </Box>
                     </Box>
 
-                    <Footer />
+                    {!isEditingForm && <Footer />}
                 </Box>
             </>
         );
