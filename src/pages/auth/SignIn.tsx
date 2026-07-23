@@ -234,6 +234,8 @@ export default function SignIn() {
                                 name="email"
                                 type="email"
                                 autoComplete="email"
+                                onFocus={() => setIsEditingForm(true)}
+                                onBlur={() => setIsEditingForm(false)}
                                 inputProps={{
                                     inputMode: "email",
                                     autoCapitalize: "none",
@@ -254,6 +256,8 @@ export default function SignIn() {
                                 type="password"
                                 name="password"
                                 autoComplete="current-password"
+                                onFocus={() => setIsEditingForm(true)}
+                                onBlur={() => setIsEditingForm(false)}
                                 inputProps={{
                                     autoCapitalize: "none",
                                     autoCorrect: "off",
