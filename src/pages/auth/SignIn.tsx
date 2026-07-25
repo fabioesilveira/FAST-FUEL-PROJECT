@@ -196,7 +196,7 @@ export default function SignIn() {
                             px: 2.5,
                             pt: "150px",
                             pb: isEditingForm
-                                ? "-30px"
+                                ? 0
                                 : "36px",
                             flex: 1,
                         }}
