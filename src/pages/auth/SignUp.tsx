@@ -58,6 +58,7 @@ export default function SignUp() {
     });
 
     const [signUp, setSignUp] = useState<User>(initialSignUp);
+    const [isEditingForm, setIsEditingForm] = useState(false);
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -145,6 +146,8 @@ export default function SignUp() {
 
     async function handleClick() {
         if (!validateSignUpForm()) return;
+
+        setIsEditingForm(false);
 
         try {
             const payload = {
@@ -280,6 +283,8 @@ export default function SignUp() {
                                 name="name"
                                 autoComplete="name"
                                 value={signUp.name}
+                                onFocus={() => setIsEditingForm(true)}
+                                onBlur={() => setIsEditingForm(false)}
                                 onChange={handleChange}
                                 fullWidth
                                 size="small"
@@ -299,6 +304,8 @@ export default function SignUp() {
                                     spellCheck: false,
                                 }}
                                 value={signUp.email}
+                                onFocus={() => setIsEditingForm(true)}
+                                onBlur={() => setIsEditingForm(false)}
                                 onChange={handleChange}
                                 fullWidth
                                 size="small"
@@ -317,6 +324,8 @@ export default function SignUp() {
                                     autoCorrect: "off",
                                 }}
                                 value={signUp.number}
+                                onFocus={() => setIsEditingForm(true)}
+                                onBlur={() => setIsEditingForm(false)}
                                 onChange={handleChange}
                                 fullWidth
                                 size="small"
@@ -330,6 +339,8 @@ export default function SignUp() {
                                 name="password"
                                 autoComplete="new-password"
                                 value={signUp.password}
+                                onFocus={() => setIsEditingForm(true)}
+                                onBlur={() => setIsEditingForm(false)}
                                 onChange={handleChange}
                                 fullWidth
                                 size="small"
@@ -348,6 +359,8 @@ export default function SignUp() {
                                     spellCheck: false,
                                 }}
                                 value={signUp.confirmPassword}
+                                onFocus={() => setIsEditingForm(true)}
+                                onBlur={() => setIsEditingForm(false)}
                                 onChange={handleChange}
                                 fullWidth
                                 size="small"
@@ -379,7 +392,11 @@ export default function SignUp() {
                                 variant="contained"
                                 size="large"
                                 fullWidth
-                                onClick={() => navigate("/")}
+
+                                onClick={() => {
+                                    setIsEditingForm(false);
+                                    navigate("/");
+                                }}
                                 sx={{
                                     mt: -0.1,
                                     height: 40,
@@ -406,7 +423,7 @@ export default function SignUp() {
                         </Box>
                     </Box>
 
-                    <Footer />
+                    {!isEditingForm && <Footer />}
                 </Box>
             </>
         );

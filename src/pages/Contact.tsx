@@ -61,6 +61,7 @@ export default function Contact() {
     });
 
     const [contactForm, setContactForm] = useState<Contact>(initialContactForm);
+    const [isEditingForm, setIsEditingForm] = useState(false);
 
     function validateContactForm() {
         if (
@@ -89,6 +90,8 @@ export default function Contact() {
 
     async function handleClick() {
         if (!validateContactForm()) return;
+
+        setIsEditingForm(false);
 
         try {
             const res = await api.post("/contact-us", contactForm);
@@ -186,6 +189,8 @@ export default function Contact() {
                                 label="Full Name*"
                                 name="name"
                                 value={contactForm.name}
+                                onFocus={() => setIsEditingForm(true)}
+                                onBlur={() => setIsEditingForm(false)}
                                 onChange={handleChange}
                                 size="small"
                                 fullWidth
@@ -198,6 +203,8 @@ export default function Contact() {
                                 type="email"
                                 name="email"
                                 value={contactForm.email}
+                                onFocus={() => setIsEditingForm(true)}
+                                onBlur={() => setIsEditingForm(false)}
                                 onChange={handleChange}
                                 size="small"
                                 fullWidth
@@ -211,6 +218,8 @@ export default function Contact() {
                                     label="Order Number"
                                     name="orderNumber"
                                     value={contactForm.orderNumber || ""}
+                                    onFocus={() => setIsEditingForm(true)}
+                                    onBlur={() => setIsEditingForm(false)}
                                     onChange={handleChange}
                                     fullWidth
                                     sx={tfSx}
@@ -222,6 +231,8 @@ export default function Contact() {
                                     label="Phone Number"
                                     name="phone"
                                     value={contactForm.phone}
+                                    onFocus={() => setIsEditingForm(true)}
+                                    onBlur={() => setIsEditingForm(false)}
                                     onChange={handleChange}
                                     fullWidth
                                     sx={tfSx}
@@ -234,6 +245,8 @@ export default function Contact() {
                                 label="Subject*"
                                 name="subject"
                                 value={contactForm.subject}
+                                onFocus={() => setIsEditingForm(true)}
+                                onBlur={() => setIsEditingForm(false)}
                                 onChange={handleChange}
                                 fullWidth
                                 sx={tfSx}
@@ -259,6 +272,8 @@ export default function Contact() {
                                     label="Message*"
                                     name="message"
                                     value={contactForm.message}
+                                    onFocus={() => setIsEditingForm(true)}
+                                    onBlur={() => setIsEditingForm(false)}
                                     onChange={handleChange}
                                     fullWidth
                                     multiline
@@ -292,7 +307,7 @@ export default function Contact() {
                         </Box>
                     </Box>
 
-                    <Footer />
+                    {!isEditingForm && <Footer />}
                 </Box>
             </>
         );

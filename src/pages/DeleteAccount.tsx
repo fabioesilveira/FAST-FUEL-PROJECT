@@ -62,6 +62,7 @@ export default function DeleteAccount() {
     });
 
     const [openConfirm, setOpenConfirm] = useState(false);
+    const [isEditingForm, setIsEditingForm] = useState(false);
 
     const [deleteACC, setDeleteACC] = useState<User>({
         email: "",
@@ -85,6 +86,7 @@ export default function DeleteAccount() {
 
     function handleRequestDelete() {
         if (!validateDeleteForm()) return;
+        setIsEditingForm(false);
         setOpenConfirm(true);
     }
 
@@ -228,6 +230,8 @@ export default function DeleteAccount() {
                                 variant="outlined"
                                 name="password"
                                 value={deleteACC.password}
+                                onFocus={() => setIsEditingForm(true)}
+                                onBlur={() => setIsEditingForm(false)}
                                 onChange={handleChange}
                                 sx={deleteFieldSx}
                             />
@@ -240,6 +244,8 @@ export default function DeleteAccount() {
                                 variant="outlined"
                                 name="confirmPassword"
                                 value={deleteACC.confirmPassword}
+                                onFocus={() => setIsEditingForm(true)}
+                                onBlur={() => setIsEditingForm(false)}
                                 onChange={handleChange}
                                 sx={deleteFieldSx}
                             />
@@ -305,7 +311,7 @@ export default function DeleteAccount() {
                         </Box>
                     </Box>
 
-                    <Footer />
+                    {!isEditingForm && <Footer />}
                 </Box>
             </>
         );
