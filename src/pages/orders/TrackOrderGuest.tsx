@@ -56,6 +56,7 @@ export default function TrackOrderGuest() {
     const [items, setItems] = useState<Sale[]>([]);
     const [loading, setLoading] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
+    const [isEditingReview, setIsEditingReview] = useState(false);
 
     // Timeline
     const [tsAnchorEl, setTsAnchorEl] = useState<null | HTMLElement>(null);
@@ -325,7 +326,7 @@ export default function TrackOrderGuest() {
                         />
                     </Box>
 
-                    <Footer />
+                    {!isEditingReview && <Footer />}
                 </Box>
             ) : (
                 <Box sx={{ minHeight: "100svh", display: "flex", flexDirection: "column" }}>
@@ -504,6 +505,8 @@ export default function TrackOrderGuest() {
                 onRatingChange={setReviewRating}
                 onCommentChange={setReviewComment}
                 onSubmit={handleReviewSubmit}
+                onReviewFocus={() => setIsEditingReview(true)}
+                onReviewBlur={() => setIsEditingReview(false)}
             />
         </>
     );

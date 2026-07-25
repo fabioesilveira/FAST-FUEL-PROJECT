@@ -69,6 +69,7 @@ export default function OrdersLogged() {
     const [reviewRating, setReviewRating] = useState(0);
     const [reviewComment, setReviewComment] = useState("");
     const [reviewSubmitting, setReviewSubmitting] = useState(false);
+    const [isEditingReview, setIsEditingReview] = useState(false);
 
     const tsOpen = Boolean(tsAnchorEl);
     const selectedOrder = items.find((x) => x.id === tsOrderId);
@@ -393,7 +394,7 @@ export default function OrdersLogged() {
                         />
                     </Box>
 
-                    <Footer />
+                    {!isEditingReview && <Footer />}
                 </Box>
 
                 <OrderTimelineMenu
@@ -416,6 +417,8 @@ export default function OrdersLogged() {
                     onRatingChange={setReviewRating}
                     onCommentChange={setReviewComment}
                     onSubmit={handleReviewSubmit}
+                    onReviewFocus={() => setIsEditingReview(true)}
+                    onReviewBlur={() => setIsEditingReview(false)}
                 />
             </>
         );
@@ -593,6 +596,8 @@ export default function OrdersLogged() {
                 onRatingChange={setReviewRating}
                 onCommentChange={setReviewComment}
                 onSubmit={handleReviewSubmit}
+                onReviewFocus={() => setIsEditingReview(true)}
+                onReviewBlur={() => setIsEditingReview(false)}
             />
         </>
     );

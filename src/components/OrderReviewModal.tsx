@@ -48,6 +48,8 @@ type OrderReviewModalProps = {
     onRatingChange: (value: number) => void;
     onCommentChange: (value: string) => void;
     onSubmit: () => void;
+    onReviewFocus: () => void;
+    onReviewBlur: () => void;
 };
 
 const imageMap: Record<string, string> = {
@@ -92,7 +94,7 @@ const Transition = React.forwardRef(function Transition(
 const imageStylesOrder: Record<string, React.CSSProperties> = {
     "1": { width: "52px", height: "52px", marginTop: "3px" },
     "2": { width: "70px", height: "75px" },
-    "3": { width: "55px", height: "51px", marginTop:"2px" },
+    "3": { width: "55px", height: "51px", marginTop: "2px" },
     "4": { width: "85px", height: "57px", marginTop: "-2px" },
 
     "5": { width: "76px", height: "67px", marginTop: "4px" },
@@ -126,6 +128,8 @@ export default function OrderReviewModal({
     onRatingChange,
     onCommentChange,
     onSubmit,
+    onReviewFocus,
+    onReviewBlur,
 }: OrderReviewModalProps) {
     const isLast = currentIndex >= totalItems - 1;
     const submitLabel = isLast ? "Send Review" : "Send & Next";
@@ -435,6 +439,8 @@ export default function OrderReviewModal({
                                 maxRows={6}
                                 fullWidth
                                 value={comment}
+                                onFocus={onReviewFocus}
+                                onBlur={onReviewBlur}
                                 onChange={(e) => onCommentChange(e.target.value)}
                                 placeholder="Tell us what you thought about this item..."
                                 inputProps={{ maxLength: 500 }}
