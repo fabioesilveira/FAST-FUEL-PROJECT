@@ -514,7 +514,7 @@ export default function SignUp() {
                                     md: "calc(100vh - 240px)",
                                 },
                                 maxHeight: { xs: 520, sm: 523, md: 532 },
-                                mt: { sm: 6.5, md: 5 },
+                                mt: { sm: 6.5, md: 5.5 },
                                 mb: { md: 1 },
                                 boxShadow:
                                     "0 4px 12px rgba(230, 81, 0, 0.18), 0 8px 20px rgba(0,0,0,0.08)",

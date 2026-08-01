@@ -109,7 +109,7 @@ export default function DrawerHome({
                     left: 0,
                     transform: "translateY(-50%)",
                     height: "auto",
-                    backgroundColor: "#fff3e0",
+                    backgroundColor: "rgba(255, 243, 224, 0.5) !important",
                     borderRadius: "0 13px 13px 0",
                     boxShadow:
                         "0 6px 18px rgba(13,71,161,.22), 0 10px 28px rgba(230,81,0,.14)",
