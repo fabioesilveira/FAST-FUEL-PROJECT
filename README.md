@@ -1,7 +1,7 @@
 # Fast Fuel Project
 
 Fast Fuel is a **full-stack food ordering web application** designed to simulate a real restaurant ordering workflow.  
-The project combines a modern responsive frontend focused on **UI/UX and performance** with a structured backend API responsible for order processing, product management, and administrative controls.
+The project combines a modern responsive frontend focused on **UI/UX and performance** with a structured backend API responsible for payment processing, order management, product data, customer reviews, and administrative controls.
 
 🔗 **Live Demo (Frontend):** https://fast-fuel-project-git-main-fabioesilveiras-projects.vercel.app/  
 📦 **Backend Repo:** https://github.com/fabioesilveira/Back-end-FAST-FUEL
@@ -14,12 +14,15 @@ The project combines a modern responsive frontend focused on **UI/UX and perform
 - Usage
 - Tech Stack
 - Features
+- Payment Experience
 - Order Snapshot System
 - Authentication & Security
 - Architecture
 - UI/UX Focus
 - Getting Started
 - Project Status
+- Design Process
+- Application Screenshots
 - License
 - Author
 
@@ -35,8 +38,10 @@ Fast Fuel supports both authenticated users and guest checkout for a flexible re
 - Search categories or individual products using the Home page search icon with dynamic feedback messages
 - Adjust cart quantities directly from the Fast Thru preview menu or within the checkout flow.
 - Complete checkout using:
-  - Email format validation (client-side)  
+  - Email format validation (client-side)
   - US address lookup (API-powered with address filtering)
+  - Secure Stripe Payment Element
+  - Stripe Sandbox / Test Mode payment processing
 
 ### Order Tracking & Support
 
@@ -64,6 +69,7 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 - Scalable frontend architecture
 - Clean backend design with MVC + service layers
 - Secure authentication and role-based access
+- Stripe-based payment workflow with server-side payment verification
 - Realistic e-commerce and order lifecycle logic
 - Strong attention to UI/UX and mobile-first behavior
 
@@ -78,6 +84,8 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 - Material UI (MUI)
 - React Router
 - Vite
+- Stripe React
+- Stripe Payment Element
 
 ### Backend
 
@@ -92,6 +100,7 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 - bcrypt (password hashing)
 - REST API
 - LocalStorage persistence
+- Stripe Sandbox / Test Mode
 
 ---
 
@@ -111,14 +120,50 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 
 ### Checkout
 
-- Full order lifecycle:  
+- Full order lifecycle:
   **received → in progress → sent → completed**
 - Tax, delivery fee, discounts, and total calculation
+- Secure card entry using Stripe Payment Element
+- Stripe PaymentIntent-based checkout flow
+- Server-verified payment before order creation
+- Stripe Sandbox / Test Mode — no real money is processed
 - Order confirmation with unique order code
 - Real-time quantity updates
 - Cart preview menu
 - Automatic combo discounts
 - Free delivery threshold
+
+### Payment Experience
+
+Fast Fuel uses **Stripe Payment Element** to provide a secure and realistic checkout experience.
+
+When the customer proceeds with payment:
+
+1. The frontend sends the cart items to the Fast Fuel backend
+2. The backend calculates the final order amount
+3. A Stripe PaymentIntent is created
+4. The frontend securely collects payment information through Stripe Payment Element
+5. Stripe processes and confirms the test payment
+6. The backend verifies the PaymentIntent before creating the order
+7. The customer receives an order confirmation and unique tracking code
+
+The integration currently runs in **Stripe Sandbox / Test Mode**, so no real money is processed.
+
+```text
+Cart
+  ↓
+Server-side Price Calculation
+  ↓
+Stripe PaymentIntent
+  ↓
+Stripe Payment Element
+  ↓
+Payment Confirmation
+  ↓
+Backend Verification
+  ↓
+Order Created
+```
 
 ### Product Insights
 
@@ -232,7 +277,9 @@ Create a `.env` file in the project root and add:
 
 ```env
 VITE_API_URL=your_backend_url_here
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key
 ```
+> The Stripe publishable key is safe to use in the frontend. Stripe secret keys must only exist in the backend environment and must never be exposed in client-side code.
 
 ### Run the Development Server
 
