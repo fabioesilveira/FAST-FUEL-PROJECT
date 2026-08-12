@@ -99,12 +99,12 @@ export default function HomeSearchSection({
                     <Typography
                         align="center"
                         sx={{
-                            mb: { xs: 4.5, sm: 4.5, md: 4.5 },
+                            mb: { xs: 4.5, sm: 4.5, md: 3.5 },
                             mt: headlineMt,
                             fontFamily: "Titan One",
                             fontSize: isCategorySearch
-                                ? { xs: "25px", sm: "28px", md: "33px" }
-                                : { xs: "23px", sm: "26px", md: "30px" },
+                                ? { xs: "25px", sm: "28px", md: "29px" }
+                                : { xs: "23px", sm: "26px", md: "27px" },
                             letterSpacing: isCategorySearch ? "0.08em" : "0.04em",
                             lineHeight: 1.12,
                             textTransform: "uppercase",
@@ -117,18 +117,19 @@ export default function HomeSearchSection({
                     </Typography>
 
                     {/* READY TO ORDER */}
-                    <Box sx={{ display: "flex", justifyContent: "center", mt: 1, mb: 4 }}>
+
+                    <Box sx={{ display: "flex", justifyContent: "center", mt: 0.5, mb: 3 }}>
                         <Box
                             onClick={enterFastThru}
                             sx={{
-                                px: { xs: 2, md: 2.2 },
-                                py: { xs: 1.3, md: 1.5 },
-                                mb: { xs: 1, md: 1 },
+                                fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.88rem" },
+                                px: { xs: 1.6, sm: 1.7, md: 1.8 },
+                                py: { xs: 1.05, sm: 1.1, md: 1.15 },
+                                mb: { xs: 1.5, md: 1.5 },
                                 borderRadius: "8px",
                                 backgroundColor: "#1e5bb8",
                                 color: "#fff",
                                 fontFamily: "Titan One",
-                                fontSize: { xs: "0.90rem", md: "0.95rem" },
                                 letterSpacing: "0.09em",
                                 textTransform: "uppercase",
                                 lineHeight: 1,
@@ -140,14 +141,11 @@ export default function HomeSearchSection({
                                     backgroundColor: "#163f82",
                                     transform: "translateY(-2px)",
                                 },
-                                "&:active": {
-                                    transform: "translateY(0)",
-                                    boxShadow: "0 4px 10px rgba(30, 91, 184, 0.3)",
-                                },
                             }}
                         >
                             READY TO ORDER
                         </Box>
+
                     </Box>
 
                     {/* GRID */}

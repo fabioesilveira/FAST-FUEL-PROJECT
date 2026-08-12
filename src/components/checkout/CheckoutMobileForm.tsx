@@ -1,3 +1,4 @@
+import React from "react";
 import CheckoutOrderSummary from "./CheckoutOrderSummary";
 import CheckoutContactSection from "./CheckoutContactSection";
 import CheckoutDeliverySection from "./CheckoutDeliverySection";
@@ -6,6 +7,9 @@ import CheckoutMobileFooter from "./CheckoutMobileFooter";
 import ProductsTitleBar from "../TitleBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import type { StripePaymentHandle } from "./CheckoutPaymentSection";
 import type { Meal } from "../../context/context";
 
 type AddressState = {
@@ -47,7 +51,14 @@ type CheckoutMobileFormProps = {
     orderLength: number;
     onPay: () => void;
     isEditingForm: boolean;
+    clientSecret: string;
+    paymentLoading: boolean;
+    paymentRef: React.RefObject<StripePaymentHandle>;
 };
+
+const stripePromise = loadStripe(
+    import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+);
 
 export default function CheckoutMobileForm({
     order,
@@ -78,7 +89,10 @@ export default function CheckoutMobileForm({
     submitting,
     orderLength,
     onPay,
-    isEditingForm
+    isEditingForm,
+    clientSecret,
+    paymentLoading,
+    paymentRef,
 }: CheckoutMobileFormProps) {
     return (
         <Box
@@ -144,10 +158,41 @@ export default function CheckoutMobileForm({
                     onAddressChange={onAddressChange}
                 />
 
-                <CheckoutPaymentSection
-                    tfBlueLabelSx={tfBlueLabelSx}
-                    mobile
-                />
+                {paymentLoading ? (
+                    <Box
+                        sx={{
+                            py: 2,
+                            textAlign: "center",
+                            color: "text.secondary",
+                            fontSize: "0.85rem",
+                        }}
+                    >
+                        Loading payment...
+                    </Box>
+                ) : clientSecret ? (
+                    <Elements
+                        stripe={stripePromise}
+                        options={{
+                            clientSecret,
+                        }}
+                    >
+                        <CheckoutPaymentSection
+                            ref={paymentRef}
+                            mobile
+                        />
+                    </Elements>
+                ) : (
+                    <Box
+                        sx={{
+                            py: 2,
+                            textAlign: "center",
+                            color: "error.main",
+                            fontSize: "0.85rem",
+                        }}
+                    >
+                        Payment could not be loaded.
+                    </Box>
+                )}
 
                 {isEditingForm && (
                     <Button

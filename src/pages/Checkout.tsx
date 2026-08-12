@@ -19,11 +19,15 @@ import SundaeImg from "../assets/Sundae.png";
 import NavbarAction from "../components/layout/navbar/NavbarAction";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 import CheckoutProcessingScreen from "../components/checkout/CheckoutProcessingScreen";
 import CheckoutConfirmedScreen from "../components/checkout/CheckoutConfirmedScreen";
 import CheckoutContactSection from "../components/checkout/CheckoutContactSection";
-import CheckoutPaymentSection from "../components/checkout/CheckoutPaymentSection";
+import CheckoutPaymentSection, {
+    type StripePaymentHandle,
+} from "../components/checkout/CheckoutPaymentSection";
 import CheckoutDeliverySection from "../components/checkout/CheckoutDeliverySection";
 
 import CheckoutMobileForm from "../components/checkout/CheckoutMobileForm";
@@ -108,6 +112,10 @@ type LoggedUser = {
 
 type CheckoutScreen = "form" | "processing" | "confirmed";
 
+const stripePromise = loadStripe(
+    import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+);
+
 
 export default function Checkout() {
     useDocumentTitle("FastFuel • Checkout");
@@ -123,16 +131,21 @@ export default function Checkout() {
         horizontal: "center",
     });
 
-
+    const paymentRef = useRef<StripePaymentHandle>(null);
     const scrollBoxRef = useRef<HTMLDivElement | null>(null);
 
     const [checkoutBarFloating, setCheckoutBarFloating] = useState(true);
     const [isEditingForm, setIsEditingForm] = useState(false);
 
+    const [clientSecret, setClientSecret] = useState("");
+    const [paymentLoading, setPaymentLoading] = useState(false);
+
     const [streetText, setStreetText] = useState("");
 
     const [screen, setScreen] = useState<CheckoutScreen>("form");
     const [orderCode, setOrderCode] = useState("");
+
+
 
     const [address, setAddress] = useState({
         street: "",
@@ -268,15 +281,28 @@ export default function Checkout() {
 
     async function handlePay() {
         const err = validate();
+
         if (err) {
             showAlert(err, "warning");
             return;
         }
 
         setSubmitting(true);
-        setScreen("processing");
 
         try {
+            const paymentResult =
+                await paymentRef.current?.confirmPayment();
+
+            if (!paymentResult?.success) {
+                showAlert(
+                    paymentResult?.error || "Payment failed.",
+                    "error"
+                );
+                return;
+            }
+
+            setScreen("processing");
+
             const itemsNorm = (order as Meal[]).map((it) => ({
                 id: String(it.id),
                 qty: Number(it.quantidade ?? 1),
@@ -284,9 +310,12 @@ export default function Checkout() {
 
             const payload = {
                 user_id: isLogged ? Number(loggedUser!.id) : null,
+
                 customer_name: fullName.trim(),
                 customer_email: email.trim(),
+
                 items: itemsNorm,
+
                 delivery_address: {
                     street: address.street.trim(),
                     apt: address.apt.trim(),
@@ -295,29 +324,52 @@ export default function Checkout() {
                     zip: address.zip.trim(),
                     country: address.country.trim() || "USA",
                 },
-                payment_status: "APPROVED",
-                payment_method: "CREDIT_CARD",
+
+                payment_method: "card",
+                payment_ref: paymentResult.paymentIntentId,
             };
 
             const res = await api.post("/sales", payload);
+
             const { order_code } = res.data;
 
-            localStorage.setItem("lastOrderCode", String(order_code));
-            localStorage.setItem("lastOrderEmail", email.trim());
+            localStorage.setItem(
+                "lastOrderCode",
+                String(order_code)
+            );
+
+            localStorage.setItem(
+                "lastOrderEmail",
+                email.trim()
+            );
 
             setOrderCode(String(order_code));
 
             setOrder([]);
             localStorage.removeItem("lsOrder");
 
-            await new Promise((r) => setTimeout(r, 5000));
+            await new Promise((r) =>
+                setTimeout(r, 5000)
+            );
 
             setScreen("confirmed");
-            showAlert("Payment processed successfully.", "success");
+
+            showAlert(
+                "Payment processed successfully.",
+                "success"
+            );
+
         } catch (e: any) {
             console.error(e);
+
             setScreen("form");
-            showAlert(e?.response?.data?.msg || "Failed to place order", "error");
+
+            showAlert(
+                e?.response?.data?.msg ||
+                "Failed to place order",
+                "error"
+            );
+
         } finally {
             setSubmitting(false);
         }
@@ -408,6 +460,37 @@ export default function Checkout() {
         };
     }, []);
 
+    useEffect(() => {
+        if (!order || order.length === 0) {
+            setClientSecret("");
+            return;
+        }
+
+        async function loadPaymentIntent() {
+            try {
+                setPaymentLoading(true);
+
+                const itemsNorm = (order as Meal[]).map((it) => ({
+                    id: String(it.id),
+                    qty: Number(it.quantidade ?? 1),
+                }));
+
+                const res = await api.post("/payments/create-intent", {
+                    items: itemsNorm,
+                });
+
+                setClientSecret(res.data.clientSecret);
+            } catch (error) {
+                console.error("Failed to create Stripe PaymentIntent:", error);
+                setClientSecret("");
+            } finally {
+                setPaymentLoading(false);
+            }
+        }
+
+        loadPaymentIntent();
+    }, [order]);
+
     const desktopTitle =
         screen === "processing"
             ? ""
@@ -482,6 +565,9 @@ export default function Checkout() {
                         submitting={submitting}
                         orderLength={order.length}
                         onPay={handlePay}
+                        clientSecret={clientSecret}
+                        paymentLoading={paymentLoading}
+                        paymentRef={paymentRef}
                     />
                 )}
             </>
@@ -662,9 +748,39 @@ export default function Checkout() {
                                             onAddressChange={setAddress}
                                         />
 
-                                        <CheckoutPaymentSection
-                                            tfBlueLabelSx={tfBlueLabelSx}
-                                        />
+                                        {paymentLoading ? (
+                                            <Typography
+                                                align="center"
+                                                sx={{
+                                                    py: 2,
+                                                    color: "text.secondary",
+                                                    fontSize: "0.85rem",
+                                                }}
+                                            >
+                                                Loading payment...
+                                            </Typography>
+                                        ) : clientSecret ? (
+                                            <Elements
+                                                stripe={stripePromise}
+                                                options={{
+                                                    clientSecret,
+                                                }}
+                                            >
+                                                <CheckoutPaymentSection ref={paymentRef} />
+                                            </Elements>
+                                        ) : (
+                                            <Typography
+                                                align="center"
+                                                sx={{
+                                                    py: 2,
+                                                    color: "error.main",
+                                                    fontSize: "0.85rem",
+                                                }}
+                                            >
+                                                Payment could not be loaded.
+                                            </Typography>
+                                        )}
+
                                     </Box>
 
                                     <Box
