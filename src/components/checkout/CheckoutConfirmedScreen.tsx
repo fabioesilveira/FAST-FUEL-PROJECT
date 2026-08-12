@@ -58,7 +58,7 @@ export default function CheckoutConfirmedScreen({
                             alignItems: "center",
                             textAlign: "center",
                             px: 2.6,
-                            pt: 3,
+                            pt: 1.5,
                             pb: 3.2,
                         }}
                     >
@@ -241,7 +241,7 @@ export default function CheckoutConfirmedScreen({
                     textTransform: "uppercase",
                     letterSpacing: "0.14em",
                     fontSize: "clamp(1.62rem, 4.8vw, 1.80rem)",
-                    mt: -0.9,
+                    mt: 0.2,
                     textShadow: "1px 1px 0 rgba(230, 81, 0, 0.20)",
                 }}
             >

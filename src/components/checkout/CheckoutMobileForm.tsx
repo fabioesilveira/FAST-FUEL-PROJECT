@@ -11,6 +11,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import type { StripePaymentHandle } from "./CheckoutPaymentSection";
 import type { Meal } from "../../context/context";
+import { Typography } from "@mui/material";
 
 type AddressState = {
     street: string;
@@ -57,7 +58,14 @@ type CheckoutMobileFormProps = {
 };
 
 const stripePromise = loadStripe(
-    import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+    import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY,
+    {
+        developerTools: {
+            assistant: {
+                enabled: false,
+            },
+        },
+    }
 );
 
 export default function CheckoutMobileForm({
@@ -181,17 +189,17 @@ export default function CheckoutMobileForm({
                             mobile
                         />
                     </Elements>
-                ) : (
-                    <Box
+                ) : order.length === 0 ? null : (
+                    <Typography
+                        align="center"
                         sx={{
                             py: 2,
-                            textAlign: "center",
                             color: "error.main",
                             fontSize: "0.85rem",
                         }}
                     >
                         Payment could not be loaded.
-                    </Box>
+                    </Typography>
                 )}
 
                 {isEditingForm && (

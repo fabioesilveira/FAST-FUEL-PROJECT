@@ -112,10 +112,17 @@ type LoggedUser = {
 
 type CheckoutScreen = "form" | "processing" | "confirmed";
 
-const stripePromise = loadStripe(
-    import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
-);
 
+const stripePromise = loadStripe(
+    import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY,
+    {
+        developerTools: {
+            assistant: {
+                enabled: false,
+            },
+        },
+    }
+);
 
 export default function Checkout() {
     useDocumentTitle("FastFuel • Checkout");
@@ -768,6 +775,12 @@ export default function Checkout() {
                                             >
                                                 <CheckoutPaymentSection ref={paymentRef} />
                                             </Elements>
+                                        ) : order.length === 0 ? (
+                                            <Box
+                                                sx={{
+                                                    minHeight: 110,
+                                                }}
+                                            />
                                         ) : (
                                             <Typography
                                                 align="center"
@@ -780,7 +793,6 @@ export default function Checkout() {
                                                 Payment could not be loaded.
                                             </Typography>
                                         )}
-
                                     </Box>
 
                                     <Box

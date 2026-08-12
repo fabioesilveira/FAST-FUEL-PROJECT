@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
 import {
@@ -111,22 +110,38 @@ const CheckoutPaymentSection = forwardRef<
             </Typography>
 
 
-            <Stack spacing={1.6}>
+            <PaymentElement />
 
-                <PaymentElement />
+            <Typography
+                align="center"
+                sx={{
+                    mt: 2,
+                    fontSize: "0.77rem",
+                    color: "text.secondary",
+                    lineHeight: 1.6,
+                }}
+            >
+                <strong>Test card:</strong> 4242 4242 4242 4242
+                <br />
 
-                <Typography
-                    align="center"
-                    sx={{
-                        mt: 0.5,
-                        fontSize: "0.75rem",
-                        color: "text.secondary",
-                    }}
-                >
-                    Test payment only — no real payment is processed.
-                </Typography>
+                <strong>Any</strong> future expiration date •{" "}
+                <strong>Any</strong> 3-digit CVC
+                <br />
 
-            </Stack>
+                <strong>ZIP:</strong> use the same ZIP entered for delivery
+            </Typography>
+
+            <Typography
+                align="center"
+                sx={{
+                    mt: 1,
+                    mb: 1.5,
+                    fontSize: "0.77rem",
+                    color: "text.secondary",
+                }}
+            >
+                Test payment only — <strong>no real payment is processed.</strong>
+            </Typography>
 
         </Box>
     );
