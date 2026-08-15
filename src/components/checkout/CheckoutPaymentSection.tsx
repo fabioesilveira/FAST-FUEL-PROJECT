@@ -128,7 +128,7 @@ const CheckoutPaymentSection = forwardRef<
                 <strong>Any</strong> 3-digit CVC
                 <br />
 
-                <strong>ZIP:</strong> use the same ZIP entered for delivery
+                <strong>ZIP:</strong> enter any 5-digit ZIP code
             </Typography>
 
             <Typography

@@ -26,6 +26,12 @@ export default function CheckoutConfirmedScreen({
 }: CheckoutConfirmedScreenProps) {
     const firstName = (fullName || "there").trim().split(" ")[0];
 
+    const cleanAddressLine = (addressLine || "")
+        .split(",")
+        .slice(0, 3)
+        .join(",")
+        .trim();
+
     if (mobile) {
         return (
             <Box
@@ -98,7 +104,7 @@ export default function CheckoutConfirmedScreen({
                                 maxWidth: 315,
                             }}
                         >
-                            It will be delivered to: <b>{addressLine || "the address you entered"}</b>.
+                            It will be delivered to: <b>{cleanAddressLine || "the address you entered"}</b>.
                             <br />
                             Average wait time: <b>30 minutes</b>.
                         </Typography>
@@ -280,7 +286,7 @@ export default function CheckoutConfirmedScreen({
                     lineHeight: 1.7,
                 }}
             >
-                It will be delivered to: <b>{addressLine || "the address you entered"}</b>.
+                It will be delivered to: <b>{cleanAddressLine || "the address you entered"}</b>.
                 <br />
                 Average wait time: <b>30 minutes</b>.
             </Typography>
