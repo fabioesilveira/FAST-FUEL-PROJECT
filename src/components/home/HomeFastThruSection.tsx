@@ -167,11 +167,10 @@ export default function HomeFastThruSection({
             >
                 <Typography
                     sx={{
-                        color: "#e65100",
+                        color: "rgba(230, 81, 0, 0.45)",
                         fontSize: "0.82rem",
                         fontWeight: 700,
                         letterSpacing: "0.05em",
-                        opacity: 0.9,
                     }}
                 >
                     © 2026 Fast Fuel. All rights reserved.
