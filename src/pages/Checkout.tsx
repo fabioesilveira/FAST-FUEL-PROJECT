@@ -778,7 +778,7 @@ export default function Checkout() {
                                         ) : order.length === 0 ? (
                                             <Box
                                                 sx={{
-                                                    minHeight: 110,
+                                                    minHeight: 80,
                                                 }}
                                             />
                                         ) : (

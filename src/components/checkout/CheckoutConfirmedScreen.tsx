@@ -103,6 +103,18 @@ export default function CheckoutConfirmedScreen({
                             Average wait time: <b>30 minutes</b>.
                         </Typography>
 
+                        <Typography
+                            sx={{
+                                mt: 1.2,
+                                color: "text.secondary",
+                                fontSize: "clamp(0.88rem, 3.4vw, 0.95rem)",
+                                lineHeight: 1.6,
+                                maxWidth: 315,
+                            }}
+                        >
+                            A confirmation email with your order details and tracking link has been sent to your email address.
+                        </Typography>
+
                         <Box
                             sx={{
                                 mt: 1.9,
@@ -271,6 +283,18 @@ export default function CheckoutConfirmedScreen({
                 It will be delivered to: <b>{addressLine || "the address you entered"}</b>.
                 <br />
                 Average wait time: <b>30 minutes</b>.
+            </Typography>
+
+            <Typography
+                sx={{
+                    mt: 1.2,
+                    color: "text.secondary",
+                    fontSize: "clamp(0.88rem, 3.4vw, 0.95rem)",
+                    lineHeight: 1.6,
+                    maxWidth: 315,
+                }}
+            >
+                A confirmation email with your order details and tracking link has been sent to your email address.
             </Typography>
 
             <Box
