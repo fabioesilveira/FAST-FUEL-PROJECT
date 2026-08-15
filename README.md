@@ -128,6 +128,7 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 - Server-verified payment before order creation
 - Stripe Sandbox / Test Mode — no real money is processed
 - Order confirmation with unique order code
+- Automated order confirmation emails after successful checkout
 - Real-time quantity updates
 - Cart preview menu
 - Automatic combo discounts
@@ -145,7 +146,7 @@ When the customer proceeds with payment:
 4. The frontend securely collects payment information through Stripe Payment Element
 5. Stripe processes and confirms the test payment
 6. The backend verifies the PaymentIntent before creating the order
-7. The customer receives an order confirmation and unique tracking code
+7. The customer receives an order confirmation email with order details and a tracking link
 
 The integration currently runs in **Stripe Sandbox / Test Mode**, so no real money is processed.
 
