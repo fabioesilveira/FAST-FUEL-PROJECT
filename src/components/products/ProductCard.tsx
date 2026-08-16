@@ -373,7 +373,7 @@ export default function ProductCard({
                         height: useCompactMobile ? 140 : 170,
                         backgroundColor: "#fff",
                         borderRadius: "9px",
-                        border: "2px solid rgba(230, 81, 0, 0.28)",
+                        border: "1.5px solid rgba(230, 81, 0, 0.22)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
