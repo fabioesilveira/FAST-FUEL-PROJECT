@@ -75,20 +75,20 @@ export default function ProductCard({
                 sx={{
                     width: "100%",
                     position: "relative",
-                    borderRadius: "16px",
-                    border: "2px solid rgba(230,81,0,0.55)",
-                    backgroundColor: "#fff3e0",
-                    boxShadow: "0 10px 24px rgba(230, 81, 0, 0.20)",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(230,81,0,0.22)",
+                    backgroundColor: "#fffaf5",
+                    boxShadow: "0 7px 18px rgba(0,0,0,0.07)",
                     px: { xs: 2, sm: 2.5 },
-                    py: { xs: 2.4, sm: 3 },
+                    py: { xs: 2.2, sm: 3 },
                     display: "flex",
                     flexDirection: "column",
                     gap: 1.35,
                     transition: "transform 0.2s ease, box-shadow 0.2s ease",
                     "@media (hover: hover) and (pointer: fine)": {
                         "&:hover": {
-                            transform: "translateY(-4px)",
-                            boxShadow: "0 14px 28px rgba(230, 81, 0, 0.28)",
+                            transform: "translateY(-3px)",
+                            boxShadow: "0 10px 22px rgba(0,0,0,0.10)",
                         },
                     },
                 }}
@@ -125,8 +125,8 @@ export default function ProductCard({
                         width: "100%",
                         height: { xs: 220, sm: 230 },
                         backgroundColor: "#fff",
-                        borderRadius: "12px",
-                        border: "2px solid rgba(230, 81, 0, 0.28)",
+                        borderRadius: "10px",
+                        border: "1px solid rgba(230, 81, 0, 0.28)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -148,60 +148,35 @@ export default function ProductCard({
                     />
                 </Box>
 
-                <Box
+                <Typography
                     sx={{
                         width: "100%",
-                        backgroundColor: "#ffe0c7",
-                        borderRadius: "10px",
-                        border: "1px solid rgba(230,81,0,0.18)",
-                        px: 1.6,
-                        height: 46,
-                        boxShadow: 2,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
                         textAlign: "center",
+                        fontSize: "1rem",
+                        color: "#0d47a1",
+                        fontWeight: 900,
+                        lineHeight: 1.25,
+                        px: 0.5,
+                        pt: 0.3,
                     }}
                 >
-                    <Typography
-                        sx={{
-                            fontSize: "0.96rem",
-                            color: "#0d47a1",
-                            fontWeight: 900,
-                            lineHeight: 1.15,
-                        }}
-                    >
-                        {title}
-                    </Typography>
-                </Box>
+                    {title}
+                </Typography>
 
-                <Box
+                <Typography
                     sx={{
                         width: "100%",
-                        backgroundColor: "#ffe0c7",
-                        borderRadius: "10px",
-                        border: "1px solid rgba(230,81,0,0.18)",
-                        px: 1.35,
-                        py: 1.2,
-                        boxShadow: 2,
+                        px: 0.4,
+                        fontSize: "0.93rem",
+                        lineHeight: 1.65,
+                        fontWeight: 400,
+                        fontFamily: "Inter, sans-serif",
+                        color: "rgba(20,20,20,0.72)",
+                        textAlign: "left",
                     }}
                 >
-                    <Typography
-                        sx={{
-                            fontSize: "0.93rem",
-                            lineHeight: 1.65,
-                            fontWeight: 400,
-                            display: "-webkit-box",
-                            WebkitLineClamp: 5,
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                            fontFamily: "Inter, sans-serif",
-                            color: "rgba(20,20,20,0.78)",
-                        }}
-                    >
-                        {product.description}
-                    </Typography>
-                </Box>
+                    {product.description}
+                </Typography>
 
                 <Box
                     sx={{
@@ -209,9 +184,9 @@ export default function ProductCard({
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        borderRadius: "12px",
+                        borderRadius: "10px",
                         px: 1,
-                        height: 44,
+                        height: 42,
                         bgcolor: "#f06612",
                         border: "1px solid rgba(230,81,0,0.18)",
                         boxShadow: 2,
@@ -220,8 +195,8 @@ export default function ProductCard({
                     <Box
                         onClick={() => onRemove(product)}
                         sx={{
-                            width: 32,
-                            height: 32,
+                            width: 31,
+                            height: 31,
                             borderRadius: "50%",
                             bgcolor: "#ffffff",
                             color: "#0d47a1",

@@ -113,7 +113,7 @@ export default function ProductsGrid({
                 maxWidth: isDesktop ? 1120 : { xs: 490, sm: 680 },
                 px: isDesktop ? 2 : { xs: 0, sm: 2 },
                 mx: "auto",
-                mt: 4,
+                mt: 2.6,
                 mb: isDesktop ? 10 : 2,
             }}
         >
@@ -133,7 +133,7 @@ export default function ProductsGrid({
                             color: "#0d47a1",
                             fontWeight: 900,
                             fontSize: "0.85rem",
-                            mt: 0.8,
+                            mt: 0.5,
                             letterSpacing: "0.08em",
                             textTransform: "uppercase",
                             px: 0.5,
