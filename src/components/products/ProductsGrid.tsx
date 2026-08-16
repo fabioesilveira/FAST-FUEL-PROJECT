@@ -123,7 +123,7 @@ export default function ProductsGrid({
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "flex-start",
-                        mb: 3.4,
+                        mb: 3,
                     }}
                 >
                     <Button
@@ -133,7 +133,7 @@ export default function ProductsGrid({
                             color: "#0d47a1",
                             fontWeight: 900,
                             fontSize: "0.85rem",
-                            mt: 0.7,
+                            mt: 0.8,
                             letterSpacing: "0.08em",
                             textTransform: "uppercase",
                             px: 0.5,
