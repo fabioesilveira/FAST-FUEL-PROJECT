@@ -300,26 +300,41 @@ export default function ProductCard({
         );
     }
 
+    const [productName, kcal] = title.split("/").map((part) => part.trim());
+
     return (
         <>
             <Box
                 sx={{
                     width: useCompactMobile ? "100%" : 300,
                     position: "relative",
-                    borderRadius: "13px",
-                    border: "2px solid rgba(230,81,0,0.55)",
-                    backgroundColor: "#fff3e0",
-                    boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
+                    borderRadius: useCompactMobile ? "8px" : "10px",
+
+                    border: useCompactMobile
+                        ? "none"
+                        : "2px solid rgba(230,81,0,0.55)",
+
+                    backgroundColor: "#fffaf5",
+
+                    boxShadow: useCompactMobile
+                        ? "0 5px 14px rgba(0,0,0,0.08)"
+                        : "0 8px 18px rgba(230, 81, 0, 0.28)",
+
                     px: useCompactMobile ? 1.8 : 2.5,
-                    py: useCompactMobile ? 1.5 : 2.5,
+                    py: useCompactMobile ? 1.9 : 2.5,
+
                     display: "flex",
                     flexDirection: "column",
                     gap: useCompactMobile ? 1.2 : 1.8,
+
                     transition: "transform 0.2s ease, box-shadow 0.2s ease",
+
                     "@media (hover: hover) and (pointer: fine)": {
                         "&:hover": {
-                            transform: "translateY(-5px)",
-                            boxShadow: "0 12px 26px rgba(230, 81, 0, 0.38)",
+                            transform: useCompactMobile ? "none" : "translateY(-5px)",
+                            boxShadow: useCompactMobile
+                                ? "0 5px 14px rgba(0,0,0,0.08)"
+                                : "0 12px 26px rgba(230, 81, 0, 0.38)",
                         },
                     },
                 }}
@@ -328,11 +343,11 @@ export default function ProductCard({
                     <Box
                         sx={{
                             position: "absolute",
-                            top: -12,
-                            right: -12,
+                            top: -7,
+                            right: -7,
                             zIndex: 6,
-                            minWidth: 30,
-                            height: 30,
+                            minWidth: 27,
+                            height: 27,
                             px: 0.9,
                             borderRadius: "999px",
                             bgcolor: "#1e5bb8",
@@ -378,41 +393,46 @@ export default function ProductCard({
                     />
                 </Box>
 
-                <Box
+                <Typography
                     sx={{
                         width: "100%",
-                        backgroundColor: "#ffe0c7",
-                        borderRadius: 2,
-                        border: "1px solid rgba(230,81,0,0.18)",
-                        px: useCompactMobile ? 1.6 : 2,
-                        py: useCompactMobile ? 1.12 : 1.0,
-                        boxShadow: 2,
+                        px: useCompactMobile ? 0.6 : 1,
+                        py: useCompactMobile ? 0.5 : 0.7,
                         textAlign: "center",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        fontSize: useCompactMobile ? "0.86rem" : "0.98rem",
+                        color: "#0d47a1",
+                        fontWeight: 800,
+                        lineHeight: 1.2,
+
+                        ...(useCompactMobile
+                            ? {
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical",
+                                overflow: "hidden",
+                                height: "2.8em",
+                            }
+                            : {}),
                     }}
                 >
-                    <Typography
-                        sx={{
-                            fontSize: useCompactMobile ? "0.82rem" : "0.98rem",
-                            color: "#0d47a1",
-                            fontWeight: 800,
-                            lineHeight: 1.15,
-                            ...(useCompactMobile
-                                ? {
-                                    display: "-webkit-box",
-                                    WebkitLineClamp: 2,
-                                    WebkitBoxOrient: "vertical",
-                                    overflow: "hidden",
-                                    minHeight: "2.3em",
-                                }
-                                : {}),
-                        }}
-                    >
-                        {title}
-                    </Typography>
-                </Box>
+                    <>
+                        <Box component="span">
+                            {productName}
+                        </Box>
+
+                        {kcal && (
+                            <Box
+                                component="span"
+                                sx={{
+                                    display: "block",
+                                    mt: 0.35,
+                                }}
+                            >
+                                {kcal}
+                            </Box>
+                        )}
+                    </>
+                </Typography>
 
                 {!useCompactStyle && (
                     <Box
@@ -431,28 +451,24 @@ export default function ProductCard({
                         </Typography>
                     </Box>
                 )}
-
                 <Button
                     onClick={() => setDetailsOpen(true)}
                     sx={{
                         width: "100%",
-                        minHeight: 48,
-                        borderRadius: "9px",
-                        border: "1px solid rgba(230,81,0,0.18)",
-                        backgroundColor: "#ffe0c7",
-                        color: "#1565c0",
+                        minHeight: 40,
+                        backgroundColor: "transparent",
+                        color: "#0d47a1",
                         fontWeight: 900,
                         fontSize: useCompactMobile ? "0.82rem" : "0.9rem",
                         letterSpacing: "0.04em",
-                        boxShadow: 2,
+                        boxShadow: "none",
                         textTransform: "uppercase",
                         position: "relative",
                         textDecoration: "underline",
                         textUnderlineOffset: "3px",
-                        "@media (hover: hover) and (pointer: fine)": {
-                            "&:hover": {
-                                backgroundColor: "#ffd7b7",
-                            },
+
+                        "&:hover": {
+                            backgroundColor: "rgba(13,71,161,0.05)",
                         },
                     }}
                 >

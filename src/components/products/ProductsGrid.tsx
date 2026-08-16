@@ -111,7 +111,7 @@ export default function ProductsGrid({
             sx={{
                 width: "100%",
                 maxWidth: isDesktop ? 1120 : { xs: 490, sm: 680 },
-                px: isDesktop ? 2 : { xs: 1, sm: 2 },
+                px: isDesktop ? 2 : { xs: 0, sm: 2 },
                 mx: "auto",
                 mt: 4,
                 mb: isDesktop ? 10 : 2,
@@ -123,28 +123,38 @@ export default function ProductsGrid({
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "flex-start",
-                        mb: 1.4,
+                        mb: 3.4,
                     }}
                 >
                     <Button
                         onClick={openInsightsDrawer}
                         startIcon={<BarChartRoundedIcon />}
                         sx={{
-                            height: 44,
-                            minWidth: 86,
-                            mt: 0,
-                            borderRadius: "10px",
-                            bgcolor: "white",
-                            border: "1px solid rgba(230,81,0,0.20)",
-                            boxShadow: "0 6px 16px rgba(13,71,161,0.10)",
                             color: "#0d47a1",
                             fontWeight: 900,
-                            fontSize: "0.75rem",
+                            fontSize: "0.85rem",
+                            mt: 0.7,
                             letterSpacing: "0.08em",
                             textTransform: "uppercase",
-                            px: 1.15,
-                            "&:hover": { bgcolor: "#fff4e1" },
-                            "& .MuiButton-startIcon": { mr: 0.45 },
+                            px: 0.5,
+                            backgroundColor: "transparent",
+                            boxShadow: "none",
+
+                            textShadow: "0 2px 4px rgba(13,71,161,0.16)",
+
+                            "& .MuiButton-startIcon": {
+                                mr: 0.5,
+                                filter: "drop-shadow(0 2px 3px rgba(13,71,161,0.16))",
+                            },
+
+                            "& .MuiButton-startIcon svg": {
+                                fontSize: "26px",
+                            },
+
+                            "&:hover": {
+                                backgroundColor: "transparent",
+                                color: "#083b8a",
+                            },
                         }}
                     >
                         Insights
@@ -155,15 +165,8 @@ export default function ProductsGrid({
                             display: "inline-flex",
                             flexDirection: "column",
                             alignItems: "stretch",
-                            bgcolor: "white",
-                            border: "1px solid rgba(230,81,0,0.20)",
-                            boxShadow: "0 6px 16px rgba(13,71,161,0.10)",
-                            px: 0.35,
-                            pt: 0.35,
-                            pb: 0.25,
-                            mb: 2.6,
-                            minWidth: 92,
-                            borderRadius: "10px",
+                            minWidth: 82,
+                            filter: "drop-shadow(0 2px 3px rgba(13,71,161,0.16))",
                         }}
                     >
                         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 0.2 }}>
@@ -225,12 +228,14 @@ export default function ProductsGrid({
                     gridTemplateColumns: isDesktop
                         ? "repeat(2, 560px)"
                         : {
-                            xs: viewMode === "grid" ? "repeat(2, 1fr)" : "1fr",
+                            xs: viewMode === "grid" ? "repeat(2, minmax(0, 1fr))" : "1fr",
                             sm: "repeat(2, 300px)",
                         },
                     justifyContent: "center",
                     justifyItems: "stretch",
-                    columnGap: isDesktop ? 4 : { xs: viewMode === "grid" ? 1.2 : 0, sm: 3 },
+                    columnGap: isDesktop
+                        ? 4
+                        : { xs: viewMode === "grid" ? 1 : 0, sm: 3 },
                     rowGap: isDesktop ? 4 : { xs: viewMode === "grid" ? 5 : 4.5, sm: 3 },
                 }}
             >
