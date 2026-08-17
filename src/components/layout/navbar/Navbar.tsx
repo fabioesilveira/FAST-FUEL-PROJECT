@@ -15,6 +15,7 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Badge, { badgeClasses } from "@mui/material/Badge";
 import { useAppContext } from "../../../context/context";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import HistoryIcon from "@mui/icons-material/History";
 import EmailIcon from "@mui/icons-material/Email";
@@ -33,6 +34,7 @@ const guestDropdownItems: DropdownItem[] = [
   { label: "My Orders", icon: HistoryIcon, path: "/orders" },
   { label: "Reviews", icon: StarIcon, path: "/reviews" },
   { label: "Contact Us", icon: EmailIcon, path: "/contact-us" },
+  { label: "About", icon: InfoOutlinedIcon, path: "/about" },
 ];
 
 const IconHit = styled("button")(() => ({

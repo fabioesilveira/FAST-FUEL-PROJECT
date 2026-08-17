@@ -83,6 +83,8 @@ export default function ProductsGrid({
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const isTabletOnly = useMediaQuery(theme.breakpoints.between("sm", "lg"));
 
+    const showFloatingInsights = useMediaQuery("(min-width: 1180px)");
+
     const [viewMode, setViewMode] = React.useState<"grid" | "stream">("grid");
     const [insightsOpen, setInsightsOpen] = React.useState(false);
     const [insightsLoading, setInsightsLoading] = React.useState(false);
@@ -274,7 +276,7 @@ export default function ProductsGrid({
                 )}
             </Box>
 
-            {!isMobile && (
+            {showFloatingInsights && (
                 <Button
                     onClick={openInsightsDrawer}
                     sx={{

@@ -18,6 +18,7 @@ import OrdersPage from "./pages/orders/OrdersEntry.tsx";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import { RequireAuth, RequireAdmin } from "./routes/RequireAuth.tsx"
 import Reviews from "./pages/Reviews.tsx";
+import About from "./pages/About.tsx";
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/drinks" element={<Beverages />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/about" element={<About />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/TrackOrderGuest" element={<TrackOrderGuest />} />
         <Route path="/reviews" element={<Reviews />} />

@@ -24,6 +24,7 @@ export default function Burgers() {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const showDesktopDrawer = useMediaQuery("(min-width: 1100px)");
   const PageShell = isMobile ? PageBgMobile : PageBg;
 
   function handleRemove(product: Meal) {
@@ -102,7 +103,7 @@ export default function Burgers() {
     <>
       <NavbarProducts />
       <ProductsTitleBar title="Burgers" />
-      {!isMobile && <DrawerProducts />}
+      {showDesktopDrawer && <DrawerProducts />}
 
       <PageShell
         {...(!isMobile && {

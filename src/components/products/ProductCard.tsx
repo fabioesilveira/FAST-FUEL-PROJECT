@@ -287,7 +287,7 @@ export default function ProductCard({
 
                     border: useCompactMobile
                         ? "none"
-                        : "2px solid rgba(230,81,0,0.55)",
+                        : "1.5px solid rgba(230,81,0,0.55)",
 
                     backgroundColor: "#fffaf5",
 

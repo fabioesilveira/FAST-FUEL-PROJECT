@@ -91,6 +91,7 @@ export default function Home() {
     const navigate = useNavigate();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const showDesktopDrawer = useMediaQuery("(min-width: 1100px)");
     const cartOpen = Boolean(cartAnchorEl);
 
     const { order, setOrder } = useAppContext();
@@ -281,7 +282,7 @@ export default function Home() {
 
                     <CssBaseline />
 
-                    {!isMobile && (
+                    {showDesktopDrawer && (
                         <DrawerHome
                             onNavigate={handleDrawerNavigate}
                             onDriveThruClick={toggleFastThru}

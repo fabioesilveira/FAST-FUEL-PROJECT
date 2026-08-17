@@ -32,6 +32,7 @@ export default function Desserts() {
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const showDesktopDrawer = useMediaQuery("(min-width: 1100px)");
     const PageShell = isMobile ? PageBgMobile : PageBg;
 
     useEffect(() => {
@@ -83,7 +84,7 @@ export default function Desserts() {
 
     const imageStylesGridMobile: Record<string, React.CSSProperties> = {
         "15": { transform: "scale(1.04)", marginTop: "8px" },
-        "16": { width: "130px", height: "122px" },
+        "16": { width: "130px", height: "125px" },
         "17": { width: "107px", height: "123px" },
         "18": { width: "90px", height: "90px" },
     };
@@ -113,7 +114,7 @@ export default function Desserts() {
         <>
             <NavbarProducts />
             <ProductsTitleBar title="Desserts" />
-            {!isMobile && <DrawerProducts />}
+            {showDesktopDrawer && <DrawerProducts />}
 
             <PageShell
                 {...(!isMobile && {
