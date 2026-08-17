@@ -115,7 +115,7 @@ export default function ProductsGrid({
                 maxWidth: isDesktop ? 1120 : { xs: 490, sm: 680 },
                 px: isDesktop ? 2 : { xs: 0, sm: 2 },
                 mx: "auto",
-                mt: { xs: 2.6, sm: 4.5, md: 3.2 },
+                mt: { xs: 2.6, sm: 4.5, md: 3 },
                 mb: isDesktop
                     ? 10
                     : {

@@ -37,6 +37,16 @@ const guestDropdownItems: DropdownItem[] = [
   { label: "About", icon: InfoOutlinedIcon, path: "/about" },
 ];
 
+const iconSizes: Record<string, number> = {
+  "Sign In / Sign Up": 23,
+  "Signout": 25,
+  "My Orders": 25,
+  "Reviews": 25.5,
+  "Contact Us": 22,
+  "About": 23,
+  "Delete Account": 24,
+};
+
 const IconHit = styled("button")(() => ({
   border: 0,
   background: "transparent",
@@ -514,7 +524,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                             <Icon
                               sx={{
                                 color: "#e85f10",
-                                fontSize: label === "Contact Us" ? 23 : 24,
+                                fontSize: iconSizes[label] ?? 24,
                               }}
                             />
                           </Box>
@@ -537,7 +547,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                           <Icon
                             sx={{
                               color: "#e85f10",
-                              fontSize: label === "Contact Us" ? 23 : 24,
+                              fontSize: iconSizes[label] ?? 24,
                             }}
                           />
                         </Box>
