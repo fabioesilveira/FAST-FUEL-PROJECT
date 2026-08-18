@@ -38,13 +38,13 @@ const guestDropdownItems: DropdownItem[] = [
 ];
 
 const iconSizes: Record<string, number> = {
-  "Sign In / Sign Up": 23.5,
+  "Sign In / Sign Up": 22.5,
   "Signout": 25,
   "My Orders": 25,
   "Reviews": 25.5,
   "Contact Us": 21.5,
-  "About": 23,
-  "Delete Account": 24,
+  "About": 23.5,
+  "Delete Account": 23,
 };
 
 const IconHit = styled("button")(() => ({
@@ -152,6 +152,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
           icon: NoAccountsIcon,
           path: "/deleteaccount",
         },
+        { label: "About", icon: InfoOutlinedIcon, path: "/about" },
       ]);
     } else {
       setDropDownChange(guestDropdownItems);
