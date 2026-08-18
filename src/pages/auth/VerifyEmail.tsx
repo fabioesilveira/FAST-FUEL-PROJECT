@@ -73,7 +73,6 @@ export default function VerifyEmail() {
                 alignItems: "center",
                 justifyContent: "center",
                 px: 2.5,
-                mt: -20
             }}
         >
             <Box
@@ -93,6 +92,7 @@ export default function VerifyEmail() {
                         xs: 4,
                         sm: 5,
                     },
+                    transform: { xs: "translateY(-120px)", sm: "translateY(-110px)", md: "translateY(-110px)" },
                 }}
             >
                 {status === "loading" && (

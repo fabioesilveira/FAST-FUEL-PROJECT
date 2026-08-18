@@ -20,6 +20,7 @@ import { RequireAuth, RequireAdmin } from "./routes/RequireAuth.tsx"
 import Reviews from "./pages/Reviews.tsx";
 import About from "./pages/About.tsx";
 import VerifyEmail from "./pages/auth/VerifyEmail.tsx";
+import CheckEmail from "./pages/auth/CheckEmail.tsx";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/check-email" element={<CheckEmail />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/burgers" element={<Burgers />} />
         <Route path="/sides" element={<Sides />} />

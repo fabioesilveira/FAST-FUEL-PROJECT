@@ -120,29 +120,6 @@ export default function SignUp() {
         return true;
     }
 
-    function saveAuthData(data: any, fallbackName: string, fallbackEmail: string) {
-        const displayName =
-            data.fullName || data.userName || fallbackName || fallbackEmail;
-
-        clearAuthStorage();
-
-        localStorage.setItem("idUser", String(data.id));
-        localStorage.setItem("userName", displayName);
-        localStorage.setItem("userType", data.type || "normal");
-        localStorage.setItem("emailUser", data.email || fallbackEmail);
-        localStorage.setItem("token", data.token);
-
-        localStorage.setItem(
-            "authUser",
-            JSON.stringify({
-                id: data.id,
-                userName: displayName,
-                email: data.email || fallbackEmail,
-                type: data.type || "normal",
-                token: data.token,
-            })
-        );
-    }
 
     async function handleClick() {
         if (!validateSignUpForm()) return;
@@ -157,31 +134,50 @@ export default function SignUp() {
                 password: signUp.password,
             };
 
-            await api.post("/users/register", payload);
+            const registerRes = await api.post(
+                "/users/register",
+                payload
+            );
 
-            const loginRes = await api.post("/users/login", {
-                email: payload.email,
-                password: payload.password,
-            });
+            if (registerRes.data?.emailSent === false) {
+                showAlert(
+                    "Account created, but we could not send the verification email.",
+                    "warning"
+                );
 
-            if (!loginRes.data?.id || !loginRes.data?.token) {
-                clearAuthStorage();
-                showAlert("Account created, but login failed. Please sign in.", "warning");
-                navigate("/sign-in");
+                navigate("/check-email", {
+                    state: {
+                        email: payload.email,
+                    },
+                });
+
                 return;
             }
 
-            saveAuthData(loginRes.data, payload.fullName, payload.email);
+            showAlert(
+                "Account created! Please check your email to verify your account.",
+                "success"
+            );
 
-            showAlert("Account created successfully!", "success");
-            navigate("/");
+            navigate("/check-email", {
+                state: {
+                    email: payload.email,
+                },
+            });
         } catch (error: any) {
             console.error("error to send the data", error);
 
             if (error.response?.status === 409) {
-                showAlert("This email is already in use.", "error");
+                showAlert(
+                    "This email is already in use.",
+                    "error"
+                );
             } else {
-                showAlert("Error creating account. Please try again.", "error");
+                showAlert(
+                    error.response?.data?.msg ||
+                    "Error creating account. Please try again.",
+                    "error"
+                );
             }
         }
     }
