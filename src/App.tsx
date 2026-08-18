@@ -19,6 +19,7 @@ import ScrollToTop from "./components/ScrollToTop.tsx";
 import { RequireAuth, RequireAdmin } from "./routes/RequireAuth.tsx"
 import Reviews from "./pages/Reviews.tsx";
 import About from "./pages/About.tsx";
+import VerifyEmail from "./pages/auth/VerifyEmail.tsx";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/burgers" element={<Burgers />} />
         <Route path="/sides" element={<Sides />} />
         <Route path="/desserts" element={<Desserts />} />
