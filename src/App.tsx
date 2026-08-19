@@ -21,6 +21,7 @@ import Reviews from "./pages/Reviews.tsx";
 import About from "./pages/About.tsx";
 import VerifyEmail from "./pages/auth/VerifyEmail.tsx";
 import CheckEmail from "./pages/auth/CheckEmail.tsx";
+import ForgotPassword from "./pages/auth/ForgotPassword.tsx";
 
 export default function App() {
   return (
@@ -42,7 +43,8 @@ export default function App() {
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/TrackOrderGuest" element={<TrackOrderGuest />} />
         <Route path="/reviews" element={<Reviews />} />
-
+        <Route path="/forgot-password" element={<ForgotPassword />}
+        />
         <Route element={<RequireAuth />}>
           <Route path="/deleteaccount" element={<DeleteAccount />} />
           <Route path="/OrdersLogged" element={<OrdersLogged />} />
