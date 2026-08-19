@@ -5,7 +5,9 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+
 import LockResetOutlinedIcon from "@mui/icons-material/LockResetOutlined";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 import { api } from "../../api";
 import { useAppAlert } from "../../hooks/useAppAlert";
@@ -96,21 +98,12 @@ export default function ResetPassword() {
         try {
             setLoading(true);
 
-            const response = await api.post(
-                "/users/reset-password",
-                {
-                    token,
-                    password,
-                }
-            );
+            await api.post("/users/reset-password", {
+                token,
+                password,
+            });
 
             setPasswordUpdated(true);
-
-            showAlert(
-                response.data?.msg ||
-                "Password updated successfully.",
-                "success"
-            );
         } catch (error: any) {
             console.error(
                 "RESET PASSWORD ERROR:",
@@ -125,6 +118,116 @@ export default function ResetPassword() {
         } finally {
             setLoading(false);
         }
+    }
+
+    if (passwordUpdated) {
+        return (
+            <>
+                {AlertUI}
+
+                <Box
+                    sx={{
+                        minHeight: "100dvh",
+                        backgroundColor: "#fffaf5",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        px: 2.5,
+                    }}
+                >
+                    <Box
+                        sx={{
+                            width: "100%",
+                            maxWidth: 470,
+                            backgroundColor: "#ffffff",
+                            borderRadius: 3,
+                            border:
+                                "1px solid rgba(230,81,0,0.18)",
+                            boxShadow:
+                                "0 10px 28px rgba(0,0,0,0.08)",
+                            textAlign: "center",
+
+                            px: {
+                                xs: 3,
+                                sm: 4,
+                            },
+
+                            py: {
+                                xs: 4,
+                                sm: 5,
+                            },
+
+                            transform: {
+                                xs: "translateY(-69px)",
+                                sm: "translateY(-62px)",
+                                md: "translateY(-62px)",
+                            },
+                        }}
+                    >
+                        <CheckCircleOutlineIcon
+                            sx={{
+                                fontSize: 72,
+                                color: "#2e7d32",
+                            }}
+                        />
+
+                        <Typography
+                            sx={{
+                                mt: 2,
+                                color: "#0d47a1",
+                                fontWeight: 900,
+
+                                fontSize: {
+                                    xs: "1.35rem",
+                                    sm: "1.55rem",
+                                },
+                            }}
+                        >
+                            Password Updated
+                        </Typography>
+
+                        <Typography
+                            sx={{
+                                mt: 1.5,
+                                color: "rgba(20,20,20,0.68)",
+
+                                fontSize: {
+                                    xs: "0.92rem",
+                                    sm: "0.98rem",
+                                },
+
+                                lineHeight: 1.7,
+                            }}
+                        >
+                            Your password has successfully been updated.
+                        </Typography>
+
+                        <Button
+                            type="button"
+                            variant="contained"
+                            onClick={() => navigate("/sign-in")}
+                            sx={{
+                                mt: 3,
+                                width: "100%",
+                                maxWidth: 280,
+                                backgroundColor: "#1e5bb8",
+                                color: "#ffffff",
+                                fontWeight: 800,
+                                textTransform: "none",
+                                borderRadius: 2,
+                                py: 1.15,
+
+                                "&:hover": {
+                                    backgroundColor: "#164a96",
+                                },
+                            }}
+                        >
+                            Back to Sign In
+                        </Button>
+                    </Box>
+                </Box>
+            </>
+        );
     }
 
     return (
@@ -166,8 +269,9 @@ export default function ResetPassword() {
                         },
 
                         transform: {
-                            xs: "translateY(-45px)",
-                            sm: "translateY(-55px)",
+                            xs: "translateY(-69px)",
+                            sm: "translateY(-62px)",
+                            md: "translateY(-62px)",
                         },
                     }}
                 >
@@ -196,8 +300,7 @@ export default function ResetPassword() {
                     <Typography
                         sx={{
                             mt: 1.8,
-                            color:
-                                "rgba(20,20,20,0.68)",
+                            color: "rgba(20,20,20,0.68)",
 
                             fontSize: {
                                 xs: "0.92rem",
@@ -212,91 +315,71 @@ export default function ResetPassword() {
                         including one letter and one number.
                     </Typography>
 
-                    {!passwordUpdated && (
-                        <>
-                            <TextField
-                                label="New Password"
-                                type="password"
-                                value={password}
-                                onChange={(event) =>
-                                    setPassword(event.target.value)
-                                }
-                                fullWidth
-                                size="small"
-                                autoComplete="new-password"
-                                sx={{
-                                    ...tfSx,
-                                    mt: 3,
-                                }}
-                            />
+                    <TextField
+                        label="New Password"
+                        type="password"
+                        value={password}
+                        onChange={(event) =>
+                            setPassword(event.target.value)
+                        }
+                        fullWidth
+                        size="small"
+                        autoComplete="new-password"
+                        sx={{
+                            ...tfSx,
+                            mt: 3,
+                        }}
+                    />
 
-                            <TextField
-                                label="Confirm New Password"
-                                type="password"
-                                value={confirmPassword}
-                                onChange={(event) =>
-                                    setConfirmPassword(
-                                        event.target.value
-                                    )
-                                }
-                                fullWidth
-                                size="small"
-                                autoComplete="new-password"
-                                sx={{
-                                    ...tfSx,
-                                    mt: 2,
-                                }}
-                            />
+                    <TextField
+                        label="Confirm New Password"
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(event) =>
+                            setConfirmPassword(
+                                event.target.value
+                            )
+                        }
+                        fullWidth
+                        size="small"
+                        autoComplete="new-password"
+                        sx={{
+                            ...tfSx,
+                            mt: 2,
+                        }}
+                    />
 
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                disabled={loading || !token}
-                                sx={{
-                                    mt: 2.5,
-                                    width: "100%",
-                                    maxWidth: 280,
-                                    backgroundColor: "#e65100",
-                                    color: "#ffffff",
-                                    fontWeight: 800,
-                                    textTransform: "none",
-                                    borderRadius: 2,
-                                    py: 1.15,
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        disabled={loading || !token}
+                        sx={{
+                            mt: 2.5,
+                            width: "100%",
+                            maxWidth: 280,
+                            backgroundColor: "#e65100",
+                            color: "#ffffff",
+                            fontWeight: 800,
+                            textTransform: "none",
+                            borderRadius: 2,
+                            py: 1.15,
 
-                                    "&:hover": {
-                                        backgroundColor:
-                                            "#b33f00",
-                                    },
+                            "&:hover": {
+                                backgroundColor: "#b33f00",
+                            },
 
-                                    "&.Mui-disabled": {
-                                        backgroundColor:
-                                            "rgba(230,81,0,0.28)",
-                                        color:
-                                            "rgba(255,255,255,0.75)",
-                                    },
-                                }}
-                            >
-                                {loading
-                                    ? "Updating..."
-                                    : "Update Password"}
-                            </Button>
-                        </>
-                    )}
-
-                    {passwordUpdated && (
-                        <Typography
-                            sx={{
-                                mt: 3,
-                                color: "#0d47a1",
-                                fontWeight: 700,
-                                fontSize: "0.95rem",
-                                lineHeight: 1.6,
-                            }}
-                        >
-                            Your password has been updated. You can now sign in
-                            with your new password.
-                        </Typography>
-                    )}
+                            "&.Mui-disabled": {
+                                backgroundColor:
+                                    "rgba(230,81,0,0.28)",
+                                color:
+                                    "rgba(255,255,255,0.75)",
+                            },
+                        }}
+                    >
+                        {loading
+                            ? "Updating..."
+                            : "Update Password"}
+                    </Button>
 
                     <Button
                         type="button"

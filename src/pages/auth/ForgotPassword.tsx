@@ -149,8 +149,9 @@ export default function ForgotPassword() {
                         },
 
                         transform: {
-                            xs: "translateY(-45px)",
-                            sm: "translateY(-55px)",
+                            xs: "translateY(-109.5px)",
+                            sm: "translateY(-103.5px)",
+                            md: "translateY(-103.5px)",
                         },
                     }}
                 >

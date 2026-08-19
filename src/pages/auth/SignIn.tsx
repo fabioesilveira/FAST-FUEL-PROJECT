@@ -273,6 +273,28 @@ export default function SignIn() {
                             />
 
                             <Button
+                                variant="text"
+                                onClick={() => navigate("/forgot-password")}
+                                sx={{
+                                    alignSelf: "center",
+                                    mt: -0.6,
+                                    mb: -0.6,
+                                    px: 0,
+                                    minWidth: "auto",
+                                    textTransform: "none",
+                                    color: "rgba(180, 63, 0, 1)",
+                                    fontSize: "0.78rem",
+                                    fontWeight: 700,
+                                    "&:hover": {
+                                        backgroundColor: "transparent",
+                                        textDecoration: "underline",
+                                    },
+                                }}
+                            >
+                                Forgot Password?
+                            </Button>
+
+                            <Button
                                 fullWidth
                                 size="large"
                                 variant="contained"
@@ -438,7 +460,7 @@ export default function SignIn() {
                                 maxWidth: { xs: 520, md: 530 },
                                 p: { xs: 2.5, md: 3.2 },
                                 height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 240px)" },
-                                maxHeight: { sm: 445, md: 455 },
+                                maxHeight: { sm: 489, md: 494.5 },
                                 mt: { sm: 6.5, md: 5.5 },
                                 mb: { md: 1 },
                                 boxShadow:
@@ -529,6 +551,28 @@ export default function SignIn() {
                                         fullWidth
                                         sx={tfSx}
                                     />
+
+                                    <Button
+                                        variant="text"
+                                        onClick={() => navigate("/forgot-password")}
+                                        sx={{
+                                            alignSelf: "center",
+                                            mt: -0.7,
+                                            mb: -0.6,
+                                            px: 0,
+                                            minWidth: "auto",
+                                            textTransform: "none",
+                                            color: "rgba(180, 63, 0, 1)",
+                                            fontSize: "0.78rem",
+                                            fontWeight: 700,
+                                            "&:hover": {
+                                                backgroundColor: "transparent",
+                                                textDecoration: "underline",
+                                            },
+                                        }}
+                                    >
+                                        Forgot Password?
+                                    </Button>
 
                                     <Button
                                         fullWidth
