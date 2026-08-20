@@ -277,14 +277,15 @@ export default function SignIn() {
                                 onClick={() => navigate("/forgot-password")}
                                 sx={{
                                     alignSelf: "center",
-                                    mt: -0.6,
-                                    mb: -0.6,
+                                    mt: -0.9,
+                                    mb: -0.9,
                                     px: 0,
                                     minWidth: "auto",
                                     textTransform: "none",
                                     color: "rgba(180, 63, 0, 1)",
-                                    fontSize: "0.78rem",
+                                    fontSize: "0.79rem",
                                     fontWeight: 700,
+
                                     "&:hover": {
                                         backgroundColor: "transparent",
                                         textDecoration: "underline",
@@ -320,7 +321,7 @@ export default function SignIn() {
                                 sx={{
                                     mt: 0.1,
                                     fontSize: "0.82rem",
-                                    color: "rgba(180, 63, 0, 1)",
+                                    color: "text.secondary",
                                     fontWeight: "bold",
                                 }}
                             >
@@ -333,7 +334,7 @@ export default function SignIn() {
                                 variant="contained"
                                 onClick={() => navigate("/sign-up")}
                                 sx={{
-                                    mt: 0.1,
+                                    mt: 0,
                                     height: 40,
                                     borderRadius: 2,
                                     textTransform: "uppercase",
@@ -341,7 +342,11 @@ export default function SignIn() {
                                     letterSpacing: "0.12em",
                                     fontWeight: 700,
                                     bgcolor: "#1e5bb8",
-                                    "&:hover": { bgcolor: "#164a96" },
+                                    "@media (hover: hover) and (pointer: fine)": {
+                                        "&:hover": {
+                                            bgcolor: "#164a96",
+                                        },
+                                    },
                                     fontSize: "0.82rem",
                                 }}
                             >
@@ -558,12 +563,12 @@ export default function SignIn() {
                                         sx={{
                                             alignSelf: "center",
                                             mt: -0.7,
-                                            mb: -0.6,
+                                            mb: -0.7,
                                             px: 0,
                                             minWidth: "auto",
                                             textTransform: "none",
                                             color: "rgba(180, 63, 0, 1)",
-                                            fontSize: "0.78rem",
+                                            fontSize: "0.81rem",
                                             fontWeight: 700,
                                             "&:hover": {
                                                 backgroundColor: "transparent",
@@ -600,7 +605,7 @@ export default function SignIn() {
                                         sx={{
                                             mt: 0.1,
                                             fontSize: { xs: "0.82rem", sm: "0.83rem", md: "0.85rem" },
-                                            color: "rgba(180, 63, 0, 1)",
+                                            color: "text.secondary",
                                             fontWeight: "bold",
                                         }}
                                     >

@@ -563,7 +563,10 @@ export default function SignUp() {
                                                 sm: "0.92rem",
                                                 md: "0.94rem",
                                             },
-                                            "&:hover": { textDecoration: "underline" },
+                                            "&:hover": {
+                                                backgroundColor: "transparent",
+                                                textDecoration: "underline",
+                                            },
                                             mb: { sm: -0.3, md: -0.14 },
                                             mt: { xs: -0.85, sm: -0.6, md: -1.1 },
                                         }}
