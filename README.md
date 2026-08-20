@@ -3,7 +3,7 @@
 Fast Fuel is a **full-stack food ordering web application** designed to simulate a real restaurant ordering workflow.  
 The project combines a modern responsive frontend focused on **UI/UX and performance** with a structured backend API responsible for payment processing, order management, product data, customer reviews, and administrative controls.
 
-🔗 **Live Demo (Frontend):** https://fast-fuel-project-git-main-fabioesilveiras-projects.vercel.app/  
+🔗 **Live Demo (Frontend):** https://fast-fuel-project.vercel.app/ 
 📦 **Backend Repo:** https://github.com/fabioesilveira/Back-end-FAST-FUEL
 
 ---
@@ -17,6 +17,7 @@ The project combines a modern responsive frontend focused on **UI/UX and perform
 - Payment Experience
 - Order Snapshot System
 - Authentication & Security
+- Account Verification & Password Recovery
 - Architecture
 - UI/UX Focus
 - Getting Started
@@ -68,7 +69,7 @@ Server-side protected admin access enables real-time order management and automa
 Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 - Scalable frontend architecture
 - Clean backend design with MVC + service layers
-- Secure authentication and role-based access
+- Secure authentication with email verification, password recovery, and role-based access
 - Stripe-based payment workflow with server-side payment verification
 - Realistic e-commerce and order lifecycle logic
 - Strong attention to UI/UX and mobile-first behavior
@@ -101,6 +102,8 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 - REST API
 - LocalStorage persistence
 - Stripe Sandbox / Test Mode
+- Resend transactional email flows
+- Email verification and password recovery
 
 ---
 
@@ -111,6 +114,8 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 - Category-based product browsing
 - Persistent shopping cart (localStorage)
 - Guest and authenticated checkout
+- Email verification for new accounts
+- Forgot-password and password-reset flow
 - Address auto-fill support
 - Order status tracking
 - Product reviews and ratings
@@ -202,8 +207,36 @@ This guarantees **historical accuracy**, even if products are later edited or re
 
 - Password hashing with **bcrypt**
 - Token-based authentication using **JWT**
+- Email verification for newly registered users
+- Verification tokens generated securely and stored as hashes
+- Expiring email verification links
+- Forgot-password and password-reset workflow
+- Expiring password reset tokens
+- Password reset links delivered by email
 - Protected admin routes
 - Role-based access control (user / admin)
+
+---
+
+## Account Verification & Password Recovery
+
+Fast Fuel includes a complete account verification and password recovery experience.
+
+When a user creates an account:
+
+1. The backend generates a secure verification token
+2. A verification email is sent through Resend
+3. The user confirms ownership of the email address
+4. The account becomes eligible for authentication
+
+For password recovery:
+
+1. The user requests a reset link
+2. A secure, expiring reset token is generated
+3. The reset link is delivered by email
+4. The user creates a new password
+5. The backend validates the token and securely stores the new password
+6. The reset token is cleared after successful use
 
 ---
 
