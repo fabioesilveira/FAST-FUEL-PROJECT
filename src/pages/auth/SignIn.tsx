@@ -223,7 +223,7 @@ export default function SignIn() {
                                     color: "text.secondary",
                                     fontWeight: "bold",
                                     mt: -0.53,
-                                    mb: 0.2,
+                                    mb: 0.18,
                                 }}
                             >
                                 Sign in to enjoy the complete Fast Fuel experience.
