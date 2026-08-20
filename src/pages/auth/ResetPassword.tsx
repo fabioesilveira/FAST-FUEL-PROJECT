@@ -237,7 +237,7 @@ export default function ResetPassword() {
             <Box
                 sx={{
                     minHeight: "100dvh",
-                    backgroundColor: "#fffaf5",
+                    backgroundColor: "white",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -269,7 +269,7 @@ export default function ResetPassword() {
                         },
 
                         transform: {
-                            xs: "translateY(-69px)",
+                            xs: "translateY(-49.5px)",
                             sm: "translateY(-62px)",
                             md: "translateY(-62px)",
                         },

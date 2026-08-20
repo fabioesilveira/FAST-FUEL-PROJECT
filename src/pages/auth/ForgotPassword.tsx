@@ -117,7 +117,7 @@ export default function ForgotPassword() {
             <Box
                 sx={{
                     minHeight: "100dvh",
-                    backgroundColor: "#fffaf5",
+                    backgroundColor: "white",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -149,7 +149,7 @@ export default function ForgotPassword() {
                         },
 
                         transform: {
-                            xs: "translateY(-109.5px)",
+                            xs: "translateY(-90px)",
                             sm: "translateY(-103.5px)",
                             md: "translateY(-103.5px)",
                         },
