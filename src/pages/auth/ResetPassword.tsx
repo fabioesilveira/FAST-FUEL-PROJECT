@@ -286,7 +286,7 @@ export default function ResetPassword() {
                         },
 
                         transform: {
-                            xs: "translateY(-65.5px)",
+                            xs: "translateY(-62px)",
                             sm: "translateY(-62px)",
                             md: "translateY(-62px)",
                         },
