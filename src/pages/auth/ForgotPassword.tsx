@@ -121,7 +121,11 @@ export default function ForgotPassword() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    px: 2.5,
+
+                    px: {
+                        xs: 3.5,
+                        sm: 2.5,
+                    },
                 }}
             >
                 <Box
@@ -130,26 +134,40 @@ export default function ForgotPassword() {
                     sx={{
                         width: "100%",
                         maxWidth: 470,
-                        backgroundColor: "#ffffff",
-                        borderRadius: 3,
-                        border:
-                            "1px solid rgba(230,81,0,0.18)",
-                        boxShadow:
-                            "0 10px 28px rgba(0,0,0,0.08)",
                         textAlign: "center",
 
+                        backgroundColor: {
+                            xs: "transparent",
+                            sm: "#ffffff",
+                        },
+
+                        borderRadius: {
+                            xs: 0,
+                            sm: 3,
+                        },
+
+                        border: {
+                            xs: "none",
+                            sm: "1px solid rgba(230,81,0,0.18)",
+                        },
+
+                        boxShadow: {
+                            xs: "none",
+                            sm: "0 10px 28px rgba(0,0,0,0.08)",
+                        },
+
                         px: {
-                            xs: 3,
+                            xs: 0,
                             sm: 4,
                         },
 
                         py: {
-                            xs: 4,
+                            xs: 0,
                             sm: 5,
                         },
 
                         transform: {
-                            xs: "translateY(-90px)",
+                            xs: "translateY(-106px)",
                             sm: "translateY(-103.5px)",
                             md: "translateY(-103.5px)",
                         },
