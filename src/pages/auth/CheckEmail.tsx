@@ -46,31 +46,58 @@ export default function CheckEmail() {
             <Box
                 sx={{
                     minHeight: "100dvh",
-                    backgroundColor: "#fffaf5",
+                    backgroundColor: "white",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    px: 2.5,
+
+                    px: {
+                        xs: 3.5,
+                        sm: 2.5,
+                    },
                 }}
             >
                 <Box
                     sx={{
                         width: "100%",
                         maxWidth: 470,
-                        backgroundColor: "#ffffff",
-                        borderRadius: 3,
-                        border: "1px solid rgba(230,81,0,0.18)",
-                        boxShadow: "0 10px 28px rgba(0,0,0,0.08)",
                         textAlign: "center",
+
+                        backgroundColor: {
+                            xs: "transparent",
+                            sm: "#ffffff",
+                        },
+
+                        borderRadius: {
+                            xs: 0,
+                            sm: 3,
+                        },
+
+                        border: {
+                            xs: "none",
+                            sm: "1px solid rgba(230,81,0,0.18)",
+                        },
+
+                        boxShadow: {
+                            xs: "none",
+                            sm: "0 10px 28px rgba(0,0,0,0.08)",
+                        },
+
                         px: {
-                            xs: 3,
+                            xs: 0,
                             sm: 4,
                         },
+
                         py: {
-                            xs: 4,
+                            xs: 0,
                             sm: 5,
                         },
-                        transform: { xs: "translateY(-90px)", sm: "translateY(-70px)", md: "translateY(-70px)" },
+
+                        transform: {
+                            xs: "translateY(-100px)",
+                            sm: "translateY(-89px)",
+                            md: "translateY(-89px)",
+                        },
                     }}
                 >
                     <EmailOutlinedIcon
