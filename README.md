@@ -3,7 +3,7 @@
 Fast Fuel is a **full-stack food ordering web application** designed to simulate a real restaurant ordering workflow.  
 The project combines a modern responsive frontend focused on **UI/UX and performance** with a structured backend API responsible for payment processing, order management, product data, customer reviews, and administrative controls.
 
-🔗 **Live Demo (Frontend):** https://fast-fuel-project.vercel.app/ 
+🔗 **Live Demo (Frontend):** https://fast-fuel-project.vercel.app/<br>
 📦 **Backend Repo:** https://github.com/fabioesilveira/Back-end-FAST-FUEL
 
 ---
@@ -108,7 +108,7 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 - Resend transactional email flows
 - Email verification and password recovery
 - GitHub Actions
-- Vercel deployment
+- Vercel CI/CD deployment
 
 ---
 
@@ -376,8 +376,6 @@ http://localhost:5173
 ## Project Status
 
 This project is actively maintained and continuously improved as part of a professional portfolio.
-
-The frontend includes an automated CI/CD pipeline using GitHub Actions, with production builds validated before deployment to Vercel.
 
 ---
 
