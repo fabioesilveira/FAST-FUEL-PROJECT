@@ -71,13 +71,15 @@ export default function CheckoutContactSection({
                 />
             </Stack>
 
-            {!isLogged && (
+            {!isLogged ? (
                 <Typography
                     align="center"
                     sx={{ mt: 1.4, fontSize: "0.75rem", color: "text.secondary" }}
                 >
                     Guest checkout: keep your <b>Order Number</b> to track your order later.
                 </Typography>
+            ) : (
+                <Box sx={{ mt: 1.4, height: "18px" }} />
             )}
         </Box>
     );

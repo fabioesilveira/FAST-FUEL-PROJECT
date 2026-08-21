@@ -283,7 +283,7 @@ export default function SignIn() {
                                     minWidth: "auto",
                                     textTransform: "none",
                                     color: "rgba(180, 63, 0, 1)",
-                                    fontSize: "0.79rem",
+                                    fontSize: "0.80rem",
                                     fontWeight: 700,
 
                                     "&:hover": {
