@@ -19,6 +19,7 @@ The project combines a modern responsive frontend focused on **UI/UX and perform
 - Authentication & Security
 - Account Verification & Password Recovery
 - Architecture
+- CI/CD
 - UI/UX Focus
 - Getting Started
 - Project Status
@@ -67,11 +68,13 @@ Server-side protected admin access enables real-time order management and automa
 ## Overview
 
 Fast Fuel was built as a **portfolio-grade project** to demonstrate:
+
 - Scalable frontend architecture
 - Clean backend design with MVC + service layers
 - Secure authentication with email verification, password recovery, and role-based access
 - Stripe-based payment workflow with server-side payment verification
 - Realistic e-commerce and order lifecycle logic
+- Automated CI/CD workflows with GitHub Actions and Vercel
 - Strong attention to UI/UX and mobile-first behavior
 
 ---
@@ -104,6 +107,8 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 - Stripe Sandbox / Test Mode
 - Resend transactional email flows
 - Email verification and password recovery
+- GitHub Actions
+- Vercel deployment
 
 ---
 
@@ -259,6 +264,38 @@ For password recovery:
 
 ---
 
+## CI/CD
+
+The frontend uses **GitHub Actions** for continuous integration and deployment.
+
+On pushes and pull requests to the `main` branch, the workflow:
+
+- Installs dependencies using `npm ci`
+- Runs the TypeScript compiler
+- Generates a production build using Vite
+- Stops the pipeline if the build fails
+- Deploys the frontend to Vercel only after successful validation
+
+Production deployment is performed through the Vercel CLI using project-scoped credentials stored securely as GitHub Actions secrets.
+
+```text
+Push / Pull Request
+        ↓
+GitHub Actions
+        ↓
+npm ci
+        ↓
+TypeScript + Vite Build
+        ↓
+Build Passes
+        ↓
+Vercel Deployment
+```
+
+> **Pull requests run validation only, while pushes to `main` can trigger the production deployment.**
+
+---
+
 ## UI/UX Focus
 
 Fast Fuel was designed with an **app-like browsing experience inside the browser**.  
@@ -339,6 +376,8 @@ http://localhost:5173
 ## Project Status
 
 This project is actively maintained and continuously improved as part of a professional portfolio.
+
+The frontend includes an automated CI/CD pipeline using GitHub Actions, with production builds validated before deployment to Vercel.
 
 ---
 
