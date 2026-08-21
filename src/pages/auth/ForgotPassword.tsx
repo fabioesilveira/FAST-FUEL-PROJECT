@@ -237,15 +237,24 @@ export default function ForgotPassword() {
                         }}
                     />
 
+                    {emailSent && (
+                        <Typography
+                            sx={{
+                                mt: 2.2,
+                                color: "rgba(20,20,20,0.55)",
+                                fontSize: "0.82rem",
+                            }}
+                        >
+                            Didn't receive the email?
+                        </Typography>
+                    )}
+
                     <Button
                         type="submit"
                         variant="contained"
-                        disabled={
-                            loading ||
-                            emailSent
-                        }
+                        disabled={loading}
                         sx={{
-                            mt: 2.5,
+                            mt: emailSent ? 1.2 : 2.5,
                             width: "100%",
                             maxWidth: 280,
                             backgroundColor: "#e65100",
@@ -271,7 +280,7 @@ export default function ForgotPassword() {
                         {loading
                             ? "Sending..."
                             : emailSent
-                                ? "Reset Link Sent"
+                                ? "Resend Reset Link"
                                 : "Send Reset Link"}
                     </Button>
 
