@@ -254,7 +254,7 @@ export default function ForgotPassword() {
                         variant="contained"
                         disabled={loading}
                         sx={{
-                            mt: emailSent ? 1.2 : 2.5,
+                            mt: emailSent ? 0.7 : 2.5,
                             width: "100%",
                             maxWidth: 280,
                             backgroundColor: "#e65100",
