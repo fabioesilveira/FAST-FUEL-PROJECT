@@ -94,7 +94,7 @@ export default function CheckEmail() {
                         },
 
                         transform: {
-                            xs: "translateY(-92px)",
+                            xs: "translateY(-85px)",
                             sm: "translateY(-89px)",
                             md: "translateY(-89px)",
                         },
