@@ -240,7 +240,7 @@ export default function ForgotPassword() {
                     {emailSent && (
                         <Typography
                             sx={{
-                                mt: 2.2,
+                                mt: 1.7,
                                 color: "rgba(20,20,20,0.55)",
                                 fontSize: "0.82rem",
                             }}
@@ -254,7 +254,7 @@ export default function ForgotPassword() {
                         variant="contained"
                         disabled={loading}
                         sx={{
-                            mt: emailSent ? 0.7 : 2.5,
+                            mt: emailSent ? 1.2 : 2.5,
                             width: "100%",
                             maxWidth: 280,
                             backgroundColor: "#e65100",
