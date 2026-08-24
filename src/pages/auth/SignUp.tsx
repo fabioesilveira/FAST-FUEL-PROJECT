@@ -83,14 +83,14 @@ export default function SignUp() {
     }
 
     function validateSignUpForm() {
+
         if (
             !signUp.name ||
             !signUp.email ||
-            !signUp.number ||
             !signUp.password ||
             !signUp.confirmPassword
         ) {
-            showAlert("Please fill in all fields.", "warning");
+            showAlert("Please fill in all required fields.", "warning");
             return false;
         }
 
@@ -99,7 +99,7 @@ export default function SignUp() {
             return false;
         }
 
-        if (!isValidUSPhone(signUp.number)) {
+        if (signUp.number.trim() && !isValidUSPhone(signUp.number)) {
             showAlert("Please enter a valid US phone number (10 digits).", "warning");
             return false;
         }
@@ -129,7 +129,7 @@ export default function SignUp() {
         try {
             const payload = {
                 fullName: signUp.name.trim(),
-                phone: signUp.number,
+                phone: signUp.number.trim() || null,
                 email: signUp.email.trim().toLowerCase(),
                 password: signUp.password,
             };
@@ -310,7 +310,7 @@ export default function SignUp() {
 
                             <TextField
                                 id="tel"
-                                label="Phone Number*"
+                                label="Phone Number (Optional)"
                                 name="number"
                                 type="tel"
                                 autoComplete="tel-national"
@@ -607,7 +607,7 @@ export default function SignUp() {
 
                                     <TextField
                                         id="tel"
-                                        label="Phone Number*"
+                                        label="Phone Number (Optional)"
                                         name="number"
                                         type="tel"
                                         autoComplete="tel-national"
