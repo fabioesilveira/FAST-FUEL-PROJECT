@@ -3,23 +3,30 @@ import Box from "@mui/material/Box";
 
 type PageBgMobileProps = {
   children: React.ReactNode;
+  plain?: boolean;
 };
 
-export default function PageBgMobile({ children }: PageBgMobileProps) {
+export default function PageBgMobile({
+  children,
+  plain = false,
+}: PageBgMobileProps) {
   return (
     <Box
       sx={{
         minHeight: "100dvh",
         overflowX: "hidden",
-        background: `
-          repeating-linear-gradient(
-            90deg,
-            #ffffff 0px,
-            #ffffff 25px,
-            rgba(255, 248, 235, 0.23) 25px,
-            rgba(255, 248, 235, 0.23) 50px
-          )
-        `,
+
+        background: plain
+          ? "#ffffff"
+          : `
+              repeating-linear-gradient(
+                90deg,
+                #ffffff 0px,
+                #ffffff 25px,
+                rgba(255, 248, 235, 0.23) 25px,
+                rgba(255, 248, 235, 0.23) 50px
+              )
+            `,
       }}
     >
       {children}

@@ -115,7 +115,7 @@ export default function HomeMiniCard({
                     sx={{
                         width: "100%",
                         borderRadius: "14px",
-                        border: "2px solid #e65100",
+                        border: "1.5px solid #e65100",
                         backgroundColor: "#fff3e0",
                         boxShadow: "0 4px 10px rgba(230, 81, 0, 0.22)",
                         p: 1.5,
@@ -137,7 +137,7 @@ export default function HomeMiniCard({
                             height: 72,
                             backgroundColor: "#fff",
                             borderRadius: "10px",
-                            border: "2px solid rgba(230, 81, 0, 0.75)",
+                            border: "1.5px solid rgba(230, 81, 0, 0.75)",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",

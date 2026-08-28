@@ -130,11 +130,13 @@ export default function Beverages() {
       {showDesktopDrawer && <DrawerProducts />}
 
       <PageShell
-        {...(!isMobile && {
-          stripeWidth: 26,
-          gapWidth: 24,
-          stripeAlpha: 0.25,
-        })}
+        {...(isMobile
+          ? { plain: true }
+          : {
+            stripeWidth: 26,
+            gapWidth: 24,
+            stripeAlpha: 0.25,
+          })}
       >
         <Box
           sx={{
