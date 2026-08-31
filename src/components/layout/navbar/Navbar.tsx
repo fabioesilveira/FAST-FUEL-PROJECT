@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import StarIcon from '@mui/icons-material/Star';
+import MenuIcon from "@mui/icons-material/Menu";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Badge, { badgeClasses } from "@mui/material/Badge";
 import { useAppContext } from "../../../context/context";
@@ -402,7 +403,7 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                   },
                 }}
               >
-                <ManageAccountsIcon
+                <MenuIcon
                   sx={{ fontSize: { xs: 29, md: 33.5 }, color: "#ffe0c7" }}
                 />
               </Button>
