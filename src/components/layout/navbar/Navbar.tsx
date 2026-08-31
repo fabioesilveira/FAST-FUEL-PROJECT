@@ -194,7 +194,7 @@ function Navbar({
 
       setDropDownChange([
         {
-          label: "Signout",
+          label: "Sign Out",
           icon: AccountCircleIcon,
           action: handleClickSignout,
         },

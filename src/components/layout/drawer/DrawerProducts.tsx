@@ -8,25 +8,19 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import LunchDiningIcon from "@mui/icons-material/LunchDining";
+import CookieIcon from "@mui/icons-material/Cookie";
+
+import type { SvgIconComponent } from "@mui/icons-material";
+
 import { useNavigate } from "react-router-dom";
-import { useAppAlert } from "../../../hooks/useAppAlert";
-import { clearAuthStorage } from "../../../api";
 
 import FriesIcon from "../../../assets/frenchFries.png";
 import SodaIcon from "../../../assets/soda.png";
-
-// ícones account
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import StarIcon from "@mui/icons-material/Star";
-import HistoryIcon from "@mui/icons-material/History";
-import EmailIcon from "@mui/icons-material/Email";
-import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
-import LunchDiningIcon from "@mui/icons-material/LunchDining";
-import CookieIcon from "@mui/icons-material/Cookie";
-import type { SvgIconComponent } from "@mui/icons-material";
-import { Box } from "@mui/material";
 
 const drawerWidth = 270;
 
@@ -45,35 +39,55 @@ const outlineOrangeSx = {
   },
 } as const;
 
-type DrawerItem = {
-  label: string;
-  icon: any;
-  path?: string;
-  requiresAuth?: boolean;
-  action?: () => void;
-};
-
-type DrawerProductsProps = {
-  onSwitchNav?: () => void;
-};
-
 type CategoryItem =
-  | { label: string; type: "mui"; Icon: SvgIconComponent }
-  | { label: string; type: "img"; src: string; imgW?: number; imgH?: number };
+  | {
+    label: string;
+    type: "mui";
+    Icon: SvgIconComponent;
+  }
+  | {
+    label: string;
+    type: "img";
+    src: string;
+    imgW?: number;
+    imgH?: number;
+  };
 
 const categories: CategoryItem[] = [
-  { label: "BURGERS", type: "mui", Icon: LunchDiningIcon },
-  { label: "SIDES", type: "img", src: FriesIcon, imgW: 32, imgH: 32 },
-  { label: "DRINKS", type: "img", src: SodaIcon, imgW: 36, imgH: 36 },
-  { label: "DESSERTS", type: "mui", Icon: CookieIcon },
+  {
+    label: "BURGERS",
+    type: "mui",
+    Icon: LunchDiningIcon,
+  },
+  {
+    label: "SIDES",
+    type: "img",
+    src: FriesIcon,
+    imgW: 32,
+    imgH: 32,
+  },
+  {
+    label: "DRINKS",
+    type: "img",
+    src: SodaIcon,
+    imgW: 36,
+    imgH: 36,
+  },
+  {
+    label: "DESSERTS",
+    type: "mui",
+    Icon: CookieIcon,
+  },
 ];
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
+
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
+
   overflowX: "hidden",
 });
 
@@ -82,8 +96,11 @@ const closedMixin = (theme: Theme): CSSObject => ({
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
+
   overflowX: "hidden",
+
   width: `calc(${theme.spacing(7.5)} + 1px)`,
+
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8.5)} + 1px)`,
   },
@@ -104,12 +121,27 @@ const Drawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
+
   ...(open
-    ? { ...openedMixin(theme), "& .MuiDrawer-paper": openedMixin(theme) }
-    : { ...closedMixin(theme), "& .MuiDrawer-paper": closedMixin(theme) }),
+    ? {
+      ...openedMixin(theme),
+
+      "& .MuiDrawer-paper": openedMixin(theme),
+    }
+    : {
+      ...closedMixin(theme),
+
+      "& .MuiDrawer-paper": closedMixin(theme),
+    }),
 }));
 
-function CategoryIcon({ item, color }: { item: CategoryItem; color: string }) {
+function CategoryIcon({
+  item,
+  color,
+}: {
+  item: CategoryItem;
+  color: string;
+}) {
   if (item.type === "img") {
     return (
       <img
@@ -125,330 +157,487 @@ function CategoryIcon({ item, color }: { item: CategoryItem; color: string }) {
   }
 
   const Icon = item.Icon;
-  return <Icon sx={{ fontSize: 30.5, color }} />;
+
+  return (
+    <Icon
+      sx={{
+        fontSize: 30.5,
+        color,
+      }}
+    />
+  );
 }
 
-export default function DrawerProducts({ onSwitchNav }: DrawerProductsProps) {
+export default function DrawerProducts() {
   useTheme();
+
   const navigate = useNavigate();
-  const [open, setOpen] = React.useState(false);
 
-  const [mode, setMode] = React.useState<"categories" | "account">("categories");
+  const [open, setOpen] =
+    React.useState(false);
 
-  const isCategoriesMode = mode === "categories";
+  const categoryMuiIconColor =
+    ORANGE_UI;
 
-  const categoryMuiIconColor = ORANGE_UI;
-  const accountIconColor = BLUE;
-  const switchColor = isCategoriesMode ? BLUE : ORANGE;
-  const itemAccentColor = isCategoriesMode ? BLUE : ORANGE;
+  const itemAccentColor =
+    BLUE;
 
-  const { showAlert, AlertUI } = useAppAlert({
-    vertical: "top",
-    horizontal: "center",
-  });
+  const handleCategoryClick = (
+    label: string
+  ) => {
+    navigate(
+      `/${label.toLowerCase()}`
+    );
 
-  const isLogged = Boolean(localStorage.getItem("idUser"));
-
-  const handleSignout = () => {
-    clearAuthStorage();
-    showAlert("Signed out successfully", "success");
-    setTimeout(() => navigate("/sign-in"), 2000);
-  };
-
-  const items: DrawerItem[] = React.useMemo(
-    () => [
-      isLogged
-        ? { label: "SIGN OUT", icon: AccountCircleIcon, action: handleSignout }
-        : { label: "SIGN IN / SIGN UP", icon: AccountCircleIcon, path: "/sign-in" },
-
-      { label: "MY ORDERS", icon: HistoryIcon, path: "/orders" },
-      { label: "REVIEWS", icon: StarIcon, path: "/reviews" },
-      { label: "CONTACT US", icon: EmailIcon, path: "/contact-us" },
-    ],
-    [isLogged]
-  );
-
-  const handleItemClick = (item: DrawerItem) => {
-    if (item.action) return item.action();
-    if (item.path) navigate(item.path);
-  };
-
-  const handleCategoryClick = (label: string) => {
-    navigate(`/${label.toLowerCase()}`);
     setOpen(false);
-  };
-
-  const toggleMode = () => {
-    setMode((p) => (p === "categories" ? "account" : "categories"));
-    onSwitchNav?.();
   };
 
   const buttonSx = {
     minHeight: 62,
+
     px: 2,
+
     borderRadius: 1.5,
-    border: "2px solid transparent",
-    bgcolor: "transparent",
-    transition: "all .18s ease",
-    "&:hover": { bgcolor: ORANGE_SOFT, borderColor: BLUE },
-    "&:active": { bgcolor: "rgba(230,81,0,.28)", transform: "translateY(1px)" },
+
+    border:
+      "2px solid transparent",
+
+    bgcolor:
+      "transparent",
+
+    transition:
+      "all .18s ease",
+
+    "&:hover": {
+      bgcolor:
+        ORANGE_SOFT,
+
+      borderColor:
+        BLUE,
+    },
+
+    "&:active": {
+      bgcolor:
+        "rgba(230,81,0,.28)",
+
+      transform:
+        "translateY(1px)",
+    },
   } as const;
 
   const iconBoxSx = {
     minWidth: 0,
+
     width: 48,
+
     height: 48,
+
     display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+
+    alignItems:
+      "center",
+
+    justifyContent:
+      "center",
   } as const;
 
   const textSx = {
     "& .MuiTypography-root": {
       fontWeight: 600,
-      fontSize: ".95rem",
-      letterSpacing: ".06em",
-      color: itemAccentColor,
-      textTransform: "uppercase",
+
+      fontSize:
+        ".95rem",
+
+      letterSpacing:
+        ".06em",
+
+      color:
+        itemAccentColor,
+
+      textTransform:
+        "uppercase",
     },
   } as const;
 
   return (
-    <>
-      {AlertUI}
+    <Drawer
+      variant="permanent"
+      open={open}
+      PaperProps={{
+        sx: {
+          position:
+            "fixed",
 
-      <Drawer
-        variant="permanent"
-        open={open}
-        PaperProps={{
-          sx: {
-            position: "fixed",
-            top: "50%",
-            left: 0,
-            transform: "translateY(-50%)",
-            height: "auto",
-            backgroundColor: "rgba(255, 243, 224, 0.5) !important",
-            borderRadius: "0 13px 13px 0",
-            boxShadow:
-              "0 6px 18px rgba(13,71,161,.22), 0 10px 28px rgba(230,81,0,.14)",
-          },
+          top: "50%",
+
+          left: 0,
+
+          transform:
+            "translateY(-50%)",
+
+          height:
+            "auto",
+
+          backgroundColor:
+            "rgba(255, 243, 224, 0.5) !important",
+
+          borderRadius:
+            "0 13px 13px 0",
+
+          boxShadow:
+            "0 6px 18px rgba(13,71,161,.22), 0 10px 28px rgba(230,81,0,.14)",
+        },
+      }}
+    >
+      {/* TOGGLE DRAWER */}
+      <DrawerHeader>
+        <IconButton
+          onClick={() =>
+            setOpen(
+              (prev) =>
+                !prev
+            )
+          }
+          sx={{
+            width: 48,
+
+            height: 48,
+
+            p: 0,
+
+            display:
+              "grid",
+
+            placeItems:
+              "center",
+
+            borderRadius:
+              2,
+          }}
+        >
+          {open ? (
+            <ChevronLeftIcon
+              sx={{
+                color:
+                  BLUE,
+
+                fontSize:
+                  26,
+
+                ...outlineOrangeSx,
+              }}
+            />
+          ) : (
+            <ChevronRightIcon
+              sx={{
+                color:
+                  BLUE,
+
+                fontSize:
+                  26,
+
+                ...outlineOrangeSx,
+              }}
+            />
+          )}
+        </IconButton>
+      </DrawerHeader>
+
+      <Divider
+        sx={{
+          backgroundColor:
+            "rgba(13,71,161,.35)",
+        }}
+      />
+
+      <List
+        sx={{
+          px: 1,
+
+          pt: 2,
+
+          pb: 2,
         }}
       >
-        {/* TOGGLE drawer */}
-        <DrawerHeader>
-          <IconButton
-            onClick={() => setOpen((p) => !p)}
-            sx={{
-              width: 48,
-              height: 48,
-              p: 0,
-              display: "grid",
-              placeItems: "center",
-              borderRadius: 2,
-            }}
-          >
-            {open ? (
-              <ChevronLeftIcon
-                sx={{
-                  color: BLUE,
-                  fontSize: 26,
-                  ...outlineOrangeSx,
-                }}
-              />
-            ) : (
-              <ChevronRightIcon
-                sx={{
-                  color: BLUE,
-                  fontSize: 26,
-                  ...outlineOrangeSx,
-                }}
-              />
-            )}
+        {/* BURGERS + SIDES */}
+        {categories
+          .slice(0, 2)
+          .map((cat) => (
+            <ListItem
+              key={
+                cat.label
+              }
+              disablePadding
+              sx={{
+                display:
+                  "block",
 
-          </IconButton>
-        </DrawerHeader>
+                mb: 0.7,
+              }}
+            >
+              <ListItemButton
+                onClick={() =>
+                  handleCategoryClick(
+                    cat.label
+                  )
+                }
+                sx={[
+                  buttonSx,
 
-        <Divider sx={{ backgroundColor: "rgba(13,71,161,.35)" }} />
-
-        <List sx={{ px: 1, pt: 2, pb: 2 }}>
-
-          {mode === "categories" ? (
-            <>
-              {categories.slice(0, 2).map((cat) => (
-                <ListItem key={cat.label} disablePadding sx={{ display: "block", mb: 0.7 }}>
-                  <ListItemButton
-                    onClick={() => handleCategoryClick(cat.label)}
-                    sx={[buttonSx, open ? { justifyContent: "initial" } : { justifyContent: "center" }]}
-                  >
-                    <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
-                      <CategoryIcon item={cat} color={categoryMuiIconColor} />
-                    </ListItemIcon>
-                    <ListItemText primary={cat.label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </>
-          ) : (
-            <>
-
-              {items.slice(0, 2).map(({ label, icon: IconComp, requiresAuth, path, action }) => (
-                <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.7 }}>
-                  <ListItemButton
-                    onClick={() => handleItemClick({ label, icon: IconComp, requiresAuth, path, action })}
-                    sx={[buttonSx, open ? { justifyContent: "initial" } : { justifyContent: "center" }]}
-                  >
-                    <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
-                      <IconComp
-                        sx={{
-                          fontSize: 30.5,
-                          color: accountIconColor,
-                          transition: "transform .2s ease",
-                          transform: open ? "scale(1.04)" : "scale(1)",
-                          ...outlineOrangeSx,
-                        }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText primary={label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </>
-          )}
-
-
-          <ListItem disablePadding sx={{ display: "block", mb: 0.7 }}>
-            <ListItemButton
-              onClick={toggleMode}
-              sx={[
-                {
-                  minHeight: 68,
-                  px: 2,
-                  borderRadius: 1.5,
-                  border: "2px solid transparent",
-                  bgcolor: "transparent",
-                  width: "100%",
-                  position: "relative",
-                  overflow: "visible",
-                  ...(open
+                  open
                     ? {
-                      "&:hover": { bgcolor: ORANGE_SOFT, borderColor: "transparent" },
+                      justifyContent:
+                        "initial",
                     }
                     : {
-                      "&::before": {
-                        content: '""',
-                        position: "absolute",
-                        top: -4,
-                        bottom: -4,
-                        left: -6,
-                        right: -6,
-                        borderRadius: "999px",
-                        backgroundColor: ORANGE_SOFT,
-                        opacity: 0,
-                        transition: "opacity .15s ease",
-                        zIndex: -1,
-                      },
-                      "&:hover::before": { opacity: 1 },
-                      "&:hover": { bgcolor: "transparent", borderColor: "transparent" },
-                    }),
-                },
-                open ? { justifyContent: "initial" } : { justifyContent: "center" },
-              ]}
-            >
-              <ListItemIcon
-                sx={[
-                  {
-                    minWidth: 0,
-                    width: 48,
-                    minHeight: 58,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  },
-                  open ? { mr: 2 } : { mr: "auto" },
+                      justifyContent:
+                        "center",
+                    },
                 ]}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: 56,
-                    minHeight: 58,
-                  }}
+                <ListItemIcon
+                  sx={[
+                    iconBoxSx,
+
+                    open
+                      ? {
+                        mr: 2,
+                      }
+                      : {
+                        mr: "auto",
+                      },
+                  ]}
                 >
-                  <SwapHorizIcon
-                    sx={{
-                      fontSize: 39,
-                      color: switchColor,
-                      transition: "transform .2s ease",
-                      transform: open ? "scale(1.08)" : "scale(1.03)",
-                    }}
+                  <CategoryIcon
+                    item={
+                      cat
+                    }
+                    color={
+                      categoryMuiIconColor
+                    }
                   />
-                </Box>
-              </ListItemIcon>
+                </ListItemIcon>
 
-              <ListItemText
-                primary={mode === "categories" ? "ACCOUNT MENU" : "CATEGORIES"}
-                sx={[
-                  {
-                    "& .MuiTypography-root": {
-                      fontWeight: 800,
-                      fontSize: "1rem",
-                      letterSpacing: ".08em",
-                      textTransform: "uppercase",
-                      color: mode === "categories" ? ORANGE : BLUE,
+                <ListItemText
+                  primary={
+                    cat.label
+                  }
+                  sx={[
+                    textSx,
+
+                    open
+                      ? {
+                        opacity:
+                          1,
+                      }
+                      : {
+                        opacity:
+                          0,
+                      },
+                  ]}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+
+        {/* HOME */}
+        <ListItem
+          disablePadding
+          sx={{
+            display: "block",
+            mb: 0.7,
+          }}
+        >
+          <ListItemButton
+            onClick={() => {
+              navigate("/");
+              setOpen(false);
+            }}
+            sx={[
+              {
+                minHeight: 68,
+                px: 2,
+                borderRadius: 1.5,
+                border: "2px solid transparent",
+                bgcolor: "transparent",
+                width: "100%",
+                position: "relative",
+                overflow: "visible",
+
+                ...(open
+                  ? {
+                    "&:hover": {
+                      bgcolor: ORANGE_SOFT,
+                      borderColor: "transparent",
                     },
-                  },
-                  open ? { opacity: 1 } : { opacity: 0 },
-                ]}
+                  }
+                  : {
+                    "&::before": {
+                      content: '""',
+                      position: "absolute",
+                      top: -4,
+                      bottom: -4,
+                      left: -6,
+                      right: -6,
+                      borderRadius: "999px",
+                      backgroundColor: ORANGE_SOFT,
+                      opacity: 0,
+                      transition: "opacity .15s ease",
+                      zIndex: -1,
+                    },
+
+                    "&:hover::before": {
+                      opacity: 1,
+                    },
+
+                    "&:hover": {
+                      bgcolor: "transparent",
+                      borderColor: "transparent",
+                    },
+                  }),
+              },
+
+              open
+                ? { justifyContent: "initial" }
+                : { justifyContent: "center" },
+            ]}
+          >
+            <ListItemIcon
+              sx={[
+                {
+                  minWidth: 0,
+                  width: 48,
+                  minHeight: 58,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                },
+
+                open
+                  ? { mr: 2 }
+                  : { mr: "auto" },
+              ]}
+            >
+              <HomeRoundedIcon
+                sx={{
+                  fontSize: 36,
+                  color: BLUE,
+
+                  transition:
+                    "transform .2s ease",
+
+                  transform: open
+                    ? "scale(1.08)"
+                    : "scale(1.03)",
+
+                  ...outlineOrangeSx,
+                }}
               />
+            </ListItemIcon>
 
-            </ListItemButton>
-          </ListItem>
+            <ListItemText
+              primary="HOME"
+              sx={[
+                {
+                  "& .MuiTypography-root": {
+                    fontWeight: 800,
+                    fontSize: "1rem",
+                    letterSpacing: ".08em",
+                    color: ORANGE,
+                    textTransform: "uppercase",
+                    lineHeight: 1.02,
+                  },
+                },
 
-          {mode === "categories" ? (
-            <>
-              {categories.slice(2).map((cat) => (
-                <ListItem key={cat.label} disablePadding sx={{ display: "block", mb: 0.7 }}>
-                  <ListItemButton
-                    onClick={() => handleCategoryClick(cat.label)}
-                    sx={[buttonSx, open ? { justifyContent: "initial" } : { justifyContent: "center" }]}
-                  >
-                    <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
-                      <CategoryIcon item={cat} color={categoryMuiIconColor} />
-                    </ListItemIcon>
-                    <ListItemText primary={cat.label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </>
-          ) : (
-            <>
-              {items.slice(2).map(({ label, icon: IconComp, requiresAuth, path, action }) => (
-                <ListItem key={label} disablePadding sx={{ display: "block", mb: 0.7 }}>
-                  <ListItemButton
-                    onClick={() => handleItemClick({ label, icon: IconComp, requiresAuth, path, action })}
-                    sx={[buttonSx, open ? { justifyContent: "initial" } : { justifyContent: "center" }]}
-                  >
-                    <ListItemIcon sx={[iconBoxSx, open ? { mr: 2 } : { mr: "auto" }]}>
-                      <IconComp
-                        sx={{
-                          fontSize: label === "CONTACT US" ? 29 : 30.5,
-                          color: accountIconColor,
-                          transition: "transform .2s ease",
-                          transform: open ? "scale(1.04)" : "scale(1)",
-                          ...outlineOrangeSx,
-                        }}
-                      />
-                    </ListItemIcon>
-                    <ListItemText primary={label} sx={[textSx, open ? { opacity: 1 } : { opacity: 0 }]} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </>
-          )}
-        </List>
-      </Drawer>
-    </>
+                open
+                  ? { opacity: 1 }
+                  : { opacity: 0 },
+              ]}
+            />
+          </ListItemButton>
+        </ListItem>
+
+        {/* DRINKS + DESSERTS */}
+        {categories
+          .slice(2)
+          .map((cat) => (
+            <ListItem
+              key={
+                cat.label
+              }
+              disablePadding
+              sx={{
+                display:
+                  "block",
+
+                mb: 0.7,
+              }}
+            >
+              <ListItemButton
+                onClick={() =>
+                  handleCategoryClick(
+                    cat.label
+                  )
+                }
+                sx={[
+                  buttonSx,
+
+                  open
+                    ? {
+                      justifyContent:
+                        "initial",
+                    }
+                    : {
+                      justifyContent:
+                        "center",
+                    },
+                ]}
+              >
+                <ListItemIcon
+                  sx={[
+                    iconBoxSx,
+
+                    open
+                      ? {
+                        mr: 2,
+                      }
+                      : {
+                        mr: "auto",
+                      },
+                  ]}
+                >
+                  <CategoryIcon
+                    item={
+                      cat
+                    }
+                    color={
+                      categoryMuiIconColor
+                    }
+                  />
+                </ListItemIcon>
+
+                <ListItemText
+                  primary={
+                    cat.label
+                  }
+                  sx={[
+                    textSx,
+
+                    open
+                      ? {
+                        opacity:
+                          1,
+                      }
+                      : {
+                        opacity:
+                          0,
+                      },
+                  ]}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+      </List>
+    </Drawer>
   );
 }

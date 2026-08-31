@@ -1,13 +1,13 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import NavbarProducts from "../components/layout/navbar/NavbarProducts";
 import Footer from "../components/layout/footer/Footer";
+import NavbarAction from "../components/layout/navbar/NavbarAction";
 
 export default function About() {
     return (
         <>
-            <NavbarProducts />
+            <NavbarAction />
 
             <Box
                 sx={{
