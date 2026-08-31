@@ -1,4 +1,3 @@
-import * as React from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -6,18 +5,13 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import type { SvgIconComponent } from "@mui/icons-material";
-import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import HistoryIcon from "@mui/icons-material/History";
-import EmailIcon from "@mui/icons-material/Email";
-import StarIcon from "@mui/icons-material/Star";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import CookieIcon from "@mui/icons-material/Cookie";
+
 import FriesIcon from "../../../assets/frenchFries.png";
 import SodaIcon from "../../../assets/soda.png";
-
-import { useAppAlert } from "../../../hooks/useAppAlert";
 
 type NavItem =
     | {
@@ -25,7 +19,6 @@ type NavItem =
         kind: "mui";
         Icon: SvgIconComponent;
         path: string;
-        requiresAuth?: boolean;
     }
     | {
         label: string;
@@ -37,47 +30,46 @@ type NavItem =
     };
 
 const BLUE = "#1e5bb8";
-const ORANGE_UI = "#ec5504";
 const ORANGE = "#fa6000ff";
 const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
 
+const ICON_OUTLINE_ORANGE = "#ff8a4c";
+
 const productItems: NavItem[] = [
-    { label: "BURGERS", kind: "mui", Icon: LunchDiningIcon, path: "/burgers" },
-    { label: "SIDES", kind: "img", src: FriesIcon, imgW: 38, imgH: 38, path: "/sides" },
-    { label: "DRINKS", kind: "img", src: SodaIcon, imgW: 42, imgH: 42, path: "/drinks" },
-    { label: "DESSERTS", kind: "mui", Icon: CookieIcon, path: "/desserts" },
-];
-
-const accountItems: NavItem[] = [
-    { label: "SIGNIN / SIGNUP", kind: "mui", Icon: AccountCircleIcon, path: "/sign-in" },
-    { label: "MY ORDERS", kind: "mui", Icon: HistoryIcon, path: "/orders" },
     {
-        label: "REVIEWS",
+        label: "BURGERS",
         kind: "mui",
-        Icon: StarIcon,
-        path: "/reviews",
+        Icon: LunchDiningIcon,
+        path: "/burgers",
     },
-    { label: "CONTACT US", kind: "mui", Icon: EmailIcon, path: "/contact-us" },
+    {
+        label: "SIDES",
+        kind: "img",
+        src: FriesIcon,
+        imgW: 38,
+        imgH: 38,
+        path: "/sides",
+    },
+    {
+        label: "DRINKS",
+        kind: "img",
+        src: SodaIcon,
+        imgW: 42,
+        imgH: 42,
+        path: "/drinks",
+    },
+    {
+        label: "DESSERTS",
+        kind: "mui",
+        Icon: CookieIcon,
+        path: "/desserts",
+    },
 ];
-
-const shrinkLabels = new Set(["CONTACT US",]);
-
-const outlineLabels = new Set([
-    "SIGNIN / SIGNUP",
-    "MY ORDERS",
-    "CONTACT US",
-    "REVIEWS",
-]);
-
 
 function RenderIcon({
     item,
-    color,
-    mode,
 }: {
     item: NavItem;
-    color: string;
-    mode: "products" | "account";
 }) {
     if (item.kind === "img") {
         const transform =
@@ -103,21 +95,12 @@ function RenderIcon({
     }
 
     const Icon = item.Icon;
-    const shouldShrink = shrinkLabels.has(item.label);
-    const outline = mode === "account" && outlineLabels.has(item.label);
 
     return (
         <Icon
             sx={{
-                fontSize: shouldShrink ? 29.5 : 32,
-                color,
-                ...(outline && {
-                    "& path": {
-                        stroke: "#ff8a4c",
-                        strokeWidth: 0.5,
-                        paintOrder: "stroke fill",
-                    },
-                }),
+                fontSize: 32,
+                color: ORANGE,
             }}
         />
     );
@@ -126,172 +109,265 @@ function RenderIcon({
 const navBtnSx = {
     width: 62,
     height: 62,
+
     borderRadius: 2,
-    border: "2px solid transparent",
-    backgroundColor: "transparent",
-    transition: "all 0.18s ease",
-    WebkitTapHighlightColor: "transparent",
+
+    border:
+        "2px solid transparent",
+
+    backgroundColor:
+        "transparent",
+
+    transition:
+        "all 0.18s ease",
+
+    WebkitTapHighlightColor:
+        "transparent",
 
     "@media (hover: hover) and (pointer: fine)": {
         "&:hover": {
-            backgroundColor: ORANGE_SOFT,
-            borderColor: BLUE,
-            transform: "translateY(-2px)",
+            backgroundColor:
+                ORANGE_SOFT,
+
+            borderColor:
+                BLUE,
+
+            transform:
+                "translateY(-2px)",
         },
     },
 
     "@media (hover: none) and (pointer: coarse)": {
         "&:focus, &:focus-visible, &.Mui-focusVisible": {
-            backgroundColor: "transparent",
-            boxShadow: "none",
-            transform: "none",
+            backgroundColor:
+                "transparent",
+
+            boxShadow:
+                "none",
+
+            transform:
+                "none",
         },
     },
 
     "&:active": {
-        transform: "translateY(0)",
-        backgroundColor: "rgba(230,81,0,.28)",
+        transform:
+            "translateY(0)",
+
+        backgroundColor:
+            "rgba(230,81,0,.28)",
     },
 } as const;
 
-const switchBtnSx = {
+const homeBtnSx = {
     width: 70,
     height: 70,
+
     borderRadius: 2,
-    border: "2px solid transparent",
-    backgroundColor: "transparent",
-    transition: "all 0.18s ease",
-    WebkitTapHighlightColor: "transparent",
+
+    border:
+        "2px solid transparent",
+
+    backgroundColor:
+        "transparent",
+
+    transition:
+        "all 0.18s ease",
+
+    WebkitTapHighlightColor:
+        "transparent",
 
     "@media (hover: hover) and (pointer: fine)": {
         "&:hover": {
-            backgroundColor: ORANGE_SOFT,
-            borderColor: "transparent",
-            transform: "translateY(-2px)",
+            backgroundColor:
+                ORANGE_SOFT,
+
+            borderColor:
+                "transparent",
+
+            transform:
+                "translateY(-2px)",
         },
     },
 
     "@media (hover: none) and (pointer: coarse)": {
         "&:focus, &:focus-visible, &.Mui-focusVisible": {
-            backgroundColor: "transparent",
-            boxShadow: "none",
-            transform: "none",
+            backgroundColor:
+                "transparent",
+
+            boxShadow:
+                "none",
+
+            transform:
+                "none",
         },
     },
 
     "&:active": {
-        transform: "translateY(0)",
-        backgroundColor: "rgba(230,81,0,.28)",
+        transform:
+            "translateY(0)",
+
+        backgroundColor:
+            "rgba(230,81,0,.28)",
     },
 } as const;
 
-
-export default function NavFooterProducts({ onSwitchNav }: { onSwitchNav?: () => void }) {
+export default function NavFooterProducts() {
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-    const navigate = useNavigate();
 
-    const { showAlert, AlertUI } = useAppAlert({
-        vertical: "top",
-        horizontal: "center",
-    });
+    const isMobile =
+        useMediaQuery(
+            theme.breakpoints.down("sm")
+        );
 
-    const [mode, setMode] = React.useState<"products" | "account">("products");
+    const navigate =
+        useNavigate();
 
-    const isProductsMode = mode === "products";
+    if (!isMobile) {
+        return null;
+    }
 
-    const iconColor = isProductsMode ? ORANGE : BLUE;
-    const switchColor = isProductsMode ? BLUE : ORANGE;
-
-    if (!isMobile) return null;
-
-    const handleClick = (item: NavItem) => {
-        const isLogged = Boolean(localStorage.getItem("idUser"));
-
-        if ("requiresAuth" in item && item.requiresAuth && !isLogged) {
-            showAlert("Please sign in to delete your account", "warning");
-            return;
-        }
-
+    const handleClick = (
+        item: NavItem
+    ) => {
         navigate(item.path);
     };
 
-    const toggleMode = () => {
-        setMode((p) => (p === "products" ? "account" : "products"));
-        onSwitchNav?.();
-    };
+    const leftTwo =
+        productItems.slice(0, 2);
 
-    const activeItems = mode === "products" ? productItems : accountItems;
-
-    const leftTwo = activeItems.slice(0, 2);
-    const rightTwo = activeItems.slice(2, 4);
+    const rightTwo =
+        productItems.slice(2, 4);
 
     return (
-        <>
-            {AlertUI}
+        <Paper
+            elevation={0}
+            sx={{
+                position: "fixed",
 
-            <Paper
-                elevation={0}
+                bottom: 0,
+
+                left: 0,
+
+                right: 0,
+
+                height: 86,
+
+                zIndex: 1300,
+
+                backgroundColor:
+                    "#fff3e0",
+
+                borderTop:
+                    "2px solid rgba(13, 71, 161, 0.25)",
+
+                boxShadow:
+                    "0 -6px 18px rgba(13,71,161,.18)",
+
+                display: "flex",
+
+                alignItems: "center",
+            }}
+        >
+            <Box
                 sx={{
-                    position: "fixed",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: 86,
-                    zIndex: 1300,
-                    backgroundColor: "#fff3e0",
-                    borderTop: "2px solid rgba(13, 71, 161, 0.25)",
-                    boxShadow: "0 -6px 18px rgba(13,71,161,.18)",
-                    display: "flex",
+                    width: "100%",
+
+                    display: "grid",
+
+                    gridTemplateColumns:
+                        "repeat(5, 1fr)",
+
                     alignItems: "center",
+
+                    justifyItems: "center",
+
+                    px: 1,
                 }}
             >
-                <Box
-                    sx={{
-                        width: "100%",
-                        display: "grid",
-                        gridTemplateColumns: "repeat(5, 1fr)",
-                        alignItems: "center",
-                        justifyItems: "center",
-                        px: 1,
-                    }}
+                {/* BURGERS + SIDES */}
+                {leftTwo.map(
+                    (item) => (
+                        <IconButton
+                            key={item.label}
+                            onPointerUp={(e) =>
+                                (
+                                    e.currentTarget as HTMLButtonElement
+                                ).blur()
+                            }
+                            onClick={() =>
+                                handleClick(item)
+                            }
+                            aria-label={
+                                item.label
+                            }
+                            sx={navBtnSx}
+                        >
+                            <RenderIcon
+                                item={item}
+                            />
+                        </IconButton>
+                    )
+                )}
+
+                {/* HOME */}
+                <IconButton
+                    onPointerUp={(e) =>
+                        (
+                            e.currentTarget as HTMLButtonElement
+                        ).blur()
+                    }
+                    onClick={() =>
+                        navigate("/")
+                    }
+                    aria-label="Go home"
+                    sx={homeBtnSx}
                 >
-                    {leftTwo.map((item) => (
+                    <HomeRoundedIcon
+                        sx={{
+                            fontSize: 37,
+
+                            color: BLUE,
+
+                            "& path": {
+                                stroke:
+                                    ICON_OUTLINE_ORANGE,
+
+                                strokeWidth:
+                                    0.5,
+
+                                paintOrder:
+                                    "stroke fill",
+                            },
+                        }}
+                    />
+                </IconButton>
+
+                {/* DRINKS + DESSERTS */}
+                {rightTwo.map(
+                    (item) => (
                         <IconButton
-                            onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
-                            onClick={() => handleClick(item)}
                             key={item.label}
+                            onPointerUp={(e) =>
+                                (
+                                    e.currentTarget as HTMLButtonElement
+                                ).blur()
+                            }
+                            onClick={() =>
+                                handleClick(item)
+                            }
+                            aria-label={
+                                item.label
+                            }
                             sx={navBtnSx}
                         >
-                            <RenderIcon item={item} color={iconColor} mode={mode} />
+                            <RenderIcon
+                                item={item}
+                            />
                         </IconButton>
-                    ))}
-
-                    <IconButton
-                        onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
-                        onClick={toggleMode}
-                        sx={switchBtnSx}
-                    >
-                        <SwapHorizIcon
-                            sx={{
-                                fontSize: 39,
-                                color: switchColor === ORANGE ? ORANGE_UI : switchColor,
-                            }}
-                        />
-                    </IconButton>
-
-                    {rightTwo.map((item) => (
-                        <IconButton
-                            onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
-                            onClick={() => handleClick(item)}
-                            key={item.label}
-                            sx={navBtnSx}
-                        >
-                            <RenderIcon item={item} color={iconColor} mode={mode} />
-                        </IconButton>
-                    ))}
-                </Box>
-            </Paper>
-        </>
+                    )
+                )}
+            </Box>
+        </Paper>
     );
 }
