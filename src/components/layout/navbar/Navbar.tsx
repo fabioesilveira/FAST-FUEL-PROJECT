@@ -12,7 +12,6 @@ import { useEffect, useState, useRef } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import StarIcon from '@mui/icons-material/Star';
 import MenuIcon from "@mui/icons-material/Menu";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Badge, { badgeClasses } from "@mui/material/Badge";
 import { useAppContext } from "../../../context/context";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
