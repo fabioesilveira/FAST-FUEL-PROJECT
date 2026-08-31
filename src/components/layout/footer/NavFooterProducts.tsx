@@ -325,7 +325,8 @@ export default function NavFooterProducts() {
                 >
                     <HomeRoundedIcon
                         sx={{
-                            fontSize: 37,
+                            fontSize: 39,
+                            transform: "translateY(-2px)",
 
                             color: BLUE,
 
