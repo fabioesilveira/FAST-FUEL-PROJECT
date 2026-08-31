@@ -10,7 +10,7 @@ import Logo from "../../../assets/fast-fuel.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import StarIcon from '@mui/icons-material/Star';
+import StarIcon from "@mui/icons-material/Star";
 import MenuIcon from "@mui/icons-material/Menu";
 import Badge, { badgeClasses } from "@mui/material/Badge";
 import { useAppContext } from "../../../context/context";
@@ -30,20 +30,40 @@ type DropdownItem = {
 };
 
 const guestDropdownItems: DropdownItem[] = [
-  { label: "Sign In / Sign Up", icon: AccountCircleIcon, path: "/sign-in" },
-  { label: "My Orders", icon: HistoryIcon, path: "/orders" },
-  { label: "Reviews", icon: StarIcon, path: "/reviews" },
-  { label: "Contact Us", icon: EmailIcon, path: "/contact-us" },
-  { label: "About", icon: InfoOutlinedIcon, path: "/about" },
+  {
+    label: "Sign In / Sign Up",
+    icon: AccountCircleIcon,
+    path: "/sign-in",
+  },
+  {
+    label: "My Orders",
+    icon: HistoryIcon,
+    path: "/orders",
+  },
+  {
+    label: "Reviews",
+    icon: StarIcon,
+    path: "/reviews",
+  },
+  {
+    label: "Contact Us",
+    icon: EmailIcon,
+    path: "/contact-us",
+  },
+  {
+    label: "About",
+    icon: InfoOutlinedIcon,
+    path: "/about",
+  },
 ];
 
 const iconSizes: Record<string, number> = {
   "Sign In / Sign Up": 22.5,
-  "Signout": 25,
+  Signout: 25,
   "My Orders": 25,
-  "Reviews": 25.5,
+  Reviews: 25.5,
   "Contact Us": 21.5,
-  "About": 23.5,
+  About: 23.5,
   "Delete Account": 23,
 };
 
@@ -58,8 +78,13 @@ const IconHit = styled("button")(() => ({
   outline: "none",
   WebkitTapHighlightColor: "transparent",
 
-  "&:focus": { outline: "none" },
-  "&:focus-visible": { outline: "none" },
+  "&:focus": {
+    outline: "none",
+  },
+
+  "&:focus-visible": {
+    outline: "none",
+  },
 }));
 
 const CartBadge = styled(Badge)`
@@ -76,34 +101,51 @@ type NavbarProps = {
   onSearchOverlayChange?: (open: boolean) => void;
 };
 
-function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
+function Navbar({
+  onSearch,
+  onSearchOverlayChange,
+}: NavbarProps) {
   const navigate = useNavigate();
   const { order } = useAppContext();
 
   const [shown, setShown] = useState(false);
+
   const [dropdownItemsChange, setDropDownChange] =
     useState<DropdownItem[]>(guestDropdownItems);
+
   const [badgeQuantity, setBadgeQuantity] = useState(0);
 
   const [searchOpen, setSearchOpen] = useState(false);
-  const [searchFocused, setSearchFocused] = useState(false);
-  const floatingSearchRef = useRef<HTMLDivElement | null>(null);
-  const floatingInputRef = useRef<HTMLInputElement | null>(null);
 
-  const menuRef = useRef<HTMLDivElement | null>(null);
+  const [searchFocused, setSearchFocused] =
+    useState(false);
 
-  const searchAreaRef = useRef<HTMLDivElement | null>(null);
+  const floatingSearchRef =
+    useRef<HTMLDivElement | null>(null);
 
-  const { showAlert, AlertUI, confirmAlert, ConfirmUI } = useAppAlert({
+  const floatingInputRef =
+    useRef<HTMLInputElement | null>(null);
+
+  const menuRef =
+    useRef<HTMLDivElement | null>(null);
+
+  const searchAreaRef =
+    useRef<HTMLDivElement | null>(null);
+
+  const {
+    showAlert,
+    AlertUI,
+    confirmAlert,
+    ConfirmUI,
+  } = useAppAlert({
     vertical: "top",
     horizontal: "center",
   });
 
-
-
   const openSearch = () => {
     setSearchFocused(false);
     setSearchOpen(true);
+
     onSearchOverlayChange?.(true);
 
     requestAnimationFrame(() => {
@@ -111,27 +153,35 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
     });
   };
 
-
   const closeSearchOnly = () => {
     setSearchOpen(false);
     setSearchFocused(false);
+
     onSearchOverlayChange?.(false);
   };
-
 
   const closeSearchAndClear = () => {
     setSearchOpen(false);
     setSearchFocused(false);
+
     onSearchOverlayChange?.(false);
+
     onSearch("");
   };
 
   const handleClickSignout = () => {
     clearAuthStorage();
+
     setShown(false);
 
-    showAlert("Signed out successfully", "success");
-    setDropDownChange(guestDropdownItems);
+    showAlert(
+      "Signed out successfully",
+      "success"
+    );
+
+    setDropDownChange(
+      guestDropdownItems
+    );
 
     setTimeout(() => {
       navigate("/sign-in");
@@ -143,19 +193,41 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
       setShown(false);
 
       setDropDownChange([
-        { label: "Signout", icon: AccountCircleIcon, action: handleClickSignout },
-        { label: "My Orders", icon: HistoryIcon, path: "/orders" },
-        { label: "Reviews", icon: StarIcon, path: "/reviews" },
-        { label: "Contact Us", icon: EmailIcon, path: "/contact-us" },
+        {
+          label: "Signout",
+          icon: AccountCircleIcon,
+          action: handleClickSignout,
+        },
+        {
+          label: "My Orders",
+          icon: HistoryIcon,
+          path: "/orders",
+        },
+        {
+          label: "Reviews",
+          icon: StarIcon,
+          path: "/reviews",
+        },
+        {
+          label: "Contact Us",
+          icon: EmailIcon,
+          path: "/contact-us",
+        },
         {
           label: "Delete Account",
           icon: NoAccountsIcon,
           path: "/deleteaccount",
         },
-        { label: "About", icon: InfoOutlinedIcon, path: "/about" },
+        {
+          label: "About",
+          icon: InfoOutlinedIcon,
+          path: "/about",
+        },
       ]);
     } else {
-      setDropDownChange(guestDropdownItems);
+      setDropDownChange(
+        guestDropdownItems
+      );
     }
 
     setBadgeQuantity(order.length);
@@ -163,43 +235,78 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
 
   useEffect(() => {
     const qtdTotal = order.reduce(
-      (acc, element) => acc + (element.quantidade ?? 0),
+      (acc, element) =>
+        acc + (element.quantidade ?? 0),
       0
     );
+
     setBadgeQuantity(qtdTotal);
   }, [order]);
 
   useEffect(() => {
-    function handlePointerDownOutside(event: PointerEvent) {
-      const target = event.target as Node;
+    function handlePointerDownOutside(
+      event: PointerEvent
+    ) {
+      const target =
+        event.target as Node;
 
-      if (menuRef.current && !menuRef.current.contains(target)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(target)
+      ) {
         setShown(false);
       }
 
       if (
         searchOpen &&
         searchAreaRef.current &&
-        !searchAreaRef.current.contains(target)
+        !searchAreaRef.current.contains(
+          target
+        )
       ) {
         closeSearchOnly();
       }
     }
 
-    document.addEventListener("pointerdown", handlePointerDownOutside, true);
+    document.addEventListener(
+      "pointerdown",
+      handlePointerDownOutside,
+      true
+    );
+
     return () =>
-      document.removeEventListener("pointerdown", handlePointerDownOutside, true);
+      document.removeEventListener(
+        "pointerdown",
+        handlePointerDownOutside,
+        true
+      );
   }, [searchOpen]);
 
   useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        if (searchOpen) closeSearchOnly();
-        if (shown) setShown(false);
+    function handleKeyDown(
+      event: KeyboardEvent
+    ) {
+      if (event.key === "Escape") {
+        if (searchOpen) {
+          closeSearchOnly();
+        }
+
+        if (shown) {
+          setShown(false);
+        }
       }
     }
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+
+    document.addEventListener(
+      "keydown",
+      handleKeyDown
+    );
+
+    return () =>
+      document.removeEventListener(
+        "keydown",
+        handleKeyDown
+      );
   }, [searchOpen, shown]);
 
   return (
@@ -207,24 +314,46 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
       {AlertUI}
       {ConfirmUI}
 
-      <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
-        <Box sx={{ width: "100%" }}>
+      <AppBar
+        position="fixed"
+        sx={{
+          backgroundColor: "#fff3e0",
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+          }}
+        >
           <Toolbar
             disableGutters
             sx={{
               minHeight: 80,
-              px: { xs: 1, md: 2 },
-              gap: { xs: 1, md: 2 },
+
+              px: {
+                xs: 1,
+                md: 2,
+              },
+
+              gap: {
+                xs: 1,
+                md: 1.5,
+              },
             }}
           >
             {/* LOGO */}
+
             <Box
               component="a"
               href="#"
               sx={{
                 display: "flex",
                 alignItems: "center",
-                ml: { xs: -1.5, md: -2.8 },
+
+                ml: {
+                  xs: -1.5,
+                  md: -2.8,
+                },
               }}
             >
               <Box
@@ -232,101 +361,466 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                 src={Logo}
                 alt="Fast Fuel Logo"
                 sx={{
-                  height: { xs: 72, md: 76 },
-                  mt: { xs: 0, sm: 0.2, md: 0.2 },
+                  height: {
+                    xs: 72,
+                    md: 76,
+                  },
+
+                  mt: {
+                    xs: 0,
+                    sm: 0.2,
+                    md: 0.2,
+                  },
+
                   width: "auto",
-                  objectFit: "contain",
-                  transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" },
-                  transformOrigin: "left center",
+
+                  objectFit:
+                    "contain",
+
+                  transform: {
+                    xs: "scaleX(1.04)",
+                    md: "scaleX(1.07)",
+                  },
+
+                  transformOrigin:
+                    "left center",
                 }}
               />
             </Box>
 
-            {/* SEARCH (icon + dropdown under it) */}
+            {/* MENU */}
+
+            <Box
+              ref={menuRef}
+              sx={{
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Button
+                variant="contained"
+                onClick={() =>
+                  setShown(
+                    (prev) => !prev
+                  )
+                }
+                aria-label="Open menu"
+                sx={{
+                  width: {
+                    xs: 54,
+                    md: 60,
+                  },
+
+                  height: {
+                    xs: 40,
+                    md: 42,
+                  },
+
+                  minWidth:
+                    "unset",
+
+                  borderRadius: 2,
+
+                  backgroundColor:
+                    "#e65100",
+
+                  padding: 0,
+
+                  "@media (hover: hover) and (pointer: fine)":
+                  {
+                    "&:hover": {
+                      backgroundColor:
+                        "#b33f00",
+                    },
+                  },
+                }}
+              >
+                <MenuIcon
+                  sx={{
+                    fontSize: {
+                      xs: 28,
+                      md: 31,
+                    },
+
+                    color:
+                      "#ffe0c7",
+                  }}
+                />
+              </Button>
+
+              {/* MENU DROPDOWN */}
+
+              {shown && (
+                <Box
+                  sx={{
+                    position:
+                      "absolute",
+
+                    top:
+                      "calc(100% + 12px)",
+
+                    left: 0,
+
+                    display: "flex",
+
+                    flexDirection:
+                      "column",
+
+                    gap: 1,
+
+                    backgroundColor:
+                      "#fff3e0",
+
+                    padding: 1.2,
+
+                    borderRadius: 2,
+
+                    boxShadow:
+                      "0 6px 16px rgba(0,0,0,0.30)",
+
+                    zIndex: 2000,
+
+                    width: 210,
+                  }}
+                >
+                  {dropdownItemsChange.map(
+                    (item) => {
+                      const {
+                        label,
+                        icon: Icon,
+                        path,
+                      } = item;
+
+                      const action =
+                        item.action;
+
+                      const isAction =
+                        Boolean(
+                          action
+                        );
+
+                      const commonSx =
+                        {
+                          display:
+                            "flex",
+
+                          alignItems:
+                            "center",
+
+                          justifyContent:
+                            "flex-start",
+
+                          gap: 1.2,
+
+                          height: 41,
+
+                          width:
+                            "100%",
+
+                          px: 1.5,
+
+                          py: 0.8,
+
+                          borderRadius:
+                            1.5,
+
+                          textTransform:
+                            "none",
+
+                          border:
+                            "2px solid #0d47a1",
+
+                          color:
+                            "#0d47a1",
+
+                          fontWeight:
+                            600,
+
+                          bgcolor:
+                            "rgba(230, 81, 0, 0.14)",
+
+                          boxShadow:
+                            "0 2px 6px rgba(13, 71, 161, 0.18)",
+
+                          "@media (hover: hover) and (pointer: fine)":
+                          {
+                            "&:hover":
+                            {
+                              bgcolor:
+                                "rgba(230, 81, 0, 0.22)",
+
+                              boxShadow:
+                                "0 4px 10px rgba(13, 71, 161, 0.28)",
+                            },
+                          },
+
+                          "&:active":
+                          {
+                            bgcolor:
+                              "rgba(230, 81, 0, 0.28)",
+
+                            transform:
+                              "translateY(1px)",
+                          },
+                        } as const;
+
+                      if (
+                        isAction
+                      ) {
+                        return (
+                          <Button
+                            key={
+                              label
+                            }
+                            onClick={() => {
+                              action?.();
+
+                              setShown(
+                                false
+                              );
+                            }}
+                            sx={
+                              commonSx
+                            }
+                          >
+                            <Box
+                              sx={{
+                                width:
+                                  24,
+
+                                display:
+                                  "flex",
+                              }}
+                            >
+                              <Icon
+                                sx={{
+                                  color:
+                                    "#e85f10",
+
+                                  fontSize:
+                                    iconSizes[
+                                    label
+                                    ] ??
+                                    24,
+                                }}
+                              />
+                            </Box>
+
+                            {label}
+                          </Button>
+                        );
+                      }
+
+                      return (
+                        <Button
+                          key={label}
+                          component={Link}
+                          to={path || "/"}
+                          onClick={() => {
+                            setShown(false);
+                          }}
+                          sx={commonSx}
+                        >
+                          <Box
+                            sx={{
+                              width: 24,
+                              display: "flex",
+                            }}
+                          >
+                            <Icon
+                              sx={{
+                                color: "#e85f10",
+                                fontSize: iconSizes[label] ?? 24,
+                              }}
+                            />
+                          </Box>
+
+                          {label}
+                        </Button>
+                      );
+
+                    }
+                  )}
+                </Box>
+              )}
+            </Box>
+
+            {/* SEARCH */}
+
             <Box
               sx={{
                 flexGrow: 1,
+
                 display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                position: "relative",
+
+                justifyContent:
+                  "flex-start",
+
+                alignItems:
+                  "center",
+
+                position:
+                  "relative",
               }}
             >
               <Box
                 ref={searchAreaRef}
                 sx={{
-                  position: "relative",
-                  display: "inline-flex",
-                  alignItems: "center",
+                  position:
+                    "relative",
+
+                  display:
+                    "inline-flex",
+
+                  alignItems:
+                    "center",
                 }}
               >
                 <IconHit
-                  onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
+                  onPointerUp={(e) =>
+                    (
+                      e.currentTarget as HTMLButtonElement
+                    ).blur()
+                  }
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (searchOpen) closeSearchOnly();
-                    else openSearch();
+
+                    if (
+                      searchOpen
+                    ) {
+                      closeSearchOnly();
+                    } else {
+                      openSearch();
+                    }
                   }}
                   aria-label="Open search"
                 >
                   <Box
                     sx={{
                       width: 54,
-                      height: 54,
-                      borderRadius: 2.2,
-                      display: "grid",
-                      placeItems: "center",
-                      transition: "background-color .15s ease, transform .08s ease",
-                      color: "#1e5bb8",
 
-                      "@media (hover: hover) and (pointer: fine)": {
-                        "&:hover": { bgcolor: "rgba(30, 91, 184, 0.14)" },
+                      height: 54,
+
+                      borderRadius:
+                        2.2,
+
+                      display:
+                        "grid",
+
+                      placeItems:
+                        "center",
+
+                      transition:
+                        "background-color .15s ease, transform .08s ease",
+
+                      color:
+                        "#1e5bb8",
+
+                      "@media (hover: hover) and (pointer: fine)":
+                      {
+                        "&:hover":
+                        {
+                          bgcolor:
+                            "rgba(30, 91, 184, 0.14)",
+                        },
                       },
 
-                      "&:active": {
-                        bgcolor: "rgba(30, 91, 184, 0.20)",
-                        transform: "scale(0.98)",
+                      "&:active":
+                      {
+                        bgcolor:
+                          "rgba(30, 91, 184, 0.20)",
+
+                        transform:
+                          "scale(0.98)",
                       },
                     }}
                   >
-                    <SearchIcon sx={{ fontSize: 32 }} />
+                    <SearchIcon
+                      sx={{
+                        fontSize:
+                          32,
+                      }}
+                    />
                   </Box>
                 </IconHit>
 
+                {/* SEARCH BOX */}
+
                 {searchOpen && (
                   <Box
-                    ref={floatingSearchRef}
+                    ref={
+                      floatingSearchRef
+                    }
                     sx={{
-                      position: "absolute",
-                      top: "calc(100% + 10px)",
+                      position:
+                        "absolute",
+
+                      top:
+                        "calc(100% + 10px)",
+
                       left: 0,
-                      zIndex: 2000,
+
+                      zIndex:
+                        2000,
+
                       width: 310,
-                      maxWidth: "78vw",
+
+                      maxWidth:
+                        "78vw",
+
                       pt: 2.5,
+
                       pb: 2.5,
+
                       pr: 2.5,
+
                       pl: 4.6,
-                      bgcolor: "#fffefe",
-                      borderRadius: 3,
-                      boxShadow: "0 14px 30px rgba(0,0,0,0.12)",
-                      border: "1px solid rgba(13, 71, 161, 0.18)",
+
+                      bgcolor:
+                        "#fffefe",
+
+                      borderRadius:
+                        3,
+
+                      boxShadow:
+                        "0 14px 30px rgba(0,0,0,0.12)",
+
+                      border:
+                        "1px solid rgba(13, 71, 161, 0.18)",
                     }}
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(
+                      e
+                    ) =>
+                      e.stopPropagation()
+                    }
                   >
                     <Box
                       sx={{
                         height: 48,
-                        borderRadius: 2.4,
-                        border: "2px solid rgba(13, 71, 161, 0.22)",
-                        display: "flex",
-                        alignItems: "center",
+
+                        borderRadius:
+                          2.4,
+
+                        border:
+                          "2px solid rgba(13, 71, 161, 0.22)",
+
+                        display:
+                          "flex",
+
+                        alignItems:
+                          "center",
+
                         px: 1.6,
+
                         transition:
                           "border-color .15s ease, box-shadow .15s ease",
+
                         ...(searchFocused
                           ? {
-                            borderColor: "#e65100",
+                            borderColor:
+                              "#e65100",
+
                             boxShadow:
                               "0 0 0 5px rgba(230, 81, 0, 0.35)",
                           }
@@ -335,34 +829,86 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
                     >
                       <InputBase
                         placeholder="Search"
-                        inputRef={floatingInputRef}
-                        onFocus={() => setSearchFocused(true)}
-                        onBlur={() => setSearchFocused(false)}
-                        onChange={(e) => onSearch(e.target.value)}
+                        inputRef={
+                          floatingInputRef
+                        }
+                        onFocus={() =>
+                          setSearchFocused(
+                            true
+                          )
+                        }
+                        onBlur={() =>
+                          setSearchFocused(
+                            false
+                          )
+                        }
+                        onChange={(
+                          e
+                        ) =>
+                          onSearch(
+                            e
+                              .target
+                              .value
+                          )
+                        }
                         sx={{
                           flex: 1,
-                          color: "#0d47a1",
-                          fontWeight: 650,
-                          fontSize: "1rem",
-                          "& .MuiInputBase-input": { padding: "6px 0" },
-                          "& .MuiInputBase-input::placeholder": {
-                            color: "rgba(13, 71, 161, 0.35)",
-                            opacity: 1,
-                            fontWeight: 600,
+
+                          color:
+                            "#0d47a1",
+
+                          fontWeight:
+                            650,
+
+                          fontSize:
+                            "1rem",
+
+                          "& .MuiInputBase-input":
+                          {
+                            padding:
+                              "6px 0",
+                          },
+
+                          "& .MuiInputBase-input::placeholder":
+                          {
+                            color:
+                              "rgba(13, 71, 161, 0.35)",
+
+                            opacity:
+                              1,
+
+                            fontWeight:
+                              600,
                           },
                         }}
                       />
 
                       <Button
-                        onClick={closeSearchAndClear}
+                        onClick={
+                          closeSearchAndClear
+                        }
                         sx={{
-                          minWidth: 40,
+                          minWidth:
+                            40,
+
                           width: 40,
-                          height: 40,
-                          borderRadius: 2,
-                          color: "#1e5bb8",
-                          "@media (hover: hover) and (pointer: fine)": {
-                            "&:hover": { bgcolor: "rgba(30, 91, 184, 0.10)" },
+
+                          height:
+                            40,
+
+                          borderRadius:
+                            2,
+
+                          color:
+                            "#1e5bb8",
+
+                          "@media (hover: hover) and (pointer: fine)":
+                          {
+                            "&:hover":
+                            {
+                              bgcolor:
+                                "rgba(30, 91, 184, 0.10)",
+                            },
                           },
                         }}
                         aria-label="Close search"
@@ -375,189 +921,142 @@ function Navbar({ onSearch, onSearchOverlayChange }: NavbarProps) {
               </Box>
             </Box>
 
-            {/* RIGHT SIDE */}
+            {/* CART */}
+
             <Box
               sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: { xs: 1, md: 1.5 },
-                marginLeft: "auto",
-                mr: { xs: 0.8, sm: 0.8, md: 0.8 },
-                position: "relative",
+                display:
+                  "flex",
+
+                alignItems:
+                  "center",
+
+                marginLeft:
+                  "auto",
+
+                mr: {
+                  xs: 0.8,
+                  sm: 0.8,
+                  md: 0.8,
+                },
               }}
             >
               <Button
                 variant="contained"
-                onClick={() => setShown((prev) => !prev)}
-                sx={{
-                  width: { xs: 60, md: 71 },
-                  height: { xs: 40, md: 42 },
-                  minWidth: "unset",
-                  borderRadius: 2,
-                  backgroundColor: "#e65100",
-                  padding: 0,
-
-                  "@media (hover: hover) and (pointer: fine)": {
-                    "&:hover": { backgroundColor: "#b33f00" },
-                  },
-                }}
-              >
-                <MenuIcon
-                  sx={{ fontSize: { xs: 29, md: 33.5 }, color: "#ffe0c7" }}
-                />
-              </Button>
-
-              <Button
-                variant="contained"
                 onClick={() => {
-                  const isLogged = Boolean(localStorage.getItem("idUser"));
-                  const cartHasItems = badgeQuantity > 0;
+                  const isLogged =
+                    Boolean(
+                      localStorage.getItem(
+                        "idUser"
+                      )
+                    );
 
-                  if (!cartHasItems) {
-                    navigate("/checkout");
+                  const cartHasItems =
+                    badgeQuantity >
+                    0;
+
+                  if (
+                    !cartHasItems
+                  ) {
+                    navigate(
+                      "/checkout"
+                    );
+
                     return;
                   }
 
                   if (isLogged) {
-                    navigate("/checkout");
+                    navigate(
+                      "/checkout"
+                    );
+
                     return;
                   }
 
                   confirmAlert({
-                    title: "Checkout",
+                    title:
+                      "Checkout",
+
                     message:
                       "You’re not signed in. Continue as guest or sign in?",
-                    confirmText: "Continue as guest",
-                    cancelText: "Sign in / Sign up",
-                    onConfirm: () => navigate("/checkout?guest=1"),
-                    onCancel: () => navigate("/sign-in"),
-                    onDismiss: () => { },
+
+                    confirmText:
+                      "Continue as guest",
+
+                    cancelText:
+                      "Sign in / Sign up",
+
+                    onConfirm:
+                      () =>
+                        navigate(
+                          "/checkout?guest=1"
+                        ),
+
+                    onCancel:
+                      () =>
+                        navigate(
+                          "/sign-in"
+                        ),
+
+                    onDismiss:
+                      () => { },
                   });
                 }}
                 sx={{
-                  width: { xs: 60, md: 71 },
-                  height: { xs: 40, md: 42 },
-                  minWidth: "unset",
-                  borderRadius: 2,
-                  backgroundColor: "#e65100",
+                  width: {
+                    xs: 60,
+                    md: 71,
+                  },
+
+                  height: {
+                    xs: 40,
+                    md: 42,
+                  },
+
+                  minWidth:
+                    "unset",
+
+                  borderRadius:
+                    2,
+
+                  backgroundColor:
+                    "#e65100",
+
                   padding: 0,
 
-                  "@media (hover: hover) and (pointer: fine)": {
-                    "&:hover": { backgroundColor: "#b33f00" },
+                  "@media (hover: hover) and (pointer: fine)":
+                  {
+                    "&:hover":
+                    {
+                      backgroundColor:
+                        "#b33f00",
+                    },
                   },
                 }}
               >
                 <ShoppingCartIcon
-                  sx={{ fontSize: { xs: 26, md: 30 }, color: "#ffe0c7" }}
+                  sx={{
+                    fontSize: {
+                      xs: 26,
+                      md: 30,
+                    },
+
+                    color:
+                      "#ffe0c7",
+                  }}
                 />
+
                 <CartBadge
-                  badgeContent={badgeQuantity}
+                  badgeContent={
+                    badgeQuantity
+                  }
                   overlap="circular"
-                  sx={{ pointerEvents: "none", }}
+                  sx={{
+                    pointerEvents:
+                      "none",
+                  }}
                 />
               </Button>
-
-              {shown && (
-                <Box
-                  ref={menuRef}
-                  sx={{
-                    position: "absolute",
-                    top: "115%",
-                    right: 0,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 1,
-                    backgroundColor: "#fff3e0",
-                    padding: 1.2,
-                    borderRadius: 2,
-                    boxShadow: "0 6px 16px rgba(0,0,0,0.30)",
-                    zIndex: 10,
-                    width: 210,
-                  }}
-                >
-                  {dropdownItemsChange.map((item) => {
-                    const { label, icon: Icon, path } = item as any;
-                    const action = (item as any).action as undefined | (() => void);
-                    const isAction = Boolean(action);
-
-                    const commonSx = {
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "flex-start",
-                      gap: 1.2,
-                      height: 41,
-                      width: "100%",
-                      px: 1.5,
-                      py: 0.8,
-                      borderRadius: 1.5,
-                      textTransform: "none",
-                      border: "2px solid #0d47a1",
-                      color: "#0d47a1",
-                      fontWeight: 600,
-                      bgcolor: "rgba(230, 81, 0, 0.14)",
-                      boxShadow: "0 2px 6px rgba(13, 71, 161, 0.18)",
-
-                      "@media (hover: hover) and (pointer: fine)": {
-                        "&:hover": {
-                          bgcolor: "rgba(230, 81, 0, 0.22)",
-                          boxShadow: "0 4px 10px rgba(13, 71, 161, 0.28)",
-                        },
-                      },
-
-                      "&:active": {
-                        bgcolor: "rgba(230, 81, 0, 0.28)",
-                        transform: "translateY(1px)",
-                      },
-                    } as const;
-
-
-                    if (isAction) {
-                      return (
-                        <Button
-                          key={label}
-                          onClick={() => {
-                            action?.();
-                            setShown(false);
-                          }}
-                          sx={commonSx}
-                        >
-                          <Box sx={{ width: 24, display: "flex" }}>
-                            <Icon
-                              sx={{
-                                color: "#e85f10",
-                                fontSize: iconSizes[label] ?? 24,
-                              }}
-                            />
-                          </Box>
-                          {label}
-                        </Button>
-                      );
-                    }
-
-                    return (
-                      <Button
-                        key={label}
-                        component={Link}
-                        to={path}
-                        onClick={() => {
-                          setShown(false);
-                        }}
-                        sx={commonSx}
-                      >
-                        <Box sx={{ width: 24, display: "flex" }}>
-                          <Icon
-                            sx={{
-                              color: "#e85f10",
-                              fontSize: iconSizes[label] ?? 24,
-                            }}
-                          />
-                        </Box>
-                        {label}
-                      </Button>
-                    );
-                  })}
-                </Box>
-              )}
             </Box>
           </Toolbar>
         </Box>

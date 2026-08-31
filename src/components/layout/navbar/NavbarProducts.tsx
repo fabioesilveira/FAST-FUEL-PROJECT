@@ -24,6 +24,7 @@ const CartBadge = styled(Badge)`
 function NavbarProducts() {
   const navigate = useNavigate();
   const { order } = useAppContext();
+
   const [badgeQuantity, setBadgeQuantity] = useState(0);
 
   const { confirmAlert, ConfirmUI } = useAppAlert({
@@ -32,13 +33,19 @@ function NavbarProducts() {
   });
 
   useEffect(() => {
-    const qtdTotal = order.reduce((acc, element) => acc + element.quantidade, 0);
+    const qtdTotal = order.reduce(
+      (acc, element) =>
+        acc + (element.quantidade ?? 0),
+      0
+    );
+
     setBadgeQuantity(qtdTotal);
   }, [order]);
 
   return (
     <>
       {ConfirmUI}
+
       <AppBar
         position="fixed"
         sx={{
@@ -55,7 +62,7 @@ function NavbarProducts() {
             sx={{
               minHeight: 80,
               px: { xs: 1, md: 2 },
-              gap: { xs: 1, md: 2 },
+              gap: { xs: 1, md: 1.5 },
             }}
           >
             {/* LOGO */}
@@ -81,61 +88,87 @@ function NavbarProducts() {
                   mt: { xs: 0, sm: 0.2, md: 0.2 },
                   width: "auto",
                   objectFit: "contain",
-                  transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" },
+
+                  transform: {
+                    xs: "scaleX(1.04)",
+                    md: "scaleX(1.07)",
+                  },
+
                   transformOrigin: "left center",
                 }}
               />
             </Box>
 
-            {/* Spacer */}
+            {/* HOME */}
+            <Button
+              variant="contained"
+              onPointerUp={(e) =>
+                (
+                  e.currentTarget as HTMLButtonElement
+                ).blur()
+              }
+              onClick={() => navigate("/")}
+              aria-label="Go home"
+              sx={{
+                width: { xs: 54, md: 60 },
+                height: { xs: 40, md: 42 },
+                minWidth: "unset",
+                borderRadius: 2,
+                backgroundColor: "#e65100",
+                padding: 0,
+
+                "@media (hover: hover) and (pointer: fine)": {
+                  "&:hover": {
+                    backgroundColor: "#b33f00",
+                  },
+                },
+
+                "@media (hover: none) and (pointer: coarse)": {
+                  "&:focus, &:focus-visible, &.Mui-focusVisible": {
+                    backgroundColor: "#e65100",
+                    boxShadow: "none",
+                  },
+                },
+              }}
+            >
+              <HomeIcon
+                sx={{
+                  fontSize: {
+                    xs: 27,
+                    md: 31,
+                  },
+                  color: "#ffe0c7",
+                }}
+              />
+            </Button>
+
+            {/* SPACER */}
             <Box sx={{ flexGrow: 1 }} />
 
-            {/* RIGHT SIDE */}
+            {/* CART */}
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: { xs: 1, md: 1.5 },
                 marginLeft: "auto",
-                mr: { xs: 0.8, sm: 0.8, md: 0.8 },
-                position: "relative",
+
+                mr: {
+                  xs: 0.8,
+                  sm: 0.8,
+                  md: 0.8,
+                },
               }}
             >
-              {/* HOME */}
               <Button
                 variant="contained"
-                onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
-                onClick={() => navigate("/")}
-                sx={{
-                  width: { xs: 60, md: 71 },
-                  height: { xs: 40, md: 42 },
-                  minWidth: "unset",
-                  borderRadius: 2,
-                  backgroundColor: "#e65100",
-                  padding: 0,
-
-                  // hover só desktop
-                  "@media (hover: hover) and (pointer: fine)": {
-                    "&:hover": { backgroundColor: "#b33f00" },
-                  },
-
-                  // mobile: não deixa ficar “marcado”
-                  "@media (hover: none) and (pointer: coarse)": {
-                    "&:focus, &:focus-visible, &.Mui-focusVisible": {
-                      backgroundColor: "#e65100",
-                      boxShadow: "none",
-                    },
-                  },
-                }}
-              >
-                <HomeIcon sx={{ fontSize: { xs: 28, md: 33.5 }, color: "#ffe0c7" }} />
-              </Button>
-              {/* CART */}
-              <Button
-                variant="contained"
+                aria-label="Open cart"
                 onClick={() => {
-                  const isLogged = Boolean(localStorage.getItem("idUser"));
-                  const cartHasItems = badgeQuantity > 0;
+                  const isLogged = Boolean(
+                    localStorage.getItem("idUser")
+                  );
+
+                  const cartHasItems =
+                    badgeQuantity > 0;
 
                   if (!cartHasItems) {
                     navigate("/checkout");
@@ -149,24 +182,49 @@ function NavbarProducts() {
 
                   confirmAlert({
                     title: "Checkout",
-                    message: "You’re not signed in. Continue as guest or sign in?",
-                    confirmText: "Continue as guest",
-                    cancelText: "Sign in / Sign up",
-                    onConfirm: () => navigate("/checkout?guest=1"),
-                    onCancel: () => navigate("/sign-in"),
+
+                    message:
+                      "You’re not signed in. Continue as guest or sign in?",
+
+                    confirmText:
+                      "Continue as guest",
+
+                    cancelText:
+                      "Sign in / Sign up",
+
+                    onConfirm: () =>
+                      navigate(
+                        "/checkout?guest=1"
+                      ),
+
+                    onCancel: () =>
+                      navigate(
+                        "/sign-in"
+                      ),
+
                     onDismiss: () => { },
                   });
                 }}
                 sx={{
-                  width: { xs: 60, md: 71 },
-                  height: { xs: 40, md: 42 },
+                  width: {
+                    xs: 60,
+                    md: 71,
+                  },
+
+                  height: {
+                    xs: 40,
+                    md: 42,
+                  },
+
                   minWidth: "unset",
                   borderRadius: 2,
                   backgroundColor: "#e65100",
                   padding: 0,
 
                   "@media (hover: hover) and (pointer: fine)": {
-                    "&:hover": { backgroundColor: "#b33f00" },
+                    "&:hover": {
+                      backgroundColor: "#b33f00",
+                    },
                   },
 
                   "@media (hover: none) and (pointer: coarse)": {
@@ -179,7 +237,11 @@ function NavbarProducts() {
               >
                 <ShoppingCartIcon
                   sx={{
-                    fontSize: { xs: 26, md: 30 },
+                    fontSize: {
+                      xs: 26,
+                      md: 30,
+                    },
+
                     color: "#ffe0c7",
                   }}
                 />
@@ -187,7 +249,9 @@ function NavbarProducts() {
                 <CartBadge
                   badgeContent={badgeQuantity}
                   overlap="circular"
-                  sx={{ pointerEvents: "none" }}
+                  sx={{
+                    pointerEvents: "none",
+                  }}
                 />
               </Button>
             </Box>
