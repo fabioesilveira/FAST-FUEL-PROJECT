@@ -59,7 +59,7 @@ const guestDropdownItems: DropdownItem[] = [
 
 const iconSizes: Record<string, number> = {
   "Sign In / Sign Up": 22.5,
-  Signout: 25,
+  "Sign Out": 25,
   "My Orders": 25,
   Reviews: 25.5,
   "Contact Us": 21.5,
@@ -74,7 +74,6 @@ const IconHit = styled("button")(() => ({
   cursor: "pointer",
   borderRadius: 12,
   lineHeight: 0,
-
   outline: "none",
   WebkitTapHighlightColor: "transparent",
 
@@ -106,6 +105,7 @@ function Navbar({
   onSearchOverlayChange,
 }: NavbarProps) {
   const navigate = useNavigate();
+
   const { order } = useAppContext();
 
   const [shown, setShown] = useState(false);
@@ -113,9 +113,11 @@ function Navbar({
   const [dropdownItemsChange, setDropDownChange] =
     useState<DropdownItem[]>(guestDropdownItems);
 
-  const [badgeQuantity, setBadgeQuantity] = useState(0);
+  const [badgeQuantity, setBadgeQuantity] =
+    useState(0);
 
-  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchOpen, setSearchOpen] =
+    useState(false);
 
   const [searchFocused, setSearchFocused] =
     useState(false);
@@ -144,6 +146,7 @@ function Navbar({
 
   const openSearch = () => {
     setSearchFocused(false);
+
     setSearchOpen(true);
 
     onSearchOverlayChange?.(true);
@@ -155,6 +158,7 @@ function Navbar({
 
   const closeSearchOnly = () => {
     setSearchOpen(false);
+
     setSearchFocused(false);
 
     onSearchOverlayChange?.(false);
@@ -162,6 +166,7 @@ function Navbar({
 
   const closeSearchAndClear = () => {
     setSearchOpen(false);
+
     setSearchFocused(false);
 
     onSearchOverlayChange?.(false);
@@ -189,7 +194,9 @@ function Navbar({
   };
 
   useEffect(() => {
-    if (localStorage.getItem("idUser")) {
+    if (
+      localStorage.getItem("idUser")
+    ) {
       setShown(false);
 
       setDropDownChange([
@@ -236,7 +243,8 @@ function Navbar({
   useEffect(() => {
     const qtdTotal = order.reduce(
       (acc, element) =>
-        acc + (element.quantidade ?? 0),
+        acc +
+        (element.quantidade ?? 0),
       0
     );
 
@@ -252,7 +260,9 @@ function Navbar({
 
       if (
         menuRef.current &&
-        !menuRef.current.contains(target)
+        !menuRef.current.contains(
+          target
+        )
       ) {
         setShown(false);
       }
@@ -286,7 +296,9 @@ function Navbar({
     function handleKeyDown(
       event: KeyboardEvent
     ) {
-      if (event.key === "Escape") {
+      if (
+        event.key === "Escape"
+      ) {
         if (searchOpen) {
           closeSearchOnly();
         }
@@ -317,7 +329,8 @@ function Navbar({
       <AppBar
         position="fixed"
         sx={{
-          backgroundColor: "#fff3e0",
+          backgroundColor:
+            "#fff3e0",
         }}
       >
         <Box
@@ -328,7 +341,9 @@ function Navbar({
           <Toolbar
             disableGutters
             sx={{
-              minHeight: 80,
+              height: 78,
+              minHeight:
+                "78px !important",
 
               px: {
                 xs: 1,
@@ -341,68 +356,35 @@ function Navbar({
               },
             }}
           >
-            {/* LOGO */}
-
-            <Box
-              component="a"
-              href="#"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-
-                ml: {
-                  xs: -1.5,
-                  md: -2.8,
-                },
-              }}
-            >
-              <Box
-                component="img"
-                src={Logo}
-                alt="Fast Fuel Logo"
-                sx={{
-                  height: {
-                    xs: 72,
-                    md: 76,
-                  },
-
-                  mt: {
-                    xs: 0,
-                    sm: 0.2,
-                    md: 0.2,
-                  },
-
-                  width: "auto",
-
-                  objectFit:
-                    "contain",
-
-                  transform: {
-                    xs: "scaleX(1.04)",
-                    md: "scaleX(1.07)",
-                  },
-
-                  transformOrigin:
-                    "left center",
-                }}
-              />
-            </Box>
-
             {/* MENU */}
-
             <Box
               ref={menuRef}
               sx={{
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
+                position:
+                  "relative",
+
+                display:
+                  "flex",
+
+                alignItems:
+                  "center",
+                ml: {
+                  xs: 0.6,
+                  md: 0,
+                },
+
+                order: {
+                  xs: 1,
+                  md: 2,
+                },
               }}
             >
               <Button
                 variant="contained"
                 onClick={() =>
                   setShown(
-                    (prev) => !prev
+                    (prev) =>
+                      !prev
                   )
                 }
                 aria-label="Open menu"
@@ -420,7 +402,8 @@ function Navbar({
                   minWidth:
                     "unset",
 
-                  borderRadius: 2,
+                  borderRadius:
+                    2,
 
                   backgroundColor:
                     "#e65100",
@@ -429,7 +412,8 @@ function Navbar({
 
                   "@media (hover: hover) and (pointer: fine)":
                   {
-                    "&:hover": {
+                    "&:hover":
+                    {
                       backgroundColor:
                         "#b33f00",
                     },
@@ -438,7 +422,8 @@ function Navbar({
               >
                 <MenuIcon
                   sx={{
-                    fontSize: {
+                    fontSize:
+                    {
                       xs: 28,
                       md: 31,
                     },
@@ -450,7 +435,6 @@ function Navbar({
               </Button>
 
               {/* MENU DROPDOWN */}
-
               {shown && (
                 <Box
                   sx={{
@@ -462,7 +446,8 @@ function Navbar({
 
                     left: 0,
 
-                    display: "flex",
+                    display:
+                      "flex",
 
                     flexDirection:
                       "column",
@@ -474,12 +459,14 @@ function Navbar({
 
                     padding: 1.2,
 
-                    borderRadius: 2,
+                    borderRadius:
+                      2,
 
                     boxShadow:
                       "0 6px 16px rgba(0,0,0,0.30)",
 
-                    zIndex: 2000,
+                    zIndex:
+                      2000,
 
                     width: 210,
                   }}
@@ -607,52 +594,138 @@ function Navbar({
                               />
                             </Box>
 
-                            {label}
+                            {
+                              label
+                            }
                           </Button>
                         );
                       }
 
+                      if (!path) {
+                        return null;
+                      }
+
                       return (
                         <Button
-                          key={label}
-                          component={Link}
-                          to={path || "/"}
+                          key={
+                            label
+                          }
+                          component={
+                            Link
+                          }
+                          to={
+                            path
+                          }
                           onClick={() => {
-                            setShown(false);
+                            setShown(
+                              false
+                            );
                           }}
-                          sx={commonSx}
+                          sx={
+                            commonSx
+                          }
                         >
                           <Box
                             sx={{
-                              width: 24,
-                              display: "flex",
+                              width:
+                                24,
+
+                              display:
+                                "flex",
                             }}
                           >
                             <Icon
                               sx={{
-                                color: "#e85f10",
-                                fontSize: iconSizes[label] ?? 24,
+                                color:
+                                  "#e85f10",
+
+                                fontSize:
+                                  iconSizes[
+                                  label
+                                  ] ??
+                                  24,
                               }}
                             />
                           </Box>
 
-                          {label}
+                          {
+                            label
+                          }
                         </Button>
                       );
-
                     }
                   )}
                 </Box>
               )}
             </Box>
 
-            {/* SEARCH */}
+            {/* LOGO */}
+            <Box
+              component="a"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
 
+                navigate("/");
+              }}
+              sx={{
+                display:
+                  "flex",
+
+                alignItems:
+                  "center",
+
+                ml: {
+                  xs: 0,
+                  md: -2.9,
+                },
+
+                order: {
+                  xs: 2,
+                  md: 1,
+                },
+              }}
+            >
+              <Box
+                component="img"
+                src={Logo}
+                alt="Fast Fuel Logo"
+                sx={{
+                  height: {
+                    xs: 70,
+                    md: 76,
+                  },
+
+                  mt: {
+                    xs: 0,
+                    sm: 0.2,
+                    md: 0.2,
+                  },
+
+                  width:
+                    "auto",
+
+                  objectFit:
+                    "contain",
+
+                  transform: {
+                    xs: "scaleX(1.04)",
+                    md: "scaleX(1.07)",
+                  },
+
+                  transformOrigin:
+                    "left center",
+                }}
+              />
+            </Box>
+
+            {/* SEARCH */}
             <Box
               sx={{
                 flexGrow: 1,
 
-                display: "flex",
+                display:
+                  "flex",
 
                 justifyContent:
                   "flex-start",
@@ -662,6 +735,8 @@ function Navbar({
 
                 position:
                   "relative",
+
+                order: 3,
               }}
             >
               <Box
@@ -746,7 +821,6 @@ function Navbar({
                 </IconHit>
 
                 {/* SEARCH BOX */}
-
                 {searchOpen && (
                   <Box
                     ref={
@@ -768,7 +842,8 @@ function Navbar({
                       zIndex:
                         2000,
 
-                      width: 310,
+                      width:
+                        310,
 
                       maxWidth:
                         "78vw",
@@ -793,15 +868,14 @@ function Navbar({
                       border:
                         "1px solid rgba(13, 71, 161, 0.18)",
                     }}
-                    onClick={(
-                      e
-                    ) =>
+                    onClick={(e) =>
                       e.stopPropagation()
                     }
                   >
                     <Box
                       sx={{
-                        height: 48,
+                        height:
+                          48,
 
                         borderRadius:
                           2.4,
@@ -846,12 +920,9 @@ function Navbar({
                             false
                           )
                         }
-                        onChange={(
-                          e
-                        ) =>
+                        onChange={(e) =>
                           onSearch(
-                            e
-                              .target
+                            e.target
                               .value
                           )
                         }
@@ -895,7 +966,8 @@ function Navbar({
                           minWidth:
                             40,
 
-                          width: 40,
+                          width:
+                            40,
 
                           height:
                             40,
@@ -926,7 +998,6 @@ function Navbar({
             </Box>
 
             {/* CART */}
-
             <Box
               sx={{
                 display:
@@ -937,6 +1008,8 @@ function Navbar({
 
                 marginLeft:
                   "auto",
+
+                order: 4,
 
                 mr: {
                   xs: 0.8,
@@ -969,7 +1042,9 @@ function Navbar({
                     return;
                   }
 
-                  if (isLogged) {
+                  if (
+                    isLogged
+                  ) {
                     navigate(
                       "/checkout"
                     );
@@ -1040,7 +1115,8 @@ function Navbar({
               >
                 <ShoppingCartIcon
                   sx={{
-                    fontSize: {
+                    fontSize:
+                    {
                       xs: 26,
                       md: 30,
                     },
