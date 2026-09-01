@@ -30,14 +30,19 @@ const MobileContactBubble = styled("button", {
   WebkitTapHighlightColor: "transparent",
 
   opacity: isHidden ? 0 : 1,
+
   transform: isHidden
-    ? "translateX(calc(100% + 20px))"
-    : "translateX(0)",
+    ? "translateX(72px) scale(0.96)"
+    : "translateX(0) scale(1)",
+
+  transition:
+    "transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), " +
+    "opacity 0.35s ease, " +
+    "box-shadow 0.2s ease",
 
   pointerEvents: isHidden ? "none" : "auto",
 
-  transition:
-    "transform 0.3s ease, opacity 0.25s ease, box-shadow 0.2s ease",
+
 
   "@media (hover: hover) and (pointer: fine)": {
     "&:hover": {

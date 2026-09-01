@@ -1105,7 +1105,7 @@ function Navbar({
                   sx={{
                     fontSize:
                     {
-                      xs: 28,
+                      xs: 27.5,
                       md: 30.5,
                     },
 
