@@ -5,14 +5,29 @@ import Logo from "../../../assets/fast-fuel.png";
 
 function NavbarAuth() {
     return (
-        <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
+        <AppBar
+            position="fixed"
+            sx={{
+                backgroundColor: "#fff3e0",
+            }}
+        >
             <Toolbar
+                disableGutters
                 sx={{
-                    minHeight: 80,
-                    justifyContent: { xs: "center", md: "flex-start" },
+                    height: 78,
+                    minHeight: "78px !important",
+
+                    px: {
+                        xs: 1,
+                        md: 2,
+                    },
+
+                    justifyContent: {
+                        xs: "center",
+                        md: "flex-start",
+                    },
+
                     alignItems: "center",
-                    px: { xs: 2, md: 2 },
-                    pr: { xs: 2, md: 4 },
                 }}
             >
                 <Box
@@ -21,7 +36,11 @@ function NavbarAuth() {
                     sx={{
                         display: "flex",
                         alignItems: "center",
-                        ml: { xs: 0, md: -2.8 },
+
+                        ml: {
+                            xs: 0,
+                            md: -2.3,
+                        },
                     }}
                 >
                     <Box
@@ -29,12 +48,27 @@ function NavbarAuth() {
                         src={Logo}
                         alt="Fast Fuel Logo"
                         sx={{
-                            height: { xs: 74, md: 76 },
-                            mt: { xs: 0.2, md: 0.2 },
+                            height: {
+                                xs: 70,
+                                md: 76,
+                            },
+
+                            mt: {
+                                xs: -0.3,
+                                md: 0,
+                            },
+
                             width: "auto",
+
                             objectFit: "contain",
-                            transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" },
-                            transformOrigin: "left center",
+
+                            transform: {
+                                xs: "scaleX(1.04)",
+                                md: "scaleX(1.07)",
+                            },
+
+                            transformOrigin:
+                                "left center",
                         }}
                     />
                 </Box>
