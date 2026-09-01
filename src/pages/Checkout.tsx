@@ -755,7 +755,17 @@ export default function Checkout() {
                                             onAddressChange={setAddress}
                                         />
 
-                                        {paymentLoading ? (
+                                        {clientSecret ? (
+                                            <Elements
+                                                key={clientSecret}
+                                                stripe={stripePromise}
+                                                options={{
+                                                    clientSecret,
+                                                }}
+                                            >
+                                                <CheckoutPaymentSection ref={paymentRef} />
+                                            </Elements>
+                                        ) : paymentLoading ? (
                                             <Typography
                                                 align="center"
                                                 sx={{
@@ -766,15 +776,6 @@ export default function Checkout() {
                                             >
                                                 Loading payment...
                                             </Typography>
-                                        ) : clientSecret ? (
-                                            <Elements
-                                                stripe={stripePromise}
-                                                options={{
-                                                    clientSecret,
-                                                }}
-                                            >
-                                                <CheckoutPaymentSection ref={paymentRef} />
-                                            </Elements>
                                         ) : order.length === 0 ? (
                                             <Box
                                                 sx={{
@@ -842,7 +843,12 @@ export default function Checkout() {
 
                                             <Button
                                                 variant="outlined"
-                                                disabled={submitting || order.length === 0}
+                                                disabled={
+                                                    submitting ||
+                                                    paymentLoading ||
+                                                    !clientSecret ||
+                                                    order.length === 0
+                                                }
                                                 sx={{
                                                     borderRadius: 2,
                                                     textTransform: "uppercase",

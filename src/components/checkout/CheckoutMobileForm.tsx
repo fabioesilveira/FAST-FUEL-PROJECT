@@ -166,19 +166,9 @@ export default function CheckoutMobileForm({
                     onAddressChange={onAddressChange}
                 />
 
-                {paymentLoading ? (
-                    <Box
-                        sx={{
-                            py: 2,
-                            textAlign: "center",
-                            color: "text.secondary",
-                            fontSize: "0.85rem",
-                        }}
-                    >
-                        Loading payment...
-                    </Box>
-                ) : clientSecret ? (
+                {clientSecret ? (
                     <Elements
+                        key={clientSecret}
                         stripe={stripePromise}
                         options={{
                             clientSecret,
@@ -189,6 +179,17 @@ export default function CheckoutMobileForm({
                             mobile
                         />
                     </Elements>
+                ) : paymentLoading ? (
+                    <Box
+                        sx={{
+                            py: 2,
+                            textAlign: "center",
+                            color: "text.secondary",
+                            fontSize: "0.85rem",
+                        }}
+                    >
+                        Loading payment...
+                    </Box>
                 ) : order.length === 0 ? null : (
                     <Typography
                         align="center"
@@ -206,7 +207,12 @@ export default function CheckoutMobileForm({
                     <Button
                         fullWidth
                         variant="contained"
-                        disabled={submitting || orderLength === 0}
+                        disabled={
+                            submitting ||
+                            paymentLoading ||
+                            !clientSecret ||
+                            orderLength === 0
+                        }
                         onClick={onPay}
                         sx={{
                             mt: 2,
