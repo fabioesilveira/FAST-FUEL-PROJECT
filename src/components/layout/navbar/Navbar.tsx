@@ -466,7 +466,7 @@ function Navbar({
                       "0 6px 16px rgba(0,0,0,0.30)",
 
                     zIndex:
-                      2000,
+                      9999,
 
                     width: 210,
                   }}
@@ -828,7 +828,7 @@ function Navbar({
                       },
 
                       zIndex:
-                        2000,
+                        9999,
 
                       width:
                         310,

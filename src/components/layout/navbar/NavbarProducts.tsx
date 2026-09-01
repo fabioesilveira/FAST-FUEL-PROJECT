@@ -65,7 +65,7 @@ const guestDropdownItems: DropdownItem[] = [
 
 const iconSizes: Record<string, number> = {
   "Sign In / Sign Up": 22.5,
-  Signout: 25,
+  "Sign Out": 25,
   "My Orders": 25,
   Reviews: 25.5,
   "Contact Us": 21.5,
@@ -133,7 +133,6 @@ function NavbarProducts() {
     }, 2000);
   };
 
-  // MENU ITEMS
   useEffect(() => {
     if (
       localStorage.getItem("idUser")
@@ -177,14 +176,12 @@ function NavbarProducts() {
     }
   }, []);
 
-  // CART QUANTITY
   useEffect(() => {
     const qtdTotal =
       order.reduce(
         (acc, element) =>
           acc +
-          (element.quantidade ??
-            0),
+          (element.quantidade ?? 0),
         0
       );
 
@@ -193,7 +190,6 @@ function NavbarProducts() {
     );
   }, [order]);
 
-  // CLOSE MENU WHEN CLICKING OUTSIDE
   useEffect(() => {
     function handlePointerDownOutside(
       event: PointerEvent
@@ -225,7 +221,6 @@ function NavbarProducts() {
       );
   }, []);
 
-  // CLOSE MENU WITH ESC
   useEffect(() => {
     function handleKeyDown(
       event: KeyboardEvent
@@ -280,7 +275,9 @@ function NavbarProducts() {
           <Toolbar
             disableGutters
             sx={{
-              minHeight: 80,
+              height: 78,
+              minHeight:
+                "78px !important",
 
               px: {
                 xs: 1,
@@ -293,60 +290,6 @@ function NavbarProducts() {
               },
             }}
           >
-            {/* LOGO */}
-            <Box
-              component="a"
-              href="#"
-              sx={{
-                display:
-                  "flex",
-
-                alignItems:
-                  "center",
-
-                ml: {
-                  xs: -1.5,
-                  md: -2.8,
-                },
-              }}
-              onClick={(e) => {
-                e.preventDefault();
-
-                navigate("/");
-              }}
-            >
-              <Box
-                component="img"
-                src={Logo}
-                alt="Fast Fuel Logo"
-                sx={{
-                  height: {
-                    xs: 72,
-                    md: 76,
-                  },
-
-                  mt: {
-                    xs: 0,
-                    sm: 0.2,
-                    md: 0.2,
-                  },
-
-                  width: "auto",
-
-                  objectFit:
-                    "contain",
-
-                  transform: {
-                    xs: "scaleX(1.04)",
-                    md: "scaleX(1.07)",
-                  },
-
-                  transformOrigin:
-                    "left center",
-                }}
-              />
-            </Box>
-
             {/* MENU */}
             <Box
               ref={menuRef}
@@ -359,13 +302,21 @@ function NavbarProducts() {
 
                 alignItems:
                   "center",
+
+                ml: {
+                  xs: 0.6,
+                  md: 0,
+                },
+
+                order: {
+                  xs: 1,
+                  md: 2,
+                },
               }}
             >
               <Button
                 variant="contained"
-                onPointerUp={(
-                  e
-                ) =>
+                onPointerUp={(e) =>
                   (
                     e.currentTarget as HTMLButtonElement
                   ).blur()
@@ -467,9 +418,10 @@ function NavbarProducts() {
                       "0 6px 16px rgba(0,0,0,0.30)",
 
                     zIndex:
-                      2000,
+                      9999,
 
-                    width: 210,
+                    width:
+                      210,
                   }}
                 >
                   {dropdownItemsChange.map(
@@ -494,7 +446,8 @@ function NavbarProducts() {
 
                           gap: 1.2,
 
-                          height: 41,
+                          height:
+                            41,
 
                           width:
                             "100%",
@@ -653,10 +606,72 @@ function NavbarProducts() {
               )}
             </Box>
 
+            {/* LOGO */}
+            <Box
+              component="a"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+
+                navigate("/");
+              }}
+              sx={{
+                display:
+                  "flex",
+
+                alignItems:
+                  "center",
+
+                ml: {
+                  xs: -0.8,
+                  md: -2.3,
+                },
+
+                order: {
+                  xs: 2,
+                  md: 1,
+                },
+              }}
+            >
+              <Box
+                component="img"
+                src={Logo}
+                alt="Fast Fuel Logo"
+                sx={{
+                  height: {
+                    xs: 70,
+                    md: 76,
+                  },
+
+                  mt: {
+                    xs: -0.3,
+                    sm: 0,
+                    md: 0,
+                  },
+
+                  width:
+                    "auto",
+
+                  objectFit:
+                    "contain",
+
+                  transform:
+                  {
+                    xs: "scaleX(1.04)",
+                    md: "scaleX(1.07)",
+                  },
+
+                  transformOrigin:
+                    "left center",
+                }}
+              />
+            </Box>
+
             {/* SPACER */}
             <Box
               sx={{
                 flexGrow: 1,
+                order: 3,
               }}
             />
 
@@ -672,10 +687,12 @@ function NavbarProducts() {
                 marginLeft:
                   "auto",
 
+                order: 4,
+
                 mr: {
                   xs: 0.8,
                   sm: 0.8,
-                  md: 0.8,
+                  md: 0.2,
                 },
               }}
             >
@@ -791,8 +808,8 @@ function NavbarProducts() {
                   sx={{
                     fontSize:
                     {
-                      xs: 26,
-                      md: 30,
+                      xs: 27.5,
+                      md: 30.5,
                     },
 
                     color:
