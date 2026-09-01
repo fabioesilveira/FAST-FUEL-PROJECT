@@ -759,7 +759,11 @@ function Navbar({
                       top:
                         "calc(100% + 10px)",
 
-                      left: 0,
+                      left: {
+                        xs: -65,
+                        sm: -50,
+                        md: 0,
+                      },
 
                       zIndex:
                         2000,
