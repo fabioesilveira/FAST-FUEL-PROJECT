@@ -676,8 +676,8 @@ function Navbar({
                   "center",
 
                 ml: {
-                  xs: 0,
-                  md: -2.9,
+                  xs: -0.8,
+                  md: -2.6,
                 },
 
                 order: {
@@ -697,9 +697,9 @@ function Navbar({
                   },
 
                   mt: {
-                    xs: 0,
-                    sm: 0.2,
-                    md: 0.2,
+                    xs: -0.25,
+                    sm: 0,
+                    md: 0,
                   },
 
                   width:
@@ -815,6 +815,10 @@ function Navbar({
                       sx={{
                         fontSize:
                           32,
+                        ml: {
+                          xs: -4.2,
+                          md: 0
+                        },
                       }}
                     />
                   </Box>
