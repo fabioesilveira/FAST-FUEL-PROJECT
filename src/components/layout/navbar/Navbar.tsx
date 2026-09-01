@@ -677,7 +677,7 @@ function Navbar({
 
                 ml: {
                   xs: -0.8,
-                  md: -2.6,
+                  md: -2.3,
                 },
 
                 order: {
@@ -697,7 +697,7 @@ function Navbar({
                   },
 
                   mt: {
-                    xs: -0.25,
+                    xs: -0.3,
                     sm: 0,
                     md: 0,
                   },
@@ -774,51 +774,35 @@ function Navbar({
                   <Box
                     sx={{
                       width: 54,
-
                       height: 54,
+                      borderRadius: 2.2,
+                      display: "grid",
+                      placeItems: "center",
 
-                      borderRadius:
-                        2.2,
-
-                      display:
-                        "grid",
-
-                      placeItems:
-                        "center",
+                      transform: {
+                        xs: "translateX(-15px)",
+                        md: "translateX(0)",
+                      },
 
                       transition:
                         "background-color .15s ease, transform .08s ease",
 
-                      color:
-                        "#1e5bb8",
+                      color: "#1e5bb8",
 
-                      "@media (hover: hover) and (pointer: fine)":
-                      {
-                        "&:hover":
-                        {
-                          bgcolor:
-                            "rgba(30, 91, 184, 0.14)",
+                      "@media (hover: hover) and (pointer: fine)": {
+                        "&:hover": {
+                          bgcolor: "rgba(30, 91, 184, 0.14)",
                         },
                       },
 
-                      "&:active":
-                      {
-                        bgcolor:
-                          "rgba(30, 91, 184, 0.20)",
-
-                        transform:
-                          "scale(0.98)",
+                      "&:active": {
+                        bgcolor: "rgba(30, 91, 184, 0.20)",
                       },
                     }}
                   >
                     <SearchIcon
                       sx={{
-                        fontSize:
-                          32,
-                        ml: {
-                          xs: -4.2,
-                          md: 0
-                        },
+                        fontSize: 32,
                       }}
                     />
                   </Box>
@@ -1018,7 +1002,7 @@ function Navbar({
                 mr: {
                   xs: 0.8,
                   sm: 0.8,
-                  md: 0.8,
+                  md: 0.2,
                 },
               }}
             >
@@ -1121,8 +1105,8 @@ function Navbar({
                   sx={{
                     fontSize:
                     {
-                      xs: 26,
-                      md: 30,
+                      xs: 28,
+                      md: 30.5,
                     },
 
                     color:
