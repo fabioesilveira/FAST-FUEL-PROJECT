@@ -47,14 +47,17 @@ export default function NavbarAdmin() {
 
         "& .MuiButton-startIcon": {
             marginRight: { xs: "3px", sm: "3px", md: "4px" },
-            marginLeft: { xs: "0.3px", sm: "0", md: "0" },
+            marginLeft: 0,
+
             "& svg": {
                 fontSize: { xs: 18, sm: 18, md: 20 },
             },
         },
 
         "@media (hover: hover) and (pointer: fine)": {
-            "&:hover": { backgroundColor: "#b33f00" },
+            "&:hover": {
+                backgroundColor: "#b33f00",
+            },
         },
 
         "@media (hover: none) and (pointer: coarse)": {
@@ -65,117 +68,142 @@ export default function NavbarAdmin() {
     } as const;
 
     return (
-        <AppBar position="fixed" sx={{ backgroundColor: "#fff3e0" }}>
-            <Box sx={{ width: "100%" }}>
-                <Toolbar disableGutters sx={{ minHeight: 80, px: { xs: 1, md: 2 } }}>
+        <AppBar
+            position="fixed"
+            sx={{
+                backgroundColor: "#fff3e0",
+            }}
+        >
+            <Toolbar
+                disableGutters
+                sx={{
+                    height: 78,
+                    minHeight: "78px !important",
+                    px: { xs: 1, md: 2 },
+                    gap: { xs: 1, md: 1.5 },
+                }}
+            >
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        flexShrink: 0,
+                        ml: { xs: -0.8, md: -2.3 },
+                    }}
+                >
                     <Box
+                        component="button"
+                        type="button"
+                        onPointerUp={(e) =>
+                            (e.currentTarget as HTMLButtonElement).blur()
+                        }
+                        onClick={() => navigate("/admin")}
+                        aria-label="Go to admin dashboard"
                         sx={{
+                            border: "none",
+                            background: "transparent",
+                            cursor: "pointer",
                             display: "flex",
                             alignItems: "center",
-                            gap: { xs: 1, md: 1.5 },
-                            ml: { xs: -1.5, md: -2.8 },
-                            flexShrink: 0,
+                            p: 0,
+                            borderRadius: 12,
+                            outline: "none",
+                            WebkitTapHighlightColor: "transparent",
+
+                            "&:focus": {
+                                outline: "none",
+                            },
+
+                            "&:focus-visible": {
+                                outline: "none",
+                            },
                         }}
                     >
                         <Box
-                            component="button"
-                            type="button"
-                            onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
-                            onClick={() => navigate("/admin")}
-                            aria-label="Go to admin dashboard"
+                            component="img"
+                            src={Logo}
+                            alt="Fast Fuel Logo"
                             sx={{
-                                border: "none",
-                                background: "transparent",
-                                cursor: "pointer",
-                                display: "flex",
-                                alignItems: "center",
-                                p: 0,
-                                borderRadius: 12,
-                                outline: "none",
-                                WebkitTapHighlightColor: "transparent",
-                                "&:focus": { outline: "none" },
-                                "&:focus-visible": { outline: "none" },
-                            }}
-                        >
-                            <Box
-                                component="img"
-                                src={Logo}
-                                alt="Fast Fuel Logo"
-                                sx={{
-                                    height: { xs: 72, md: 76 },
-                                    mt: { xs: 0, sm: 0.2, md: 0.2 },
-                                    width: "auto",
-                                    objectFit: "contain",
-                                    transform: { xs: "scaleX(1.04)", md: "scaleX(1.07)" },
-                                    transformOrigin: "left center",
-                                }}
-                            />
-                        </Box>
-
-                        <Chip
-                            label="ADM"
-                            size="small"
-                            sx={{
-                                ml: 1.2,
-                                height: 20,
-                                fontSize: "0.62rem",
-                                fontWeight: 900,
-                                letterSpacing: "0.12em",
-                                bgcolor: "rgba(0,0,0,0.12)",
-                                color: "rgba(0,0,0,0.65)",
-                                borderRadius: 1,
+                                height: { xs: 70, md: 76 },
+                                mt: { xs: -0.3, sm: 0, md: 0 },
+                                width: "auto",
+                                objectFit: "contain",
+                                transform: {
+                                    xs: "scaleX(1.04)",
+                                    md: "scaleX(1.07)",
+                                },
+                                transformOrigin: "left center",
                             }}
                         />
                     </Box>
 
-                    <Box sx={{ flexGrow: 1 }} />
-
-                    <Box
+                    <Chip
+                        label="ADM"
+                        size="small"
                         sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            pr: { xs: 0.8, sm: 0.8, md: 0.8 },
-                            gap: { xs: 1, sm: 1, md: 1.5 },
-                            WebkitOverflowScrolling: "touch",
-                            "&::-webkit-scrollbar": { height: 0 },
+                            ml: { xs: 0.8, md: 1 },
+                            height: 20,
+                            fontSize: "0.62rem",
+                            fontWeight: 900,
+                            letterSpacing: "0.12em",
+                            bgcolor: "rgba(0,0,0,0.12)",
+                            color: "rgba(0,0,0,0.65)",
+                            borderRadius: 1,
                         }}
-                    >
-                        {!isOrders && (
-                            <Button
-                                variant="contained"
-                                onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
-                                onClick={() => navigate("/admin/orders")}
-                                startIcon={<HistoryIcon />}
-                                sx={actionBtnSx}
-                            >
-                                Orders
-                            </Button>
-                        )}
+                    />
+                </Box>
 
-                        {!isMessages && (
-                            <Button
-                                variant="contained"
-                                onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
-                                onClick={() => navigate("/admin/messages")}
-                                startIcon={<EmailIcon />}
-                                sx={actionBtnSx}
-                            >
-                                Messages
-                            </Button>
-                        )}
+                <Box sx={{ flexGrow: 1 }} />
 
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: { xs: 1, sm: 1, md: 1.5 },
+                        mr: { xs: 0.8, sm: 0.8, md: 0.2 },
+                    }}
+                >
+                    {!isOrders && (
                         <Button
                             variant="contained"
-                            onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
-                            onClick={handleSignout}
-                            startIcon={<LogoutIcon />}
+                            onPointerUp={(e) =>
+                                (e.currentTarget as HTMLButtonElement).blur()
+                            }
+                            onClick={() => navigate("/admin/orders")}
+                            startIcon={<HistoryIcon />}
                             sx={actionBtnSx}
                         >
-                            Exit
+                            Orders
                         </Button>
-                    </Box>
-                </Toolbar>
-            </Box>
+                    )}
+
+                    {!isMessages && (
+                        <Button
+                            variant="contained"
+                            onPointerUp={(e) =>
+                                (e.currentTarget as HTMLButtonElement).blur()
+                            }
+                            onClick={() => navigate("/admin/messages")}
+                            startIcon={<EmailIcon />}
+                            sx={actionBtnSx}
+                        >
+                            Messages
+                        </Button>
+                    )}
+
+                    <Button
+                        variant="contained"
+                        onPointerUp={(e) =>
+                            (e.currentTarget as HTMLButtonElement).blur()
+                        }
+                        onClick={handleSignout}
+                        startIcon={<LogoutIcon />}
+                        sx={actionBtnSx}
+                    >
+                        Exit
+                    </Button>
+                </Box>
+            </Toolbar>
         </AppBar>
     );
 }
