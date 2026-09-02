@@ -141,7 +141,7 @@ export default function NavbarAdmin() {
                         label="ADM"
                         size="small"
                         sx={{
-                            ml: { xs: 0.8, md: 1 },
+                            ml: { xs: 0.3, md: 0.5 },
                             height: 20,
                             fontSize: "0.62rem",
                             fontWeight: 900,
