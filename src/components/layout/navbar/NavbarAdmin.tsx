@@ -141,7 +141,7 @@ export default function NavbarAdmin() {
                         label="ADM"
                         size="small"
                         sx={{
-                            ml: { xs: 0.3, md: 0.5 },
+                            ml: { xs: 0.8, md: 1 },
                             height: 20,
                             fontSize: "0.62rem",
                             fontWeight: 900,
@@ -200,7 +200,7 @@ export default function NavbarAdmin() {
                         startIcon={<LogoutIcon />}
                         sx={actionBtnSx}
                     >
-                        Exit
+                        Sign Out
                     </Button>
                 </Box>
             </Toolbar>
