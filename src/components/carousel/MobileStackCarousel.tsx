@@ -9,6 +9,7 @@ type Slide = {
   alt?: string;
   bg?: string;
   fit?: "cover" | "contain";
+  position?: string;
 };
 
 type Props = {
@@ -58,12 +59,14 @@ export default function MobileCarouselSingle({
     fadingRef.current = fading;
   }, [fading]);
 
-  // swipe
   const startX = useRef<number | null>(null);
   const deltaX = useRef(0);
 
   const clearTimer = useCallback(() => {
-    if (timerRef.current) window.clearInterval(timerRef.current);
+    if (timerRef.current) {
+      window.clearInterval(timerRef.current);
+    }
+
     timerRef.current = null;
   }, []);
 
@@ -73,9 +76,11 @@ export default function MobileCarouselSingle({
       if (fadingRef.current) return;
       if (target === idxRef.current) return;
 
-      // monta incoming primeiro (opacity 0), depois liga fading (opacity 1)
       setNextIdx(target);
-      requestAnimationFrame(() => setFading(true));
+
+      requestAnimationFrame(() => {
+        setFading(true);
+      });
 
       window.setTimeout(() => {
         setIdx(target);
@@ -88,18 +93,24 @@ export default function MobileCarouselSingle({
 
   const goNext = useCallback(() => {
     if (count < 2) return;
+
     const next = (idxRef.current + 1) % count;
+
     runTransitionTo(next);
   }, [count, runTransitionTo]);
 
   const goPrev = useCallback(() => {
     if (count < 2) return;
-    const prev = (idxRef.current - 1 + count) % count;
+
+    const prev =
+      (idxRef.current - 1 + count) % count;
+
     runTransitionTo(prev);
   }, [count, runTransitionTo]);
 
   const startTimer = useCallback(() => {
     clearTimer();
+
     if (count >= 2) {
       timerRef.current = window.setInterval(() => {
         goNext();
@@ -107,68 +118,121 @@ export default function MobileCarouselSingle({
     }
   }, [clearTimer, count, interval, goNext]);
 
-  // reinicia quando muda quantidade de slides
   useEffect(() => {
     setIdx(0);
     idxRef.current = 0;
+
     setNextIdx(null);
     setFading(false);
+
     startTimer();
+
     return clearTimer;
   }, [count, startTimer, clearTimer]);
 
-  if (count === 0) return null;
+  if (count === 0) {
+    return null;
+  }
 
   const current = safeSlides[idx];
-  const incoming = nextIdx != null ? safeSlides[nextIdx] : null;
 
-  const dotIdx = fading && nextIdx != null ? nextIdx : idx;
+  const incoming =
+    nextIdx != null
+      ? safeSlides[nextIdx]
+      : null;
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const dotIdx =
+    fading && nextIdx != null
+      ? nextIdx
+      : idx;
+
+  const handleTouchStart = (
+    e: React.TouchEvent
+  ) => {
     if (count < 2) return;
-    startX.current = e.touches[0].clientX;
+
+    startX.current =
+      e.touches[0].clientX;
+
     deltaX.current = 0;
+
     clearTimer();
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (startX.current == null) return;
-    deltaX.current = e.touches[0].clientX - startX.current;
+  const handleTouchMove = (
+    e: React.TouchEvent
+  ) => {
+    if (startX.current == null) {
+      return;
+    }
+
+    deltaX.current =
+      e.touches[0].clientX -
+      startX.current;
   };
 
   const handleTouchEnd = () => {
-    if (startX.current == null) return;
+    if (startX.current == null) {
+      return;
+    }
+
     const dx = deltaX.current;
+
     startX.current = null;
 
-    if (dx > 40) goPrev();
-    else if (dx < -40) goNext();
+    if (dx > 40) {
+      goPrev();
+    } else if (dx < -40) {
+      goNext();
+    }
 
     startTimer();
   };
 
   return (
-    <Box sx={{ width: "100%", mx: "auto", height: "100%" }}>
+    <Box
+      sx={{
+        width: "100%",
+        mx: "auto",
+        height: "100%",
+      }}
+    >
       <Box
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         sx={{
           position: "relative",
-          height: isMobile ? "100%" : `${height}px`,
+
+          height: isMobile
+            ? "100%"
+            : `${height}px`,
+
           overflow: "hidden",
-          borderRadius: `${radius}px`,
+
+          borderRadius:
+            `${radius}px`,
         }}
       >
-        <FadeSlide slide={current} radius={radius} shadow={shadow} opacity={1} animationMs={animationMs} />
+        <FadeSlide
+          slide={current}
+          radius={radius}
+          shadow={shadow}
+          opacity={1}
+          animationMs={animationMs}
+        />
 
         {incoming && (
           <FadeSlide
             slide={incoming}
             radius={radius}
             shadow={shadow}
-            opacity={fading ? 1 : 0}
-            animationMs={animationMs}
+            opacity={
+              fading ? 1 : 0
+            }
+            animationMs={
+              animationMs
+            }
             absolute
           />
         )}
@@ -179,9 +243,11 @@ export default function MobileCarouselSingle({
             left: 0,
             right: 0,
             bottom: 10,
+
             display: "flex",
             gap: 0.8,
             justifyContent: "center",
+
             pointerEvents: "none",
             zIndex: 3,
           }}
@@ -190,11 +256,22 @@ export default function MobileCarouselSingle({
             <Box
               key={s.id}
               sx={{
-                width: i === dotIdx ? 18 : 8,
+                width:
+                  i === dotIdx
+                    ? 18
+                    : 8,
+
                 height: 8,
+
                 borderRadius: 999,
-                bgcolor: i === dotIdx ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.55)",
-                transition: "all 220ms ease",
+
+                bgcolor:
+                  i === dotIdx
+                    ? "rgba(255,255,255,0.95)"
+                    : "rgba(255,255,255,0.55)",
+
+                transition:
+                  "all 220ms ease",
               }}
             />
           ))}
@@ -222,17 +299,33 @@ function FadeSlide({
   return (
     <Box
       sx={{
-        position: absolute ? "absolute" : "relative",
+        position: absolute
+          ? "absolute"
+          : "relative",
+
         inset: 0,
+
         width: "100%",
         height: "100%",
-        borderRadius: `${radius}px`,
+
+        borderRadius:
+          `${radius}px`,
+
         overflow: "hidden",
+
         boxShadow: shadow,
-        bgcolor: slide.bg ?? "transparent",
+
+        bgcolor:
+          slide.bg ??
+          "transparent",
+
         opacity,
-        transition: `opacity ${animationMs}ms ease`,
-        willChange: "opacity",
+
+        transition:
+          `opacity ${animationMs}ms ease`,
+
+        willChange:
+          "opacity",
       }}
     >
       <Box
@@ -244,7 +337,15 @@ function FadeSlide({
         sx={{
           width: "100%",
           height: "100%",
-          objectFit: slide.fit ?? "cover",
+
+          objectFit:
+            slide.fit ??
+            "cover",
+
+          objectPosition:
+            slide.position ??
+            "center center",
+
           display: "block",
         }}
       />

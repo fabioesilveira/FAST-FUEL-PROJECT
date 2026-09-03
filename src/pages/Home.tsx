@@ -45,7 +45,12 @@ const NAVFOOTER_H = 86;
 const GAP = 12;
 
 const mobileSlides = [
-    { id: "combo", src: ComboMobile, alt: "Combo Promo" },
+    {
+        id: "combo",
+        src: ComboMobile,
+        alt: "Combo Promo",
+        position: "center 58%",
+    },
     { id: "rest", src: RestImg, alt: "Rest" },
     { id: "girl", src: Chat6, alt: "Girl" },
     { id: "team", src: EmployeesMobile, alt: "Fast Fuel Team" },
