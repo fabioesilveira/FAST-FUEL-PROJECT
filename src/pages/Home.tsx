@@ -49,7 +49,7 @@ const mobileSlides = [
         id: "combo",
         src: ComboMobile,
         alt: "Combo Promo",
-        position: "center 60%",
+        position: "center 70%",
     },
 
     { id: "rest", src: RestImg, alt: "Rest" },
