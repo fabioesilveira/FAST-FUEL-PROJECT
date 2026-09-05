@@ -45,7 +45,6 @@ import { cleanProductName } from "../utils/homeHelpers";
 
 const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
-const GAP = 12;
 
 const mobileSlides = [
     {
