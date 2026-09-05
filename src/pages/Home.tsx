@@ -26,6 +26,7 @@ import FastThruOrderPanel from "../components/home/FastThruOrderPanel";
 import MobileReviewsCarousel, {
     type HomeReview,
 } from "../components/home/MobileReviewsCarousel";
+import WhyFastFuelMobile from "../components/home/WhyFastFuelMobile";
 
 import { api } from "../api";
 import { useAppContext, type Meal } from "../context/context";
@@ -357,6 +358,8 @@ export default function Home() {
                                     animationMs={780}
                                 />
                             </Box>
+
+                            <WhyFastFuelMobile />
 
                             {homeReviews.length > 0 && (
                                 <MobileReviewsCarousel
