@@ -266,32 +266,22 @@ export default function Home() {
             try {
                 const res = await api.get("/reviews");
 
-                console.log("REVIEWS STATUS:", res.status);
-                console.log("REVIEWS DATA:", res.data);
+                const reviews: HomeReview[] =
+                    Array.isArray(res.data?.reviews)
+                        ? res.data.reviews
+                        : [];
 
-                const reviewsWithComment = res.data.filter(
-                    (review: HomeReview) =>
+                const reviewsWithComment = reviews.filter(
+                    (review) =>
                         review.comment &&
                         review.comment.trim().length > 0
-                );
-
-                console.log(
-                    "REVIEWS WITH COMMENT:",
-                    reviewsWithComment
                 );
 
                 const shuffled = [...reviewsWithComment].sort(
                     () => Math.random() - 0.5
                 );
 
-                const selected = shuffled.slice(0, 5);
-
-                console.log(
-                    "HOME REVIEWS SELECTED:",
-                    selected
-                );
-
-                setHomeReviews(selected);
+                setHomeReviews(shuffled.slice(0, 5));
             } catch (err) {
                 console.error("Erro ao buscar reviews:", err);
             }
