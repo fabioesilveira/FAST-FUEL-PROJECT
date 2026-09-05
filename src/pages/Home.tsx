@@ -23,6 +23,9 @@ import HomeSearchSection from "../components/home/HomeSearchSection";
 import HomeFastThruSection from "../components/home/HomeFastThruSection";
 import PortfolioTips from "../components/portfolio/PortfolioTips";
 import FastThruOrderPanel from "../components/home/FastThruOrderPanel";
+import MobileReviewsCarousel, {
+    type HomeReview,
+} from "../components/home/MobileReviewsCarousel";
 
 import { api } from "../api";
 import { useAppContext, type Meal } from "../context/context";
@@ -90,6 +93,8 @@ export default function Home() {
     const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
     const [cartAnchorEl, setCartAnchorEl] = useState<null | HTMLElement>(null);
     const [cartBodyMaxH, setCartBodyMaxH] = useState<number>(0);
+
+    const [homeReviews, setHomeReviews] = useState<HomeReview[]>([]);
 
     const cartHeaderRef = useRef<HTMLDivElement | null>(null);
     const cartFooterRef = useRef<HTMLDivElement | null>(null);
@@ -257,6 +262,30 @@ export default function Home() {
         };
     }, [cartOpen, isMobile, cartCount, subtotal, discount, checkout]);
 
+    useEffect(() => {
+        async function loadHomeReviews() {
+            try {
+                const res = await api.get("/reviews");
+
+                const reviewsWithComment = res.data.filter(
+                    (review: HomeReview) =>
+                        review.comment &&
+                        review.comment.trim().length > 0
+                );
+
+                const shuffled = [...reviewsWithComment].sort(
+                    () => Math.random() - 0.5
+                );
+
+                setHomeReviews(shuffled.slice(0, 5));
+            } catch (err) {
+                console.error("Erro ao buscar reviews:", err);
+            }
+        }
+
+        loadHomeReviews();
+    }, []);
+
     return (
         <>
             {AlertUI}
@@ -278,7 +307,7 @@ export default function Home() {
                         backgroundColor: "transparent",
                         pt: { xs: `calc(${NAVBAR_H}px + 12px)`, md: 0 },
                         pb: { xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 12px)`, sm: 0 },
-                        overscrollBehaviorY: { xs: "none", sm: "auto" },
+                        overscrollBehaviorY: "auto",
                     }}
                 >
                     <Navbar
@@ -299,19 +328,12 @@ export default function Home() {
                     {showMobilePromosBlock && (
                         <Box
                             sx={{
-                                position: "fixed",
-                                top: `${NAVBAR_H}px`,
-                                bottom: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + ${GAP}px)`,
-                                left: 0,
-                                right: 0,
+                                position: "relative",
+                                width: "100%",
                                 display: "flex",
                                 flexDirection: "column",
+                                gap: 1.2,
                                 py: 1,
-                                gap: 1,
-                                overflow: "hidden",
-                                overscrollBehavior: "none",
-                                zIndex: 2,
-                                WebkitOverflowScrolling: "touch",
                                 backgroundColor: "transparent",
                             }}
                         >
@@ -319,13 +341,26 @@ export default function Home() {
                                 <PromoBannerCarousel />
                             </Box>
 
-                            <Box sx={{ flex: 1, minHeight: 0 }}>
+                            <Box
+                                sx={{
+                                    width: "100%",
+                                    height: "calc(100dvh - 285px)",
+                                    minHeight: 430,
+                                    maxHeight: 620,
+                                }}
+                            >
                                 <MobileStackCarousel
                                     slides={mobileSlides}
                                     interval={4200}
                                     animationMs={780}
                                 />
                             </Box>
+
+                            {homeReviews.length > 0 && (
+                                <MobileReviewsCarousel
+                                    reviews={homeReviews}
+                                />
+                            )}
                         </Box>
                     )}
 
