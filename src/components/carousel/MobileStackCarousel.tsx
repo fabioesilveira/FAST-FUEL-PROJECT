@@ -60,6 +60,7 @@ export default function MobileCarouselSingle({
   }, [fading]);
 
   const startX = useRef<number | null>(null);
+  const startY = useRef<number | null>(null);
   const deltaX = useRef(0);
 
   const clearTimer = useCallback(() => {
@@ -151,8 +152,8 @@ export default function MobileCarouselSingle({
   ) => {
     if (count < 2) return;
 
-    startX.current =
-      e.touches[0].clientX;
+    startX.current = e.touches[0].clientX;
+    startY.current = e.touches[0].clientY;
 
     deltaX.current = 0;
 
@@ -162,13 +163,26 @@ export default function MobileCarouselSingle({
   const handleTouchMove = (
     e: React.TouchEvent
   ) => {
-    if (startX.current == null) {
+    if (
+      startX.current == null ||
+      startY.current == null
+    ) {
       return;
     }
 
-    deltaX.current =
+    const dx =
       e.touches[0].clientX -
       startX.current;
+
+    const dy =
+      e.touches[0].clientY -
+      startY.current;
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+      deltaX.current = dx;
+    } else {
+      deltaX.current = 0;
+    }
   };
 
   const handleTouchEnd = () => {
@@ -179,6 +193,7 @@ export default function MobileCarouselSingle({
     const dx = deltaX.current;
 
     startX.current = null;
+    startY.current = null;
 
     if (dx > 40) {
       goPrev();
@@ -212,6 +227,8 @@ export default function MobileCarouselSingle({
 
           borderRadius:
             `${radius}px`,
+
+          touchAction: "pan-y",
         }}
       >
         <FadeSlide
