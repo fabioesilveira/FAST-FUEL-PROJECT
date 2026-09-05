@@ -348,9 +348,7 @@ export default function Home() {
                             <Box
                                 sx={{
                                     width: "100%",
-                                    height: "calc(100dvh - 285px)",
-                                    minHeight: 430,
-                                    maxHeight: 620,
+                                    height: "clamp(460px, 135vw, 580px)",
                                 }}
                             >
                                 <MobileStackCarousel
