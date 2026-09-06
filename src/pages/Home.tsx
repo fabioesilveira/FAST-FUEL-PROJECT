@@ -44,7 +44,6 @@ import EmployeesMobile from "../assets/EmployesMobile.png";
 
 import { cleanProductName } from "../utils/homeHelpers";
 
-const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
 
 const mobileSlides = [
