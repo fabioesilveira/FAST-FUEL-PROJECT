@@ -42,6 +42,12 @@ export default function TopRatedProductsMobile({
 }: Props) {
     const topThree = products.slice(0, 3);
 
+    const displayProducts = [
+        topThree[1],
+        topThree[0],
+        topThree[2],
+    ].filter(Boolean);
+
     const [selectedId, setSelectedId] = useState<number | null>(
         topThree[0]?.id ?? null
     );
@@ -112,8 +118,12 @@ export default function TopRatedProductsMobile({
                     gap: 1.4,
                 }}
             >
-                {topThree.map((product, index) => {
-                    const medal = medalStyles[index];
+                {displayProducts.map((product) => {
+                    const originalIndex = topThree.findIndex(
+                        (item) => item.id === product.id
+                    );
+
+                    const medal = medalStyles[originalIndex];
                     const selected = selectedId === product.id;
 
                     return (
@@ -156,7 +166,7 @@ export default function TopRatedProductsMobile({
                                     sx={{
                                         fontSize: selected ? 28 : 23,
                                         color:
-                                            index === 1
+                                            originalIndex === 1
                                                 ? "#616161"
                                                 : "#fff",
                                     }}
@@ -168,7 +178,7 @@ export default function TopRatedProductsMobile({
                                         fontSize: "0.7rem",
                                         fontWeight: 900,
                                         color:
-                                            index === 1
+                                            originalIndex === 1
                                                 ? "#424242"
                                                 : "#fff",
                                     }}
@@ -217,6 +227,10 @@ export default function TopRatedProductsMobile({
                             width: "100%",
                             bgcolor: "#fff",
                             overflow: "hidden",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            position: "relative",
                         }}
                     >
                         <Box
@@ -232,6 +246,7 @@ export default function TopRatedProductsMobile({
                             sx={{
                                 objectFit: "contain",
                                 display: "block",
+                                margin: "auto",
                             }}
                         />
                     </Box>
