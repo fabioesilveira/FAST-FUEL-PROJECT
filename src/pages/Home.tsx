@@ -43,6 +43,7 @@ import ComboMobile from "../assets/ComboMobile.png";
 import EmployeesMobile from "../assets/EmployesMobile.png";
 
 import { cleanProductName } from "../utils/homeHelpers";
+import TopRatedProductsMobile from "../components/home/TopRatedProductsMobile";
 
 const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
@@ -95,6 +96,7 @@ export default function Home() {
     const [cartBodyMaxH, setCartBodyMaxH] = useState<number>(0);
 
     const [homeReviews, setHomeReviews] = useState<HomeReview[]>([]);
+    const [allReviews, setAllReviews] = useState<HomeReview[]>([]);
 
     const cartHeaderRef = useRef<HTMLDivElement | null>(null);
     const cartFooterRef = useRef<HTMLDivElement | null>(null);
@@ -272,6 +274,8 @@ export default function Home() {
                         ? res.data.reviews
                         : [];
 
+                setAllReviews(reviews);
+
                 const reviewsWithComment = reviews.filter(
                     (review) =>
                         review.comment &&
@@ -290,6 +294,58 @@ export default function Home() {
 
         loadHomeReviews();
     }, []);
+
+    const topProducts = useMemo(() => {
+        const ratingMap = new Map<
+            number,
+            {
+                product_id: number;
+                product_name: string;
+                total: number;
+                count: number;
+            }
+        >();
+
+        allReviews.forEach((review) => {
+            const existing = ratingMap.get(review.product_id);
+
+            if (existing) {
+                existing.total += Number(review.rating);
+                existing.count += 1;
+            } else {
+                ratingMap.set(review.product_id, {
+                    product_id: review.product_id,
+                    product_name: review.product_name,
+                    total: Number(review.rating),
+                    count: 1,
+                });
+            }
+        });
+
+        return Array.from(ratingMap.values())
+            .map((product) => {
+                const productData = data.find(
+                    (item) => Number(item.id) === product.product_id
+                );
+
+                return {
+                    id: product.product_id,
+                    name: cleanProductName(product.product_name),
+                    image: productData?.image ?? "",
+                    average_rating: product.total / product.count,
+                    total_reviews: product.count,
+                };
+            })
+            .sort((a, b) => {
+                if (b.average_rating !== a.average_rating) {
+                    return b.average_rating - a.average_rating;
+                }
+
+                return b.total_reviews - a.total_reviews;
+            })
+            .slice(0, 3);
+    }, [allReviews, data]);
+
 
     return (
         <>
@@ -358,6 +414,8 @@ export default function Home() {
                                     animationMs={780}
                                 />
                             </Box>
+
+                            <TopRatedProductsMobile products={topProducts} />
 
                             <WhyFastFuelMobile />
 
