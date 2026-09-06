@@ -310,7 +310,7 @@ export default function Home() {
                         display: "flex",
                         flexDirection: "column",
                         backgroundColor: "transparent",
-                        pt: { xs: `calc(${NAVBAR_H}px + 5px)`, md: 0 },
+                        pt: { xs: `calc(${NAVBAR_H}px + 2px)`, md: 0 },
                         pb: { xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 10px)`, sm: 0 },
                         overscrollBehaviorY: "auto",
                     }}
@@ -349,7 +349,7 @@ export default function Home() {
                             <Box
                                 sx={{
                                     width: "100%",
-                                    height: "clamp(360px, 105vw, 460px)"
+                                    height: "clamp(370px, 105vw, 460px)"
                                 }}
                             >
                                 <MobileStackCarousel
