@@ -52,8 +52,8 @@ export default function WhyFastFuelMobile() {
                         position: "absolute",
                         top: -26,
                         right: -20,
-                        width: 92,
-                        height: 92,
+                        width: 88,
+                        height: 88,
                         borderRadius: "50%",
                         bgcolor: "rgba(230,81,0,0.10)",
                     }}
