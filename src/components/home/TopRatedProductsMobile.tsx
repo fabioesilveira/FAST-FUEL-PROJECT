@@ -52,6 +52,14 @@ export default function TopRatedProductsMobile({
         topThree.find((product) => product.id === selectedId) ??
         topThree[0];
 
+    const imageStylesTopRated: Record<string, React.CSSProperties> = {
+
+        "4": { width: "170px", height: "110px", marginTop: "-5px" },
+        "10": { width: "140px", height: "140px", marginTop: "10px" },
+        "12": { width: "150px", height: "145px" },
+
+    };
+
     return (
         <Box
             sx={{
@@ -74,17 +82,6 @@ export default function TopRatedProductsMobile({
                 Fast Fuel Favorites
             </Typography>
 
-            <Typography
-                sx={{
-                    textAlign: "center",
-                    color: "rgba(20,20,20,0.62)",
-                    fontSize: "0.8rem",
-                    mb: 1.2,
-                }}
-            >
-                Our highest-rated picks
-            </Typography>
-
             <Box
                 sx={{
                     width: 48,
@@ -95,6 +92,17 @@ export default function TopRatedProductsMobile({
                     mb: 2.2,
                 }}
             />
+
+            <Typography
+                sx={{
+                    textAlign: "center",
+                    color: "rgba(20,20,20,0.62)",
+                    fontSize: "0.8rem",
+                    mb: 1.2,
+                }}
+            >
+                Our highest-rated picks
+            </Typography>
 
             <Box
                 sx={{
@@ -215,10 +223,14 @@ export default function TopRatedProductsMobile({
                             component="img"
                             src={selectedProduct.image}
                             alt={selectedProduct.name}
+                            style={
+                                imageStylesTopRated[String(selectedProduct.id)] ?? {
+                                    width: "145px",
+                                    height: "145px",
+                                }
+                            }
                             sx={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
+                                objectFit: "contain",
                                 display: "block",
                             }}
                         />
