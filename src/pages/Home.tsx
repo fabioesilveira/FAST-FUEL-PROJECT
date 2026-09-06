@@ -44,6 +44,7 @@ import EmployeesMobile from "../assets/EmployesMobile.png";
 
 import { cleanProductName } from "../utils/homeHelpers";
 
+const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
 
 const mobileSlides = [
@@ -309,7 +310,7 @@ export default function Home() {
                         display: "flex",
                         flexDirection: "column",
                         backgroundColor: "transparent",
-                        pt: { xs: 0, md: 0 },
+                        pt: { xs: `calc(${NAVBAR_H}px)`, md: 0 },
                         pb: { xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 10px)`, sm: 0 },
                         overscrollBehaviorY: "auto",
                     }}
