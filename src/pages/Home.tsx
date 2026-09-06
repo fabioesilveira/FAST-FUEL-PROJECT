@@ -310,8 +310,8 @@ export default function Home() {
                         display: "flex",
                         flexDirection: "column",
                         backgroundColor: "transparent",
-                        pt: { xs: `calc(${NAVBAR_H}px + 12px)`, md: 0 },
-                        pb: { xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 12px)`, sm: 0 },
+                        pt: { xs: `calc(${NAVBAR_H}px + 5px)`, md: 0 },
+                        pb: { xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 10px)`, sm: 0 },
                         overscrollBehaviorY: "auto",
                     }}
                 >
