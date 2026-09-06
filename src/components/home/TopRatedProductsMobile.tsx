@@ -60,9 +60,9 @@ export default function TopRatedProductsMobile({
 
     const imageStylesTopRated: Record<string, React.CSSProperties> = {
 
-        "4": { width: "170px", height: "110px", marginTop: "-5px" },
-        "10": { width: "140px", height: "140px", marginTop: "10px" },
-        "12": { width: "150px", height: "145px" },
+        "4": { width: "170px", height: "120px", marginTop: "15px" },
+        "10": { width: "160px", height: "160px", marginTop: "10px" },
+        "12": { width: "160px", height: "155px", marginTop: "10px" },
 
     };
 
@@ -137,12 +137,17 @@ export default function TopRatedProductsMobile({
                                 p: 0,
                                 background: "transparent",
                                 cursor: "pointer",
+
+                                width: 92,
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
                             }}
                         >
                             <Box
                                 sx={{
-                                    width: selected ? 82 : 68,
-                                    height: selected ? 82 : 68,
+                                    width: 72,
+                                    height: 72,
                                     borderRadius: "50%",
                                     background: medal.bg,
                                     boxShadow: selected
@@ -152,11 +157,14 @@ export default function TopRatedProductsMobile({
                                     flexDirection: "column",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    transition:
-                                        "width 220ms ease, height 220ms ease, transform 220ms ease, box-shadow 220ms ease",
+
                                     transform: selected
-                                        ? "translateY(-4px)"
-                                        : "translateY(0)",
+                                        ? "scale(1.16)"
+                                        : "scale(1)",
+
+                                    transition:
+                                        "transform 220ms ease, box-shadow 220ms ease, border 220ms ease",
+
                                     border: selected
                                         ? "3px solid #fff"
                                         : "2px solid rgba(255,255,255,0.65)",
