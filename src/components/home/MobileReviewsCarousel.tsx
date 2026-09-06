@@ -36,8 +36,8 @@ export default function MobileReviewsCarousel({
                     color: "#0d47a1",
                     fontWeight: 900,
                     letterSpacing: "0.1em",
-                    fontSize: "1rem",
-                    mb: 0.8,
+                    fontSize: "0.95rem",
+                    mb: 1.2,
                 }}
             >
                 What Consumers Are Saying
