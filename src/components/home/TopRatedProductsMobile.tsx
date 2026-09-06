@@ -258,11 +258,12 @@ export default function TopRatedProductsMobile({
                             }}
                         />
                     </Box>
-
                     <Box
                         sx={{
                             px: 2,
                             py: 1.8,
+                            bgcolor: "#f4f4f4",
+                            borderTop: "1px solid rgba(13,71,161,0.08)",
                         }}
                     >
                         <Typography

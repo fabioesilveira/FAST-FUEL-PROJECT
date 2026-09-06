@@ -79,7 +79,7 @@ export default function MobileReviewsCarousel({
                             flex: "0 0 82%",
                             maxWidth: 330,
                             scrollSnapAlign: "center",
-                            bgcolor: "#fffaf2",
+                            bgcolor: "#f4f4f4",
                             border:
                                 "1px solid rgba(13,71,161,0.14)",
                             boxShadow:
