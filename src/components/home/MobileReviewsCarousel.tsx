@@ -5,6 +5,7 @@ import Rating from "@mui/material/Rating";
 export type HomeReview = {
     id: number;
     product_id: number;
+    product_name: string;
     display_name: string;
     rating: number;
     comment: string | null;
@@ -37,7 +38,7 @@ export default function MobileReviewsCarousel({
                     fontWeight: 900,
                     letterSpacing: "0.1em",
                     fontSize: "0.95rem",
-                    mb: 1.4,
+                    mb: 1.3,
                 }}
             >
                 What Consumers Are Saying
@@ -50,7 +51,7 @@ export default function MobileReviewsCarousel({
                     bgcolor: "#e65100",
                     borderRadius: 999,
                     mx: "auto",
-                    mb: 2.5,
+                    mb: 2.6,
                 }}
             />
 
@@ -92,6 +93,47 @@ export default function MobileReviewsCarousel({
                         }}
                     >
                         <Box>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    gap: 1,
+                                    mb: 0.8,
+                                }}
+                            >
+                                <Typography
+                                    sx={{
+                                        fontSize: "0.78rem",
+                                        fontWeight: 900,
+                                        color: "#0d47a1",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: "nowrap",
+                                        maxWidth: "65%",
+                                    }}
+                                >
+                                    {review.product_name}
+                                </Typography>
+
+                                <Typography
+                                    sx={{
+                                        fontSize: "0.68rem",
+                                        fontWeight: 600,
+                                        color: "rgba(20,20,20,0.5)",
+                                        whiteSpace: "nowrap",
+                                    }}
+                                >
+                                    {new Date(
+                                        review.created_at
+                                    ).toLocaleDateString("en-US", {
+                                        month: "short",
+                                        day: "numeric",
+                                        year: "numeric",
+                                    })}
+                                </Typography>
+                            </Box>
+
                             <Rating
                                 value={review.rating}
                                 readOnly
