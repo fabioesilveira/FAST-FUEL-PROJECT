@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
+import { cleanProductName } from "../../utils/homeHelpers";
 
 export type HomeReview = {
     id: number;
@@ -38,7 +39,7 @@ export default function MobileReviewsCarousel({
                     fontWeight: 900,
                     letterSpacing: "0.1em",
                     fontSize: "0.95rem",
-                    mb: 1.3,
+                    mb: 1.2,
                 }}
             >
                 What Consumers Are Saying
@@ -113,7 +114,7 @@ export default function MobileReviewsCarousel({
                                         maxWidth: "65%",
                                     }}
                                 >
-                                    {review.product_name}
+                                    {cleanProductName(review.product_name)}
                                 </Typography>
 
                                 <Typography
