@@ -74,7 +74,7 @@ export default function PromoBannerCarousel({
                 borderRadius: 0,
                 mt: { xs: 0.2, sm: 1.7, md: 0.7 },
                 mb: { xs: 1.3, md: -0.5 },
-                height: { xs: 95, md: 95 },
+                height: { xs: 78, md: 95 },
                 boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
                 display: "flex",
                 alignItems: "center",
@@ -104,14 +104,20 @@ export default function PromoBannerCarousel({
                     sx={{
                         width: "88%",
                         mx: "auto",
-                        fontSize: { xs: "1.3rem", sm: "1.9rem", md: "2.2rem" },
+
+                        fontSize: {
+                            xs: "1.1rem",
+                            sm: "1.9rem",
+                            md: "2.2rem",
+                        },
+
                         lineHeight: 0.7,
                         letterSpacing: "0.08em",
                         textTransform: "uppercase",
                         color: "#0d47a1",
                         textShadow: `
-                            1px 1px 0 #ffe0c7,
-                            2px 2px 0 rgba(230, 81, 0, 0.35)
+                                1px 1px 0 #ffe0c7,
+                                2px 2px 0 rgba(230, 81, 0, 0.35)
                             `,
                     }}
                 >
@@ -121,8 +127,14 @@ export default function PromoBannerCarousel({
                 {b.subtitle && (
                     <Typography
                         sx={{
-                            mt: 0.9,
-                            fontSize: { xs: "0.88rem", sm: "0.95rem", md: "1.05rem" },
+                            mt: { xs: 0.7, md: 0.9 },
+
+                            fontSize: {
+                                xs: "0.75rem",
+                                sm: "0.95rem",
+                                md: "1.05rem",
+                            },
+
                             fontWeight: 800,
                             letterSpacing: "0.1em",
                             textTransform: "uppercase",
