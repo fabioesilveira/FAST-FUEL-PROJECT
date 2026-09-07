@@ -44,6 +44,7 @@ import EmployeesMobile from "../assets/EmployesMobile.png";
 
 import { cleanProductName } from "../utils/homeHelpers";
 import TopRatedProductsMobile from "../components/home/TopRatedProductsMobile";
+import NowAvailableMobile from "../components/home/NowAvailableMobile";
 
 const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
@@ -418,6 +419,8 @@ export default function Home() {
                             <TopRatedProductsMobile products={topProducts} />
 
                             <WhyFastFuelMobile />
+
+                            <NowAvailableMobile />
 
                             {homeReviews.length > 0 && (
                                 <MobileReviewsCarousel

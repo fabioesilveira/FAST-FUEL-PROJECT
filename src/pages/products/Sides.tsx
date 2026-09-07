@@ -78,14 +78,14 @@ export default function Sides() {
   }, []);
 
   const imageStylesGridMobile: Record<string, React.CSSProperties> = {
-    "11": { width: "110px", height: "106px" },
+    "11": { width: "110px", height: "104px", marginTop: "2px"  },
     "12": { width: "120px", height: "103px", marginTop: "3px" },
     "13": { width: "90px", height: "100px", marginTop: "9px" },
     "14": { width: "100px", height: "92px", marginTop: "3px" },
   };
 
   const imageStylesStreamMobile: Record<string, React.CSSProperties> = {
-    "11": { width: "162px", height: "157px" },
+    "11": { width: "162px", height: "156px" },
     "12": { width: "180px", height: "157px", marginTop: "8px" },
     "13": { width: "178px", height: "140px", marginTop: "11px" },
     "14": { width: "150px", height: "136px", marginTop: "8px" },

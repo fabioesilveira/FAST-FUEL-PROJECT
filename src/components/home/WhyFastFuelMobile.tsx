@@ -5,21 +5,27 @@ import Stack from "@mui/material/Stack";
 import BoltRoundedIcon from "@mui/icons-material/BoltRounded";
 import SpeedRoundedIcon from "@mui/icons-material/SpeedRounded";
 import TrackChangesRoundedIcon from "@mui/icons-material/TrackChangesRounded";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 
 const features = [
     {
         title: "Fast checkout flow",
-        text: "A smooth, app-like ordering experience designed to help customers move from cart to checkout quickly with less friction.",
+        text: "Move from cart to checkout quickly with a smooth, responsive experience designed to reduce friction and make ordering simple.",
         icon: <BoltRoundedIcon sx={{ fontSize: 23 }} />,
     },
     {
         title: "Fast Thru mode",
-        text: "A streamlined ordering mode inspired by the drive-thru experience, making it easier to add favorites and move through checkout quickly.",
+        text: "A streamlined ordering experience inspired by the drive-thru, helping customers add favorites and complete their order with fewer steps.",
         icon: <SpeedRoundedIcon sx={{ fontSize: 23 }} />,
     },
     {
+        title: "Guest or registered checkout",
+        text: "Choose the checkout experience that works best for you, whether ordering as a guest or through a registered account.",
+        icon: <PersonRoundedIcon sx={{ fontSize: 23 }} />,
+    },
+    {
         title: "Live order tracking",
-        text: "Follow your order status in real time from confirmation to completion with a simple and clear tracking experience.",
+        text: "Track every stage of your order with live status updates from confirmation to completion.",
         icon: <TrackChangesRoundedIcon sx={{ fontSize: 23 }} />,
     },
 ];
@@ -114,7 +120,7 @@ export default function WhyFastFuelMobile() {
                         zIndex: 1,
                     }}
                 >
-                    Fast Fuel is a browser-based fast-food ordering experience designed to make ordering feel simple, quick, and intuitive.
+                    A modern fast-food ordering experience built to make ordering your favorites simple, fast, and convenient.
                 </Typography>
 
                 <Stack
@@ -212,8 +218,8 @@ export default function WhyFastFuelMobile() {
                     }}
                 >
                     {[
-                        "Simple",
                         "Responsive",
+                        "Secure",
                         "Real-Time",
                     ].map((label) => (
                         <Box
