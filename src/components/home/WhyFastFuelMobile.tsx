@@ -28,7 +28,7 @@ export default function WhyFastFuelMobile() {
     return (
         <Box
             sx={{
-                mt: 2.5,
+                mt: 3,
                 px: 2,
                 width: "100%",
             }}

@@ -110,7 +110,7 @@ export default function TopRatedProductsMobile({
                     textAlign: "center",
                     color: "rgba(20,20,20,0.62)",
                     fontSize: "0.9rem",
-                    mb: 1.6,
+                    mb: 1.8,
                 }}
             >
                 Our highest-rated picks
@@ -203,7 +203,7 @@ export default function TopRatedProductsMobile({
 
                             <Typography
                                 sx={{
-                                    mt: 1.2,
+                                    mt: 1.6,
                                     width: 88,
                                     textAlign: "center",
                                     color: selected
