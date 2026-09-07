@@ -248,6 +248,7 @@ export default function TopRatedProductsMobile({
                         }}
                     >
                         <Box
+                            key={selectedProduct.id}
                             component="img"
                             src={selectedProduct.image}
                             alt={selectedProduct.name}
