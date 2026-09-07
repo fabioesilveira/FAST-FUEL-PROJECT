@@ -59,7 +59,7 @@ export default function HomeMiniCardMobile({
         "4": { width: 62, height: 50 },
 
         "11": { width: 53, height: 52, marginTop: -2 },
-        "12": { width: 60, height: 50 },
+        "12": { width: 60, height: 53 },
         "13": { width: 54, height: 47, marginTop: 2 },
         "14": { width: 47, height: 50 },
 
