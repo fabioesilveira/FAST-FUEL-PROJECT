@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import { cleanProductName } from "../../utils/homeHelpers";
+import { useNavigate } from "react-router-dom";
 
 export type HomeReview = {
     id: number;
@@ -21,6 +22,9 @@ type Props = {
 export default function MobileReviewsCarousel({
     reviews,
 }: Props) {
+
+    const navigate = useNavigate();
+
     if (!reviews.length) return null;
 
     return (
@@ -185,6 +189,70 @@ export default function MobileReviewsCarousel({
                         </Box>
                     </Box>
                 ))}
+
+                <Box
+                    component="button"
+                    type="button"
+                    aria-label="See all reviews"
+                    onClick={() => navigate("/reviews")}
+                    sx={{
+                        flex: "0 0 82%",
+                        maxWidth: 330,
+                        scrollSnapAlign: "center",
+                        bgcolor: "#0d47a1",
+                        border: "none",
+                        boxShadow:
+                            "0 4px 14px rgba(13,71,161,0.14)",
+                        borderRadius: 3,
+                        px: 2.2,
+                        py: 2,
+                        minHeight: 150,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontFamily: "inherit",
+                        cursor: "pointer",
+                        color: "#fff",
+                        WebkitTapHighlightColor: "transparent",
+
+                        transition:
+                            "transform 180ms ease, box-shadow 180ms ease",
+
+                        "@media (hover: hover)": {
+                            "&:hover": {
+                                transform: "translateY(-2px)",
+                                boxShadow:
+                                    "0 8px 18px rgba(13,71,161,0.20)",
+                            },
+                        },
+
+                        "&:active": {
+                            transform: "scale(0.98)",
+                        },
+                    }}
+                >
+                    <Typography
+                        sx={{
+                            fontSize: "1rem",
+                            fontWeight: 900,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.06em",
+                        }}
+                    >
+                        See All Reviews
+                    </Typography>
+
+                    <Typography
+                        sx={{
+                            mt: 0.8,
+                            fontSize: "0.78rem",
+                            color: "rgba(255,255,255,0.82)",
+                        }}
+                    >
+                        Browse all customer feedback →
+                    </Typography>
+                </Box>
             </Box>
         </Box>
     );
