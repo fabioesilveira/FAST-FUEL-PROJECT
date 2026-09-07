@@ -68,7 +68,7 @@ export default function TopRatedProductsMobile({
 
         "4": { width: "170px", height: "130px", marginTop: "27px" },
         "10": { width: "160px", height: "160px", marginTop: "18px" },
-        "12": { width: "160px", height: "152px", marginTop: "17px" },
+        "12": { width: "160px", height: "147px", marginTop: "17px" },
 
     };
 
