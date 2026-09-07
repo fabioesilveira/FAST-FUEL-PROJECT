@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -52,6 +52,12 @@ export default function TopRatedProductsMobile({
         topThree[0]?.id ?? null
     );
 
+    useEffect(() => {
+        if (topThree.length > 0 && selectedId === null) {
+            setSelectedId(topThree[0].id);
+        }
+    }, [topThree, selectedId]);
+
     if (!topThree.length) return null;
 
     const selectedProduct =
@@ -95,7 +101,7 @@ export default function TopRatedProductsMobile({
                     bgcolor: "#e65100",
                     borderRadius: 999,
                     mx: "auto",
-                    mb: 2.2,
+                    mb: 1.8,
                 }}
             />
 
@@ -104,7 +110,7 @@ export default function TopRatedProductsMobile({
                     textAlign: "center",
                     color: "rgba(20,20,20,0.62)",
                     fontSize: "0.8rem",
-                    mb: 1.2,
+                    mb: 1.6,
                 }}
             >
                 Our highest-rated picks
@@ -197,7 +203,7 @@ export default function TopRatedProductsMobile({
 
                             <Typography
                                 sx={{
-                                    mt: 0.8,
+                                    mt: 1.2,
                                     width: 88,
                                     textAlign: "center",
                                     color: selected
