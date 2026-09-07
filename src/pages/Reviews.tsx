@@ -191,6 +191,7 @@ export default function Reviews() {
 
         if (category || productId) {
             setSortOrder("newest");
+            setPage(1);
         }
     }, [searchParams]);
 

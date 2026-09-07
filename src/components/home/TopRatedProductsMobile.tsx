@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -48,6 +49,8 @@ export default function TopRatedProductsMobile({
     const [selectedId, setSelectedId] = useState<number | null>(
         topThree[0]?.id ?? null
     );
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (topThree.length > 0 && selectedId === null) {
@@ -172,7 +175,7 @@ export default function TopRatedProductsMobile({
                             >
                                 <EmojiEventsRoundedIcon
                                     sx={{
-                                        fontSize: selected ? 28 : 23,
+                                        fontSize: selected ? 26 : 23,
                                         color:
                                             originalIndex === 1
                                                 ? "#616161"
@@ -219,6 +222,9 @@ export default function TopRatedProductsMobile({
 
             <Collapse in={Boolean(selectedProduct)} timeout={280}>
                 <Box
+                    onClick={() =>
+                        navigate(`/reviews?product_id=${selectedProduct.id}`)
+                    }
                     sx={{
                         mt: 2.2,
                         borderRadius: 4,
@@ -227,6 +233,21 @@ export default function TopRatedProductsMobile({
                         border: "1px solid rgba(13,71,161,0.12)",
                         boxShadow:
                             "0 6px 18px rgba(13,71,161,0.08)",
+                        cursor: "pointer",
+                        transition:
+                            "transform 180ms ease, box-shadow 180ms ease",
+
+                        "@media (hover: hover)": {
+                            "&:hover": {
+                                transform: "translateY(-2px)",
+                                boxShadow:
+                                    "0 8px 22px rgba(13,71,161,0.13)",
+                            },
+                        },
+
+                        "&:active": {
+                            transform: "scale(0.99)",
+                        },
                     }}
                 >
                     <Box
