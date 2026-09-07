@@ -26,7 +26,7 @@ export default function MobileReviewsCarousel({
     return (
         <Box
             sx={{
-                mt: 3.5,
+                mt: 2.8,
                 mb: 2,
                 width: "100%",
             }}

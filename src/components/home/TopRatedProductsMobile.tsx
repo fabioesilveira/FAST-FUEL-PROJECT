@@ -66,9 +66,9 @@ export default function TopRatedProductsMobile({
 
     const imageStylesTopRated: Record<string, React.CSSProperties> = {
 
-        "4": { width: "170px", height: "130px", marginTop: "25px" },
+        "4": { width: "170px", height: "130px", marginTop: "27px" },
         "10": { width: "160px", height: "160px", marginTop: "18px" },
-        "12": { width: "160px", height: "155px", marginTop: "17px" },
+        "12": { width: "160px", height: "152px", marginTop: "17px" },
 
     };
 
@@ -109,7 +109,7 @@ export default function TopRatedProductsMobile({
                 sx={{
                     textAlign: "center",
                     color: "rgba(20,20,20,0.62)",
-                    fontSize: "0.8rem",
+                    fontSize: "0.9rem",
                     mb: 1.6,
                 }}
             >
