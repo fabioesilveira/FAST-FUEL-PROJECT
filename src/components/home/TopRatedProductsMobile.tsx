@@ -162,11 +162,11 @@ export default function TopRatedProductsMobile({
                                     justifyContent: "center",
 
                                     transform: selected
-                                        ? "scale(1.16)"
+                                        ? "scale(1.12)"
                                         : "scale(1)",
 
                                     transition:
-                                        "transform 220ms ease, box-shadow 220ms ease, border 220ms ease",
+                                        "transform 320ms cubic-bezier(0.22, 1, 0.36, 1), border 320ms cubic-bezier(0.22, 1, 0.36, 1)",
 
                                     border: selected
                                         ? "3px solid #fff"
