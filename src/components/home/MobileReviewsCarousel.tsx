@@ -52,7 +52,7 @@ export default function MobileReviewsCarousel({
                     bgcolor: "#e65100",
                     borderRadius: 999,
                     mx: "auto",
-                    mb: 2.6,
+                    mb: 2.65,
                 }}
             />
 

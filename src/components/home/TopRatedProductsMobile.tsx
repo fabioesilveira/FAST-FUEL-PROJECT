@@ -101,7 +101,7 @@ export default function TopRatedProductsMobile({
                     bgcolor: "#e65100",
                     borderRadius: 999,
                     mx: "auto",
-                    mb: 1.8,
+                    mb: 1.7,
                 }}
             />
 
