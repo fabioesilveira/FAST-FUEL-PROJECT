@@ -23,17 +23,14 @@ const medalStyles = [
     {
         label: "1st",
         bg: "linear-gradient(135deg, #ffd54f, #ffb300)",
-        shadow: "0 6px 18px rgba(255,179,0,0.28)",
     },
     {
         label: "2nd",
         bg: "linear-gradient(135deg, #eeeeee, #bdbdbd)",
-        shadow: "0 6px 18px rgba(120,120,120,0.20)",
     },
     {
         label: "3rd",
         bg: "linear-gradient(135deg, #d7a86e, #a66a2c)",
-        shadow: "0 6px 18px rgba(166,106,44,0.22)",
     },
 ];
 
@@ -67,7 +64,7 @@ export default function TopRatedProductsMobile({
     const imageStylesTopRated: Record<string, React.CSSProperties> = {
 
         "4": { width: "170px", height: "130px", marginTop: "27px" },
-        "10": { width: "160px", height: "160px", marginTop: "18px" },
+        "10": { width: "160px", height: "162px", marginTop: "18px" },
         "12": { width: "155px", height: "142px", marginTop: "25px" },
 
     };
@@ -156,9 +153,6 @@ export default function TopRatedProductsMobile({
                                     height: 72,
                                     borderRadius: "50%",
                                     background: medal.bg,
-                                    boxShadow: selected
-                                        ? medal.shadow
-                                        : "0 3px 10px rgba(0,0,0,0.10)",
                                     display: "flex",
                                     flexDirection: "column",
                                     alignItems: "center",
