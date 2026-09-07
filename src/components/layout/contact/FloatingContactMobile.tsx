@@ -32,16 +32,19 @@ const MobileContactBubble = styled("button", {
   opacity: isHidden ? 0 : 1,
 
   transform: isHidden
-    ? "translateX(72px) scale(0.96)"
-    : "translateX(0) scale(1)",
+    ? "translateX(72px)"
+    : "translateX(0)",
 
   transition:
-    "transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), " +
-    "opacity 0.35s ease, " +
+    "transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), " +
+    "opacity 0.3s ease, " +
     "box-shadow 0.2s ease",
 
-  pointerEvents: isHidden ? "none" : "auto",
+  willChange: "transform, opacity",
+  backfaceVisibility: "hidden",
+  WebkitBackfaceVisibility: "hidden",
 
+  pointerEvents: isHidden ? "none" : "auto",
 
 
   "@media (hover: hover) and (pointer: fine)": {
