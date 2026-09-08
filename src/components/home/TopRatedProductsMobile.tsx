@@ -75,7 +75,7 @@ export default function TopRatedProductsMobile({
     return (
         <Box
             sx={{
-                mt: 2.7,
+                mt: 2.6,
                 px: 2,
                 width: "100%",
             }}

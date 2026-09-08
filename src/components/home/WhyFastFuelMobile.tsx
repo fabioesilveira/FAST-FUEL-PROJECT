@@ -15,7 +15,7 @@ const features = [
     },
     {
         title: "Fast Thru mode",
-        text: "A streamlined ordering experience inspired by the drive-thru, helping customers add favorites and complete their order with fewer steps.",
+        text: "A streamlined drive-thru inspired experience that helps customers add favorites and complete their order with fewer steps.",
         icon: <SpeedRoundedIcon sx={{ fontSize: 23 }} />,
     },
     {
@@ -168,9 +168,9 @@ export default function WhyFastFuelMobile() {
                                     alignItems: "center",
                                     justifyContent: "center",
                                     bgcolor:
-                                        index === 1
-                                            ? "#e65100"
-                                            : "#0d47a1",
+                                        index % 2 === 0
+                                            ? "#0d47a1"
+                                            : "#e65100",
                                     color: "#fff",
                                     mt: 0.1,
                                     boxShadow:
