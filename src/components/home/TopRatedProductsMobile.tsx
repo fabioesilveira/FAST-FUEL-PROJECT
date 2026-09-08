@@ -169,8 +169,8 @@ export default function TopRatedProductsMobile({
                                         "transform 320ms cubic-bezier(0.22, 1, 0.36, 1), border 320ms cubic-bezier(0.22, 1, 0.36, 1)",
 
                                     border: selected
-                                        ? "3px solid #fff"
-                                        : "2px solid rgba(255,255,255,0.65)",
+                                        ? "2px solid #0d47a1"
+                                        : "2px solid transparent",
                                 }}
                             >
                                 <EmojiEventsRoundedIcon
