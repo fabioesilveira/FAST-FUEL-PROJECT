@@ -170,7 +170,7 @@ export default function TopRatedProductsMobile({
 
                                     border: selected
                                         ? "2px solid #0d47a1"
-                                        : "2px solid transparent",
+                                        : "2px solid #f5f5f5",
                                 }}
                             >
                                 <EmojiEventsRoundedIcon
