@@ -96,7 +96,7 @@ export default function TopRatedProductsMobile({
 
             <Box
                 sx={{
-                    width: 48,
+                    width: 58,
                     height: 3,
                     bgcolor: "#e65100",
                     borderRadius: 999,

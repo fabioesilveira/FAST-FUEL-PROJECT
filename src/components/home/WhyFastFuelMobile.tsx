@@ -95,7 +95,7 @@ export default function WhyFastFuelMobile() {
 
                 <Box
                     sx={{
-                        width: 52,
+                        width: 58,
                         height: 3,
                         bgcolor: "#e65100",
                         borderRadius: 999,
