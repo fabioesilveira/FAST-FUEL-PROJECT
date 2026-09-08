@@ -440,7 +440,7 @@ export default function Home() {
                         disableGutters
                         sx={{
                             flexGrow: 2,
-                            mt: { xs: driveModeActive ? "14px" : 0, md: "100px" },
+                            mt: { xs: driveModeActive ? "13px" : 0, md: "100px" },
                             mb: { xs: 2, md: "60px" },
                             px: { xs: 2, md: 3 },
                             maxWidth: 1200,
