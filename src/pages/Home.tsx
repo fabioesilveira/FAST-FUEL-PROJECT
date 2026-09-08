@@ -45,6 +45,7 @@ import EmployeesMobile from "../assets/EmployesMobile.png";
 import { cleanProductName } from "../utils/homeHelpers";
 import TopRatedProductsMobile from "../components/home/TopRatedProductsMobile";
 import NowAvailableMobile from "../components/home/NowAvailableMobile";
+import TrackOrderMobile from "../components/home/TrackOrderMobile";
 
 const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
@@ -368,7 +369,7 @@ export default function Home() {
                         flexDirection: "column",
                         backgroundColor: "transparent",
                         pt: { xs: `calc(${NAVBAR_H}px)`, md: 0 },
-                        pb: { xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 10px)`, sm: 0 },
+                        pb: { xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 8px)`, sm: 0 },
                         overscrollBehaviorY: "auto",
                     }}
                 >
@@ -416,11 +417,15 @@ export default function Home() {
                                 />
                             </Box>
 
+                            <TrackOrderMobile />
+
                             <TopRatedProductsMobile products={topProducts} />
 
                             <WhyFastFuelMobile />
 
-                            <NowAvailableMobile />
+                            <NowAvailableMobile
+                                onOpenFastThru={enterFastThru}
+                            />
 
                             {homeReviews.length > 0 && (
                                 <MobileReviewsCarousel
@@ -435,7 +440,7 @@ export default function Home() {
                         disableGutters
                         sx={{
                             flexGrow: 2,
-                            mt: { xs: driveModeActive ? "10px" : 0, md: "100px" },
+                            mt: { xs: driveModeActive ? "14px" : 0, md: "100px" },
                             mb: { xs: 2, md: "60px" },
                             px: { xs: 2, md: 3 },
                             maxWidth: 1200,

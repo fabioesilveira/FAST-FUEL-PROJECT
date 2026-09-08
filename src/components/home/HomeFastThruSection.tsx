@@ -44,7 +44,7 @@ export default function HomeFastThruSection({
         : HomeMiniCard;
 
     return (
-        <Box sx={{ mb: { xs: 1.5, md: 2 } }}>
+        <Box sx={{ mb: { xs: 1.5, md: 2, } }}>
             <Box
                 sx={{
                     width: {

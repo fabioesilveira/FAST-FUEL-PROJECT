@@ -1,11 +1,14 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
 
-export default function NowAvailableMobile() {
-    const navigate = useNavigate();
+type Props = {
+    onOpenFastThru: () => void;
+};
 
+export default function NowAvailableMobile({
+    onOpenFastThru,
+}: Props) {
     return (
         <Box
             sx={{
@@ -62,7 +65,7 @@ export default function NowAvailableMobile() {
 
             <Button
                 variant="contained"
-                onClick={() => navigate("/products")}
+                onClick={onOpenFastThru}
                 sx={{
                     bgcolor: "#e65100",
                     color: "#fff",
