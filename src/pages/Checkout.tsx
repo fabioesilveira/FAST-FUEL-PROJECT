@@ -78,7 +78,10 @@ const tfBlueLabelSx = {
     "& .MuiOutlinedInput-root": {
         "& fieldset": { borderColor: "#0d47a1" },
         "&:hover fieldset": { borderColor: "#123b7a" },
-        "&.Mui-focused fieldset": { borderColor: "#0d47a1", borderWidth: 2 },
+        "&.Mui-focused fieldset": {
+            borderColor: "#0d47a1",
+            borderWidth: 2,
+        },
     },
 };
 
@@ -133,7 +136,12 @@ export default function Checkout() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const { showAlert, confirmAlert, AlertUI, ConfirmUI } = useAppAlert({
+    const {
+        showAlert,
+        confirmAlert,
+        AlertUI,
+        ConfirmUI,
+    } = useAppAlert({
         vertical: "top",
         horizontal: "center",
     });
@@ -141,18 +149,26 @@ export default function Checkout() {
     const paymentRef = useRef<StripePaymentHandle>(null);
     const scrollBoxRef = useRef<HTMLDivElement | null>(null);
 
-    const [checkoutBarFloating, setCheckoutBarFloating] = useState(true);
-    const [isEditingForm, setIsEditingForm] = useState(false);
+    const [checkoutBarFloating, setCheckoutBarFloating] =
+        useState(true);
 
-    const [clientSecret, setClientSecret] = useState("");
-    const [paymentLoading, setPaymentLoading] = useState(false);
+    const [isEditingForm, setIsEditingForm] =
+        useState(false);
 
-    const [streetText, setStreetText] = useState("");
+    const [clientSecret, setClientSecret] =
+        useState("");
 
-    const [screen, setScreen] = useState<CheckoutScreen>("form");
-    const [orderCode, setOrderCode] = useState("");
+    const [paymentLoading, setPaymentLoading] =
+        useState(false);
 
+    const [streetText, setStreetText] =
+        useState("");
 
+    const [screen, setScreen] =
+        useState<CheckoutScreen>("form");
+
+    const [orderCode, setOrderCode] =
+        useState("");
 
     const [address, setAddress] = useState({
         street: "",
@@ -166,7 +182,9 @@ export default function Checkout() {
     const addressLine = useMemo(() => {
         const parts = [
             address.street?.trim(),
-            address.apt?.trim() ? `Apt ${address.apt.trim()}` : "",
+            address.apt?.trim()
+                ? `Apt ${address.apt.trim()}`
+                : "",
             address.city?.trim(),
             address.state?.trim(),
             address.zip?.trim(),
@@ -176,35 +194,59 @@ export default function Checkout() {
         return parts.join(", ");
     }, [address]);
 
-    const [fullName, setFullName] = useState("");
-    const [email, setEmail] = useState("");
-    const [submitting, setSubmitting] = useState(false);
+    const [fullName, setFullName] =
+        useState("");
+
+    const [email, setEmail] =
+        useState("");
+
+    const [submitting, setSubmitting] =
+        useState(false);
 
 
     const loggedUser: LoggedUser | null = useMemo(() => {
         const rawAuth = localStorage.getItem("authUser");
+
         if (rawAuth) {
             try {
                 const u = JSON.parse(rawAuth);
-                if (u?.id) return u as LoggedUser;
+
+                if (u?.id) {
+                    return u as LoggedUser;
+                }
             } catch { }
         }
 
-        const idUser = localStorage.getItem("idUser");
+        const idUser =
+            localStorage.getItem("idUser");
+
         if (idUser) {
             return {
                 id: Number(idUser),
-                userName: localStorage.getItem("userName") || undefined,
-                email: localStorage.getItem("emailUser") || undefined,
-                type: (localStorage.getItem("userType") as LoggedUser["type"]) || "normal",
+                userName:
+                    localStorage.getItem("userName") ||
+                    undefined,
+                email:
+                    localStorage.getItem("emailUser") ||
+                    undefined,
+                type:
+                    (localStorage.getItem(
+                        "userType"
+                    ) as LoggedUser["type"]) ||
+                    "normal",
             };
         }
 
-        const rawUser = localStorage.getItem("user");
+        const rawUser =
+            localStorage.getItem("user");
+
         if (rawUser) {
             try {
                 const u = JSON.parse(rawUser);
-                if (u?.id) return u as LoggedUser;
+
+                if (u?.id) {
+                    return u as LoggedUser;
+                }
             } catch { }
         }
 
@@ -212,7 +254,8 @@ export default function Checkout() {
     }, []);
 
     const isLogged =
-        Number.isFinite(Number(loggedUser?.id)) && Number(loggedUser?.id) > 0;
+        Number.isFinite(Number(loggedUser?.id)) &&
+        Number(loggedUser?.id) > 0;
 
     const {
         discount,
@@ -227,17 +270,41 @@ export default function Checkout() {
 
 
     function validate() {
-        if (!order || order.length === 0) return "Your cart is empty.";
+        if (!order || order.length === 0) {
+            return "Your cart is empty.";
+        }
 
-        if (!fullName.trim()) return "Please enter your full name.";
-        if (!email.trim()) return "Please enter your email.";
-        if (!email.includes("@")) return "Please enter a valid email.";
+        if (!fullName.trim()) {
+            return "Please enter your full name.";
+        }
 
-        if (!address.street.trim()) return "Please fill your street.";
-        if (!address.city.trim()) return "Please fill your city.";
-        if (!address.state.trim()) return "Please fill your state.";
-        if (!address.zip.trim()) return "Please fill your zipcode.";
-        if (!address.country.trim()) return "Please fill your country.";
+        if (!email.trim()) {
+            return "Please enter your email.";
+        }
+
+        if (!email.includes("@")) {
+            return "Please enter a valid email.";
+        }
+
+        if (!address.street.trim()) {
+            return "Please fill your street.";
+        }
+
+        if (!address.city.trim()) {
+            return "Please fill your city.";
+        }
+
+        if (!address.state.trim()) {
+            return "Please fill your state.";
+        }
+
+        if (!address.zip.trim()) {
+            return "Please fill your zipcode.";
+        }
+
+        if (!address.country.trim()) {
+            return "Please fill your country.";
+        }
 
         return null;
     }
@@ -246,7 +313,11 @@ export default function Checkout() {
         setOrder((prev) =>
             prev.map((p) =>
                 String(p.id) === productId
-                    ? { ...p, quantidade: (p.quantidade ?? 0) + 1 }
+                    ? {
+                        ...p,
+                        quantidade:
+                            (p.quantidade ?? 0) + 1,
+                    }
                     : p
             )
         );
@@ -254,33 +325,62 @@ export default function Checkout() {
 
     function decItem(productId: string) {
         setOrder((prev) => {
-            const existing = prev.find((p) => String(p.id) === productId);
-            if (!existing) return prev;
+            const existing = prev.find(
+                (p) =>
+                    String(p.id) === productId
+            );
 
-            const q = existing.quantidade ?? 0;
-            if (q <= 1) return prev.filter((p) => String(p.id) !== productId);
+            if (!existing) {
+                return prev;
+            }
+
+            const q =
+                existing.quantidade ?? 0;
+
+            if (q <= 1) {
+                return prev.filter(
+                    (p) =>
+                        String(p.id) !== productId
+                );
+            }
 
             return prev.map((p) =>
                 String(p.id) === productId
-                    ? { ...p, quantidade: (p.quantidade ?? 0) - 1 }
+                    ? {
+                        ...p,
+                        quantidade:
+                            (p.quantidade ?? 0) - 1,
+                    }
                     : p
             );
         });
     }
 
     function handleClearCart() {
-        if (order.length === 0) return;
+        if (order.length === 0) {
+            return;
+        }
 
         confirmAlert({
             title: "Clear cart",
-            message: "This will remove all items from your cart. Continue?",
+            message:
+                "This will remove all items from your cart. Continue?",
             confirmText: "Yes, clear",
             cancelText: "Cancel",
+
             onConfirm: () => {
                 setOrder([]);
-                localStorage.removeItem("lsOrder");
-                showAlert("Cart cleared.", "warning");
+
+                localStorage.removeItem(
+                    "lsOrder"
+                );
+
+                showAlert(
+                    "Cart cleared.",
+                    "warning"
+                );
             },
+
             onCancel: () => { },
             onDismiss: () => { },
         });
@@ -290,7 +390,11 @@ export default function Checkout() {
         const err = validate();
 
         if (err) {
-            showAlert(err, "warning");
+            showAlert(
+                err,
+                "warning"
+            );
+
             return;
         }
 
@@ -302,43 +406,69 @@ export default function Checkout() {
 
             if (!paymentResult?.success) {
                 showAlert(
-                    paymentResult?.error || "Payment failed.",
+                    paymentResult?.error ||
+                    "Payment failed.",
                     "error"
                 );
+
                 return;
             }
 
             setScreen("processing");
 
-            const itemsNorm = (order as Meal[]).map((it) => ({
-                id: String(it.id),
-                qty: Number(it.quantidade ?? 1),
-            }));
+            const itemsNorm =
+                (order as Meal[]).map(
+                    (it) => ({
+                        id: String(it.id),
+                        qty: Number(
+                            it.quantidade ?? 1
+                        ),
+                    })
+                );
 
             const payload = {
-                user_id: isLogged ? Number(loggedUser!.id) : null,
+                user_id:
+                    isLogged
+                        ? Number(loggedUser!.id)
+                        : null,
 
-                customer_name: fullName.trim(),
-                customer_email: email.trim(),
+                customer_name:
+                    fullName.trim(),
+
+                customer_email:
+                    email.trim(),
 
                 items: itemsNorm,
 
                 delivery_address: {
-                    street: address.street.trim(),
-                    apt: address.apt.trim(),
-                    city: address.city.trim(),
-                    state: address.state.trim(),
-                    zip: address.zip.trim(),
-                    country: address.country.trim() || "USA",
+                    street:
+                        address.street.trim(),
+                    apt:
+                        address.apt.trim(),
+                    city:
+                        address.city.trim(),
+                    state:
+                        address.state.trim(),
+                    zip:
+                        address.zip.trim(),
+                    country:
+                        address.country.trim() ||
+                        "USA",
                 },
 
                 payment_method: "card",
-                payment_ref: paymentResult.paymentIntentId,
+                payment_ref:
+                    paymentResult.paymentIntentId,
             };
 
-            const res = await api.post("/sales", payload);
+            const res =
+                await api.post(
+                    "/sales",
+                    payload
+                );
 
-            const { order_code } = res.data;
+            const { order_code } =
+                res.data;
 
             localStorage.setItem(
                 "lastOrderCode",
@@ -350,10 +480,15 @@ export default function Checkout() {
                 email.trim()
             );
 
-            setOrderCode(String(order_code));
+            setOrderCode(
+                String(order_code)
+            );
 
             setOrder([]);
-            localStorage.removeItem("lsOrder");
+
+            localStorage.removeItem(
+                "lsOrder"
+            );
 
             await new Promise((r) =>
                 setTimeout(r, 5000)
@@ -384,10 +519,21 @@ export default function Checkout() {
 
 
     /* EFFECTS */
+
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const view = params.get("view");
-        if (view === "form" || view === "processing" || view === "confirmed") {
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const view =
+            params.get("view");
+
+        if (
+            view === "form" ||
+            view === "processing" ||
+            view === "confirmed"
+        ) {
             setScreen(view);
         }
     }, []);
@@ -398,14 +544,25 @@ export default function Checkout() {
         const name =
             loggedUser?.userName ||
             loggedUser?.fullName ||
-            localStorage.getItem("userName") ||
+            localStorage.getItem(
+                "userName"
+            ) ||
             "";
 
-        const mail = loggedUser?.email || localStorage.getItem("emailUser") || "";
+        const mail =
+            loggedUser?.email ||
+            localStorage.getItem(
+                "emailUser"
+            ) ||
+            "";
 
         setFullName(name);
         setEmail(mail);
-    }, [isLogged, loggedUser]);
+
+    }, [
+        isLogged,
+        loggedUser,
+    ]);
 
 
     useEffect(() => {
@@ -415,60 +572,122 @@ export default function Checkout() {
         }
 
         function checkScroll() {
-            const el = scrollBoxRef.current;
+            const el =
+                scrollBoxRef.current;
+
             if (!el) return;
 
-            const hasScroll = el.scrollHeight > el.clientHeight + 2;
-            const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 4;
+            const hasScroll =
+                el.scrollHeight >
+                el.clientHeight + 2;
 
-            setCheckoutBarFloating(hasScroll && !atBottom);
+            const atBottom =
+                el.scrollTop +
+                el.clientHeight >=
+                el.scrollHeight - 4;
+
+            setCheckoutBarFloating(
+                hasScroll && !atBottom
+            );
         }
 
-        requestAnimationFrame(checkScroll);
+        requestAnimationFrame(
+            checkScroll
+        );
 
-        const el = scrollBoxRef.current;
+        const el =
+            scrollBoxRef.current;
+
         if (!el) return;
 
-        el.addEventListener("scroll", checkScroll, { passive: true });
-        window.addEventListener("resize", checkScroll);
+        el.addEventListener(
+            "scroll",
+            checkScroll,
+            { passive: true }
+        );
+
+        window.addEventListener(
+            "resize",
+            checkScroll
+        );
 
         return () => {
-            el.removeEventListener("scroll", checkScroll);
-            window.removeEventListener("resize", checkScroll);
+            el.removeEventListener(
+                "scroll",
+                checkScroll
+            );
+
+            window.removeEventListener(
+                "resize",
+                checkScroll
+            );
         };
-    }, [isMobile, screen]);
+
+    }, [
+        isMobile,
+        screen,
+    ]);
 
     useEffect(() => {
-        const isFormField = (element: Element | null) =>
+        const isFormField = (
+            element: Element | null
+        ) =>
             element instanceof HTMLInputElement ||
             element instanceof HTMLTextAreaElement ||
             element instanceof HTMLSelectElement;
 
-        const handleFocusIn = (event: FocusEvent) => {
-            if (isFormField(event.target as Element)) {
+        const handleFocusIn = (
+            event: FocusEvent
+        ) => {
+            if (
+                isFormField(
+                    event.target as Element
+                )
+            ) {
                 setIsEditingForm(true);
             }
         };
 
         const handleFocusOut = () => {
             setTimeout(() => {
-                if (!isFormField(document.activeElement)) {
+                if (
+                    !isFormField(
+                        document.activeElement
+                    )
+                ) {
                     setIsEditingForm(false);
                 }
             }, 100);
         };
 
-        document.addEventListener("focusin", handleFocusIn);
-        document.addEventListener("focusout", handleFocusOut);
+        document.addEventListener(
+            "focusin",
+            handleFocusIn
+        );
+
+        document.addEventListener(
+            "focusout",
+            handleFocusOut
+        );
 
         return () => {
-            document.removeEventListener("focusin", handleFocusIn);
-            document.removeEventListener("focusout", handleFocusOut);
+            document.removeEventListener(
+                "focusin",
+                handleFocusIn
+            );
+
+            document.removeEventListener(
+                "focusout",
+                handleFocusOut
+            );
         };
     }, []);
 
     useEffect(() => {
-        if (!order || order.length === 0) {
+        if (
+            !order ||
+            order.length === 0
+        ) {
             setClientSecret("");
             return;
         }
@@ -477,25 +696,43 @@ export default function Checkout() {
             try {
                 setPaymentLoading(true);
 
-                const itemsNorm = (order as Meal[]).map((it) => ({
-                    id: String(it.id),
-                    qty: Number(it.quantidade ?? 1),
-                }));
+                const itemsNorm =
+                    (order as Meal[]).map(
+                        (it) => ({
+                            id: String(it.id),
+                            qty: Number(
+                                it.quantidade ?? 1
+                            ),
+                        })
+                    );
 
-                const res = await api.post("/payments/create-intent", {
-                    items: itemsNorm,
-                });
+                const res =
+                    await api.post(
+                        "/payments/create-intent",
+                        {
+                            items: itemsNorm,
+                        }
+                    );
 
-                setClientSecret(res.data.clientSecret);
+                setClientSecret(
+                    res.data.clientSecret
+                );
+
             } catch (error) {
-                console.error("Failed to create Stripe PaymentIntent:", error);
+                console.error(
+                    "Failed to create Stripe PaymentIntent:",
+                    error
+                );
+
                 setClientSecret("");
+
             } finally {
                 setPaymentLoading(false);
             }
         }
 
         loadPaymentIntent();
+
     }, [order]);
 
     const desktopTitle =
@@ -518,17 +755,36 @@ export default function Checkout() {
                 {AlertUI}
                 {ConfirmUI}
 
-                {screen === "form" ? (
+                {screen === "form" &&
+                    isEditingForm && (
+                        <Box
+                            sx={{
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                height:
+                                    "env(safe-area-inset-top)",
+                                bgcolor: "#fff",
+                                zIndex: 1600,
+                            }}
+                        />
+                    )}
+
+                {screen === "form" &&
+                    !isEditingForm ? (
                     <NavbarAction />
-                ) : (
+                ) : screen !== "form" ? (
                     <CheckoutTitleBar
                         title={mobileTitle}
                         showExit={false}
                     />
-                )}
+                ) : null}
 
                 {screen === "processing" ? (
-                    <CheckoutProcessingScreen mobile />
+                    <CheckoutProcessingScreen
+                        mobile
+                    />
                 ) : screen === "confirmed" ? (
                     <CheckoutConfirmedScreen
                         mobile
@@ -536,46 +792,92 @@ export default function Checkout() {
                         addressLine={addressLine}
                         orderCode={orderCode}
                         isLogged={isLogged}
-                        onGoHome={() => navigate("/")}
-                        onGoOrders={() => navigate("/orders")}
+                        onGoHome={() =>
+                            navigate("/")
+                        }
+                        onGoOrders={() =>
+                            navigate("/orders")
+                        }
                     />
                 ) : (
                     <CheckoutMobileForm
                         order={order}
                         totalItems={totalItems}
-                        subtotalLabel={subtotalLabel}
-                        isEditingForm={isEditingForm}
+                        subtotalLabel={
+                            subtotalLabel
+                        }
+                        isEditingForm={
+                            isEditingForm
+                        }
                         discount={discount}
-                        discountLabel={discountLabel}
+                        discountLabel={
+                            discountLabel
+                        }
                         taxLabel={taxLabel}
-                        deliveryFee={deliveryFee}
-                        deliveryLabel={deliveryLabel}
-                        grandTotalLabel={grandTotalLabel}
-                        resolveImgSrc={resolveImgSrc}
+                        deliveryFee={
+                            deliveryFee
+                        }
+                        deliveryLabel={
+                            deliveryLabel
+                        }
+                        grandTotalLabel={
+                            grandTotalLabel
+                        }
+                        resolveImgSrc={
+                            resolveImgSrc
+                        }
                         imageStylesByIdOrderSummary={
                             imageStylesByIdOrderSummary
                         }
-                        cleanProductName={cleanProductName}
+                        cleanProductName={
+                            cleanProductName
+                        }
                         incItem={incItem}
                         decItem={decItem}
-                        handleClearCart={handleClearCart}
+                        handleClearCart={
+                            handleClearCart
+                        }
                         fullName={fullName}
                         email={email}
                         isLogged={isLogged}
-                        tfBlueLabelSx={tfBlueLabelSx}
-                        onFullNameChange={setFullName}
-                        onEmailChange={setEmail}
+                        tfBlueLabelSx={
+                            tfBlueLabelSx
+                        }
+                        onFullNameChange={
+                            setFullName
+                        }
+                        onEmailChange={
+                            setEmail
+                        }
                         address={address}
-                        streetText={streetText}
-                        onStreetTextChange={setStreetText}
-                        onAddressChange={setAddress}
-                        submitting={submitting}
-                        orderLength={order.length}
+                        streetText={
+                            streetText
+                        }
+                        onStreetTextChange={
+                            setStreetText
+                        }
+                        onAddressChange={
+                            setAddress
+                        }
+                        submitting={
+                            submitting
+                        }
+                        orderLength={
+                            order.length
+                        }
                         onPay={handlePay}
-                        onStripeFocusChange={setIsEditingForm}
-                        clientSecret={clientSecret}
-                        paymentLoading={paymentLoading}
-                        paymentRef={paymentRef}
+                        onStripeFocusChange={
+                            setIsEditingForm
+                        }
+                        clientSecret={
+                            clientSecret
+                        }
+                        paymentLoading={
+                            paymentLoading
+                        }
+                        paymentRef={
+                            paymentRef
+                        }
                     />
                 )}
             </>
@@ -586,12 +888,21 @@ export default function Checkout() {
         <>
             {AlertUI}
             {ConfirmUI}
+
             <CheckoutTitleBar
                 title={desktopTitle}
-                showExit={screen === "form"}
+                showExit={
+                    screen === "form"
+                }
             />
 
-            <Box sx={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
+            <Box
+                sx={{
+                    minHeight: "100dvh",
+                    display: "flex",
+                    flexDirection: "column",
+                }}
+            >
                 <Box
                     component="main"
                     sx={{
@@ -602,19 +913,34 @@ export default function Checkout() {
                         justifyContent: "center",
                         alignItems: "flex-start",
                         px: 2,
-                        pt: { xs: "110px", md: "110px" },
-                        pb: { xs: 1, md: 3 },
+                        pt: {
+                            xs: "110px",
+                            md: "110px",
+                        },
+                        pb: {
+                            xs: 1,
+                            md: 3,
+                        },
                         minWidth: 0,
                         bgcolor: "#fff",
+
                         "&::before": {
                             content: '""',
                             position: "absolute",
                             top: 0,
                             bottom: 0,
                             left: "50%",
-                            transform: "translateX(-50%)",
+                            transform:
+                                "translateX(-50%)",
                             zIndex: 0,
-                            width: { xs: "min(98vw, 720px)", sm: "min(96vw, 820px)", md: 900 },
+                            width: {
+                                xs:
+                                    "min(98vw, 720px)",
+                                sm:
+                                    "min(96vw, 820px)",
+                                md: 900,
+                            },
+
                             backgroundImage: {
                                 xs: `
                                     linear-gradient(90deg,
@@ -662,53 +988,94 @@ export default function Checkout() {
                                 `,
                             },
 
-                            backgroundRepeat: "no-repeat, repeat",
-                            backgroundSize: "100% 100%, auto",
+                            backgroundRepeat:
+                                "no-repeat, repeat",
+                            backgroundSize:
+                                "100% 100%, auto",
                             borderRadius: 20,
                         },
-                        "& > .MuiPaper-root": { position: "relative", zIndex: 1 },
+
+                        "& > .MuiPaper-root": {
+                            position: "relative",
+                            zIndex: 1,
+                        },
                     }}
                 >
                     <Paper
                         elevation={0}
                         sx={{
                             width: "100%",
-                            maxWidth: { xs: 520, sm: 560, md: 600 },
+                            maxWidth: {
+                                xs: 520,
+                                sm: 560,
+                                md: 600,
+                            },
                             borderRadius: 3,
-                            border: "1px solid rgba(13, 71, 161, 0.15)",
+                            border:
+                                "1px solid rgba(13, 71, 161, 0.15)",
                             boxShadow:
                                 "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
-                            bgcolor: "background.paper",
-                            height: { xs: "calc(100dvh - 200px)", md: "calc(100vh - 100px)" },
+                            bgcolor:
+                                "background.paper",
+                            height: {
+                                xs:
+                                    "calc(100dvh - 200px)",
+                                md:
+                                    "calc(100vh - 100px)",
+                            },
                             maxHeight: 720,
                             overflow: "hidden",
                             display: "flex",
-                            flexDirection: "column",
-                            mt: { sm: 1, md: 1 },
-                            mb: { md: 1 },
+                            flexDirection:
+                                "column",
+                            mt: {
+                                sm: 1,
+                                md: 1,
+                            },
+                            mb: {
+                                md: 1,
+                            },
                             minHeight: 0,
                         }}
                     >
-
                         <Box
                             ref={scrollBoxRef}
                             sx={{
                                 flex: 1,
                                 overflowY: "auto",
-                                WebkitOverflowScrolling: "touch",
+                                WebkitOverflowScrolling:
+                                    "touch",
                                 minHeight: 0,
                             }}
                         >
-                            {screen === "processing" ? (
+                            {screen ===
+                                "processing" ? (
                                 <CheckoutProcessingScreen />
-                            ) : screen === "confirmed" ? (
+                            ) : screen ===
+                                "confirmed" ? (
                                 <CheckoutConfirmedScreen
-                                    fullName={fullName}
-                                    addressLine={addressLine}
-                                    orderCode={orderCode}
-                                    isLogged={isLogged}
-                                    onGoHome={() => navigate("/")}
-                                    onGoOrders={() => navigate("/orders")}
+                                    fullName={
+                                        fullName
+                                    }
+                                    addressLine={
+                                        addressLine
+                                    }
+                                    orderCode={
+                                        orderCode
+                                    }
+                                    isLogged={
+                                        isLogged
+                                    }
+                                    onGoHome={() =>
+                                        navigate(
+                                            "/"
+                                        )
+                                    }
+                                    onGoOrders={() =>
+                                        navigate(
+                                            "/orders"
+                                        )
+                                    }
                                 />
                             ) : (
                                 <>
@@ -717,70 +1084,135 @@ export default function Checkout() {
                                             px: 6.5,
                                             pt: 3.8,
                                             pb: 2,
-                                            maxWidth: 600,
+                                            maxWidth:
+                                                600,
                                             mx: "auto",
                                         }}
                                     >
                                         <CheckoutOrderSummary
-                                            order={order}
-                                            totalItems={totalItems}
-                                            subtotalLabel={subtotalLabel}
-                                            discount={discount}
-                                            discountLabel={discountLabel}
-                                            taxLabel={taxLabel}
-                                            deliveryFee={deliveryFee}
-                                            deliveryLabel={deliveryLabel}
-                                            grandTotalLabel={grandTotalLabel}
-                                            resolveImgSrc={resolveImgSrc}
-                                            imageStylesByIdOrderSummary={imageStylesByIdOrderSummary}
-                                            cleanProductName={cleanProductName}
-                                            incItem={incItem}
-                                            decItem={decItem}
-                                            handleClearCart={handleClearCart}
+                                            order={
+                                                order
+                                            }
+                                            totalItems={
+                                                totalItems
+                                            }
+                                            subtotalLabel={
+                                                subtotalLabel
+                                            }
+                                            discount={
+                                                discount
+                                            }
+                                            discountLabel={
+                                                discountLabel
+                                            }
+                                            taxLabel={
+                                                taxLabel
+                                            }
+                                            deliveryFee={
+                                                deliveryFee
+                                            }
+                                            deliveryLabel={
+                                                deliveryLabel
+                                            }
+                                            grandTotalLabel={
+                                                grandTotalLabel
+                                            }
+                                            resolveImgSrc={
+                                                resolveImgSrc
+                                            }
+                                            imageStylesByIdOrderSummary={
+                                                imageStylesByIdOrderSummary
+                                            }
+                                            cleanProductName={
+                                                cleanProductName
+                                            }
+                                            incItem={
+                                                incItem
+                                            }
+                                            decItem={
+                                                decItem
+                                            }
+                                            handleClearCart={
+                                                handleClearCart
+                                            }
                                         />
 
                                         <CheckoutContactSection
-                                            fullName={fullName}
-                                            email={email}
-                                            isLogged={isLogged}
-                                            tfBlueLabelSx={tfBlueLabelSx}
-                                            onFullNameChange={setFullName}
-                                            onEmailChange={setEmail}
+                                            fullName={
+                                                fullName
+                                            }
+                                            email={
+                                                email
+                                            }
+                                            isLogged={
+                                                isLogged
+                                            }
+                                            tfBlueLabelSx={
+                                                tfBlueLabelSx
+                                            }
+                                            onFullNameChange={
+                                                setFullName
+                                            }
+                                            onEmailChange={
+                                                setEmail
+                                            }
                                         />
 
                                         <CheckoutDeliverySection
-                                            address={address}
-                                            streetText={streetText}
-                                            tfBlueLabelSx={tfBlueLabelSx}
-                                            onStreetTextChange={setStreetText}
-                                            onAddressChange={setAddress}
+                                            address={
+                                                address
+                                            }
+                                            streetText={
+                                                streetText
+                                            }
+                                            tfBlueLabelSx={
+                                                tfBlueLabelSx
+                                            }
+                                            onStreetTextChange={
+                                                setStreetText
+                                            }
+                                            onAddressChange={
+                                                setAddress
+                                            }
                                         />
 
                                         {clientSecret ? (
                                             <Elements
-                                                key={clientSecret}
-                                                stripe={stripePromise}
+                                                key={
+                                                    clientSecret
+                                                }
+                                                stripe={
+                                                    stripePromise
+                                                }
                                                 options={{
                                                     clientSecret,
                                                 }}
                                             >
-                                                <CheckoutPaymentSection ref={paymentRef} />
+                                                <CheckoutPaymentSection
+                                                    ref={
+                                                        paymentRef
+                                                    }
+                                                />
                                             </Elements>
                                         ) : paymentLoading ? (
                                             <Typography
                                                 align="center"
                                                 sx={{
                                                     py: 2,
-                                                    color: "text.secondary",
-                                                    fontSize: "0.85rem",
+                                                    color:
+                                                        "text.secondary",
+                                                    fontSize:
+                                                        "0.85rem",
                                                 }}
                                             >
                                                 Loading payment...
                                             </Typography>
-                                        ) : order.length === 0 ? (
+                                        ) : order.length ===
+                                            0 ? (
                                             <Box
                                                 sx={{
-                                                    minHeight: 80,
+                                                    minHeight:
+                                                        80,
                                                 }}
                                             />
                                         ) : (
@@ -788,8 +1220,10 @@ export default function Checkout() {
                                                 align="center"
                                                 sx={{
                                                     py: 2,
-                                                    color: "error.main",
-                                                    fontSize: "0.85rem",
+                                                    color:
+                                                        "error.main",
+                                                    fontSize:
+                                                        "0.85rem",
                                                 }}
                                             >
                                                 Payment could not be loaded.
@@ -799,21 +1233,36 @@ export default function Checkout() {
 
                                     <Box
                                         sx={{
-                                            position: "sticky",
+                                            position:
+                                                "sticky",
                                             bottom: 0,
-                                            px: { xs: 2, sm: 3, md: 3.5 },
+                                            px: {
+                                                xs: 2,
+                                                sm: 3,
+                                                md: 3.5,
+                                            },
                                             py: 1.5,
                                             zIndex: 10,
-                                            backgroundColor: checkoutBarFloating ? "#ffe0c7" : "#fffaf2",
-                                            boxShadow: checkoutBarFloating
-                                                ? "0 8px 18px rgba(0,0,0,0.12)"
-                                                : "none",
 
-                                            borderTop: checkoutBarFloating
-                                                ? "1px solid rgba(13, 71, 161, 0.12)"
-                                                : "2px solid rgba(13, 71, 161, 0.25)",
+                                            backgroundColor:
+                                                checkoutBarFloating
+                                                    ? "#ffe0c7"
+                                                    : "#fffaf2",
 
-                                            borderRadius: checkoutBarFloating ? 2 : "0 0 12px 12px",
+                                            boxShadow:
+                                                checkoutBarFloating
+                                                    ? "0 8px 18px rgba(0,0,0,0.12)"
+                                                    : "none",
+
+                                            borderTop:
+                                                checkoutBarFloating
+                                                    ? "1px solid rgba(13, 71, 161, 0.12)"
+                                                    : "2px solid rgba(13, 71, 161, 0.25)",
+
+                                            borderRadius:
+                                                checkoutBarFloating
+                                                    ? 2
+                                                    : "0 0 12px 12px",
 
                                             transition:
                                                 "background-color .22s ease, transform .22s ease, box-shadow .22s ease, border-radius .22s ease, border-top .22s ease",
@@ -828,17 +1277,32 @@ export default function Checkout() {
                                             <Box>
                                                 <Typography
                                                     sx={{
-                                                        fontSize: 12,
-                                                        letterSpacing: "0.12em",
-                                                        textTransform: "uppercase",
-                                                        color: "#0d47a1",
+                                                        fontSize:
+                                                            12,
+                                                        letterSpacing:
+                                                            "0.12em",
+                                                        textTransform:
+                                                            "uppercase",
+                                                        color:
+                                                            "#0d47a1",
                                                     }}
                                                 >
                                                     Total
                                                 </Typography>
 
-                                                <Typography sx={{ fontWeight: 800, color: "#0d47a1", fontSize: 18 }}>
-                                                    {grandTotalLabel}
+                                                <Typography
+                                                    sx={{
+                                                        fontWeight:
+                                                            800,
+                                                        color:
+                                                            "#0d47a1",
+                                                        fontSize:
+                                                            18,
+                                                    }}
+                                                >
+                                                    {
+                                                        grandTotalLabel
+                                                    }
                                                 </Typography>
                                             </Box>
 
@@ -848,29 +1312,52 @@ export default function Checkout() {
                                                     submitting ||
                                                     paymentLoading ||
                                                     !clientSecret ||
-                                                    order.length === 0
+                                                    order.length ===
+                                                    0
                                                 }
                                                 sx={{
-                                                    borderRadius: 2,
-                                                    textTransform: "uppercase",
-                                                    border: "2px solid #0d47a1",
-                                                    color: "#ffffff",
-                                                    letterSpacing: "0.14em",
-                                                    fontWeight: 800,
-                                                    bgcolor: "#1e5bb8",
+                                                    borderRadius:
+                                                        2,
+                                                    textTransform:
+                                                        "uppercase",
+                                                    border:
+                                                        "2px solid #0d47a1",
+                                                    color:
+                                                        "#ffffff",
+                                                    letterSpacing:
+                                                        "0.14em",
+                                                    fontWeight:
+                                                        800,
+                                                    bgcolor:
+                                                        "#1e5bb8",
                                                     px: 2.5,
                                                     py: 1,
-                                                    whiteSpace: "nowrap",
-                                                    "&:hover": { bgcolor: "#164a99" },
-                                                    "&.Mui-disabled": {
-                                                        bgcolor: "rgba(30, 91, 184, 0.35)",
-                                                        color: "rgba(255,255,255,0.75)",
-                                                        borderColor: "rgba(13, 71, 161, 0.35)",
+                                                    whiteSpace:
+                                                        "nowrap",
+
+                                                    "&:hover":
+                                                    {
+                                                        bgcolor:
+                                                            "#164a99",
+                                                    },
+
+                                                    "&.Mui-disabled":
+                                                    {
+                                                        bgcolor:
+                                                            "rgba(30, 91, 184, 0.35)",
+                                                        color:
+                                                            "rgba(255,255,255,0.75)",
+                                                        borderColor:
+                                                            "rgba(13, 71, 161, 0.35)",
                                                     },
                                                 }}
-                                                onClick={handlePay}
+                                                onClick={
+                                                    handlePay
+                                                }
                                             >
-                                                {submitting ? "Processing..." : `Pay ${grandTotalLabel}`}
+                                                {submitting
+                                                    ? "Processing..."
+                                                    : `Pay ${grandTotalLabel}`}
                                             </Button>
                                         </Stack>
                                     </Box>
@@ -882,11 +1369,16 @@ export default function Checkout() {
                     <Typography
                         aria-hidden="true"
                         sx={{
-                            display: { xs: "none", sm: "block", md: "block" },
+                            display: {
+                                xs: "none",
+                                sm: "block",
+                                md: "block",
+                            },
                             position: "absolute",
                             left: "50%",
                             bottom: 28,
-                            transform: "translateX(-50%)",
+                            transform:
+                                "translateX(-50%)",
                             zIndex: 1,
                             pointerEvents: "none",
                             userSelect: "none",
@@ -894,13 +1386,14 @@ export default function Checkout() {
 
                             fontSize: 13,
                             fontWeight: 600,
-                            letterSpacing: "0.08em",
-                            color: "rgba(13, 71, 161, 0.18)",
+                            letterSpacing:
+                                "0.08em",
+                            color:
+                                "rgba(13, 71, 161, 0.18)",
                         }}
                     >
                         Copyright © Fast Fuel 2026.
                     </Typography>
-
                 </Box>
             </Box>
         </>

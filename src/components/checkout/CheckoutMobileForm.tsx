@@ -121,7 +121,9 @@ export default function CheckoutMobileForm({
                     position: "relative",
                     zIndex: 1,
                     px: 2.5,
-                    pt: "160px",
+                    pt: isEditingForm
+                        ? "calc(env(safe-area-inset-top) + 70px)"
+                        : "160px",
                     pb: isEditingForm
                         ? 2
                         : "calc(110px + env(safe-area-inset-bottom))",
