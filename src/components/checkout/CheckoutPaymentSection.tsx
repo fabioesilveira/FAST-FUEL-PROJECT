@@ -24,13 +24,14 @@ export type StripePaymentHandle = {
 
 type CheckoutPaymentSectionProps = {
     mobile?: boolean;
+    onFocusChange?: (focused: boolean) => void;
 };
 
 
 const CheckoutPaymentSection = forwardRef<
     StripePaymentHandle,
     CheckoutPaymentSectionProps
->(({ mobile = false }, ref) => {
+>(({ mobile = false, onFocusChange }, ref) => {
 
     const stripe = useStripe();
     const elements = useElements();
@@ -110,7 +111,10 @@ const CheckoutPaymentSection = forwardRef<
             </Typography>
 
 
-            <PaymentElement />
+            <PaymentElement
+                onFocus={() => onFocusChange?.(true)}
+                onBlur={() => onFocusChange?.(false)}
+            />
 
             <Typography
                 align="center"

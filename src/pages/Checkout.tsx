@@ -572,6 +572,7 @@ export default function Checkout() {
                         submitting={submitting}
                         orderLength={order.length}
                         onPay={handlePay}
+                        onStripeFocusChange={setIsEditingForm}
                         clientSecret={clientSecret}
                         paymentLoading={paymentLoading}
                         paymentRef={paymentRef}

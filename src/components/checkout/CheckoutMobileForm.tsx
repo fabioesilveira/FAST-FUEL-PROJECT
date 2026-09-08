@@ -55,6 +55,7 @@ type CheckoutMobileFormProps = {
     clientSecret: string;
     paymentLoading: boolean;
     paymentRef: React.RefObject<StripePaymentHandle>;
+    onStripeFocusChange: (focused: boolean) => void;
 };
 
 const stripePromise = loadStripe(
@@ -101,6 +102,7 @@ export default function CheckoutMobileForm({
     clientSecret,
     paymentLoading,
     paymentRef,
+    onStripeFocusChange,
 }: CheckoutMobileFormProps) {
     return (
         <Box
@@ -177,6 +179,7 @@ export default function CheckoutMobileForm({
                         <CheckoutPaymentSection
                             ref={paymentRef}
                             mobile
+                            onFocusChange={onStripeFocusChange}
                         />
                     </Elements>
                 ) : paymentLoading ? (
