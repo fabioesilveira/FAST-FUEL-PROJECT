@@ -119,7 +119,7 @@ export default function ProductsGrid({
                 mb: isDesktop
                     ? 10
                     : {
-                        xs: 2.5,
+                        xs: 3.5,
                         sm: 10,
                     },
             }}

@@ -264,6 +264,34 @@ export default function TrackOrderGuest() {
         return () => clearInterval(id);
     }, [hasSearched, canSearch]);
 
+    useEffect(() => {
+        if (!isMobile) return;
+
+        const metaThemeColor = document.querySelector(
+            'meta[name="theme-color"]'
+        ) as HTMLMetaElement | null;
+
+        const previousThemeColor = metaThemeColor?.content;
+
+        if (isEditingReview) {
+            if (metaThemeColor) {
+                metaThemeColor.content = "#ffffff";
+            }
+
+            document.documentElement.style.backgroundColor = "#ffffff";
+            document.body.style.backgroundColor = "#ffffff";
+        }
+
+        return () => {
+            if (metaThemeColor && previousThemeColor) {
+                metaThemeColor.content = previousThemeColor;
+            }
+
+            document.documentElement.style.backgroundColor = "";
+            document.body.style.backgroundColor = "";
+        };
+    }, [isEditingReview, isMobile]);
+
     // RENDER
     return (
         <>

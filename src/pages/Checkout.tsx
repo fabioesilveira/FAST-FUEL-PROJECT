@@ -401,20 +401,33 @@ export default function Checkout() {
         setSubmitting(true);
 
         try {
-            const paymentResult =
-                await paymentRef.current?.confirmPayment();
+            const paymentPromise =
+                paymentRef.current?.confirmPayment();
 
-            if (!paymentResult?.success) {
+            if (!paymentPromise) {
                 showAlert(
-                    paymentResult?.error ||
+                    "Payment could not be initialized.",
+                    "error"
+                );
+                return;
+            }
+
+            setIsEditingForm(false);
+            setScreen("processing");
+
+            const paymentResult = await paymentPromise;
+
+            if (!paymentResult.success) {
+                setScreen("form");
+
+                showAlert(
+                    paymentResult.error ||
                     "Payment failed.",
                     "error"
                 );
 
                 return;
             }
-
-            setScreen("processing");
 
             const itemsNorm =
                 (order as Meal[]).map(
@@ -743,12 +756,6 @@ export default function Checkout() {
                 : "Checkout";
 
     if (isMobile) {
-        const mobileTitle =
-            screen === "processing"
-                ? ""
-                : screen === "confirmed"
-                    ? "Thank you"
-                    : "Checkout";
 
         return (
             <>
@@ -773,11 +780,6 @@ export default function Checkout() {
 
                 {screen === "form" && !isEditingForm ? (
                     <NavbarAction />
-                ) : screen === "confirmed" ? (
-                    <CheckoutTitleBar
-                        title={mobileTitle}
-                        showExit={false}
-                    />
                 ) : null}
 
                 {screen === "processing" ? (
