@@ -644,7 +644,7 @@ export default function Checkout() {
                 ) {
                     setIsEditingForm(false);
                 }
-            }, 100);
+            }, 250);
         };
 
         document.addEventListener(
