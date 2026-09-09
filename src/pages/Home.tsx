@@ -369,7 +369,7 @@ export default function Home() {
                         flexDirection: "column",
                         backgroundColor: "transparent",
                         pt: { xs: `calc(${NAVBAR_H}px)`, md: 0 },
-                        pb: { xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 6px)`, sm: 0 },
+                        pb: { xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 2px)`, sm: 0 },
                         overscrollBehaviorY: "auto",
                     }}
                 >
