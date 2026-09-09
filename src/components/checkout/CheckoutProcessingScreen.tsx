@@ -19,7 +19,7 @@ export default function CheckoutProcessingScreen({
                     alignItems: "center",
                     textAlign: "center",
                     px: 3,
-                    pt: "calc(110px + env(safe-area-inset-top))",
+                    pt: "calc(100px + env(safe-area-inset-top))",
                     pb: "calc(50px + env(safe-area-inset-bottom))",
                     bgcolor: "#fff",
                     "@keyframes ffPulseFloat": {
