@@ -267,28 +267,22 @@ export default function TrackOrderGuest() {
     useEffect(() => {
         if (!isMobile) return;
 
-        const metaThemeColor = document.querySelector(
+        const meta = document.querySelector(
             'meta[name="theme-color"]'
         ) as HTMLMetaElement | null;
 
-        const previousThemeColor = metaThemeColor?.content;
+        const oldColor = meta?.content;
 
         if (isEditingReview) {
-            if (metaThemeColor) {
-                metaThemeColor.content = "#ffffff";
-            }
-
-            document.documentElement.style.backgroundColor = "#ffffff";
+            if (meta) meta.content = "#ffffff";
             document.body.style.backgroundColor = "#ffffff";
+            document.documentElement.style.backgroundColor = "#ffffff";
         }
 
         return () => {
-            if (metaThemeColor && previousThemeColor) {
-                metaThemeColor.content = previousThemeColor;
-            }
-
-            document.documentElement.style.backgroundColor = "";
+            if (meta && oldColor) meta.content = oldColor;
             document.body.style.backgroundColor = "";
+            document.documentElement.style.backgroundColor = "";
         };
     }, [isEditingReview, isMobile]);
 
@@ -302,12 +296,10 @@ export default function TrackOrderGuest() {
                 <Box
                     sx={{
                         position: "fixed",
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: "env(safe-area-inset-top)",
+                        inset: 0,
                         bgcolor: "#fff",
-                        zIndex: 9200,
+                        zIndex: 9050,
+                        pointerEvents: "none",
                     }}
                 />
             )}

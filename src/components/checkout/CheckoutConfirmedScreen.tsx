@@ -40,7 +40,7 @@ export default function CheckoutConfirmedScreen({
                     display: "flex",
                     justifyContent: "center",
                     px: 0,
-                    pt: "calc(28px + env(safe-area-inset-top))",
+                    pt: "calc(40px + env(safe-area-inset-top))",
                     pb: "calc(24.5px + env(safe-area-inset-bottom))",
                     bgcolor: "#fff",
                 }}
