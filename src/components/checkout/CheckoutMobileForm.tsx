@@ -227,7 +227,6 @@ export default function CheckoutMobileForm({
                         onClick={onPay}
                         sx={{
                             mt: 2,
-                            mb: 1,
                             height: 46,
                             borderRadius: 2,
                             textTransform: "uppercase",
