@@ -385,43 +385,23 @@ export default function Checkout() {
             onDismiss: () => { },
         });
     }
-
     async function handlePay() {
         const err = validate();
 
         if (err) {
-            showAlert(
-                err,
-                "warning"
-            );
-
+            showAlert(err, "warning");
             return;
         }
 
         setSubmitting(true);
 
         try {
-            const paymentPromise =
-                paymentRef.current?.confirmPayment();
+            const paymentResult =
+                await paymentRef.current?.confirmPayment();
 
-            if (!paymentPromise) {
+            if (!paymentResult?.success) {
                 showAlert(
-                    "Payment could not be initialized.",
-                    "error"
-                );
-                return;
-            }
-
-            setIsEditingForm(false);
-            setScreen("processing");
-
-            const paymentResult = await paymentPromise;
-
-            if (!paymentResult.success) {
-                setScreen("form");
-
-                showAlert(
-                    paymentResult.error ||
+                    paymentResult?.error ||
                     "Payment failed.",
                     "error"
                 );
@@ -429,15 +409,14 @@ export default function Checkout() {
                 return;
             }
 
+            setIsEditingForm(false);
+            setScreen("processing");
+
             const itemsNorm =
-                (order as Meal[]).map(
-                    (it) => ({
-                        id: String(it.id),
-                        qty: Number(
-                            it.quantidade ?? 1
-                        ),
-                    })
-                );
+                (order as Meal[]).map((it) => ({
+                    id: String(it.id),
+                    qty: Number(it.quantidade ?? 1),
+                }));
 
             const payload = {
                 user_id:
@@ -454,16 +433,11 @@ export default function Checkout() {
                 items: itemsNorm,
 
                 delivery_address: {
-                    street:
-                        address.street.trim(),
-                    apt:
-                        address.apt.trim(),
-                    city:
-                        address.city.trim(),
-                    state:
-                        address.state.trim(),
-                    zip:
-                        address.zip.trim(),
+                    street: address.street.trim(),
+                    apt: address.apt.trim(),
+                    city: address.city.trim(),
+                    state: address.state.trim(),
+                    zip: address.zip.trim(),
                     country:
                         address.country.trim() ||
                         "USA",
@@ -778,7 +752,9 @@ export default function Checkout() {
                         />
                     )}
 
-                {screen === "form" && !isEditingForm ? (
+                {screen === "form" &&
+                    !isEditingForm &&
+                    !submitting ? (
                     <NavbarAction />
                 ) : null}
 
@@ -808,7 +784,7 @@ export default function Checkout() {
                             subtotalLabel
                         }
                         isEditingForm={
-                            isEditingForm
+                            isEditingForm || submitting
                         }
                         discount={discount}
                         discountLabel={
