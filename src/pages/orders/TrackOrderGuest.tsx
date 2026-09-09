@@ -269,7 +269,21 @@ export default function TrackOrderGuest() {
         <>
             {AlertUI}
             {ConfirmUI}
-            
+
+            {isMobile && isEditingReview && (
+                <Box
+                    sx={{
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: "env(safe-area-inset-top)",
+                        bgcolor: "#fff",
+                        zIndex: 9200,
+                    }}
+                />
+            )}
+
             {!(isMobile && isEditingReview) && <NavbarAction />}
 
             <Box
