@@ -269,12 +269,16 @@ export default function TrackOrderGuest() {
         <>
             {AlertUI}
             {ConfirmUI}
-            {!(isMobile && isEditingReview) && (
-                <>
-                    <NavbarAction />
-                    <ProductsTitleBar title="Track Order" />
-                </>
-            )}
+            
+            {!(isMobile && isEditingReview) && <NavbarAction />}
+
+            <Box
+                sx={{
+                    display: isMobile && isEditingReview ? "none" : "block",
+                }}
+            >
+                <ProductsTitleBar title="Track Order" />
+            </Box>
 
             {isMobile ? (
                 <Box
