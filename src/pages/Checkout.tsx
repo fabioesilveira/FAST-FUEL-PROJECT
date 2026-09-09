@@ -637,14 +637,29 @@ export default function Checkout() {
 
         const handleFocusOut = () => {
             setTimeout(() => {
+                const active =
+                    document.activeElement;
+
+                const isStripeIframe =
+                    active instanceof HTMLIFrameElement &&
+                    (
+                        active.name?.includes(
+                            "__privateStripeFrame"
+                        ) ||
+                        active.title
+                            ?.toLowerCase()
+                            .includes(
+                                "secure payment"
+                            )
+                    );
+
                 if (
-                    !isFormField(
-                        document.activeElement
-                    )
+                    !isFormField(active) &&
+                    !isStripeIframe
                 ) {
                     setIsEditingForm(false);
                 }
-            }, 250);
+            }, 100);
         };
 
         document.addEventListener(
