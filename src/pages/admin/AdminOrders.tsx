@@ -378,7 +378,7 @@ export default function AdminOrders() {
                         )}
                     </Box>
 
-                    <Footer />
+                   
                 </Box>
 
                 <AdminOrderTimelineMenu

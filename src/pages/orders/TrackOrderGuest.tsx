@@ -265,22 +265,33 @@ export default function TrackOrderGuest() {
     }, [hasSearched, canSearch]);
 
     useEffect(() => {
-        if (!isMobile) return;
+        if (!isMobile || !isEditingReview) return;
 
-        const meta = document.querySelector(
+        let meta = document.querySelector(
             'meta[name="theme-color"]'
         ) as HTMLMetaElement | null;
 
+        const existed = Boolean(meta);
         const oldColor = meta?.content;
 
-        if (isEditingReview) {
-            if (meta) meta.content = "#ffffff";
-            document.body.style.backgroundColor = "#ffffff";
-            document.documentElement.style.backgroundColor = "#ffffff";
+        if (!meta) {
+            meta = document.createElement("meta");
+            meta.name = "theme-color";
+            document.head.appendChild(meta);
         }
 
+        meta.content = "#ffffff";
+
+        document.body.style.backgroundColor = "#ffffff";
+        document.documentElement.style.backgroundColor = "#ffffff";
+
         return () => {
-            if (meta && oldColor) meta.content = oldColor;
+            if (existed && oldColor) {
+                meta!.content = oldColor;
+            } else {
+                meta?.remove();
+            }
+
             document.body.style.backgroundColor = "";
             document.documentElement.style.backgroundColor = "";
         };
