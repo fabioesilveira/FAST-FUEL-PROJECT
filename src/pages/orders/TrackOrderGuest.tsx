@@ -226,6 +226,7 @@ export default function TrackOrderGuest() {
         setReviewRating(0);
         setReviewComment("");
         setReviewSubmitting(false);
+        setIsEditingReview(false);
     }
 
     function goToNextReviewItem() {
@@ -268,8 +269,12 @@ export default function TrackOrderGuest() {
         <>
             {AlertUI}
             {ConfirmUI}
-            <NavbarAction />
-            <ProductsTitleBar title="Track Order" />
+            {!(isMobile && isEditingReview) && (
+                <>
+                    <NavbarAction />
+                    <ProductsTitleBar title="Track Order" />
+                </>
+            )}
 
             {isMobile ? (
                 <Box

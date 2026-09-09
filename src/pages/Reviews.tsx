@@ -116,6 +116,7 @@ export default function Reviews() {
     const categoryOpen = Boolean(categoryAnchorEl && document.body.contains(categoryAnchorEl));
     const productOpen = Boolean(productAnchorEl && document.body.contains(productAnchorEl));
     const dateOpen = Boolean(dateAnchorEl && document.body.contains(dateAnchorEl));
+    
 
     function openFilterMenu(e: MouseEvent<HTMLElement>) {
         setFilterAnchorEl(e.currentTarget);

@@ -114,7 +114,9 @@ export default function CheckoutMobileForm({
                 position: "relative",
             }}
         >
-            <ProductsTitleBar title="Checkout" />
+            {!isEditingForm && (
+                <ProductsTitleBar title="Checkout" />
+            )}
 
             <Box
                 sx={{

@@ -771,10 +771,9 @@ export default function Checkout() {
                         />
                     )}
 
-                {screen === "form" &&
-                    !isEditingForm ? (
+                {screen === "form" && !isEditingForm ? (
                     <NavbarAction />
-                ) : screen !== "form" ? (
+                ) : screen === "confirmed" ? (
                     <CheckoutTitleBar
                         title={mobileTitle}
                         showExit={false}
