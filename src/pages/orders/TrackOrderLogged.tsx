@@ -139,6 +139,7 @@ export default function OrdersLogged() {
         setReviewRating(0);
         setReviewComment("");
         setReviewSubmitting(false);
+        setIsEditingReview(false);
     }
 
     function goToNextReviewItem() {
@@ -300,6 +301,39 @@ export default function OrdersLogged() {
         return () => clearInterval(id);
     }, [isLogged, activeKey, debouncedOrderCode]);
 
+    useEffect(() => {
+        if (!isMobile || !isEditingReview) return;
+
+        let meta = document.querySelector(
+            'meta[name="theme-color"]'
+        ) as HTMLMetaElement | null;
+
+        const existed = Boolean(meta);
+        const oldColor = meta?.content;
+
+        if (!meta) {
+            meta = document.createElement("meta");
+            meta.name = "theme-color";
+            document.head.appendChild(meta);
+        }
+
+        meta.content = "#ffffff";
+
+        document.body.style.backgroundColor = "#ffffff";
+        document.documentElement.style.backgroundColor = "#ffffff";
+
+        return () => {
+            if (existed && oldColor) {
+                meta!.content = oldColor;
+            } else {
+                meta?.remove();
+            }
+
+            document.body.style.backgroundColor = "";
+            document.documentElement.style.backgroundColor = "";
+        };
+    }, [isEditingReview, isMobile]);
+
     if (!isLogged) {
         return (
             <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -346,8 +380,28 @@ export default function OrdersLogged() {
             <>
                 {AlertUI}
                 {ConfirmUI}
-                <NavbarAction />
-                <ProductsTitleBar title="Orders" />
+
+                {isMobile && isEditingReview && (
+                    <Box
+                        sx={{
+                            position: "fixed",
+                            inset: 0,
+                            bgcolor: "#fff",
+                            zIndex: 9050,
+                            pointerEvents: "none",
+                        }}
+                    />
+                )}
+
+                {!(isMobile && isEditingReview) && <NavbarAction />}
+
+                <Box
+                    sx={{
+                        display: isMobile && isEditingReview ? "none" : "block",
+                    }}
+                >
+                    <ProductsTitleBar title="Orders" />
+                </Box>
 
                 <Box
                     sx={{
