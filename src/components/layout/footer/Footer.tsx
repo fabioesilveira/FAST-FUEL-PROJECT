@@ -1,7 +1,7 @@
 import { Box, Typography, Link } from "@mui/material";
 
 type FooterProps = {
-  fixed?: boolean; // default true, mas no Checkout você passa false
+  fixed?: boolean; // default true 
 };
 
 export default function Footer({ fixed = true }: FooterProps) {

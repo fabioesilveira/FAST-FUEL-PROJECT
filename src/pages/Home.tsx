@@ -62,7 +62,6 @@ const mobileSlides = [
         alt: "Combo Promo",
         position: "center 70%",
     },
-
     { id: "rest", src: RestImg, alt: "Rest" },
     { id: "girl", src: Chat6, alt: "Girl" },
     { id: "team", src: EmployeesMobile, alt: "Fast Fuel Team" },
@@ -101,7 +100,6 @@ export default function Home() {
     const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
     const [cartAnchorEl, setCartAnchorEl] = useState<null | HTMLElement>(null);
     const [cartBodyMaxH, setCartBodyMaxH] = useState<number>(0);
-
     const [homeReviews, setHomeReviews] = useState<HomeReview[]>([]);
     const [allReviews, setAllReviews] = useState<HomeReview[]>([]);
 
@@ -172,7 +170,6 @@ export default function Home() {
     function handleDrawerNavigate(category: string) {
         navigate(`/${category.toLowerCase()}`);
     }
-
 
     function closeCartMenu() {
         setCartAnchorEl(null);
@@ -353,7 +350,6 @@ export default function Home() {
             .slice(0, 3);
     }, [allReviews, data]);
 
-
     return (
         <>
             {AlertUI}
@@ -374,7 +370,10 @@ export default function Home() {
                         flexDirection: "column",
                         backgroundColor: "transparent",
                         pt: { xs: `calc(${NAVBAR_H}px)`, md: 0 },
-                        pb: { xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 0.5px)`, sm: 0 },
+                        pb: {
+                            xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 0.5px)`,
+                            sm: 0,
+                        },
                         overscrollBehaviorY: "auto",
                     }}
                 >
@@ -412,7 +411,7 @@ export default function Home() {
                             <Box
                                 sx={{
                                     width: "100%",
-                                    height: "clamp(370px, 105vw, 460px)"
+                                    height: "clamp(370px, 105vw, 460px)",
                                 }}
                             >
                                 <MobileStackCarousel
@@ -458,17 +457,51 @@ export default function Home() {
                             </Box>
                         )}
 
-                        {shouldShowCarousel && !isMobile && !hidePromos && !driveModeActive && (
-                            <HeroCarousel aspectRatio="16 / 9.7">
-                                {desktopCarouselSlides}
-                            </HeroCarousel>
-                        )}
+                        {shouldShowCarousel &&
+                            !isMobile &&
+                            !hidePromos &&
+                            !driveModeActive && (
+                                <HeroCarousel aspectRatio="16 / 9.7">
+                                    {desktopCarouselSlides}
+                                </HeroCarousel>
+                            )}
+
+                        {!isMobile &&
+                            !hidePromos &&
+                            !driveModeActive &&
+                            !isSearching && (
+                                <>
+                                    <TrackOrderMobile />
+
+                                    <Box sx={{ mt: 3 }}>
+                                        <HomeDesktopGrid
+                                            left={<WhyFastFuelDesktop />}
+                                            topRight={
+                                                <TopRatedProductsDesktop
+                                                    products={topProducts}
+                                                />
+                                            }
+                                            bottomRight={
+                                                <NowAvailableDesktop
+                                                    onOpenFastThru={enterFastThru}
+                                                />
+                                            }
+                                        />
+                                    </Box>
+
+                                    {homeReviews.length > 0 && (
+                                        <ReviewsDesktop
+                                            reviews={homeReviews}
+                                        />
+                                    )}
+                                </>
+                            )}
 
                         {shouldShowOrderPreview && driveModeActive && (
                             <Box
                                 sx={{
-                                    mt: { xs: 0.2, md: 1.5, },
-                                    mb: { xs: 2.5, md: 1.5 }
+                                    mt: { xs: 0.2, md: 1.5 },
+                                    mb: { xs: 2.5, md: 1.5 },
                                 }}
                             >
                                 <FastThruOrderPanel
@@ -525,18 +558,25 @@ export default function Home() {
                             onRemoveItem={removeItem}
                         />
                     </Container>
+
                     {!isMobile && <PortfolioTips />}
 
-                    {isMobile ? <FloatingContactMobile driveModeActive={driveModeActive} /> : <FloatingContact />}
-
                     {isMobile ? (
+                        <FloatingContactMobile
+                            driveModeActive={driveModeActive}
+                        />
+                    ) : (
+                        <FloatingContact />
+                    )}
+
+                    {!isMobile && !driveModeActive && <Footer fixed={false} />}
+
+                    {isMobile && (
                         <NavFooter
                             onNavigate={handleDrawerNavigate}
                             onFastThruClick={toggleFastThru}
                             isFastThruActive={driveModeActive}
                         />
-                    ) : (
-                        !driveModeActive && <Footer />
                     )}
                 </Box>
             </PageShell>

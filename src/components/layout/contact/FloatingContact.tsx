@@ -22,9 +22,9 @@ const FloatingWrapper = styled("button")(({ theme }) => ({
 
   backgroundColor: "#ffe0c7",
 
-  borderTop: "3px solid rgba(230, 81, 0, 0.85)",
-  borderBottom: "3px solid rgba(230, 81, 0, 0.85)",
-  borderLeft: "3px solid rgba(230, 81, 0, 0.85)",
+  borderTop: "2.5px solid rgba(230, 81, 0, 0.85)",
+  borderBottom: "2.5px solid rgba(230, 81, 0, 0.85)",
+  borderLeft: "2.5px solid rgba(230, 81, 0, 0.85)",
   borderRight: "none",
 
   cursor: "pointer",
