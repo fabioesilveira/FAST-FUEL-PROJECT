@@ -46,6 +46,11 @@ import { cleanProductName } from "../utils/homeHelpers";
 import TopRatedProductsMobile from "../components/home/TopRatedProductsMobile";
 import NowAvailableMobile from "../components/home/NowAvailableMobile";
 import TrackOrderMobile from "../components/home/TrackOrderMobile";
+import HomeDesktopGrid from "../components/home/HomeDesktopGrid";
+import WhyFastFuelDesktop from "../components/home/WhyFastFuelDesktop";
+import TopRatedProductsDesktop from "../components/home/TopRatedProductsDesktop";
+import NowAvailableDesktop from "../components/home/NowAvailableDesktop";
+import ReviewsDesktop from "../components/home/ReviewsDesktop";
 
 const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
