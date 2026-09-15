@@ -15,12 +15,6 @@ export default function HomeDesktopGrid({
         <Box
             sx={{
                 width: "100%",
-                maxWidth: 1280,
-                mx: "auto",
-                px: {
-                    md: 3,
-                    lg: 4,
-                },
                 display: "grid",
                 gridTemplateColumns: {
                     md: "minmax(0, 3fr) minmax(0, 2fr)",
@@ -42,7 +36,7 @@ export default function HomeDesktopGrid({
                 sx={{
                     minWidth: 0,
                     display: "grid",
-                    gridTemplateRows: "1fr 1fr",
+                    gridTemplateRows: "7fr 3fr",
                     gap: 2.5,
                     height: "100%",
                 }}

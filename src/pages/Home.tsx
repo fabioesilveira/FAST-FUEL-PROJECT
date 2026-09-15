@@ -49,8 +49,9 @@ import TrackOrderMobile from "../components/home/TrackOrderMobile";
 import HomeDesktopGrid from "../components/home/HomeDesktopGrid";
 import WhyFastFuelDesktop from "../components/home/WhyFastFuelDesktop";
 import TopRatedProductsDesktop from "../components/home/TopRatedProductsDesktop";
-import NowAvailableDesktop from "../components/home/NowAvailableDesktop";
+// import NowAvailableDesktop from "../components/home/NowAvailableDesktop";
 import ReviewsDesktop from "../components/home/ReviewsDesktop";
+import GitHubRepoDesktop from "../components/home/GitHubRepoDesktop";
 
 const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
@@ -481,11 +482,7 @@ export default function Home() {
                                                     products={topProducts}
                                                 />
                                             }
-                                            bottomRight={
-                                                <NowAvailableDesktop
-                                                    onOpenFastThru={enterFastThru}
-                                                />
-                                            }
+                                            bottomRight={<GitHubRepoDesktop />}
                                         />
                                     </Box>
 
