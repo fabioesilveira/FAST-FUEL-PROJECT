@@ -17,27 +17,40 @@ export default function GitHubRepoDesktop() {
                 width: "100%",
                 height: "100%",
                 borderRadius: 4,
-                background: "linear-gradient(135deg, #0d1117 0%, #24292f 100%)",
-                color: "#fff",
+                backgroundColor: "#f6f8fa",
+                color: "#24292f",
                 px: 3,
                 py: 2.5,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
                 gap: 2,
-                boxShadow: "0 8px 24px rgba(0,0,0,0.18)",
-                border: "1px solid rgba(255,255,255,0.08)",
+                border: "1px solid #d0d7de",
+                boxShadow: "0 6px 18px rgba(31, 35, 40, 0.10)",
             }}
         >
             <Box>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.7 }}>
-                    <GitHubIcon sx={{ fontSize: 28 }} />
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1.2,
+                        mb: 0.7,
+                    }}
+                >
+                    <GitHubIcon
+                        sx={{
+                            fontSize: 30,
+                            color: "#24292f",
+                        }}
+                    />
 
                     <Typography
                         sx={{
                             fontSize: 16,
                             fontWeight: 800,
                             letterSpacing: 0.5,
+                            color: "#24292f",
                         }}
                     >
                         FAST FUEL ON GITHUB
@@ -47,7 +60,7 @@ export default function GitHubRepoDesktop() {
                 <Typography
                     sx={{
                         fontSize: 13.5,
-                        color: "rgba(255,255,255,0.72)",
+                        color: "#57606a",
                         lineHeight: 1.5,
                     }}
                 >
@@ -60,9 +73,9 @@ export default function GitHubRepoDesktop() {
                 endIcon={<OpenInNewIcon />}
                 sx={{
                     flexShrink: 0,
-                    color: "#fff",
-                    borderColor: "rgba(255,255,255,0.35)",
-                    border: "1px solid",
+                    color: "#24292f",
+                    border: "1px solid #d0d7de",
+                    backgroundColor: "#ffffff",
                     borderRadius: 2.5,
                     px: 2,
                     py: 1,
@@ -70,8 +83,8 @@ export default function GitHubRepoDesktop() {
                     textTransform: "none",
                     whiteSpace: "nowrap",
                     "&:hover": {
-                        borderColor: "#fff",
-                        backgroundColor: "rgba(255,255,255,0.08)",
+                        backgroundColor: "#f3f4f6",
+                        borderColor: "#8c959f",
                     },
                 }}
             >
