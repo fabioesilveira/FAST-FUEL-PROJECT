@@ -53,6 +53,7 @@ import TopRatedProductsDesktop from "../components/home/TopRatedProductsDesktop"
 import NowAvailableDesktop from "../components/home/NowAvailableDesktop";
 import ReviewsDesktop from "../components/home/ReviewsDesktop";
 import GitHubRepoDesktop from "../components/home/GitHubRepoDesktop";
+import TrackOrderDesktop from "../components/home/TrackOrderDesktop";
 
 const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
@@ -446,7 +447,7 @@ export default function Home() {
                         disableGutters
                         sx={{
                             flexGrow: 2,
-                            mt: { xs: driveModeActive ? "13px" : 0, md: "106px" },
+                            mt: { xs: driveModeActive ? "13px" : 0, md: "107px" },
                             mb: { xs: 2, md: "60px" },
                             px: { xs: 2, md: 3 },
                             maxWidth: 1200,
@@ -473,7 +474,7 @@ export default function Home() {
                             !driveModeActive &&
                             !isSearching && (
                                 <>
-                                    <TrackOrderMobile />
+                                    <TrackOrderDesktop />
 
                                     <Box sx={{ mt: 3 }}>
                                         <HomeDesktopGrid
