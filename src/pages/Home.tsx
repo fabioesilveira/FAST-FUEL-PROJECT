@@ -494,6 +494,7 @@ export default function Home() {
                                             gridTemplateColumns: "7fr 3fr",
                                             gap: 2.5,
                                             mt: 3,
+                                            mb: 3,
                                             alignItems: "stretch",
                                         }}
                                     >
