@@ -30,7 +30,7 @@ export default function ReviewsDesktop({
         <Box
             sx={{
                 width: "100%",
-                mt: 3,
+                mt: 4,
                 mb: 3,
             }}
         >
