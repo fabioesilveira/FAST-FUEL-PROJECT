@@ -36,6 +36,7 @@ export default function WhyFastFuelDesktop() {
                 height: "100%",
                 borderRadius: 2,
                 px: 3,
+                mt: 3,
                 py: 3,
                 background:
                     "linear-gradient(180deg, #fffaf2 0%, #ffeedc 100%)",
