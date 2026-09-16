@@ -15,7 +15,7 @@ export default function NowAvailableDesktop({
                 height: "100%",
                 px: 3,
                 py: 3,
-                borderRadius: 4,
+                borderRadius: 1.8,
                 background:
                     "linear-gradient(135deg, #0f766e 0%, #2fb7a8 100%)",
                 boxShadow:
@@ -29,12 +29,12 @@ export default function NowAvailableDesktop({
         >
             <Typography
                 sx={{
-                    fontSize: "0.74rem",
+                    fontSize: "0.86rem",
                     fontWeight: 900,
                     letterSpacing: "0.14em",
                     textTransform: "uppercase",
                     color: "#ffe0c7",
-                    mb: 0.9,
+                    mb: 1.4,
                 }}
             >
                 Now Available
@@ -42,12 +42,12 @@ export default function NowAvailableDesktop({
 
             <Typography
                 sx={{
-                    fontSize: "1.25rem",
-                    lineHeight: 1.25,
+                    fontSize: "1.5rem",
+                    lineHeight: 1.3,
                     fontWeight: 900,
                     color: "#fff",
-                    mb: 1.1,
-                    maxWidth: 320,
+                    mb: 1.5,
+                    maxWidth: 340,
                 }}
             >
                 Skip the line. Order from home.
@@ -55,12 +55,12 @@ export default function NowAvailableDesktop({
 
             <Typography
                 sx={{
-                    fontSize: "0.82rem",
-                    lineHeight: 1.6,
-                    color: "rgba(255,255,255,0.82)",
-                    maxWidth: 340,
+                    fontSize: "0.95rem",
+                    lineHeight: 1.7,
+                    color: "rgba(255,255,255,0.86)",
+                    maxWidth: 350,
                     mx: "auto",
-                    mb: 2,
+                    mb: 2.8,
                 }}
             >
                 Get your Fast Fuel favorites delivered straight to your door
@@ -77,9 +77,9 @@ export default function NowAvailableDesktop({
                     textTransform: "uppercase",
                     letterSpacing: "0.06em",
                     borderRadius: 999,
-                    px: 3,
-                    py: 1,
-                    fontSize: "0.76rem",
+                    px: 3.5,
+                    py: 1.2,
+                    fontSize: "0.84rem",
 
                     "&:hover": {
                         bgcolor: "#c74400",

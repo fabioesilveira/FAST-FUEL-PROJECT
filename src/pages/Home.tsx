@@ -41,6 +41,7 @@ import Employees from "../assets/Employees4.png";
 import Combo from "../assets/Combo1.png";
 import ComboMobile from "../assets/ComboMobile.png";
 import EmployeesMobile from "../assets/EmployesMobile.png";
+import Polaroid from "../assets/PolaroidDesktop.png";
 
 import { cleanProductName } from "../utils/homeHelpers";
 import TopRatedProductsMobile from "../components/home/TopRatedProductsMobile";
@@ -49,7 +50,7 @@ import TrackOrderMobile from "../components/home/TrackOrderMobile";
 import HomeDesktopGrid from "../components/home/HomeDesktopGrid";
 import WhyFastFuelDesktop from "../components/home/WhyFastFuelDesktop";
 import TopRatedProductsDesktop from "../components/home/TopRatedProductsDesktop";
-// import NowAvailableDesktop from "../components/home/NowAvailableDesktop";
+import NowAvailableDesktop from "../components/home/NowAvailableDesktop";
 import ReviewsDesktop from "../components/home/ReviewsDesktop";
 import GitHubRepoDesktop from "../components/home/GitHubRepoDesktop";
 
@@ -483,6 +484,34 @@ export default function Home() {
                                                 />
                                             }
                                             bottomRight={<GitHubRepoDesktop />}
+                                        />
+                                    </Box>
+
+                                    <Box
+                                        sx={{
+                                            display: "grid",
+                                            gridTemplateColumns: "7fr 3fr",
+                                            gap: 2.5,
+                                            mt: 3,
+                                            alignItems: "stretch",
+                                        }}
+                                    >
+                                        <Box
+                                            component="img"
+                                            src={Polaroid}
+                                            alt="Fast Fuel food, customers, and team"
+                                            sx={{
+                                                width: "100%",
+                                                height: "100%",
+                                                minHeight: 260,
+                                                objectFit: "cover",
+                                                display: "block",
+                                                borderRadius: "6px",
+                                            }}
+                                        />
+
+                                        <NowAvailableDesktop
+                                            onOpenFastThru={enterFastThru}
                                         />
                                     </Box>
 
