@@ -85,12 +85,12 @@ export default function TopRatedProductsDesktop({
         "10": {
             width: "135px",
             height: "138px",
-            marginTop: "18px",
+            marginTop: "10px",
         },
         "12": {
             width: "132px",
             height: "122px",
-            marginTop: "2px",
+            marginTop: "18px",
         },
     };
 
