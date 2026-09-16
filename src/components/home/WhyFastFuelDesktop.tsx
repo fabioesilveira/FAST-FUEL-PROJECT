@@ -34,7 +34,7 @@ export default function WhyFastFuelDesktop() {
         <Box
             sx={{
                 height: "100%",
-                borderRadius: 4,
+                borderRadius: 2,
                 px: 3,
                 py: 3,
                 background:
@@ -188,7 +188,7 @@ export default function WhyFastFuelDesktop() {
                             <Typography
                                 sx={{
                                     color: "rgba(20,20,20,0.72)",
-                                    fontSize: "0.8rem",
+                                    fontSize: "0.82rem",
                                     lineHeight: 1.55,
                                 }}
                             >

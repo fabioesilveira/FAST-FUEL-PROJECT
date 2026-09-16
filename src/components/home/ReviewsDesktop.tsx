@@ -51,9 +51,9 @@ export default function ReviewsDesktop({
             <Box
                 sx={{
                     width: 58,
-                    height: 3,
+                    height: 2,
                     bgcolor: "#e65100",
-                    borderRadius: 999,
+                    borderRadius: 3,
                     mx: "auto",
                     mb: 2.4,
                 }}
@@ -76,7 +76,7 @@ export default function ReviewsDesktop({
                                 "1px solid rgba(13,71,161,0.14)",
                             boxShadow:
                                 "0 4px 14px rgba(13,71,161,0.08)",
-                            borderRadius: 3,
+                            borderRadius: 2,
                             px: 2.2,
                             py: 2,
                             minHeight: 180,
