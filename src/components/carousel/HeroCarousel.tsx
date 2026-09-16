@@ -22,7 +22,7 @@ export default function HeroCarousel({
 
         // wrapper
         borderRadius: { xs: "0px !important", md: `${radius}px` },
-        boxShadow: { xs: "none", md: "0 10px 28px rgba(230, 81, 0, 0.28)" },
+        boxShadow: { xs: "none", md: "0 6px 18px rgba(230, 81, 0, 0.18)" },
         border: { xs: "none", md: "2px solid rgba(230, 81, 0, 0.25)" },
 
         // altura 100% em tudo

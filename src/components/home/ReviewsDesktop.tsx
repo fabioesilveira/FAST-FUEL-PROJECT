@@ -216,7 +216,7 @@ export default function ReviewsDesktop({
                         border: "none",
                         boxShadow:
                             "0 4px 14px rgba(13,71,161,0.14)",
-                        borderRadius: 3,
+                        borderRadius: 2,
                         px: 2.2,
                         py: 2,
                         minHeight: 180,

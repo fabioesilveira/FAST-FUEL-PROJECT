@@ -121,7 +121,7 @@ export default function TopRatedProductsDesktop({
                     bgcolor: "#e65100",
                     borderRadius: 999,
                     mx: "auto",
-                    mt: 0.8,
+                    mt: 1,
                     mb: 1.3,
                 }}
             />

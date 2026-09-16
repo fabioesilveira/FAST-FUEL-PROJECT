@@ -307,9 +307,9 @@ export default function ProductsGrid({
                         bgcolor: "white",
                         color: "#0d47a1",
 
-                        borderTop: "3px solid rgba(13,71,161,0.45)",
-                        borderBottom: "3px solid rgba(13,71,161,0.45)",
-                        borderLeft: "3px solid rgba(13,71,161,0.45)",
+                        borderTop: "2.5px solid rgba(13,71,161,0.45)",
+                        borderBottom: "2.5px solid rgba(13,71,161,0.45)",
+                        borderLeft: "2.5px solid rgba(13,71,161,0.45)",
                         borderRight: "none",
 
                         boxShadow: "0 8px 22px rgba(13,71,161,0.18)",

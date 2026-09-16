@@ -108,7 +108,7 @@ export default function PromoBannerCarousel({
                         fontSize: {
                             xs: "1.1rem",
                             sm: "1.9rem",
-                            md: "2.2rem",
+                            md: "1.9rem",
                         },
 
                         lineHeight: 0.7,
@@ -132,7 +132,7 @@ export default function PromoBannerCarousel({
                             fontSize: {
                                 xs: "0.75rem",
                                 sm: "0.95rem",
-                                md: "1.05rem",
+                                md: "0.98rem",
                             },
 
                             fontWeight: 800,
