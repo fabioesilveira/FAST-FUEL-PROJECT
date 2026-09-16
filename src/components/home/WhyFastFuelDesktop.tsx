@@ -52,8 +52,8 @@ export default function WhyFastFuelDesktop() {
                     position: "absolute",
                     top: -40,
                     right: -34,
-                    width: 130,
-                    height: 130,
+                    width: 120,
+                    height: 120,
                     borderRadius: "50%",
                     bgcolor: "rgba(230,81,0,0.10)",
                 }}
@@ -64,8 +64,8 @@ export default function WhyFastFuelDesktop() {
                     position: "absolute",
                     bottom: -35,
                     left: -30,
-                    width: 100,
-                    height: 100,
+                    width: 90,
+                    height: 90,
                     borderRadius: "50%",
                     bgcolor: "rgba(13,71,161,0.08)",
                 }}

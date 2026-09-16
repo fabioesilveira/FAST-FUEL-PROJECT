@@ -80,7 +80,7 @@ export default function TopRatedProductsDesktop({
         "4": {
             width: "145px",
             height: "110px",
-            marginTop: "18px",
+            marginTop: "16px",
         },
         "10": {
             width: "135px",
@@ -90,7 +90,7 @@ export default function TopRatedProductsDesktop({
         "12": {
             width: "132px",
             height: "122px",
-            marginTop: "15px",
+            marginTop: "13px",
         },
     };
 
