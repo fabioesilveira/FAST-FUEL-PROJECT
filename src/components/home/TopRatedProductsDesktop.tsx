@@ -57,6 +57,15 @@ export default function TopRatedProductsDesktop({
         }
     }, [topThree, selectedId]);
 
+    useEffect(() => {
+        topThree.forEach((product) => {
+            if (product.image) {
+                const img = new Image();
+                img.src = product.image;
+            }
+        });
+    }, [products]);
+
     if (!topThree.length) return null;
 
     const selectedProduct =
@@ -71,17 +80,17 @@ export default function TopRatedProductsDesktop({
         "4": {
             width: "145px",
             height: "110px",
-            marginTop: "20px",
+            marginTop: "18px",
         },
         "10": {
             width: "135px",
             height: "138px",
-            marginTop: "16px",
+            marginTop: "14px",
         },
         "12": {
-            width: "135px",
-            height: "124px",
-            marginTop: "18px",
+            width: "132px",
+            height: "122px",
+            marginTop: "15px",
         },
     };
 
@@ -121,7 +130,7 @@ export default function TopRatedProductsDesktop({
                     bgcolor: "#e65100",
                     borderRadius: 999,
                     mx: "auto",
-                    mt: 1,
+                    mt: 0.9,
                     mb: 1.3,
                 }}
             />
@@ -305,13 +314,10 @@ export default function TopRatedProductsDesktop({
                     }}
                 >
                     <Box
+                        key={selectedProduct.id}
                         component="img"
-                        src={
-                            selectedProduct.image
-                        }
-                        alt={
-                            selectedProduct.name
-                        }
+                        src={selectedProduct.image}
+                        alt={selectedProduct.name}
                         style={
                             imageStylesTopRated[
                             String(
