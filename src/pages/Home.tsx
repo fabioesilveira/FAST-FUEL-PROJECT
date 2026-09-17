@@ -6,7 +6,6 @@ import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Footer from "../components/layout/footer/Footer";
 import Navbar from "../components/layout/navbar/Navbar";
 import DrawerHome from "../components/layout/drawer/DrawerHome";
 import NavFooter from "../components/layout/footer/NavFooter";
@@ -54,6 +53,7 @@ import NowAvailableDesktop from "../components/home/NowAvailableDesktop";
 import ReviewsDesktop from "../components/home/ReviewsDesktop";
 import GitHubRepoDesktop from "../components/home/GitHubRepoDesktop";
 import TrackOrderDesktop from "../components/home/TrackOrderDesktop";
+import HomeFooter from "../components/layout/footer/HomeFooter";
 
 const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
@@ -598,7 +598,7 @@ export default function Home() {
                         <FloatingContact />
                     )}
 
-                    {!isMobile && !driveModeActive && <Footer fixed={false} />}
+                    {!isMobile && !driveModeActive && <HomeFooter />}
 
                     {isMobile && (
                         <NavFooter
