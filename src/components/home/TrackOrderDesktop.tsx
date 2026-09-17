@@ -14,7 +14,7 @@ export default function TrackOrderDesktop() {
                 width: "100%",
                 minHeight: 112,
                 mt: 2.2,
-                mb: 2.2,
+                mb: 2,
                 px: 3,
                 py: 2.2,
                 bgcolor: "#0d47a1",

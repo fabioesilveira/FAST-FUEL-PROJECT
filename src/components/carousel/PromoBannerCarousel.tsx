@@ -73,7 +73,7 @@ export default function PromoBannerCarousel({
                 borderBottom: "2px solid rgba(13, 71, 161, 0.18)",
                 borderRadius: 0,
                 mt: { xs: 0.2, sm: 1.7, md: 0.7 },
-                mb: { xs: 1.3, md: -0.3 },
+                mb: { xs: 1.3, md: -0.1 },
                 height: { xs: 78, md: 95 },
                 boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
                 display: "flex",

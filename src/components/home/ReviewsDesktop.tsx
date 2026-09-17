@@ -31,7 +31,7 @@ export default function ReviewsDesktop({
             sx={{
                 width: "100%",
                 mt: 5,
-                mb: 2,
+                mb: 1,
             }}
         >
             <Typography
