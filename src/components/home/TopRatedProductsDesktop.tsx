@@ -98,7 +98,7 @@ export default function TopRatedProductsDesktop({
         <Box
             sx={{
                 height: "100%",
-                borderRadius: 2,
+                borderRadius: 1.3,
                 px: 2.2,
                 py: 2.2,
                 bgcolor: "#fff",

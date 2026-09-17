@@ -34,7 +34,7 @@ export default function WhyFastFuelDesktop() {
         <Box
             sx={{
                 height: "100%",
-                borderRadius: 2,
+                borderRadius: 1.3,
                 px: 3,
                 py: 3,
                 background:

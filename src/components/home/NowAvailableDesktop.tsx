@@ -15,7 +15,7 @@ export default function NowAvailableDesktop({
                 height: "100%",
                 px: 3,
                 py: 3,
-                borderRadius: 1.8,
+                borderRadius: 1.3,
                 background:
                     "linear-gradient(135deg, #0f766e 0%, #2fb7a8 100%)",
                 boxShadow:

@@ -16,7 +16,7 @@ export default function GitHubRepoDesktop() {
             sx={{
                 width: "100%",
                 height: "100%",
-                borderRadius: 2,
+                borderRadius: 1.3,
                 backgroundColor: "#f6f8fa",
                 color: "#24292f",
                 px: 3,
