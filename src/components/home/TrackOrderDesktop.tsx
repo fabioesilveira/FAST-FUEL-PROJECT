@@ -13,8 +13,8 @@ export default function TrackOrderDesktop() {
             sx={{
                 width: "100%",
                 minHeight: 112,
-                mt: 2.5,
-                mb: 3,
+                mt: 2.2,
+                mb: 2.2,
                 px: 3,
                 py: 2.2,
                 bgcolor: "#0d47a1",
@@ -25,7 +25,7 @@ export default function TrackOrderDesktop() {
                 gap: 3,
                 borderRadius: "6px",
                 cursor: "pointer",
-                boxShadow: "0 6px 18px rgba(13,71,161,0.14)",
+                boxShadow: "0 6px 18px rgba(13,71,161,0.16)",
                 transition: "transform 180ms ease, box-shadow 180ms ease",
 
                 "&:hover": {

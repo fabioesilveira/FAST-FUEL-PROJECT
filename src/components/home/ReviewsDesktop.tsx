@@ -30,8 +30,8 @@ export default function ReviewsDesktop({
         <Box
             sx={{
                 width: "100%",
-                mt: 4,
-                mb: 3,
+                mt: 5,
+                mb: 2,
             }}
         >
             <Typography

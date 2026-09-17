@@ -447,7 +447,7 @@ export default function Home() {
                         disableGutters
                         sx={{
                             flexGrow: 2,
-                            mt: { xs: driveModeActive ? "13px" : 0, md: "107px" },
+                            mt: { xs: driveModeActive ? "13px" : 0, md: "109px" },
                             mb: { xs: 2, md: "60px" },
                             px: { xs: 2, md: 3 },
                             maxWidth: 1200,
@@ -493,7 +493,7 @@ export default function Home() {
                                             display: "grid",
                                             gridTemplateColumns: "7fr 3fr",
                                             gap: 2.5,
-                                            mt: 3,
+                                            mt: 2.5,
                                             mb: 3,
                                             alignItems: "stretch",
                                         }}
@@ -509,6 +509,7 @@ export default function Home() {
                                                 objectFit: "cover",
                                                 display: "block",
                                                 borderRadius: "6px",
+                                                boxShadow: "0 8px 22px rgba(13,71,161,0.16)",
                                             }}
                                         />
 
