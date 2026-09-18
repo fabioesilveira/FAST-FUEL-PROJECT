@@ -7,14 +7,12 @@ import {
     IconButton,
     Stack,
     Typography,
-    Chip,
 } from "@mui/material";
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import CloseIcon from "@mui/icons-material/Close";
-import FastfoodIcon from "@mui/icons-material/Fastfood";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import GitHubIcon from "@mui/icons-material/GitHub";
+import DesktopWindowsIcon from "@mui/icons-material/DesktopWindows";
+import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 
 type PortfolioTipsProps = {
     isMobile?: boolean;
@@ -30,24 +28,18 @@ export default function PortfolioTips({ isMobile = false }: PortfolioTipsProps) 
                 aria-label="Open portfolio tips"
                 sx={{
                     position: "fixed",
-
                     left: isMobile ? 18 : 92,
                     bottom: isMobile
                         ? "calc(96px + env(safe-area-inset-bottom))"
                         : 136,
-
                     zIndex: 30,
-
                     minWidth: 0,
                     width: isMobile ? 52 : 56,
                     height: isMobile ? 52 : 56,
-
                     borderRadius: "50%",
-
                     bgcolor: "#fff3e0",
                     border: "2px solid #e65100",
                     color: "#e65100",
-
                     boxShadow: "0 6px 16px rgba(0,0,0,0.16)",
 
                     "&:hover": {
@@ -81,8 +73,8 @@ export default function PortfolioTips({ isMobile = false }: PortfolioTipsProps) 
                     },
                 }}
             >
-                <DialogContent sx={{ p: { xs: 2.4, sm: 3.2 } }}>
-                    <Stack spacing={2.1}>
+                <DialogContent sx={{ p: { xs: 2.4, sm: 3.2 }, pb: { xs: 2.8, sm: 3.6 }, }}>
+                    <Stack spacing={2.2}>
                         <Stack
                             direction="row"
                             alignItems="flex-start"
@@ -90,21 +82,18 @@ export default function PortfolioTips({ isMobile = false }: PortfolioTipsProps) 
                             gap={2}
                         >
                             <Box>
-                                <Chip
-                                    label="Portfolio Demo"
-                                    size="small"
+                                <Typography
                                     sx={{
-                                        mb: 1.2,
-                                        height: 23,
-                                        fontSize: "0.66rem",
-                                        letterSpacing: "0.08em",
+                                        fontSize: "0.68rem",
+                                        fontWeight: 800,
+                                        letterSpacing: "0.12em",
                                         textTransform: "uppercase",
-                                        bgcolor: "#1e5bb8",
-                                        color: "#fff",
-                                        fontWeight: 900,
-                                        "& .MuiChip-label": { px: 1 },
+                                        color: "rgba(13,71,161,0.48)",
+                                        mb: 0.8,
                                     }}
-                                />
+                                >
+                                    Portfolio Demo
+                                </Typography>
 
                                 <Typography
                                     sx={{
@@ -130,82 +119,26 @@ export default function PortfolioTips({ isMobile = false }: PortfolioTipsProps) 
                             </IconButton>
                         </Stack>
 
-                        <Typography
-                            sx={{
-                                color: "rgba(0,0,0,0.72)",
-                                lineHeight: 1.6,
-                                fontSize: "0.95rem",
-                            }}
-                        >
-                            Fast Fuel is a full-stack food ordering app focused on responsive UI/UX, fast checkout, guest and registered-user order tracking, admin order management, and verified post-delivery customer reviews.
-                        </Typography>
-
-                        <Stack spacing={1.25}>
+                        <Stack spacing={1.4}>
                             <TipRow
-                                icon={<FastfoodIcon />}
-                                title="FAST THRU Mode"
-                                text="A virtual drive-thru experience for users who already know what they want. Quickly add products, review the bill, adjust the cart, and checkout faster."
-                            />
-
-                            <TipRow
-                                icon={<ReceiptLongIcon />}
-                                title="Order Tracking"
-                                text="Users can track status updates, confirm delivery receipt, and submit verified reviews after completed purchases."
-                            />
-
-                            <TipRow
-                                icon={<AdminPanelSettingsIcon />}
+                                icon={<AdminPanelSettingsIcon sx={{ fontSize: 29 }} />}
                                 title="Admin Demo"
-                                text="To test the admin dashboard, visit the Sign In page and use the demo admin access provided there."
+                                text="To explore the admin dashboard, visit the Sign In page and use the demo admin credentials provided there."
+                            />
+
+                            <TipRow
+                                icon={<DesktopWindowsIcon />}
+                                title="Desktop Navigation"
+                                text="The desktop experience uses a side drawer designed for fast and easy navigation while taking advantage of the larger screen size."
+                            />
+
+                            <TipRow
+                                icon={<PhoneIphoneIcon />}
+                                title="Mobile Navigation"
+                                text="The mobile experience uses a sticky footer navigation designed for quick access and a smooth user flow on smaller screens. Try shrinking the browser window to explore the mobile layout."
                             />
                         </Stack>
-
-                        <Box
-                            sx={{
-                                p: 1.4,
-                                borderRadius: 2,
-                                bgcolor: "rgba(230,81,0,0.10)",
-                                border: "1px solid rgba(230,81,0,0.22)",
-                            }}
-                        >
-                            <Typography
-                                sx={{
-                                    fontSize: "0.75rem",
-                                    color: "rgba(0,0,0,0.68)",
-                                    lineHeight: 1.5,
-                                }}
-                            >
-                                Desktop: use the side drawer to explore categories and FAST THRU.
-                                Mobile: use the sticky footer navigation for a browser-app style
-                                experience.
-                            </Typography>
-                        </Box>
                     </Stack>
-
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        startIcon={<GitHubIcon />}
-                        href="https://github.com/fabioesilveira/FAST-FUEL-PROJECT"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        sx={{
-                            mt: 2.2,
-                            mb: 0.5,
-                            height: 44,
-                            borderRadius: 2,
-                            bgcolor: "#1059c5",
-                            fontWeight: 900,
-                            letterSpacing: "0.08em",
-                            textTransform: "uppercase",
-
-                            "&:hover": {
-                                bgcolor: "#123b7a",
-                            },
-                        }}
-                    >
-                        View GitHub Repo
-                    </Button>
                 </DialogContent>
             </Dialog>
         </>
@@ -233,9 +166,6 @@ function TipRow({
                     placeItems: "center",
                     bgcolor: "rgba(30,91,184,0.10)",
                     color: "#1e5bb8",
-                    "& svg": {
-                        fontSize: 21,
-                    },
                 }}
             >
                 {icon}

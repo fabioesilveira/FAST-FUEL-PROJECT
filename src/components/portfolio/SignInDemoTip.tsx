@@ -109,7 +109,7 @@ export default function SignInDemoTip({
                             lineHeight: 1.05,
                         }}
                     >
-                        Demo Admin Credentials
+                        Admin Credentials
                     </Typography>
 
                     <Typography
@@ -120,7 +120,7 @@ export default function SignInDemoTip({
                             fontSize: "0.94rem",
                         }}
                     >
-                        Use the credentials below to access the Fast Fuel admin dashboard demo, test order management features, and view customer messages.
+                        Use the demo credentials below to explore the Fast Fuel admin dashboard, test order management features, and view customer messages.
                     </Typography>
 
                     <Paper
