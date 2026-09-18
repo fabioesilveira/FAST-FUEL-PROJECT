@@ -226,7 +226,7 @@ export default function HomeFooter() {
             >
                 <Typography
                     sx={{
-                        fontSize: "0.8rem",
+                        fontSize: "0.81rem",
                         color: "rgba(255,255,255,0.65)",
                         textAlign: "center",
                     }}

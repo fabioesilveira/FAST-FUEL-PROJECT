@@ -598,7 +598,7 @@ export default function Home() {
                         <FloatingContact />
                     )}
 
-                    {!isMobile && !driveModeActive && <HomeFooter />}
+                    {!isMobile && <HomeFooter />}
 
                     {isMobile && (
                         <NavFooter

@@ -157,25 +157,27 @@ export default function HomeFastThruSection({
                     );
                 })}
             </Box>
-            <Box
-                sx={{
-                    mt: { xs: 3, md: 4.5 },
-                    mb: { xs: -1, md: -4.7 },
-                    display: "flex",
-                    justifyContent: "center",
-                }}
-            >
-                <Typography
+            {isMobile && (
+                <Box
                     sx={{
-                        color: "rgba(230, 81, 0, 0.45)",
-                        fontSize: "0.82rem",
-                        fontWeight: 700,
-                        letterSpacing: "0.05em",
+                        mt: 3,
+                        mb: -0.6,
+                        display: "flex",
+                        justifyContent: "center",
                     }}
                 >
-                    © 2026 Fast Fuel. All rights reserved.
-                </Typography>
-            </Box>
+                    <Typography
+                        sx={{
+                            color: "rgba(230, 81, 0, 0.45)",
+                            fontSize: "0.82rem",
+                            fontWeight: 700,
+                            letterSpacing: "0.05em",
+                        }}
+                    >
+                        © 2026 Fast Fuel.
+                    </Typography>
+                </Box>
+            )}
         </Box>
     );
 }

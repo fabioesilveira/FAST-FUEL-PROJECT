@@ -1,7 +1,7 @@
-import { Box, Typography, Link } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 type FooterProps = {
-  fixed?: boolean; // default true 
+  fixed?: boolean;
 };
 
 export default function Footer({ fixed = true }: FooterProps) {
@@ -22,11 +22,7 @@ export default function Footer({ fixed = true }: FooterProps) {
       }}
     >
       <Typography variant="body2">
-        {"Copyright © "}
-        <Link href="https://fastfuel.com/" underline="hover" sx={{ color: "#fff3e0" }}>
-          Fast Fuel
-        </Link>{" "}
-        {new Date().getFullYear()}.
+        © {new Date().getFullYear()} Fast Fuel.
       </Typography>
     </Box>
   );

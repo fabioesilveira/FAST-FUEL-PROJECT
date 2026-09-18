@@ -64,10 +64,12 @@ export default function FastThruOrderPanel({
                 },
                 maxWidth: 680,
                 mx: "auto",
+                mt: { xs: "6px", md: "-5px" },
+
 
                 bgcolor: "white",
                 borderRadius: 3,
-                boxShadow: "0 10px 26px rgba(0,0,0,0.14)",
+                boxShadow: "0 10px 26px rgba(0,0,0,0.10)",
                 overflow: "hidden",
 
                 display: "flex",

@@ -9,14 +9,17 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
+
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import LunchDiningIcon from "@mui/icons-material/LunchDining";
+import CookieIcon from "@mui/icons-material/Cookie";
+
+import type { SvgIconComponent } from "@mui/icons-material";
 
 import FriesIcon from "../../../assets/frenchFries.png";
 import SodaIcon from "../../../assets/soda.png";
-import LunchDiningIcon from "@mui/icons-material/LunchDining";
-import CookieIcon from "@mui/icons-material/Cookie";
-import type { SvgIconComponent } from "@mui/icons-material";
 
 const drawerWidth = 270;
 
@@ -67,6 +70,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
     }),
     overflowX: "hidden",
     width: `calc(${theme.spacing(7.5)} + 1px)`,
+
     [theme.breakpoints.up("sm")]: {
         width: `calc(${theme.spacing(8.5)} + 1px)`,
     },
@@ -87,14 +91,22 @@ const Drawer = styled(MuiDrawer, {
     flexShrink: 0,
     whiteSpace: "nowrap",
     boxSizing: "border-box",
+
     ...(open
-        ? { ...openedMixin(theme), "& .MuiDrawer-paper": openedMixin(theme) }
-        : { ...closedMixin(theme), "& .MuiDrawer-paper": closedMixin(theme) }),
+        ? {
+            ...openedMixin(theme),
+            "& .MuiDrawer-paper": openedMixin(theme),
+        }
+        : {
+            ...closedMixin(theme),
+            "& .MuiDrawer-paper": closedMixin(theme),
+        }),
 }));
 
 export default function DrawerHome({
     onNavigate,
     onDriveThruClick,
+    isFastThruActive = false,
 }: DrawerHomeProps) {
     const [open, setOpen] = React.useState(false);
     const [hideDrawer, setHideDrawer] = React.useState(false);
@@ -151,7 +163,7 @@ export default function DrawerHome({
         >
             <DrawerHeader>
                 <IconButton
-                    onClick={() => setOpen((p) => !p)}
+                    onClick={() => setOpen((prev) => !prev)}
                     sx={{
                         width: 48,
                         height: 48,
@@ -186,7 +198,10 @@ export default function DrawerHome({
             <List sx={{ px: 1, pt: 2, pb: 2 }}>
                 {categories.map((item, index) => (
                     <React.Fragment key={item.label}>
-                        <ListItem disablePadding sx={{ display: "block", mb: 0.7 }}>
+                        <ListItem
+                            disablePadding
+                            sx={{ display: "block", mb: 0.7 }}
+                        >
                             <ListItemButton
                                 onClick={() => onNavigate(item.label)}
                                 sx={[
@@ -195,11 +210,13 @@ export default function DrawerHome({
                                         px: 2,
                                         borderRadius: 1.5,
                                         border: "2px solid transparent",
+
                                         "&:hover": {
                                             bgcolor: ORANGE_SOFT,
                                             borderColor: BLUE,
                                         },
                                     },
+
                                     open
                                         ? { justifyContent: "initial" }
                                         : { justifyContent: "center" },
@@ -215,7 +232,10 @@ export default function DrawerHome({
                                             alignItems: "center",
                                             justifyContent: "center",
                                         },
-                                        open ? { mr: 2 } : { mr: "auto" },
+
+                                        open
+                                            ? { mr: 2 }
+                                            : { mr: "auto" },
                                     ]}
                                 >
                                     {item.type === "img" ? (
@@ -249,14 +269,20 @@ export default function DrawerHome({
                                                 textTransform: "uppercase",
                                             },
                                         },
-                                        open ? { opacity: 1 } : { opacity: 0 },
+
+                                        open
+                                            ? { opacity: 1 }
+                                            : { opacity: 0 },
                                     ]}
                                 />
                             </ListItemButton>
                         </ListItem>
 
                         {index === 1 && (
-                            <ListItem disablePadding sx={{ display: "block", mb: 0.7 }}>
+                            <ListItem
+                                disablePadding
+                                sx={{ display: "block", mb: 0.7 }}
+                            >
                                 <ListItemButton
                                     onClick={onDriveThruClick}
                                     sx={[
@@ -291,15 +317,18 @@ export default function DrawerHome({
                                                         transition: "opacity .15s ease",
                                                         zIndex: -1,
                                                     },
+
                                                     "&:hover::before": {
                                                         opacity: 1,
                                                     },
+
                                                     "&:hover": {
                                                         bgcolor: "transparent",
                                                         borderColor: "transparent",
                                                     },
                                                 }),
                                         },
+
                                         open
                                             ? { justifyContent: "initial" }
                                             : { justifyContent: "center" },
@@ -310,62 +339,90 @@ export default function DrawerHome({
                                             {
                                                 minWidth: 0,
                                                 width: 48,
-                                                height: "auto",
+                                                minHeight: 58,
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "center",
                                             },
-                                            open ? { mr: 2 } : { mr: "auto" },
+
+                                            open
+                                                ? { mr: 2 }
+                                                : { mr: "auto" },
                                         ]}
                                     >
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                width: 56,
-                                                minHeight: 58,
-                                                transform: open
-                                                    ? "scale(1.14)"
-                                                    : "scale(1.08)",
-                                                transition: "transform .2s ease",
-                                            }}
-                                        >
-                                            <Box
-                                                component="span"
+                                        {isFastThruActive ? (
+                                            <HomeRoundedIcon
                                                 sx={{
-                                                    fontFamily:
-                                                        '"Big Shoulders Inline", sans-serif',
-                                                    fontSize: 21,
-                                                    fontWeight: 900,
-                                                    color: "#0d47a1",
-                                                    lineHeight: 0.9,
-                                                    letterSpacing: "0.08em",
-                                                }}
-                                            >
-                                                FAST
-                                            </Box>
+                                                    fontSize: 36,
+                                                    color: BLUE,
 
+                                                    transition:
+                                                        "transform .2s ease",
+
+                                                    transform: open
+                                                        ? "scale(1.08)"
+                                                        : "scale(1.03)",
+
+                                                    ...outlineOrangeSx,
+                                                }}
+                                            />
+                                        ) : (
                                             <Box
-                                                component="span"
                                                 sx={{
-                                                    fontFamily:
-                                                        '"Big Shoulders Inline", sans-serif',
-                                                    fontSize: 21,
-                                                    fontWeight: 900,
-                                                    color: "#0d47a1",
-                                                    lineHeight: 0.9,
-                                                    letterSpacing: "0.08em",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    width: 56,
+                                                    minHeight: 58,
+
+                                                    transform: open
+                                                        ? "scale(1.14)"
+                                                        : "scale(1.08)",
+
+                                                    transition:
+                                                        "transform .2s ease",
                                                 }}
                                             >
-                                                THRU
+                                                <Box
+                                                    component="span"
+                                                    sx={{
+                                                        fontFamily:
+                                                            '"Big Shoulders Inline", sans-serif',
+                                                        fontSize: 21,
+                                                        fontWeight: 900,
+                                                        color: BLUE,
+                                                        lineHeight: 0.9,
+                                                        letterSpacing: "0.08em",
+                                                    }}
+                                                >
+                                                    FAST
+                                                </Box>
+
+                                                <Box
+                                                    component="span"
+                                                    sx={{
+                                                        fontFamily:
+                                                            '"Big Shoulders Inline", sans-serif',
+                                                        fontSize: 21,
+                                                        fontWeight: 900,
+                                                        color: BLUE,
+                                                        lineHeight: 0.9,
+                                                        letterSpacing: "0.08em",
+                                                    }}
+                                                >
+                                                    THRU
+                                                </Box>
                                             </Box>
-                                        </Box>
+                                        )}
                                     </ListItemIcon>
 
                                     <ListItemText
-                                        primary="QUICK ADD"
+                                        primary={
+                                            isFastThruActive
+                                                ? "HOME"
+                                                : "QUICK ADD"
+                                        }
                                         sx={[
                                             {
                                                 "& .MuiTypography-root": {
@@ -377,7 +434,10 @@ export default function DrawerHome({
                                                     lineHeight: 1.02,
                                                 },
                                             },
-                                            open ? { opacity: 1 } : { opacity: 0 },
+
+                                            open
+                                                ? { opacity: 1 }
+                                                : { opacity: 0 },
                                         ]}
                                     />
                                 </ListItemButton>
