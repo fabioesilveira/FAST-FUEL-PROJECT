@@ -18,6 +18,7 @@ export default function HomeFooter() {
     return (
         <Box
             component="footer"
+            id="home-footer"
             sx={{
                 width: "100%",
                 bgcolor: "#e65100",

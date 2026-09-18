@@ -1,9 +1,12 @@
+import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import EmailIcon from "@mui/icons-material/Email";
 import { useNavigate } from "react-router-dom";
 
-const FloatingWrapper = styled("button")(({ theme }) => ({
+const FloatingWrapper = styled("button", {
+  shouldForwardProp: (prop) => prop !== "hidden",
+})<{ hidden?: boolean }>(({ theme, hidden }) => ({
   position: "fixed",
   right: 0,
   bottom: 170,
@@ -17,6 +20,7 @@ const FloatingWrapper = styled("button")(({ theme }) => ({
   boxSizing: "border-box",
   justifyContent: "center",
   padding: "9px 15px 9px 13px",
+
   borderTopLeftRadius: 10,
   borderBottomLeftRadius: 10,
 
@@ -27,9 +31,12 @@ const FloatingWrapper = styled("button")(({ theme }) => ({
   borderLeft: "2.5px solid rgba(230, 81, 0, 0.85)",
   borderRight: "none",
 
-  cursor: "pointer",
+  cursor: hidden ? "default" : "pointer",
   boxShadow: "0 8px 22px rgba(0,0,0,0.25)",
-  transition: "all .22s ease",
+
+  transform: hidden ? "translateX(115%)" : "translateX(0)",
+  transition: "transform 280ms ease",
+  willChange: "transform",
 
   outline: "none",
   WebkitTapHighlightColor: "transparent",
@@ -48,27 +55,58 @@ const FloatingWrapper = styled("button")(({ theme }) => ({
 
       width: 198,
 
-
       boxShadow: "0 10px 26px rgba(0,0,0,0.18)",
     },
   },
 
-  "&:active": { transform: "translateY(0)" },
-
-  [theme.breakpoints.down("sm")]: { display: "none" },
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
 }));
 
 export default function FloatingContact() {
   const navigate = useNavigate();
+  const [hideContact, setHideContact] = useState(false);
+
+  useEffect(() => {
+    const footer = document.getElementById("home-footer");
+
+    if (!footer) {
+      setHideContact(false);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHideContact(entry.isIntersecting);
+      },
+      {
+        threshold: 0,
+        rootMargin: "0px 0px -120px 0px",
+      }
+    );
+
+    observer.observe(footer);
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <FloatingWrapper
+      hidden={hideContact}
       type="button"
-      onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
+      onPointerUp={(e) =>
+        (e.currentTarget as HTMLButtonElement).blur()
+      }
       onClick={() => navigate("/contact-us")}
       aria-label="Contact us"
     >
-      <EmailIcon sx={{ color: "#e65100", fontSize: 25 }} />
+      <EmailIcon
+        sx={{
+          color: "#e65100",
+          fontSize: 25,
+        }}
+      />
 
       <Typography
         sx={{

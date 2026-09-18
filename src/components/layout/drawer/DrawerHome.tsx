@@ -97,6 +97,30 @@ export default function DrawerHome({
     onDriveThruClick,
 }: DrawerHomeProps) {
     const [open, setOpen] = React.useState(false);
+    const [hideDrawer, setHideDrawer] = React.useState(false);
+
+    React.useEffect(() => {
+        const footer = document.getElementById("home-footer");
+
+        if (!footer) {
+            setHideDrawer(false);
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setHideDrawer(entry.isIntersecting);
+            },
+            {
+                threshold: 0,
+                rootMargin: "0px 0px -120px 0px",
+            }
+        );
+
+        observer.observe(footer);
+
+        return () => observer.disconnect();
+    }, []);
 
     return (
         <Drawer
@@ -107,12 +131,21 @@ export default function DrawerHome({
                     position: "fixed",
                     top: "50%",
                     left: 0,
-                    transform: "translateY(-50%)",
                     height: "auto",
+
                     backgroundColor: "rgba(255, 243, 224, 0.5) !important",
                     borderRadius: "0 13px 13px 0",
+
                     boxShadow:
                         "0 6px 18px rgba(13,71,161,.22), 0 10px 28px rgba(230,81,0,.14)",
+
+                    transform: hideDrawer
+                        ? "translateX(-100%) translateY(-50%)"
+                        : "translateX(0) translateY(-50%)",
+
+                    transition: "transform 700ms ease-in-out",
+
+                    pointerEvents: hideDrawer ? "none" : "auto",
                 },
             }}
         >
@@ -167,7 +200,9 @@ export default function DrawerHome({
                                             borderColor: BLUE,
                                         },
                                     },
-                                    open ? { justifyContent: "initial" } : { justifyContent: "center" },
+                                    open
+                                        ? { justifyContent: "initial" }
+                                        : { justifyContent: "center" },
                                 ]}
                             >
                                 <ListItemIcon
@@ -193,7 +228,12 @@ export default function DrawerHome({
                                             }}
                                         />
                                     ) : (
-                                        <item.Icon sx={{ fontSize: 30.5, color: ORANGE_UI }} />
+                                        <item.Icon
+                                            sx={{
+                                                fontSize: 30.5,
+                                                color: ORANGE_UI,
+                                            }}
+                                        />
                                     )}
                                 </ListItemIcon>
 
@@ -214,7 +254,6 @@ export default function DrawerHome({
                                 />
                             </ListItemButton>
                         </ListItem>
-
 
                         {index === 1 && (
                             <ListItem disablePadding sx={{ display: "block", mb: 0.7 }}>
@@ -252,14 +291,18 @@ export default function DrawerHome({
                                                         transition: "opacity .15s ease",
                                                         zIndex: -1,
                                                     },
-                                                    "&:hover::before": { opacity: 1 },
+                                                    "&:hover::before": {
+                                                        opacity: 1,
+                                                    },
                                                     "&:hover": {
                                                         bgcolor: "transparent",
                                                         borderColor: "transparent",
                                                     },
                                                 }),
                                         },
-                                        open ? { justifyContent: "initial" } : { justifyContent: "center" },
+                                        open
+                                            ? { justifyContent: "initial" }
+                                            : { justifyContent: "center" },
                                     ]}
                                 >
                                     <ListItemIcon
@@ -283,14 +326,17 @@ export default function DrawerHome({
                                                 justifyContent: "center",
                                                 width: 56,
                                                 minHeight: 58,
-                                                transform: open ? "scale(1.14)" : "scale(1.08)",
+                                                transform: open
+                                                    ? "scale(1.14)"
+                                                    : "scale(1.08)",
                                                 transition: "transform .2s ease",
                                             }}
                                         >
                                             <Box
                                                 component="span"
                                                 sx={{
-                                                    fontFamily: '"Big Shoulders Inline", sans-serif',
+                                                    fontFamily:
+                                                        '"Big Shoulders Inline", sans-serif',
                                                     fontSize: 21,
                                                     fontWeight: 900,
                                                     color: "#0d47a1",
@@ -304,7 +350,8 @@ export default function DrawerHome({
                                             <Box
                                                 component="span"
                                                 sx={{
-                                                    fontFamily: '"Big Shoulders Inline", sans-serif',
+                                                    fontFamily:
+                                                        '"Big Shoulders Inline", sans-serif',
                                                     fontSize: 21,
                                                     fontWeight: 900,
                                                     color: "#0d47a1",
