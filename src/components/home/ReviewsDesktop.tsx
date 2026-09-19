@@ -156,6 +156,7 @@ export default function ReviewsDesktop({ reviews }: Props) {
                                 size="small"
                                 sx={{
                                     mb: 1,
+                                    fontSize: "1.1rem",
 
                                     "& .MuiRating-iconFilled": {
                                         color: "#e65100",
