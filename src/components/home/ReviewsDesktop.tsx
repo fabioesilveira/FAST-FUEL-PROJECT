@@ -111,52 +111,25 @@ export default function ReviewsDesktop({ reviews }: Props) {
                             <Box
                                 sx={{
                                     display: "flex",
-                                    alignItems: "center",
+                                    alignItems: "flex-start",
                                     justifyContent: "space-between",
                                     gap: 1,
-                                    mb: 1.1,
+                                    mb: 0.5,
                                 }}
                             >
-                                <Box
+                                <Typography
                                     sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 0.8,
-                                        minWidth: 0,
+                                        fontSize: "0.92rem",
+                                        fontWeight: 900,
+                                        color: "#0d47a1",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        whiteSpace: "nowrap",
+                                        maxWidth: "65%",
                                     }}
                                 >
-                                    <Box
-                                        sx={{
-                                            width: 28,
-                                            height: 28,
-                                            borderRadius: "50%",
-                                            bgcolor: getAvatarColor(
-                                                review.display_name
-                                            ),
-                                            color: "#fff",
-                                            display: "grid",
-                                            placeItems: "center",
-                                            flexShrink: 0,
-                                            fontSize: "0.72rem",
-                                            fontWeight: 900,
-                                        }}
-                                    >
-                                        {initial}
-                                    </Box>
-
-                                    <Typography
-                                        sx={{
-                                            fontSize: "0.76rem",
-                                            fontWeight: 800,
-                                            color: "#0d47a1",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                            whiteSpace: "nowrap",
-                                        }}
-                                    >
-                                        {review.display_name}
-                                    </Typography>
-                                </Box>
+                                    {cleanProductName(review.product_name)}
+                                </Typography>
 
                                 <Typography
                                     sx={{
@@ -177,20 +150,6 @@ export default function ReviewsDesktop({ reviews }: Props) {
                                 </Typography>
                             </Box>
 
-                            <Typography
-                                sx={{
-                                    fontSize: "0.8rem",
-                                    fontWeight: 900,
-                                    color: "#0d47a1",
-                                    mb: 0.5,
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                }}
-                            >
-                                {cleanProductName(review.product_name)}
-                            </Typography>
-
                             <Rating
                                 value={review.rating}
                                 readOnly
@@ -206,27 +165,66 @@ export default function ReviewsDesktop({ reviews }: Props) {
 
                             <Typography
                                 sx={{
-                                    fontSize: "0.88rem",
+                                    fontSize: "0.9rem",
                                     lineHeight: 1.55,
-                                    color: "rgba(20,20,20,0.75)",
+                                    color: "rgba(20,20,20,0.76)",
                                 }}
                             >
                                 “{review.comment}”
                             </Typography>
 
-                            {review.verified_purchase === 1 && (
-                                <Typography
+                            <Box
+                                sx={{
+                                    mt: "auto",
+                                    pt: 1.4,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 0.8,
+                                }}
+                            >
+                                <Box
                                     sx={{
-                                        mt: "auto",
-                                        pt: 1.2,
-                                        fontSize: "0.7rem",
-                                        fontWeight: 700,
-                                        color: "#e65100",
+                                        width: 26,
+                                        height: 26,
+                                        borderRadius: "50%",
+                                        bgcolor: getAvatarColor(
+                                            review.display_name
+                                        ),
+                                        color: "#fff",
+                                        display: "grid",
+                                        placeItems: "center",
+                                        flexShrink: 0,
+                                        fontSize: "0.68rem",
+                                        fontWeight: 900,
                                     }}
                                 >
-                                    Verified Purchase
+                                    {initial}
+                                </Box>
+
+                                <Typography
+                                    sx={{
+                                        fontSize: "0.74rem",
+                                        fontWeight: 700,
+                                        color: "rgba(20,20,20,0.5)",
+                                    }}
+                                >
+                                    {review.display_name}
                                 </Typography>
-                            )}
+
+                                {review.verified_purchase === 1 && (
+                                    <Typography
+                                        sx={{
+                                            ml: "auto",
+                                            fontSize: "0.66rem",
+                                            fontWeight: 700,
+                                            color: "#e65100",
+                                            whiteSpace: "nowrap",
+                                        }}
+                                    >
+                                        Verified Purchase
+                                    </Typography>
+                                )}
+                            </Box>
                         </Box>
                     );
                 })}
