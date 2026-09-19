@@ -34,9 +34,27 @@ const medalStyles = [
     },
 ];
 
-export default function TopRatedProductsDesktop({
-    products,
-}: Props) {
+const imageStylesTopRated: Record<string, React.CSSProperties> = {
+    "4": {
+        width: "145px",
+        height: "110px",
+        transform: "translateY(6px)",
+    },
+    "10": {
+        width: "135px",
+        height: "138px",
+        transform: "translateY(8px)",
+    },
+    "12": {
+        width: "132px",
+        height: "122px",
+        transform: "translateY(12px)",
+    },
+};
+
+export default function TopRatedProductsDesktop({ products }: Props) {
+    const navigate = useNavigate();
+
     const topThree = products.slice(0, 3);
 
     const displayProducts = [
@@ -49,8 +67,6 @@ export default function TopRatedProductsDesktop({
         topThree[0]?.id ?? null
     );
 
-    const navigate = useNavigate();
-
     useEffect(() => {
         if (topThree.length > 0 && selectedId === null) {
             setSelectedId(topThree[0].id);
@@ -59,40 +75,17 @@ export default function TopRatedProductsDesktop({
 
     useEffect(() => {
         topThree.forEach((product) => {
-            if (product.image) {
-                const img = new Image();
-                img.src = product.image;
-            }
+            if (!product.image) return;
+
+            const img = new Image();
+            img.src = product.image;
         });
     }, [products]);
 
     if (!topThree.length) return null;
 
     const selectedProduct =
-        topThree.find(
-            (product) => product.id === selectedId
-        ) ?? topThree[0];
-
-    const imageStylesTopRated: Record<
-        string,
-        React.CSSProperties
-    > = {
-        "4": {
-            width: "145px",
-            height: "110px",
-            marginTop: "16px",
-        },
-        "10": {
-            width: "135px",
-            height: "138px",
-            marginTop: "16px",
-        },
-        "12": {
-            width: "132px",
-            height: "122px",
-            marginTop: "22px",
-        },
-    };
+        topThree.find((product) => product.id === selectedId) ?? topThree[0];
 
     return (
         <Box
@@ -102,10 +95,8 @@ export default function TopRatedProductsDesktop({
                 px: 2.2,
                 py: 2.2,
                 bgcolor: "#fff",
-                border:
-                    "1px solid rgba(13,71,161,0.12)",
-                boxShadow:
-                    "0 6px 18px rgba(13,71,161,0.08)",
+                border: "1px solid rgba(13,71,161,0.12)",
+                boxShadow: "0 6px 18px rgba(13,71,161,0.08)",
                 display: "flex",
                 flexDirection: "column",
             }}
@@ -156,64 +147,46 @@ export default function TopRatedProductsDesktop({
                 }}
             >
                 {displayProducts.map((product) => {
-                    const originalIndex =
-                        topThree.findIndex(
-                            (item) =>
-                                item.id === product.id
-                        );
+                    const originalIndex = topThree.findIndex(
+                        (item) => item.id === product.id
+                    );
 
-                    const medal =
-                        medalStyles[originalIndex];
-
-                    const selected =
-                        selectedId === product.id;
+                    const medal = medalStyles[originalIndex];
+                    const selected = selectedId === product.id;
 
                     return (
                         <Box
                             key={product.id}
                             component="button"
                             type="button"
-                            onClick={() =>
-                                setSelectedId(
-                                    product.id
-                                )
-                            }
+                            onClick={() => setSelectedId(product.id)}
                             sx={{
                                 border: 0,
                                 p: 0,
-                                background:
-                                    "transparent",
+                                background: "transparent",
                                 cursor: "pointer",
                                 width: 74,
                                 display: "flex",
-                                flexDirection:
-                                    "column",
-                                alignItems:
-                                    "center",
+                                flexDirection: "column",
+                                alignItems: "center",
                             }}
                         >
                             <Box
                                 sx={{
                                     width: 56,
                                     height: 56,
-                                    borderRadius:
-                                        "50%",
-                                    background:
-                                        medal.bg,
+                                    borderRadius: "50%",
+                                    background: medal.bg,
                                     display: "flex",
-                                    flexDirection:
-                                        "column",
-                                    alignItems:
-                                        "center",
-                                    justifyContent:
-                                        "center",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "center",
                                     border: selected
                                         ? "2px solid #0d47a1"
                                         : "2px solid #f5f5f5",
-                                    transform:
-                                        selected
-                                            ? "scale(1.08)"
-                                            : "scale(1)",
+                                    transform: selected
+                                        ? "scale(1.08)"
+                                        : "scale(1)",
                                     transition:
                                         "transform 220ms ease, border 220ms ease",
                                 }}
@@ -222,8 +195,7 @@ export default function TopRatedProductsDesktop({
                                     sx={{
                                         fontSize: 20,
                                         color:
-                                            originalIndex ===
-                                                1
+                                            originalIndex === 1
                                                 ? "#616161"
                                                 : "#fff",
                                     }}
@@ -232,13 +204,10 @@ export default function TopRatedProductsDesktop({
                                 <Typography
                                     sx={{
                                         mt: 0.1,
-                                        fontSize:
-                                            "0.62rem",
-                                        fontWeight:
-                                            900,
+                                        fontSize: "0.62rem",
+                                        fontWeight: 900,
                                         color:
-                                            originalIndex ===
-                                                1
+                                            originalIndex === 1
                                                 ? "#424242"
                                                 : "#fff",
                                     }}
@@ -251,23 +220,15 @@ export default function TopRatedProductsDesktop({
                                 sx={{
                                     mt: 1,
                                     width: 72,
-                                    textAlign:
-                                        "center",
+                                    textAlign: "center",
                                     color: selected
                                         ? "#0d47a1"
                                         : "rgba(20,20,20,0.65)",
-                                    fontWeight:
-                                        selected
-                                            ? 900
-                                            : 700,
-                                    fontSize:
-                                        "0.66rem",
-                                    overflow:
-                                        "hidden",
-                                    textOverflow:
-                                        "ellipsis",
-                                    whiteSpace:
-                                        "nowrap",
+                                    fontWeight: selected ? 900 : 700,
+                                    fontSize: "0.66rem",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
                                 }}
                             >
                                 {product.name}
@@ -279,26 +240,21 @@ export default function TopRatedProductsDesktop({
 
             <Box
                 onClick={() =>
-                    navigate(
-                        `/reviews?product_id=${selectedProduct.id}`
-                    )
+                    navigate(`/reviews?product_id=${selectedProduct.id}`)
                 }
                 sx={{
                     mt: "auto",
                     borderRadius: 3,
                     overflow: "hidden",
                     bgcolor: "#fffaf2",
-                    border:
-                        "1px solid rgba(13,71,161,0.12)",
+                    border: "1px solid rgba(13,71,161,0.12)",
                     cursor: "pointer",
                     transition:
                         "transform 180ms ease, box-shadow 180ms ease",
 
                     "&:hover": {
-                        transform:
-                            "translateY(-2px)",
-                        boxShadow:
-                            "0 8px 20px rgba(13,71,161,0.12)",
+                        transform: "translateY(-2px)",
+                        boxShadow: "0 8px 20px rgba(13,71,161,0.12)",
                     },
                 }}
             >
@@ -308,8 +264,7 @@ export default function TopRatedProductsDesktop({
                         bgcolor: "#fff",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent:
-                            "center",
+                        justifyContent: "center",
                         overflow: "hidden",
                     }}
                 >
@@ -319,20 +274,14 @@ export default function TopRatedProductsDesktop({
                         src={selectedProduct.image}
                         alt={selectedProduct.name}
                         style={
-                            imageStylesTopRated[
-                            String(
-                                selectedProduct.id
-                            )
-                            ] ?? {
+                            imageStylesTopRated[String(selectedProduct.id)] ?? {
                                 width: "125px",
                                 height: "125px",
                             }
                         }
                         sx={{
-                            objectFit:
-                                "contain",
+                            objectFit: "contain",
                             display: "block",
-                            margin: "auto",
                         }}
                     />
                 </Box>
@@ -342,8 +291,7 @@ export default function TopRatedProductsDesktop({
                         px: 1.8,
                         py: 1.4,
                         bgcolor: "#f4f4f4",
-                        borderTop:
-                            "1px solid rgba(13,71,161,0.08)",
+                        borderTop: "1px solid rgba(13,71,161,0.08)",
                     }}
                 >
                     <Typography
@@ -366,15 +314,12 @@ export default function TopRatedProductsDesktop({
                         }}
                     >
                         <Rating
-                            value={
-                                selectedProduct.average_rating
-                            }
+                            value={selectedProduct.average_rating}
                             precision={0.1}
                             readOnly
                             size="small"
                             sx={{
-                                "& .MuiRating-iconFilled":
-                                {
+                                "& .MuiRating-iconFilled": {
                                     color: "#e65100",
                                 },
                             }}
@@ -387,23 +332,16 @@ export default function TopRatedProductsDesktop({
                                 color: "#0d47a1",
                             }}
                         >
-                            {selectedProduct.average_rating.toFixed(
-                                1
-                            )}
+                            {selectedProduct.average_rating.toFixed(1)}
                         </Typography>
 
                         <Typography
                             sx={{
                                 fontSize: "0.67rem",
-                                color:
-                                    "rgba(20,20,20,0.55)",
+                                color: "rgba(20,20,20,0.55)",
                             }}
                         >
-                            (
-                            {
-                                selectedProduct.total_reviews
-                            }{" "}
-                            reviews)
+                            ({selectedProduct.total_reviews} reviews)
                         </Typography>
                     </Box>
                 </Box>
