@@ -6,8 +6,10 @@ import { useTheme } from "@mui/material/styles";
 
 import FriesIcon from "../../../assets/frenchFries.png";
 import SodaIcon from "../../../assets/soda.png";
+
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import CookieIcon from "@mui/icons-material/Cookie";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 
 type NavFooterProps = {
     onNavigate: (category: string) => void;
@@ -15,13 +17,15 @@ type NavFooterProps = {
     isFastThruActive?: boolean;
 };
 
-const BLUE = "#0d47a1";
+const BLUE = "#1e5bb8";
 const ORANGE = "#fa6000ff";
 const ORANGE_SOFT = "rgba(230, 81, 0, 0.18)";
+const ICON_OUTLINE_ORANGE = "#ff8a4c";
 
 export default function NavFooter({
     onNavigate,
     onFastThruClick,
+    isFastThruActive = false,
 }: NavFooterProps) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -29,11 +33,35 @@ export default function NavFooter({
     if (!isMobile) return null;
 
     const items = [
-        { label: "BURGERS", type: "mui", Icon: LunchDiningIcon, onClick: () => onNavigate("BURGERS") },
-        { label: "SIDES", type: "img", src: FriesIcon, onClick: () => onNavigate("SIDES") },
-        { label: "FAST_THRU", type: "fast", onClick: () => onFastThruClick?.() },
-        { label: "DRINKS", type: "img", src: SodaIcon, onClick: () => onNavigate("DRINKS") },
-        { label: "DESSERTS", type: "mui", Icon: CookieIcon, onClick: () => onNavigate("DESSERTS") },
+        {
+            label: "BURGERS",
+            type: "mui",
+            Icon: LunchDiningIcon,
+            onClick: () => onNavigate("BURGERS"),
+        },
+        {
+            label: "SIDES",
+            type: "img",
+            src: FriesIcon,
+            onClick: () => onNavigate("SIDES"),
+        },
+        {
+            label: "FAST_THRU",
+            type: "fast",
+            onClick: () => onFastThruClick?.(),
+        },
+        {
+            label: "DRINKS",
+            type: "img",
+            src: SodaIcon,
+            onClick: () => onNavigate("DRINKS"),
+        },
+        {
+            label: "DESSERTS",
+            type: "mui",
+            Icon: CookieIcon,
+            onClick: () => onNavigate("DESSERTS"),
+        },
     ] as const;
 
     return (
@@ -44,7 +72,7 @@ export default function NavFooter({
                 left: 0,
                 right: 0,
                 bottom: 0,
-                height: `calc(86px + env(safe-area-inset-bottom))`,
+                height: "calc(86px + env(safe-area-inset-bottom))",
                 pb: "env(safe-area-inset-bottom)",
                 zIndex: 1300,
                 backgroundColor: "#fff3e0",
@@ -74,8 +102,17 @@ export default function NavFooter({
                     return (
                         <IconButton
                             key={c.label}
-                            onPointerUp={(e) => (e.currentTarget as HTMLButtonElement).blur()}
+                            onPointerUp={(e) =>
+                                (e.currentTarget as HTMLButtonElement).blur()
+                            }
                             onClick={c.onClick}
+                            aria-label={
+                                isFast
+                                    ? isFastThruActive
+                                        ? "Return to home"
+                                        : "Open Fast Thru"
+                                    : c.label
+                            }
                             sx={{
                                 width: isFast ? 70 : 62,
                                 height: isFast ? 70 : 62,
@@ -129,6 +166,20 @@ export default function NavFooter({
                                         color: ORANGE,
                                     }}
                                 />
+                            ) : isFastThruActive ? (
+                                <HomeRoundedIcon
+                                    sx={{
+                                        fontSize: 39,
+                                        transform: "translateY(-2px)",
+                                        color: BLUE,
+
+                                        "& path": {
+                                            stroke: ICON_OUTLINE_ORANGE,
+                                            strokeWidth: 0.5,
+                                            paintOrder: "stroke fill",
+                                        },
+                                    }}
+                                />
                             ) : (
                                 <Box
                                     sx={{
@@ -142,7 +193,8 @@ export default function NavFooter({
                                 >
                                     <Box
                                         sx={{
-                                            fontFamily: '"Big Shoulders Inline", sans-serif',
+                                            fontFamily:
+                                                '"Big Shoulders Inline", sans-serif',
                                             fontSize: 23,
                                             fontWeight: 900,
                                             color: BLUE,
@@ -155,7 +207,8 @@ export default function NavFooter({
 
                                     <Box
                                         sx={{
-                                            fontFamily: '"Big Shoulders Inline", sans-serif',
+                                            fontFamily:
+                                                '"Big Shoulders Inline", sans-serif',
                                             fontSize: 23,
                                             fontWeight: 900,
                                             color: BLUE,
