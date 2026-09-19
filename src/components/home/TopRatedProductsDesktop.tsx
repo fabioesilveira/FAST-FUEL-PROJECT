@@ -43,7 +43,7 @@ const imageStylesTopRated: Record<string, React.CSSProperties> = {
     "10": {
         width: "135px",
         height: "138px",
-        transform: "translateY(1px)",
+        transform: "translateY(3px)",
     },
     "12": {
         width: "132px",
