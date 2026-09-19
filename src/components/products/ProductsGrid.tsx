@@ -376,6 +376,7 @@ export default function ProductsGrid({
                 onClose={() => setInsightsOpen(false)}
                 disableDiscovery={false}
                 swipeAreaWidth={24}
+                sx={{ zIndex: 3000 }}
                 PaperProps={{
                     sx: {
                         width: {

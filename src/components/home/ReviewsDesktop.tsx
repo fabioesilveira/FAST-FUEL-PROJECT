@@ -169,9 +169,14 @@ export default function ReviewsDesktop({ reviews }: Props) {
                                     fontSize: "0.9rem",
                                     lineHeight: 1.55,
                                     color: "rgba(20,20,20,0.76)",
+
+                                    display: "-webkit-box",
+                                    WebkitBoxOrient: "vertical",
+                                    WebkitLineClamp: 3,
+                                    overflow: "hidden",
                                 }}
                             >
-                                “{review.comment}”
+                                “{review.comment || "No comment provided."}”
                             </Typography>
 
                             <Box
