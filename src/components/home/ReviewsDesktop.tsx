@@ -1,8 +1,9 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
-import { cleanProductName } from "../../utils/homeHelpers";
 import { useNavigate } from "react-router-dom";
+
+import { cleanProductName } from "../../utils/homeHelpers";
 
 export type HomeReview = {
     id: number;
@@ -97,7 +98,6 @@ export default function ReviewsDesktop({ reviews }: Props) {
                                 minHeight: 180,
                                 display: "flex",
                                 flexDirection: "column",
-                                justifyContent: "space-between",
                                 transition:
                                     "transform 180ms ease, box-shadow 180ms ease",
 
@@ -111,117 +111,114 @@ export default function ReviewsDesktop({ reviews }: Props) {
                             <Box
                                 sx={{
                                     display: "flex",
-                                    alignItems: "flex-start",
-                                    gap: 1.1,
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    gap: 1,
+                                    mb: 1.1,
                                 }}
                             >
                                 <Box
                                     sx={{
-                                        width: 34,
-                                        height: 34,
-                                        borderRadius: "50%",
-                                        bgcolor: getAvatarColor(
-                                            review.display_name
-                                        ),
-                                        color: "#fff",
-                                        display: "grid",
-                                        placeItems: "center",
-                                        flexShrink: 0,
-                                        fontSize: "0.8rem",
-                                        fontWeight: 900,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 0.8,
+                                        minWidth: 0,
                                     }}
                                 >
-                                    {initial}
-                                </Box>
-
-                                <Box sx={{ flex: 1, minWidth: 0 }}>
                                     <Box
                                         sx={{
-                                            display: "flex",
-                                            alignItems: "flex-start",
-                                            justifyContent: "space-between",
-                                            gap: 1,
-                                            mb: 0.4,
+                                            width: 28,
+                                            height: 28,
+                                            borderRadius: "50%",
+                                            bgcolor: getAvatarColor(
+                                                review.display_name
+                                            ),
+                                            color: "#fff",
+                                            display: "grid",
+                                            placeItems: "center",
+                                            flexShrink: 0,
+                                            fontSize: "0.72rem",
+                                            fontWeight: 900,
                                         }}
                                     >
-                                        <Typography
-                                            sx={{
-                                                fontSize: "0.78rem",
-                                                fontWeight: 900,
-                                                color: "#0d47a1",
-                                                overflow: "hidden",
-                                                textOverflow: "ellipsis",
-                                                whiteSpace: "nowrap",
-                                                maxWidth: "65%",
-                                            }}
-                                        >
-                                            {cleanProductName(
-                                                review.product_name
-                                            )}
-                                        </Typography>
-
-                                        <Typography
-                                            sx={{
-                                                fontSize: "0.68rem",
-                                                fontWeight: 600,
-                                                color: "rgba(20,20,20,0.5)",
-                                                whiteSpace: "nowrap",
-                                            }}
-                                        >
-                                            {new Date(
-                                                review.created_at
-                                            ).toLocaleDateString(
-                                                "en-US",
-                                                {
-                                                    month: "short",
-                                                    day: "numeric",
-                                                    year: "numeric",
-                                                }
-                                            )}
-                                        </Typography>
+                                        {initial}
                                     </Box>
 
                                     <Typography
                                         sx={{
-                                            fontSize: "0.74rem",
+                                            fontSize: "0.76rem",
                                             fontWeight: 800,
-                                            color: "rgba(20,20,20,0.62)",
-                                            mb: 0.7,
+                                            color: "#0d47a1",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap",
                                         }}
                                     >
                                         {review.display_name}
                                     </Typography>
-
-                                    <Rating
-                                        value={review.rating}
-                                        readOnly
-                                        size="small"
-                                        sx={{
-                                            mb: 1.1,
-
-                                            "& .MuiRating-iconFilled": {
-                                                color: "#e65100",
-                                            },
-                                        }}
-                                    />
-
-                                    <Typography
-                                        sx={{
-                                            fontSize: "0.88rem",
-                                            lineHeight: 1.6,
-                                            color: "rgba(20,20,20,0.75)",
-                                        }}
-                                    >
-                                        “{review.comment}”
-                                    </Typography>
                                 </Box>
+
+                                <Typography
+                                    sx={{
+                                        fontSize: "0.66rem",
+                                        fontWeight: 600,
+                                        color: "rgba(20,20,20,0.5)",
+                                        whiteSpace: "nowrap",
+                                        flexShrink: 0,
+                                    }}
+                                >
+                                    {new Date(
+                                        review.created_at
+                                    ).toLocaleDateString("en-US", {
+                                        month: "short",
+                                        day: "numeric",
+                                        year: "numeric",
+                                    })}
+                                </Typography>
                             </Box>
+
+                            <Typography
+                                sx={{
+                                    fontSize: "0.8rem",
+                                    fontWeight: 900,
+                                    color: "#0d47a1",
+                                    mb: 0.5,
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                }}
+                            >
+                                {cleanProductName(review.product_name)}
+                            </Typography>
+
+                            <Rating
+                                value={review.rating}
+                                readOnly
+                                size="small"
+                                sx={{
+                                    mb: 1,
+
+                                    "& .MuiRating-iconFilled": {
+                                        color: "#e65100",
+                                    },
+                                }}
+                            />
+
+                            <Typography
+                                sx={{
+                                    fontSize: "0.88rem",
+                                    lineHeight: 1.55,
+                                    color: "rgba(20,20,20,0.75)",
+                                }}
+                            >
+                                “{review.comment}”
+                            </Typography>
 
                             {review.verified_purchase === 1 && (
                                 <Typography
                                     sx={{
-                                        mt: 1.4,
-                                        ml: 5.7,
+                                        mt: "auto",
+                                        pt: 1.2,
                                         fontSize: "0.7rem",
                                         fontWeight: 700,
                                         color: "#e65100",
@@ -258,7 +255,8 @@ export default function ReviewsDesktop({ reviews }: Props) {
 
                         "&:hover": {
                             transform: "translateY(-2px)",
-                            boxShadow: "0 8px 18px rgba(13,71,161,0.20)",
+                            boxShadow:
+                                "0 8px 18px rgba(13,71,161,0.20)",
                         },
                     }}
                 >
