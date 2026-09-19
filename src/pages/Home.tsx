@@ -212,9 +212,18 @@ export default function Home() {
     function toggleFastThru() {
         if (driveModeActive) {
             exitFastThru();
-        } else {
-            enterFastThru();
+
+            requestAnimationFrame(() => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+            });
+
+            return;
         }
+
+        enterFastThru();
     }
 
     useEffect(() => {
