@@ -22,6 +22,14 @@ type ReviewCardProps = {
     ) => void;
 };
 
+const avatarColors = [
+    "#1e5bb8",
+    "#e65100",
+    "#6b7280",
+    "#7a8f7b",
+    "#8d6e63",
+];
+
 function formatReviewDate(date: string) {
     return new Date(date).toLocaleDateString("en-US", {
         month: "long",
@@ -36,11 +44,22 @@ function cleanProductName(name: string) {
         .trim();
 }
 
+function getAvatarColor(name: string) {
+    const value = name
+        .split("")
+        .reduce((total, char) => total + char.charCodeAt(0), 0);
+
+    return avatarColors[value % avatarColors.length];
+}
+
 export default function ReviewCard({
     review,
     isMobile = false,
     onPreviewOpen,
 }: ReviewCardProps) {
+    const initial =
+        review.display_name?.trim().charAt(0).toUpperCase() || "?";
+
     return (
         <Paper
             elevation={0}
@@ -72,17 +91,40 @@ export default function ReviewCard({
                             {cleanProductName(review.product_name)}
                         </Typography>
 
-                        <Typography
-                            sx={{
-                                mt: 0.35,
-                                fontSize: "0.82rem",
-                                color: "rgba(0,0,0,0.62)",
-                                fontWeight: 700,
-                            }}
+                        <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={0.8}
+                            sx={{ mt: 0.55 }}
                         >
-                            {review.display_name} •{" "}
-                            {formatReviewDate(review.created_at)}
-                        </Typography>
+                            <Box
+                                sx={{
+                                    width: 30,
+                                    height: 30,
+                                    borderRadius: "50%",
+                                    bgcolor: getAvatarColor(review.display_name),
+                                    color: "#fff",
+                                    display: "grid",
+                                    placeItems: "center",
+                                    flexShrink: 0,
+                                    fontSize: "0.76rem",
+                                    fontWeight: 900,
+                                }}
+                            >
+                                {initial}
+                            </Box>
+
+                            <Typography
+                                sx={{
+                                    fontSize: "0.82rem",
+                                    color: "rgba(0,0,0,0.62)",
+                                    fontWeight: 700,
+                                }}
+                            >
+                                {review.display_name} •{" "}
+                                {formatReviewDate(review.created_at)}
+                            </Typography>
+                        </Stack>
                     </Box>
 
                     <Stack
