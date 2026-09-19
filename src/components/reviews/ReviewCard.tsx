@@ -70,52 +70,53 @@ export default function ReviewCard({
                 bgcolor: "#fff4e1",
             }}
         >
-            <Stack spacing={0.8}>
-                <Stack
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    gap={1}
+            <Stack
+                direction="row"
+                alignItems="flex-start"
+                spacing={1.2}
+            >
+                <Box
+                    sx={{
+                        width: 34,
+                        height: 34,
+                        borderRadius: "50%",
+                        bgcolor: getAvatarColor(review.display_name),
+                        color: "#fff",
+                        display: "grid",
+                        placeItems: "center",
+                        flexShrink: 0,
+                        fontSize: "0.8rem",
+                        fontWeight: 900,
+                        mt: 0.1,
+                    }}
                 >
-                    <Box>
-                        <Typography
-                            onClick={(e) => onPreviewOpen(e, review)}
-                            sx={{
-                                fontSize: isMobile ? 18.5 : 18,
-                                fontWeight: 900,
-                                color: "#1e5bb8",
-                                cursor: "pointer",
-                                lineHeight: 1.1,
-                            }}
-                        >
-                            {cleanProductName(review.product_name)}
-                        </Typography>
+                    {initial}
+                </Box>
 
-                        <Stack
-                            direction="row"
-                            alignItems="center"
-                            spacing={0.8}
-                            sx={{ mt: 0.55 }}
-                        >
-                            <Box
+                <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Stack
+                        direction="row"
+                        alignItems="flex-start"
+                        justifyContent="space-between"
+                        gap={1}
+                    >
+                        <Box sx={{ minWidth: 0 }}>
+                            <Typography
+                                onClick={(e) => onPreviewOpen(e, review)}
                                 sx={{
-                                    width: 30,
-                                    height: 30,
-                                    borderRadius: "50%",
-                                    bgcolor: getAvatarColor(review.display_name),
-                                    color: "#fff",
-                                    display: "grid",
-                                    placeItems: "center",
-                                    flexShrink: 0,
-                                    fontSize: "0.76rem",
+                                    fontSize: isMobile ? 18.5 : 18,
                                     fontWeight: 900,
+                                    color: "#1e5bb8",
+                                    cursor: "pointer",
+                                    lineHeight: 1.1,
                                 }}
                             >
-                                {initial}
-                            </Box>
+                                {cleanProductName(review.product_name)}
+                            </Typography>
 
                             <Typography
                                 sx={{
+                                    mt: 0.35,
                                     fontSize: "0.82rem",
                                     color: "rgba(0,0,0,0.62)",
                                     fontWeight: 700,
@@ -124,38 +125,42 @@ export default function ReviewCard({
                                 {review.display_name} •{" "}
                                 {formatReviewDate(review.created_at)}
                             </Typography>
+                        </Box>
+
+                        <Stack
+                            direction="row"
+                            spacing={0.15}
+                            sx={{
+                                flexShrink: 0,
+                                mt: 0.1,
+                            }}
+                        >
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <StarIcon
+                                    key={star}
+                                    sx={{
+                                        fontSize: isMobile ? 19 : 20,
+                                        color:
+                                            star <= review.rating
+                                                ? "#e65100"
+                                                : "rgba(0,0,0,0.18)",
+                                    }}
+                                />
+                            ))}
                         </Stack>
-                    </Box>
-
-                    <Stack
-                        direction="row"
-                        spacing={0.15}
-                        sx={{ flexShrink: 0 }}
-                    >
-                        {[1, 2, 3, 4, 5].map((star) => (
-                            <StarIcon
-                                key={star}
-                                sx={{
-                                    fontSize: isMobile ? 19 : 20,
-                                    color:
-                                        star <= review.rating
-                                            ? "#e65100"
-                                            : "rgba(0,0,0,0.18)",
-                                }}
-                            />
-                        ))}
                     </Stack>
-                </Stack>
 
-                <Typography
-                    sx={{
-                        fontSize: "0.92rem",
-                        lineHeight: 1.45,
-                        color: "#333",
-                    }}
-                >
-                    {review.comment || "No comment provided."}
-                </Typography>
+                    <Typography
+                        sx={{
+                            mt: 0.7,
+                            fontSize: "0.92rem",
+                            lineHeight: 1.45,
+                            color: "#333",
+                        }}
+                    >
+                        {review.comment || "No comment provided."}
+                    </Typography>
+                </Box>
             </Stack>
         </Paper>
     );
