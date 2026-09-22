@@ -9,7 +9,7 @@ export default function TrackOrderDesktop() {
 
     return (
         <Box
-            onClick={() => navigate("/sales/track")}
+            onClick={() => navigate("/orders")}
             sx={{
                 width: "100%",
                 minHeight: 112,
