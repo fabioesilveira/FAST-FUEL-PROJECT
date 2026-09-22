@@ -146,7 +146,7 @@ export default function Beverages() {
             flexDirection: "column",
             backgroundColor: "transparent",
             pt: { xs: "130px", md: "150px" },
-            pb: isMobile ? `calc(86px + env(safe-area-inset-bottom) + 10px)` : 0,
+            pb: isMobile ? `calc(86px + env(safe-area-inset-bottom) + 10px)` : 3.21,
           }}
         >
 
