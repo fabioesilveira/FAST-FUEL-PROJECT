@@ -67,6 +67,10 @@ export default function CookieConsent() {
                         md: "1.3rem",
                     },
                     fontWeight: 800,
+                    letterSpacing: {
+                        xs: "0.10em",
+                        md: "0.14em",
+                    },
                     color: "#0d47a1",
                     mb: 0.7,
                 }}
@@ -86,9 +90,7 @@ export default function CookieConsent() {
                     mb: 2,
                 }}
             >
-                Fast Fuel uses Google Analytics to understand how visitors use
-                the site and improve the experience. Analytics only starts if
-                you choose to accept.
+                Fast Fuel uses Google Analytics to understand site usage and improve your experience. Analytics will only be enabled with your consent.
             </Typography>
 
             <Box
@@ -96,7 +98,10 @@ export default function CookieConsent() {
                     display: "flex",
                     gap: 1.2,
                     justifyContent: "flex-end",
-                    flexWrap: "wrap",
+                    flexWrap: {
+                        xs: "nowrap",
+                        sm: "wrap",
+                    },
                 }}
             >
                 <Button
@@ -106,8 +111,13 @@ export default function CookieConsent() {
                         textTransform: "none",
                         fontWeight: 700,
 
+                        flex: {
+                            xs: 1,
+                            md: "initial",
+                        },
+
                         minWidth: {
-                            xs: "auto",
+                            xs: 0,
                             md: 150,
                         },
 
@@ -130,8 +140,13 @@ export default function CookieConsent() {
                         textTransform: "none",
                         fontWeight: 700,
 
+                        flex: {
+                            xs: 1,
+                            md: "initial",
+                        },
+
                         minWidth: {
-                            xs: "auto",
+                            xs: 0,
                             md: 150,
                         },
 
