@@ -41,15 +41,15 @@ export default function NavbarAdmin() {
         fontSize: { xs: "0.73rem", sm: "0.74rem", md: "0.82rem" },
 
         width: {
-            xs: 115,
+            xs: 112,
             sm: 115,
-            md: 120,
+            md: 122,
         },
 
         minWidth: {
-            xs: 115,
+            xs: 112,
             sm: 115,
-            md: 120,
+            md: 122,
         },
         flexShrink: 0,
 

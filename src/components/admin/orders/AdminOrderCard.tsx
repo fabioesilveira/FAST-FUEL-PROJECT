@@ -246,27 +246,6 @@ export default function AdminOrderCard({
                     <Stack direction="row" alignItems="center" gap={0.6}>
                         <AdminOrderStatusChip status={o.status} />
 
-                        <Button
-                            size="small"
-                            onClick={(e) => onOpenTimeline(e, o.id)}
-                            endIcon={<ExpandMoreIcon sx={{ fontSize: 18 }} />}
-                            sx={{
-                                minHeight: 22,
-                                px: 1,
-                                py: 0,
-                                fontSize: "0.70rem",
-                                letterSpacing: "0.08em",
-                                textTransform: "uppercase",
-                                fontWeight: 900,
-                                color: "rgba(0,0,0,0.65)",
-                                "& .MuiButton-endIcon": {
-                                    marginLeft: "3px",
-                                    marginTop: "-2px",
-                                },
-                            }}
-                        >
-                            Timeline
-                        </Button>
 
                         {activeKey === "received" &&
                             o.status === "received" && (
@@ -311,6 +290,28 @@ export default function AdminOrderCard({
                                     Mark sent
                                 </Button>
                             )}
+
+                        <Button
+                            size="small"
+                            onClick={(e) => onOpenTimeline(e, o.id)}
+                            endIcon={<ExpandMoreIcon sx={{ fontSize: 18 }} />}
+                            sx={{
+                                minHeight: 22,
+                                px: 1,
+                                py: 0,
+                                fontSize: "0.70rem",
+                                letterSpacing: "0.08em",
+                                textTransform: "uppercase",
+                                fontWeight: 900,
+                                color: "rgba(0,0,0,0.65)",
+                                "& .MuiButton-endIcon": {
+                                    marginLeft: "3px",
+                                    marginTop: "-2px",
+                                },
+                            }}
+                        >
+                            Timeline
+                        </Button>
                     </Stack>
                 </Stack>
 
