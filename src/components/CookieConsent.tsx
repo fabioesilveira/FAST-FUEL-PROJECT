@@ -62,12 +62,13 @@ export default function CookieConsent() {
         >
             <Typography
                 sx={{
-                    fontFamily: '"Roboto Mono", monospace',
-                    fontSize: { xs: "1.15rem", sm: "1.35rem" },
-                    fontWeight: 400,
-                    letterSpacing: "0.14em",
+                    fontSize: {
+                        xs: "1rem",
+                        md: "1.3rem",
+                    },
+                    fontWeight: 800,
                     color: "#0d47a1",
-                    mb: 1.5,
+                    mb: 0.7,
                 }}
             >
                 COOKIES FASTFUEL.COM
