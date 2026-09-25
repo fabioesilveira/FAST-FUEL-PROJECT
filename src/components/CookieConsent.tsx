@@ -63,10 +63,10 @@ export default function CookieConsent() {
             <Typography
                 sx={{
                     fontFamily: '"Roboto Mono", monospace',
-                    fontSize: { xs: "1.15rem", sm: "1.45rem" },
+                    fontSize: { xs: "1.15rem", sm: "1.35rem" },
                     fontWeight: 400,
-                    letterSpacing: "0.16em",
-                    color: "#333",
+                    letterSpacing: "0.14em",
+                    color: "#0d47a1",
                     mb: 1.5,
                 }}
             >
