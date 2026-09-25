@@ -191,7 +191,7 @@ export default function AdminMessageCard({
 
                                 fontSize: {
                                     xs: "0.64rem",
-                                    sm: "0.72rem",
+                                    sm: "0.70rem",
                                 },
 
                                 letterSpacing: {

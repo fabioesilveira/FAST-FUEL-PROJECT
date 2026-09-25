@@ -254,7 +254,7 @@ export default function AdminOrderCard({
                                 minHeight: 22,
                                 px: 1,
                                 py: 0,
-                                fontSize: "0.72rem",
+                                fontSize: "0.70rem",
                                 letterSpacing: "0.08em",
                                 textTransform: "uppercase",
                                 fontWeight: 900,

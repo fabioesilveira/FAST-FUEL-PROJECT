@@ -110,6 +110,9 @@ export default function DrawerHome({
 }: DrawerHomeProps) {
     const [open, setOpen] = React.useState(false);
     const [hideDrawer, setHideDrawer] = React.useState(false);
+    const [scrollHidden, setScrollHidden] = React.useState(false);
+
+    const lastY = React.useRef(0);
 
     React.useEffect(() => {
         const footer = document.getElementById("home-footer");
@@ -134,6 +137,37 @@ export default function DrawerHome({
         return () => observer.disconnect();
     }, []);
 
+    React.useEffect(() => {
+        lastY.current = window.scrollY;
+
+        function handleScroll() {
+            const y = window.scrollY;
+            const change = y - lastY.current;
+
+            if (y < 20) {
+                setScrollHidden(false);
+            } else if (change > 5) {
+                setScrollHidden(true);
+            } else if (change < -5) {
+                setScrollHidden(false);
+            }
+
+            if (Math.abs(change) > 5) {
+                lastY.current = y;
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll, {
+            passive: true,
+        });
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
+    const shouldHideDrawer = hideDrawer || scrollHidden;
+
     return (
         <Drawer
             variant="permanent"
@@ -151,13 +185,19 @@ export default function DrawerHome({
                     boxShadow:
                         "0 6px 18px rgba(13,71,161,.22), 0 10px 28px rgba(230,81,0,.14)",
 
-                    transform: hideDrawer
-                        ? "translateX(-100%) translateY(-50%)"
-                        : "translateX(0) translateY(-50%)",
+                    transformOrigin: "left center",
 
-                    transition: "transform 700ms ease-in-out",
+                    transform: shouldHideDrawer
+                        ? "translateY(-50%) perspective(1400px) rotateY(-84deg) scaleX(0.22)"
+                        : "translateY(-50%) perspective(1400px) rotateY(0deg) scaleX(1)",
 
-                    pointerEvents: hideDrawer ? "none" : "auto",
+                    transition:
+                        "transform 2200ms cubic-bezier(0.22, 1, 0.36, 1)",
+
+                    backfaceVisibility: "visible",
+                    transformStyle: "preserve-3d",
+
+                    pointerEvents: shouldHideDrawer ? "none" : "auto",
                 },
             }}
         >
@@ -300,7 +340,8 @@ export default function DrawerHome({
                                                 ? {
                                                     "&:hover": {
                                                         bgcolor: ORANGE_SOFT,
-                                                        borderColor: "transparent",
+                                                        borderColor:
+                                                            "transparent",
                                                     },
                                                 }
                                                 : {
@@ -311,10 +352,13 @@ export default function DrawerHome({
                                                         bottom: -4,
                                                         left: -6,
                                                         right: -6,
-                                                        borderRadius: "999px",
-                                                        backgroundColor: ORANGE_SOFT,
+                                                        borderRadius:
+                                                            "999px",
+                                                        backgroundColor:
+                                                            ORANGE_SOFT,
                                                         opacity: 0,
-                                                        transition: "opacity .15s ease",
+                                                        transition:
+                                                            "opacity .15s ease",
                                                         zIndex: -1,
                                                     },
 
@@ -323,8 +367,10 @@ export default function DrawerHome({
                                                     },
 
                                                     "&:hover": {
-                                                        bgcolor: "transparent",
-                                                        borderColor: "transparent",
+                                                        bgcolor:
+                                                            "transparent",
+                                                        borderColor:
+                                                            "transparent",
                                                     },
                                                 }),
                                         },
