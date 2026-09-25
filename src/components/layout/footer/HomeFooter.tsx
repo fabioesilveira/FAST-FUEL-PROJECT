@@ -238,7 +238,7 @@ export default function HomeFooter() {
                                     fontWeight: 800,
                                     fontSize: "0.88rem",
                                     lineHeight: 1.3,
-                                    mb: 0.31
+                                    mb: 0.38
                                 }}
                             >
                                 Usage analytics
@@ -251,8 +251,7 @@ export default function HomeFooter() {
                             <Typography sx={{
                                 fontSize: "0.76rem",
                                 color: "rgba(255,255,255,0.65)",
-                                lineHeight: 1.32,
-
+                                lineHeight: 1.35,
                             }}>
                                 Consent-based tracking
                             </Typography>

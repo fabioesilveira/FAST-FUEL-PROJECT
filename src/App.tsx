@@ -29,6 +29,7 @@ import {
   loadGoogleAnalytics,
   trackPageView,
 } from "./utils/analytics";
+import CookiePreferences from "./pages/CookiePreferences.tsx";
 
 export default function App() {
   const location = useLocation();
@@ -68,6 +69,8 @@ export default function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/about" element={<About />} />
+        <Route path="/cookie-preferences" element={<CookiePreferences />}
+        />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/TrackOrderGuest" element={<TrackOrderGuest />} />
         <Route path="/reviews" element={<Reviews />} />

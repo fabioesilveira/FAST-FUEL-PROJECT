@@ -81,7 +81,7 @@ export default function CookieConsent() {
             <Typography
                 sx={{
                     fontSize: {
-                        xs: "0.88rem",
+                        xs: "0.86rem",
                         md: "0.95rem",
                     },
 
