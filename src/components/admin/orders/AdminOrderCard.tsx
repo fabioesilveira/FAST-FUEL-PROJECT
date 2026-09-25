@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import AdminOrderStatusChip from "./AdminOrderStatusChip";
+// import AdminOrderStatusChip from "./AdminOrderStatusChip";
 
 import {
     safeParseJson,
@@ -105,7 +105,7 @@ export default function AdminOrderCard({
                     }}
                 >
                     <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                        <AdminOrderStatusChip status={o.status} />
+                        {/* <AdminOrderStatusChip status={o.status} /> */}
                     </Box>
 
                     <Stack
@@ -244,7 +244,7 @@ export default function AdminOrderCard({
                     </Typography>
 
                     <Stack direction="row" alignItems="center" gap={0.6}>
-                        <AdminOrderStatusChip status={o.status} />
+                        {/* <AdminOrderStatusChip status={o.status} /> */}
 
 
                         {activeKey === "received" &&

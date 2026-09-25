@@ -38,7 +38,7 @@ export default function NavbarAdmin() {
         textTransform: "uppercase",
 
         px: { xs: 1.4, sm: 1.4, md: 1.8 },
-        fontSize: { xs: "0.73rem", sm: "0.74rem", md: "0.82rem" },
+        fontSize: { xs: "0.73rem", sm: "0.74rem", md: "0.80rem" },
 
         width: {
             xs: 112,
