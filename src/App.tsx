@@ -1,4 +1,5 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import SignUp from "./pages/auth/SignUp.tsx";
 import SignIn from "./pages/auth/SignIn.tsx";
 import Home from "./pages/Home";
@@ -23,11 +24,35 @@ import VerifyEmail from "./pages/auth/VerifyEmail.tsx";
 import CheckEmail from "./pages/auth/CheckEmail.tsx";
 import ForgotPassword from "./pages/auth/ForgotPassword.tsx";
 import ResetPassword from "./pages/auth/ResetPassword.tsx";
+import CookieConsent from "./components/CookieConsent";
+import {
+  loadGoogleAnalytics,
+  trackPageView,
+} from "./utils/analytics";
 
 export default function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const consent = localStorage.getItem(
+      "fast-fuel-analytics-consent"
+    );
+
+    if (consent === "accepted") {
+      loadGoogleAnalytics();
+    }
+  }, []);
+
+  useEffect(() => {
+    trackPageView(
+      location.pathname + location.search
+    );
+  }, [location]);
+
   return (
     <>
       <ScrollToTop />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign-in" element={<SignIn />} />
@@ -35,7 +60,7 @@ export default function App() {
         <Route path="/check-email" element={<CheckEmail />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/burgers" element={<Burgers />} />
         <Route path="/sides" element={<Sides />} />
         <Route path="/desserts" element={<Desserts />} />
@@ -56,8 +81,9 @@ export default function App() {
           <Route path="/admin/messages" element={<AdminMessages />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
         </Route>
-
       </Routes>
+
+      <CookieConsent />
     </>
-  )
+  );
 }
