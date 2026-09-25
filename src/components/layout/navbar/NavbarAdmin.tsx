@@ -38,9 +38,19 @@ export default function NavbarAdmin() {
         textTransform: "uppercase",
 
         px: { xs: 1.4, sm: 1.4, md: 1.8 },
-        fontSize: { xs: "0.73rem", sm: "0.74rem", md: "0.84rem" },
+        fontSize: { xs: "0.73rem", sm: "0.74rem", md: "0.82rem" },
 
-        minWidth: "unset",
+        width: {
+            xs: 92,
+            sm: 102,
+            md: 112,
+        },
+
+        minWidth: {
+            xs: 92,
+            sm: 102,
+            md: 112,
+        },
         flexShrink: 0,
 
         WebkitTapHighlightColor: "transparent",
