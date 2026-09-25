@@ -11,6 +11,8 @@ import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import CookieOutlinedIcon from "@mui/icons-material/CookieOutlined";
+import AnalyticsRoundedIcon from "@mui/icons-material/AnalyticsRounded";
 
 export default function HomeFooter() {
     const navigate = useNavigate();
@@ -25,7 +27,6 @@ export default function HomeFooter() {
                 color: "#fff",
                 px: { md: 6 },
                 py: 4,
-
             }}
         >
             <Box
@@ -91,6 +92,14 @@ export default function HomeFooter() {
                     </Button>
 
                     <Button
+                        onClick={() => navigate("/cookie-preferences")}
+                        startIcon={<CookieOutlinedIcon />}
+                        sx={footerLinkSx}
+                    >
+                        Cookie Preferences
+                    </Button>
+
+                    <Button
                         component="a"
                         href="https://www.linkedin.com/in/fabio-silveira-694b35341/"
                         target="_blank"
@@ -127,7 +136,7 @@ export default function HomeFooter() {
                             fontSize: "0.86rem",
                             textTransform: "uppercase",
                             letterSpacing: "0.08em",
-                            pl: 0.5
+                            pl: 0.5,
                         }}
                     >
                         Platform
@@ -156,6 +165,7 @@ export default function HomeFooter() {
                                     fontWeight: 800,
                                     fontSize: "0.88rem",
                                     lineHeight: 1.3,
+                                    mb: 0.3
                                 }}
                             >
                                 Secure payments
@@ -193,6 +203,7 @@ export default function HomeFooter() {
                                     fontWeight: 800,
                                     fontSize: "0.88rem",
                                     lineHeight: 1.3,
+                                    mb: 0.3
                                 }}
                             >
                                 Order confirmations
@@ -200,6 +211,50 @@ export default function HomeFooter() {
 
                             <Typography sx={smallTextSx}>
                                 Powered by Resend
+                            </Typography>
+                        </Box>
+                    </Box>
+
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "flex-start",
+                            gap: 1.2,
+                            pl: 0.2,
+                            mt: 1.5,
+                        }}
+                    >
+                        <AnalyticsRoundedIcon
+                            sx={{
+                                color: "#ffe0c7",
+                                mt: 0.15,
+                                fontSize: 22,
+                            }}
+                        />
+
+                        <Box>
+                            <Typography
+                                sx={{
+                                    fontWeight: 800,
+                                    fontSize: "0.88rem",
+                                    lineHeight: 1.3,
+                                    mb: 0.31
+                                }}
+                            >
+                                Usage analytics
+                            </Typography>
+
+                            <Typography sx={smallTextSx}>
+                                Powered by Google Analytics
+                            </Typography>
+
+                            <Typography sx={{
+                                fontSize: "0.76rem",
+                                color: "rgba(255,255,255,0.65)",
+                                lineHeight: 1.32,
+
+                            }}>
+                                Consent-based tracking
                             </Typography>
                         </Box>
                     </Box>
@@ -257,10 +312,14 @@ const footerLinkSx = {
     "&:hover": {
         color: "#fff",
         bgcolor: "transparent",
+        textDecoration: "underline",
+        textUnderlineOffset: "3px",
     },
 };
 
 const smallTextSx = {
     fontSize: "0.76rem",
     color: "rgba(255,255,255,0.65)",
+    lineHeight: 1.32,
+    mt: 0.15,
 };

@@ -63,7 +63,7 @@ export default function CookieConsent() {
             <Typography
                 sx={{
                     fontSize: {
-                        xs: "1rem",
+                        xs: "1.1rem",
                         md: "1.3rem",
                     },
                     fontWeight: 800,
