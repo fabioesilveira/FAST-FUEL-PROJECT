@@ -29,19 +29,44 @@ export default function CookieConsent() {
                 left: { xs: 12, sm: 24 },
                 right: { xs: 12, sm: 24 },
                 bottom: { xs: 12, sm: 24 },
-                maxWidth: 560,
+
+                maxWidth: {
+                    xs: 560,
+                    md: 720,
+                },
+
                 mx: "auto",
-                bgcolor: "#fffaf2",
-                border: "1px solid rgba(13,71,161,0.18)",
+
+                bgcolor: {
+                    xs: "#fffaf2",
+                    md: "#f7f7f7",
+                },
+
+                border: {
+                    xs: "1px solid rgba(13,71,161,0.18)",
+                    md: "1px solid #c7c7c7",
+                },
+
                 borderRadius: 2,
+
                 boxShadow: "0 10px 30px rgba(0,0,0,0.22)",
-                p: { xs: 2, sm: 2.5 },
+
+                p: {
+                    xs: 2,
+                    sm: 2.5,
+                    md: 3,
+                },
+
                 zIndex: 5000,
             }}
         >
             <Typography
                 sx={{
-                    fontSize: "1rem",
+                    fontSize: {
+                        xs: "1rem",
+                        md: "1.2rem",
+                    },
+
                     fontWeight: 800,
                     color: "#0d47a1",
                     mb: 0.7,
@@ -52,7 +77,11 @@ export default function CookieConsent() {
 
             <Typography
                 sx={{
-                    fontSize: "0.88rem",
+                    fontSize: {
+                        xs: "0.88rem",
+                        md: "0.95rem",
+                    },
+
                     lineHeight: 1.5,
                     color: "rgba(20,20,20,0.72)",
                     mb: 2,
@@ -72,11 +101,24 @@ export default function CookieConsent() {
                 }}
             >
                 <Button
+                    variant="outlined"
                     onClick={handleReject}
                     sx={{
                         textTransform: "none",
                         fontWeight: 700,
+
+                        minWidth: {
+                            xs: "auto",
+                            md: 150,
+                        },
+
                         color: "#0d47a1",
+                        borderColor: "#0d47a1",
+
+                        "&:hover": {
+                            borderColor: "#08306b",
+                            bgcolor: "rgba(13,71,161,0.05)",
+                        },
                     }}
                 >
                     Reject
@@ -88,13 +130,20 @@ export default function CookieConsent() {
                     sx={{
                         textTransform: "none",
                         fontWeight: 700,
-                        bgcolor: "#e65100",
+
+                        minWidth: {
+                            xs: "auto",
+                            md: 150,
+                        },
+
+                        bgcolor: "#0d47a1",
+
                         "&:hover": {
-                            bgcolor: "#b33f00",
+                            bgcolor: "#08306b",
                         },
                     }}
                 >
-                    Accept Analytics
+                    Accept Cookies
                 </Button>
             </Box>
         </Box>
