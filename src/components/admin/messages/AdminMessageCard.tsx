@@ -90,7 +90,7 @@ export default function AdminMessageCard({
                         gap={0.6}
                         sx={{ flexShrink: 0, mt: 0.15 }}
                     >
-                        {activeKey === "received" ? (
+                        {activeKey === "received" && (
                             <Button
                                 variant="contained"
                                 onClick={() => onMarkAsAnswered(m.id)}
@@ -107,6 +107,7 @@ export default function AdminMessageCard({
                                     minWidth: { xs: 92, sm: 120 },
                                     height: { xs: 23, sm: 28 },
                                     lineHeight: 1,
+
                                     "&:hover": {
                                         bgcolor: "#164a96",
                                     },
@@ -114,51 +115,6 @@ export default function AdminMessageCard({
                             >
                                 Mark answered
                             </Button>
-                        ) : (
-                            <Typography
-                                sx={{
-                                    display: {
-                                        xs: "none",
-                                        sm: "inline-flex",
-                                    },
-
-                                    alignItems: "center",
-                                    justifyContent: "center",
-
-                                    fontSize: {
-                                        xs: "0.62rem",
-                                        sm: "0.68rem",
-                                    },
-
-                                    letterSpacing: "0.08em",
-                                    textTransform: "uppercase",
-                                    fontWeight: 900,
-
-                                    color: "rgba(0,0,0,0.45)",
-                                    bgcolor: "rgba(0,0,0,0.06)",
-
-                                    px: { xs: 0.45, sm: 0.9 },
-                                    py: 0,
-
-                                    minWidth: {
-                                        xs: 92,
-                                        sm: 105,
-                                    },
-
-                                    height: {
-                                        xs: 22,
-                                        sm: 25,
-                                    },
-
-                                    lineHeight: 1,
-
-                                    borderRadius: 999,
-                                    border: "1px solid rgba(0,0,0,0.10)",
-                                    boxSizing: "border-box",
-                                }}
-                            >
-                                Answered
-                            </Typography>
                         )}
 
                         <Button
