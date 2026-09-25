@@ -38,7 +38,7 @@ export default function CookieConsent() {
                 mx: "auto",
 
                 bgcolor: {
-                    xs: "#fffaf2",
+                    xs: "#f7f7f7",
                     md: "#f7f7f7",
                 },
 
@@ -62,17 +62,15 @@ export default function CookieConsent() {
         >
             <Typography
                 sx={{
-                    fontSize: {
-                        xs: "1rem",
-                        md: "1.2rem",
-                    },
-
-                    fontWeight: 800,
-                    color: "#0d47a1",
-                    mb: 0.7,
+                    fontFamily: '"Roboto Mono", monospace',
+                    fontSize: { xs: "1.15rem", sm: "1.45rem" },
+                    fontWeight: 400,
+                    letterSpacing: "0.16em",
+                    color: "#333",
+                    mb: 1.5,
                 }}
             >
-                We use optional analytics cookies
+                COOKIES FASTFUEL.COM
             </Typography>
 
             <Typography
