@@ -48,7 +48,7 @@ export default function CookiePreferences() {
             sx={{
                 minHeight: "100vh",
                 bgcolor: "#fffaf2",
-                py: { xs: 8, md: 12 },
+                py: { xs: 9, md: 14 },
             }}
         >
             <Container maxWidth="md">

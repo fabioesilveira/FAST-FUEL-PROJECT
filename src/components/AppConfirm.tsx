@@ -43,7 +43,7 @@ export default function AppConfirm({
     minWidth: { xs: "unset", sm: 130, md: 140 },
     height: { xs: 40, sm: 38, md: 36 },
     py: 0,
-    px: { xs: 2.2, sm: 2.4 },
+    px: { xs: 2.6, sm: 2.6 },
     borderRadius: "8px",
     fontWeight: 900,
     letterSpacing: { xs: "0.06em", sm: "0.08em" },

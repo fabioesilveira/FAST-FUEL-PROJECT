@@ -12,7 +12,7 @@ export default function PageBg({
     children,
     stripeWidth = 56,
     gapWidth = 54,
-    stripeAlpha = 0.30,
+    stripeAlpha = 0.55,
 }: PageBgProps) {
     const period = stripeWidth + gapWidth;
 
@@ -33,11 +33,16 @@ export default function PageBg({
                     background: `
                         repeating-linear-gradient(
                             90deg,
-                            rgba(255, 248, 235, ${stripeAlpha}) 0px,
-                            rgba(255, 248, 235, ${stripeAlpha}) ${stripeWidth}px,
-                            #ffffff ${stripeWidth}px,
-                            #ffffff ${period}px
+                            rgba(0, 0, 0, ${0.030 * stripeAlpha}) 0px,
+                            rgba(0, 0, 0, ${0.030 * stripeAlpha}) ${stripeWidth}px,
+                            rgba(255,255,255,0) ${stripeWidth}px,
+                            rgba(255,255,255,0) ${period}px
                         )
+                    `,
+
+                    boxShadow: `
+                        inset 1px 0 rgba(255,255,255,0.85),
+                        inset -1px 0 rgba(0,0,0,0.015)
                     `,
 
                     maskImage: `

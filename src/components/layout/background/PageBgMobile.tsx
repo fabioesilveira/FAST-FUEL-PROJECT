@@ -23,8 +23,8 @@ export default function PageBgMobile({
                 90deg,
                 #ffffff 0px,
                 #ffffff 25px,
-                rgba(255, 248, 235, 0.23) 25px,
-                rgba(255, 248, 235, 0.23) 50px
+                rgba(0, 0, 0, 0.009) 25px,
+                rgba(0, 0, 0, 0.009) 50px
               )
             `,
       }}
