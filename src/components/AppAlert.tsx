@@ -9,7 +9,10 @@ type AppAlertProps = {
   severity?: AlertColor;
   onClose: () => void;
   autoHideDuration?: number;
-  position?: { vertical: "top" | "bottom"; horizontal: "left" | "center" | "right" };
+  position?: {
+    vertical: "top" | "bottom";
+    horizontal: "left" | "center" | "right";
+  };
 };
 
 function SlideUp(props: any) {
@@ -40,31 +43,44 @@ export default function AppAlert({
         severity={severity}
         variant="filled"
         sx={{
-          borderRadius: "16px",
+          borderRadius: "10px",
           fontWeight: 800,
-          border: "1.5px solid rgba(0,0,0,0.14)",
-          boxShadow: "0 16px 34px rgba(0,0,0,0.18)",
-          color: "#111111",
+          border: "1px solid #c7c7c7",
+          boxShadow: "0 12px 28px rgba(0,0,0,0.14)",
 
-          // base neutral fill
-          backgroundColor: "#ffffff",
+          color: "#0d47a1",
+          backgroundColor: "#f7f7f7",
 
-          // icon + close button neutral
-          "& .MuiAlert-icon": { color: "rgba(0,0,0,0.55)" },
-          "& .MuiAlert-action": { color: "rgba(0,0,0,0.55)" },
+          "& .MuiAlert-message": {
+            color: "#0d47a1",
+          },
 
-          // subtle neutral tints per severity (still monochrome)
+          "& .MuiAlert-icon": {
+            color: "#0d47a1",
+          },
+
+          "& .MuiAlert-action": {
+            color: "#0d47a1",
+          },
+
           "&.MuiAlert-filledSuccess": {
-            backgroundColor: "#f5f5f5",
+            backgroundColor: "#f7f7f7",
+            color: "#0d47a1",
           },
+
           "&.MuiAlert-filledError": {
-            backgroundColor: "#f3f3f3",
+            backgroundColor: "#f7f7f7",
+            color: "#0d47a1",
           },
+
           "&.MuiAlert-filledWarning": {
-            backgroundColor: "#f6f6f6",
+            backgroundColor: "#f7f7f7",
+            color: "#0d47a1",
           },
+
           "&.MuiAlert-filledInfo": {
-            backgroundColor: "#f4f4f4",
+            backgroundColor: "#f7f7f7",
+            color: "#0d47a1",
           },
         }}
       >
