@@ -104,7 +104,7 @@ export default function AdminOrderCard({
                     }}
                 >
                     <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                       
+
                     </Box>
 
                     <Stack
@@ -204,12 +204,29 @@ export default function AdminOrderCard({
                                             px: 1,
                                             minWidth: 82,
                                             height: 25,
-                                            "&:hover": { bgcolor: "#164a96" },
+                                            "&:hover": {
+                                                bgcolor: "#164a96",
+                                            },
                                         }}
                                     >
                                         Mark sent
                                     </Button>
                                 )}
+
+                            {activeKey === "in_progress" && o.status === "sent" && (
+                                <Typography
+                                    sx={{
+                                        color: "#e65100",
+                                        fontSize: "0.62rem",
+                                        fontWeight: 800,
+                                        letterSpacing: "0.04em",
+                                        textAlign: "right",
+                                        lineHeight: 1.2,
+                                    }}
+                                >
+                                    Awaiting delivery confirmation
+                                </Typography>
+                            )}
                         </Stack>
                     </Stack>
                 </Stack>
@@ -288,6 +305,20 @@ export default function AdminOrderCard({
                                     Mark sent
                                 </Button>
                             )}
+
+                        {activeKey === "in_progress" && o.status === "sent" && (
+                            <Typography
+                                sx={{
+                                    color: "#e65100",
+                                    fontSize: "0.72rem",
+                                    fontWeight: 800,
+                                    letterSpacing: "0.04em",
+                                    whiteSpace: "nowrap",
+                                }}
+                            >
+                                Awaiting delivery confirmation
+                            </Typography>
+                        )}
 
                         <Button
                             size="small"
