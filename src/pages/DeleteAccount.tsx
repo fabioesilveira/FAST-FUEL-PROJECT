@@ -347,7 +347,7 @@ export default function DeleteAccount() {
                         justifyContent: "center",
                         alignItems: "flex-start",
                         px: 2,
-                        pt: "220px",
+                        pt: "230px",
                         pb: { xs: 2, md: 4 },
                         bgcolor: "#fff",
 
@@ -370,10 +370,10 @@ export default function DeleteAccount() {
                                     rgba(255,255,255,1) 100%
                                 ),
                                 repeating-linear-gradient(135deg,
-                                    rgba(183,28,28,0.015) 0px,
-                                    rgba(183,28,28,0.015) 12px,
-                                    rgba(255,235,238,0.022) 12px,
-                                    rgba(255,235,238,0.022) 24px
+                                    rgba(13,71,161,0.006) 0px,
+                                    rgba(13,71,161,0.006) 12px,
+                                    rgba(230,81,0,0.004) 12px,
+                                    rgba(230,81,0,0.004) 24px
                                 )
                             `,
                             backgroundRepeat: "no-repeat, repeat",
@@ -478,12 +478,12 @@ export default function DeleteAccount() {
                                     height: { xs: 40, md: 39 },
                                     fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
                                     "&:hover": {
-                                        bgcolor: "#ffebee",
-                                        color: "#b71c1c",
+                                        bgcolor: "#8e1515",
+                                        color: "#fff",
                                     },
                                     "&:active": {
-                                        bgcolor: "#ffebee",
-                                        color: "#b71c1c",
+                                        bgcolor: "#7a1212",
+                                        color: "#fff",
                                         transform: "scale(0.98)",
                                         boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
                                     },
@@ -507,12 +507,12 @@ export default function DeleteAccount() {
                                     bgcolor: "#1e5bb8",
                                     fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.89rem" },
                                     "&:hover": {
-                                        bgcolor: "#e3f2fd",
-                                        color: "#1e5bb8",
+                                        bgcolor: "#164a96",
+                                        color: "#fff",
                                     },
                                     "&:active": {
-                                        bgcolor: "#e3f2fd",
-                                        color: "#1e5bb8",
+                                        bgcolor: "#123b7a",
+                                        color: "#fff",
                                         transform: "scale(0.98)",
                                         boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
                                     },
