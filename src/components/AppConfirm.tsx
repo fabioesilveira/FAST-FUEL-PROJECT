@@ -44,7 +44,7 @@ export default function AppConfirm({
     height: { xs: 40, sm: 38, md: 36 },
     py: 0,
     px: { xs: 2.2, sm: 2.4 },
-    borderRadius: "10px",
+    borderRadius: "8px",
     fontWeight: 900,
     letterSpacing: { xs: "0.06em", sm: "0.08em" },
     fontSize: { xs: "0.68rem", sm: "0.75rem", md: "0.8rem" },
@@ -82,10 +82,10 @@ export default function AppConfirm({
       }}
       PaperProps={{
         sx: {
-          borderRadius: { xs: "14px", md: "18px" },
-          border: "1.5px solid rgba(0,0,0,0.14)",
-          boxShadow: "0 18px 40px rgba(0,0,0,0.18)",
-          backgroundColor: "#ffffff",
+          borderRadius: "10px",
+          border: "1px solid #c7c7c7",
+          boxShadow: "0 12px 28px rgba(0,0,0,0.14)",
+          backgroundColor: "#f7f7f7",
           pt: 0,
           pb: 0,
           willChange: "transform, opacity",
@@ -95,14 +95,14 @@ export default function AppConfirm({
       <DialogTitle
         sx={{
           fontWeight: 900,
-          color: "#111111",
+          color: "#0d47a1",
           textAlign: "center",
-          letterSpacing: "0.06em",
+          letterSpacing: "0.10em",
           textTransform: "uppercase",
-          fontSize: { xs: "0.92rem", sm: "1rem", md: "1.02rem" },
-          px: { xs: 2.2, sm: 2.6, md: 3 },
+          fontSize: { xs: "0.95rem", sm: "1rem", md: "1.03rem" },
+          px: { xs: 2.7, sm: 2.7, md: 3.1 },
           pt: { xs: 2.4, md: 2.7 },
-          pb: { xs: 1.25, md: 1.35 },
+          pb: { xs: 0.4, md: 0.7 },
         }}
       >
         {title}
@@ -117,8 +117,8 @@ export default function AppConfirm({
       >
         <Typography
           sx={{
-            fontWeight: 600,
-            color: "#2b2b2b",
+            fontWeight: 500,
+            color: "rgba(0,0,0,0.72)",
             lineHeight: 1.45,
             textAlign: "center",
             fontSize: { xs: "0.85rem", sm: "0.88rem", md: "0.95rem" },
@@ -154,11 +154,11 @@ export default function AppConfirm({
             sx={{
               ...actionButtonSx,
               width: { xs: "100%", sm: "auto" },
-              border: "1.8px solid rgba(0,0,0,0.28)",
-              color: "#1f1f1f",
+              border: "1.5px solid #0d47a1",
+              color: "#0d47a1",
               "&:hover": {
-                borderColor: "rgba(0,0,0,0.45)",
-                backgroundColor: "rgba(0,0,0,0.04)",
+                borderColor: "#0d47a1",
+                backgroundColor: "rgba(13,71,161,0.05)",
               },
             }}
           >
@@ -172,11 +172,13 @@ export default function AppConfirm({
               ...actionButtonSx,
               width: { xs: "100%", sm: "auto" },
               color: "#ffffff",
-              backgroundColor: "#4a4a4a",
-              "&:hover": { backgroundColor: "#3a3a3a" },
+              backgroundColor: "#0d47a1",
+              "&:hover": {
+                backgroundColor: "#0b3d8a",
+              },
               "&:active": {
                 transform: "translateY(1px)",
-                boxShadow: "0 6px 14px rgba(0,0,0,0.18)",
+                boxShadow: "0 6px 14px rgba(13,71,161,0.18)",
               },
             }}
           >
