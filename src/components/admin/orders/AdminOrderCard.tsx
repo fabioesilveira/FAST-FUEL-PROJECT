@@ -142,27 +142,6 @@ export default function AdminOrderCard({
                             gap={0.5}
                             sx={{ flexShrink: 0 }}
                         >
-                            <Button
-                                size="small"
-                                onClick={(e) => onOpenTimeline(e, o.id)}
-                                endIcon={<ExpandMoreIcon />}
-                                sx={{
-                                    minHeight: 22,
-                                    px: 0.6,
-                                    py: 0,
-                                    fontSize: "0.64rem",
-                                    letterSpacing: "0.06em",
-                                    textTransform: "uppercase",
-                                    fontWeight: 900,
-                                    color: "rgba(0,0,0,0.65)",
-                                    "& .MuiButton-endIcon": {
-                                        marginLeft: "2px",
-                                        marginTop: "-2px",
-                                    },
-                                }}
-                            >
-                                Timeline
-                            </Button>
 
                             {activeKey === "received" && o.status === "received" && (
                                 <Button
@@ -227,6 +206,28 @@ export default function AdminOrderCard({
                                     Awaiting delivery confirmation
                                 </Typography>
                             )}
+
+                            <Button
+                                size="small"
+                                onClick={(e) => onOpenTimeline(e, o.id)}
+                                endIcon={<ExpandMoreIcon />}
+                                sx={{
+                                    minHeight: 22,
+                                    px: 0.6,
+                                    py: 0,
+                                    fontSize: "0.64rem",
+                                    letterSpacing: "0.06em",
+                                    textTransform: "uppercase",
+                                    fontWeight: 900,
+                                    color: "rgba(0,0,0,0.65)",
+                                    "& .MuiButton-endIcon": {
+                                        marginLeft: "2px",
+                                        marginTop: "-2px",
+                                    },
+                                }}
+                            >
+                                Timeline
+                            </Button>
                         </Stack>
                     </Stack>
                 </Stack>
