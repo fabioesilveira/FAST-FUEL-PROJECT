@@ -33,8 +33,8 @@ export default function PageBg({
                     background: `
                         repeating-linear-gradient(
                             90deg,
-                            rgba(0, 0, 0, ${0.030 * stripeAlpha}) 0px,
-                            rgba(0, 0, 0, ${0.030 * stripeAlpha}) ${stripeWidth}px,
+                            rgba(0, 0, 0, ${0.028 * stripeAlpha}) 0px,
+                            rgba(0, 0, 0, ${0.028 * stripeAlpha}) ${stripeWidth}px,
                             rgba(255,255,255,0) ${stripeWidth}px,
                             rgba(255,255,255,0) ${period}px
                         )

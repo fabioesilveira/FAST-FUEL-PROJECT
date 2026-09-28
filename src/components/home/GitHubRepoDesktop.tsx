@@ -64,7 +64,7 @@ export default function GitHubRepoDesktop() {
                         lineHeight: 1.5,
                     }}
                 >
-                    Explore the source code, architecture, and project implementation.
+                    Explore the source code, architecture, and development behind Fast Fuel.
                 </Typography>
             </Box>
 

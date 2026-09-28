@@ -188,7 +188,7 @@ export default function ProductCardDesktopLandscape({
                             textAlign: "left",
                             fontSize: "0.88rem",
                             fontWeight: 400,
-                            lineHeight: 1.6,
+                            lineHeight: 1.57,
                             letterSpacing: "0.01em",
                             fontFamily: "Inter, sans-serif",
                             color: "rgba(20,20,20,0.78)",
