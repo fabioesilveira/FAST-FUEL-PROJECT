@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import type { Sale } from "../types";
@@ -72,74 +72,6 @@ function userStatusText(status: Sale["status"]) {
     return { label: "COMPLETED", hint: "Delivered" };
 }
 
-const chipBaseSx = {
-    fontWeight: 900,
-    letterSpacing: "0.10em",
-    fontSize: { xs: "0.62rem", sm: "0.68rem" },
-    height: { xs: 20, sm: 22 },
-    px: { xs: 0.45, sm: 0.65 },
-    "& .MuiChip-label": {
-        px: { xs: 0.6, sm: 0.8 },
-    },
-};
-
-function UserStatusChip({ status }: { status: Sale["status"] }) {
-    const t = userStatusText(status);
-
-    if (status === "received") {
-        return (
-            <Chip
-                label={t.label}
-                size="small"
-                sx={{
-                    ...chipBaseSx,
-                    bgcolor: "rgba(46, 125, 50, 0.12)",
-                    color: "#2e7d32",
-                }}
-            />
-        );
-    }
-
-    if (status === "in_progress") {
-        return (
-            <Chip
-                label={t.label}
-                size="small"
-                sx={{
-                    ...chipBaseSx,
-                    bgcolor: "rgba(30, 91, 184, 0.12)",
-                    color: "#1e5bb8",
-                }}
-            />
-        );
-    }
-
-    if (status === "sent") {
-        return (
-            <Chip
-                label={t.label}
-                size="small"
-                sx={{
-                    ...chipBaseSx,
-                    bgcolor: "rgba(237, 108, 2, 0.12)",
-                    color: "#ed6c02",
-                }}
-            />
-        );
-    }
-
-    return (
-        <Chip
-            label={t.label}
-            size="small"
-            sx={{
-                ...chipBaseSx,
-                bgcolor: "rgba(0,0,0,0.10)",
-                color: "#333",
-            }}
-        />
-    );
-}
 
 export default function LoggedOrderCard({
     order: o,
@@ -267,7 +199,6 @@ export default function LoggedOrderCard({
                             gap={0.6}
                             sx={{ transform: "translateY(-1px)" }}
                         >
-                            <UserStatusChip status={o.status} />
 
                             <Button
                                 size="small"

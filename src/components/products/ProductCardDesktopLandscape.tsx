@@ -191,7 +191,7 @@ export default function ProductCardDesktopLandscape({
                             lineHeight: 1.57,
                             letterSpacing: "0.01em",
                             fontFamily: "Inter, sans-serif",
-                            color: "rgba(20,20,20,0.93)",
+                            color: "rgba(20,20,20,0.95)",
                             wordBreak: "normal",
                             overflowWrap: "normal",
                             hyphens: "none",
