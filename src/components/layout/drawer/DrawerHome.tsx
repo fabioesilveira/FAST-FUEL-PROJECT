@@ -44,22 +44,54 @@ type DrawerHomeProps = {
 };
 
 type CategoryItem =
-    | { label: string; type: "mui"; Icon: SvgIconComponent }
-    | { label: string; type: "img"; src: string; imgW?: number; imgH?: number };
+    | {
+        label: string;
+        type: "mui";
+        Icon: SvgIconComponent;
+    }
+    | {
+        label: string;
+        type: "img";
+        src: string;
+        imgW?: number;
+        imgH?: number;
+    };
 
 const categories: CategoryItem[] = [
-    { label: "BURGERS", type: "mui", Icon: LunchDiningIcon },
-    { label: "SIDES", type: "img", src: FriesIcon, imgW: 32, imgH: 32 },
-    { label: "DRINKS", type: "img", src: SodaIcon, imgW: 36, imgH: 36 },
-    { label: "DESSERTS", type: "mui", Icon: CookieIcon },
+    {
+        label: "BURGERS",
+        type: "mui",
+        Icon: LunchDiningIcon,
+    },
+    {
+        label: "SIDES",
+        type: "img",
+        src: FriesIcon,
+        imgW: 32,
+        imgH: 32,
+    },
+    {
+        label: "DRINKS",
+        type: "img",
+        src: SodaIcon,
+        imgW: 36,
+        imgH: 36,
+    },
+    {
+        label: "DESSERTS",
+        type: "mui",
+        Icon: CookieIcon,
+    },
 ];
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
+
     transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
     }),
+
     overflowX: "hidden",
 });
 
@@ -68,7 +100,9 @@ const closedMixin = (theme: Theme): CSSObject => ({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
+
     overflowX: "hidden",
+
     width: `calc(${theme.spacing(7.5)} + 1px)`,
 
     [theme.breakpoints.up("sm")]: {
@@ -80,6 +114,7 @@ const DrawerHeader = styled("div")(() => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
+
     paddingTop: 6,
     minHeight: 68,
     paddingRight: 10,
@@ -89,16 +124,20 @@ const Drawer = styled(MuiDrawer, {
     shouldForwardProp: (prop) => prop !== "open",
 })<{ open: boolean }>(({ theme, open }) => ({
     flexShrink: 0,
+
     whiteSpace: "nowrap",
+
     boxSizing: "border-box",
 
     ...(open
         ? {
             ...openedMixin(theme),
+
             "& .MuiDrawer-paper": openedMixin(theme),
         }
         : {
             ...closedMixin(theme),
+
             "& .MuiDrawer-paper": closedMixin(theme),
         }),
 }));
@@ -109,11 +148,28 @@ export default function DrawerHome({
     isFastThruActive = false,
 }: DrawerHomeProps) {
     const [open, setOpen] = React.useState(false);
+
+
+    /*
+     * Used when the footer comes into view.
+     */
     const [hideDrawer, setHideDrawer] = React.useState(false);
-    const [scrollHidden, setScrollHidden] = React.useState(false);
 
-    const lastY = React.useRef(0);
+    /*
+     * ---------------------------------------------------------
+     * NEW: SCROLL-LINKED FOLD PROGRESS
+     * ---------------------------------------------------------
+     *
+     * 0 = drawer completely open
+     * 1 = drawer completely folded
+     */
+    const [scrollProgress, setScrollProgress] = React.useState(0);
 
+    /*
+     * ---------------------------------------------------------
+     * FOOTER OBSERVER
+     * ---------------------------------------------------------
+     */
     React.useEffect(() => {
         const footer = document.getElementById("home-footer");
 
@@ -128,34 +184,47 @@ export default function DrawerHome({
             },
             {
                 threshold: 0,
+
                 rootMargin: "0px 0px -120px 0px",
             }
         );
 
         observer.observe(footer);
 
-        return () => observer.disconnect();
+        return () => {
+            observer.disconnect();
+        };
     }, []);
 
+    /*
+     * ---------------------------------------------------------
+     * SCROLL-CONTROLLED FOLD
+     * ---------------------------------------------------------
+     *
+     * As the user scrolls from 0px to 350px,
+     * the drawer gradually folds from:
+     *
+     * rotateY(0deg)
+     *
+     * to:
+     *
+     * rotateY(82deg)
+     */
     React.useEffect(() => {
-        lastY.current = window.scrollY;
+        const foldDistance = 500;
 
         function handleScroll() {
             const y = window.scrollY;
-            const change = y - lastY.current;
 
-            if (y < 20) {
-                setScrollHidden(false);
-            } else if (change > 5) {
-                setScrollHidden(true);
-            } else if (change < -5) {
-                setScrollHidden(false);
-            }
+            const progress = Math.min(
+                Math.max(y / foldDistance, 0),
+                1
+            );
 
-            if (Math.abs(change) > 5) {
-                lastY.current = y;
-            }
+            setScrollProgress(progress);
         }
+
+        handleScroll();
 
         window.addEventListener("scroll", handleScroll, {
             passive: true,
@@ -166,7 +235,18 @@ export default function DrawerHome({
         };
     }, []);
 
-    const shouldHideDrawer = hideDrawer || scrollHidden;
+    /*
+     * Convert scroll progress into the 3D rotation angle.
+     */
+    const foldAngle = hideDrawer
+        ? 90
+        : scrollProgress * 90;
+
+    /*
+     * Consider it fully folded once it reaches almost 82 degrees.
+     */
+    const isFullyFolded =
+        hideDrawer || scrollProgress >= 0.99;
 
     return (
         <Drawer
@@ -179,37 +259,60 @@ export default function DrawerHome({
                     left: 0,
                     height: "auto",
 
-                    backgroundColor: "rgba(255, 243, 224, 0.5) !important",
+                    backgroundColor:
+                        "rgba(255, 243, 224, 0.5) !important",
+
                     borderRadius: "0 13px 13px 0",
 
-                    boxShadow:
-                        "0 6px 18px rgba(13,71,161,.22), 0 10px 28px rgba(230,81,0,.14)",
+                    boxShadow: isFullyFolded
+                        ? "none"
+                        : "0 6px 18px rgba(13,71,161,.22), 0 10px 28px rgba(230,81,0,.14)",
 
                     transformOrigin: "left center",
 
-                    transform: shouldHideDrawer
-                        ? "translateY(-50%) perspective(1400px) rotateY(-84deg) scaleX(0.22)"
-                        : "translateY(-50%) perspective(1400px) rotateY(0deg) scaleX(1)",
+                    transform: `
+            translateY(-50%)
+            perspective(1200px)
+            rotateY(${foldAngle}deg)
+        `,
 
-                    transition:
-                        "transform 2200ms cubic-bezier(0.22, 1, 0.36, 1)",
+                    opacity: isFullyFolded ? 0 : 1,
 
-                    backfaceVisibility: "visible",
+                    transition: `
+            opacity 180ms ease,
+            box-shadow 300ms ease
+        `,
+
                     transformStyle: "preserve-3d",
+                    WebkitTransformStyle: "preserve-3d",
 
-                    pointerEvents: shouldHideDrawer ? "none" : "auto",
+                    backfaceVisibility: "hidden",
+                    WebkitBackfaceVisibility: "hidden",
+
+                    willChange: "transform, opacity",
+
+                    pointerEvents: isFullyFolded
+                        ? "none"
+                        : "auto",
                 },
             }}
         >
             <DrawerHeader>
                 <IconButton
-                    onClick={() => setOpen((prev) => !prev)}
+                    onClick={() => {
+                        setOpen((prev) => !prev);
+                    }}
                     sx={{
                         width: 48,
+
                         height: 48,
+
                         p: 0,
+
                         display: "grid",
+
                         placeItems: "center",
+
                         borderRadius: 2,
                     }}
                 >
@@ -217,7 +320,9 @@ export default function DrawerHome({
                         <ChevronLeftIcon
                             sx={{
                                 color: BLUE,
+
                                 fontSize: 26,
+
                                 ...outlineOrangeSx,
                             }}
                         />
@@ -225,7 +330,9 @@ export default function DrawerHome({
                         <ChevronRightIcon
                             sx={{
                                 color: BLUE,
+
                                 fontSize: 26,
+
                                 ...outlineOrangeSx,
                             }}
                         />
@@ -233,49 +340,92 @@ export default function DrawerHome({
                 </IconButton>
             </DrawerHeader>
 
-            <Divider sx={{ backgroundColor: "rgba(13,71,161,.35)" }} />
+            <Divider
+                sx={{
+                    backgroundColor:
+                        "rgba(13,71,161,.35)",
+                }}
+            />
 
-            <List sx={{ px: 1, pt: 2, pb: 2 }}>
+            <List
+                sx={{
+                    px: 1,
+
+                    pt: 2,
+
+                    pb: 2,
+                }}
+            >
                 {categories.map((item, index) => (
                     <React.Fragment key={item.label}>
                         <ListItem
                             disablePadding
-                            sx={{ display: "block", mb: 0.7 }}
+                            sx={{
+                                display: "block",
+
+                                mb: 0.7,
+                            }}
                         >
                             <ListItemButton
-                                onClick={() => onNavigate(item.label)}
+                                onClick={() => {
+                                    onNavigate(item.label);
+                                }}
                                 sx={[
                                     {
                                         minHeight: 62,
+
                                         px: 2,
+
                                         borderRadius: 1.5,
-                                        border: "2px solid transparent",
+
+                                        border:
+                                            "2px solid transparent",
 
                                         "&:hover": {
-                                            bgcolor: ORANGE_SOFT,
-                                            borderColor: BLUE,
+                                            bgcolor:
+                                                ORANGE_SOFT,
+
+                                            borderColor:
+                                                BLUE,
                                         },
                                     },
 
                                     open
-                                        ? { justifyContent: "initial" }
-                                        : { justifyContent: "center" },
+                                        ? {
+                                            justifyContent:
+                                                "initial",
+                                        }
+                                        : {
+                                            justifyContent:
+                                                "center",
+                                        },
                                 ]}
                             >
                                 <ListItemIcon
                                     sx={[
                                         {
                                             minWidth: 0,
+
                                             width: 48,
+
                                             height: 48,
+
                                             display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
+
+                                            alignItems:
+                                                "center",
+
+                                            justifyContent:
+                                                "center",
                                         },
 
                                         open
-                                            ? { mr: 2 }
-                                            : { mr: "auto" },
+                                            ? {
+                                                mr: 2,
+                                            }
+                                            : {
+                                                mr: "auto",
+                                            },
                                     ]}
                                 >
                                     {item.type === "img" ? (
@@ -283,15 +433,24 @@ export default function DrawerHome({
                                             src={item.src}
                                             alt={item.label}
                                             style={{
-                                                width: (item.imgW ?? 32) + 6,
-                                                height: (item.imgH ?? 32) + 6,
+                                                width:
+                                                    (item.imgW ??
+                                                        32) +
+                                                    6,
+
+                                                height:
+                                                    (item.imgH ??
+                                                        32) +
+                                                    6,
                                             }}
                                         />
                                     ) : (
                                         <item.Icon
                                             sx={{
                                                 fontSize: 30.5,
-                                                color: ORANGE_UI,
+
+                                                color:
+                                                    ORANGE_UI,
                                             }}
                                         />
                                     )}
@@ -301,18 +460,31 @@ export default function DrawerHome({
                                     primary={item.label}
                                     sx={[
                                         {
-                                            "& .MuiTypography-root": {
+                                            "& .MuiTypography-root":
+                                            {
                                                 fontWeight: 600,
-                                                fontSize: ".95rem",
-                                                letterSpacing: ".06em",
-                                                color: BLUE,
-                                                textTransform: "uppercase",
+
+                                                fontSize:
+                                                    ".95rem",
+
+                                                letterSpacing:
+                                                    ".06em",
+
+                                                color:
+                                                    BLUE,
+
+                                                textTransform:
+                                                    "uppercase",
                                             },
                                         },
 
                                         open
-                                            ? { opacity: 1 }
-                                            : { opacity: 0 },
+                                            ? {
+                                                opacity: 1,
+                                            }
+                                            : {
+                                                opacity: 0,
+                                            },
                                     ]}
                                 />
                             </ListItemButton>
@@ -321,54 +493,90 @@ export default function DrawerHome({
                         {index === 1 && (
                             <ListItem
                                 disablePadding
-                                sx={{ display: "block", mb: 0.7 }}
+                                sx={{
+                                    display: "block",
+
+                                    mb: 0.7,
+                                }}
                             >
                                 <ListItemButton
-                                    onClick={onDriveThruClick}
+                                    onClick={
+                                        onDriveThruClick
+                                    }
                                     sx={[
                                         {
                                             minHeight: 68,
+
                                             px: 2,
+
                                             borderRadius: 1.5,
-                                            border: "2px solid transparent",
-                                            bgcolor: "transparent",
+
+                                            border:
+                                                "2px solid transparent",
+
+                                            bgcolor:
+                                                "transparent",
+
                                             width: "100%",
-                                            position: "relative",
-                                            overflow: "visible",
+
+                                            position:
+                                                "relative",
+
+                                            overflow:
+                                                "visible",
 
                                             ...(open
                                                 ? {
-                                                    "&:hover": {
-                                                        bgcolor: ORANGE_SOFT,
+                                                    "&:hover":
+                                                    {
+                                                        bgcolor:
+                                                            ORANGE_SOFT,
+
                                                         borderColor:
                                                             "transparent",
                                                     },
                                                 }
                                                 : {
-                                                    "&::before": {
-                                                        content: '""',
-                                                        position: "absolute",
+                                                    "&::before":
+                                                    {
+                                                        content:
+                                                            '""',
+
+                                                        position:
+                                                            "absolute",
+
                                                         top: -4,
+
                                                         bottom: -4,
+
                                                         left: -6,
+
                                                         right: -6,
+
                                                         borderRadius:
                                                             "999px",
+
                                                         backgroundColor:
                                                             ORANGE_SOFT,
+
                                                         opacity: 0,
+
                                                         transition:
                                                             "opacity .15s ease",
+
                                                         zIndex: -1,
                                                     },
 
-                                                    "&:hover::before": {
+                                                    "&:hover::before":
+                                                    {
                                                         opacity: 1,
                                                     },
 
-                                                    "&:hover": {
+                                                    "&:hover":
+                                                    {
                                                         bgcolor:
                                                             "transparent",
+
                                                         borderColor:
                                                             "transparent",
                                                     },
@@ -376,38 +584,59 @@ export default function DrawerHome({
                                         },
 
                                         open
-                                            ? { justifyContent: "initial" }
-                                            : { justifyContent: "center" },
+                                            ? {
+                                                justifyContent:
+                                                    "initial",
+                                            }
+                                            : {
+                                                justifyContent:
+                                                    "center",
+                                            },
                                     ]}
                                 >
                                     <ListItemIcon
                                         sx={[
                                             {
                                                 minWidth: 0,
+
                                                 width: 48,
+
                                                 minHeight: 58,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
+
+                                                display:
+                                                    "flex",
+
+                                                alignItems:
+                                                    "center",
+
+                                                justifyContent:
+                                                    "center",
                                             },
 
                                             open
-                                                ? { mr: 2 }
-                                                : { mr: "auto" },
+                                                ? {
+                                                    mr: 2,
+                                                }
+                                                : {
+                                                    mr: "auto",
+                                                },
                                         ]}
                                     >
                                         {isFastThruActive ? (
                                             <HomeRoundedIcon
                                                 sx={{
                                                     fontSize: 36,
-                                                    color: BLUE,
+
+                                                    color:
+                                                        BLUE,
 
                                                     transition:
                                                         "transform .2s ease",
 
-                                                    transform: open
-                                                        ? "scale(1.08)"
-                                                        : "scale(1.03)",
+                                                    transform:
+                                                        open
+                                                            ? "scale(1.08)"
+                                                            : "scale(1.03)",
 
                                                     ...outlineOrangeSx,
                                                 }}
@@ -415,16 +644,26 @@ export default function DrawerHome({
                                         ) : (
                                             <Box
                                                 sx={{
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
+                                                    display:
+                                                        "flex",
+
+                                                    flexDirection:
+                                                        "column",
+
+                                                    alignItems:
+                                                        "center",
+
+                                                    justifyContent:
+                                                        "center",
+
                                                     width: 56,
+
                                                     minHeight: 58,
 
-                                                    transform: open
-                                                        ? "scale(1.14)"
-                                                        : "scale(1.08)",
+                                                    transform:
+                                                        open
+                                                            ? "scale(1.14)"
+                                                            : "scale(1.08)",
 
                                                     transition:
                                                         "transform .2s ease",
@@ -435,11 +674,18 @@ export default function DrawerHome({
                                                     sx={{
                                                         fontFamily:
                                                             '"Big Shoulders Inline", sans-serif',
+
                                                         fontSize: 21,
+
                                                         fontWeight: 900,
-                                                        color: BLUE,
+
+                                                        color:
+                                                            BLUE,
+
                                                         lineHeight: 0.9,
-                                                        letterSpacing: "0.08em",
+
+                                                        letterSpacing:
+                                                            "0.08em",
                                                     }}
                                                 >
                                                     FAST
@@ -450,11 +696,18 @@ export default function DrawerHome({
                                                     sx={{
                                                         fontFamily:
                                                             '"Big Shoulders Inline", sans-serif',
+
                                                         fontSize: 21,
+
                                                         fontWeight: 900,
-                                                        color: BLUE,
+
+                                                        color:
+                                                            BLUE,
+
                                                         lineHeight: 0.9,
-                                                        letterSpacing: "0.08em",
+
+                                                        letterSpacing:
+                                                            "0.08em",
                                                     }}
                                                 >
                                                     THRU
@@ -471,19 +724,33 @@ export default function DrawerHome({
                                         }
                                         sx={[
                                             {
-                                                "& .MuiTypography-root": {
+                                                "& .MuiTypography-root":
+                                                {
                                                     fontWeight: 800,
-                                                    fontSize: "1rem",
-                                                    letterSpacing: ".08em",
-                                                    color: ORANGE,
-                                                    textTransform: "uppercase",
+
+                                                    fontSize:
+                                                        "1rem",
+
+                                                    letterSpacing:
+                                                        ".08em",
+
+                                                    color:
+                                                        ORANGE,
+
+                                                    textTransform:
+                                                        "uppercase",
+
                                                     lineHeight: 1.02,
                                                 },
                                             },
 
                                             open
-                                                ? { opacity: 1 }
-                                                : { opacity: 0 },
+                                                ? {
+                                                    opacity: 1,
+                                                }
+                                                : {
+                                                    opacity: 0,
+                                                },
                                         ]}
                                     />
                                 </ListItemButton>
