@@ -149,27 +149,17 @@ export default function DrawerHome({
 }: DrawerHomeProps) {
     const [open, setOpen] = React.useState(false);
 
-
-    /*
-     * Used when the footer comes into view.
-     */
     const [hideDrawer, setHideDrawer] = React.useState(false);
 
-    /*
-     * ---------------------------------------------------------
-     * NEW: SCROLL-LINKED FOLD PROGRESS
-     * ---------------------------------------------------------
-     *
-     * 0 = drawer completely open
-     * 1 = drawer completely folded
-     */
+
     const [scrollProgress, setScrollProgress] = React.useState(0);
 
-    /*
-     * ---------------------------------------------------------
-     * FOOTER OBSERVER
-     * ---------------------------------------------------------
-     */
+    const scrollProgressRef = React.useRef(0);
+    const animationFrameRef = React.useRef<number | null>(null);
+    const lastScrollYRef = React.useRef(0);
+    const foldTargetRef = React.useRef<0 | 1>(0);
+
+
     React.useEffect(() => {
         const footer = document.getElementById("home-footer");
 
@@ -196,35 +186,70 @@ export default function DrawerHome({
         };
     }, []);
 
-    /*
-     * ---------------------------------------------------------
-     * SCROLL-CONTROLLED FOLD
-     * ---------------------------------------------------------
-     *
-     * As the user scrolls from 0px to 350px,
-     * the drawer gradually folds from:
-     *
-     * rotateY(0deg)
-     *
-     * to:
-     *
-     * rotateY(82deg)
-     */
     React.useEffect(() => {
-        const foldDistance = 500;
+        const FOLD_DURATION = 900;
 
-        function handleScroll() {
-            const y = window.scrollY;
+        const animateTo = (target: 0 | 1) => {
+            if (foldTargetRef.current === target) return;
 
-            const progress = Math.min(
-                Math.max(y / foldDistance, 0),
-                1
-            );
+            foldTargetRef.current = target;
 
-            setScrollProgress(progress);
-        }
+            if (animationFrameRef.current !== null) {
+                cancelAnimationFrame(animationFrameRef.current);
+            }
 
-        handleScroll();
+            const startProgress = scrollProgressRef.current;
+            const distance = target - startProgress;
+            const startTime = performance.now();
+
+            const animate = (time: number) => {
+                const elapsed = time - startTime;
+                const rawProgress = Math.min(
+                    elapsed / FOLD_DURATION,
+                    1
+                );
+
+                const eased =
+                    1 - Math.pow(1 - rawProgress, 3);
+
+                const nextProgress =
+                    startProgress + distance * eased;
+
+                scrollProgressRef.current = nextProgress;
+                setScrollProgress(nextProgress);
+
+                if (rawProgress < 1) {
+                    animationFrameRef.current =
+                        requestAnimationFrame(animate);
+                } else {
+                    scrollProgressRef.current = target;
+                    setScrollProgress(target);
+                    animationFrameRef.current = null;
+                }
+            };
+
+            animationFrameRef.current =
+                requestAnimationFrame(animate);
+        };
+
+        lastScrollYRef.current = window.scrollY;
+
+        const handleScroll = () => {
+            const currentY = window.scrollY;
+            const previousY = lastScrollYRef.current;
+
+            const scrollingDown = currentY > previousY;
+
+            if (scrollingDown && currentY > 10) {
+                animateTo(1);
+            }
+
+            if (currentY <= 10) {
+                animateTo(0);
+            }
+
+            lastScrollYRef.current = currentY;
+        };
 
         window.addEventListener("scroll", handleScroll, {
             passive: true,
@@ -232,19 +257,17 @@ export default function DrawerHome({
 
         return () => {
             window.removeEventListener("scroll", handleScroll);
+
+            if (animationFrameRef.current !== null) {
+                cancelAnimationFrame(animationFrameRef.current);
+            }
         };
     }, []);
 
-    /*
-     * Convert scroll progress into the 3D rotation angle.
-     */
     const foldAngle = hideDrawer
         ? 90
         : scrollProgress * 90;
 
-    /*
-     * Consider it fully folded once it reaches almost 82 degrees.
-     */
     const isFullyFolded =
         hideDrawer || scrollProgress >= 0.99;
 
@@ -271,17 +294,17 @@ export default function DrawerHome({
                     transformOrigin: "left center",
 
                     transform: `
-            translateY(-50%)
-            perspective(1200px)
-            rotateY(${foldAngle}deg)
-        `,
+                        translateY(-50%)
+                        perspective(1200px)
+                        rotateY(${foldAngle}deg)
+                    `,
 
                     opacity: isFullyFolded ? 0 : 1,
 
                     transition: `
-            opacity 180ms ease,
-            box-shadow 300ms ease
-        `,
+                        opacity 180ms ease,
+                        box-shadow 300ms ease
+                    `,
 
                     transformStyle: "preserve-3d",
                     WebkitTransformStyle: "preserve-3d",
@@ -304,15 +327,10 @@ export default function DrawerHome({
                     }}
                     sx={{
                         width: 48,
-
                         height: 48,
-
                         p: 0,
-
                         display: "grid",
-
                         placeItems: "center",
-
                         borderRadius: 2,
                     }}
                 >
@@ -320,9 +338,7 @@ export default function DrawerHome({
                         <ChevronLeftIcon
                             sx={{
                                 color: BLUE,
-
                                 fontSize: 26,
-
                                 ...outlineOrangeSx,
                             }}
                         />
@@ -330,9 +346,7 @@ export default function DrawerHome({
                         <ChevronRightIcon
                             sx={{
                                 color: BLUE,
-
                                 fontSize: 26,
-
                                 ...outlineOrangeSx,
                             }}
                         />
@@ -350,9 +364,7 @@ export default function DrawerHome({
             <List
                 sx={{
                     px: 1,
-
                     pt: 2,
-
                     pb: 2,
                 }}
             >
@@ -362,7 +374,6 @@ export default function DrawerHome({
                             disablePadding
                             sx={{
                                 display: "block",
-
                                 mb: 0.7,
                             }}
                         >
@@ -495,7 +506,6 @@ export default function DrawerHome({
                                 disablePadding
                                 sx={{
                                     display: "block",
-
                                     mb: 0.7,
                                 }}
                             >
