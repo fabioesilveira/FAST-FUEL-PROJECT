@@ -7,6 +7,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import InputBase from "@mui/material/InputBase";
 import Badge, { badgeClasses } from "@mui/material/Badge";
+import Divider from "@mui/material/Divider";
 
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
@@ -331,6 +332,9 @@ function Navbar({
                       action,
                     } = item;
 
+                    const isDeleteAccount =
+                      label === "Delete Account";
+
                     const commonSx = {
                       display: "flex",
                       alignItems: "center",
@@ -342,22 +346,42 @@ function Navbar({
                       py: 0.8,
                       borderRadius: 1.5,
                       textTransform: "none",
-                      border: "2px solid #0d47a1",
-                      color: "#0d47a1",
+
+                      border: isDeleteAccount
+                        ? "2px solid rgba(13, 71, 161, 0.55)"
+                        : "2px solid #0d47a1",
+
+                      color: isDeleteAccount
+                        ? "rgba(13, 71, 161, 0.72)"
+                        : "#0d47a1",
+
                       fontWeight: 600,
-                      bgcolor: "rgba(230, 81, 0, 0.14)",
-                      boxShadow: "0 2px 6px rgba(13, 71, 161, 0.18)",
+
+                      bgcolor: isDeleteAccount
+                        ? "rgba(230, 81, 0, 0.08)"
+                        : "rgba(230, 81, 0, 0.14)",
+
+                      boxShadow: isDeleteAccount
+                        ? "0 2px 5px rgba(13, 71, 161, 0.10)"
+                        : "0 2px 6px rgba(13, 71, 161, 0.18)",
 
                       "@media (hover: hover) and (pointer: fine)": {
                         "&:hover": {
-                          bgcolor: "rgba(230, 81, 0, 0.22)",
-                          boxShadow:
-                            "0 4px 10px rgba(13, 71, 161, 0.28)",
+                          bgcolor: isDeleteAccount
+                            ? "rgba(230, 81, 0, 0.14)"
+                            : "rgba(230, 81, 0, 0.22)",
+
+                          boxShadow: isDeleteAccount
+                            ? "0 3px 8px rgba(13, 71, 161, 0.16)"
+                            : "0 4px 10px rgba(13, 71, 161, 0.28)",
                         },
                       },
 
                       "&:active": {
-                        bgcolor: "rgba(230, 81, 0, 0.28)",
+                        bgcolor: isDeleteAccount
+                          ? "rgba(230, 81, 0, 0.18)"
+                          : "rgba(230, 81, 0, 0.28)",
+
                         transform: "translateY(1px)",
                       },
                     } as const;
@@ -372,7 +396,10 @@ function Navbar({
                         >
                           <Icon
                             sx={{
-                              color: "#e85f10",
+                              color: isDeleteAccount
+                                ? "rgba(232, 95, 16, 0.72)"
+                                : "#e85f10",
+
                               fontSize:
                                 iconSizes[label] ?? 24,
                             }}
@@ -401,15 +428,31 @@ function Navbar({
                     if (!path) return null;
 
                     return (
-                      <Button
+                      <Box
                         key={label}
-                        component={Link}
-                        to={path}
-                        onClick={() => setShown(false)}
-                        sx={commonSx}
+                        sx={{
+                          display: "contents",
+                        }}
                       >
-                        {content}
-                      </Button>
+                        {isDeleteAccount && (
+                          <Divider
+                            sx={{
+                              my: 0.4,
+                              borderColor:
+                                "rgba(13, 71, 161, 0.18)",
+                            }}
+                          />
+                        )}
+
+                        <Button
+                          component={Link}
+                          to={path}
+                          onClick={() => setShown(false)}
+                          sx={commonSx}
+                        >
+                          {content}
+                        </Button>
+                      </Box>
                     );
                   })}
                 </Box>
