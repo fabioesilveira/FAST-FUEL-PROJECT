@@ -347,15 +347,15 @@ function Navbar({
                       borderRadius: 1.5,
                       textTransform: "none",
 
+                      fontWeight: 600,
+
                       border: isDeleteAccount
-                        ? "2px solid #2a5ca8"
+                        ? "2px solid #24539b"
                         : "2px solid #0d47a1",
 
                       color: isDeleteAccount
-                        ? "#2a5ca8"
+                        ? "#24539b"
                         : "#0d47a1",
-
-                      fontWeight: 600,
 
                       bgcolor: isDeleteAccount
                         ? "rgba(230, 81, 0, 0.10)"
