@@ -348,21 +348,21 @@ function Navbar({
                       textTransform: "none",
 
                       border: isDeleteAccount
-                        ? "2px solid rgba(13, 71, 161, 0.55)"
+                        ? "2px solid #2a5ca8"
                         : "2px solid #0d47a1",
 
                       color: isDeleteAccount
-                        ? "rgba(13, 71, 161, 0.72)"
+                        ? "#2a5ca8"
                         : "#0d47a1",
 
                       fontWeight: 600,
 
                       bgcolor: isDeleteAccount
-                        ? "rgba(230, 81, 0, 0.08)"
+                        ? "rgba(230, 81, 0, 0.10)"
                         : "rgba(230, 81, 0, 0.14)",
 
                       boxShadow: isDeleteAccount
-                        ? "0 2px 5px rgba(13, 71, 161, 0.10)"
+                        ? "0 2px 5px rgba(13, 71, 161, 0.14)"
                         : "0 2px 6px rgba(13, 71, 161, 0.18)",
 
                       "@media (hover: hover) and (pointer: fine)": {
@@ -397,7 +397,7 @@ function Navbar({
                           <Icon
                             sx={{
                               color: isDeleteAccount
-                                ? "rgba(232, 95, 16, 0.72)"
+                                ? "#ef6f23"
                                 : "#e85f10",
 
                               fontSize:
