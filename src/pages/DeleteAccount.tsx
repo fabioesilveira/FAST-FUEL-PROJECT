@@ -347,7 +347,7 @@ export default function DeleteAccount() {
                         justifyContent: "center",
                         alignItems: "flex-start",
                         px: 2,
-                        pt: "220px",
+                        pt: "218px",
                         pb: { xs: 2, md: 4 },
                         bgcolor: "#fff",
 
@@ -388,7 +388,7 @@ export default function DeleteAccount() {
                         sx={{
                             width: "100%",
                             p: { xs: 2.5, sm: 3, md: 3.5 },
-                            pb: { xs: 4.5, sm: 4.5, md: 6.2 },
+                            pb: { xs: 4.5, sm: 4.5, md: 6.3 },
                             pt: { xs: 4, sm: 5.2, md: 5.7 },
                             borderRadius: 3,
                             maxWidth: { xs: 520, md: 530 },
@@ -407,7 +407,7 @@ export default function DeleteAccount() {
                             align="center"
                             sx={{
                                 mb: { sm: 2.8, md: 3.3 },
-                                mt: { xs: 0, sm: 0, md: 0.5 },
+                                mt: { xs: 0, sm: 0, md: 0.4 },
                                 fontSize: { xs: "0.82rem", sm: "0.92rem", md: "0.94rem" },
                                 color: "text.secondary",
                                 fontWeight: "bold",
