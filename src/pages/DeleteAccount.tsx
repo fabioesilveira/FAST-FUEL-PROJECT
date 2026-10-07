@@ -347,7 +347,7 @@ export default function DeleteAccount() {
                         justifyContent: "center",
                         alignItems: "flex-start",
                         px: 2,
-                        pt: "218px",
+                        pt: "225px",
                         pb: { xs: 2, md: 4 },
                         bgcolor: "#fff",
 

@@ -349,39 +349,21 @@ function Navbar({
 
                       fontWeight: 600,
 
-                      border: isDeleteAccount
-                        ? "2px solid #24539b"
-                        : "2px solid #0d47a1",
+                      border: "2px solid #0d47a1",
+                      color: "#0d47a1",
+                      bgcolor: "rgba(230, 81, 0, 0.14)",
+                      boxShadow: "0 2px 6px rgba(13, 71, 161, 0.18)",
 
-                      color: isDeleteAccount
-                        ? "#24539b"
-                        : "#0d47a1",
-
-                      bgcolor: isDeleteAccount
-                        ? "rgba(230, 81, 0, 0.10)"
-                        : "rgba(230, 81, 0, 0.14)",
-
-                      boxShadow: isDeleteAccount
-                        ? "0 2px 5px rgba(13, 71, 161, 0.14)"
-                        : "0 2px 6px rgba(13, 71, 161, 0.18)",
 
                       "@media (hover: hover) and (pointer: fine)": {
                         "&:hover": {
-                          bgcolor: isDeleteAccount
-                            ? "rgba(230, 81, 0, 0.14)"
-                            : "rgba(230, 81, 0, 0.22)",
-
-                          boxShadow: isDeleteAccount
-                            ? "0 3px 8px rgba(13, 71, 161, 0.16)"
-                            : "0 4px 10px rgba(13, 71, 161, 0.28)",
+                          bgcolor: "rgba(230, 81, 0, 0.22)",
+                          boxShadow: "0 4px 10px rgba(13, 71, 161, 0.28)",
                         },
                       },
 
                       "&:active": {
-                        bgcolor: isDeleteAccount
-                          ? "rgba(230, 81, 0, 0.18)"
-                          : "rgba(230, 81, 0, 0.28)",
-
+                        bgcolor: "rgba(230, 81, 0, 0.28)",
                         transform: "translateY(1px)",
                       },
                     } as const;
@@ -396,10 +378,7 @@ function Navbar({
                         >
                           <Icon
                             sx={{
-                              color: isDeleteAccount
-                                ? "#ef6f23"
-                                : "#e85f10",
-
+                              color: "#e85f10",
                               fontSize:
                                 iconSizes[label] ?? 24,
                             }}
