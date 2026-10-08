@@ -418,7 +418,7 @@ function Navbar({
                             sx={{
                               my: 0.4,
                               borderColor:
-                                "rgba(13, 71, 161, 0.18)",
+                                "rgba(13, 71, 161, 0.24)",
                             }}
                           />
                         )}

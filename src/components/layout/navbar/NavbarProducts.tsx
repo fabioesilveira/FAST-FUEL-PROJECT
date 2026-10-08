@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Badge, { badgeClasses } from "@mui/material/Badge";
+import Divider from "@mui/material/Divider";
 import { styled } from "@mui/material/styles";
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -278,6 +279,9 @@ export default function NavbarProducts() {
                     action,
                   } = item;
 
+                  const isDeleteAccount =
+                    label === "Delete Account";
+
                   const commonSx = {
                     display: "flex",
                     alignItems: "center",
@@ -293,7 +297,8 @@ export default function NavbarProducts() {
                     color: "#0d47a1",
                     fontWeight: 600,
                     bgcolor: "rgba(230, 81, 0, 0.14)",
-                    boxShadow: "0 2px 6px rgba(13, 71, 161, 0.18)",
+                    boxShadow:
+                      "0 2px 6px rgba(13, 71, 161, 0.18)",
 
                     "@media (hover: hover) and (pointer: fine)": {
                       "&:hover": {
@@ -321,7 +326,8 @@ export default function NavbarProducts() {
                         <Icon
                           sx={{
                             color: "#e85f10",
-                            fontSize: iconSizes[label] ?? 24,
+                            fontSize:
+                              iconSizes[label] ?? 24,
                           }}
                         />
                       </Box>
@@ -348,15 +354,31 @@ export default function NavbarProducts() {
                   if (!path) return null;
 
                   return (
-                    <Button
+                    <Box
                       key={label}
-                      component={Link}
-                      to={path}
-                      onClick={() => setShown(false)}
-                      sx={commonSx}
+                      sx={{
+                        display: "contents",
+                      }}
                     >
-                      {content}
-                    </Button>
+                      {isDeleteAccount && (
+                        <Divider
+                          sx={{
+                            my: 0.4,
+                            borderColor:
+                              "rgba(13, 71, 161, 0.24)",
+                          }}
+                        />
+                      )}
+
+                      <Button
+                        component={Link}
+                        to={path}
+                        onClick={() => setShown(false)}
+                        sx={commonSx}
+                      >
+                        {content}
+                      </Button>
+                    </Box>
                   );
                 })}
               </Box>
