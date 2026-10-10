@@ -187,7 +187,7 @@ export default function DrawerHome({
     }, []);
 
     React.useEffect(() => {
-        const FOLD_DURATION = 900;
+        const FOLD_DURATION = 700;
 
         const animateTo = (target: 0 | 1) => {
             if (foldTargetRef.current === target) return;
