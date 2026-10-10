@@ -29,6 +29,7 @@ import CheckoutPaymentSection, {
     type StripePaymentHandle,
 } from "../components/checkout/CheckoutPaymentSection";
 import CheckoutDeliverySection from "../components/checkout/CheckoutDeliverySection";
+import CheckoutSignInDialog from "./../components/checkout/CheckoutSignInDialog";
 
 import CheckoutMobileForm from "../components/checkout/CheckoutMobileForm";
 import CheckoutTitleBar from "../components/CheckoutTitleBar";
@@ -204,7 +205,7 @@ export default function Checkout() {
         useState(false);
 
 
-    const loggedUser: LoggedUser | null = useMemo(() => {
+    function getLoggedUser(): LoggedUser | null {
         const rawAuth = localStorage.getItem("authUser");
 
         if (rawAuth) {
@@ -217,28 +218,18 @@ export default function Checkout() {
             } catch { }
         }
 
-        const idUser =
-            localStorage.getItem("idUser");
+        const idUser = localStorage.getItem("idUser");
 
         if (idUser) {
             return {
                 id: Number(idUser),
-                userName:
-                    localStorage.getItem("userName") ||
-                    undefined,
-                email:
-                    localStorage.getItem("emailUser") ||
-                    undefined,
-                type:
-                    (localStorage.getItem(
-                        "userType"
-                    ) as LoggedUser["type"]) ||
-                    "normal",
+                userName: localStorage.getItem("userName") || undefined,
+                email: localStorage.getItem("emailUser") || undefined,
+                type: (localStorage.getItem("userType") as LoggedUser["type"]) || "normal",
             };
         }
 
-        const rawUser =
-            localStorage.getItem("user");
+        const rawUser = localStorage.getItem("user");
 
         if (rawUser) {
             try {
@@ -251,11 +242,27 @@ export default function Checkout() {
         }
 
         return null;
-    }, []);
+    }
+
+    const [loggedUser, setLoggedUser] = useState<LoggedUser | null>(() => getLoggedUser());
+
+    const [signInDialogOpen, setSignInDialogOpen] = useState(false);
 
     const isLogged =
         Number.isFinite(Number(loggedUser?.id)) &&
         Number(loggedUser?.id) > 0;
+
+        
+    function handleCheckoutSignInSuccess() {
+        const user = getLoggedUser();
+
+        setLoggedUser(user);
+        setSignInDialogOpen(false);
+
+        showAlert("Login successful!", "success");
+
+        void processPayment(user);
+    }
 
     const {
         discount,
@@ -385,14 +392,7 @@ export default function Checkout() {
             onDismiss: () => { },
         });
     }
-    async function handlePay() {
-        const err = validate();
-
-        if (err) {
-            showAlert(err, "warning");
-            return;
-        }
-
+    async function processPayment(userForOrder: LoggedUser | null = loggedUser) {
         setSubmitting(true);
 
         try {
@@ -401,34 +401,27 @@ export default function Checkout() {
 
             if (!paymentResult?.success) {
                 showAlert(
-                    paymentResult?.error ||
-                    "Payment failed.",
+                    paymentResult?.error || "Payment failed.",
                     "error"
                 );
-
                 return;
             }
 
             setIsEditingForm(false);
             setScreen("processing");
 
-            const itemsNorm =
-                (order as Meal[]).map((it) => ({
-                    id: String(it.id),
-                    qty: Number(it.quantidade ?? 1),
-                }));
+            const itemsNorm = (order as Meal[]).map((it) => ({
+                id: String(it.id),
+                qty: Number(it.quantidade ?? 1),
+            }));
 
             const payload = {
-                user_id:
-                    isLogged
-                        ? Number(loggedUser!.id)
-                        : null,
+                user_id: userForOrder?.id
+                    ? Number(userForOrder.id)
+                    : null,
 
-                customer_name:
-                    fullName.trim(),
-
-                customer_email:
-                    email.trim(),
+                customer_name: fullName.trim(),
+                customer_email: email.trim(),
 
                 items: itemsNorm,
 
@@ -438,24 +431,16 @@ export default function Checkout() {
                     city: address.city.trim(),
                     state: address.state.trim(),
                     zip: address.zip.trim(),
-                    country:
-                        address.country.trim() ||
-                        "USA",
+                    country: address.country.trim() || "USA",
                 },
 
                 payment_method: "card",
-                payment_ref:
-                    paymentResult.paymentIntentId,
+                payment_ref: paymentResult.paymentIntentId,
             };
 
-            const res =
-                await api.post(
-                    "/sales",
-                    payload
-                );
+            const res = await api.post("/sales", payload);
 
-            const { order_code } =
-                res.data;
+            const { order_code } = res.data;
 
             localStorage.setItem(
                 "lastOrderCode",
@@ -467,15 +452,10 @@ export default function Checkout() {
                 email.trim()
             );
 
-            setOrderCode(
-                String(order_code)
-            );
+            setOrderCode(String(order_code));
 
             setOrder([]);
-
-            localStorage.removeItem(
-                "lsOrder"
-            );
+            localStorage.removeItem("lsOrder");
 
             await new Promise((r) =>
                 setTimeout(r, 5000)
@@ -487,7 +467,6 @@ export default function Checkout() {
                 "Payment processed successfully.",
                 "success"
             );
-
         } catch (e: any) {
             console.error(e);
 
@@ -498,9 +477,77 @@ export default function Checkout() {
                 "Failed to place order",
                 "error"
             );
-
         } finally {
             setSubmitting(false);
+        }
+    }
+
+    async function handlePay() {
+        const err = validate();
+
+        if (err) {
+            showAlert(err, "warning");
+            return;
+        }
+
+        if (isLogged) {
+            await processPayment(loggedUser);
+            return;
+        }
+
+        try {
+            const res = await api.post(
+                "/users/check-email",
+                {
+                    email: email.trim(),
+                }
+            );
+
+            if (!res.data?.exists) {
+                await processPayment(null);
+                return;
+            }
+
+            confirmAlert({
+                title: "Account found",
+                message:
+                    "We found a Fast Fuel account that matches the email on this order. Would you like to sign in and keep this purchase with your account, or continue as a guest?",
+                confirmText: "Sign In",
+                cancelText: "Continue as Guest",
+
+                onConfirm: () => {
+                    setSignInDialogOpen(true);
+                },
+
+                onCancel: () => {
+                    confirmAlert({
+                        title: "Continue as guest",
+                        message:
+                            "No problem! After checkout, keep your order number. If you sign in later, you can add this purchase to your account from Track Order using that order number.",
+                        confirmText: "Continue",
+                        cancelText: "Back",
+
+                        onConfirm: () => {
+                            void processPayment(null);
+                        },
+
+                        onCancel: () => { },
+                        onDismiss: () => { },
+                    });
+                },
+
+                onDismiss: () => { },
+            });
+        } catch (error) {
+            console.error(
+                "Failed to check account email:",
+                error
+            );
+
+            showAlert(
+                "Unable to check your account email. Please try again.",
+                "error"
+            );
         }
     }
 
@@ -751,6 +798,13 @@ export default function Checkout() {
                 {AlertUI}
                 {ConfirmUI}
 
+                <CheckoutSignInDialog
+                    open={signInDialogOpen}
+                    email={email}
+                    onClose={() => setSignInDialogOpen(false)}
+                    onSuccess={handleCheckoutSignInSuccess}
+                />
+
                 {screen === "form" &&
                     isEditingForm && (
                         <Box
@@ -880,6 +934,13 @@ export default function Checkout() {
         <>
             {AlertUI}
             {ConfirmUI}
+
+            <CheckoutSignInDialog
+                open={signInDialogOpen}
+                email={email}
+                onClose={() => setSignInDialogOpen(false)}
+                onSuccess={handleCheckoutSignInSuccess}
+            />
 
             <CheckoutTitleBar
                 title={desktopTitle}
