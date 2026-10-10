@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
     Dialog,
     DialogTitle,
@@ -10,7 +10,7 @@ import {
     Box,
 } from "@mui/material";
 
-import { api } from "../../api";
+import { api, clearAuthStorage } from "../../api";
 
 type CheckoutSignInDialogProps = {
     open: boolean;
@@ -29,6 +29,29 @@ export default function CheckoutSignInDialog({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    function saveAuthData(data: any, fallbackEmail: string) {
+        const displayName = data.fullName || data.userName || fallbackEmail;
+
+        clearAuthStorage();
+
+        localStorage.setItem("idUser", String(data.id));
+        localStorage.setItem("userName", displayName);
+        localStorage.setItem("userType", data.type || "normal");
+        localStorage.setItem("emailUser", data.email || fallbackEmail);
+        localStorage.setItem("token", data.token);
+
+        localStorage.setItem(
+            "authUser",
+            JSON.stringify({
+                id: data.id,
+                userName: displayName,
+                email: data.email || fallbackEmail,
+                type: data.type || "normal",
+                token: data.token,
+            })
+        );
+    }
+
     async function handleLogin() {
         if (!password.trim()) {
             setError("Please enter your password.");
@@ -39,56 +62,32 @@ export default function CheckoutSignInDialog({
             setLoading(true);
             setError("");
 
-            const res = await api.post(
-                "/users/login",
-                {
-                    email: email.trim(),
-                    password,
-                }
-            );
+            const normalizedEmail = email.trim().toLowerCase();
 
-            const user = res.data;
+            const res = await api.post("/users/login", {
+                email: normalizedEmail,
+                password,
+            });
 
-            localStorage.setItem(
-                "authUser",
-                JSON.stringify(user)
-            );
-
-            localStorage.setItem(
-                "idUser",
-                String(user.id)
-            );
-
-            localStorage.setItem(
-                "userName",
-                user.fullName || ""
-            );
-
-            localStorage.setItem(
-                "emailUser",
-                user.email || ""
-            );
-
-            localStorage.setItem(
-                "userType",
-                user.type || "normal"
-            );
-
-            if (user.token) {
-                localStorage.setItem(
-                    "token",
-                    user.token
-                );
+            if (!res.data?.id || !res.data?.token) {
+                clearAuthStorage();
+                setError("Login failed. Please try again.");
+                return;
             }
 
-            setPassword("");
+            saveAuthData(res.data, normalizedEmail);
 
-            onSuccess(user);
+            setPassword("");
+            onSuccess(res.data);
         } catch (error: any) {
-            setError(
-                error?.response?.data?.msg ||
-                "Unable to sign in."
-            );
+            if (error.response?.status === 401) {
+                setError("Invalid email or password.");
+            } else {
+                setError(
+                    error?.response?.data?.msg ||
+                    "Login failed. Please try again."
+                );
+            }
         } finally {
             setLoading(false);
         }
@@ -113,8 +112,7 @@ export default function CheckoutSignInDialog({
                     bgcolor: "#f7f7f7",
                     border: "1px solid #c7c7c7",
                     borderRadius: 2,
-                    boxShadow:
-                        "0 12px 28px rgba(0,0,0,0.14)",
+                    boxShadow: "0 12px 28px rgba(0,0,0,0.14)",
                 },
             }}
         >
@@ -122,6 +120,7 @@ export default function CheckoutSignInDialog({
                 sx={{
                     color: "#0d47a1",
                     fontWeight: 700,
+                    pb: 1,
                 }}
             >
                 Sign in to Fast Fuel
@@ -139,6 +138,11 @@ export default function CheckoutSignInDialog({
                 </Typography>
 
                 <Box
+                    component="form"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleLogin();
+                    }}
                     sx={{
                         display: "flex",
                         flexDirection: "column",
@@ -146,25 +150,44 @@ export default function CheckoutSignInDialog({
                     }}
                 >
                     <TextField
-                        label="Email"
+                        label="Email Address"
+                        type="email"
                         value={email}
                         disabled
                         fullWidth
+                        size="small"
+                        sx={{
+                            "& label": { color: "#0d47a1" },
+
+                            "& .MuiOutlinedInput-root": {
+                                "& fieldset": { borderColor: "#0d47a1" },
+                            },
+                        }}
                     />
 
                     <TextField
                         label="Password"
                         type="password"
                         value={password}
-                        onChange={(e) =>
-                            setPassword(e.target.value)
-                        }
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                                void handleLogin();
-                            }
-                        }}
+                        onChange={(e) => setPassword(e.target.value)}
+                        autoComplete="current-password"
                         fullWidth
+                        size="small"
+                        autoFocus
+                        sx={{
+                            "& label": { color: "#0d47a1" },
+                            "& label.Mui-focused": { color: "#0d47a1" },
+
+                            "& .MuiOutlinedInput-root": {
+                                "& fieldset": { borderColor: "#0d47a1" },
+                                "&:hover fieldset": { borderColor: "#123b7a" },
+
+                                "&.Mui-focused fieldset": {
+                                    borderColor: "#0d47a1",
+                                    borderWidth: 2,
+                                },
+                            },
+                        }}
                     />
 
                     {error ? (
@@ -184,6 +207,7 @@ export default function CheckoutSignInDialog({
                 sx={{
                     px: 3,
                     pb: 2.5,
+                    gap: 1,
                 }}
             >
                 <Button
@@ -191,6 +215,8 @@ export default function CheckoutSignInDialog({
                     disabled={loading}
                     sx={{
                         color: "#0d47a1",
+                        textTransform: "uppercase",
+                        fontWeight: 700,
                     }}
                 >
                     Cancel
@@ -198,20 +224,20 @@ export default function CheckoutSignInDialog({
 
                 <Button
                     variant="contained"
-                    onClick={() =>
-                        void handleLogin()
-                    }
+                    onClick={handleLogin}
                     disabled={loading}
                     sx={{
-                        bgcolor: "#0d47a1",
+                        bgcolor: "#1e5bb8",
+                        color: "#fff",
+                        textTransform: "uppercase",
+                        fontWeight: 700,
+
                         "&:hover": {
-                            bgcolor: "#123b7a",
+                            bgcolor: "#164a96",
                         },
                     }}
                 >
-                    {loading
-                        ? "Signing in..."
-                        : "Sign in"}
+                    {loading ? "Signing in..." : "Sign in"}
                 </Button>
             </DialogActions>
         </Dialog>
