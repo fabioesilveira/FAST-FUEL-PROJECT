@@ -62,8 +62,8 @@ export default function AddGuestOrderDialog({
                     textTransform: "uppercase",
                     letterSpacing: "0.08em",
                     fontSize: "1.08rem",
-                    mb: -0.5,
-                    
+                    mb: -1,
+
                 }}
             >
                 Add Guest Order
@@ -135,10 +135,12 @@ export default function AddGuestOrderDialog({
                     sx={{
                         flex: 1,
                         height: 40,
-                        color: "#0d47a1",
+
                         fontWeight: 800,
                         textTransform: "uppercase",
-                        borderColor: "#0d47a1",
+                        border: "1.5px solid #0d47a1",
+                        color: "#0d47a1",
+                        borderRadius: "8px",
                     }}
                 >
                     Cancel
@@ -152,13 +154,21 @@ export default function AddGuestOrderDialog({
                     sx={{
                         flex: 1,
                         height: 40,
-                        bgcolor: "#1e5bb8",
-                        color: "#fff",
+                        color: "#ffffff",
+                        backgroundColor: "#0d47a1",
+
+                        "&:hover": {
+                            backgroundColor: "#0b3d8a",
+                        },
+
+                        "&:active": {
+                            transform: "translateY(1px)",
+                            boxShadow: "0 6px 14px rgba(13,71,161,0.18)",
+                        },
                         fontWeight: 800,
                         textTransform: "uppercase",
-                        "&:hover": {
-                            bgcolor: "#164a96",
-                        },
+                        borderRadius: "8px",
+
                     }}
                 >
                     {loading ? "Adding..." : "Add Order"}
