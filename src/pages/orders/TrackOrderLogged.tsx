@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 import { api } from "../../api";
-import { Box, Divider, Paper, Typography } from "@mui/material";
+import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/layout/footer/Footer";
 import { useAppAlert } from "../../hooks/useAppAlert";
@@ -10,6 +10,7 @@ import OrderReviewModal, {
     type ReviewEligibleItem,
 } from "../../components/OrderReviewModal";
 import { useTheme } from "@mui/material/styles";
+import AddIcon from "@mui/icons-material/Add";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ProductsTitleBar from "../../components/TitleBar";
 
@@ -18,6 +19,7 @@ import LoggedOrdersTabs from "../../components/orders/logged/LoggedOrdersTabs";
 import LoggedOrdersFilters from "../../components/orders/logged/LoggedOrdersFilters";
 import LoggedOrdersContent from "../../components/orders/logged/LoggedOrdersContent";
 import OrderTimelineMenu from "../../components/orders/shared/OrderTimelineMenu";
+import AddGuestOrderDialog from "../../components/orders/logged/AddGuestOrderDialog";
 
 type LoggedUser = {
     id: number;
@@ -62,6 +64,9 @@ export default function OrdersLogged() {
 
     const [tsAnchorEl, setTsAnchorEl] = useState<HTMLElement | null>(null);
     const [tsOrderId, setTsOrderId] = useState<number | null>(null);
+
+    const [addGuestOrderOpen, setAddGuestOrderOpen] = useState(false);
+    const [addingGuestOrder, setAddingGuestOrder] = useState(false);
 
     const [reviewOpen, setReviewOpen] = useState(false);
     const [eligibleItems, setEligibleItems] = useState<ReviewEligibleItem[]>([]);
@@ -158,6 +163,32 @@ export default function OrdersLogged() {
 
     function handleReviewSkip() {
         goToNextReviewItem();
+    }
+
+    async function handleAddGuestOrder(orderNumber: string) {
+        try {
+            setAddingGuestOrder(true);
+
+            const res = await api.patch(`/sales/${orderNumber}/claim`);
+
+            setAddGuestOrderOpen(false);
+
+            showAlert(
+                res.data?.msg || "Order added to your account successfully!",
+                "success"
+            );
+
+            await fetchUserOrders();
+        } catch (error: any) {
+            console.error("CLAIM ORDER ERROR:", error);
+
+            showAlert(
+                error?.response?.data?.msg || "Unable to add this order.",
+                "error"
+            );
+        } finally {
+            setAddingGuestOrder(false);
+        }
     }
 
     async function fetchUserOrders(opts?: { silent?: boolean }) {
@@ -426,11 +457,42 @@ export default function OrdersLogged() {
                         <LoggedOrdersTabs activeKey={activeKey} onChange={setActiveKey} />
 
                         <Box sx={{ mt: 1.5 }}>
-                            <LoggedOrdersFilters
-                                orderCodeFilter={orderCodeFilter}
-                                onChange={setOrderCodeFilter}
-                                tfBlueLabelSx={tfBlueLabelSx}
-                            />
+                            <Stack
+                                direction="row"
+                                alignItems="center"
+                                justifyContent="space-between"
+                                gap={2}
+                            >
+                                <LoggedOrdersFilters
+                                    orderCodeFilter={orderCodeFilter}
+                                    onChange={setOrderCodeFilter}
+                                    tfBlueLabelSx={tfBlueLabelSx}
+                                />
+
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<AddIcon />}
+                                    onClick={() => setAddGuestOrderOpen(true)}
+                                    sx={{
+                                        border: "1.5px solid #0d47a1",
+                                        color: "#0d47a1",
+                                        borderRadius: 2,
+                                        fontWeight: 900,
+                                        textTransform: "uppercase",
+                                        letterSpacing: "0.06em",
+                                        whiteSpace: "nowrap",
+                                        height: 40,
+                                        px: 2,
+                                        "&:hover": {
+                                            borderColor: "#123b7a",
+                                            color: "#123b7a",
+                                            bgcolor: "rgba(13,71,161,0.04)",
+                                        },
+                                    }}
+                                >
+                                    Add Guest Order
+                                </Button>
+                            </Stack>
                         </Box>
 
                         <Divider
@@ -456,6 +518,13 @@ export default function OrdersLogged() {
                     open={tsOpen}
                     onClose={closeTsMenu}
                     order={selectedOrder}
+                />
+
+                <AddGuestOrderDialog
+                    open={addGuestOrderOpen}
+                    loading={addingGuestOrder}
+                    onClose={() => setAddGuestOrderOpen(false)}
+                    onAdd={handleAddGuestOrder}
                 />
 
                 <OrderReviewModal
@@ -606,11 +675,42 @@ export default function OrdersLogged() {
                         >
                             <LoggedOrdersTabs activeKey={activeKey} onChange={setActiveKey} />
 
-                            <LoggedOrdersFilters
-                                orderCodeFilter={orderCodeFilter}
-                                onChange={setOrderCodeFilter}
-                                tfBlueLabelSx={tfBlueLabelSx}
-                            />
+                            <Stack
+                                direction="row"
+                                alignItems="center"
+                                justifyContent="space-between"
+                                gap={2}
+                            >
+                                <LoggedOrdersFilters
+                                    orderCodeFilter={orderCodeFilter}
+                                    onChange={setOrderCodeFilter}
+                                    tfBlueLabelSx={tfBlueLabelSx}
+                                />
+
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<AddIcon />}
+                                    onClick={() => setAddGuestOrderOpen(true)}
+                                    sx={{
+                                        border: "1.5px solid #0d47a1",
+                                        color: "#0d47a1",
+                                        borderRadius: 2,
+                                        fontWeight: 900,
+                                        textTransform: "uppercase",
+                                        letterSpacing: "0.06em",
+                                        whiteSpace: "nowrap",
+                                        height: 40,
+                                        px: 2,
+                                        "&:hover": {
+                                            borderColor: "#123b7a",
+                                            color: "#123b7a",
+                                            bgcolor: "rgba(13,71,161,0.04)",
+                                        },
+                                    }}
+                                >
+                                    Add Guest Order
+                                </Button>
+                            </Stack>
 
                             <Divider sx={{ borderColor: "rgba(0, 0, 0, 0.45)" }} />
 
@@ -635,6 +735,13 @@ export default function OrdersLogged() {
                 open={tsOpen}
                 onClose={closeTsMenu}
                 order={selectedOrder}
+            />
+
+            <AddGuestOrderDialog
+                open={addGuestOrderOpen}
+                loading={addingGuestOrder}
+                onClose={() => setAddGuestOrderOpen(false)}
+                onAdd={handleAddGuestOrder}
             />
 
             <OrderReviewModal
