@@ -62,6 +62,8 @@ export default function AddGuestOrderDialog({
                     textTransform: "uppercase",
                     letterSpacing: "0.08em",
                     fontSize: "1.08rem",
+                    mb: -0.5,
+                    
                 }}
             >
                 Add Guest Order
@@ -128,6 +130,7 @@ export default function AddGuestOrderDialog({
             >
                 <Button
                     onClick={handleClose}
+                    variant="outlined"
                     disabled={loading}
                     sx={{
                         flex: 1,
@@ -135,6 +138,7 @@ export default function AddGuestOrderDialog({
                         color: "#0d47a1",
                         fontWeight: 800,
                         textTransform: "uppercase",
+                        borderColor: "#0d47a1",
                     }}
                 >
                     Cancel

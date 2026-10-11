@@ -460,10 +460,18 @@ export default function OrdersLogged() {
                         <Box sx={{ mt: 1.5 }}>
                             <Stack
                                 direction="row"
-                                alignItems="center"
+                                alignItems="stretch"
                                 gap={1}
                             >
-                                <Box sx={{ flex: 1.25, minWidth: 0 }}>
+                                <Box
+                                    sx={{
+                                        flex: 1.15,
+                                        minWidth: 0,
+                                        "& .MuiTextField-root": {
+                                            width: "100%",
+                                        },
+                                    }}
+                                >
                                     <LoggedOrdersFilters
                                         orderCodeFilter={orderCodeFilter}
                                         onChange={setOrderCodeFilter}
@@ -476,20 +484,20 @@ export default function OrdersLogged() {
                                     startIcon={<AddIcon />}
                                     onClick={() => setAddGuestOrderOpen(true)}
                                     sx={{
-                                        flex: 0.75,
+                                        flex: 0.85,
                                         minWidth: 0,
+                                        height: 40,
+                                        px: 1,
                                         border: "1.5px solid #0d47a1",
                                         color: "#0d47a1",
                                         borderRadius: 2,
                                         fontWeight: 900,
                                         textTransform: "uppercase",
-                                        letterSpacing: "0.04em",
+                                        letterSpacing: "0.03em",
                                         whiteSpace: "nowrap",
-                                        height: 40,
-                                        px: 1,
-                                        fontSize: "0.68rem",
+                                        fontSize: "0.66rem",
                                         "& .MuiButton-startIcon": {
-                                            mr: 0.5,
+                                            mr: 0.4,
                                         },
                                         "&:hover": {
                                             borderColor: "#123b7a",
