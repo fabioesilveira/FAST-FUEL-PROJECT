@@ -1,12 +1,30 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Box, Paper, Typography, Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
 import { api } from "../api";
 import { useAppContext, type Meal } from "../context/context";
 import { useAppAlert } from "../hooks/useAppAlert";
 import { useCheckoutTotals } from "../hooks/useCheckoutTotals";
-import CheckoutOrderSummary from "../components/checkout/CheckoutOrderSummary";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+
+import CheckoutOrderSummary from "../components/checkout/CheckoutOrderSummary";
+import CheckoutProcessingScreen from "../components/checkout/CheckoutProcessingScreen";
+import CheckoutConfirmedScreen from "../components/checkout/CheckoutConfirmedScreen";
+import CheckoutContactSection from "../components/checkout/CheckoutContactSection";
+import CheckoutPaymentSection, {
+    type StripePaymentHandle,
+} from "../components/checkout/CheckoutPaymentSection";
+import CheckoutDeliverySection from "../components/checkout/CheckoutDeliverySection";
+import CheckoutSignInDialog from "./../components/checkout/CheckoutSignInDialog";
+import CheckoutMobileForm from "../components/checkout/CheckoutMobileForm";
+import CheckoutTitleBar from "../components/CheckoutTitleBar";
+import NavbarAction from "../components/layout/navbar/NavbarAction";
+
 import CokeImg from "../assets/Coke.png";
 import SpriteImg from "../assets/Sprite.png";
 import DrPepperImg from "../assets/Drpepper.png";
@@ -16,24 +34,6 @@ import LemonadeImg from "../assets/Lemonade.png";
 import SaladImg from "../assets/Crispsalad.png";
 import MilkshakeImg from "../assets/Milkshake.png";
 import SundaeImg from "../assets/Sundae.png";
-import NavbarAction from "../components/layout/navbar/NavbarAction";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-
-import CheckoutProcessingScreen from "../components/checkout/CheckoutProcessingScreen";
-import CheckoutConfirmedScreen from "../components/checkout/CheckoutConfirmedScreen";
-import CheckoutContactSection from "../components/checkout/CheckoutContactSection";
-import CheckoutPaymentSection, {
-    type StripePaymentHandle,
-} from "../components/checkout/CheckoutPaymentSection";
-import CheckoutDeliverySection from "../components/checkout/CheckoutDeliverySection";
-import CheckoutSignInDialog from "./../components/checkout/CheckoutSignInDialog";
-
-import CheckoutMobileForm from "../components/checkout/CheckoutMobileForm";
-import CheckoutTitleBar from "../components/CheckoutTitleBar";
-
 
 const imageMap: Record<string, string> = {
     "Coke.png": CokeImg,
@@ -72,13 +72,14 @@ const imageStylesByIdOrderSummary: Record<string, React.CSSProperties> = {
     "18": { width: "38px", height: "38px" },
 };
 
-
 const tfBlueLabelSx = {
     "& label": { color: "#0d47a1" },
     "& label.Mui-focused": { color: "#0d47a1" },
+
     "& .MuiOutlinedInput-root": {
         "& fieldset": { borderColor: "#0d47a1" },
         "&:hover fieldset": { borderColor: "#123b7a" },
+
         "&.Mui-focused fieldset": {
             borderColor: "#0d47a1",
             borderWidth: 2,
@@ -88,6 +89,7 @@ const tfBlueLabelSx = {
 
 const normalizeImageKey = (value?: string) => {
     if (!value) return "";
+
     const last = value.split("/").pop() || value;
     return last.split("?")[0].trim();
 };
@@ -115,7 +117,6 @@ type LoggedUser = {
 };
 
 type CheckoutScreen = "form" | "processing" | "confirmed";
-
 
 const stripePromise = loadStripe(
     import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY,
@@ -150,26 +151,13 @@ export default function Checkout() {
     const paymentRef = useRef<StripePaymentHandle>(null);
     const scrollBoxRef = useRef<HTMLDivElement | null>(null);
 
-    const [checkoutBarFloating, setCheckoutBarFloating] =
-        useState(true);
-
-    const [isEditingForm, setIsEditingForm] =
-        useState(false);
-
-    const [clientSecret, setClientSecret] =
-        useState("");
-
-    const [paymentLoading, setPaymentLoading] =
-        useState(false);
-
-    const [streetText, setStreetText] =
-        useState("");
-
-    const [screen, setScreen] =
-        useState<CheckoutScreen>("form");
-
-    const [orderCode, setOrderCode] =
-        useState("");
+    const [checkoutBarFloating, setCheckoutBarFloating] = useState(true);
+    const [isEditingForm, setIsEditingForm] = useState(false);
+    const [clientSecret, setClientSecret] = useState("");
+    const [paymentLoading, setPaymentLoading] = useState(false);
+    const [streetText, setStreetText] = useState("");
+    const [screen, setScreen] = useState<CheckoutScreen>("form");
+    const [orderCode, setOrderCode] = useState("");
 
     const [address, setAddress] = useState({
         street: "",
@@ -183,9 +171,7 @@ export default function Checkout() {
     const addressLine = useMemo(() => {
         const parts = [
             address.street?.trim(),
-            address.apt?.trim()
-                ? `Apt ${address.apt.trim()}`
-                : "",
+            address.apt?.trim() ? `Apt ${address.apt.trim()}` : "",
             address.city?.trim(),
             address.state?.trim(),
             address.zip?.trim(),
@@ -195,15 +181,9 @@ export default function Checkout() {
         return parts.join(", ");
     }, [address]);
 
-    const [fullName, setFullName] =
-        useState("");
-
-    const [email, setEmail] =
-        useState("");
-
-    const [submitting, setSubmitting] =
-        useState(false);
-
+    const [fullName, setFullName] = useState("");
+    const [email, setEmail] = useState("");
+    const [submitting, setSubmitting] = useState(false);
 
     function getLoggedUser(): LoggedUser | null {
         const rawAuth = localStorage.getItem("authUser");
@@ -225,7 +205,9 @@ export default function Checkout() {
                 id: Number(idUser),
                 userName: localStorage.getItem("userName") || undefined,
                 email: localStorage.getItem("emailUser") || undefined,
-                type: (localStorage.getItem("userType") as LoggedUser["type"]) || "normal",
+                type:
+                    (localStorage.getItem("userType") as LoggedUser["type"]) ||
+                    "normal",
             };
         }
 
@@ -244,7 +226,9 @@ export default function Checkout() {
         return null;
     }
 
-    const [loggedUser, setLoggedUser] = useState<LoggedUser | null>(() => getLoggedUser());
+    const [loggedUser, setLoggedUser] = useState<LoggedUser | null>(
+        () => getLoggedUser()
+    );
 
     const [signInDialogOpen, setSignInDialogOpen] = useState(false);
 
@@ -252,7 +236,6 @@ export default function Checkout() {
         Number.isFinite(Number(loggedUser?.id)) &&
         Number(loggedUser?.id) > 0;
 
-        
     function handleCheckoutSignInSuccess() {
         const user = getLoggedUser();
 
@@ -274,7 +257,6 @@ export default function Checkout() {
         deliveryLabel,
         grandTotalLabel,
     } = useCheckoutTotals(order);
-
 
     function validate() {
         if (!order || order.length === 0) {
@@ -322,8 +304,7 @@ export default function Checkout() {
                 String(p.id) === productId
                     ? {
                         ...p,
-                        quantidade:
-                            (p.quantidade ?? 0) + 1,
+                        quantidade: (p.quantidade ?? 0) + 1,
                     }
                     : p
             )
@@ -333,21 +314,18 @@ export default function Checkout() {
     function decItem(productId: string) {
         setOrder((prev) => {
             const existing = prev.find(
-                (p) =>
-                    String(p.id) === productId
+                (p) => String(p.id) === productId
             );
 
             if (!existing) {
                 return prev;
             }
 
-            const q =
-                existing.quantidade ?? 0;
+            const q = existing.quantidade ?? 0;
 
             if (q <= 1) {
                 return prev.filter(
-                    (p) =>
-                        String(p.id) !== productId
+                    (p) => String(p.id) !== productId
                 );
             }
 
@@ -355,8 +333,7 @@ export default function Checkout() {
                 String(p.id) === productId
                     ? {
                         ...p,
-                        quantidade:
-                            (p.quantidade ?? 0) - 1,
+                        quantidade: (p.quantidade ?? 0) - 1,
                     }
                     : p
             );
@@ -370,29 +347,24 @@ export default function Checkout() {
 
         confirmAlert({
             title: "Clear cart",
-            message:
-                "This will remove all items from your cart. Continue?",
+            message: "This will remove all items from your cart. Continue?",
             confirmText: "Yes, clear",
             cancelText: "Cancel",
 
             onConfirm: () => {
                 setOrder([]);
-
-                localStorage.removeItem(
-                    "lsOrder"
-                );
-
-                showAlert(
-                    "Cart cleared.",
-                    "warning"
-                );
+                localStorage.removeItem("lsOrder");
+                showAlert("Cart cleared.", "warning");
             },
 
             onCancel: () => { },
             onDismiss: () => { },
         });
     }
-    async function processPayment(userForOrder: LoggedUser | null = loggedUser) {
+
+    async function processPayment(
+        userForOrder: LoggedUser | null = loggedUser
+    ) {
         setSubmitting(true);
 
         try {
@@ -439,7 +411,6 @@ export default function Checkout() {
             };
 
             const res = await api.post("/sales", payload);
-
             const { order_code } = res.data;
 
             localStorage.setItem(
@@ -457,9 +428,7 @@ export default function Checkout() {
             setOrder([]);
             localStorage.removeItem("lsOrder");
 
-            await new Promise((r) =>
-                setTimeout(r, 5000)
-            );
+            await new Promise((r) => setTimeout(r, 5000));
 
             setScreen("confirmed");
 
@@ -473,8 +442,7 @@ export default function Checkout() {
             setScreen("form");
 
             showAlert(
-                e?.response?.data?.msg ||
-                "Failed to place order",
+                e?.response?.data?.msg || "Failed to place order",
                 "error"
             );
         } finally {
@@ -496,12 +464,9 @@ export default function Checkout() {
         }
 
         try {
-            const res = await api.post(
-                "/users/check-email",
-                {
-                    email: email.trim(),
-                }
-            );
+            const res = await api.post("/users/check-email", {
+                email: email.trim(),
+            });
 
             if (!res.data?.exists) {
                 await processPayment(null);
@@ -509,11 +474,12 @@ export default function Checkout() {
             }
 
             confirmAlert({
-                title: "Account found",
+                title: "ACCOUNT FOUND",
                 message:
-                    "We found a Fast Fuel account that matches the email on this order. Would you like to sign in and keep this purchase with your account, or continue as a guest?",
+                    "Looks like you already have a Fast Fuel account with this email! Want to sign in and add this order to your account, or keep going as a guest?",
                 confirmText: "Sign In",
                 cancelText: "Continue as Guest",
+                equalButtonWidth: true,
 
                 onConfirm: () => {
                     setSignInDialogOpen(true);
@@ -551,17 +517,11 @@ export default function Checkout() {
         }
     }
 
-
     /* EFFECTS */
 
     useEffect(() => {
-        const params =
-            new URLSearchParams(
-                window.location.search
-            );
-
-        const view =
-            params.get("view");
+        const params = new URLSearchParams(window.location.search);
+        const view = params.get("view");
 
         if (
             view === "form" ||
@@ -578,26 +538,17 @@ export default function Checkout() {
         const name =
             loggedUser?.userName ||
             loggedUser?.fullName ||
-            localStorage.getItem(
-                "userName"
-            ) ||
+            localStorage.getItem("userName") ||
             "";
 
         const mail =
             loggedUser?.email ||
-            localStorage.getItem(
-                "emailUser"
-            ) ||
+            localStorage.getItem("emailUser") ||
             "";
 
         setFullName(name);
         setEmail(mail);
-
-    }, [
-        isLogged,
-        loggedUser,
-    ]);
-
+    }, [isLogged, loggedUser]);
 
     useEffect(() => {
         if (isMobile) {
@@ -606,18 +557,15 @@ export default function Checkout() {
         }
 
         function checkScroll() {
-            const el =
-                scrollBoxRef.current;
+            const el = scrollBoxRef.current;
 
             if (!el) return;
 
             const hasScroll =
-                el.scrollHeight >
-                el.clientHeight + 2;
+                el.scrollHeight > el.clientHeight + 2;
 
             const atBottom =
-                el.scrollTop +
-                el.clientHeight >=
+                el.scrollTop + el.clientHeight >=
                 el.scrollHeight - 4;
 
             setCheckoutBarFloating(
@@ -625,12 +573,9 @@ export default function Checkout() {
             );
         }
 
-        requestAnimationFrame(
-            checkScroll
-        );
+        requestAnimationFrame(checkScroll);
 
-        const el =
-            scrollBoxRef.current;
+        const el = scrollBoxRef.current;
 
         if (!el) return;
 
@@ -656,11 +601,7 @@ export default function Checkout() {
                 checkScroll
             );
         };
-
-    }, [
-        isMobile,
-        screen,
-    ]);
+    }, [isMobile, screen]);
 
     useEffect(() => {
         const isFormField = (
@@ -684,8 +625,7 @@ export default function Checkout() {
 
         const handleFocusOut = () => {
             setTimeout(() => {
-                const active =
-                    document.activeElement;
+                const active = document.activeElement;
 
                 const isStripeIframe =
                     active instanceof HTMLIFrameElement &&
@@ -733,10 +673,7 @@ export default function Checkout() {
     }, []);
 
     useEffect(() => {
-        if (
-            !order ||
-            order.length === 0
-        ) {
+        if (!order || order.length === 0) {
             setClientSecret("");
             return;
         }
@@ -746,27 +683,21 @@ export default function Checkout() {
                 setPaymentLoading(true);
 
                 const itemsNorm =
-                    (order as Meal[]).map(
-                        (it) => ({
-                            id: String(it.id),
-                            qty: Number(
-                                it.quantidade ?? 1
-                            ),
-                        })
-                    );
+                    (order as Meal[]).map((it) => ({
+                        id: String(it.id),
+                        qty: Number(it.quantidade ?? 1),
+                    }));
 
-                const res =
-                    await api.post(
-                        "/payments/create-intent",
-                        {
-                            items: itemsNorm,
-                        }
-                    );
+                const res = await api.post(
+                    "/payments/create-intent",
+                    {
+                        items: itemsNorm,
+                    }
+                );
 
                 setClientSecret(
                     res.data.clientSecret
                 );
-
             } catch (error) {
                 console.error(
                     "Failed to create Stripe PaymentIntent:",
@@ -774,14 +705,12 @@ export default function Checkout() {
                 );
 
                 setClientSecret("");
-
             } finally {
                 setPaymentLoading(false);
             }
         }
 
         loadPaymentIntent();
-
     }, [order]);
 
     const desktopTitle =
@@ -792,7 +721,6 @@ export default function Checkout() {
                 : "Checkout";
 
     if (isMobile) {
-
         return (
             <>
                 {AlertUI}
@@ -805,21 +733,19 @@ export default function Checkout() {
                     onSuccess={handleCheckoutSignInSuccess}
                 />
 
-                {screen === "form" &&
-                    isEditingForm && (
-                        <Box
-                            sx={{
-                                position: "fixed",
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                height:
-                                    "env(safe-area-inset-top)",
-                                bgcolor: "#fff",
-                                zIndex: 1600,
-                            }}
-                        />
-                    )}
+                {screen === "form" && isEditingForm && (
+                    <Box
+                        sx={{
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            height: "env(safe-area-inset-top)",
+                            bgcolor: "#fff",
+                            zIndex: 1600,
+                        }}
+                    />
+                )}
 
                 {screen === "form" &&
                     !isEditingForm &&
@@ -828,9 +754,7 @@ export default function Checkout() {
                 ) : null}
 
                 {screen === "processing" ? (
-                    <CheckoutProcessingScreen
-                        mobile
-                    />
+                    <CheckoutProcessingScreen mobile />
                 ) : screen === "confirmed" ? (
                     <CheckoutConfirmedScreen
                         mobile
@@ -838,92 +762,46 @@ export default function Checkout() {
                         addressLine={addressLine}
                         orderCode={orderCode}
                         isLogged={isLogged}
-                        onGoHome={() =>
-                            navigate("/")
-                        }
-                        onGoOrders={() =>
-                            navigate("/orders")
-                        }
+                        onGoHome={() => navigate("/")}
+                        onGoOrders={() => navigate("/orders")}
                     />
                 ) : (
                     <CheckoutMobileForm
                         order={order}
                         totalItems={totalItems}
-                        subtotalLabel={
-                            subtotalLabel
-                        }
-                        isEditingForm={
-                            isEditingForm || submitting
-                        }
+                        subtotalLabel={subtotalLabel}
+                        isEditingForm={isEditingForm || submitting}
                         discount={discount}
-                        discountLabel={
-                            discountLabel
-                        }
+                        discountLabel={discountLabel}
                         taxLabel={taxLabel}
-                        deliveryFee={
-                            deliveryFee
-                        }
-                        deliveryLabel={
-                            deliveryLabel
-                        }
-                        grandTotalLabel={
-                            grandTotalLabel
-                        }
-                        resolveImgSrc={
-                            resolveImgSrc
-                        }
+                        deliveryFee={deliveryFee}
+                        deliveryLabel={deliveryLabel}
+                        grandTotalLabel={grandTotalLabel}
+                        resolveImgSrc={resolveImgSrc}
                         imageStylesByIdOrderSummary={
                             imageStylesByIdOrderSummary
                         }
-                        cleanProductName={
-                            cleanProductName
-                        }
+                        cleanProductName={cleanProductName}
                         incItem={incItem}
                         decItem={decItem}
-                        handleClearCart={
-                            handleClearCart
-                        }
+                        handleClearCart={handleClearCart}
                         fullName={fullName}
                         email={email}
                         isLogged={isLogged}
-                        tfBlueLabelSx={
-                            tfBlueLabelSx
-                        }
-                        onFullNameChange={
-                            setFullName
-                        }
-                        onEmailChange={
-                            setEmail
-                        }
+                        tfBlueLabelSx={tfBlueLabelSx}
+                        onFullNameChange={setFullName}
+                        onEmailChange={setEmail}
                         address={address}
-                        streetText={
-                            streetText
-                        }
-                        onStreetTextChange={
-                            setStreetText
-                        }
-                        onAddressChange={
-                            setAddress
-                        }
-                        submitting={
-                            submitting
-                        }
-                        orderLength={
-                            order.length
-                        }
+                        streetText={streetText}
+                        onStreetTextChange={setStreetText}
+                        onAddressChange={setAddress}
+                        submitting={submitting}
+                        orderLength={order.length}
                         onPay={handlePay}
-                        onStripeFocusChange={
-                            setIsEditingForm
-                        }
-                        clientSecret={
-                            clientSecret
-                        }
-                        paymentLoading={
-                            paymentLoading
-                        }
-                        paymentRef={
-                            paymentRef
-                        }
+                        onStripeFocusChange={setIsEditingForm}
+                        clientSecret={clientSecret}
+                        paymentLoading={paymentLoading}
+                        paymentRef={paymentRef}
                     />
                 )}
             </>
@@ -944,9 +822,7 @@ export default function Checkout() {
 
             <CheckoutTitleBar
                 title={desktopTitle}
-                showExit={
-                    screen === "form"
-                }
+                showExit={screen === "form"}
             />
 
             <Box
@@ -966,14 +842,8 @@ export default function Checkout() {
                         justifyContent: "center",
                         alignItems: "flex-start",
                         px: 2,
-                        pt: {
-                            xs: "110px",
-                            md: "110px",
-                        },
-                        pb: {
-                            xs: 1,
-                            md: 3,
-                        },
+                        pt: { xs: "110px", md: "110px" },
+                        pb: { xs: 1, md: 3 },
                         minWidth: 0,
                         bgcolor: "#fff",
 
@@ -983,14 +853,12 @@ export default function Checkout() {
                             top: 0,
                             bottom: 0,
                             left: "50%",
-                            transform:
-                                "translateX(-50%)",
+                            transform: "translateX(-50%)",
                             zIndex: 0,
+
                             width: {
-                                xs:
-                                    "min(98vw, 720px)",
-                                sm:
-                                    "min(96vw, 820px)",
+                                xs: "min(98vw, 720px)",
+                                sm: "min(96vw, 820px)",
                                 md: 900,
                             },
 
@@ -1041,10 +909,8 @@ export default function Checkout() {
                                 `,
                             },
 
-                            backgroundRepeat:
-                                "no-repeat, repeat",
-                            backgroundSize:
-                                "100% 100%, auto",
+                            backgroundRepeat: "no-repeat, repeat",
+                            backgroundSize: "100% 100%, auto",
                             borderRadius: 20,
                         },
 
@@ -1058,36 +924,23 @@ export default function Checkout() {
                         elevation={0}
                         sx={{
                             width: "100%",
-                            maxWidth: {
-                                xs: 520,
-                                sm: 560,
-                                md: 600,
-                            },
+                            maxWidth: { xs: 520, sm: 560, md: 600 },
                             borderRadius: 3,
                             border:
                                 "1px solid rgba(13, 71, 161, 0.15)",
                             boxShadow:
                                 "0 4px 12px rgba(13, 71, 161, 0.12), 0 10px 24px rgba(13, 71, 161, 0.08)",
-                            bgcolor:
-                                "background.paper",
+                            bgcolor: "background.paper",
                             height: {
-                                xs:
-                                    "calc(100dvh - 200px)",
-                                md:
-                                    "calc(100vh - 100px)",
+                                xs: "calc(100dvh - 200px)",
+                                md: "calc(100vh - 100px)",
                             },
                             maxHeight: 720,
                             overflow: "hidden",
                             display: "flex",
-                            flexDirection:
-                                "column",
-                            mt: {
-                                sm: 1,
-                                md: 1,
-                            },
-                            mb: {
-                                md: 1,
-                            },
+                            flexDirection: "column",
+                            mt: { sm: 1, md: 1 },
+                            mb: { md: 1 },
                             minHeight: 0,
                         }}
                     >
@@ -1096,39 +949,20 @@ export default function Checkout() {
                             sx={{
                                 flex: 1,
                                 overflowY: "auto",
-                                WebkitOverflowScrolling:
-                                    "touch",
+                                WebkitOverflowScrolling: "touch",
                                 minHeight: 0,
                             }}
                         >
-                            {screen ===
-                                "processing" ? (
+                            {screen === "processing" ? (
                                 <CheckoutProcessingScreen />
-                            ) : screen ===
-                                "confirmed" ? (
+                            ) : screen === "confirmed" ? (
                                 <CheckoutConfirmedScreen
-                                    fullName={
-                                        fullName
-                                    }
-                                    addressLine={
-                                        addressLine
-                                    }
-                                    orderCode={
-                                        orderCode
-                                    }
-                                    isLogged={
-                                        isLogged
-                                    }
-                                    onGoHome={() =>
-                                        navigate(
-                                            "/"
-                                        )
-                                    }
-                                    onGoOrders={() =>
-                                        navigate(
-                                            "/orders"
-                                        )
-                                    }
+                                    fullName={fullName}
+                                    addressLine={addressLine}
+                                    orderCode={orderCode}
+                                    isLogged={isLogged}
+                                    onGoHome={() => navigate("/")}
+                                    onGoOrders={() => navigate("/orders")}
                                 />
                             ) : (
                                 <>
@@ -1137,114 +971,55 @@ export default function Checkout() {
                                             px: 6.5,
                                             pt: 3.8,
                                             pb: 2,
-                                            maxWidth:
-                                                600,
+                                            maxWidth: 600,
                                             mx: "auto",
                                         }}
                                     >
                                         <CheckoutOrderSummary
-                                            order={
-                                                order
-                                            }
-                                            totalItems={
-                                                totalItems
-                                            }
-                                            subtotalLabel={
-                                                subtotalLabel
-                                            }
-                                            discount={
-                                                discount
-                                            }
-                                            discountLabel={
-                                                discountLabel
-                                            }
-                                            taxLabel={
-                                                taxLabel
-                                            }
-                                            deliveryFee={
-                                                deliveryFee
-                                            }
-                                            deliveryLabel={
-                                                deliveryLabel
-                                            }
-                                            grandTotalLabel={
-                                                grandTotalLabel
-                                            }
-                                            resolveImgSrc={
-                                                resolveImgSrc
-                                            }
+                                            order={order}
+                                            totalItems={totalItems}
+                                            subtotalLabel={subtotalLabel}
+                                            discount={discount}
+                                            discountLabel={discountLabel}
+                                            taxLabel={taxLabel}
+                                            deliveryFee={deliveryFee}
+                                            deliveryLabel={deliveryLabel}
+                                            grandTotalLabel={grandTotalLabel}
+                                            resolveImgSrc={resolveImgSrc}
                                             imageStylesByIdOrderSummary={
                                                 imageStylesByIdOrderSummary
                                             }
-                                            cleanProductName={
-                                                cleanProductName
-                                            }
-                                            incItem={
-                                                incItem
-                                            }
-                                            decItem={
-                                                decItem
-                                            }
-                                            handleClearCart={
-                                                handleClearCart
-                                            }
+                                            cleanProductName={cleanProductName}
+                                            incItem={incItem}
+                                            decItem={decItem}
+                                            handleClearCart={handleClearCart}
                                         />
 
                                         <CheckoutContactSection
-                                            fullName={
-                                                fullName
-                                            }
-                                            email={
-                                                email
-                                            }
-                                            isLogged={
-                                                isLogged
-                                            }
-                                            tfBlueLabelSx={
-                                                tfBlueLabelSx
-                                            }
-                                            onFullNameChange={
-                                                setFullName
-                                            }
-                                            onEmailChange={
-                                                setEmail
-                                            }
+                                            fullName={fullName}
+                                            email={email}
+                                            isLogged={isLogged}
+                                            tfBlueLabelSx={tfBlueLabelSx}
+                                            onFullNameChange={setFullName}
+                                            onEmailChange={setEmail}
                                         />
 
                                         <CheckoutDeliverySection
-                                            address={
-                                                address
-                                            }
-                                            streetText={
-                                                streetText
-                                            }
-                                            tfBlueLabelSx={
-                                                tfBlueLabelSx
-                                            }
-                                            onStreetTextChange={
-                                                setStreetText
-                                            }
-                                            onAddressChange={
-                                                setAddress
-                                            }
+                                            address={address}
+                                            streetText={streetText}
+                                            tfBlueLabelSx={tfBlueLabelSx}
+                                            onStreetTextChange={setStreetText}
+                                            onAddressChange={setAddress}
                                         />
 
                                         {clientSecret ? (
                                             <Elements
-                                                key={
-                                                    clientSecret
-                                                }
-                                                stripe={
-                                                    stripePromise
-                                                }
-                                                options={{
-                                                    clientSecret,
-                                                }}
+                                                key={clientSecret}
+                                                stripe={stripePromise}
+                                                options={{ clientSecret }}
                                             >
                                                 <CheckoutPaymentSection
-                                                    ref={
-                                                        paymentRef
-                                                    }
+                                                    ref={paymentRef}
                                                 />
                                             </Elements>
                                         ) : paymentLoading ? (
@@ -1252,31 +1027,21 @@ export default function Checkout() {
                                                 align="center"
                                                 sx={{
                                                     py: 2,
-                                                    color:
-                                                        "text.secondary",
-                                                    fontSize:
-                                                        "0.85rem",
+                                                    color: "text.secondary",
+                                                    fontSize: "0.85rem",
                                                 }}
                                             >
                                                 Loading payment...
                                             </Typography>
-                                        ) : order.length ===
-                                            0 ? (
-                                            <Box
-                                                sx={{
-                                                    minHeight:
-                                                        80,
-                                                }}
-                                            />
+                                        ) : order.length === 0 ? (
+                                            <Box sx={{ minHeight: 80 }} />
                                         ) : (
                                             <Typography
                                                 align="center"
                                                 sx={{
                                                     py: 2,
-                                                    color:
-                                                        "error.main",
-                                                    fontSize:
-                                                        "0.85rem",
+                                                    color: "error.main",
+                                                    fontSize: "0.85rem",
                                                 }}
                                             >
                                                 Payment could not be loaded.
@@ -1286,14 +1051,9 @@ export default function Checkout() {
 
                                     <Box
                                         sx={{
-                                            position:
-                                                "sticky",
+                                            position: "sticky",
                                             bottom: 0,
-                                            px: {
-                                                xs: 2,
-                                                sm: 3,
-                                                md: 3.5,
-                                            },
+                                            px: { xs: 2, sm: 3, md: 3.5 },
                                             py: 1.5,
                                             zIndex: 10,
 
@@ -1330,14 +1090,12 @@ export default function Checkout() {
                                             <Box>
                                                 <Typography
                                                     sx={{
-                                                        fontSize:
-                                                            12,
+                                                        fontSize: 12,
                                                         letterSpacing:
                                                             "0.12em",
                                                         textTransform:
                                                             "uppercase",
-                                                        color:
-                                                            "#0d47a1",
+                                                        color: "#0d47a1",
                                                     }}
                                                 >
                                                     Total
@@ -1345,17 +1103,12 @@ export default function Checkout() {
 
                                                 <Typography
                                                     sx={{
-                                                        fontWeight:
-                                                            800,
-                                                        color:
-                                                            "#0d47a1",
-                                                        fontSize:
-                                                            18,
+                                                        fontWeight: 800,
+                                                        color: "#0d47a1",
+                                                        fontSize: 18,
                                                     }}
                                                 >
-                                                    {
-                                                        grandTotalLabel
-                                                    }
+                                                    {grandTotalLabel}
                                                 </Typography>
                                             </Box>
 
@@ -1365,37 +1118,27 @@ export default function Checkout() {
                                                     submitting ||
                                                     paymentLoading ||
                                                     !clientSecret ||
-                                                    order.length ===
-                                                    0
+                                                    order.length === 0
                                                 }
+                                                onClick={handlePay}
                                                 sx={{
-                                                    borderRadius:
-                                                        2,
-                                                    textTransform:
-                                                        "uppercase",
+                                                    borderRadius: 2,
+                                                    textTransform: "uppercase",
                                                     border:
                                                         "2px solid #0d47a1",
-                                                    color:
-                                                        "#ffffff",
-                                                    letterSpacing:
-                                                        "0.14em",
-                                                    fontWeight:
-                                                        800,
-                                                    bgcolor:
-                                                        "#1e5bb8",
+                                                    color: "#ffffff",
+                                                    letterSpacing: "0.14em",
+                                                    fontWeight: 800,
+                                                    bgcolor: "#1e5bb8",
                                                     px: 2.5,
                                                     py: 1,
-                                                    whiteSpace:
-                                                        "nowrap",
+                                                    whiteSpace: "nowrap",
 
-                                                    "&:hover":
-                                                    {
-                                                        bgcolor:
-                                                            "#164a99",
+                                                    "&:hover": {
+                                                        bgcolor: "#164a99",
                                                     },
 
-                                                    "&.Mui-disabled":
-                                                    {
+                                                    "&.Mui-disabled": {
                                                         bgcolor:
                                                             "rgba(30, 91, 184, 0.35)",
                                                         color:
@@ -1404,9 +1147,6 @@ export default function Checkout() {
                                                             "rgba(13, 71, 161, 0.35)",
                                                     },
                                                 }}
-                                                onClick={
-                                                    handlePay
-                                                }
                                             >
                                                 {submitting
                                                     ? "Processing..."
@@ -1430,19 +1170,15 @@ export default function Checkout() {
                             position: "absolute",
                             left: "50%",
                             bottom: 28,
-                            transform:
-                                "translateX(-50%)",
+                            transform: "translateX(-50%)",
                             zIndex: 1,
                             pointerEvents: "none",
                             userSelect: "none",
                             whiteSpace: "nowrap",
-
                             fontSize: 13,
                             fontWeight: 600,
-                            letterSpacing:
-                                "0.08em",
-                            color:
-                                "rgba(13, 71, 161, 0.18)",
+                            letterSpacing: "0.08em",
+                            color: "rgba(13, 71, 161, 0.18)",
                         }}
                     >
                         Copyright © Fast Fuel 2026.

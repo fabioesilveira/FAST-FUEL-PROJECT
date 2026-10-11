@@ -26,6 +26,7 @@ type AppConfirmProps = {
   onConfirm: () => void;
   onCancel: () => void;
   onDismiss?: () => void;
+  equalButtonWidth?: boolean;
 };
 
 export default function AppConfirm({
@@ -37,6 +38,7 @@ export default function AppConfirm({
   onConfirm,
   onCancel,
   onDismiss,
+  equalButtonWidth = false,
 }: AppConfirmProps) {
   const actionButtonSx = {
     width: "100%",
@@ -138,7 +140,14 @@ export default function AppConfirm({
       >
         <Box
           sx={{
-            width: { xs: "min(300px, 86vw)", sm: "auto" },
+            width: equalButtonWidth
+              ? { xs: "min(300px, 86vw)", sm: "100%" }
+              : { xs: "min(300px, 86vw)", sm: "auto" },
+
+            maxWidth: equalButtonWidth
+              ? { sm: 420 }
+              : undefined,
+
             display: "flex",
             flexDirection: { xs: "column", sm: "row" },
             alignItems: "center",
@@ -153,9 +162,19 @@ export default function AppConfirm({
             variant="outlined"
             sx={{
               ...actionButtonSx,
-              width: { xs: "100%", sm: "auto" },
+
+              width: equalButtonWidth
+                ? { xs: "100%", sm: "100%" }
+                : { xs: "100%", sm: "auto" },
+
+              flex: equalButtonWidth ? 1 : undefined,
+              minWidth: equalButtonWidth
+                ? 0
+                : { xs: "unset", sm: 130, md: 140 },
+
               border: "1.5px solid #0d47a1",
               color: "#0d47a1",
+
               "&:hover": {
                 borderColor: "#0d47a1",
                 backgroundColor: "rgba(13,71,161,0.05)",
@@ -170,12 +189,23 @@ export default function AppConfirm({
             variant="contained"
             sx={{
               ...actionButtonSx,
-              width: { xs: "100%", sm: "auto" },
+
+              width: equalButtonWidth
+                ? { xs: "100%", sm: "100%" }
+                : { xs: "100%", sm: "auto" },
+
+              flex: equalButtonWidth ? 1 : undefined,
+              minWidth: equalButtonWidth
+                ? 0
+                : { xs: "unset", sm: 130, md: 140 },
+
               color: "#ffffff",
               backgroundColor: "#0d47a1",
+
               "&:hover": {
                 backgroundColor: "#0b3d8a",
               },
+
               "&:active": {
                 transform: "translateY(1px)",
                 boxShadow: "0 6px 14px rgba(13,71,161,0.18)",

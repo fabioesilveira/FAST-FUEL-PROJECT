@@ -13,9 +13,10 @@ type ConfirmConfig = {
   message: string;
   confirmText?: string;
   cancelText?: string;
-  onConfirm: () => void; // continuar como guest
+  onConfirm: () => void;
   onCancel: () => void;
-  onDismiss?: () => void; // clique fora 
+  onDismiss?: () => void;
+  equalButtonWidth?: boolean;
 };
 
 export function useAppAlert(
@@ -25,6 +26,8 @@ export function useAppAlert(
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState<AlertColor>("info");
+
+  const [confirmEqualButtonWidth, setConfirmEqualButtonWidth] = useState(false);
 
   function showAlert(msg: string, type: AlertColor = "info") {
     setMessage(msg);
@@ -64,6 +67,7 @@ export function useAppAlert(
     setConfirmMessage(config.message);
     setConfirmYes(config.confirmText ?? "Yes");
     setConfirmNo(config.cancelText ?? "No");
+    setConfirmEqualButtonWidth(config.equalButtonWidth ?? false);
 
     setConfirmAction(() => config.onConfirm);
     setCancelAction(() => config.onCancel);
@@ -102,6 +106,7 @@ export function useAppAlert(
         message={confirmMessage}
         confirmText={confirmYes}
         cancelText={confirmNo}
+        equalButtonWidth={confirmEqualButtonWidth}
         onConfirm={handleConfirmYes}
         onCancel={handleConfirmNo}
         onDismiss={handleDismiss}
@@ -113,6 +118,7 @@ export function useAppAlert(
       confirmMessage,
       confirmYes,
       confirmNo,
+      confirmEqualButtonWidth,
       confirmAction,
       cancelAction,
       dismissAction,
