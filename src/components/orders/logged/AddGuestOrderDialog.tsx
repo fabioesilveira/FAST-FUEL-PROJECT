@@ -127,7 +127,7 @@ export default function AddGuestOrderDialog({
                     px: 3,
                     pb: 3.5,
                     gap: 1,
-                    mt: -0.5
+                    mt: -0.7
                 }}
             >
                 <Button
@@ -172,8 +172,8 @@ export default function AddGuestOrderDialog({
                         borderRadius: "8px",
 
                         "& .MuiButton-startIcon": {
-                            mr: 0.6,
-                            ml: -0.6,
+                            mr: 0.2,
+                            ml: -0.2,
                         },
 
                     }}
