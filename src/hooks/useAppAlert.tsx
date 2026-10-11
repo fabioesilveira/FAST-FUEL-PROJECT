@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import type { AlertColor } from "@mui/material/Alert";
 import AppAlert from "../components/AppAlert";
 import AppConfirm from "../components/AppConfirm";
@@ -10,7 +10,7 @@ type AlertPosition = {
 
 type ConfirmConfig = {
   title?: string;
-  message: string;
+  message: ReactNode;
   confirmText?: string;
   cancelText?: string;
   onConfirm: () => void;
@@ -54,7 +54,7 @@ export function useAppAlert(
 
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmTitle, setConfirmTitle] = useState("Confirm");
-  const [confirmMessage, setConfirmMessage] = useState("");
+  const [confirmMessage, setConfirmMessage] = useState<ReactNode>("");
   const [confirmYes, setConfirmYes] = useState("Yes");
   const [confirmNo, setConfirmNo] = useState("No");
 

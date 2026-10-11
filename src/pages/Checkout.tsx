@@ -475,10 +475,32 @@ export default function Checkout() {
 
             confirmAlert({
                 title: "ACCOUNT FOUND",
-                message:
-                    "Looks like you already have a Fast Fuel account with this email! Want to sign in and add this order to your account, or keep going as a guest?",
+                message: (
+                    <Box sx={{ mt: { xs: 0.2, sm: 0, md: 0 } }}>
+                        <strong>
+                            Looks like you already have a Fast Fuel account with this email.
+                            Sign in to add this order to your account, or continue to payment
+                            as a guest.
+                        </strong>
+
+                        <br />
+                        <br />
+
+                        <span
+                            style={{
+                                fontWeight: 400,
+                                display: "inline-block",
+                                marginTop: "-13px",
+                                marginBottom: "4px",
+                            }}
+                        >
+                            You can add this order to your account later using the order number
+                            we’ll provide.
+                        </span>
+                    </Box>
+                ),
                 confirmText: "Sign In",
-                cancelText: "Continue as Guest",
+                cancelText: "Continue & Pay",
                 equalButtonWidth: true,
 
                 onConfirm: () => {
@@ -486,20 +508,7 @@ export default function Checkout() {
                 },
 
                 onCancel: () => {
-                    confirmAlert({
-                        title: "Continue as guest",
-                        message:
-                            "No problem! After checkout, keep your order number. If you sign in later, you can add this purchase to your account from Track Order using that order number.",
-                        confirmText: "Continue",
-                        cancelText: "Back",
-
-                        onConfirm: () => {
-                            void processPayment(null);
-                        },
-
-                        onCancel: () => { },
-                        onDismiss: () => { },
-                    });
+                    void processPayment(null);
                 },
 
                 onDismiss: () => { },

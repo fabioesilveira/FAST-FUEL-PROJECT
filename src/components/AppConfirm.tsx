@@ -20,7 +20,7 @@ const Transition = React.forwardRef(function Transition(
 type AppConfirmProps = {
   open: boolean;
   title?: string;
-  message: string;
+  message: React.ReactNode;
   confirmText?: string;
   cancelText?: string;
   onConfirm: () => void;
@@ -42,14 +42,14 @@ export default function AppConfirm({
 }: AppConfirmProps) {
   const actionButtonSx = {
     width: "100%",
-    minWidth: { xs: "unset", sm: 130, md: 140 },
+    minWidth: 0,
     height: { xs: 40, sm: 38, md: 36 },
     py: 0,
-    px: { xs: 2.6, sm: 2.6 },
+    px: { xs: 1, sm: 2.6 },
     borderRadius: "8px",
     fontWeight: 900,
-    letterSpacing: { xs: "0.06em", sm: "0.08em" },
-    fontSize: { xs: "0.68rem", sm: "0.75rem", md: "0.8rem" },
+    letterSpacing: { xs: "0.025em", sm: "0.08em" },
+    fontSize: { xs: "0.72rem", sm: "0.75rem", md: "0.8rem" },
     whiteSpace: "nowrap",
     display: "flex",
     alignItems: "center",
@@ -84,6 +84,8 @@ export default function AppConfirm({
       }}
       PaperProps={{
         sx: {
+          width: { xs: "calc(100% - 16px)", sm: "100%" },
+          maxWidth: { xs: "calc(100% - 16px)", sm: 444 },
           borderRadius: "10px",
           border: "1px solid #c7c7c7",
           boxShadow: "0 12px 28px rgba(0,0,0,0.14)",
@@ -102,9 +104,9 @@ export default function AppConfirm({
           letterSpacing: "0.10em",
           textTransform: "uppercase",
           fontSize: { xs: "0.95rem", sm: "1rem", md: "1.03rem" },
-          px: { xs: 2.7, sm: 2.7, md: 3.1 },
-          pt: { xs: 2.4, md: 2.7 },
-          pb: { xs: 0.4, md: 0.7 },
+          px: { xs: 2, sm: 2.7, md: 3.1 },
+          pt: { xs: 2.2, md: 2.7 },
+          pb: { xs: 0.45, md: 0.7 },
         }}
       >
         {title}
@@ -112,7 +114,7 @@ export default function AppConfirm({
 
       <DialogContent
         sx={{
-          px: { xs: 2.2, sm: 2.6, md: 3 },
+          px: { xs: 1.8, sm: 2.6, md: 3 },
           pt: 0,
           pb: { xs: 1.25, md: 1.35 },
         }}
@@ -121,9 +123,9 @@ export default function AppConfirm({
           sx={{
             fontWeight: 500,
             color: "rgba(0,0,0,0.72)",
-            lineHeight: 1.45,
+            lineHeight: { xs: 1.4, sm: 1.45 },
             textAlign: "center",
-            fontSize: { xs: "0.85rem", sm: "0.88rem", md: "0.95rem" },
+            fontSize: { xs: "0.84rem", sm: "0.88rem", md: "0.95rem" },
           }}
         >
           {message}
@@ -132,28 +134,22 @@ export default function AppConfirm({
 
       <DialogActions
         sx={{
-          px: { xs: 2.2, sm: 2.6, md: 3 },
+          px: { xs: 1.5, sm: 2.6, md: 3 },
           pt: 0,
-          pb: { xs: 2.4, md: 2.7 },
+          pb: { xs: 2.2, md: 2.7 },
           justifyContent: "center",
         }}
       >
         <Box
           sx={{
-            width: equalButtonWidth
-              ? { xs: "min(300px, 86vw)", sm: "100%" }
-              : { xs: "min(300px, 86vw)", sm: "auto" },
-
-            maxWidth: equalButtonWidth
-              ? { sm: 420 }
-              : undefined,
-
+            width: "100%",
+            maxWidth: equalButtonWidth ? { xs: 380, sm: 420 } : undefined,
             display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
+            flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
-            gap: { xs: 1.1, md: 1.3 },
-            pb: { xs: 0.7, md: 0.5 },
+            gap: { xs: 1, sm: 1.3 },
+            pb: { xs: 0.5, md: 0.5 },
             mx: "auto",
           }}
         >
@@ -162,19 +158,11 @@ export default function AppConfirm({
             variant="outlined"
             sx={{
               ...actionButtonSx,
-
-              width: equalButtonWidth
-                ? { xs: "100%", sm: "100%" }
-                : { xs: "100%", sm: "auto" },
-
               flex: equalButtonWidth ? 1 : undefined,
-              minWidth: equalButtonWidth
-                ? 0
-                : { xs: "unset", sm: 130, md: 140 },
-
+              width: equalButtonWidth ? "100%" : "auto",
+              minWidth: equalButtonWidth ? 0 : { xs: 130, sm: 130, md: 140 },
               border: "1.5px solid #0d47a1",
               color: "#0d47a1",
-
               "&:hover": {
                 borderColor: "#0d47a1",
                 backgroundColor: "rgba(13,71,161,0.05)",
@@ -189,23 +177,12 @@ export default function AppConfirm({
             variant="contained"
             sx={{
               ...actionButtonSx,
-
-              width: equalButtonWidth
-                ? { xs: "100%", sm: "100%" }
-                : { xs: "100%", sm: "auto" },
-
               flex: equalButtonWidth ? 1 : undefined,
-              minWidth: equalButtonWidth
-                ? 0
-                : { xs: "unset", sm: 130, md: 140 },
-
+              width: equalButtonWidth ? "100%" : "auto",
+              minWidth: equalButtonWidth ? 0 : { xs: 130, sm: 130, md: 140 },
               color: "#ffffff",
               backgroundColor: "#0d47a1",
-
-              "&:hover": {
-                backgroundColor: "#0b3d8a",
-              },
-
+              "&:hover": { backgroundColor: "#0b3d8a" },
               "&:active": {
                 transform: "translateY(1px)",
                 boxShadow: "0 6px 14px rgba(13,71,161,0.18)",
