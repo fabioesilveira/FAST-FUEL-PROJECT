@@ -81,21 +81,25 @@ export function useAppAlert(
     setConfirmAction(null);
     setCancelAction(null);
     setDismissAction(null);
+    setConfirmEqualButtonWidth(false);
   }
 
   function handleConfirmYes() {
-    confirmAction?.();
+    const action = confirmAction;
     closeConfirmOnly();
+    action?.();
   }
 
   function handleConfirmNo() {
-    cancelAction?.();
+    const action = cancelAction;
     closeConfirmOnly();
+    action?.();
   }
 
   function handleDismiss() {
-    dismissAction?.();
+    const action = dismissAction;
     closeConfirmOnly();
+    action?.();
   }
 
   const ConfirmUI = useMemo(
