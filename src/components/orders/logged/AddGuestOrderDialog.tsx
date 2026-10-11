@@ -79,8 +79,7 @@ export default function AddGuestOrderDialog({
                         lineHeight: 1.5,
                     }}
                 >
-                    Enter the order number from your guest purchase. We'll make sure
-                    it matches the email on your account before adding it.
+                    Enter the order number from a purchase you made as a guest. We’ll verify that it matches the email on your account before adding it to your order history.
                 </Typography>
 
                 <TextField
@@ -150,7 +149,6 @@ export default function AddGuestOrderDialog({
 
                 <Button
                     variant="contained"
-                    startIcon={<AddIcon />}
                     onClick={handleSubmit}
                     disabled={loading || !orderNumber.trim()}
                     sx={{
@@ -167,15 +165,10 @@ export default function AddGuestOrderDialog({
                             transform: "translateY(1px)",
                             boxShadow: "0 6px 14px rgba(13,71,161,0.18)",
                         },
+
                         fontWeight: 800,
                         textTransform: "uppercase",
                         borderRadius: "8px",
-
-                        "& .MuiButton-startIcon": {
-                            mr: 0.2,
-                            ml: -0.2,
-                        },
-
                     }}
                 >
                     {loading ? "Adding..." : "Add Order"}

@@ -480,29 +480,35 @@ export default function OrdersLogged() {
                                 </Box>
 
                                 <Button
-                                    variant="outlined"
+                                    variant="contained"
                                     startIcon={<AddIcon />}
                                     onClick={() => setAddGuestOrderOpen(true)}
                                     sx={{
-                                        flex: 0.85,
+                                        flex: 0.75,
                                         minWidth: 0,
                                         height: 40,
                                         px: 1,
-                                        border: "1.5px solid #0d47a1",
-                                        color: "#0d47a1",
-                                        borderRadius: 2,
-                                        fontWeight: 900,
+                                        color: "#ffffff",
+                                        backgroundColor: "#1e5bb8",
+                                        borderRadius: "8px",
+                                        fontWeight: 800,
                                         textTransform: "uppercase",
                                         letterSpacing: "0.03em",
                                         whiteSpace: "nowrap",
-                                        fontSize: "0.66rem",
+                                        fontSize: "0.71rem",
+
                                         "& .MuiButton-startIcon": {
-                                            mr: 0.4,
+                                            mr: 0.35,
+                                            ml: -1.6,
                                         },
+
                                         "&:hover": {
-                                            borderColor: "#123b7a",
-                                            color: "#123b7a",
-                                            bgcolor: "rgba(13,71,161,0.04)",
+                                            backgroundColor: "#0b3d8a",
+                                        },
+
+                                        "&:active": {
+                                            transform: "translateY(1px)",
+                                            boxShadow: "0 6px 14px rgba(13,71,161,0.18)",
                                         },
                                     }}
                                 >
@@ -691,42 +697,80 @@ export default function OrdersLogged() {
                         >
                             <LoggedOrdersTabs activeKey={activeKey} onChange={setActiveKey} />
 
+
                             <Stack
                                 direction="row"
                                 alignItems="center"
-                                justifyContent="space-between"
-                                gap={2}
+                                gap={{ sm: 1, md: 2 }}
                             >
-                                <LoggedOrdersFilters
-                                    orderCodeFilter={orderCodeFilter}
-                                    onChange={setOrderCodeFilter}
-                                    tfBlueLabelSx={tfBlueLabelSx}
-                                />
+                                <Box
+                                    sx={{
+                                        flex: { sm: 1, md: 1 },
+                                        minWidth: 0,
+                                    }}
+                                >
+                                    <LoggedOrdersFilters
+                                        orderCodeFilter={orderCodeFilter}
+                                        onChange={setOrderCodeFilter}
+                                        tfBlueLabelSx={tfBlueLabelSx}
+                                    />
+                                </Box>
 
                                 <Button
-                                    variant="outlined"
+                                    variant="contained"
                                     startIcon={<AddIcon />}
                                     onClick={() => setAddGuestOrderOpen(true)}
                                     sx={{
-                                        border: "1.5px solid #0d47a1",
-                                        color: "#0d47a1",
-                                        borderRadius: 2,
-                                        fontWeight: 900,
-                                        textTransform: "uppercase",
-                                        letterSpacing: "0.06em",
-                                        whiteSpace: "nowrap",
+                                        flexShrink: 0,
+                                        minWidth: {
+                                            sm: 150,
+                                            md: 200,
+                                        },
                                         height: 40,
-                                        px: 2,
+                                        px: {
+                                            sm: 1.2,
+                                            md: 2.5,
+                                        },
+                                        color: "#ffffff",
+                                        backgroundColor: "#1e5bb8",
+                                        borderRadius: "8px",
+                                        fontWeight: 800,
+                                        textTransform: "uppercase",
+                                        letterSpacing: {
+                                            sm: "0.02em",
+                                            md: "0.04em",
+                                        },
+                                        whiteSpace: "nowrap",
+                                        fontSize: {
+                                            sm: "0.64rem",
+                                            md: "0.76rem",
+                                        },
+
+                                        "& .MuiButton-startIcon": {
+                                            mr: {
+                                                sm: 0.25,
+                                                md: 0.4,
+                                            },
+                                            ml: {
+                                                sm: -0.3,
+                                                md: -0.5,
+                                            },
+                                        },
+
                                         "&:hover": {
-                                            borderColor: "#123b7a",
-                                            color: "#123b7a",
-                                            bgcolor: "rgba(13,71,161,0.04)",
+                                            backgroundColor: "#174a96",
+                                        },
+
+                                        "&:active": {
+                                            transform: "translateY(1px)",
+                                            boxShadow: "0 6px 14px rgba(30,91,184,0.18)",
                                         },
                                     }}
                                 >
                                     Add Guest Order
                                 </Button>
                             </Stack>
+
 
                             <Divider sx={{ borderColor: "rgba(0, 0, 0, 0.45)" }} />
 
