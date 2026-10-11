@@ -63,6 +63,7 @@ export default function AddGuestOrderDialog({
                     letterSpacing: "0.08em",
                     fontSize: "1.08rem",
                     mb: -1,
+                    mt: 1
 
                 }}
             >
@@ -124,7 +125,7 @@ export default function AddGuestOrderDialog({
             <DialogActions
                 sx={{
                     px: 3,
-                    pb: 2.5,
+                    pb: 3.5,
                     gap: 1,
                 }}
             >
