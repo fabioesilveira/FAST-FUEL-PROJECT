@@ -127,6 +127,7 @@ export default function AddGuestOrderDialog({
                     px: 3,
                     pb: 3.5,
                     gap: 1,
+                    mt: -1
                 }}
             >
                 <Button
