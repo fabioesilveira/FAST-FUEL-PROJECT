@@ -456,33 +456,41 @@ export default function OrdersLogged() {
                     >
                         <LoggedOrdersTabs activeKey={activeKey} onChange={setActiveKey} />
 
+
                         <Box sx={{ mt: 1.5 }}>
                             <Stack
                                 direction="row"
                                 alignItems="center"
-                                justifyContent="space-between"
-                                gap={2}
+                                gap={1}
                             >
-                                <LoggedOrdersFilters
-                                    orderCodeFilter={orderCodeFilter}
-                                    onChange={setOrderCodeFilter}
-                                    tfBlueLabelSx={tfBlueLabelSx}
-                                />
+                                <Box sx={{ flex: 1.25, minWidth: 0 }}>
+                                    <LoggedOrdersFilters
+                                        orderCodeFilter={orderCodeFilter}
+                                        onChange={setOrderCodeFilter}
+                                        tfBlueLabelSx={tfBlueLabelSx}
+                                    />
+                                </Box>
 
                                 <Button
                                     variant="outlined"
                                     startIcon={<AddIcon />}
                                     onClick={() => setAddGuestOrderOpen(true)}
                                     sx={{
+                                        flex: 0.75,
+                                        minWidth: 0,
                                         border: "1.5px solid #0d47a1",
                                         color: "#0d47a1",
                                         borderRadius: 2,
                                         fontWeight: 900,
                                         textTransform: "uppercase",
-                                        letterSpacing: "0.06em",
+                                        letterSpacing: "0.04em",
                                         whiteSpace: "nowrap",
                                         height: 40,
-                                        px: 2,
+                                        px: 1,
+                                        fontSize: "0.68rem",
+                                        "& .MuiButton-startIcon": {
+                                            mr: 0.5,
+                                        },
                                         "&:hover": {
                                             borderColor: "#123b7a",
                                             color: "#123b7a",

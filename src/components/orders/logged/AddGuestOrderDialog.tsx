@@ -61,7 +61,7 @@ export default function AddGuestOrderDialog({
                     fontWeight: 900,
                     textTransform: "uppercase",
                     letterSpacing: "0.08em",
-                    fontSize: "1rem",
+                    fontSize: "1.08rem",
                 }}
             >
                 Add Guest Order
@@ -72,12 +72,12 @@ export default function AddGuestOrderDialog({
                     sx={{
                         mb: 2,
                         color: "text.secondary",
-                        fontSize: "0.88rem",
-                        lineHeight: 1.45,
+                        fontSize: "0.94rem",
+                        lineHeight: 1.5,
                     }}
                 >
-                    Enter your guest order number. We'll verify that the order
-                    was placed using the email address on your account.
+                    Enter the order number from your guest purchase. We'll make sure
+                    it matches the email on your account before adding it.
                 </Typography>
 
                 <TextField
@@ -130,6 +130,8 @@ export default function AddGuestOrderDialog({
                     onClick={handleClose}
                     disabled={loading}
                     sx={{
+                        flex: 1,
+                        height: 40,
                         color: "#0d47a1",
                         fontWeight: 800,
                         textTransform: "uppercase",
@@ -144,11 +146,12 @@ export default function AddGuestOrderDialog({
                     onClick={handleSubmit}
                     disabled={loading || !orderNumber.trim()}
                     sx={{
+                        flex: 1,
+                        height: 40,
                         bgcolor: "#1e5bb8",
                         color: "#fff",
                         fontWeight: 800,
                         textTransform: "uppercase",
-
                         "&:hover": {
                             bgcolor: "#164a96",
                         },
