@@ -30,6 +30,7 @@ import {
   trackPageView,
 } from "./utils/analytics";
 import CookiePreferences from "./pages/CookiePreferences.tsx";
+import SessionExpired from "./pages/auth/SessionExpired.tsx";
 
 export default function App() {
   const location = useLocation();
@@ -62,6 +63,7 @@ export default function App() {
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/session-expired" element={<SessionExpired />} />
         <Route path="/burgers" element={<Burgers />} />
         <Route path="/sides" element={<Sides />} />
         <Route path="/desserts" element={<Desserts />} />
