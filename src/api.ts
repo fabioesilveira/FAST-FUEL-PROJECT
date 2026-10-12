@@ -44,8 +44,11 @@ api.interceptors.response.use(
     if (isExpiredOrInvalidToken) {
       clearAuthStorage();
 
-      if (!window.location.pathname.includes("/sign-in")) {
-        window.location.href = "/sign-in";
+      if (
+        !window.location.pathname.includes("/sign-in") &&
+        !window.location.pathname.includes("/session-expired")
+      ) {
+        window.location.href = "/session-expired";
       }
     }
 
