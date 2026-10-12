@@ -752,8 +752,8 @@ export default function OrdersLogged() {
                                                 md: 0.4,
                                             },
                                             ml: {
-                                                sm: -0.3,
-                                                md: -0.5,
+                                                sm: -0.5,
+                                                md: -0.9,
                                             },
                                         },
 

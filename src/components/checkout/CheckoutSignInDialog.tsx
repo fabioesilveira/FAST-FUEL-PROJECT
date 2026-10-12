@@ -120,7 +120,8 @@ export default function CheckoutSignInDialog({
                 sx={{
                     color: "#0d47a1",
                     fontWeight: 700,
-                    pb: 1,
+                    pt: 2,
+                    pb: 0.5,
                 }}
             >
                 Sign in to Fast Fuel
@@ -134,7 +135,7 @@ export default function CheckoutSignInDialog({
                         color: "text.secondary",
                     }}
                 >
-                    Sign in to keep this order connected to your account.
+                    Sign in before checkout to save this order to your order history.
                 </Typography>
 
                 <Box
@@ -208,6 +209,7 @@ export default function CheckoutSignInDialog({
                     px: 3,
                     pb: 2.5,
                     gap: 1,
+                    justifyContent: "flex-end",
                 }}
             >
                 <Button
@@ -215,8 +217,11 @@ export default function CheckoutSignInDialog({
                     disabled={loading}
                     sx={{
                         color: "#0d47a1",
+                        fontWeight: 800,
                         textTransform: "uppercase",
-                        fontWeight: 700,
+                        fontSize: "0.79rem",
+                        px: 2,
+                        height: 40,
                     }}
                 >
                     Cancel
@@ -227,13 +232,23 @@ export default function CheckoutSignInDialog({
                     onClick={handleLogin}
                     disabled={loading}
                     sx={{
-                        bgcolor: "#1e5bb8",
-                        color: "#fff",
+                        minWidth: 120,
+                        height: 40,
+                        borderRadius: "8px",
+                        color: "#ffffff",
+                        backgroundColor: "#0d47a1",
+                        fontWeight: 900,
                         textTransform: "uppercase",
-                        fontWeight: 700,
+                        letterSpacing: "0.04em",
+                        fontSize: "0.79rem",
 
                         "&:hover": {
-                            bgcolor: "#164a96",
+                            backgroundColor: "#0b3d8a",
+                        },
+
+                        "&:active": {
+                            transform: "translateY(1px)",
+                            boxShadow: "0 6px 14px rgba(13,71,161,0.18)",
                         },
                     }}
                 >

@@ -13,7 +13,6 @@ export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-// request interceptor
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
@@ -25,28 +24,21 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// logout automatico se token expirar / for invalido
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error.response?.status;
-    const msg = String(error.response?.data?.msg || "").toLowerCase();
+    const requestUrl = String(error.config?.url || "");
+    const token = localStorage.getItem("token");
 
-    const isExpiredOrInvalidToken =
-      status === 401 &&
-      (
-        msg.includes("jwt expired") ||
-        msg.includes("invalid token") ||
-        msg.includes("token expired") ||
-        msg.includes("unauthorized")
-      );
+    const isLoginRequest = requestUrl.includes("/users/login");
 
-    if (isExpiredOrInvalidToken) {
+    if (status === 401 && token && !isLoginRequest) {
       clearAuthStorage();
 
       if (
-        !window.location.pathname.includes("/sign-in") &&
-        !window.location.pathname.includes("/session-expired")
+        !window.location.pathname.includes("/session-expired") &&
+        !window.location.pathname.includes("/sign-in")
       ) {
         window.location.href = "/session-expired";
       }
