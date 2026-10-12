@@ -31,9 +31,16 @@ import {
 } from "./utils/analytics";
 import CookiePreferences from "./pages/CookiePreferences.tsx";
 import SessionExpired from "./pages/auth/SessionExpired.tsx";
+import { useAppAlert } from "./hooks/useAppAlert";
+import SessionExpiryWatcher from "./components/auth/SessionExpiryWatcher";
 
 export default function App() {
   const location = useLocation();
+
+  const { showAlert, AlertUI } = useAppAlert({
+    vertical: "top",
+    horizontal: "center",
+  });
 
   useEffect(() => {
     const consent = localStorage.getItem(
@@ -53,6 +60,10 @@ export default function App() {
 
   return (
     <>
+      {AlertUI}
+
+      <SessionExpiryWatcher showAlert={showAlert} />
+
       <ScrollToTop />
 
       <Routes>
@@ -71,7 +82,9 @@ export default function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/about" element={<About />} />
-        <Route path="/cookie-preferences" element={<CookiePreferences />}
+        <Route
+          path="/cookie-preferences"
+          element={<CookiePreferences />}
         />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/TrackOrderGuest" element={<TrackOrderGuest />} />
