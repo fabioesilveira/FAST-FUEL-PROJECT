@@ -47,9 +47,8 @@ export default function SessionExpiryWatcher() {
             const currentPath = window.location.pathname;
             const protectedPage = isProtectedPage(currentPath);
 
-            clearAuthStorage();
-
             if (protectedPage) {
+                clearAuthStorage();
                 window.location.replace("/session-expired");
                 return;
             }
@@ -59,15 +58,14 @@ export default function SessionExpiryWatcher() {
                 "true"
             );
 
+            clearAuthStorage();
+
             window.location.reload();
         }
 
         checkSession();
 
-        const interval = window.setInterval(
-            checkSession,
-            1000
-        );
+        const interval = window.setInterval(checkSession, 1000);
 
         return () => window.clearInterval(interval);
     }, []);

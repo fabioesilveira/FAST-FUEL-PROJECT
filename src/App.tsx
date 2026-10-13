@@ -53,11 +53,13 @@ export default function App() {
       "fast-fuel-session-expired"
     );
 
-    showAlert(
-      "Your session has expired. Sign in again anytime to continue with your account.",
-      "info"
-    );
-  }, [showAlert]);
+    setTimeout(() => {
+      showAlert(
+        "Your session has expired. Sign in again anytime to continue with your account.",
+        "info"
+      );
+    }, 100);
+  }, []);
 
   useEffect(() => {
     const consent = localStorage.getItem(
