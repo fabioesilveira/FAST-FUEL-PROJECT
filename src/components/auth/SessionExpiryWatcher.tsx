@@ -25,7 +25,7 @@ function isProtectedPage(pathname: string) {
     const path = pathname.toLowerCase();
 
     return (
-        path.startsWith("/orderslogged") ||
+        path.startsWith("/orders") ||
         path.startsWith("/deleteaccount") ||
         path.startsWith("/admin")
     );
