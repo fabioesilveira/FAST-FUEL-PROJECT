@@ -1,13 +1,6 @@
 import { useEffect } from "react";
 import { clearAuthStorage } from "../../api";
 
-type Props = {
-    showAlert: (
-        message: string,
-        severity?: "success" | "info" | "warning" | "error"
-    ) => void;
-};
-
 function getTokenExpiration(token: string): number | null {
     try {
         const payload = token.split(".")[1];
@@ -29,54 +22,55 @@ function getTokenExpiration(token: string): number | null {
 }
 
 function isProtectedPage(pathname: string) {
+    const path = pathname.toLowerCase();
+
     return (
-        pathname.startsWith("/OrdersLogged") ||
-        pathname.startsWith("/deleteaccount") ||
-        pathname.startsWith("/admin")
+        path.startsWith("/orderslogged") ||
+        path.startsWith("/deleteaccount") ||
+        path.startsWith("/admin")
     );
 }
 
-export default function SessionExpiryWatcher({ showAlert }: Props) {
+export default function SessionExpiryWatcher() {
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        function checkSession() {
+            const token = localStorage.getItem("token");
 
-        if (!token) return;
+            if (!token) return;
 
-        const expiration = getTokenExpiration(token);
+            const expiration = getTokenExpiration(token);
 
-        if (!expiration) return;
+            if (!expiration) return;
 
-        function expireSession() {
+            if (Date.now() < expiration) return;
+
             const currentPath = window.location.pathname;
             const protectedPage = isProtectedPage(currentPath);
 
             clearAuthStorage();
 
             if (protectedPage) {
-                window.location.href = "/session-expired";
+                window.location.replace("/session-expired");
                 return;
             }
 
-            showAlert(
-                "Your session has expired. Sign in again anytime to continue with your account.",
-                "info"
+            sessionStorage.setItem(
+                "fast-fuel-session-expired",
+                "true"
             );
+
+            window.location.reload();
         }
 
-        const timeUntilExpiration = expiration - Date.now();
+        checkSession();
 
-        if (timeUntilExpiration <= 0) {
-            expireSession();
-            return;
-        }
-
-        const timer = window.setTimeout(
-            expireSession,
-            timeUntilExpiration
+        const interval = window.setInterval(
+            checkSession,
+            1000
         );
 
-        return () => window.clearTimeout(timer);
-    }, [showAlert]);
+        return () => window.clearInterval(interval);
+    }, []);
 
     return null;
 }

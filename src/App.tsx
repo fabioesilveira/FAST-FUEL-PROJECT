@@ -43,6 +43,23 @@ export default function App() {
   });
 
   useEffect(() => {
+    const sessionExpired = sessionStorage.getItem(
+      "fast-fuel-session-expired"
+    );
+
+    if (sessionExpired !== "true") return;
+
+    sessionStorage.removeItem(
+      "fast-fuel-session-expired"
+    );
+
+    showAlert(
+      "Your session has expired. Sign in again anytime to continue with your account.",
+      "info"
+    );
+  }, [showAlert]);
+
+  useEffect(() => {
     const consent = localStorage.getItem(
       "fast-fuel-analytics-consent"
     );
@@ -62,7 +79,7 @@ export default function App() {
     <>
       {AlertUI}
 
-      <SessionExpiryWatcher showAlert={showAlert} />
+      <SessionExpiryWatcher />
 
       <ScrollToTop />
 
