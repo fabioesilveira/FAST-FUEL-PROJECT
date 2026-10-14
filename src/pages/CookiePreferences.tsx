@@ -12,7 +12,10 @@ import CookieOutlinedIcon from "@mui/icons-material/CookieOutlined";
 import AnalyticsRoundedIcon from "@mui/icons-material/AnalyticsRounded";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 
-import { loadGoogleAnalytics } from "../utils/analytics";
+import {
+    loadGoogleAnalytics,
+    trackPageView,
+} from "../utils/analytics";
 
 const CONSENT_KEY = "fast-fuel-analytics-consent";
 
@@ -34,7 +37,12 @@ export default function CookiePreferences() {
     const handleAccept = () => {
         localStorage.setItem(CONSENT_KEY, "accepted");
         setConsent("accepted");
+
         loadGoogleAnalytics();
+
+        trackPageView(
+            window.location.pathname + window.location.search
+        );
     };
 
     const handleReject = () => {

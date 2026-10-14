@@ -75,7 +75,7 @@ export default function App() {
     trackPageView(
       location.pathname + location.search
     );
-  }, [location]);
+  }, [location.pathname, location.search]);
 
   return (
     <>
