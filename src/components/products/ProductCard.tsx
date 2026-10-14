@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import type { Meal } from "../../context/context";
+import { trackEvent } from "../../utils/analytics";
 
 const getNameWithKcal = (name: string) => name.trim();
 
@@ -238,7 +239,14 @@ export default function ProductCard({
                     </Typography>
 
                     <Box
-                        onClick={() => onAdd(product)}
+                        onClick={() => {
+                            trackEvent("add_to_cart", {
+                                item_name: product.name,
+                                price: Number(product.price),
+                            });
+
+                            onAdd(product);
+                        }}
                         sx={{
                             width: 32,
                             height: 32,
@@ -534,7 +542,14 @@ export default function ProductCard({
                     </Typography>
 
                     <Box
-                        onClick={() => onAdd(product)}
+                        onClick={() => {
+                            trackEvent("add_to_cart", {
+                                item_name: product.name,
+                                price: Number(product.price),
+                            });
+
+                            onAdd(product);
+                        }}
                         sx={{
                             width: 29,
                             height: 29,

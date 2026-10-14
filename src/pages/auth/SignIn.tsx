@@ -10,6 +10,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ProductsTitleBar from "../../components/TitleBar";
 import SignInDemoTip from "../../components/portfolio/SignInDemoTip";
+import { trackEvent } from "../../utils/analytics";
 
 type User = {
     email: string;
@@ -122,6 +123,8 @@ export default function SignIn() {
             }
 
             saveAuthData(res.data, payload.email);
+
+            trackEvent("login");
 
             showAlert("Login successful!", "success");
             redirectByUserType(res.data.type);

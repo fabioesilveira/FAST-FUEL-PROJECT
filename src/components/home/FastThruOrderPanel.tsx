@@ -5,6 +5,7 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { trackEvent } from "../../utils/analytics";
 
 import FastThruOrderInfoMenu from "./FastThruOrderInfoMenu";
 
@@ -588,7 +589,10 @@ export default function FastThruOrderPanel({
 
                 {/* CHECKOUT */}
                 <Button
-                    onClick={onCheckout}
+                    onClick={() => {
+                        trackEvent("begin_checkout");
+                        onCheckout();
+                    }}
                     disabled={order.length === 0}
                     sx={{
                         display: {

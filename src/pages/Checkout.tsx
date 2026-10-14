@@ -24,6 +24,7 @@ import CheckoutSignInDialog from "./../components/checkout/CheckoutSignInDialog"
 import CheckoutMobileForm from "../components/checkout/CheckoutMobileForm";
 import CheckoutTitleBar from "../components/CheckoutTitleBar";
 import NavbarAction from "../components/layout/navbar/NavbarAction";
+import { trackEvent } from "../utils/analytics";
 
 import CokeImg from "../assets/Coke.png";
 import SpriteImg from "../assets/Sprite.png";
@@ -412,6 +413,12 @@ export default function Checkout() {
 
             const res = await api.post("/sales", payload);
             const { order_code } = res.data;
+
+            trackEvent("purchase", {
+                value: Number(grandTotalLabel.replace(/[^0-9.]/g, "")),
+                currency: "USD",
+                transaction_id: String(order_code),
+            });
 
             localStorage.setItem(
                 "lastOrderCode",

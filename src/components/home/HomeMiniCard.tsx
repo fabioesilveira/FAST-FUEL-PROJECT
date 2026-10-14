@@ -12,6 +12,7 @@ import LemonadeImg from "../../assets/Lemonade.png";
 import SaladImg from "../../assets/Crispsalad.png";
 import MilkshakeImg from "../../assets/Milkshake.png";
 import SundaeImg from "../../assets/Sundae.png";
+import { trackEvent } from "../../utils/analytics";
 
 type MiniActionCardProps = {
     id: string;
@@ -84,7 +85,19 @@ export default function HomeMiniCard({
             : imageMap[imgKey] ?? image;
 
     return (
-        <ButtonBase onClick={onClick} sx={{ width: 143, borderRadius: "14px", textAlign: "center" }}>
+        <ButtonBase
+            onClick={() => {
+                trackEvent("add_to_cart", {
+                    item_name: title,
+                    price: Number(
+                        secondaryLabel.replace(/[^0-9.]/g, "")
+                    ),
+                });
+
+                onClick();
+            }}
+
+            sx={{ width: 143, borderRadius: "14px", textAlign: "center" }}>
             <Box sx={{ position: "relative", width: "100%" }}>
                 {count > 0 && (
                     <Box

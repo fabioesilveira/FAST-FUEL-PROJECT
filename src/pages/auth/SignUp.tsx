@@ -9,6 +9,7 @@ import NavbarAuth from "../../components/layout/navbar/NavbarAuth";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ProductsTitleBar from "../../components/TitleBar";
+import { trackEvent } from "../../utils/analytics";
 
 type User = {
     name: string;
@@ -138,6 +139,8 @@ export default function SignUp() {
                 "/users/register",
                 payload
             );
+
+            trackEvent("sign_up");
 
             if (registerRes.data?.emailSent === false) {
                 showAlert(

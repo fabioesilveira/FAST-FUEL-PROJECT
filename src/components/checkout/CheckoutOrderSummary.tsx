@@ -6,6 +6,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { type Meal } from "../../context/context";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { trackEvent } from "../../utils/analytics";
 
 type CheckoutOrderSummaryProps = {
     order: Meal[];
@@ -216,7 +217,14 @@ export default function CheckoutOrderSummary({
 
                                             <IconButton
                                                 size="small"
-                                                onClick={() => incItem(pid)}
+                                                onClick={() => {
+                                                    trackEvent("add_to_cart", {
+                                                        item_name: it.name,
+                                                        price: Number(it.price),
+                                                    });
+
+                                                    incItem(pid);
+                                                }}
                                                 sx={{
                                                     transform: "scale(0.92)",
                                                     bgcolor: "rgba(30, 91, 184, 0.12)",

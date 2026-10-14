@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import type { Meal } from "../../context/context";
+import { trackEvent } from "../../utils/analytics";
 
 const getNameWithKcal = (name: string) => name.trim();
 
@@ -250,7 +251,14 @@ export default function ProductCardDesktopLandscape({
                     </Typography>
 
                     <Box
-                        onClick={() => onAdd(product)}
+                        onClick={() => {
+                            trackEvent("add_to_cart", {
+                                item_name: product.name,
+                                price: Number(product.price),
+                            });
+
+                            onAdd(product);
+                        }}
                         sx={{
                             width: 30,
                             height: 30,

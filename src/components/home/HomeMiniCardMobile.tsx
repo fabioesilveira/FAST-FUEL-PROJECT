@@ -12,6 +12,7 @@ import LemonadeImg from "../../assets/Lemonade.png";
 import SaladImg from "../../assets/Crispsalad.png";
 import MilkshakeImg from "../../assets/Milkshake.png";
 import SundaeImg from "../../assets/Sundae.png";
+import { trackEvent } from "../../utils/analytics";
 
 type HomeMiniCardMobileProps = {
     id: string;
@@ -85,7 +86,16 @@ export default function HomeMiniCardMobile({
 
     return (
         <ButtonBase
-            onClick={onClick}
+            onClick={() => {
+                trackEvent("add_to_cart", {
+                    item_name: title,
+                    price: Number(
+                        secondaryLabel.replace(/[^0-9.]/g, "")
+                    ),
+                });
+
+                onClick();
+            }}
             sx={{
                 width: "100%",
                 borderRadius: "12px",

@@ -44,3 +44,12 @@ export function trackPageView(path: string) {
         page_title: document.title,
     });
 }
+
+export function trackEvent(
+    eventName: string,
+    params?: Record<string, any>
+) {
+    if (!analyticsLoaded || !window.gtag) return;
+
+    window.gtag("event", eventName, params || {});
+}

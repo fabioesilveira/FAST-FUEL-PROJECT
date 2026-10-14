@@ -21,6 +21,7 @@ import Logo from "../../../assets/fast-fuel.png";
 import { useAppContext } from "../../../context/context";
 import { useAppAlert } from "../../../hooks/useAppAlert";
 import { clearAuthStorage } from "../../../api";
+import { trackEvent } from "../../../utils/analytics";
 
 type DropdownItem = {
   label: string;
@@ -446,7 +447,13 @@ export default function NavbarProducts() {
 
                 const cartHasItems = badgeQuantity > 0;
 
-                if (!cartHasItems || isLogged) {
+                if (!cartHasItems) {
+                  navigate("/checkout");
+                  return;
+                }
+
+                if (isLogged) {
+                  trackEvent("begin_checkout");
                   navigate("/checkout");
                   return;
                 }
@@ -457,8 +464,10 @@ export default function NavbarProducts() {
                     "You’re not signed in. Continue as guest or sign in?",
                   confirmText: "Continue as guest",
                   cancelText: "Sign in / Sign up",
-                  onConfirm: () =>
-                    navigate("/checkout?guest=1"),
+                  onConfirm: () => {
+                    trackEvent("begin_checkout");
+                    navigate("/checkout?guest=1");
+                  },
                   onCancel: () =>
                     navigate("/sign-in"),
                   onDismiss: () => { },
