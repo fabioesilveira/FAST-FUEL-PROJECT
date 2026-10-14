@@ -55,7 +55,7 @@ export default function App() {
 
     setTimeout(() => {
       showAlert(
-       "Your session has expired. Please sign in again.",
+        "Your session has expired. Please sign in again.",
         "info"
       );
     }, 100);

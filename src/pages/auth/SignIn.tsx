@@ -426,7 +426,7 @@ export default function SignIn() {
                                 ),
                                 repeating-linear-gradient(135deg,
                                     rgba(230,81,0,0.015) 0px,
-                                    rgba(230,81,0,0.015) 10px,
+                                    rgba(230,81,0,0.028) 10px,
                                     rgba(255,255,255,0.88) 10px,
                                     rgba(255,255,255,0.88) 20px
                                 )
