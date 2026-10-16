@@ -20,7 +20,6 @@ const mobileProductNames: Record<string, string> = {
 
 type Props = {
     isMobile: boolean;
-    driveModeActive: boolean;
     fastThruData: Meal[];
     qtyMap: Record<string, number>;
     cleanProductName: (name: string) => string;
@@ -30,14 +29,12 @@ type Props = {
 
 export default function HomeFastThruSection({
     isMobile,
-    driveModeActive,
     fastThruData,
     qtyMap,
     cleanProductName,
     onOrder,
     onRemoveItem,
 }: Props) {
-    if (!driveModeActive) return null;
 
     const MiniCard = isMobile
         ? HomeMiniCardMobile

@@ -19,9 +19,7 @@ import PageBgMobile from "../components/layout/background/PageBgMobile";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import HomeCartMenu from "../components/home/HomeCartMenu";
 import HomeSearchSection from "../components/home/HomeSearchSection";
-import HomeFastThruSection from "../components/home/HomeFastThruSection";
 import PortfolioTips from "../components/portfolio/PortfolioTips";
-import FastThruOrderPanel from "../components/home/FastThruOrderPanel";
 import MobileReviewsCarousel, {
     type HomeReview,
 } from "../components/home/MobileReviewsCarousel";
@@ -89,13 +87,6 @@ const desktopCarouselSlides = [
     </Carousel.Item>,
 ];
 
-const fastThruOrder: Record<string, number> = {
-    sandwiches: 1,
-    sides: 2,
-    beverages: 3,
-    desserts: 4,
-};
-
 export default function Home() {
     useDocumentTitle("FastFuel • Home");
 
@@ -124,11 +115,9 @@ export default function Home() {
 
     const {
         cartCount,
-        qtyMap,
         subtotal,
         discount,
         checkout,
-        handleOrder,
         decItem,
         removeItem,
     } = useHomeCart({ order, setOrder });
@@ -142,12 +131,8 @@ export default function Home() {
         showKeepTyping,
         showNotFound,
         headlineText,
-        driveModeActive,
-        shouldShowOrderPreview,
         shouldShowCarousel,
         hidePromos,
-        enterFastThru,
-        exitFastThru,
         handleSearchInput,
     } = useHomeSearch({ data });
 
@@ -160,15 +145,6 @@ export default function Home() {
             ? { xs: 4, sm: 4, md: 2.7 }
             : { xs: 2, sm: 3, md: 2.7 };
 
-    const fastThruData = useMemo(() => {
-        return [...data].sort((a, b) => {
-            const ao = fastThruOrder[(a.category || "").toLowerCase()] ?? 999;
-            const bo = fastThruOrder[(b.category || "").toLowerCase()] ?? 999;
-
-            if (ao !== bo) return ao - bo;
-            return Number(a.id) - Number(b.id);
-        });
-    }, [data]);
 
     function handleDrawerNavigate(category: string) {
         navigate(`/${category.toLowerCase()}`);
@@ -209,21 +185,8 @@ export default function Home() {
         });
     }
 
-    function toggleFastThru() {
-        if (driveModeActive) {
-            exitFastThru();
-
-            requestAnimationFrame(() => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                });
-            });
-
-            return;
-        }
-
-        enterFastThru();
+    function openFastThru() {
+        navigate("/fast-thru");
     }
 
     useEffect(() => {
@@ -399,8 +362,8 @@ export default function Home() {
                     {showDesktopDrawer && (
                         <DrawerHome
                             onNavigate={handleDrawerNavigate}
-                            onDriveThruClick={toggleFastThru}
-                            isFastThruActive={driveModeActive}
+                            onDriveThruClick={openFastThru}
+                            isFastThruActive={false}
                         />
                     )}
 
@@ -440,7 +403,7 @@ export default function Home() {
                             <WhyFastFuelMobile />
 
                             <NowAvailableMobile
-                                onOpenFastThru={enterFastThru}
+                                onOpenFastThru={openFastThru}
                             />
 
                             {homeReviews.length > 0 && (
@@ -456,14 +419,14 @@ export default function Home() {
                         disableGutters
                         sx={{
                             flexGrow: 2,
-                            mt: { xs: driveModeActive ? "13px" : 0, md: "107px" },
+                            mt: { xs: 0, md: "107px" },
                             mb: { xs: 2, md: "60px" },
                             px: { xs: 2, md: 3 },
                             maxWidth: 1200,
                             mx: "auto",
                         }}
                     >
-                        {!isMobile && !hidePromos && !driveModeActive && (
+                        {!isMobile && !hidePromos && (
                             <Box sx={{ mb: 2, mt: -1.5 }}>
                                 <PromoBannerCarousel />
                             </Box>
@@ -471,8 +434,7 @@ export default function Home() {
 
                         {shouldShowCarousel &&
                             !isMobile &&
-                            !hidePromos &&
-                            !driveModeActive && (
+                            !hidePromos && (
                                 <HeroCarousel aspectRatio="16 / 9.7">
                                     {desktopCarouselSlides}
                                 </HeroCarousel>
@@ -480,7 +442,6 @@ export default function Home() {
 
                         {!isMobile &&
                             !hidePromos &&
-                            !driveModeActive &&
                             !isSearching && (
                                 <>
                                     <TrackOrderDesktop />
@@ -523,7 +484,7 @@ export default function Home() {
                                         />
 
                                         <NowAvailableDesktop
-                                            onOpenFastThru={enterFastThru}
+                                            onOpenFastThru={openFastThru}
                                         />
                                     </Box>
 
@@ -535,25 +496,6 @@ export default function Home() {
                                 </>
                             )}
 
-                        {shouldShowOrderPreview && driveModeActive && (
-                            <Box
-                                sx={{
-                                    mt: { xs: 0.2, md: 1.5 },
-                                    mb: { xs: 2.5, md: 1.5 },
-                                }}
-                            >
-                                <FastThruOrderPanel
-                                    cartCount={cartCount}
-                                    order={order}
-                                    subtotal={subtotal}
-                                    discount={discount}
-                                    checkout={checkout}
-                                    onDecItem={decItem}
-                                    onRemoveItem={removeItem}
-                                    onCheckout={handleCheckoutFromCart}
-                                />
-                            </Box>
-                        )}
 
                         <HomeCartMenu
                             anchorEl={cartAnchorEl}
@@ -583,25 +525,16 @@ export default function Home() {
                             isCategorySearch={isCategorySearch}
                             headlineMt={headlineMt}
                             filteredData={filteredData}
-                            enterFastThru={enterFastThru}
+                            enterFastThru={openFastThru}
                         />
 
-                        <HomeFastThruSection
-                            isMobile={isMobile}
-                            driveModeActive={driveModeActive}
-                            fastThruData={fastThruData}
-                            qtyMap={qtyMap}
-                            cleanProductName={cleanProductName}
-                            onOrder={handleOrder}
-                            onRemoveItem={removeItem}
-                        />
                     </Container>
 
                     {!isMobile && <PortfolioTips />}
 
                     {isMobile ? (
                         <FloatingContactMobile
-                            driveModeActive={driveModeActive}
+                            driveModeActive={false}
                         />
                     ) : (
                         <FloatingContact />
@@ -612,8 +545,8 @@ export default function Home() {
                     {isMobile && (
                         <NavFooter
                             onNavigate={handleDrawerNavigate}
-                            onFastThruClick={toggleFastThru}
-                            isFastThruActive={driveModeActive}
+                            onFastThruClick={openFastThru}
+                            isFastThruActive={false}
                         />
                     )}
                 </Box>

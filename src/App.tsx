@@ -33,6 +33,7 @@ import CookiePreferences from "./pages/CookiePreferences.tsx";
 import SessionExpired from "./pages/auth/SessionExpired.tsx";
 import { useAppAlert } from "./hooks/useAppAlert";
 import SessionExpiryWatcher from "./components/auth/SessionExpiryWatcher";
+import FastThru from "./pages/FastThru.tsx";
 
 export default function App() {
   const location = useLocation();
@@ -87,7 +88,7 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        
+        <Route path="/fast-thru" element={<FastThru />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/check-email" element={<CheckEmail />} />
