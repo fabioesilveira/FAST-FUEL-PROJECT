@@ -132,7 +132,7 @@ export default function Desserts() {
                         display: "flex",
                         flexDirection: "column",
                         backgroundColor: "transparent",
-                        pt: { xs: "130px", md: "150px" },
+                        pt: { xs: "130px", md: "152px" },
                         pb: isMobile ? `calc(86px + env(safe-area-inset-bottom) + 10px)` : 0,
                     }}
                 >

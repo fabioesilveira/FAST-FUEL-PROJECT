@@ -52,6 +52,7 @@ import ReviewsDesktop from "../components/home/ReviewsDesktop";
 import GitHubRepoDesktop from "../components/home/GitHubRepoDesktop";
 import TrackOrderDesktop from "../components/home/TrackOrderDesktop";
 import HomeFooter from "../components/layout/footer/HomeFooter";
+import { trackEvent } from "../utils/analytics";
 
 const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
@@ -186,6 +187,7 @@ export default function Home() {
     }
 
     function openFastThru() {
+        trackEvent("fast_thru_open");
         navigate("/fast-thru");
     }
 

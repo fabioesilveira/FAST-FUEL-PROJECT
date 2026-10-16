@@ -263,7 +263,7 @@ export default function FastThru() {
 
                             mt: {
                                 xs: "13px",
-                                md: "107px",
+                                md: "105px",
                             },
 
                             mb: {

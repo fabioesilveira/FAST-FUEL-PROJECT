@@ -19,7 +19,7 @@ export default function FastThruFooter() {
                     fontWeight: 700,
                     letterSpacing: "0.05em",
 
-                    color: "rgba(13, 71, 161, 0.22)",
+                    color: "rgba(13, 71, 161, 0.20)",
 
                     zIndex: -201,
 
