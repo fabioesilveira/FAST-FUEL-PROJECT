@@ -294,7 +294,7 @@ export default function ProductsGrid({
                         alignItems: "center",
                         gap: "10px",
 
-                        width: 182,
+                        width: 177,
                         boxSizing: "border-box",
                         justifyContent: "center",
 
@@ -356,7 +356,7 @@ export default function ProductsGrid({
                     <Typography
                         sx={{
                             fontWeight: 700,
-                            fontSize: "1.06rem",
+                            fontSize: "1.03rem",
                             color: "#0d47a1",
                             letterSpacing: "0.08em",
                             textTransform: "uppercase",

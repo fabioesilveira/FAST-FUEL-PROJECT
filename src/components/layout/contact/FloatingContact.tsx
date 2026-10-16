@@ -15,8 +15,8 @@ const FloatingWrapper = styled("button", {
   display: "flex",
   alignItems: "center",
   gap: 10,
-
-  width: 185,
+  height: "50px",
+  width: 177,
   boxSizing: "border-box",
   justifyContent: "center",
   padding: "9px 15px 9px 13px",
@@ -105,15 +105,17 @@ export default function FloatingContact() {
         sx={{
           color: "#e65100",
           fontSize: 25,
+          mr: -0.35
         }}
       />
 
       <Typography
         sx={{
           fontWeight: 700,
-          fontSize: "1.07rem",
+          fontSize: "1.03rem",
           color: "#0d47a1",
           letterSpacing: "0.08em",
+          mr: -0.37,
           textTransform: "uppercase",
           whiteSpace: "nowrap",
         }}
