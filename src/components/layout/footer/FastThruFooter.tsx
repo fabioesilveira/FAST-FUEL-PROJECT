@@ -13,13 +13,13 @@ export default function FastThruFooter() {
 
                     position: "fixed",
                     right: 355,
-                    bottom: 10,
+                    bottom: 11,
 
                     fontSize: "0.66rem",
                     fontWeight: 700,
                     letterSpacing: "0.05em",
 
-                    color: "rgba(13, 71, 161, 0.20)",
+                    color: "rgba(13, 71, 161, 0.18)",
 
                     zIndex: -201,
 
@@ -42,7 +42,7 @@ export default function FastThruFooter() {
                     right: 0,
                     bottom: 0,
 
-                    height: "7px",
+                    height: "9px",
 
                     bgcolor: "#e65100",
 

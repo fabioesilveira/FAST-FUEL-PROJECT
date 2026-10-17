@@ -85,6 +85,7 @@ export default function AppConfirm({
       PaperProps={{
         sx: {
           width: { xs: "calc(100% - 16px)", sm: "100%" },
+          transform: "translateY(-60px)",
           maxWidth: { xs: "calc(100% - 16px)", sm: 444 },
           borderRadius: "10px",
           border: "1px solid #c7c7c7",

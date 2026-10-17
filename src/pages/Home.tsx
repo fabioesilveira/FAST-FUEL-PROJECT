@@ -72,7 +72,10 @@ const mobileSlides = [
 
 const desktopCarouselSlides = [
     <Carousel.Item key="slide-1">
-        <img src={Combo} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <img src={Combo} style={{
+            width: "100%", height: "100%", objectFit: "cover", objectPosition: "center bottom",
+            transform: "scale(1.009)",
+        }} />
     </Carousel.Item>,
     <Carousel.Item key="slide-2">
         <img src={RestImg} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -84,7 +87,9 @@ const desktopCarouselSlides = [
         <img src={Employees} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
     </Carousel.Item>,
     <Carousel.Item key="slide-5">
-        <img src={Chat4} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <img src={Chat4} style={{ width: "100%", height: "100%", objectFit: "cover", 
+            objectPosition: "center 12%"
+         }} />
     </Carousel.Item>,
 ];
 
