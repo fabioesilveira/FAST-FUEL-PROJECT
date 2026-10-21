@@ -15,11 +15,11 @@ export default function FastThruFooter() {
                     right: 355,
                     bottom: 11,
 
-                    fontSize: "0.66rem",
+                    fontSize: "0.77rem",
                     fontWeight: 700,
                     letterSpacing: "0.05em",
 
-                    color: "rgba(13, 71, 161, 0.18)",
+                    color: "rgba(13, 71, 161, 0.14)",
 
                     zIndex: -201,
 

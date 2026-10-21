@@ -18,6 +18,7 @@ The project combines a modern responsive frontend focused on **UI/UX and perform
 - Order Snapshot System
 - Authentication & Security
 - Account Verification & Password Recovery
+- Analytics
 - Architecture
 - CI/CD
 - UI/UX Focus
@@ -50,6 +51,8 @@ Fast Fuel supports both authenticated users and guest checkout for a flexible re
 - Track order status whether logged in or as a guest
 - Guest users can manually look up orders using email and order number
 - Logged users can view their persistent order history
+- Guest Order Retrieval: customers who complete checkout as a guest can later add that order to their Fast Fuel account using the order number provided after checkout, as long as the guest checkout email matches the email registered to the account
+- Eligible guest orders can then become associated with the user's account order history
 - Send messages to the store through the Contact feature
 
 ###  Admin Panel
@@ -107,6 +110,7 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 - Stripe Sandbox / Test Mode
 - Resend transactional email flows
 - Email verification and password recovery
+- Google Analytics 4 (GA4)
 - GitHub Actions
 - Vercel CI/CD deployment
 
@@ -123,6 +127,8 @@ Fast Fuel was built as a **portfolio-grade project** to demonstrate:
 - Forgot-password and password-reset flow
 - Address auto-fill support
 - Order status tracking
+- Guest order retrieval using the provided order number
+- Guest orders can be linked to an authenticated Fast Fuel account when the checkout email matches the account email
 - Product reviews and ratings
 - Verified purchase review system
 - Contact form for customer support and feedback
@@ -186,6 +192,28 @@ Insights include:
 - Number of reviews
 - Sales distribution within the category
 - Random customer reviews
+
+---
+
+## Analytics
+
+Fast Fuel integrates **Google Analytics 4 (GA4)** to measure application usage and key customer interactions while respecting the user's analytics consent preference.
+
+Custom analytics events include:
+
+- `page_view` — tracks page navigation across the application
+- `add_to_cart` — tracks products added to the shopping cart
+- `begin_checkout` — tracks when customers begin the checkout flow
+- `purchase` — records successfully created orders after payment confirmation
+- `sign_up` — tracks successful account registrations
+- `login` — tracks successful user authentication
+- `fast_thru_open` — tracks engagement with the Fast Thru ordering experience
+
+Analytics is loaded only when the customer has accepted analytics cookies through the application's cookie consent controls.
+
+Personally identifiable information such as customer names, email addresses, phone numbers, and delivery addresses is not sent as custom analytics event data.
+
+---
 
 ### Admin Dashboard
 
@@ -349,6 +377,7 @@ Create a `.env` file in the project root and add:
 ```env
 VITE_API_URL=your_backend_url_here
 VITE_STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key
+VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 ```
 > The Stripe publishable key is safe to use in the frontend. Stripe secret keys must only exist in the backend environment and must never be exposed in client-side code.
 
