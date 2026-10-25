@@ -129,11 +129,10 @@ export default function HomeSearchSection({
             {/* RESULTS */}
             {hasResults && (
                 <>
-                    {/* HEADLINE */}
                     <Typography
                         align="center"
                         sx={{
-                            mb: { xs: 4.5, sm: 4.5, md: 3.5 },
+                            mb: { xs: 4.5, sm: 4.5, md: 5.8 },
                             mt: headlineMt,
                             fontFamily: "Titan One",
                             fontSize: isCategorySearch
@@ -150,39 +149,6 @@ export default function HomeSearchSection({
                         {headlineText}
                     </Typography>
 
-                    {/* READY TO ORDER */}
-
-                    <Box sx={{ display: "flex", justifyContent: "center", mt: 0.5, mb: 3 }}>
-                        <Box
-                            onClick={enterFastThru}
-                            sx={{
-                                fontSize: { xs: "0.82rem", sm: "0.85rem", md: "0.88rem" },
-                                px: { xs: 1.6, sm: 1.7, md: 1.8 },
-                                py: { xs: 1.05, sm: 1.1, md: 1.15 },
-                                mb: { xs: 1.5, md: 1.5 },
-                                borderRadius: "8px",
-                                backgroundColor: "#1e5bb8",
-                                color: "#fff",
-                                fontFamily: "Titan One",
-                                letterSpacing: "0.09em",
-                                textTransform: "uppercase",
-                                lineHeight: 1,
-                                cursor: "pointer",
-                                border: "1px solid rgba(230,81,0,0.18)",
-                                boxShadow: 2,
-                                transition: "all 0.2s ease",
-                                "&:hover": {
-                                    backgroundColor: "#163f82",
-                                    transform: "translateY(-2px)",
-                                },
-                            }}
-                        >
-                            READY TO ORDER
-                        </Box>
-
-                    </Box>
-
-                    {/* GRID */}
                     {/* SEARCH RESULT CAROUSEL */}
                     <Box
                         sx={{
@@ -191,21 +157,21 @@ export default function HomeSearchSection({
                             flexDirection: "column",
                             alignItems: "center",
                             mb: 2,
+                            mt: 3
                         }}
                     >
-                        {sortedResults.length > 1 && (
-                            <Typography
-                                sx={{
-                                    mb: 1.5,
-                                    fontSize: "0.76rem",
-                                    fontWeight: 800,
-                                    color: "rgba(13, 71, 161, 0.55)",
-                                    letterSpacing: "0.06em",
-                                }}
-                            >
-                                {resultIndex + 1} of {sortedResults.length}
-                            </Typography>
-                        )}
+                        <Typography
+                            sx={{
+                                mb: 1.5,
+                                minHeight: "18px",
+                                fontSize: "0.76rem",
+                                fontWeight: 800,
+                                color: "rgba(13, 71, 161, 0.55)",
+                                letterSpacing: "0.06em",
+                            }}
+                        >
+                            {resultIndex + 1} of {sortedResults.length}
+                        </Typography>
 
                         <Box
                             sx={{
@@ -228,6 +194,7 @@ export default function HomeSearchSection({
                                         width: { xs: 38, sm: 44 },
                                         height: { xs: 38, sm: 44 },
                                         flexShrink: 0,
+                                        mr: 0.6,
                                         color: "#0d47a1",
                                         bgcolor: "rgba(13, 71, 161, 0.08)",
                                         border: "1px solid rgba(13, 71, 161, 0.16)",
@@ -238,7 +205,7 @@ export default function HomeSearchSection({
                                     }}
                                 >
                                     <ArrowBackIosNewRoundedIcon
-                                        sx={{ fontSize: 18 }}
+                                        sx={{ fontSize: 18, mr: 0.18 }}
                                     />
                                 </IconButton>
                             )}
@@ -284,6 +251,7 @@ export default function HomeSearchSection({
                                         width: { xs: 38, sm: 44 },
                                         height: { xs: 38, sm: 44 },
                                         flexShrink: 0,
+                                        ml: 0.6,
                                         color: "#0d47a1",
                                         bgcolor: "rgba(13, 71, 161, 0.08)",
                                         border: "1px solid rgba(13, 71, 161, 0.16)",
@@ -294,10 +262,60 @@ export default function HomeSearchSection({
                                     }}
                                 >
                                     <ArrowForwardIosRoundedIcon
-                                        sx={{ fontSize: 18 }}
+                                        sx={{ fontSize: 18, ml: 0.18 }}
                                     />
                                 </IconButton>
                             )}
+                        </Box>
+
+                        {/* READY TO ORDER */}
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                mt: 3.7,
+                                mb: 3,
+                            }}
+                        >
+                            <Box
+                                onClick={enterFastThru}
+                                sx={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    cursor: "pointer",
+                                    position: "relative",
+
+                                    fontFamily: "Titan One",
+                                    fontSize: { xs: "0.9rem", md: "0.95rem" },
+                                    letterSpacing: "0.08em",
+                                    textTransform: "uppercase",
+                                    color: "#1e5bb8",
+
+                                    "&::after": {
+                                        content: '""',
+                                        position: "absolute",
+                                        left: 0,
+                                        bottom: "-5px",
+                                        width: "100%",
+                                        height: "2px",
+                                        backgroundColor: "#ff8a4c",
+                                        transform: "scaleX(0.65)",
+                                        transformOrigin: "center",
+                                        transition: "transform 0.2s ease",
+                                    },
+
+                                    "&:hover::after": {
+                                        transform: "scaleX(1)",
+                                    },
+
+                                    "&:hover": {
+                                        color: "#163f82",
+                                    },
+                                }}
+                            >
+                                Ready to order? →
+                            </Box>
                         </Box>
                     </Box>
                 </>

@@ -53,6 +53,7 @@ import GitHubRepoDesktop from "../components/home/GitHubRepoDesktop";
 import TrackOrderDesktop from "../components/home/TrackOrderDesktop";
 import HomeFooter from "../components/layout/footer/HomeFooter";
 import { trackEvent } from "../utils/analytics";
+import Footer from "../components/layout/footer/Footer";
 
 const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
@@ -87,9 +88,10 @@ const desktopCarouselSlides = [
         <img src={Employees} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
     </Carousel.Item>,
     <Carousel.Item key="slide-5">
-        <img src={Chat4} style={{ width: "100%", height: "100%", objectFit: "cover", 
+        <img src={Chat4} style={{
+            width: "100%", height: "100%", objectFit: "cover",
             objectPosition: "center 12%"
-         }} />
+        }} />
     </Carousel.Item>,
 ];
 
@@ -547,7 +549,9 @@ export default function Home() {
                         <FloatingContact />
                     )}
 
-                    {!isMobile && <HomeFooter />}
+                    {!isMobile && !isSearching && <HomeFooter />}
+
+                    {!isMobile && isSearching && <Footer />}
 
                     {isMobile && (
                         <NavFooter

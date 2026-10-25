@@ -1,8 +1,8 @@
 export const categoryLabelMap: Record<string, string> = {
-    sandwiches: "BURGER LINEUP",
-    sides: "SIDES & EXTRAS",
-    beverages: "COLD DRINKS",
-    desserts: "SWEET TREATS",
+    sandwiches: "BURGER LINEUP 🍔",
+    sides: "SIDES & EXTRAS 🍟",
+    beverages: "COLD DRINKS 🥤",
+    desserts: "SWEET TREATS 🍪",
 };
 
 export const categoryAliases: Record<string, string[]> = {
