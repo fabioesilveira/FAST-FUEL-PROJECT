@@ -115,6 +115,7 @@ export default function HomeSearchProductCard({
                 p: isMobile ? 2 : 2.5,
                 display: "flex",
                 flexDirection: "column",
+                height: isMobile ? 430 : 450,
                 gap: isMobile ? 1.2 : 1.6,
                 transition: "transform 0.2s ease, box-shadow 0.2s ease",
                 "&:hover": {
@@ -173,19 +174,30 @@ export default function HomeSearchProductCard({
             <Box
                 sx={{
                     width: "100%",
+                    flex: 1,
+                    minHeight: 0,
+
                     backgroundColor: "#ffe0c7",
                     borderRadius: "10px",
+
                     px: isMobile ? 1.5 : 2,
                     py: isMobile ? 1.1 : 1.5,
+                    marginBottom: 0.2,
                     boxShadow: 2,
+
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+
                     textAlign: "center",
                 }}
             >
                 <Typography
                     sx={{
-                        fontSize: isMobile ? "0.9rem" : "0.95rem",
-                        fontWeight: 400,
+                        fontSize: isMobile ? "0.9rem" : "0.94rem",
+                        fontWeight: 395,
                         color: "#000",
+                        lineHeight: 1.45,
                     }}
                 >
                     {product.description}

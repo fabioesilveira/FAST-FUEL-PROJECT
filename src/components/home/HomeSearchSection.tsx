@@ -1,7 +1,12 @@
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import HomeSearchProductCard from "./HomeSearchProductCard";
 import type { Meal } from "../../context/context";
+
+import IconButton from "@mui/material/IconButton";
+import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 type Props = {
     isSearching: boolean;
@@ -28,6 +33,35 @@ export default function HomeSearchSection({
     filteredData,
     enterFastThru,
 }: Props) {
+
+    const [resultIndex, setResultIndex] = useState(0);
+
+    const sortedResults = [...filteredData].sort(
+        (a, b) => Number(a.id) - Number(b.id)
+    );
+
+    const currentProduct = sortedResults[resultIndex];
+
+    useEffect(() => {
+        setResultIndex(0);
+    }, [filteredData]);
+
+    function showPreviousResult() {
+        setResultIndex((prev) =>
+            prev === 0
+                ? sortedResults.length - 1
+                : prev - 1
+        );
+    }
+
+    function showNextResult() {
+        setResultIndex((prev) =>
+            prev === sortedResults.length - 1
+                ? 0
+                : prev + 1
+        );
+    }
+
     if (!isSearching) return null;
 
     return (
@@ -149,36 +183,122 @@ export default function HomeSearchSection({
                     </Box>
 
                     {/* GRID */}
+                    {/* SEARCH RESULT CAROUSEL */}
                     <Box
                         sx={{
-                            display: "grid",
-                            justifyContent: "center",
-                            justifyItems: "center",
-                            gap: 4,
+                            width: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
                             mb: 2,
-                            gridTemplateColumns: {
-                                xs: "repeat(1, 260px)",
-                                sm:
-                                    filteredData.length === 1
-                                        ? "repeat(1, 300px)"
-                                        : "repeat(2, 300px)",
-                                md:
-                                    filteredData.length === 1
-                                        ? "repeat(1, 300px)"
-                                        : "repeat(2, 300px)",
-                                lg:
-                                    filteredData.length === 1
-                                        ? "repeat(1, 300px)"
-                                        : "repeat(2, 300px)",
-                            },
                         }}
                     >
-                        {filteredData.map((e) => (
-                            <HomeSearchProductCard
-                                key={String(e.id)}
-                                product={e}
-                            />
-                        ))}
+                        {sortedResults.length > 1 && (
+                            <Typography
+                                sx={{
+                                    mb: 1.5,
+                                    fontSize: "0.76rem",
+                                    fontWeight: 800,
+                                    color: "rgba(13, 71, 161, 0.55)",
+                                    letterSpacing: "0.06em",
+                                }}
+                            >
+                                {resultIndex + 1} of {sortedResults.length}
+                            </Typography>
+                        )}
+
+                        <Box
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: {
+                                    xs: 1,
+                                    sm: 2,
+                                    md: 3,
+                                },
+                                width: "100%",
+                            }}
+                        >
+                            {sortedResults.length > 1 && (
+                                <IconButton
+                                    onClick={showPreviousResult}
+                                    aria-label="Previous product"
+                                    sx={{
+                                        width: { xs: 38, sm: 44 },
+                                        height: { xs: 38, sm: 44 },
+                                        flexShrink: 0,
+                                        color: "#0d47a1",
+                                        bgcolor: "rgba(13, 71, 161, 0.08)",
+                                        border: "1px solid rgba(13, 71, 161, 0.16)",
+
+                                        "&:hover": {
+                                            bgcolor: "rgba(13, 71, 161, 0.14)",
+                                        },
+                                    }}
+                                >
+                                    <ArrowBackIosNewRoundedIcon
+                                        sx={{ fontSize: 18 }}
+                                    />
+                                </IconButton>
+                            )}
+
+                            <Box
+                                key={String(currentProduct?.id)}
+                                sx={{
+                                    width: {
+                                        xs: 260,
+                                        sm: 300,
+                                    },
+
+                                    animation:
+                                        "searchCardIn 240ms ease",
+
+                                    "@keyframes searchCardIn": {
+                                        from: {
+                                            opacity: 0,
+                                            transform:
+                                                "translateY(8px) scale(0.98)",
+                                        },
+
+                                        to: {
+                                            opacity: 1,
+                                            transform:
+                                                "translateY(0) scale(1)",
+                                        },
+                                    },
+                                }}
+                            >
+                                {currentProduct && (
+                                    <HomeSearchProductCard
+                                        product={currentProduct}
+                                    />
+                                )}
+                            </Box>
+
+                            {sortedResults.length > 1 && (
+                                <IconButton
+                                    onClick={showNextResult}
+                                    aria-label="Next product"
+                                    sx={{
+                                        width: { xs: 38, sm: 44 },
+                                        height: { xs: 38, sm: 44 },
+                                        flexShrink: 0,
+                                        color: "#0d47a1",
+                                        bgcolor: "rgba(13, 71, 161, 0.08)",
+                                        border: "1px solid rgba(13, 71, 161, 0.16)",
+
+                                        "&:hover": {
+                                            bgcolor: "rgba(13, 71, 161, 0.14)",
+                                        },
+                                    }}
+                                >
+                                    <ArrowForwardIosRoundedIcon
+                                        sx={{ fontSize: 18 }}
+                                    />
+                                </IconButton>
+                            )}
+                        </Box>
                     </Box>
                 </>
             )}
