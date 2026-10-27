@@ -446,7 +446,7 @@ export default function Home() {
                                     flexDirection: "column",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    mt: 2.5,
+                                    mt: 1.5,
                                     mb: 1.5,
                                     gap: 1.2,
                                 }}
