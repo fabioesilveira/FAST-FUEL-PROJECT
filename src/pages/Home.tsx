@@ -148,10 +148,10 @@ export default function Home() {
     const showMobilePromosBlock = isMobile && !hidePromos;
 
     const headlineMt = searchOverlayOpen
-        ? { xs: 12, sm: 12, md: 2.7 }
+        ? { xs: 12, sm: 12, md: 2.8 }
         : isSearching
-            ? { xs: 4, sm: 4, md: 2.7 }
-            : { xs: 2, sm: 3, md: 2.7 };
+            ? { xs: 4, sm: 4, md: 2.8 }
+            : { xs: 2, sm: 3, md: 2.8 };
 
 
     function handleDrawerNavigate(category: string) {
@@ -371,8 +371,12 @@ export default function Home() {
                     {showDesktopDrawer && (
                         <DrawerHome
                             onNavigate={handleDrawerNavigate}
-                            onDriveThruClick={openFastThru}
-                            isFastThruActive={false}
+                            onDriveThruClick={
+                                isSearching
+                                    ? () => handleSearchInput("")
+                                    : openFastThru
+                            }
+                            isFastThruActive={isSearching}
                         />
                     )}
 

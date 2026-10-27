@@ -5,6 +5,7 @@ import {
 } from "react";
 
 import { useNavigate } from "react-router-dom";
+import { useHomeSearch } from "../hooks/useHomeSearch";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -22,6 +23,7 @@ import PageBgMobile from "../components/layout/background/PageBgMobile";
 import HomeFastThruSection from "../components/home/HomeFastThruSection";
 import FastThruOrderPanel from "../components/home/FastThruOrderPanel";
 import FastThruFooter from "../components/layout/footer/FastThruFooter";
+import HomeSearchSection from "../components/home/HomeSearchSection";
 
 import FloatingContact from "../components/layout/contact/FloatingContact";
 import FloatingContactMobile from "../components/layout/contact/FloatingContactMobile";
@@ -38,6 +40,7 @@ import { useAppAlert } from "../hooks/useAppAlert";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 import { cleanProductName } from "../utils/homeHelpers";
+import Footer from "../components/layout/footer/Footer";
 
 const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
@@ -65,6 +68,20 @@ export default function FastThru() {
     );
 
     const [data, setData] = useState<Meal[]>([]);
+
+    const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
+
+    const {
+        isCategorySearch,
+        filteredData,
+        hasResults,
+        isSearching,
+        charsLeft,
+        showKeepTyping,
+        showNotFound,
+        headlineText,
+        handleSearchInput,
+    } = useHomeSearch({ data });
 
     const {
         order,
@@ -145,12 +162,6 @@ export default function FastThru() {
 
     function handleGoHome() {
         navigate("/");
-    }
-
-    function handleSearchInput(
-        _value: string
-    ) {
-        // Search will remain handled by Home.
     }
 
     function handleCheckout() {
@@ -235,10 +246,8 @@ export default function FastThru() {
                     }}
                 >
                     <Navbar
-                        onSearch={
-                            handleSearchInput
-                        }
-                        onSearchOverlayChange={() => { }}
+                        onSearch={handleSearchInput}
+                        onSearchOverlayChange={setSearchOverlayOpen}
                     />
 
                     <CssBaseline />
@@ -280,62 +289,58 @@ export default function FastThru() {
                             mx: "auto",
                         }}
                     >
-                        <Box
-                            sx={{
-                                mt: {
-                                    xs: 0.2,
-                                    md: 1.5,
-                                },
+                        {!isSearching && (
+                            <>
+                                <Box
+                                    sx={{
+                                        mt: {
+                                            xs: 0.2,
+                                            md: 1.5,
+                                        },
+                                        mb: {
+                                            xs: 2.5,
+                                            md: 1.5,
+                                        },
+                                    }}
+                                >
+                                    <FastThruOrderPanel
+                                        cartCount={cartCount}
+                                        order={order}
+                                        subtotal={subtotal}
+                                        discount={discount}
+                                        checkout={checkout}
+                                        onDecItem={decItem}
+                                        onRemoveItem={removeItem}
+                                        onCheckout={handleCheckout}
+                                    />
+                                </Box>
 
-                                mb: {
-                                    xs: 2.5,
-                                    md: 1.5,
-                                },
-                            }}
-                        >
-                            <FastThruOrderPanel
-                                cartCount={
-                                    cartCount
-                                }
-                                order={order}
-                                subtotal={
-                                    subtotal
-                                }
-                                discount={
-                                    discount
-                                }
-                                checkout={
-                                    checkout
-                                }
-                                onDecItem={
-                                    decItem
-                                }
-                                onRemoveItem={
-                                    removeItem
-                                }
-                                onCheckout={
-                                    handleCheckout
-                                }
-                            />
-                        </Box>
+                                <HomeFastThruSection
+                                    isMobile={isMobile}
+                                    fastThruData={fastThruData}
+                                    qtyMap={qtyMap}
+                                    cleanProductName={cleanProductName}
+                                    onOrder={handleOrder}
+                                    onRemoveItem={removeItem}
+                                />
+                            </>
+                        )}
 
-                        <HomeFastThruSection
-                            isMobile={
-                                isMobile
+                        <HomeSearchSection
+                            isSearching={isSearching}
+                            showKeepTyping={showKeepTyping}
+                            showNotFound={showNotFound}
+                            hasResults={hasResults}
+                            charsLeft={charsLeft}
+                            headlineText={headlineText}
+                            isCategorySearch={isCategorySearch}
+                            headlineMt={
+                                searchOverlayOpen
+                                    ? { xs: 12, sm: 12, md: 2.8 }
+                                    : { xs: 4, sm: 4, md: 2.8 }
                             }
-                            fastThruData={
-                                fastThruData
-                            }
-                            qtyMap={qtyMap}
-                            cleanProductName={
-                                cleanProductName
-                            }
-                            onOrder={
-                                handleOrder
-                            }
-                            onRemoveItem={
-                                removeItem
-                            }
+                            filteredData={filteredData}
+                            enterFastThru={() => handleSearchInput("")}
                         />
                     </Container>
 
@@ -358,7 +363,9 @@ export default function FastThru() {
                             isFastThruActive
                         />
                     )}
-                    {!isMobile && <FastThruFooter />}
+                    {!isMobile && !isSearching && <FastThruFooter />}
+
+                    {!isMobile && isSearching && <Footer />}
                 </Box>
             </PageShell>
         </>

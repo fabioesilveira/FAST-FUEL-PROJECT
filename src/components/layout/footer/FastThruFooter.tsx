@@ -13,7 +13,7 @@ export default function FastThruFooter() {
 
                     position: "fixed",
                     right: 355,
-                    bottom: 11,
+                    bottom: 15,
 
                     fontSize: "0.77rem",
                     fontWeight: 700,
@@ -42,7 +42,7 @@ export default function FastThruFooter() {
                     right: 0,
                     bottom: 0,
 
-                    height: "9px",
+                    height: "13px",
 
                     bgcolor: "#e65100",
 
