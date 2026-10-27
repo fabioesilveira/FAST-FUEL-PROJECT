@@ -54,6 +54,7 @@ import TrackOrderDesktop from "../components/home/TrackOrderDesktop";
 import HomeFooter from "../components/layout/footer/HomeFooter";
 import { trackEvent } from "../utils/analytics";
 import Footer from "../components/layout/footer/Footer";
+import { Typography } from "@mui/material";
 
 const NAVBAR_H = 92;
 const NAVFOOTER_H = 86;
@@ -439,7 +440,80 @@ export default function Home() {
                                     reviews={homeReviews}
                                 />
                             )}
+                            <Box
+                                sx={{
+                                    display: { xs: "flex", sm: "none" },
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    mt: 2.5,
+                                    mb: 1.5,
+                                    gap: 1.2,
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        gap: 2.2,
+                                        mb: 1
+                                    }}
+                                >
+                                    <Typography
+                                        onClick={() => navigate("/about")}
+                                        sx={{
+                                            color: "#1e5bb8",
+                                            fontSize: "0.78rem",
+                                            fontWeight: 700,
+                                            letterSpacing: "0.04em",
+                                            textDecoration: "underline",
+                                            textUnderlineOffset: "3px",
+                                            textDecorationThickness: "1px",
+                                            cursor: "pointer",
+
+                                            "&:hover": {
+                                                textDecoration: "underline",
+                                            },
+                                        }}
+                                    >
+                                        About Fast Fuel
+                                    </Typography>
+
+                                    <Typography
+                                        onClick={() => navigate("/cookie-preferences")}
+                                        sx={{
+                                            color: "#1e5bb8",
+                                            fontSize: "0.78rem",
+                                            textDecoration: "underline",
+                                            textUnderlineOffset: "3px",
+                                            textDecorationThickness: "1px",
+                                            fontWeight: 700,
+                                            letterSpacing: "0.04em",
+                                            cursor: "pointer",
+
+                                            "&:hover": {
+                                                textDecoration: "underline",
+                                            },
+                                        }}
+                                    >
+                                        Cookie Preferences
+                                    </Typography>
+                                </Box>
+
+                                <Typography
+                                    sx={{
+                                        color: "rgba(230, 81, 0, 0.45)",
+                                        fontSize: "0.82rem",
+                                        fontWeight: 700,
+                                        letterSpacing: "0.05em",
+                                    }}
+                                >
+                                    © 2026 Fast Fuel.
+                                </Typography>
+                            </Box>
                         </Box>
+
                     )}
 
                     <Container
