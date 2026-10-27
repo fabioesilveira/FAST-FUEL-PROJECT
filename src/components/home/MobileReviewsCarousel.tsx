@@ -19,10 +19,31 @@ type Props = {
     reviews: HomeReview[];
 };
 
+const avatarColors = [
+    "#1e5bb8",
+    "#e65100",
+    "#6b7280",
+    "#7a8f7b",
+    "#8d6e63",
+];
+
+function getAvatarColor(name: string) {
+    const value = name
+        .split("")
+        .reduce(
+            (total, char) =>
+                total + char.charCodeAt(0),
+            0
+        );
+
+    return avatarColors[
+        value % avatarColors.length
+    ];
+}
+
 export default function MobileReviewsCarousel({
     reviews,
 }: Props) {
-
     const navigate = useNavigate();
 
     if (!reviews.length) return null;
@@ -76,119 +97,159 @@ export default function MobileReviewsCarousel({
                     },
                 }}
             >
-                {reviews.map((review) => (
-                    <Box
-                        key={review.id}
-                        sx={{
-                            flex: "0 0 82%",
-                            maxWidth: 330,
-                            scrollSnapAlign: "center",
-                            bgcolor: "#f4f4f4",
-                            border:
-                                "1px solid rgba(13,71,161,0.14)",
-                            boxShadow:
-                                "0 4px 14px rgba(13,71,161,0.08)",
-                            borderRadius: 3,
-                            px: 2.2,
-                            py: 2,
-                            minHeight: 150,
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                        }}
-                    >
-                        <Box>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    gap: 1,
-                                    mb: 0.8,
-                                }}
-                            >
-                                <Typography
+                {reviews.map((review) => {
+                    const initial =
+                        review.display_name
+                            ?.trim()
+                            .charAt(0)
+                            .toUpperCase() || "?";
+
+                    return (
+                        <Box
+                            key={review.id}
+                            sx={{
+                                flex: "0 0 82%",
+                                maxWidth: 330,
+                                scrollSnapAlign: "center",
+                                bgcolor: "#f4f4f4",
+                                border:
+                                    "1px solid rgba(13,71,161,0.14)",
+                                boxShadow:
+                                    "0 4px 14px rgba(13,71,161,0.08)",
+                                borderRadius: 3,
+                                px: 2.2,
+                                py: 2,
+                                minHeight: 150,
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <Box>
+                                <Box
                                     sx={{
-                                        fontSize: "0.78rem",
-                                        fontWeight: 900,
-                                        color: "#0d47a1",
-                                        overflow: "hidden",
-                                        textOverflow: "ellipsis",
-                                        whiteSpace: "nowrap",
-                                        maxWidth: "65%",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        gap: 1,
+                                        mb: 0.8,
                                     }}
                                 >
-                                    {cleanProductName(review.product_name)}
-                                </Typography>
+                                    <Typography
+                                        sx={{
+                                            fontSize: "0.78rem",
+                                            fontWeight: 900,
+                                            color: "#0d47a1",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap",
+                                            maxWidth: "65%",
+                                        }}
+                                    >
+                                        {cleanProductName(
+                                            review.product_name
+                                        )}
+                                    </Typography>
+
+                                    <Typography
+                                        sx={{
+                                            fontSize: "0.68rem",
+                                            fontWeight: 600,
+                                            color: "rgba(20,20,20,0.5)",
+                                            whiteSpace: "nowrap",
+                                        }}
+                                    >
+                                        {new Date(
+                                            review.created_at
+                                        ).toLocaleDateString(
+                                            "en-US",
+                                            {
+                                                month: "short",
+                                                day: "numeric",
+                                                year: "numeric",
+                                            }
+                                        )}
+                                    </Typography>
+                                </Box>
+
+                                <Rating
+                                    value={review.rating}
+                                    readOnly
+                                    size="small"
+                                    sx={{
+                                        mb: 1.2,
+
+                                        "& .MuiRating-iconFilled": {
+                                            color: "#e65100",
+                                        },
+                                    }}
+                                />
 
                                 <Typography
                                     sx={{
-                                        fontSize: "0.68rem",
-                                        fontWeight: 600,
-                                        color: "rgba(20,20,20,0.5)",
-                                        whiteSpace: "nowrap",
+                                        fontSize: "0.88rem",
+                                        lineHeight: 1.6,
+                                        color: "rgba(20,20,20,0.75)",
                                     }}
                                 >
-                                    {new Date(
-                                        review.created_at
-                                    ).toLocaleDateString("en-US", {
-                                        month: "short",
-                                        day: "numeric",
-                                        year: "numeric",
-                                    })}
+                                    “{review.comment}”
                                 </Typography>
                             </Box>
 
-                            <Rating
-                                value={review.rating}
-                                readOnly
-                                size="small"
+                            <Box
                                 sx={{
-                                    mb: 1.2,
-
-                                    "& .MuiRating-iconFilled": {
-                                        color: "#e65100",
-                                    },
-                                }}
-                            />
-
-                            <Typography
-                                sx={{
-                                    fontSize: "0.88rem",
-                                    lineHeight: 1.6,
-                                    color: "rgba(20,20,20,0.75)",
+                                    mt: 1.5,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 0.8,
                                 }}
                             >
-                                “{review.comment}”
-                            </Typography>
-                        </Box>
-
-                        <Box sx={{ mt: 1.5 }}>
-                            <Typography
-                                sx={{
-                                    fontSize: "0.78rem",
-                                    fontWeight: 800,
-                                    color: "#0d47a1",
-                                }}
-                            >
-                                — {review.display_name}
-                            </Typography>
-
-                            {review.verified_purchase === 1 && (
-                                <Typography
+                                <Box
                                     sx={{
-                                        mt: 0.4,
-                                        fontSize: "0.7rem",
-                                        fontWeight: 700,
-                                        color: "#e65100",
+                                        width: 26,
+                                        height: 26,
+                                        borderRadius: "50%",
+                                        bgcolor: getAvatarColor(
+                                            review.display_name
+                                        ),
+                                        color: "#fff",
+                                        display: "grid",
+                                        placeItems: "center",
+                                        flexShrink: 0,
+                                        fontSize: "0.68rem",
+                                        fontWeight: 900,
                                     }}
                                 >
-                                    Verified Purchase
+                                    {initial}
+                                </Box>
+
+                                <Typography
+                                    sx={{
+                                        fontSize: "0.78rem",
+                                        fontWeight: 800,
+                                        color: "#0d47a1",
+                                    }}
+                                >
+                                    {review.display_name}
                                 </Typography>
-                            )}
+
+                                {review.verified_purchase === 1 && (
+                                    <Typography
+                                        sx={{
+                                            ml: "auto",
+                                            fontSize: "0.7rem",
+                                            fontWeight: 700,
+                                            color: "#e65100",
+                                            whiteSpace: "nowrap",
+                                        }}
+                                    >
+                                        Verified Purchase
+                                    </Typography>
+                                )}
+                            </Box>
                         </Box>
-                    </Box>
-                ))}
+                    );
+                })}
 
                 <Box
                     component="button"
