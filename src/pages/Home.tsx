@@ -419,6 +419,21 @@ export default function Home() {
                                 onOpenFastThru={openFastThru}
                             />
 
+                            <Box
+                                component="img"
+                                src={Polaroid}
+                                alt="Fast Fuel food, customers, and team"
+                                sx={{
+                                    width: "100%",
+                                    mx: "auto",
+                                    mt: 3,
+                                    display: "block",
+                                    boxShadow:
+                                        "0 8px 22px rgba(13,71,161,0.16)",
+                                    objectFit: "cover",
+                                }}
+                            />
+
                             {homeReviews.length > 0 && (
                                 <MobileReviewsCarousel
                                     reviews={homeReviews}
