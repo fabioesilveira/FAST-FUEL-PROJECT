@@ -457,13 +457,13 @@ export default function Home() {
                                         alignItems: "center",
                                         justifyContent: "center",
                                         gap: 2.2,
-                                        mb: 1
+                                        mb: 0.7
                                     }}
                                 >
                                     <Typography
                                         onClick={() => navigate("/about")}
                                         sx={{
-                                            color: "#1e5bb8",
+                                            color: "rgba(30, 91, 184, 0.60)",
                                             fontSize: "0.78rem",
                                             fontWeight: 700,
                                             letterSpacing: "0.04em",
@@ -483,7 +483,7 @@ export default function Home() {
                                     <Typography
                                         onClick={() => navigate("/cookie-preferences")}
                                         sx={{
-                                            color: "#1e5bb8",
+                                            color: "rgba(30, 91, 184, 0.60)",
                                             fontSize: "0.78rem",
                                             textDecoration: "underline",
                                             textUnderlineOffset: "3px",
