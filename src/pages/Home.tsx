@@ -446,7 +446,7 @@ export default function Home() {
                                     flexDirection: "column",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    mt: 1.5,
+                                    mt: 1.3,
                                     mb: 1.5,
                                     gap: 1.2,
                                 }}
@@ -457,7 +457,7 @@ export default function Home() {
                                         alignItems: "center",
                                         justifyContent: "center",
                                         gap: 2.2,
-                                        mb: 0.7
+                                        mb: 1
                                     }}
                                 >
                                     <Typography

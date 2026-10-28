@@ -206,8 +206,8 @@ export default function MobileReviewsCarousel({
                             >
                                 <Box
                                     sx={{
-                                        width: 26,
-                                        height: 26,
+                                        width: 28,
+                                        height: 28,
                                         borderRadius: "50%",
                                         bgcolor: getAvatarColor(
                                             review.display_name
