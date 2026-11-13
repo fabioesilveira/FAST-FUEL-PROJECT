@@ -61,12 +61,10 @@ const normalizeImageKey = (value?: string) => {
 
 type HomeSearchProductCardMobileProps = {
     product: Meal;
-    showSwipeHint?: boolean;
 };
 
 export default function HomeSearchProductCardMobile({
     product,
-    showSwipeHint = false,
 }: HomeSearchProductCardMobileProps) {
     const title = product.name.trim();
 
@@ -106,28 +104,6 @@ export default function HomeSearchProductCardMobile({
                 gap: 1.2,
 
                 boxSizing: "border-box",
-
-                animation: showSwipeHint
-                    ? "mobileSwipeHint 950ms ease 500ms 1"
-                    : "none",
-
-                "@keyframes mobileSwipeHint": {
-                    "0%": {
-                        transform: "translateX(0)",
-                    },
-
-                    "35%": {
-                        transform: "translateX(-18px)",
-                    },
-
-                    "65%": {
-                        transform: "translateX(8px)",
-                    },
-
-                    "100%": {
-                        transform: "translateX(0)",
-                    },
-                },
             }}
         >
             {/* IMAGE */}

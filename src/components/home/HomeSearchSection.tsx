@@ -202,6 +202,7 @@ export default function HomeSearchSection({
                                 sm: 4.5,
                                 md: 5.8,
                             },
+
                             mt: headlineMt,
 
                             fontFamily: "Titan One",
@@ -224,6 +225,7 @@ export default function HomeSearchSection({
                                     : "0.04em",
 
                             lineHeight: 1.12,
+
                             textTransform: "uppercase",
 
                             color: "#ff8a4c",
@@ -244,9 +246,11 @@ export default function HomeSearchSection({
                     <Box
                         sx={{
                             width: "100%",
+
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
+
                             mb: 2,
                             mt: 3,
                         }}
@@ -255,11 +259,15 @@ export default function HomeSearchSection({
                         <Typography
                             sx={{
                                 mb: 1.5,
+
                                 minHeight: "18px",
+
                                 fontSize: "0.76rem",
                                 fontWeight: 800,
+
                                 color:
                                     "rgba(13, 71, 161, 0.55)",
+
                                 letterSpacing: "0.06em",
                             }}
                         >
@@ -278,67 +286,262 @@ export default function HomeSearchSection({
                                         }}
                                     >
                                         <HomeSearchProductCardMobile
-                                            product={sortedResults[0]}
+                                            product={
+                                                sortedResults[0]
+                                            }
                                         />
                                     </Box>
                                 ) : (
-                                    <Box
-                                        ref={mobileCarouselRef}
-                                        onScroll={handleMobileScroll}
-                                        sx={{
-                                            width: "100%",
+                                    <>
+                                        <Box
+                                            ref={
+                                                mobileCarouselRef
+                                            }
+                                            onScroll={
+                                                handleMobileScroll
+                                            }
+                                            sx={{
+                                                width: "100%",
 
-                                            display: "flex",
-                                            alignItems: "stretch",
+                                                display:
+                                                    "flex",
 
-                                            gap: 2,
+                                                overflowX:
+                                                    "auto",
+                                                overflowY:
+                                                    "hidden",
 
-                                            overflowX: "auto",
-                                            overflowY: "hidden",
+                                                scrollSnapType:
+                                                    "x mandatory",
 
-                                            scrollSnapType: "x mandatory",
-                                            scrollBehavior: "smooth",
+                                                scrollBehavior:
+                                                    "smooth",
 
-                                            WebkitOverflowScrolling: "touch",
-                                            overscrollBehaviorX: "contain",
+                                                WebkitOverflowScrolling:
+                                                    "touch",
 
-                                            px: "calc((100% - 260px) / 2)",
-                                            pb: 2,
-                                            pt: 0.5,
+                                                overscrollBehaviorX:
+                                                    "contain",
 
-                                            boxSizing: "border-box",
+                                                scrollbarWidth:
+                                                    "none",
 
-                                            scrollbarWidth: "none",
+                                                "&::-webkit-scrollbar":
+                                                {
+                                                    display:
+                                                        "none",
+                                                },
+                                            }}
+                                        >
+                                            {sortedResults.map(
+                                                (
+                                                    product,
+                                                    index
+                                                ) => (
+                                                    <Box
+                                                        key={
+                                                            product.id
+                                                        }
+                                                        data-search-card
+                                                        sx={{
+                                                            flex:
+                                                                "0 0 100%",
 
-                                            "&::-webkit-scrollbar": {
-                                                display: "none",
-                                            },
-                                        }}
-                                    >
-                                        {sortedResults.map((product, index) => (
-                                            <Box
-                                                key={product.id}
-                                                data-search-card
+                                                            width:
+                                                                "100%",
+
+                                                            minWidth:
+                                                                "100%",
+
+                                                            display:
+                                                                "flex",
+
+                                                            alignItems:
+                                                                "center",
+
+                                                            justifyContent:
+                                                                "center",
+
+                                                            scrollSnapAlign:
+                                                                "center",
+
+                                                            scrollSnapStop:
+                                                                "always",
+
+                                                            overflow:
+                                                                "visible",
+
+                                                            boxSizing:
+                                                                "border-box",
+                                                        }}
+                                                    >
+                                                        <Box
+                                                            sx={{
+                                                                width: 260,
+
+                                                                flexShrink: 0,
+
+                                                                position:
+                                                                    "relative",
+
+                                                                zIndex:
+                                                                    index ===
+                                                                        0
+                                                                        ? 2
+                                                                        : 1,
+
+                                                                animation:
+                                                                    index ===
+                                                                        0
+                                                                        ? "peekNextCard 1150ms ease 650ms 1"
+                                                                        : "none",
+
+                                                                "@keyframes peekNextCard":
+                                                                {
+                                                                    "0%":
+                                                                    {
+                                                                        transform:
+                                                                            "translateX(0)",
+                                                                    },
+
+                                                                    "30%":
+                                                                    {
+                                                                        transform:
+                                                                            "translateX(-34px)",
+                                                                    },
+
+                                                                    "55%":
+                                                                    {
+                                                                        transform:
+                                                                            "translateX(-34px)",
+                                                                    },
+
+                                                                    "100%":
+                                                                    {
+                                                                        transform:
+                                                                            "translateX(0)",
+                                                                    },
+                                                                },
+                                                            }}
+                                                        >
+                                                            <HomeSearchProductCardMobile
+                                                                product={
+                                                                    product
+                                                                }
+                                                            />
+                                                        </Box>
+
+                                                        {/* NEXT CARD PEEK */}
+                                                        {index ===
+                                                            0 &&
+                                                            sortedResults.length >
+                                                            1 && (
+                                                                <Box
+                                                                    sx={{
+                                                                        position:
+                                                                            "absolute",
+
+                                                                        left:
+                                                                            "calc(50% + 118px)",
+
+                                                                        width:
+                                                                            260,
+
+                                                                        height:
+                                                                            430,
+
+                                                                        zIndex: 0,
+
+                                                                        pointerEvents:
+                                                                            "none",
+
+                                                                        opacity: 0,
+
+                                                                        animation:
+                                                                            "showNextPeek 1150ms ease 650ms 1",
+
+                                                                        "@keyframes showNextPeek":
+                                                                        {
+                                                                            "0%":
+                                                                            {
+                                                                                opacity: 0,
+                                                                                transform:
+                                                                                    "translateX(30px)",
+                                                                            },
+
+                                                                            "30%":
+                                                                            {
+                                                                                opacity:
+                                                                                    0.65,
+                                                                                transform:
+                                                                                    "translateX(0)",
+                                                                            },
+
+                                                                            "55%":
+                                                                            {
+                                                                                opacity:
+                                                                                    0.65,
+                                                                                transform:
+                                                                                    "translateX(0)",
+                                                                            },
+
+                                                                            "100%":
+                                                                            {
+                                                                                opacity: 0,
+                                                                                transform:
+                                                                                    "translateX(30px)",
+                                                                            },
+                                                                        },
+                                                                    }}
+                                                                >
+                                                                    <HomeSearchProductCardMobile
+                                                                        product={
+                                                                            sortedResults[1]
+                                                                        }
+                                                                    />
+                                                                </Box>
+                                                            )}
+                                                    </Box>
+                                                )
+                                            )}
+                                        </Box>
+
+                                        {/* SWIPE HINT */}
+                                        <Box
+                                            sx={{
+                                                mt: 1.2,
+
+                                                display:
+                                                    "flex",
+
+                                                alignItems:
+                                                    "center",
+
+                                                justifyContent:
+                                                    "center",
+
+                                                color:
+                                                    "rgba(13, 71, 161, 0.55)",
+                                            }}
+                                        >
+                                            <Typography
                                                 sx={{
-                                                    flex: "0 0 260px",
-                                                    width: 260,
+                                                    fontSize:
+                                                        "0.72rem",
 
-                                                    scrollSnapAlign: "center",
-                                                    scrollSnapStop: "always",
+                                                    fontWeight: 800,
 
-                                                    boxSizing: "border-box",
+                                                    letterSpacing:
+                                                        "0.08em",
+
+                                                    textTransform:
+                                                        "uppercase",
                                                 }}
                                             >
-                                                <HomeSearchProductCardMobile
-                                                    product={product}
-                                                    showSwipeHint={
-                                                        sortedResults.length > 1 &&
-                                                        index === 0
-                                                    }
-                                                />
-                                            </Box>
-                                        ))}
-                                    </Box>
+                                                ← Swipe to explore →
+                                            </Typography>
+                                        </Box>
+                                    </>
                                 )}
                             </>
                         ) : (
@@ -346,7 +549,9 @@ export default function HomeSearchSection({
                             <Box
                                 sx={{
                                     display: "flex",
+
                                     alignItems: "center",
+
                                     justifyContent:
                                         "center",
 
@@ -368,7 +573,9 @@ export default function HomeSearchSection({
                                             sx={{
                                                 width: 44,
                                                 height: 44,
+
                                                 flexShrink: 0,
+
                                                 mr: 0.6,
 
                                                 color:
@@ -390,6 +597,7 @@ export default function HomeSearchSection({
                                                 sx={{
                                                     fontSize:
                                                         18,
+
                                                     mr: 0.18,
                                                 }}
                                             />
@@ -410,12 +618,14 @@ export default function HomeSearchSection({
                                         {
                                             from: {
                                                 opacity: 0,
+
                                                 transform:
                                                     "translateY(8px) scale(0.98)",
                                             },
 
                                             to: {
                                                 opacity: 1,
+
                                                 transform:
                                                     "translateY(0) scale(1)",
                                             },
@@ -441,7 +651,9 @@ export default function HomeSearchSection({
                                             sx={{
                                                 width: 44,
                                                 height: 44,
+
                                                 flexShrink: 0,
+
                                                 ml: 0.6,
 
                                                 color:
@@ -463,6 +675,7 @@ export default function HomeSearchSection({
                                                 sx={{
                                                     fontSize:
                                                         18,
+
                                                     ml: 0.18,
                                                 }}
                                             />
@@ -475,7 +688,9 @@ export default function HomeSearchSection({
                         <Box
                             sx={{
                                 display: "flex",
+
                                 justifyContent: "center",
+
                                 mt: 3.7,
                                 mb: 3,
                             }}
@@ -484,9 +699,14 @@ export default function HomeSearchSection({
                                 onClick={enterFastThru}
                                 sx={{
                                     display: "inline-flex",
+
                                     alignItems: "center",
-                                    justifyContent: "center",
+
+                                    justifyContent:
+                                        "center",
+
                                     cursor: "pointer",
+
                                     position: "relative",
 
                                     fontFamily: "Titan One",
@@ -497,6 +717,7 @@ export default function HomeSearchSection({
                                     },
 
                                     letterSpacing: "0.08em",
+
                                     textTransform:
                                         "uppercase",
 
@@ -504,11 +725,16 @@ export default function HomeSearchSection({
 
                                     "&::after": {
                                         content: '""',
+
                                         position:
                                             "absolute",
+
                                         left: 0,
+
                                         bottom: "-5px",
+
                                         width: "100%",
+
                                         height: "2px",
 
                                         backgroundColor:
