@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import HomeSearchProductCard from "./HomeSearchProductCard";
+import HomeSearchProductCardMobile from "./HomeSearchProductCardMobile";
 import type { Meal } from "../../context/context";
 
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 type Props = {
     isSearching: boolean;
@@ -33,8 +37,12 @@ export default function HomeSearchSection({
     filteredData,
     enterFastThru,
 }: Props) {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const [resultIndex, setResultIndex] = useState(0);
+
+    const mobileCarouselRef = useRef<HTMLDivElement | null>(null);
 
     const sortedResults = [...filteredData].sort(
         (a, b) => Number(a.id) - Number(b.id)
@@ -44,6 +52,13 @@ export default function HomeSearchSection({
 
     useEffect(() => {
         setResultIndex(0);
+
+        if (mobileCarouselRef.current) {
+            mobileCarouselRef.current.scrollTo({
+                left: 0,
+                behavior: "auto",
+            });
+        }
     }, [filteredData]);
 
     function showPreviousResult() {
@@ -60,6 +75,40 @@ export default function HomeSearchSection({
                 ? 0
                 : prev + 1
         );
+    }
+
+    function handleMobileScroll() {
+        const carousel = mobileCarouselRef.current;
+
+        if (!carousel) return;
+
+        const cards = Array.from(
+            carousel.querySelectorAll<HTMLElement>("[data-search-card]")
+        );
+
+        if (cards.length === 0) return;
+
+        const carouselCenter =
+            carousel.scrollLeft + carousel.clientWidth / 2;
+
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+
+        cards.forEach((card, index) => {
+            const cardCenter =
+                card.offsetLeft + card.offsetWidth / 2;
+
+            const distance = Math.abs(
+                cardCenter - carouselCenter
+            );
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = index;
+            }
+        });
+
+        setResultIndex(closestIndex);
     }
 
     if (!isSearching) return null;
@@ -89,8 +138,16 @@ export default function HomeSearchSection({
                         }}
                     >
                         Keep typing… ✍️ <br />
-                        <span style={{ fontSize: "0.75em" }}>
-                            {charsLeft} more {charsLeft === 1 ? "letter" : "letters"}
+
+                        <span
+                            style={{
+                                fontSize: "0.75em",
+                            }}
+                        >
+                            {charsLeft} more{" "}
+                            {charsLeft === 1
+                                ? "letter"
+                                : "letters"}
                         </span>
                     </Typography>
                 </Box>
@@ -112,14 +169,22 @@ export default function HomeSearchSection({
                         align="center"
                         sx={{
                             fontFamily: "Titan One",
-                            fontSize: { xs: "24px", md: "32px" },
+                            fontSize: {
+                                xs: "24px",
+                                md: "32px",
+                            },
                             letterSpacing: "0.05em",
                             color: "rgba(13, 71, 161, 0.65)",
                             textAlign: "center",
                         }}
                     >
                         No products found 😕 <br />
-                        <span style={{ fontSize: "0.77em" }}>
+
+                        <span
+                            style={{
+                                fontSize: "0.77em",
+                            }}
+                        >
                             Try a different search
                         </span>
                     </Typography>
@@ -132,18 +197,44 @@ export default function HomeSearchSection({
                     <Typography
                         align="center"
                         sx={{
-                            mb: { xs: 4.5, sm: 4.5, md: 5.8 },
+                            mb: {
+                                xs: 4.5,
+                                sm: 4.5,
+                                md: 5.8,
+                            },
                             mt: headlineMt,
+
                             fontFamily: "Titan One",
+
                             fontSize: isCategorySearch
-                                ? { xs: "25px", sm: "28px", md: "29px" }
-                                : { xs: "23px", sm: "26px", md: "27px" },
-                            letterSpacing: isCategorySearch ? "0.08em" : "0.04em",
+                                ? {
+                                    xs: "25px",
+                                    sm: "28px",
+                                    md: "29px",
+                                }
+                                : {
+                                    xs: "23px",
+                                    sm: "26px",
+                                    md: "27px",
+                                },
+
+                            letterSpacing:
+                                isCategorySearch
+                                    ? "0.08em"
+                                    : "0.04em",
+
                             lineHeight: 1.12,
                             textTransform: "uppercase",
+
                             color: "#ff8a4c",
-                            textShadow: "0 1px 2px rgba(30, 91, 184, 0.22)",
-                            px: { xs: 1, sm: 0 },
+
+                            textShadow:
+                                "0 1px 2px rgba(30, 91, 184, 0.22)",
+
+                            px: {
+                                xs: 1,
+                                sm: 0,
+                            },
                         }}
                     >
                         {headlineText}
@@ -157,116 +248,252 @@ export default function HomeSearchSection({
                             flexDirection: "column",
                             alignItems: "center",
                             mb: 2,
-                            mt: 3
+                            mt: 3,
                         }}
                     >
+                        {/* COUNTER */}
                         <Typography
                             sx={{
                                 mb: 1.5,
                                 minHeight: "18px",
                                 fontSize: "0.76rem",
                                 fontWeight: 800,
-                                color: "rgba(13, 71, 161, 0.55)",
+                                color:
+                                    "rgba(13, 71, 161, 0.55)",
                                 letterSpacing: "0.06em",
                             }}
                         >
-                            {resultIndex + 1} of {sortedResults.length}
+                            {resultIndex + 1} of{" "}
+                            {sortedResults.length}
                         </Typography>
 
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                gap: {
-                                    xs: 1,
-                                    sm: 2,
-                                    md: 3,
-                                },
-                                width: "100%",
-                            }}
-                        >
-                            {sortedResults.length > 1 && (
-                                <IconButton
-                                    onClick={showPreviousResult}
-                                    aria-label="Previous product"
-                                    sx={{
-                                        width: { xs: 38, sm: 44 },
-                                        height: { xs: 38, sm: 44 },
-                                        flexShrink: 0,
-                                        mr: 0.6,
-                                        color: "#0d47a1",
-                                        bgcolor: "rgba(13, 71, 161, 0.08)",
-                                        border: "1px solid rgba(13, 71, 161, 0.16)",
+                        {/* MOBILE */}
+                        {isMobile ? (
+                            <>
+                                {sortedResults.length === 1 ? (
+                                    <Box
+                                        sx={{
+                                            width: 260,
+                                            mx: "auto",
+                                        }}
+                                    >
+                                        <HomeSearchProductCardMobile
+                                            product={
+                                                sortedResults[0]
+                                            }
+                                        />
+                                    </Box>
+                                ) : (
+                                    <Box
+                                        ref={mobileCarouselRef}
+                                        onScroll={
+                                            handleMobileScroll
+                                        }
+                                        sx={{
+                                            width: "100%",
 
-                                        "&:hover": {
-                                            bgcolor: "rgba(13, 71, 161, 0.14)",
-                                        },
-                                    }}
-                                >
-                                    <ArrowBackIosNewRoundedIcon
-                                        sx={{ fontSize: 18, mr: 0.18 }}
-                                    />
-                                </IconButton>
-                            )}
+                                            display: "flex",
+                                            alignItems:
+                                                "stretch",
 
+                                            gap: 1.5,
+
+                                            overflowX: "auto",
+                                            overflowY: "hidden",
+
+                                            scrollSnapType:
+                                                "x mandatory",
+
+                                            scrollBehavior:
+                                                "smooth",
+
+                                            WebkitOverflowScrolling:
+                                                "touch",
+
+                                            overscrollBehaviorX:
+                                                "contain",
+
+                                            px: 4,
+                                            pb: 2,
+                                            pt: 0.5,
+
+                                            boxSizing:
+                                                "border-box",
+
+                                            scrollbarWidth:
+                                                "none",
+
+                                            "&::-webkit-scrollbar":
+                                            {
+                                                display:
+                                                    "none",
+                                            },
+                                        }}
+                                    >
+                                        {sortedResults.map(
+                                            (product) => (
+                                                <Box
+                                                    key={
+                                                        product.id
+                                                    }
+                                                    data-search-card
+                                                    sx={{
+                                                        flex:
+                                                            "0 0 78%",
+
+                                                        maxWidth:
+                                                            280,
+
+                                                        scrollSnapAlign:
+                                                            "center",
+
+                                                        scrollSnapStop:
+                                                            "always",
+
+                                                        boxSizing:
+                                                            "border-box",
+                                                    }}
+                                                >
+                                                    <HomeSearchProductCardMobile
+                                                        product={
+                                                            product
+                                                        }
+                                                    />
+                                                </Box>
+                                            )
+                                        )}
+                                    </Box>
+                                )}
+                            </>
+                        ) : (
+                            /* TABLET + DESKTOP */
                             <Box
-                                key={String(currentProduct?.id)}
                                 sx={{
-                                    width: {
-                                        xs: 260,
-                                        sm: 300,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent:
+                                        "center",
+
+                                    gap: {
+                                        sm: 2,
+                                        md: 3,
                                     },
 
-                                    animation:
-                                        "searchCardIn 240ms ease",
-
-                                    "@keyframes searchCardIn": {
-                                        from: {
-                                            opacity: 0,
-                                            transform:
-                                                "translateY(8px) scale(0.98)",
-                                        },
-
-                                        to: {
-                                            opacity: 1,
-                                            transform:
-                                                "translateY(0) scale(1)",
-                                        },
-                                    },
+                                    width: "100%",
                                 }}
                             >
-                                {currentProduct && (
-                                    <HomeSearchProductCard
-                                        product={currentProduct}
-                                    />
-                                )}
-                            </Box>
+                                {sortedResults.length >
+                                    1 && (
+                                        <IconButton
+                                            onClick={
+                                                showPreviousResult
+                                            }
+                                            aria-label="Previous product"
+                                            sx={{
+                                                width: 44,
+                                                height: 44,
+                                                flexShrink: 0,
+                                                mr: 0.6,
 
-                            {sortedResults.length > 1 && (
-                                <IconButton
-                                    onClick={showNextResult}
-                                    aria-label="Next product"
+                                                color:
+                                                    "#0d47a1",
+
+                                                bgcolor:
+                                                    "rgba(13, 71, 161, 0.08)",
+
+                                                border:
+                                                    "1px solid rgba(13, 71, 161, 0.16)",
+
+                                                "&:hover": {
+                                                    bgcolor:
+                                                        "rgba(13, 71, 161, 0.14)",
+                                                },
+                                            }}
+                                        >
+                                            <ArrowBackIosNewRoundedIcon
+                                                sx={{
+                                                    fontSize:
+                                                        18,
+                                                    mr: 0.18,
+                                                }}
+                                            />
+                                        </IconButton>
+                                    )}
+
+                                <Box
+                                    key={String(
+                                        currentProduct?.id
+                                    )}
                                     sx={{
-                                        width: { xs: 38, sm: 44 },
-                                        height: { xs: 38, sm: 44 },
-                                        flexShrink: 0,
-                                        ml: 0.6,
-                                        color: "#0d47a1",
-                                        bgcolor: "rgba(13, 71, 161, 0.08)",
-                                        border: "1px solid rgba(13, 71, 161, 0.16)",
+                                        width: 300,
 
-                                        "&:hover": {
-                                            bgcolor: "rgba(13, 71, 161, 0.14)",
+                                        animation:
+                                            "searchCardIn 240ms ease",
+
+                                        "@keyframes searchCardIn":
+                                        {
+                                            from: {
+                                                opacity: 0,
+                                                transform:
+                                                    "translateY(8px) scale(0.98)",
+                                            },
+
+                                            to: {
+                                                opacity: 1,
+                                                transform:
+                                                    "translateY(0) scale(1)",
+                                            },
                                         },
                                     }}
                                 >
-                                    <ArrowForwardIosRoundedIcon
-                                        sx={{ fontSize: 18, ml: 0.18 }}
-                                    />
-                                </IconButton>
-                            )}
-                        </Box>
+                                    {currentProduct && (
+                                        <HomeSearchProductCard
+                                            product={
+                                                currentProduct
+                                            }
+                                        />
+                                    )}
+                                </Box>
+
+                                {sortedResults.length >
+                                    1 && (
+                                        <IconButton
+                                            onClick={
+                                                showNextResult
+                                            }
+                                            aria-label="Next product"
+                                            sx={{
+                                                width: 44,
+                                                height: 44,
+                                                flexShrink: 0,
+                                                ml: 0.6,
+
+                                                color:
+                                                    "#0d47a1",
+
+                                                bgcolor:
+                                                    "rgba(13, 71, 161, 0.08)",
+
+                                                border:
+                                                    "1px solid rgba(13, 71, 161, 0.16)",
+
+                                                "&:hover": {
+                                                    bgcolor:
+                                                        "rgba(13, 71, 161, 0.14)",
+                                                },
+                                            }}
+                                        >
+                                            <ArrowForwardIosRoundedIcon
+                                                sx={{
+                                                    fontSize:
+                                                        18,
+                                                    ml: 0.18,
+                                                }}
+                                            />
+                                        </IconButton>
+                                    )}
+                            </Box>
+                        )}
 
                         {/* READY TO ORDER */}
                         <Box
@@ -287,30 +514,48 @@ export default function HomeSearchSection({
                                     position: "relative",
 
                                     fontFamily: "Titan One",
-                                    fontSize: { xs: "0.9rem", md: "0.95rem" },
+
+                                    fontSize: {
+                                        xs: "0.9rem",
+                                        md: "0.95rem",
+                                    },
+
                                     letterSpacing: "0.08em",
-                                    textTransform: "uppercase",
+                                    textTransform:
+                                        "uppercase",
+
                                     color: "#1e5bb8",
 
                                     "&::after": {
                                         content: '""',
-                                        position: "absolute",
+                                        position:
+                                            "absolute",
                                         left: 0,
                                         bottom: "-5px",
                                         width: "100%",
                                         height: "2px",
-                                        backgroundColor: "#ff8a4c",
-                                        transform: "scaleX(0.65)",
-                                        transformOrigin: "center",
-                                        transition: "transform 0.2s ease",
+
+                                        backgroundColor:
+                                            "#ff8a4c",
+
+                                        transform:
+                                            "scaleX(0.65)",
+
+                                        transformOrigin:
+                                            "center",
+
+                                        transition:
+                                            "transform 0.2s ease",
                                     },
 
                                     "&:hover::after": {
-                                        transform: "scaleX(1)",
+                                        transform:
+                                            "scaleX(1)",
                                     },
 
                                     "&:hover": {
-                                        color: "#163f82",
+                                        color:
+                                            "#163f82",
                                     },
                                 }}
                             >

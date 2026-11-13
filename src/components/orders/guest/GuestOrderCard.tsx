@@ -94,7 +94,7 @@ export default function GuestOrderCard({
                             direction="row"
                             alignItems="center"
                             gap={0.5}
-                            sx={{ flexShrink: 0, transform: "translateY(-1px)" }}
+                            sx={{ flexShrink: 0, transform: "translateY(-3px)" }}
                         >
                             <Button
                                 size="small"
@@ -143,7 +143,7 @@ export default function GuestOrderCard({
                             direction="row"
                             alignItems="center"
                             gap={0.6}
-                            sx={{ transform: "translateY(-1px)" }}
+                            sx={{ transform: "translateY(-3px)" }}
                         >
                             <Button
                                 size="small"

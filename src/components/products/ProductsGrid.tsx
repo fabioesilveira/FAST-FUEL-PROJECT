@@ -281,6 +281,22 @@ export default function ProductsGrid({
                 )}
             </Box>
 
+            {isMobile && (
+                <Typography
+                    sx={{
+                        mt: 3.5,
+                        mb: -2.2,
+                        textAlign: "center",
+                        color: "rgba(230, 81, 0, 0.42)",
+                        fontSize: "0.82rem",
+                        fontWeight: 700,
+                        letterSpacing: "0.05em",
+                    }}
+                >
+                    © 2026 Fast Fuel.
+                </Typography>
+            )}
+
             {showFloatingInsights && (
                 <Button
                     onClick={openInsightsDrawer}
