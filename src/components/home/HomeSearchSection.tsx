@@ -199,8 +199,8 @@ export default function HomeSearchSection({
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
-                            mb: 2,
-                            mt: 3,
+                            mb: { xs: 5, md: 2 },
+                            mt: { xs: 2, md: 3 }
                         }}
                     >
                         {/* COUNTER */}
