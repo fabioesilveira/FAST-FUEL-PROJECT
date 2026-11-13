@@ -278,90 +278,66 @@ export default function HomeSearchSection({
                                         }}
                                     >
                                         <HomeSearchProductCardMobile
-                                            product={
-                                                sortedResults[0]
-                                            }
+                                            product={sortedResults[0]}
                                         />
                                     </Box>
                                 ) : (
                                     <Box
                                         ref={mobileCarouselRef}
-                                        onScroll={
-                                            handleMobileScroll
-                                        }
+                                        onScroll={handleMobileScroll}
                                         sx={{
                                             width: "100%",
 
                                             display: "flex",
-                                            alignItems:
-                                                "stretch",
+                                            alignItems: "stretch",
 
-                                            gap: 1.5,
+                                            gap: 2,
 
                                             overflowX: "auto",
                                             overflowY: "hidden",
 
-                                            scrollSnapType:
-                                                "x mandatory",
+                                            scrollSnapType: "x mandatory",
+                                            scrollBehavior: "smooth",
 
-                                            scrollBehavior:
-                                                "smooth",
+                                            WebkitOverflowScrolling: "touch",
+                                            overscrollBehaviorX: "contain",
 
-                                            WebkitOverflowScrolling:
-                                                "touch",
-
-                                            overscrollBehaviorX:
-                                                "contain",
-
-                                            px: 4,
+                                            px: "calc((100% - 260px) / 2)",
                                             pb: 2,
                                             pt: 0.5,
 
-                                            boxSizing:
-                                                "border-box",
+                                            boxSizing: "border-box",
 
-                                            scrollbarWidth:
-                                                "none",
+                                            scrollbarWidth: "none",
 
-                                            "&::-webkit-scrollbar":
-                                            {
-                                                display:
-                                                    "none",
+                                            "&::-webkit-scrollbar": {
+                                                display: "none",
                                             },
                                         }}
                                     >
-                                        {sortedResults.map(
-                                            (product) => (
-                                                <Box
-                                                    key={
-                                                        product.id
+                                        {sortedResults.map((product, index) => (
+                                            <Box
+                                                key={product.id}
+                                                data-search-card
+                                                sx={{
+                                                    flex: "0 0 260px",
+                                                    width: 260,
+
+                                                    scrollSnapAlign: "center",
+                                                    scrollSnapStop: "always",
+
+                                                    boxSizing: "border-box",
+                                                }}
+                                            >
+                                                <HomeSearchProductCardMobile
+                                                    product={product}
+                                                    showSwipeHint={
+                                                        sortedResults.length > 1 &&
+                                                        index === 0
                                                     }
-                                                    data-search-card
-                                                    sx={{
-                                                        flex:
-                                                            "0 0 78%",
-
-                                                        maxWidth:
-                                                            280,
-
-                                                        scrollSnapAlign:
-                                                            "center",
-
-                                                        scrollSnapStop:
-                                                            "always",
-
-                                                        boxSizing:
-                                                            "border-box",
-                                                    }}
-                                                >
-                                                    <HomeSearchProductCardMobile
-                                                        product={
-                                                            product
-                                                        }
-                                                    />
-                                                </Box>
-                                            )
-                                        )}
+                                                />
+                                            </Box>
+                                        ))}
                                     </Box>
                                 )}
                             </>

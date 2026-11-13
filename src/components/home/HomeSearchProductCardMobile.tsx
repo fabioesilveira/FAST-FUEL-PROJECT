@@ -32,16 +32,19 @@ const imageStylesByIdMobile: Record<string, React.CSSProperties> = {
     "2": { width: "185px", height: "180px" },
     "3": { width: "140px", height: "115px", marginTop: "8px" },
     "4": { width: "175px", height: "128px" },
+
     "11": { width: "132px", height: "132px" },
     "12": { width: "148px", height: "108px" },
     "13": { width: "115px", height: "115px", marginTop: "8px" },
     "14": { width: "158px", height: "111px" },
+
     "5": { width: "125px", height: "134px", marginTop: "5px" },
     "6": { width: "125px", height: "134px", marginTop: "5px" },
     "7": { width: "125px", height: "134px", marginTop: "5px" },
     "8": { width: "125px", height: "134px", marginTop: "5px" },
     "9": { width: "125px", height: "134px", marginTop: "5px" },
     "10": { width: "125px", height: "134px", marginTop: "5px" },
+
     "15": { width: "190px", height: "192px" },
     "16": { width: "120px", height: "134px" },
     "17": { width: "138px", height: "120px" },
@@ -58,10 +61,12 @@ const normalizeImageKey = (value?: string) => {
 
 type HomeSearchProductCardMobileProps = {
     product: Meal;
+    showSwipeHint?: boolean;
 };
 
 export default function HomeSearchProductCardMobile({
     product,
+    showSwipeHint = false,
 }: HomeSearchProductCardMobileProps) {
     const title = product.name.trim();
 
@@ -83,26 +88,60 @@ export default function HomeSearchProductCardMobile({
             sx={{
                 width: "100%",
                 height: 430,
+
                 borderRadius: "13px",
+
                 border: "1px solid rgba(230,81,0,0.75)",
+
                 backgroundColor: "#fff3e0",
-                boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
+
+                boxShadow:
+                    "0 8px 18px rgba(230, 81, 0, 0.28)",
+
                 p: 2,
 
                 display: "flex",
                 flexDirection: "column",
+
                 gap: 1.2,
 
                 boxSizing: "border-box",
+
+                animation: showSwipeHint
+                    ? "mobileSwipeHint 950ms ease 500ms 1"
+                    : "none",
+
+                "@keyframes mobileSwipeHint": {
+                    "0%": {
+                        transform: "translateX(0)",
+                    },
+
+                    "35%": {
+                        transform: "translateX(-18px)",
+                    },
+
+                    "65%": {
+                        transform: "translateX(8px)",
+                    },
+
+                    "100%": {
+                        transform: "translateX(0)",
+                    },
+                },
             }}
         >
+            {/* IMAGE */}
             <Box
                 sx={{
                     width: "100%",
                     height: 150,
+
                     backgroundColor: "#fff",
+
                     borderRadius: "9px",
-                    border: "1px solid rgba(230,81,0,0.55)",
+
+                    border:
+                        "1px solid rgba(230,81,0,0.55)",
 
                     display: "flex",
                     alignItems: "center",
@@ -116,30 +155,42 @@ export default function HomeSearchProductCardMobile({
                     alt={title}
                     style={{
                         ...imgStyle,
+
                         maxWidth: "100%",
                         maxHeight: "100%",
+
                         objectFit: "contain",
+
                         display: "block",
                     }}
                 />
             </Box>
 
+            {/* PRODUCT NAME */}
             <Box
                 sx={{
                     width: "100%",
+
                     backgroundColor: "#ffe0c7",
+
                     borderRadius: "9px",
+
                     px: 1.5,
                     py: 0.9,
+
                     boxShadow: 2,
+
                     textAlign: "center",
+
                     boxSizing: "border-box",
                 }}
             >
                 <Typography
                     sx={{
                         fontSize: "0.92rem",
+
                         fontWeight: 800,
+
                         color: "#1e5bb8",
                     }}
                 >
@@ -147,13 +198,17 @@ export default function HomeSearchProductCardMobile({
                 </Typography>
             </Box>
 
+            {/* DESCRIPTION */}
             <Box
                 sx={{
                     width: "100%",
+
                     flex: 1,
+
                     minHeight: 0,
 
                     backgroundColor: "#ffe0c7",
+
                     borderRadius: "10px",
 
                     px: 1.5,
@@ -166,14 +221,18 @@ export default function HomeSearchProductCardMobile({
                     justifyContent: "center",
 
                     textAlign: "center",
+
                     boxSizing: "border-box",
                 }}
             >
                 <Typography
                     sx={{
                         fontSize: "0.9rem",
+
                         fontWeight: 395,
+
                         color: "#000",
+
                         lineHeight: 1.45,
                     }}
                 >
