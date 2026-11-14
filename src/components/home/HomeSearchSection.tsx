@@ -179,8 +179,8 @@ export default function HomeSearchSection({
                             mt: headlineMt,
                             fontFamily: "Titan One",
                             fontSize: isCategorySearch
-                                ? { xs: "25px", sm: "28px", md: "29px" }
-                                : { xs: "23px", sm: "26px", md: "27px" },
+                                ? { xs: "23px", sm: "28px", md: "28px" }
+                                : { xs: "21px", sm: "26px", md: "26px" },
                             letterSpacing: isCategorySearch ? "0.08em" : "0.04em",
                             lineHeight: 1.12,
                             textTransform: "uppercase",
@@ -202,7 +202,7 @@ export default function HomeSearchSection({
                             flexDirection: "column",
                             alignItems: "center",
                             mb: { xs: 5, sm: 2 },
-                            mt: 3,
+                            mt: { xs: 2, md: 3 }
                         }}
                     >
                         {/* COUNTER */}

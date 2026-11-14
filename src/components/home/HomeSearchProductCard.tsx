@@ -1,8 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import type { Meal } from "../../context/context";
 
 import CokeImg from "../../assets/Coke.png";
@@ -29,7 +27,7 @@ const imageMap: Record<string, string> = {
     "Sundae.png": SundaeImg,
 };
 
-const imageStylesByIdDesktop: Record<string, React.CSSProperties> = {
+const imageStylesById: Record<string, React.CSSProperties> = {
     "1": { width: "125px", height: "120px", marginTop: "5px" },
     "2": { width: "230px", height: "215px" },
     "3": { width: "158px", height: "120px", marginTop: "10px" },
@@ -50,34 +48,11 @@ const imageStylesByIdDesktop: Record<string, React.CSSProperties> = {
     "18": { width: "125px", height: "120px" },
 };
 
-const imageStylesByIdMobile: Record<string, React.CSSProperties> = {
-    "1": { width: "110px", height: "105px", marginTop: "5px" },
-    "2": { width: "185px", height: "180px" },
-    "3": { width: "140px", height: "115px", marginTop: "8px" },
-    "4": { width: "175px", height: "128px" },
-    "11": { width: "132px", height: "132px" },
-    "12": { width: "148px", height: "108px" },
-    "13": { width: "115px", height: "115px", marginTop: "8px" },
-    "14": { width: "158px", height: "111px" },
-    "5": { width: "125px", height: "134px", marginTop: "5px" },
-    "6": { width: "125px", height: "134px", marginTop: "5px" },
-    "7": { width: "125px", height: "134px", marginTop: "5px" },
-    "8": { width: "125px", height: "134px", marginTop: "5px" },
-    "9": { width: "125px", height: "134px", marginTop: "5px" },
-    "10": { width: "125px", height: "134px", marginTop: "5px" },
-    "15": { width: "190px", height: "192px" },
-    "16": { width: "120px", height: "134px" },
-    "17": { width: "138px", height: "120px" },
-    "18": { width: "105px", height: "105px" },
-};
-
 const normalizeImageKey = (value?: string) => {
     if (!value) return "";
     const last = value.split("/").pop() || value;
     return last.split("?")[0].trim();
 };
-
-const getNameWithKcal = (name: string) => name.trim();
 
 type HomeSearchProductCardProps = {
     product: Meal;
@@ -86,9 +61,7 @@ type HomeSearchProductCardProps = {
 export default function HomeSearchProductCard({
     product,
 }: HomeSearchProductCardProps) {
-    const title = getNameWithKcal(product.name);
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const title = product.name.trim();
 
     const pid = String(product.id);
     const imgKey = normalizeImageKey(product.image);
@@ -98,25 +71,24 @@ export default function HomeSearchProductCard({
             ? product.image
             : imageMap[imgKey] ?? product.image;
 
-    const imgStyle =
-        (isMobile ? imageStylesByIdMobile[pid] : imageStylesByIdDesktop[pid]) ?? {
-            width: isMobile ? "160px" : "180px",
-            height: isMobile ? "130px" : "150px",
-        };
+    const imgStyle = imageStylesById[pid] ?? {
+        width: "180px",
+        height: "150px",
+    };
 
     return (
         <Box
             sx={{
-                width: isMobile ? 260 : 300,
+                width: 300,
+                height: 450,
+                p: 2.5,
+                display: "flex",
+                flexDirection: "column",
+                gap: 1.6,
                 borderRadius: "13px",
                 border: "1px solid rgba(230,81,0,0.75)",
                 backgroundColor: "#fff3e0",
                 boxShadow: "0 8px 18px rgba(230, 81, 0, 0.28)",
-                p: isMobile ? 2 : 2.5,
-                display: "flex",
-                flexDirection: "column",
-                height: isMobile ? 430 : 450,
-                gap: isMobile ? 1.2 : 1.6,
                 transition: "transform 0.2s ease, box-shadow 0.2s ease",
                 "&:hover": {
                     transform: "translateY(-5px)",
@@ -127,7 +99,7 @@ export default function HomeSearchProductCard({
             <Box
                 sx={{
                     width: "100%",
-                    height: isMobile ? 150 : 170,
+                    height: 170,
                     backgroundColor: "#fff",
                     borderRadius: "9px",
                     border: "1px solid rgba(230,81,0,0.55)",
@@ -154,15 +126,15 @@ export default function HomeSearchProductCard({
                     width: "100%",
                     backgroundColor: "#ffe0c7",
                     borderRadius: "9px",
-                    px: isMobile ? 1.5 : 2,
-                    py: isMobile ? 0.9 : 1.2,
+                    px: 2,
+                    py: 1.2,
                     boxShadow: 2,
                     textAlign: "center",
                 }}
             >
                 <Typography
                     sx={{
-                        fontSize: isMobile ? "0.92rem" : "0.98rem",
+                        fontSize: "0.98rem",
                         fontWeight: 800,
                         color: "#1e5bb8",
                     }}
@@ -176,25 +148,21 @@ export default function HomeSearchProductCard({
                     width: "100%",
                     flex: 1,
                     minHeight: 0,
-
                     backgroundColor: "#ffe0c7",
                     borderRadius: "10px",
-
-                    px: isMobile ? 1.5 : 2,
-                    py: isMobile ? 1.1 : 1.5,
-                    marginBottom: 0.2,
+                    px: 2,
+                    py: 1.5,
+                    mb: 0.2,
                     boxShadow: 2,
-
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-
                     textAlign: "center",
                 }}
             >
                 <Typography
                     sx={{
-                        fontSize: isMobile ? "0.9rem" : "0.94rem",
+                        fontSize: "0.94rem",
                         fontWeight: 395,
                         color: "#000",
                         lineHeight: 1.45,
