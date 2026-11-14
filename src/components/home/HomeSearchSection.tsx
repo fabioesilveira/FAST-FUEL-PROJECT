@@ -196,11 +196,13 @@ export default function HomeSearchSection({
                     <Box
                         sx={{
                             width: "100%",
+                            maxWidth: "100vw",
+                            overflowX: "hidden",
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
-                            mb: { xs: 5, md: 2 },
-                            mt: { xs: 2, md: 3 }
+                            mb: { xs: 5, sm: 2 },
+                            mt: 3,
                         }}
                     >
                         {/* COUNTER */}
@@ -249,118 +251,131 @@ export default function HomeSearchSection({
                                     </Box>
                                 ) : (
                                     <Box
-                                        ref={mobileCarouselRef}
-                                        onScroll={handleMobileScroll}
                                         sx={{
                                             width: "100%",
-                                            display: "flex",
-                                            overflowX: "auto",
-                                            overflowY: "hidden",
-                                            scrollSnapType: "x mandatory",
-                                            scrollBehavior: "smooth",
-                                            WebkitOverflowScrolling: "touch",
-                                            overscrollBehaviorX: "contain",
-                                            scrollbarWidth: "none",
-                                            "&::-webkit-scrollbar": {
-                                                display: "none",
-                                            },
+                                            maxWidth: "100vw",
+                                            overflow: "hidden",
+                                            position: "relative",
                                         }}
                                     >
-                                        {sortedResults.map((product, index) => (
-                                            <Box
-                                                key={product.id}
-                                                data-search-card
-                                                sx={{
-                                                    flex: "0 0 100%",
-                                                    width: "100%",
-                                                    minWidth: "100%",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    scrollSnapAlign: "center",
-                                                    scrollSnapStop: "always",
-                                                    overflow: "visible",
-                                                    boxSizing: "border-box",
-                                                }}
-                                            >
+                                        <Box
+                                            ref={mobileCarouselRef}
+                                            onScroll={handleMobileScroll}
+                                            sx={{
+                                                width: "100%",
+                                                maxWidth: "100%",
+                                                display: "flex",
+                                                overflowX: "auto",
+                                                overflowY: "hidden",
+                                                scrollSnapType: "x mandatory",
+                                                scrollBehavior: "smooth",
+                                                WebkitOverflowScrolling: "touch",
+                                                overscrollBehaviorX: "contain",
+                                                scrollbarWidth: "none",
+                                                "&::-webkit-scrollbar": {
+                                                    display: "none",
+                                                },
+                                            }}
+                                        >
+                                            {sortedResults.map((product, index) => (
                                                 <Box
+                                                    key={product.id}
+                                                    data-search-card
                                                     sx={{
-                                                        width: 260,
-                                                        flexShrink: 0,
+                                                        flex: "0 0 100%",
+                                                        width: "100%",
+                                                        minWidth: "100%",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        scrollSnapAlign: "center",
+                                                        scrollSnapStop: "always",
+                                                        overflow: "visible",
+                                                        boxSizing: "border-box",
                                                         position: "relative",
-                                                        zIndex: index === 0 ? 2 : 1,
-                                                        animation:
-                                                            index === 0
-                                                                ? "peekNextCard 1150ms ease 650ms 1"
-                                                                : "none",
-
-                                                        "@keyframes peekNextCard": {
-                                                            "0%": {
-                                                                transform: "translateX(0)",
-                                                            },
-                                                            "30%": {
-                                                                transform: "translateX(-34px)",
-                                                            },
-                                                            "55%": {
-                                                                transform: "translateX(-34px)",
-                                                            },
-                                                            "100%": {
-                                                                transform: "translateX(0)",
-                                                            },
-                                                        },
                                                     }}
                                                 >
-                                                    <HomeSearchProductCardMobile
-                                                        product={product}
-                                                    />
-                                                </Box>
+                                                    <Box
+                                                        sx={{
+                                                            width: 260,
+                                                            flexShrink: 0,
+                                                            position: "relative",
+                                                            zIndex: index === 0 ? 2 : 1,
+                                                            animation:
+                                                                index === 0
+                                                                    ? "peekNextCard 1150ms ease 650ms 1"
+                                                                    : "none",
 
-                                                {/* NEXT CARD PEEK */}
-                                                {index === 0 &&
-                                                    sortedResults.length > 1 && (
-                                                        <Box
-                                                            sx={{
-                                                                position: "absolute",
-                                                                left: "calc(50% + 118px)",
-                                                                width: 260,
-                                                                height: 430,
-                                                                zIndex: 0,
-                                                                pointerEvents: "none",
-                                                                opacity: 0,
-                                                                animation:
-                                                                    "showNextPeek 1150ms ease 650ms 1",
-
-                                                                "@keyframes showNextPeek": {
-                                                                    "0%": {
-                                                                        opacity: 0,
-                                                                        transform:
-                                                                            "translateX(30px)",
-                                                                    },
-                                                                    "30%": {
-                                                                        opacity: 0.65,
-                                                                        transform:
-                                                                            "translateX(0)",
-                                                                    },
-                                                                    "55%": {
-                                                                        opacity: 0.65,
-                                                                        transform:
-                                                                            "translateX(0)",
-                                                                    },
-                                                                    "100%": {
-                                                                        opacity: 0,
-                                                                        transform:
-                                                                            "translateX(30px)",
-                                                                    },
+                                                            "@keyframes peekNextCard": {
+                                                                "0%": {
+                                                                    transform: "translateX(0)",
                                                                 },
-                                                            }}
-                                                        >
-                                                            <HomeSearchProductCardMobile
-                                                                product={sortedResults[1]}
-                                                            />
-                                                        </Box>
-                                                    )}
-                                            </Box>
-                                        ))}
+                                                                "30%": {
+                                                                    transform: "translateX(-34px)",
+                                                                },
+                                                                "55%": {
+                                                                    transform: "translateX(-34px)",
+                                                                },
+                                                                "100%": {
+                                                                    transform: "translateX(0)",
+                                                                },
+                                                            },
+                                                        }}
+                                                    >
+                                                        <HomeSearchProductCardMobile
+                                                            product={product}
+                                                        />
+                                                    </Box>
+
+                                                    {/* NEXT CARD PEEK */}
+                                                    {index === 0 &&
+                                                        sortedResults.length > 1 && (
+                                                            <Box
+                                                                sx={{
+                                                                    position: "absolute",
+                                                                    left: "calc(50% + 118px)",
+                                                                    width: 260,
+                                                                    height: 430,
+                                                                    zIndex: 0,
+                                                                    pointerEvents: "none",
+                                                                    opacity: 0,
+                                                                    animation:
+                                                                        "showNextPeek 1150ms ease 650ms 1",
+
+                                                                    "@keyframes showNextPeek": {
+                                                                        "0%": {
+                                                                            opacity: 0,
+                                                                            transform:
+                                                                                "translateX(30px)",
+                                                                        },
+                                                                        "30%": {
+                                                                            opacity: 0.65,
+                                                                            transform:
+                                                                                "translateX(0)",
+                                                                        },
+                                                                        "55%": {
+                                                                            opacity: 0.65,
+                                                                            transform:
+                                                                                "translateX(0)",
+                                                                        },
+                                                                        "100%": {
+                                                                            opacity: 0,
+                                                                            transform:
+                                                                                "translateX(30px)",
+                                                                        },
+                                                                    },
+                                                                }}
+                                                            >
+                                                                <HomeSearchProductCardMobile
+                                                                    product={
+                                                                        sortedResults[1]
+                                                                    }
+                                                                />
+                                                            </Box>
+                                                        )}
+                                                </Box>
+                                            ))}
+                                        </Box>
                                     </Box>
                                 )}
                             </>
