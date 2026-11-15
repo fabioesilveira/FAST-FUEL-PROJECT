@@ -84,7 +84,8 @@ export default function HomeSearchProductCardMobile({
     return (
         <Box
             sx={{
-                width: "100%",
+                width: "min(260px, calc(100vw - 32px))",
+                maxWidth: "100%",
                 height: 430,
 
                 borderRadius: "13px",

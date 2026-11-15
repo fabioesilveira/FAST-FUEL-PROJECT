@@ -241,7 +241,7 @@ export default function HomeSearchSection({
                                 {sortedResults.length === 1 ? (
                                     <Box
                                         sx={{
-                                            width: 260,
+                                            width: "min(260px, calc(100vw - 32px))",
                                             mx: "auto",
                                         }}
                                     >
@@ -297,7 +297,7 @@ export default function HomeSearchSection({
                                                 >
                                                     <Box
                                                         sx={{
-                                                            width: 260,
+                                                            width: "min(260px, calc(100vw - 32px))",
                                                             flexShrink: 0,
                                                             position: "relative",
                                                             zIndex: index === 0 ? 2 : 1,
@@ -334,7 +334,7 @@ export default function HomeSearchSection({
                                                                 sx={{
                                                                     position: "absolute",
                                                                     left: "calc(50% + 118px)",
-                                                                    width: 260,
+                                                                    width: "min(260px, calc(100vw - 32px))",
                                                                     height: 430,
                                                                     zIndex: 0,
                                                                     pointerEvents: "none",
