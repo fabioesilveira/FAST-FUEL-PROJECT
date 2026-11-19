@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import Zoom from "@mui/material/Zoom";
 import Backdrop from "@mui/material/Backdrop";
 import type { TransitionProps } from "@mui/material/transitions";
+import type { SxProps, Theme } from "@mui/material/styles";
 import React from "react";
 
 const Transition = React.forwardRef(function Transition(
@@ -40,17 +41,20 @@ export default function AppConfirm({
   onDismiss,
   equalButtonWidth = false,
 }: AppConfirmProps) {
-  const actionButtonSx = {
+  const actionButtonSx: SxProps<Theme> = {
     width: "100%",
     minWidth: 0,
-    height: { xs: 40, sm: 38, md: 36 },
-    py: 0,
-    px: { xs: 1, sm: 2.6 },
+    minHeight: { xs: 44, sm: 38, md: 36 },
+    height: { xs: "auto", sm: 38, md: 36 },
+    py: { xs: 0.75, sm: 0 },
+    px: { xs: 0.8, sm: 2.6 },
     borderRadius: "8px",
     fontWeight: 900,
-    letterSpacing: { xs: "0.025em", sm: "0.08em" },
-    fontSize: { xs: "0.72rem", sm: "0.75rem", md: "0.8rem" },
-    whiteSpace: "nowrap",
+    letterSpacing: { xs: "0.015em", sm: "0.08em" },
+    fontSize: { xs: "0.70rem", sm: "0.75rem", md: "0.8rem" },
+    lineHeight: { xs: 1.15, sm: 1.2 },
+    whiteSpace: { xs: "normal", sm: "nowrap" },
+    textAlign: "center",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
