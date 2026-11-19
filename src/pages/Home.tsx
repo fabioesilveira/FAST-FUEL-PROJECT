@@ -449,7 +449,7 @@ export default function Home() {
                                     display: { xs: "flex", sm: "none" },
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    mt: -1.8,
+                                    mt: -2,
                                     mb: -0.3,
                                     width: "100%",
                                     minHeight: 34,
@@ -459,7 +459,7 @@ export default function Home() {
                                 <Box
                                     sx={{
                                         position: "absolute",
-                                        left: 12,
+                                        left: 15,
                                         top: "50%",
                                         transform: "translateY(-55%)",
                                         display: "flex",
