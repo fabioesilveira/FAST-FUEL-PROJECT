@@ -449,7 +449,7 @@ export default function Home() {
                                     display: { xs: "flex", sm: "none" },
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    mt: -0.4,
+                                    mt: -0.8,
                                     mb: 0.5,
                                     width: "100%",
                                     minHeight: 34,
