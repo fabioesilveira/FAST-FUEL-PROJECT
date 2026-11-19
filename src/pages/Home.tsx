@@ -35,6 +35,7 @@ import { useHomeCart } from "../hooks/useHomeCart";
 import { useHomeSearch } from "../hooks/useHomeSearch";
 
 import Chat4 from "../assets/Fuel-Up.png";
+import Chat4Mobile from "../assets/Fuel-Up-Mobile.png";
 import Chat6 from "../assets/girl-fastFuel.png";
 import RestImg from "../assets/Restaurant3.png";
 import Employees from "../assets/Employees4.png";
@@ -72,7 +73,7 @@ const mobileSlides = [
     { id: "rest", src: RestImg, alt: "Rest" },
     { id: "girl", src: Chat6, alt: "Girl" },
     { id: "team", src: EmployeesMobile, alt: "Fast Fuel Team" },
-    { id: "drive", src: Chat4, alt: "Car Drive" },
+    { id: "drive", src: Chat4Mobile, alt: "Car Drive" },
 ];
 
 const desktopCarouselSlides = [
@@ -449,7 +450,7 @@ export default function Home() {
                                     display: { xs: "flex", sm: "none" },
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    mt: 0,
+                                    mt: -0.2,
                                     mb: 0.5,
                                     width: "100%",
                                     minHeight: 34,
