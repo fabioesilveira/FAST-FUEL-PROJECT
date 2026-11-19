@@ -95,7 +95,6 @@ const desktopCarouselSlides = [
     <Carousel.Item key="slide-5">
         <img src={Chat4} style={{
             width: "100%", height: "100%", objectFit: "cover",
-            objectPosition: "center 12%"
         }} />
     </Carousel.Item>,
 ];
@@ -450,7 +449,7 @@ export default function Home() {
                                     display: { xs: "flex", sm: "none" },
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    mt: -0.2,
+                                    mt: -0.4,
                                     mb: 0.5,
                                     width: "100%",
                                     minHeight: 34,
