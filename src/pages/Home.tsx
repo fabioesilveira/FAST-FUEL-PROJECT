@@ -24,6 +24,9 @@ import MobileReviewsCarousel, {
     type HomeReview,
 } from "../components/home/MobileReviewsCarousel";
 import WhyFastFuelMobile from "../components/home/WhyFastFuelMobile";
+import IconButton from "@mui/material/IconButton";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 
 import { api } from "../api";
 import { useAppContext, type Meal } from "../context/context";
@@ -440,65 +443,53 @@ export default function Home() {
                                     reviews={homeReviews}
                                 />
                             )}
+
                             <Box
                                 sx={{
                                     display: { xs: "flex", sm: "none" },
-                                    flexDirection: "column",
                                     alignItems: "center",
                                     justifyContent: "center",
                                     mt: 0,
                                     mb: 0.5,
-                                    gap: 1.2,
+                                    width: "100%",
+                                    minHeight: 34,
+                                    position: "relative",
                                 }}
                             >
                                 <Box
                                     sx={{
+                                        position: "absolute",
+                                        left: 12,
+                                        top: "50%",
+                                        transform: "translateY(-55%)",
                                         display: "flex",
                                         alignItems: "center",
-                                        justifyContent: "center",
-                                        gap: 2.2,
-                                        mb: 1.4
+                                        gap: 0.3,
                                     }}
                                 >
-                                    <Typography
+                                    <IconButton
                                         onClick={() => navigate("/about")}
+                                        aria-label="About Fast Fuel"
+                                        size="small"
                                         sx={{
-                                            color: "rgba(30, 91, 184, 0.60)",
-                                            fontSize: "0.78rem",
-                                            fontWeight: 700,
-                                            letterSpacing: "0.04em",
-                                            textDecoration: "underline",
-                                            textUnderlineOffset: "3px",
-                                            textDecorationThickness: "1px",
-                                            cursor: "pointer",
-
-                                            "&:hover": {
-                                                textDecoration: "underline",
-                                            },
+                                            color: "rgba(30, 91, 184, 0.58)",
+                                            p: 0.5,
                                         }}
                                     >
-                                        About Fast Fuel
-                                    </Typography>
+                                        <InfoOutlinedIcon sx={{ fontSize: 21 }} />
+                                    </IconButton>
 
-                                    <Typography
+                                    <IconButton
                                         onClick={() => navigate("/cookie-preferences")}
+                                        aria-label="Cookie Preferences"
+                                        size="small"
                                         sx={{
-                                            color: "rgba(30, 91, 184, 0.60)",
-                                            fontSize: "0.78rem",
-                                            textDecoration: "underline",
-                                            textUnderlineOffset: "3px",
-                                            textDecorationThickness: "1px",
-                                            fontWeight: 700,
-                                            letterSpacing: "0.04em",
-                                            cursor: "pointer",
-
-                                            "&:hover": {
-                                                textDecoration: "underline",
-                                            },
+                                            color: "rgba(30, 91, 184, 0.58)",
+                                            p: 0.5,
                                         }}
                                     >
-                                        Cookie Preferences
-                                    </Typography>
+                                        <TuneOutlinedIcon sx={{ fontSize: 21 }} />
+                                    </IconButton>
                                 </Box>
 
                                 <Typography
