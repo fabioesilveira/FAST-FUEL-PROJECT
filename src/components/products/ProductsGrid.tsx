@@ -455,8 +455,8 @@ export default function ProductsGrid({
                             px: 2,
                             py: 1.7,
                             pb: {
-                                xs: "calc(50px + env(safe-area-inset-bottom))",
-                                md: "40px",
+                                xs: "calc(40px + env(safe-area-inset-bottom))",
+                                md: "35px",
                             },
                         }}
                     >

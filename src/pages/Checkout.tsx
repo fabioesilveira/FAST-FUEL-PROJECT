@@ -1185,7 +1185,7 @@ export default function Checkout() {
                             },
                             position: "absolute",
                             left: "50%",
-                            bottom: 28,
+                            bottom: 37,
                             transform: "translateX(-50%)",
                             zIndex: 1,
                             pointerEvents: "none",
