@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     Box,
@@ -23,6 +23,21 @@ type ConsentValue = "accepted" | "rejected" | null;
 
 export default function CookiePreferences() {
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        const originalBackground = document.documentElement.style.backgroundColor;
+        const originalBodyBackground = document.body.style.backgroundColor;
+
+        document.documentElement.style.backgroundColor = "#f1f2f4";
+        document.body.style.backgroundColor = "#f1f2f4";
+
+        return () => {
+            document.documentElement.style.backgroundColor = originalBackground;
+            document.body.style.backgroundColor = originalBodyBackground;
+        };
+    }, []);
+
 
     const [consent, setConsent] = useState<ConsentValue>(() => {
         const saved = localStorage.getItem(CONSENT_KEY);
