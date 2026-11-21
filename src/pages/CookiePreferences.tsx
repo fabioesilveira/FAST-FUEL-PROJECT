@@ -7,8 +7,6 @@ import {
     Divider,
     Typography,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 import CookieOutlinedIcon from "@mui/icons-material/CookieOutlined";
 import AnalyticsRoundedIcon from "@mui/icons-material/AnalyticsRounded";
@@ -25,9 +23,6 @@ type ConsentValue = "accepted" | "rejected" | null;
 
 export default function CookiePreferences() {
     const navigate = useNavigate();
-
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const [consent, setConsent] = useState<ConsentValue>(() => {
         const saved = localStorage.getItem(CONSENT_KEY);
@@ -59,9 +54,19 @@ export default function CookiePreferences() {
     return (
         <Box
             sx={{
-                minHeight: "100vh",
-                bgcolor: isMobile ? "#ffffff" : "#fffaf2",
-                py: { xs: 9, md: 14 },
+                minHeight: "100dvh",
+                bgcolor: "#f1f2f4",
+                boxSizing: "border-box",
+
+                pt: {
+                    xs: "calc(72px + env(safe-area-inset-top))",
+                    md: 14,
+                },
+
+                pb: {
+                    xs: "calc(72px + env(safe-area-inset-bottom))",
+                    md: 14,
+                },
             }}
         >
             <Container maxWidth="md">
