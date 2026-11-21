@@ -359,7 +359,7 @@ export default function Home() {
                         backgroundColor: "transparent",
                         pt: { xs: `calc(${NAVBAR_H}px)`, md: 0 },
                         pb: {
-                            xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 1.5px)`,
+                            xs: `calc(${NAVFOOTER_H}px + env(safe-area-inset-bottom) + 1.7px)`,
                             sm: 0,
                         },
                         overscrollBehaviorY: "auto",
