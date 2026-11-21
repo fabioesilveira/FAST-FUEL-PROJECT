@@ -66,9 +66,9 @@ export default function TopRatedProductsMobile({
 
     const imageStylesTopRated: Record<string, React.CSSProperties> = {
 
-        "4": { width: "160px", height: "122px", marginTop: "27px" },
-        "10": { width: "160px", height: "162px", marginTop: "14px" },
-        "12": { width: "155px", height: "132px", marginTop: "26px" },
+        "4": { width: "150px", height: "112px", marginTop: "27px" },
+        "10": { width: "150px", height: "152px", marginTop: "14px" },
+        "12": { width: "145px", height: "122px", marginTop: "26px" },
 
     };
 
@@ -152,8 +152,8 @@ export default function TopRatedProductsMobile({
                         >
                             <Box
                                 sx={{
-                                    width: 72,
-                                    height: 72,
+                                    width: 64,
+                                    height: 64,
                                     borderRadius: "50%",
                                     background: medal.bg,
                                     display: "flex",
@@ -175,7 +175,7 @@ export default function TopRatedProductsMobile({
                             >
                                 <EmojiEventsRoundedIcon
                                     sx={{
-                                        fontSize: selected ? 26 : 23,
+                                        fontSize: selected ? 24 : 21,
                                         color:
                                             originalIndex === 1
                                                 ? "#616161"
@@ -252,7 +252,7 @@ export default function TopRatedProductsMobile({
                 >
                     <Box
                         sx={{
-                            height: 190,
+                            height: 170,
                             width: "100%",
                             bgcolor: "#fff",
                             overflow: "hidden",
@@ -292,7 +292,7 @@ export default function TopRatedProductsMobile({
                             sx={{
                                 color: "#0d47a1",
                                 fontWeight: 900,
-                                fontSize: "1rem",
+                                fontSize: "0.9rem",
                                 mb: 0.7,
                             }}
                         >
