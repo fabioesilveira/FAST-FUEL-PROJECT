@@ -5,13 +5,11 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { trackEvent } from "../../utils/analytics";
-
-import FastThruOrderInfoMenu from "./FastThruOrderInfoMenu";
-
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
+import { trackEvent } from "../../utils/analytics";
+import FastThruOrderInfoMenu from "./FastThruOrderInfoMenu";
 import type { Meal } from "../../context/context";
 
 type FastThruOrderPanelProps = {
@@ -39,8 +37,6 @@ export default function FastThruOrderPanel({
     onRemoveItem,
     onCheckout,
 }: FastThruOrderPanelProps) {
-
-
     const [infoAnchorEl, setInfoAnchorEl] =
         useState<HTMLElement | null>(null);
 
@@ -63,10 +59,12 @@ export default function FastThruOrderPanel({
                     xs: "calc(100% - 20px)",
                     sm: "calc(100% - 40px)",
                 },
-                maxWidth: 680,
+                maxWidth: {
+                    xs: 680,
+                    md: 700,
+                },
                 mx: "auto",
-                mt: { xs: "6px", md: "-5px" },
-
+                mt: { xs: "6px", md: "-3px" },
 
                 bgcolor: "white",
                 borderRadius: 3,
@@ -77,7 +75,6 @@ export default function FastThruOrderPanel({
                 flexDirection: "column",
             }}
         >
-
             <Box
                 sx={{
                     px: {
@@ -99,13 +96,15 @@ export default function FastThruOrderPanel({
                         fontWeight: 900,
                         letterSpacing: "0.08em",
                         color: "#0d47a1",
-
                         fontSize: {
-                            xs: "0.82rem",
-                            sm: "0.90rem",
+                            xs: "0.84rem",
+                            sm: "0.92rem",
                         },
-
                         whiteSpace: "nowrap",
+                        transform: {
+                            xs: "translate(0, 1px)",
+                            md: "translate(-2px, 2px)",
+                        },
                     }}
                 >
                     YOUR ORDER
@@ -173,10 +172,12 @@ export default function FastThruOrderPanel({
                     height: {
                         xs: 139,
                         sm: 148,
+                        md: 135,
                     },
                     minHeight: {
                         xs: 139,
                         sm: 148,
+                        md: 135,
                     },
 
                     overflowY: "auto",
@@ -241,14 +242,20 @@ export default function FastThruOrderPanel({
                             <Box key={pid}>
                                 <Box
                                     sx={{
-                                        minHeight: 45,
+                                        minHeight: {
+                                            xs: 45,
+                                            md: 41,
+                                        },
 
                                         px: {
                                             xs: 1.5,
                                             sm: 2.5,
                                         },
 
-                                        py: 0.5,
+                                        py: {
+                                            xs: 0.5,
+                                            md: 0.35,
+                                        },
 
                                         display: "grid",
 
@@ -265,7 +272,6 @@ export default function FastThruOrderPanel({
                                         },
                                     }}
                                 >
-                                    {/* PRODUCT NAME AND UNIT PRICE */}
                                     <Box sx={{ minWidth: 0 }}>
                                         <Typography
                                             noWrap
@@ -276,6 +282,7 @@ export default function FastThruOrderPanel({
                                                 fontSize: {
                                                     xs: "0.78rem",
                                                     sm: "0.90rem",
+                                                    md: "0.86rem",
                                                 },
                                             }}
                                         >
@@ -290,6 +297,7 @@ export default function FastThruOrderPanel({
                                                 fontSize: {
                                                     xs: "0.67rem",
                                                     sm: "0.76rem",
+                                                    md: "0.73rem",
                                                 },
                                             }}
                                         >
@@ -297,7 +305,6 @@ export default function FastThruOrderPanel({
                                         </Typography>
                                     </Box>
 
-                                    {/* PRODUCT TOTAL */}
                                     <Typography
                                         sx={{
                                             textAlign: "right",
@@ -308,13 +315,13 @@ export default function FastThruOrderPanel({
                                             fontSize: {
                                                 xs: "0.78rem",
                                                 sm: "0.9rem",
+                                                md: "0.86rem",
                                             },
                                         }}
                                     >
                                         ${itemTotal.toFixed(2)}
                                     </Typography>
 
-                                    {/* PRODUCT CONTROLS */}
                                     <Box
                                         sx={{
                                             display: "flex",
@@ -339,10 +346,12 @@ export default function FastThruOrderPanel({
                                                 width: {
                                                     xs: 27,
                                                     sm: "auto",
+                                                    md: 27,
                                                 },
                                                 height: {
                                                     xs: 27,
                                                     sm: "auto",
+                                                    md: 27,
                                                 },
 
                                                 bgcolor:
@@ -361,6 +370,7 @@ export default function FastThruOrderPanel({
                                                     fontSize: {
                                                         xs: 14,
                                                         sm: 16,
+                                                        md: 15,
                                                     },
                                                     color: "#1e5bb8",
                                                 }}
@@ -372,15 +382,18 @@ export default function FastThruOrderPanel({
                                                 minWidth: {
                                                     xs: 23,
                                                     sm: 25,
+                                                    md: 25,
                                                 },
                                                 height: {
                                                     xs: 23,
                                                     sm: 25,
+                                                    md: 25,
                                                 },
 
                                                 px: {
                                                     xs: 0.65,
                                                     sm: 0.9,
+                                                    md: 0.75,
                                                 },
 
                                                 borderRadius: "999px",
@@ -391,6 +404,7 @@ export default function FastThruOrderPanel({
                                                 fontSize: {
                                                     xs: "0.68rem",
                                                     sm: "0.76rem",
+                                                    md: "0.72rem",
                                                 },
 
                                                 display: "flex",
@@ -413,10 +427,12 @@ export default function FastThruOrderPanel({
                                                 width: {
                                                     xs: 27,
                                                     sm: "auto",
+                                                    md: 27,
                                                 },
                                                 height: {
                                                     xs: 27,
                                                     sm: "auto",
+                                                    md: 27,
                                                 },
 
                                                 bgcolor:
@@ -435,6 +451,7 @@ export default function FastThruOrderPanel({
                                                     fontSize: {
                                                         xs: 14,
                                                         sm: 16,
+                                                        md: 15,
                                                     },
                                                     color: "#b71c1c",
                                                 }}
@@ -450,7 +467,6 @@ export default function FastThruOrderPanel({
                 )}
             </Box>
 
-            {/* TOTALS AND CHECKOUT */}
             <Box
                 sx={{
                     px: {
@@ -491,7 +507,6 @@ export default function FastThruOrderPanel({
                     },
                 }}
             >
-                {/* SUBTOTAL */}
                 <Box>
                     <Typography
                         sx={{
@@ -522,7 +537,6 @@ export default function FastThruOrderPanel({
                     </Typography>
                 </Box>
 
-                {/* DISCOUNT */}
                 <Box>
                     <Typography
                         sx={{
@@ -553,7 +567,6 @@ export default function FastThruOrderPanel({
                     </Typography>
                 </Box>
 
-                {/* TOTAL */}
                 <Box sx={{ minWidth: 0 }}>
                     <Typography
                         sx={{
@@ -587,7 +600,6 @@ export default function FastThruOrderPanel({
                     </Typography>
                 </Box>
 
-                {/* CHECKOUT */}
                 <Button
                     onClick={() => {
                         trackEvent("begin_checkout");

@@ -131,7 +131,7 @@ export default function HomeMiniCard({
                         border: "1.5px solid #e65100",
                         backgroundColor: "#fff3e0",
                         boxShadow: "0 4px 10px rgba(230, 81, 0, 0.22)",
-                        p: 1.5,
+                        p: 1.35,
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
