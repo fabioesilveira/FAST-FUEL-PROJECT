@@ -22,6 +22,7 @@ import CheckoutPaymentSection, {
 import CheckoutDeliverySection from "../components/checkout/CheckoutDeliverySection";
 import CheckoutSignInDialog from "./../components/checkout/CheckoutSignInDialog";
 import CheckoutMobileForm from "../components/checkout/CheckoutMobileForm";
+import CheckoutMobileFormHeader from "../components/checkout/CheckoutMobileFormHeader";
 import CheckoutTitleBar from "../components/CheckoutTitleBar";
 import NavbarAction from "../components/layout/navbar/NavbarAction";
 import { trackEvent } from "../utils/analytics";
@@ -620,73 +621,25 @@ export default function Checkout() {
     }, [isMobile, screen]);
 
     useEffect(() => {
-        const isFormField = (
-            element: Element | null
-        ) =>
+        if (!isMobile) return;
+
+        const isFormField = (element: Element | null) =>
             element instanceof HTMLInputElement ||
             element instanceof HTMLTextAreaElement ||
             element instanceof HTMLSelectElement;
 
-        const handleFocusIn = (
-            event: FocusEvent
-        ) => {
-            if (
-                isFormField(
-                    event.target as Element
-                )
-            ) {
+        const handleFocusIn = (event: FocusEvent) => {
+            if (isFormField(event.target as Element)) {
                 setIsEditingForm(true);
             }
         };
 
-        const handleFocusOut = () => {
-            setTimeout(() => {
-                const active = document.activeElement;
-
-                const isStripeIframe =
-                    active instanceof HTMLIFrameElement &&
-                    (
-                        active.name?.includes(
-                            "__privateStripeFrame"
-                        ) ||
-                        active.title
-                            ?.toLowerCase()
-                            .includes(
-                                "secure payment"
-                            )
-                    );
-
-                if (
-                    !isFormField(active) &&
-                    !isStripeIframe
-                ) {
-                    setIsEditingForm(false);
-                }
-            }, 100);
-        };
-
-        document.addEventListener(
-            "focusin",
-            handleFocusIn
-        );
-
-        document.addEventListener(
-            "focusout",
-            handleFocusOut
-        );
+        document.addEventListener("focusin", handleFocusIn);
 
         return () => {
-            document.removeEventListener(
-                "focusin",
-                handleFocusIn
-            );
-
-            document.removeEventListener(
-                "focusout",
-                handleFocusOut
-            );
+            document.removeEventListener("focusin", handleFocusIn);
         };
-    }, []);
+    }, [isMobile]);
 
     useEffect(() => {
         if (!order || order.length === 0) {
@@ -749,19 +702,13 @@ export default function Checkout() {
                     onSuccess={handleCheckoutSignInSuccess}
                 />
 
-                {screen === "form" && isEditingForm && (
-                    <Box
-                        sx={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            height: "env(safe-area-inset-top)",
-                            bgcolor: "#fff",
-                            zIndex: 1600,
-                        }}
-                    />
-                )}
+                {screen === "form" &&
+                    isEditingForm &&
+                    !submitting && (
+                        <CheckoutMobileFormHeader
+                            onExit={() => setIsEditingForm(false)}
+                        />
+                    )}
 
                 {screen === "form" &&
                     !isEditingForm &&
@@ -814,7 +761,11 @@ export default function Checkout() {
                         submitting={submitting}
                         orderLength={order.length}
                         onPay={handlePay}
-                        onStripeFocusChange={setIsEditingForm}
+                        onStripeFocusChange={(focused) => {
+                            if (focused) {
+                                setIsEditingForm(true);
+                            }
+                        }}
                         clientSecret={clientSecret}
                         paymentLoading={paymentLoading}
                         paymentRef={paymentRef}
