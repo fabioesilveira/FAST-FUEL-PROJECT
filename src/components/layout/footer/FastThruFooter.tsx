@@ -13,9 +13,9 @@ export default function FastThruFooter() {
 
                     position: "fixed",
                     right: 355,
-                    bottom: 35.5,
+                    bottom: 35.2,
 
-                    fontSize: "0.80rem",
+                    fontSize: "0.79rem",
                     fontWeight: 700,
                     letterSpacing: "0.05em",
 

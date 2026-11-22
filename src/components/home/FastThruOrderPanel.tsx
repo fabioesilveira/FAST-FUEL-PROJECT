@@ -81,7 +81,10 @@ export default function FastThruOrderPanel({
                         xs: 1.5,
                         sm: 2.5,
                     },
-                    py: 1,
+                    py: {
+                        xs: 1.1,
+                        md: 1.15
+                    },
 
                     display: "flex",
                     alignItems: "center",
@@ -102,8 +105,8 @@ export default function FastThruOrderPanel({
                         },
                         whiteSpace: "nowrap",
                         transform: {
-                            xs: "translate(0, 1px)",
-                            md: "translate(-2px, 2px)",
+                            xs: "translate(0, 2px)",
+                            md: "translate(-2px, 2.5px)",
                         },
                     }}
                 >

@@ -74,7 +74,7 @@ export default function CookiePreferences() {
                 boxSizing: "border-box",
 
                 pt: {
-                    xs: "calc(82px + env(safe-area-inset-top))",
+                    xs: "calc(92px + env(safe-area-inset-top))",
                     md: 14,
                 },
 
