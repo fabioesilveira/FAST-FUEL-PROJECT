@@ -116,14 +116,11 @@ export default function Reviews() {
     const categoryOpen = Boolean(categoryAnchorEl && document.body.contains(categoryAnchorEl));
     const productOpen = Boolean(productAnchorEl && document.body.contains(productAnchorEl));
     const dateOpen = Boolean(dateAnchorEl && document.body.contains(dateAnchorEl));
-    
+
 
     function openFilterMenu(e: MouseEvent<HTMLElement>) {
+        e.currentTarget.blur();
         setFilterAnchorEl(e.currentTarget);
-
-        setTimeout(() => {
-            e.currentTarget.blur();
-        }, 0);
     }
 
     function closeAllMenus() {
@@ -334,6 +331,15 @@ export default function Reviews() {
                             bgcolor: "#f1ddcf",
                             borderColor: "#e65100",
                             color: "#0d47a1",
+                        },
+
+                        "&:focus": {
+                            outline: "none",
+                        },
+
+                        "&.Mui-focusVisible": {
+                            outline: "none",
+                            boxShadow: "none",
                         },
 
                         "& .MuiButton-endIcon": {
