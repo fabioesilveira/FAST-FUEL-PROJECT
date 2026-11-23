@@ -64,7 +64,7 @@ export default function FastThruOrderPanel({
                     md: 700,
                 },
                 mx: "auto",
-                mt: { xs: "6px", md: "-3px" },
+                mt: { xs: "6px", md: "-2.5px" },
 
                 bgcolor: "white",
                 borderRadius: 3,

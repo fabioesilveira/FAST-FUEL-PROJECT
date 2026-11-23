@@ -90,6 +90,7 @@ export default function AppConfirm({
         sx: {
           width: { xs: "calc(100% - 16px)", sm: "100%" },
           transform: "translateY(-60px)",
+
           maxWidth: { xs: "calc(100% - 16px)", sm: 444 },
           borderRadius: "10px",
           border: "1px solid #c7c7c7",
@@ -109,9 +110,9 @@ export default function AppConfirm({
           letterSpacing: "0.10em",
           textTransform: "uppercase",
           fontSize: { xs: "0.95rem", sm: "1rem", md: "1.03rem" },
-          px: { xs: 2, sm: 2.7, md: 3.1 },
+          px: { xs: 2.5, sm: 2.7, md: 3.1 },
           pt: { xs: 2.2, md: 2.7 },
-          pb: { xs: 0.45, md: 0.7 },
+          pb: { xs: 0.25, md: 0.3 },
         }}
       >
         {title}
@@ -121,7 +122,7 @@ export default function AppConfirm({
         sx={{
           px: { xs: 1.8, sm: 2.6, md: 3 },
           pt: 0,
-          pb: { xs: 1.25, md: 1.35 },
+          pb: { xs: 1.55, md: 1.60 },
         }}
       >
         <Typography
