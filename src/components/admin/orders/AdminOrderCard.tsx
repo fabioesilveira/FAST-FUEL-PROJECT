@@ -219,6 +219,7 @@ export default function AdminOrderCard({
                                     letterSpacing: "0.06em",
                                     textTransform: "uppercase",
                                     fontWeight: 900,
+                                    transform: "translateY(-2px)",
                                     color: "rgba(0,0,0,0.65)",
                                     "& .MuiButton-endIcon": {
                                         marginLeft: "2px",
@@ -329,7 +330,7 @@ export default function AdminOrderCard({
                                 minHeight: 22,
                                 px: 1,
                                 py: 0,
-                                fontSize: "0.70rem",
+                                fontSize: "0.69rem",
                                 letterSpacing: "0.08em",
                                 textTransform: "uppercase",
                                 fontWeight: 900,
