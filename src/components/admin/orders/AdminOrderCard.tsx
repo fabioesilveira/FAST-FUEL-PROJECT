@@ -334,6 +334,7 @@ export default function AdminOrderCard({
                                 textTransform: "uppercase",
                                 fontWeight: 900,
                                 color: "rgba(0,0,0,0.65)",
+                                transform: "translateY(-2px)",
                                 "& .MuiButton-endIcon": {
                                     marginLeft: "3px",
                                     marginTop: "-2px",

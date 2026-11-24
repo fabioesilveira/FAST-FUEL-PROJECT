@@ -158,6 +158,7 @@ export default function AdminMessageCard({
                                 textTransform: "uppercase",
                                 fontWeight: 900,
                                 color: "rgba(0,0,0,0.65)",
+                                transform: { xs: 0, md: "translateY(-2px)" },
 
                                 "& .MuiButton-endIcon": {
                                     marginLeft: {
