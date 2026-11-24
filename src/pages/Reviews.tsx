@@ -653,7 +653,7 @@ export default function Reviews() {
                                     p: { xs: 2.5, md: 4 },
                                     height: { xs: "calc(100svh - 200px)", md: "calc(100vh - 240px)" },
                                     maxHeight: 660,
-                                    mt: { sm: 5, md: 2.3 },
+                                    mt: { sm: 5, md: 2.8 },
                                     mb: { md: 1 },
                                     display: "flex",
                                     flexDirection: "column",

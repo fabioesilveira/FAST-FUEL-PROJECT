@@ -687,7 +687,7 @@ export default function OrdersLogged() {
                                     md: "calc(100vh - 240px)",
                                 },
                                 maxHeight: 660,
-                                mt: { sm: 5, md: 2.3 },
+                                mt: { sm: 5, md: 2.8 },
                                 mb: { md: 1 },
                                 display: "flex",
                                 flexDirection: "column",

@@ -54,13 +54,13 @@ export default function HomeMiniCardMobile({
     count = 0,
 }: HomeMiniCardMobileProps) {
     const imageStyles: Record<string, React.CSSProperties> = {
-        "1": { width: 47, height: 41 },
-        "2": { width: 69, height: 59 },
+        "1": { width: 47, height: 41, marginTop: 1 },
+        "2": { width: 69, height: 59, marginTop: -1 },
         "3": { width: 48, height: 43 },
         "4": { width: 62, height: 50 },
 
         "11": { width: 53, height: 52, marginTop: -2 },
-        "12": { width: 60, height: 53 },
+        "12": { width: 60, height: 52 },
         "13": { width: 54, height: 47, marginTop: 2 },
         "14": { width: 47, height: 50 },
 
