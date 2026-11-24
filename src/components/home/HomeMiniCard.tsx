@@ -57,12 +57,12 @@ export default function HomeMiniCard({
     count = 0,
 }: MiniActionCardProps) {
     const imageStylesOrder: Record<string, React.CSSProperties> = {
-        "1": { width: "54px", height: "45px", marginTop: "3px" },
-        "2": { width: "72px", height: "65px" },
+        "1": { width: "53px", height: "45px", marginTop: "1px" },
+        "2": { width: "72px", height: "65px",marginTop: "-1px" },
         "3": { width: "57px", height: "46px" },
         "4": { width: "82px", height: "56px", marginTop: "-2px" },
         "11": { width: "58px", height: "63px", marginTop: "-2px" },
-        "12": { width: "68px", height: "58px" },
+        "12": { width: "68px", height: "57px" },
         "13": { width: "63px", height: "55px", marginTop: "4px" },
         "14": { width: "55px", height: "50px" },
         "5": { width: "66px", height: "66px" },

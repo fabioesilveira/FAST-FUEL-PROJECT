@@ -63,44 +63,30 @@ export default function HomeSearchSection({
     useEffect(() => {
         if (!isMobile) return;
 
-        function handleWindowScroll() {
-            const carousel = mobileCarouselRef.current;
+        let scrollTimer: ReturnType<typeof setTimeout>;
 
-            if (!carousel) return;
+        function handlePageScroll() {
+            clearTimeout(scrollTimer);
 
-            const targetLeft = resultIndex * carousel.clientWidth;
-
-            if (Math.abs(carousel.scrollLeft - targetLeft) > 2) {
-                carousel.scrollTo({
-                    left: targetLeft,
-                    behavior: "smooth",
-                });
-            }
+            scrollTimer = setTimeout(() => {
+                if (window.scrollY > 0 && window.scrollY < 40) {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                    });
+                }
+            }, 80);
         }
 
-        window.addEventListener("scroll", handleWindowScroll, {
+        window.addEventListener("scroll", handlePageScroll, {
             passive: true,
         });
 
         return () => {
-            window.removeEventListener("scroll", handleWindowScroll);
+            clearTimeout(scrollTimer);
+            window.removeEventListener("scroll", handlePageScroll);
         };
-    }, [isMobile, resultIndex]);
-
-    function snapMobileCarousel() {
-        const carousel = mobileCarouselRef.current;
-
-        if (!carousel) return;
-
-        const targetLeft = resultIndex * carousel.clientWidth;
-
-        if (Math.abs(carousel.scrollLeft - targetLeft) > 2) {
-            carousel.scrollTo({
-                left: targetLeft,
-                behavior: "smooth",
-            });
-        }
-    }
+    }, [isMobile]);
 
     function showPreviousResult() {
         setResultIndex((prev) =>
@@ -303,8 +289,6 @@ export default function HomeSearchSection({
                                         <Box
                                             ref={mobileCarouselRef}
                                             onScroll={handleMobileScroll}
-                                            onTouchEnd={snapMobileCarousel}
-                                            onTouchCancel={snapMobileCarousel}
                                             sx={{
                                                 width: "100%",
                                                 maxWidth: "100%",
