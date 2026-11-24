@@ -142,7 +142,7 @@ export default function AppConfirm({
         sx={{
           px: { xs: 1.5, sm: 2.6, md: 3 },
           pt: 0,
-          pb: { xs: 2.5, md: 2.7 },
+          pb: { xs: 2.6, md: 2.7 },
           justifyContent: "center",
         }}
       >

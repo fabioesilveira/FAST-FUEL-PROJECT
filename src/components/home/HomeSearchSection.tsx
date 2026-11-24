@@ -87,6 +87,21 @@ export default function HomeSearchSection({
         };
     }, [isMobile, resultIndex]);
 
+    function snapMobileCarousel() {
+        const carousel = mobileCarouselRef.current;
+
+        if (!carousel) return;
+
+        const targetLeft = resultIndex * carousel.clientWidth;
+
+        if (Math.abs(carousel.scrollLeft - targetLeft) > 2) {
+            carousel.scrollTo({
+                left: targetLeft,
+                behavior: "smooth",
+            });
+        }
+    }
+
     function showPreviousResult() {
         setResultIndex((prev) =>
             prev === 0 ? sortedResults.length - 1 : prev - 1
@@ -288,6 +303,8 @@ export default function HomeSearchSection({
                                         <Box
                                             ref={mobileCarouselRef}
                                             onScroll={handleMobileScroll}
+                                            onTouchEnd={snapMobileCarousel}
+                                            onTouchCancel={snapMobileCarousel}
                                             sx={{
                                                 width: "100%",
                                                 maxWidth: "100%",
