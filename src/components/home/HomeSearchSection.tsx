@@ -60,6 +60,33 @@ export default function HomeSearchSection({
         }
     }, [filteredData]);
 
+    useEffect(() => {
+        if (!isMobile) return;
+
+        function handleWindowScroll() {
+            const carousel = mobileCarouselRef.current;
+
+            if (!carousel) return;
+
+            const targetLeft = resultIndex * carousel.clientWidth;
+
+            if (Math.abs(carousel.scrollLeft - targetLeft) > 2) {
+                carousel.scrollTo({
+                    left: targetLeft,
+                    behavior: "smooth",
+                });
+            }
+        }
+
+        window.addEventListener("scroll", handleWindowScroll, {
+            passive: true,
+        });
+
+        return () => {
+            window.removeEventListener("scroll", handleWindowScroll);
+        };
+    }, [isMobile, resultIndex]);
+
     function showPreviousResult() {
         setResultIndex((prev) =>
             prev === 0 ? sortedResults.length - 1 : prev - 1

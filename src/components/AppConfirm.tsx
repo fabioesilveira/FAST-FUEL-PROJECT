@@ -111,7 +111,7 @@ export default function AppConfirm({
           textTransform: "uppercase",
           fontSize: { xs: "0.95rem", sm: "1rem", md: "1.03rem" },
           px: { xs: 2.5, sm: 2.7, md: 3.1 },
-          pt: { xs: 2.2, md: 2.7 },
+          pt: { xs: 2.5, md: 2.7 },
           pb: { xs: 0.25, md: 0.3 },
         }}
       >
@@ -142,7 +142,7 @@ export default function AppConfirm({
         sx={{
           px: { xs: 1.5, sm: 2.6, md: 3 },
           pt: 0,
-          pb: { xs: 2.2, md: 2.7 },
+          pb: { xs: 2.5, md: 2.7 },
           justifyContent: "center",
         }}
       >

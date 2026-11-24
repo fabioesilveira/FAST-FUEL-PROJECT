@@ -592,7 +592,7 @@ export default function ProductCard({
                 PaperProps={{
                     sx: {
                         borderRadius: "16px",
-                        backgroundColor: "#fff3e0",
+                        backgroundColor: "#fff8f2",
                         border: "2px solid rgba(230, 81, 0, 0.28)",
                         boxShadow: "0 18px 40px rgba(230,81,0,0.22)",
                         overflow: "hidden",
@@ -605,7 +605,7 @@ export default function ProductCard({
                         color: "#0d47a1",
                         fontWeight: 900,
                         fontSize: "1.02rem",
-                        backgroundColor: "#fff3e0",
+                        backgroundColor: "#fff8f2",
                     }}
                 >
                     {title}
