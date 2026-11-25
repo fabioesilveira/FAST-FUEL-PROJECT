@@ -53,9 +53,21 @@ export default function CheckoutMobileFormHeader({
                 width: "100%",
                 transform: `translateY(${viewportTop}px)`,
                 willChange: "transform",
+
                 pt: "env(safe-area-inset-top)",
                 bgcolor: "#ffffff",
                 borderBottom: "1px solid rgba(13,71,161,0.08)",
+
+                "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    top: "-80px",
+                    height: "80px",
+                    bgcolor: "#ffffff",
+                    pointerEvents: "none",
+                },
             }}
         >
             <Box
