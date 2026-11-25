@@ -19,8 +19,14 @@ export default function CheckoutMobileFormHeader({
 
         if (!viewport) return;
 
+        let frame = 0;
+
         const updatePosition = () => {
-            setViewportTop(viewport.offsetTop);
+            cancelAnimationFrame(frame);
+
+            frame = requestAnimationFrame(() => {
+                setViewportTop(viewport.offsetTop);
+            });
         };
 
         updatePosition();
@@ -29,6 +35,8 @@ export default function CheckoutMobileFormHeader({
         viewport.addEventListener("resize", updatePosition);
 
         return () => {
+            cancelAnimationFrame(frame);
+
             viewport.removeEventListener("scroll", updatePosition);
             viewport.removeEventListener("resize", updatePosition);
         };
@@ -38,11 +46,13 @@ export default function CheckoutMobileFormHeader({
         <Box
             sx={{
                 position: "fixed",
-                top: `${viewportTop}px`,
+                top: 0,
                 left: 0,
                 right: 0,
                 zIndex: 9999,
                 width: "100%",
+                transform: `translateY(${viewportTop}px)`,
+                willChange: "transform",
                 pt: "env(safe-area-inset-top)",
                 bgcolor: "#ffffff",
                 borderBottom: "1px solid rgba(13,71,161,0.08)",
