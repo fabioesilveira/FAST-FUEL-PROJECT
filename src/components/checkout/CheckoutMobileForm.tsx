@@ -105,6 +105,33 @@ export default function CheckoutMobileForm({
     paymentRef,
     onStripeFocusChange,
 }: CheckoutMobileFormProps) {
+
+    const [keyboardOpen, setKeyboardOpen] = React.useState(false);
+
+    React.useEffect(() => {
+        const viewport = window.visualViewport;
+
+        if (!viewport) return;
+
+        const handleViewportResize = () => {
+            const keyboardHeight =
+                window.innerHeight - viewport.height;
+
+            setKeyboardOpen(keyboardHeight > 150);
+        };
+
+        handleViewportResize();
+
+        viewport.addEventListener("resize", handleViewportResize);
+
+        return () => {
+            viewport.removeEventListener(
+                "resize",
+                handleViewportResize
+            );
+        };
+    }, []);
+
     return (
         <Box
             sx={{
@@ -132,7 +159,9 @@ export default function CheckoutMobileForm({
                         ? "calc(env(safe-area-inset-top) + 70px)"
                         : "160px",
                     pb: isEditingForm
-                        ? 2
+                        ? keyboardOpen
+                            ? 0.5
+                            : 2
                         : "calc(110px + env(safe-area-inset-bottom))",
                     width: "100%",
                     maxWidth: 490,
