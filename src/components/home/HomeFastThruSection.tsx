@@ -154,12 +154,11 @@ export default function HomeFastThruSection({
                     );
                 })}
             </Box>
-
             {isMobile && (
                 <Box
                     sx={{
                         mt: 2.9,
-                        mb: -0.5,
+                        mb: -0.7,
                         display: "flex",
                         justifyContent: "center",
                     }}
