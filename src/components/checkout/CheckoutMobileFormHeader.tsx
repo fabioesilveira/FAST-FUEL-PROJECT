@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
@@ -11,14 +12,36 @@ type Props = {
 export default function CheckoutMobileFormHeader({
     onExit,
 }: Props) {
+    const [viewportTop, setViewportTop] = useState(0);
+
+    useEffect(() => {
+        const viewport = window.visualViewport;
+
+        if (!viewport) return;
+
+        const updatePosition = () => {
+            setViewportTop(viewport.offsetTop);
+        };
+
+        updatePosition();
+
+        viewport.addEventListener("scroll", updatePosition);
+        viewport.addEventListener("resize", updatePosition);
+
+        return () => {
+            viewport.removeEventListener("scroll", updatePosition);
+            viewport.removeEventListener("resize", updatePosition);
+        };
+    }, []);
+
     return (
         <Box
             sx={{
                 position: "fixed",
-                top: 0,
+                top: `${viewportTop}px`,
                 left: 0,
                 right: 0,
-                zIndex: 1500,
+                zIndex: 9999,
                 width: "100%",
                 pt: "env(safe-area-inset-top)",
                 bgcolor: "#ffffff",
