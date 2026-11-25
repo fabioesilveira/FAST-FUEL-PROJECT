@@ -702,13 +702,11 @@ export default function Checkout() {
                     onSuccess={handleCheckoutSignInSuccess}
                 />
 
-                {screen === "form" &&
-                    isEditingForm &&
-                    !submitting && (
-                        <CheckoutMobileFormHeader
-                            onExit={() => setIsEditingForm(false)}
-                        />
-                    )}
+                {screen === "form" && isEditingForm && (
+                    <CheckoutMobileFormHeader
+                        onExit={() => setIsEditingForm(false)}
+                    />
+                )}
 
                 {screen === "form" &&
                     !isEditingForm &&

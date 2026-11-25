@@ -152,7 +152,7 @@ export default function GuestOrderCard({
                                     minHeight: 22,
                                     px: 1,
                                     py: 0,
-                                    fontSize: "0.70rem",
+                                    fontSize: "0.69rem",
                                     letterSpacing: "0.08em",
                                     textTransform: "uppercase",
                                     fontWeight: 900,
