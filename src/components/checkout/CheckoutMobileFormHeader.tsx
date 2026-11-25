@@ -25,7 +25,13 @@ export default function CheckoutMobileFormHeader({
             cancelAnimationFrame(frame);
 
             frame = requestAnimationFrame(() => {
-                setViewportTop(viewport.offsetTop);
+                const nextTop = Math.round(viewport.offsetTop);
+
+                setViewportTop((currentTop) =>
+                    Math.abs(currentTop - nextTop) >= 2
+                        ? nextTop
+                        : currentTop
+                );
             });
         };
 
