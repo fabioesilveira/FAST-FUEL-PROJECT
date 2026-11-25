@@ -108,7 +108,7 @@ export default function CheckoutMobileForm({
     return (
         <Box
             sx={{
-                minHeight: "100dvh",
+                minHeight: "100svh",
                 display: "flex",
                 flexDirection: "column",
                 bgcolor: "#fff",
