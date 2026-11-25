@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import type { StripePaymentHandle } from "./CheckoutPaymentSection";
+import CheckoutFormSummary from "./CheckoutFormSummary";
 import type { Meal } from "../../context/context";
 import { Typography } from "@mui/material";
 
@@ -138,25 +139,27 @@ export default function CheckoutMobileForm({
                     mx: "auto",
                 }}
             >
-                <Box sx={{ pb: 2 }}>
-                    <CheckoutOrderSummary
-                        order={order}
-                        totalItems={totalItems}
-                        subtotalLabel={subtotalLabel}
-                        discount={discount}
-                        discountLabel={discountLabel}
-                        taxLabel={taxLabel}
-                        deliveryFee={deliveryFee}
-                        deliveryLabel={deliveryLabel}
-                        grandTotalLabel={grandTotalLabel}
-                        resolveImgSrc={resolveImgSrc}
-                        imageStylesByIdOrderSummary={imageStylesByIdOrderSummary}
-                        cleanProductName={cleanProductName}
-                        incItem={incItem}
-                        decItem={decItem}
-                        handleClearCart={handleClearCart}
-                    />
-                </Box>
+                {!isEditingForm && (
+                    <Box sx={{ pb: 2 }}>
+                        <CheckoutOrderSummary
+                            order={order}
+                            totalItems={totalItems}
+                            subtotalLabel={subtotalLabel}
+                            discount={discount}
+                            discountLabel={discountLabel}
+                            taxLabel={taxLabel}
+                            deliveryFee={deliveryFee}
+                            deliveryLabel={deliveryLabel}
+                            grandTotalLabel={grandTotalLabel}
+                            resolveImgSrc={resolveImgSrc}
+                            imageStylesByIdOrderSummary={imageStylesByIdOrderSummary}
+                            cleanProductName={cleanProductName}
+                            incItem={incItem}
+                            decItem={decItem}
+                            handleClearCart={handleClearCart}
+                        />
+                    </Box>
+                )}
 
                 <CheckoutContactSection
                     fullName={fullName}
@@ -212,6 +215,19 @@ export default function CheckoutMobileForm({
                     >
                         Payment could not be loaded.
                     </Typography>
+                )}
+
+                {isEditingForm && (
+                    <CheckoutFormSummary
+                        totalItems={totalItems}
+                        subtotalLabel={subtotalLabel}
+                        discount={discount}
+                        discountLabel={discountLabel}
+                        taxLabel={taxLabel}
+                        deliveryFee={deliveryFee}
+                        deliveryLabel={deliveryLabel}
+                        grandTotalLabel={grandTotalLabel}
+                    />
                 )}
 
                 {isEditingForm && (

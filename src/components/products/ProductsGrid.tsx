@@ -115,7 +115,7 @@ export default function ProductsGrid({
                 maxWidth: isDesktop ? 1120 : { xs: 490, sm: 680 },
                 px: isDesktop ? 2 : { xs: 0, sm: 2 },
                 mx: "auto",
-                mt: { xs: 2.6, sm: 4.5, md: 4 },
+                mt: { xs: 2.6, sm: 4.5, md: 3.8 },
                 mb: isDesktop
                     ? 10
                     : {
@@ -284,8 +284,8 @@ export default function ProductsGrid({
             {isMobile && (
                 <Typography
                     sx={{
-                        mt: 3.5,
-                        mb: -2.2,
+                        mt: 3.4,
+                        mb: -2.1,
                         textAlign: "center",
                         color: "rgba(230, 81, 0, 0.42)",
                         fontSize: "0.82rem",
