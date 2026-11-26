@@ -16,6 +16,7 @@ export default function CheckoutMobileFormHeader({
     const [hideHeader, setHideHeader] = useState(false);
 
     const hideHeaderRef = useRef(false);
+    const lastViewportTopRef = useRef(0);
 
     const isFormFieldFocused = () => {
         const activeElement = document.activeElement;
@@ -94,7 +95,7 @@ export default function CheckoutMobileFormHeader({
 
         const viewport = window.visualViewport;
 
-        const handleScroll = () => {
+        const startHeaderHide = () => {
             if (!isFormFieldFocused()) {
                 clearTimeout(showTimer);
 
@@ -120,6 +121,26 @@ export default function CheckoutMobileFormHeader({
             }, 380);
         };
 
+        const handleWindowScroll = () => {
+            startHeaderHide();
+        };
+
+        const handleViewportScroll = () => {
+            if (!viewport) return;
+
+            const nextTop = Math.round(viewport.offsetTop);
+
+            const difference = Math.abs(
+                nextTop - lastViewportTopRef.current
+            );
+
+            lastViewportTopRef.current = nextTop;
+
+            if (difference >= 3) {
+                startHeaderHide();
+            }
+        };
+
         const handleFocusOut = () => {
             window.setTimeout(() => {
                 if (!isFormFieldFocused()) {
@@ -132,13 +153,15 @@ export default function CheckoutMobileFormHeader({
             }, 0);
         };
 
-        window.addEventListener("scroll", handleScroll, {
-            passive: true,
-        });
+        window.addEventListener(
+            "scroll",
+            handleWindowScroll,
+            { passive: true }
+        );
 
         viewport?.addEventListener(
             "scroll",
-            handleScroll
+            handleViewportScroll
         );
 
         document.addEventListener(
@@ -151,12 +174,12 @@ export default function CheckoutMobileFormHeader({
 
             window.removeEventListener(
                 "scroll",
-                handleScroll
+                handleWindowScroll
             );
 
             viewport?.removeEventListener(
                 "scroll",
-                handleScroll
+                handleViewportScroll
             );
 
             document.removeEventListener(
