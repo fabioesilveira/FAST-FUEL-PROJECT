@@ -16,7 +16,8 @@ export default function CheckoutMobileFormHeader({
     const [hideHeader, setHideHeader] = useState(false);
 
     const hideHeaderRef = useRef(false);
-    const lastViewportTopRef = useRef(0);
+    const retractCycleRef = useRef(false);
+    const cooldownRef = useRef(false);
 
     const isFormFieldFocused = () => {
         const activeElement = document.activeElement;
@@ -72,8 +73,15 @@ export default function CheckoutMobileFormHeader({
 
         updatePosition();
 
-        viewport.addEventListener("scroll", updatePosition);
-        viewport.addEventListener("resize", updatePosition);
+        viewport.addEventListener(
+            "scroll",
+            updatePosition
+        );
+
+        viewport.addEventListener(
+            "resize",
+            updatePosition
+        );
 
         return () => {
             cancelAnimationFrame(frame);
@@ -91,64 +99,68 @@ export default function CheckoutMobileFormHeader({
     }, []);
 
     useEffect(() => {
-        let showTimer: ReturnType<typeof setTimeout>;
+        let returnTimer: ReturnType<typeof setTimeout>;
+        let cooldownTimer: ReturnType<typeof setTimeout>;
 
         const viewport = window.visualViewport;
 
-        const startHeaderHide = () => {
+        const resetHeader = () => {
+            clearTimeout(returnTimer);
+            clearTimeout(cooldownTimer);
+
+            hideHeaderRef.current = false;
+            retractCycleRef.current = false;
+            cooldownRef.current = false;
+
+            setHideHeader(false);
+            setViewportTop(0);
+        };
+
+        const startRetractCycle = () => {
             if (!isFormFieldFocused()) {
-                clearTimeout(showTimer);
-
-                hideHeaderRef.current = false;
-                setHideHeader(false);
-                setViewportTop(0);
-
+                resetHeader();
                 return;
             }
 
-            clearTimeout(showTimer);
-
-            if (!hideHeaderRef.current) {
-                hideHeaderRef.current = true;
-                setHideHeader(true);
+            if (
+                retractCycleRef.current ||
+                cooldownRef.current
+            ) {
+                return;
             }
 
-            showTimer = setTimeout(() => {
+            retractCycleRef.current = true;
+            hideHeaderRef.current = true;
+
+            setHideHeader(true);
+
+            returnTimer = setTimeout(() => {
                 setViewportTop(getSafeViewportTop());
 
                 hideHeaderRef.current = false;
                 setHideHeader(false);
-            }, 380);
+
+                retractCycleRef.current = false;
+                cooldownRef.current = true;
+
+                cooldownTimer = setTimeout(() => {
+                    cooldownRef.current = false;
+                }, 250);
+            }, 500);
         };
 
         const handleWindowScroll = () => {
-            startHeaderHide();
+            startRetractCycle();
         };
 
         const handleViewportScroll = () => {
-            if (!viewport) return;
-
-            const nextTop = Math.round(viewport.offsetTop);
-
-            const difference = Math.abs(
-                nextTop - lastViewportTopRef.current
-            );
-
-            lastViewportTopRef.current = nextTop;
-
-            if (difference >= 3) {
-                startHeaderHide();
-            }
+            startRetractCycle();
         };
 
         const handleFocusOut = () => {
             window.setTimeout(() => {
                 if (!isFormFieldFocused()) {
-                    clearTimeout(showTimer);
-
-                    hideHeaderRef.current = false;
-                    setHideHeader(false);
-                    setViewportTop(0);
+                    resetHeader();
                 }
             }, 0);
         };
@@ -170,7 +182,8 @@ export default function CheckoutMobileFormHeader({
         );
 
         return () => {
-            clearTimeout(showTimer);
+            clearTimeout(returnTimer);
+            clearTimeout(cooldownTimer);
 
             window.removeEventListener(
                 "scroll",
