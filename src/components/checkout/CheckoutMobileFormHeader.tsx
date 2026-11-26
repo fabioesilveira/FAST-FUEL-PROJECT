@@ -15,6 +15,17 @@ export default function CheckoutMobileFormHeader({
     const [viewportTop, setViewportTop] = useState(0);
     const [hideHeader, setHideHeader] = useState(false);
 
+    const isFormFieldFocused = () => {
+        const activeElement = document.activeElement;
+
+        return (
+            activeElement instanceof HTMLInputElement ||
+            activeElement instanceof HTMLTextAreaElement ||
+            activeElement instanceof HTMLSelectElement ||
+            activeElement instanceof HTMLIFrameElement
+        );
+    };
+
     useEffect(() => {
         const viewport = window.visualViewport;
 
@@ -26,6 +37,11 @@ export default function CheckoutMobileFormHeader({
             cancelAnimationFrame(frame);
 
             frame = requestAnimationFrame(() => {
+                if (!isFormFieldFocused()) {
+                    setViewportTop(0);
+                    return;
+                }
+
                 const nextTop = Math.round(viewport.offsetTop);
 
                 setViewportTop((currentTop) =>
@@ -44,8 +60,15 @@ export default function CheckoutMobileFormHeader({
         return () => {
             cancelAnimationFrame(frame);
 
-            viewport.removeEventListener("scroll", updatePosition);
-            viewport.removeEventListener("resize", updatePosition);
+            viewport.removeEventListener(
+                "scroll",
+                updatePosition
+            );
+
+            viewport.removeEventListener(
+                "resize",
+                updatePosition
+            );
         };
     }, []);
 
@@ -53,15 +76,10 @@ export default function CheckoutMobileFormHeader({
         let showTimer: ReturnType<typeof setTimeout>;
 
         const handleScroll = () => {
-            const activeElement = document.activeElement;
-
-            const inputFocused =
-                activeElement instanceof HTMLInputElement ||
-                activeElement instanceof HTMLTextAreaElement ||
-                activeElement instanceof HTMLSelectElement;
-
-            if (!inputFocused) {
+            if (!isFormFieldFocused()) {
+                clearTimeout(showTimer);
                 setHideHeader(false);
+                setViewportTop(0);
                 return;
             }
 
@@ -71,12 +89,27 @@ export default function CheckoutMobileFormHeader({
 
             showTimer = setTimeout(() => {
                 setHideHeader(false);
-            }, 140);
+            }, 320);
+        };
+
+        const handleFocusOut = () => {
+            window.setTimeout(() => {
+                if (!isFormFieldFocused()) {
+                    clearTimeout(showTimer);
+                    setHideHeader(false);
+                    setViewportTop(0);
+                }
+            }, 0);
         };
 
         window.addEventListener("scroll", handleScroll, {
             passive: true,
         });
+
+        document.addEventListener(
+            "focusout",
+            handleFocusOut
+        );
 
         return () => {
             clearTimeout(showTimer);
@@ -84,6 +117,11 @@ export default function CheckoutMobileFormHeader({
             window.removeEventListener(
                 "scroll",
                 handleScroll
+            );
+
+            document.removeEventListener(
+                "focusout",
+                handleFocusOut
             );
         };
     }, []);
@@ -117,8 +155,10 @@ export default function CheckoutMobileFormHeader({
                     transform: hideHeader
                         ? "translateY(-58px)"
                         : "translateY(0)",
+
                     transition:
-                        "transform 180ms cubic-bezier(0.22, 1, 0.36, 1)",
+                        "transform 280ms cubic-bezier(0.16, 1, 0.3, 1)",
+
                     willChange: "transform",
 
                     pt: "env(safe-area-inset-top)",

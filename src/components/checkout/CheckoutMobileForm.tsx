@@ -160,7 +160,7 @@ export default function CheckoutMobileForm({
                         : "160px",
                     pb: isEditingForm
                         ? keyboardOpen
-                            ? -2
+                            ? 0
                             : 2
                         : "calc(110px + env(safe-area-inset-bottom))",
                     width: "100%",

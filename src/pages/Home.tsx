@@ -450,7 +450,7 @@ export default function Home() {
                                     alignItems: "center",
                                     justifyContent: "center",
                                     mt: -2.5,
-                                    mb: -0.7,
+                                    mb: -0.75,
                                     width: "100%",
                                     minHeight: 34,
                                     position: "relative",
