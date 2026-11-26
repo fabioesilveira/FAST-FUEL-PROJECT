@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
@@ -13,6 +13,10 @@ export default function CheckoutMobileFormHeader({
     onExit,
 }: Props) {
     const [viewportTop, setViewportTop] = useState(0);
+    const [hideHeader, setHideHeader] = useState(false);
+
+    const lastScrollY = useRef(window.scrollY);
+    const lastScrollTime = useRef(performance.now());
 
     useEffect(() => {
         const viewport = window.visualViewport;
@@ -48,6 +52,69 @@ export default function CheckoutMobileFormHeader({
         };
     }, []);
 
+    useEffect(() => {
+        let showTimer: ReturnType<typeof setTimeout>;
+
+        const handleScroll = () => {
+            const activeElement = document.activeElement;
+
+            const inputFocused =
+                activeElement instanceof HTMLInputElement ||
+                activeElement instanceof HTMLTextAreaElement ||
+                activeElement instanceof HTMLSelectElement;
+
+            if (!inputFocused) {
+                setHideHeader(false);
+                return;
+            }
+
+            const now = performance.now();
+            const currentY = window.scrollY;
+
+            const distance = Math.abs(
+                currentY - lastScrollY.current
+            );
+
+            const elapsed =
+                now - lastScrollTime.current;
+
+            const velocity =
+                elapsed > 0
+                    ? distance / elapsed
+                    : 0;
+
+            lastScrollY.current = currentY;
+            lastScrollTime.current = now;
+
+            clearTimeout(showTimer);
+
+            if (velocity > 1.1) {
+                setHideHeader(true);
+
+                showTimer = setTimeout(() => {
+                    setHideHeader(false);
+                }, 140);
+            } else {
+                showTimer = setTimeout(() => {
+                    setHideHeader(false);
+                }, 90);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, {
+            passive: true,
+        });
+
+        return () => {
+            clearTimeout(showTimer);
+
+            window.removeEventListener(
+                "scroll",
+                handleScroll
+            );
+        };
+    }, []);
+
     return (
         <Box
             sx={{
@@ -59,10 +126,6 @@ export default function CheckoutMobileFormHeader({
                 width: "100%",
                 transform: `translateY(${viewportTop}px)`,
                 willChange: "transform",
-
-                pt: "env(safe-area-inset-top)",
-                bgcolor: "#ffffff",
-                borderBottom: "1px solid rgba(13,71,161,0.08)",
 
                 "&::before": {
                     content: '""',
@@ -78,52 +141,71 @@ export default function CheckoutMobileFormHeader({
         >
             <Box
                 sx={{
-                    height: 58,
-                    px: 2,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
+                    transform: hideHeader
+                        ? "translateY(-58px)"
+                        : "translateY(0)",
+
+                    transition:
+                        "transform 180ms cubic-bezier(0.22, 1, 0.36, 1)",
+
+                    willChange: "transform",
+
+                    pt: "env(safe-area-inset-top)",
+                    bgcolor: "#ffffff",
+                    borderBottom:
+                        "1px solid rgba(13,71,161,0.08)",
                 }}
             >
-                <Button
-                    onClick={onExit}
-                    startIcon={
-                        <ArrowBackRoundedIcon
-                            sx={{ fontSize: 18 }}
-                        />
-                    }
+                <Box
                     sx={{
-                        minWidth: 0,
-                        px: 0.8,
-                        color: "#0d47a1",
-                        fontWeight: 800,
-                        fontSize: "0.78rem",
-                        letterSpacing: "0.04em",
-                        textTransform: "none",
-                        whiteSpace: "nowrap",
-
-                        "&:hover": {
-                            bgcolor: "rgba(13,71,161,0.05)",
-                        },
+                        height: 58,
+                        px: 2,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
                     }}
                 >
-                    Back to Checkout
-                </Button>
+                    <Button
+                        onClick={onExit}
+                        startIcon={
+                            <ArrowBackRoundedIcon
+                                sx={{ fontSize: 18 }}
+                            />
+                        }
+                        sx={{
+                            minWidth: 0,
+                            px: 0.8,
+                            color: "#0d47a1",
+                            fontWeight: 800,
+                            fontSize: "0.78rem",
+                            letterSpacing: "0.04em",
+                            textTransform: "none",
+                            whiteSpace: "nowrap",
 
-                <Box
-                    component="img"
-                    src={FastFuelCheckoutLogo}
-                    alt=""
-                    aria-hidden="true"
-                    sx={{
-                        width: 52,
-                        height: 52,
-                        objectFit: "contain",
-                        opacity: 0.55,
-                        pointerEvents: "none",
-                        userSelect: "none",
-                    }}
-                />
+                            "&:hover": {
+                                bgcolor:
+                                    "rgba(13,71,161,0.05)",
+                            },
+                        }}
+                    >
+                        Back to Checkout
+                    </Button>
+
+                    <Box
+                        component="img"
+                        src={FastFuelCheckoutLogo}
+                        alt=""
+                        aria-hidden="true"
+                        sx={{
+                            width: 52,
+                            height: 52,
+                            objectFit: "contain",
+                            opacity: 0.55,
+                            pointerEvents: "none",
+                            userSelect: "none",
+                        }}
+                    />
+                </Box>
             </Box>
         </Box>
     );
