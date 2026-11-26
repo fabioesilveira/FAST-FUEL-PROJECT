@@ -16,8 +16,7 @@ export default function CheckoutMobileFormHeader({
     const [hideHeader, setHideHeader] = useState(false);
 
     const hideHeaderRef = useRef(false);
-    const retractCycleRef = useRef(false);
-    const cooldownRef = useRef(false);
+    const lastScrollYRef = useRef(window.scrollY);
 
     const isFormFieldFocused = () => {
         const activeElement = document.activeElement;
@@ -100,80 +99,86 @@ export default function CheckoutMobileFormHeader({
 
     useEffect(() => {
         let returnTimer: ReturnType<typeof setTimeout>;
-        let cooldownTimer: ReturnType<typeof setTimeout>;
 
-        const viewport = window.visualViewport;
-
-        const resetHeader = () => {
-            clearTimeout(returnTimer);
-            clearTimeout(cooldownTimer);
-
+        const showHeader = () => {
             hideHeaderRef.current = false;
-            retractCycleRef.current = false;
-            cooldownRef.current = false;
-
             setHideHeader(false);
-            setViewportTop(0);
         };
 
-        const startRetractCycle = () => {
-            if (!isFormFieldFocused()) {
-                resetHeader();
-                return;
-            }
-
-            if (
-                retractCycleRef.current ||
-                cooldownRef.current
-            ) {
-                return;
-            }
-
-            retractCycleRef.current = true;
+        const hideHeaderNow = () => {
             hideHeaderRef.current = true;
-
             setHideHeader(true);
+        };
 
-            returnTimer = setTimeout(() => {
-                setViewportTop(getSafeViewportTop());
+        const handleScroll = () => {
+            const currentY = window.scrollY;
+            const previousY = lastScrollYRef.current;
+
+            const scrollingDown = currentY > previousY;
+            const scrollingUp = currentY < previousY;
+
+            lastScrollYRef.current = currentY;
+
+            if (!isFormFieldFocused()) {
+                clearTimeout(returnTimer);
 
                 hideHeaderRef.current = false;
                 setHideHeader(false);
+                setViewportTop(0);
 
-                retractCycleRef.current = false;
-                cooldownRef.current = true;
+                return;
+            }
 
-                cooldownTimer = setTimeout(() => {
-                    cooldownRef.current = false;
-                }, 250);
-            }, 500);
-        };
+            if (currentY <= 2) {
+                clearTimeout(returnTimer);
 
-        const handleWindowScroll = () => {
-            startRetractCycle();
-        };
+                setViewportTop(0);
+                showHeader();
 
-        const handleViewportScroll = () => {
-            startRetractCycle();
+                return;
+            }
+
+            if (scrollingUp) {
+
+                clearTimeout(returnTimer);
+
+                hideHeaderNow();
+
+                return;
+            }
+
+            if (scrollingDown) {
+
+                clearTimeout(returnTimer);
+
+                hideHeaderNow();
+
+                returnTimer = setTimeout(() => {
+                    setViewportTop(
+                        getSafeViewportTop()
+                    );
+
+                    showHeader();
+                }, 500);
+            }
         };
 
         const handleFocusOut = () => {
             window.setTimeout(() => {
                 if (!isFormFieldFocused()) {
-                    resetHeader();
+                    clearTimeout(returnTimer);
+
+                    hideHeaderRef.current = false;
+                    setHideHeader(false);
+                    setViewportTop(0);
                 }
             }, 0);
         };
 
         window.addEventListener(
             "scroll",
-            handleWindowScroll,
+            handleScroll,
             { passive: true }
-        );
-
-        viewport?.addEventListener(
-            "scroll",
-            handleViewportScroll
         );
 
         document.addEventListener(
@@ -183,16 +188,10 @@ export default function CheckoutMobileFormHeader({
 
         return () => {
             clearTimeout(returnTimer);
-            clearTimeout(cooldownTimer);
 
             window.removeEventListener(
                 "scroll",
-                handleWindowScroll
-            );
-
-            viewport?.removeEventListener(
-                "scroll",
-                handleViewportScroll
+                handleScroll
             );
 
             document.removeEventListener(
