@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
@@ -14,9 +14,6 @@ export default function CheckoutMobileFormHeader({
 }: Props) {
     const [viewportTop, setViewportTop] = useState(0);
     const [hideHeader, setHideHeader] = useState(false);
-
-    const lastScrollY = useRef(window.scrollY);
-    const lastScrollTime = useRef(performance.now());
 
     useEffect(() => {
         const viewport = window.visualViewport;
@@ -68,37 +65,13 @@ export default function CheckoutMobileFormHeader({
                 return;
             }
 
-            const now = performance.now();
-            const currentY = window.scrollY;
-
-            const distance = Math.abs(
-                currentY - lastScrollY.current
-            );
-
-            const elapsed =
-                now - lastScrollTime.current;
-
-            const velocity =
-                elapsed > 0
-                    ? distance / elapsed
-                    : 0;
-
-            lastScrollY.current = currentY;
-            lastScrollTime.current = now;
-
             clearTimeout(showTimer);
 
-            if (velocity > 1.1) {
-                setHideHeader(true);
+            setHideHeader(true);
 
-                showTimer = setTimeout(() => {
-                    setHideHeader(false);
-                }, 140);
-            } else {
-                showTimer = setTimeout(() => {
-                    setHideHeader(false);
-                }, 90);
-            }
+            showTimer = setTimeout(() => {
+                setHideHeader(false);
+            }, 140);
         };
 
         window.addEventListener("scroll", handleScroll, {
@@ -144,10 +117,8 @@ export default function CheckoutMobileFormHeader({
                     transform: hideHeader
                         ? "translateY(-58px)"
                         : "translateY(0)",
-
                     transition:
                         "transform 180ms cubic-bezier(0.22, 1, 0.36, 1)",
-
                     willChange: "transform",
 
                     pt: "env(safe-area-inset-top)",
