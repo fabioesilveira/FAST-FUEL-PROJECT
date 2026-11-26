@@ -77,8 +77,11 @@ export default function CheckoutMobileFormHeader({
             );
         };
     }, []);
+
     useEffect(() => {
         let showTimer: ReturnType<typeof setTimeout>;
+
+        const viewport = window.visualViewport;
 
         const handleScroll = () => {
             if (!isFormFieldFocused()) {
@@ -99,8 +102,6 @@ export default function CheckoutMobileFormHeader({
             }
 
             showTimer = setTimeout(() => {
-                const viewport = window.visualViewport;
-
                 if (viewport) {
                     setViewportTop(
                         Math.round(viewport.offsetTop)
@@ -128,6 +129,11 @@ export default function CheckoutMobileFormHeader({
             passive: true,
         });
 
+        viewport?.addEventListener(
+            "scroll",
+            handleScroll
+        );
+
         document.addEventListener(
             "focusout",
             handleFocusOut
@@ -137,6 +143,11 @@ export default function CheckoutMobileFormHeader({
             clearTimeout(showTimer);
 
             window.removeEventListener(
+                "scroll",
+                handleScroll
+            );
+
+            viewport?.removeEventListener(
                 "scroll",
                 handleScroll
             );
