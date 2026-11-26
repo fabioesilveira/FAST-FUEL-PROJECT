@@ -36,7 +36,7 @@ export default function CheckoutMobileFooter({
                 bgcolor: "#eef4fb",
                 backgroundColor: "#eef4fb",
                 borderTop: "2px solid rgba(13, 71, 161, 0.25)",
-                // boxShadow: "0 -5px 16px rgba(13,71,161,.16)",
+                boxShadow: "0 -5px 16px rgba(13,71,161, 0.10)",
                 display: "flex",
                 alignItems: "center",
                 transform: "translateZ(0)",

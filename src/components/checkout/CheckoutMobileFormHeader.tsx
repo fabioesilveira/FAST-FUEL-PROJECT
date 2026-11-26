@@ -28,6 +28,17 @@ export default function CheckoutMobileFormHeader({
         );
     };
 
+    const getSafeViewportTop = () => {
+        const viewport = window.visualViewport;
+
+        if (!viewport) return 0;
+
+        return Math.min(
+            Math.max(Math.round(viewport.offsetTop), 0),
+            80
+        );
+    };
+
     useEffect(() => {
         const viewport = window.visualViewport;
 
@@ -48,7 +59,7 @@ export default function CheckoutMobileFormHeader({
                     return;
                 }
 
-                const nextTop = Math.round(viewport.offsetTop);
+                const nextTop = getSafeViewportTop();
 
                 setViewportTop((currentTop) =>
                     Math.abs(currentTop - nextTop) >= 2
@@ -102,11 +113,7 @@ export default function CheckoutMobileFormHeader({
             }
 
             showTimer = setTimeout(() => {
-                if (viewport) {
-                    setViewportTop(
-                        Math.round(viewport.offsetTop)
-                    );
-                }
+                setViewportTop(getSafeViewportTop());
 
                 hideHeaderRef.current = false;
                 setHideHeader(false);
