@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
@@ -14,6 +14,8 @@ export default function CheckoutMobileFormHeader({
 }: Props) {
     const [viewportTop, setViewportTop] = useState(0);
     const [hideHeader, setHideHeader] = useState(false);
+
+    const hideHeaderRef = useRef(false);
 
     const isFormFieldFocused = () => {
         const activeElement = document.activeElement;
@@ -39,6 +41,10 @@ export default function CheckoutMobileFormHeader({
             frame = requestAnimationFrame(() => {
                 if (!isFormFieldFocused()) {
                     setViewportTop(0);
+                    return;
+                }
+
+                if (hideHeaderRef.current) {
                     return;
                 }
 
@@ -71,31 +77,47 @@ export default function CheckoutMobileFormHeader({
             );
         };
     }, []);
-
     useEffect(() => {
         let showTimer: ReturnType<typeof setTimeout>;
 
         const handleScroll = () => {
             if (!isFormFieldFocused()) {
                 clearTimeout(showTimer);
+
+                hideHeaderRef.current = false;
                 setHideHeader(false);
                 setViewportTop(0);
+
                 return;
             }
 
             clearTimeout(showTimer);
 
-            setHideHeader(true);
+            if (!hideHeaderRef.current) {
+                hideHeaderRef.current = true;
+                setHideHeader(true);
+            }
 
             showTimer = setTimeout(() => {
+                const viewport = window.visualViewport;
+
+                if (viewport) {
+                    setViewportTop(
+                        Math.round(viewport.offsetTop)
+                    );
+                }
+
+                hideHeaderRef.current = false;
                 setHideHeader(false);
-            }, 320);
+            }, 380);
         };
 
         const handleFocusOut = () => {
             window.setTimeout(() => {
                 if (!isFormFieldFocused()) {
                     clearTimeout(showTimer);
+
+                    hideHeaderRef.current = false;
                     setHideHeader(false);
                     setViewportTop(0);
                 }
