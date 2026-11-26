@@ -15,8 +15,8 @@ export default function CheckoutMobileFormHeader({
     const [viewportTop, setViewportTop] = useState(0);
     const [hideHeader, setHideHeader] = useState(false);
 
-    const hideHeaderRef = useRef(false);
     const lastScrollYRef = useRef(window.scrollY);
+    const reverseScrollRef = useRef(false);
 
     const isFormFieldFocused = () => {
         const activeElement = document.activeElement;
@@ -26,17 +26,6 @@ export default function CheckoutMobileFormHeader({
             activeElement instanceof HTMLTextAreaElement ||
             activeElement instanceof HTMLSelectElement ||
             activeElement instanceof HTMLIFrameElement
-        );
-    };
-
-    const getSafeViewportTop = () => {
-        const viewport = window.visualViewport;
-
-        if (!viewport) return 0;
-
-        return Math.min(
-            Math.max(Math.round(viewport.offsetTop), 0),
-            80
         );
     };
 
@@ -56,11 +45,15 @@ export default function CheckoutMobileFormHeader({
                     return;
                 }
 
-                if (hideHeaderRef.current) {
+                // During reverse scroll, keep the header
+                // completely out of the viewport logic.
+                if (reverseScrollRef.current) {
                     return;
                 }
 
-                const nextTop = getSafeViewportTop();
+                const nextTop = Math.round(
+                    viewport.offsetTop
+                );
 
                 setViewportTop((currentTop) =>
                     Math.abs(currentTop - nextTop) >= 2
@@ -98,77 +91,81 @@ export default function CheckoutMobileFormHeader({
     }, []);
 
     useEffect(() => {
-        let returnTimer: ReturnType<typeof setTimeout>;
-
-        const showHeader = () => {
-            hideHeaderRef.current = false;
-            setHideHeader(false);
-        };
-
-        const hideHeaderNow = () => {
-            hideHeaderRef.current = true;
-            setHideHeader(true);
-        };
+        let showTimer: ReturnType<typeof setTimeout>;
 
         const handleScroll = () => {
             const currentY = window.scrollY;
             const previousY = lastScrollYRef.current;
 
-            const scrollingDown = currentY > previousY;
-            const scrollingUp = currentY < previousY;
+            const delta = currentY - previousY;
 
             lastScrollYRef.current = currentY;
 
             if (!isFormFieldFocused()) {
-                clearTimeout(returnTimer);
+                clearTimeout(showTimer);
 
-                hideHeaderRef.current = false;
+                reverseScrollRef.current = false;
+
                 setHideHeader(false);
                 setViewportTop(0);
 
                 return;
             }
 
-            if (currentY <= 2) {
-                clearTimeout(returnTimer);
+            // If reverse mode is active, keep the header
+            // hidden until the user reaches the top.
+            if (reverseScrollRef.current) {
+                clearTimeout(showTimer);
 
+                if (currentY <= 2) {
+                    reverseScrollRef.current = false;
+
+                    setViewportTop(0);
+                    setHideHeader(false);
+                }
+
+                return;
+            }
+
+            // Reverse scroll / scrolling upward.
+            if (delta < -2) {
+                clearTimeout(showTimer);
+
+                reverseScrollRef.current = true;
+
+                // Remove any visualViewport displacement
+                // before hiding the header.
                 setViewportTop(0);
-                showHeader();
+                setHideHeader(true);
 
                 return;
             }
 
-            if (scrollingUp) {
-
-                clearTimeout(returnTimer);
-
-                hideHeaderNow();
-
+            // Ignore tiny Safari movements.
+            if (Math.abs(delta) <= 2) {
                 return;
             }
 
-            if (scrollingDown) {
+            // Normal scroll behavior:
+            // retract, wait, then return.
+            if (delta > 2) {
+                clearTimeout(showTimer);
 
-                clearTimeout(returnTimer);
+                setHideHeader(true);
 
-                hideHeaderNow();
-
-                returnTimer = setTimeout(() => {
-                    setViewportTop(
-                        getSafeViewportTop()
-                    );
-
-                    showHeader();
-                }, 500);
+                showTimer = setTimeout(() => {
+                    setHideHeader(false);
+                }, 320);
             }
         };
 
         const handleFocusOut = () => {
             window.setTimeout(() => {
                 if (!isFormFieldFocused()) {
-                    clearTimeout(returnTimer);
+                    clearTimeout(showTimer);
 
-                    hideHeaderRef.current = false;
+                    reverseScrollRef.current = false;
+
                     setHideHeader(false);
                     setViewportTop(0);
                 }
@@ -178,7 +175,9 @@ export default function CheckoutMobileFormHeader({
         window.addEventListener(
             "scroll",
             handleScroll,
-            { passive: true }
+            {
+                passive: true,
+            }
         );
 
         document.addEventListener(
@@ -187,7 +186,7 @@ export default function CheckoutMobileFormHeader({
         );
 
         return () => {
-            clearTimeout(returnTimer);
+            clearTimeout(showTimer);
 
             window.removeEventListener(
                 "scroll",
