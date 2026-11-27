@@ -18,6 +18,8 @@ export default function CheckoutMobileFormHeader({
     const lastScrollYRef = useRef(window.scrollY);
     const reverseScrollRef = useRef(false);
 
+    const initialMountRef = useRef(true);
+
     const isFormFieldFocused = () => {
         const activeElement = document.activeElement;
 
@@ -28,6 +30,30 @@ export default function CheckoutMobileFormHeader({
             activeElement instanceof HTMLIFrameElement
         );
     };
+
+    useEffect(() => {
+        reverseScrollRef.current = false;
+        lastScrollYRef.current = window.scrollY;
+
+        setHideHeader(false);
+
+        const viewport = window.visualViewport;
+
+        setViewportTop(
+            viewport
+                ? Math.round(viewport.offsetTop)
+                : 0
+        );
+
+        const timer = window.setTimeout(() => {
+            initialMountRef.current = false;
+            lastScrollYRef.current = window.scrollY;
+        }, 450);
+
+        return () => {
+            window.clearTimeout(timer);
+        };
+    }, []);
 
     useEffect(() => {
         const viewport = window.visualViewport;
@@ -107,6 +133,12 @@ export default function CheckoutMobileFormHeader({
 
         const handleScroll = () => {
             const currentY = window.scrollY;
+
+            if (initialMountRef.current) {
+                lastScrollYRef.current = currentY;
+                return;
+            }
+
             const previousY = lastScrollYRef.current;
 
             const delta = currentY - previousY;
