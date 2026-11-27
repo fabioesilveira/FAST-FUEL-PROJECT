@@ -60,34 +60,6 @@ export default function HomeSearchSection({
         }
     }, [filteredData]);
 
-    useEffect(() => {
-        if (!isMobile) return;
-
-        let scrollTimer: ReturnType<typeof setTimeout>;
-
-        function handlePageScroll() {
-            clearTimeout(scrollTimer);
-
-            scrollTimer = setTimeout(() => {
-                if (window.scrollY > 0 && window.scrollY < 40) {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: "smooth",
-                    });
-                }
-            }, 80);
-        }
-
-        window.addEventListener("scroll", handlePageScroll, {
-            passive: true,
-        });
-
-        return () => {
-            clearTimeout(scrollTimer);
-            window.removeEventListener("scroll", handlePageScroll);
-        };
-    }, [isMobile]);
-
     function showPreviousResult() {
         setResultIndex((prev) =>
             prev === 0 ? sortedResults.length - 1 : prev - 1
