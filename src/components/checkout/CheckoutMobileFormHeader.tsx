@@ -93,6 +93,18 @@ export default function CheckoutMobileFormHeader({
     useEffect(() => {
         let showTimer: ReturnType<typeof setTimeout>;
 
+        const handleFocusIn = () => {
+            if (!isFormFieldFocused()) return;
+
+            clearTimeout(showTimer);
+
+            reverseScrollRef.current = false;
+            lastScrollYRef.current = window.scrollY;
+
+            setViewportTop(0);
+            setHideHeader(false);
+        };
+
         const handleScroll = () => {
             const currentY = window.scrollY;
             const previousY = lastScrollYRef.current;
@@ -112,8 +124,6 @@ export default function CheckoutMobileFormHeader({
                 return;
             }
 
-            // If reverse mode is active, keep the header
-            // hidden until the user reaches the top.
             if (reverseScrollRef.current) {
                 clearTimeout(showTimer);
 
@@ -127,27 +137,21 @@ export default function CheckoutMobileFormHeader({
                 return;
             }
 
-            // Reverse scroll / scrolling upward.
             if (delta < -2) {
                 clearTimeout(showTimer);
 
                 reverseScrollRef.current = true;
 
-                // Remove any visualViewport displacement
-                // before hiding the header.
                 setViewportTop(0);
                 setHideHeader(true);
 
                 return;
             }
 
-            // Ignore tiny Safari movements.
             if (Math.abs(delta) <= 2) {
                 return;
             }
 
-            // Normal scroll behavior:
-            // retract, wait, then return.
             if (delta > 2) {
                 clearTimeout(showTimer);
 
@@ -175,9 +179,12 @@ export default function CheckoutMobileFormHeader({
         window.addEventListener(
             "scroll",
             handleScroll,
-            {
-                passive: true,
-            }
+            { passive: true }
+        );
+
+        document.addEventListener(
+            "focusin",
+            handleFocusIn
         );
 
         document.addEventListener(
@@ -191,6 +198,11 @@ export default function CheckoutMobileFormHeader({
             window.removeEventListener(
                 "scroll",
                 handleScroll
+            );
+
+            document.removeEventListener(
+                "focusin",
+                handleFocusIn
             );
 
             document.removeEventListener(
