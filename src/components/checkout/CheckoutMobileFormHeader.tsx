@@ -191,7 +191,7 @@ export default function CheckoutMobileFormHeader({
 
                 showTimer = setTimeout(() => {
                     setHideHeader(false);
-                }, 320);
+                }, 550);
             }
         };
 
