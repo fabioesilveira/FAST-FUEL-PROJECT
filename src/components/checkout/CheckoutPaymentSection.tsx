@@ -91,7 +91,7 @@ const CheckoutPaymentSection = forwardRef<
                 sx={{
                     textTransform: "uppercase",
                     letterSpacing: "0.16em",
-                    mb: { xs: 1.5, md: 2 },
+                    mb: { xs: 0.5, md: 2 },
                     fontWeight: 700,
                     position: "relative",
 

@@ -163,7 +163,10 @@ export default function CheckoutMobileFormHeader({
                     reverseScrollRef.current = false;
 
                     setViewportTop(0);
-                    setHideHeader(false);
+
+                    requestAnimationFrame(() => {
+                        setHideHeader(false);
+                    });
                 }
 
                 return;
@@ -191,7 +194,7 @@ export default function CheckoutMobileFormHeader({
 
                 showTimer = setTimeout(() => {
                     setHideHeader(false);
-                }, 550);
+                }, 650);
             }
         };
 
